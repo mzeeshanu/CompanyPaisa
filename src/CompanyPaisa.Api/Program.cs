@@ -62,9 +62,10 @@ app.MapCompanyPaisaApiV1();
 app.MapHealthChecks("/health");
 
 // Client-side routes of the React app (anything that isn't an API, docs, health or a real file).
-app.MapFallbackToFile("{*path:regex(^(?!api/|openapi/|swagger|health).*$)}", "index.html");
+app.MapFallbackToFile("{*path:regex(^(?!api/|openapi/|swagger|health|assets/).*$)}", "index.html");
 
 app.Run();
 
 /// <summary>Exposed so integration tests can host the app with WebApplicationFactory.</summary>
 public partial class Program;
+
