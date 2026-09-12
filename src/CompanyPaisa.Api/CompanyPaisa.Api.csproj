@@ -1,0 +1,56 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+
+    <!-- React front end (src/CompanyPaisa.Web). In Visual Studio / dotnet run, the SPA proxy starts the
+         Vite dev server and sends the browser to it; Vite forwards /api calls back to this API. -->
+    <SpaRoot>..\CompanyPaisa.Web\</SpaRoot>
+    <SpaProxyServerUrl>http://localhost:5173</SpaProxyServerUrl>
+    <SpaProxyLaunchCommand>npm run dev</SpaProxyLaunchCommand>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.12" />
+    <PackageReference Include="Microsoft.AspNetCore.SpaProxy" Version="10.0.12" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="10.2.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CompanyPaisa.Infrastructure\CompanyPaisa.Infrastructure.csproj" />
+    <ProjectReference Include="..\CompanyPaisa.Data.Excel\CompanyPaisa.Data.Excel.csproj" />
+  </ItemGroup>
+
+  <!-- First Debug build: install the front end's npm packages if they're missing. -->
+  <Target Name="EnsureSpaDependencies" BeforeTargets="Build" Condition="'$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules')">
+    <Exec Command="node --version" ContinueOnError="true" StandardOutputImportance="low">
+      <Output TaskParameter="ExitCode" PropertyName="NodeExitCode" />
+    </Exec>
+    <Error Condition="'$(NodeExitCode)' != '0'" Text="Node.js is required to run the website. Install it (winget install OpenJS.NodeJS.LTS) and restart Visual Studio." />
+    <Message Importance="high" Text="Installing front-end packages (first run only)..." />
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm install --no-fund --no-audit" />
+  </Target>
+
+  <!-- Ship the data files (workbook, ZIP table) with the app, under data/ next to the dll. -->
+  <ItemGroup>
+    <Content Include="..\..\data\**\*.xlsx;..\..\data\**\*.csv" LinkBase="data" CopyToPublishDirectory="PreserveNewest" CopyToOutputDirectory="Never" />
+  </ItemGroup>
+
+  <!-- dotnet publish: build the React site into wwwroot and ship it with the API (one deployment).
+       The Dockerfile builds the site in a separate Node stage and passes -p:SkipSpaBuild=true. -->
+  <Target Name="PublishSpa" AfterTargets="ComputeFilesToPublish" Condition="'$(SkipSpaBuild)' != 'true'">
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm ci --no-fund --no-audit" />
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build" />
+    <ItemGroup>
+      <SpaDistFiles Include="wwwroot\**" />
+      <ResolvedFileToPublish Include="@(SpaDistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
+        <RelativePath>wwwroot\%(RecursiveDir)%(FileName)%(Extension)</RelativePath>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      </ResolvedFileToPublish>
+    </ItemGroup>
+  </Target>
+
+</Project>

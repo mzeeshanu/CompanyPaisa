@@ -1,0 +1,65 @@
+// Mirrors src/CompanyPaisa.Contracts (C#). Keep in sync until types are generated from /openapi/v1.json.
+// Money values are whole dollars.
+
+export type TrendStatus = 'Up' | 'Flat' | 'Down';
+export type CompanySort = 'Revenue' | 'Growth' | 'Profit' | 'Distance';
+export type PeriodType = 'Quarterly' | 'Annual';
+export type LocationType = 'Headquarters' | 'Campus' | 'Office' | 'Plant';
+
+export interface GeoPoint { latitude: number; longitude: number }
+
+export interface GeoLookup { query: string; city: string; state: string; postalCode: string | null; point: GeoPoint }
+
+export interface Location {
+  locationId: string; type: LocationType; label: string; street: string;
+  city: string; state: string; postalCode: string; point: GeoPoint;
+}
+
+export interface AnnualPoint { fiscalYear: number; revenue: number; netIncome: number }
+
+export interface Indicators {
+  ttmRevenue: number; ttmNetIncome: number;
+  revenueGrowthYoY: number | null; revenueCagr: number | null; cagrYears: number;
+  netMargin: number | null; trend: TrendStatus;
+  latestQuarterLabel: string | null; latestQuarterRevenue: number | null; latestQuarterNetIncome: number | null;
+  revenueHistory: AnnualPoint[];
+}
+
+export interface CompanySummary {
+  ticker: string; name: string; exchange: string; sector: string;
+  isHeadquarteredNearby: boolean; nearestLocation: Location; distanceMiles: number; indicators: Indicators;
+}
+
+export interface NearbySummary { companyCount: number; combinedTtmRevenue: number; growingCount: number; headquarteredCount: number }
+
+export interface NearbyResponse {
+  origin: GeoPoint; originLabel: string | null; radiusMiles: number; sort: CompanySort;
+  page: number; pageSize: number; totalCount: number; summary: NearbySummary; items: CompanySummary[];
+}
+
+export interface CompanyDetail {
+  ticker: string; name: string; exchange: string; sector: string; industry: string | null; website: string | null;
+  employees: number | null; marketCap: number | null; description: string | null; currency: string;
+  fiscalYearEnd: string | null; asOfDate: string | null; locations: Location[]; indicators: Indicators;
+}
+
+export interface FinancialPeriod {
+  label: string; fiscalYear: number; fiscalQuarter: number | null; periodType: PeriodType;
+  revenue: number; netIncome: number; revenueGrowthYoY: number | null; sourceFiling: string | null;
+}
+export interface FinancialsResponse { ticker: string; periodType: PeriodType; periods: FinancialPeriod[] }
+
+export interface ExecutiveYear { year: number; salary: number; bonus: number; stockAwards: number; other: number; total: number; sourceFiling: string | null }
+export interface Executive { executiveId: string; name: string; title: string; history: ExecutiveYear[] }
+export interface ExecutivesResponse { ticker: string; executives: Executive[] }
+
+export interface DataMeta { dataVersion: string; asOfDate: string | null; isSampleData: boolean; companyCount: number; locationCount: number; loadedAt: string }
+
+export interface ClientConfig {
+  defaultView: 'List' | 'Map'; defaultTheme: 'Auto' | 'Light' | 'Dark';
+  defaultRadiusMiles: number; allowedRadiiMiles: number[]; defaultSort: CompanySort;
+  showBaseMapByDefault: boolean; mapTilesUrl: string | null;
+  consentCookieName: string; consentCookieDays: number; features: Record<string, boolean>;
+}
+
+export interface ProblemDetails { title?: string; detail?: string; status?: number; errors?: Record<string, string[]> }

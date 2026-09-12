@@ -1,0 +1,14 @@
+<Project>
+  <!-- Shared settings for every project in the solution. -->
+  <PropertyGroup>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <!-- Missing XML comments on public members are not build warnings. -->
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+    <Company>CompanyPaisa</Company>
+    <Product>CompanyPaisa</Product>
+  </PropertyGroup>
+</Project>

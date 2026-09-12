@@ -1,0 +1,13 @@
+**/bin/
+**/obj/
+**/node_modules/
+**/.vs/
+**/*.user
+.git/
+.vscode/
+.idea/
+tests/
+tools/
+docs/
+src/CompanyPaisa.Api/wwwroot/
+**/*.md

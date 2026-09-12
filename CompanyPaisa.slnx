@@ -1,0 +1,17 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/CompanyPaisa.Api/CompanyPaisa.Api.csproj" />
+    <Project Path="src/CompanyPaisa.Client/CompanyPaisa.Client.csproj" />
+    <Project Path="src/CompanyPaisa.Contracts/CompanyPaisa.Contracts.csproj" />
+    <Project Path="src/CompanyPaisa.Core/CompanyPaisa.Core.csproj" />
+    <Project Path="src/CompanyPaisa.Data.Excel/CompanyPaisa.Data.Excel.csproj" />
+    <Project Path="src/CompanyPaisa.Infrastructure/CompanyPaisa.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/CompanyPaisa.Api.Tests/CompanyPaisa.Api.Tests.csproj" />
+    <Project Path="tests/CompanyPaisa.Core.Tests/CompanyPaisa.Core.Tests.csproj" />
+  </Folder>
+  <Folder Name="/tools/">
+    <Project Path="tools/CompanyPaisa.SampleData/CompanyPaisa.SampleData.csproj" />
+  </Folder>
+</Solution>
