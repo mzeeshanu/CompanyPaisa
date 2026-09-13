@@ -9,6 +9,7 @@ import { ListView } from './components/ListView';
 import { LocationGate, type Origin } from './components/LocationGate';
 import { MapView } from './components/MapView';
 import { TopBar } from './components/TopBar';
+import { DISCLAIMER } from './lib/disclaimer';
 import { money, pct } from './lib/format';
 import {
   applyTheme, clearPrefs, configurePrefs, readPrefs, readSessionConsent, writePrefs, writeSessionConsent,
@@ -160,6 +161,9 @@ export default function App() {
 
   const footer = (
     <div className="wrap foot">
+      <p className="disclaimer" role="note">
+        <b>Please note:</b> {DISCLAIMER} This is not financial advice — check the company's original filing before relying on any number.
+      </p>
       <span>{meta?.isSampleData ? 'Sample data — company names and approximate locations are real; financial figures and executive names are synthetic.' : `Data as of ${meta?.asOfDate ?? '—'} from SEC EDGAR filings.`}{' '}
         ZIP names © <a className="linkbtn" href="https://www.geonames.org/" target="_blank" rel="noreferrer">GeoNames</a> (CC BY 4.0).</span>
       <span>

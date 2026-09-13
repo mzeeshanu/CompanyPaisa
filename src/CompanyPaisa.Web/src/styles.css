@@ -194,6 +194,9 @@ select option{background:var(--ground);color:var(--ink)}
 .spark svg{display:block}
 .empty{padding:40px 18px;text-align:center;color:var(--dim)}
 .foot{padding:0 4px 40px;color:var(--faint);font-size:12px;display:flex;gap:6px 18px;flex-wrap:wrap;justify-content:space-between}
+.foot .disclaimer{flex-basis:100%;margin:0 0 4px;padding:10px 14px;border-radius:12px;background:var(--track);color:var(--dim);line-height:1.5}
+.foot .disclaimer b{color:var(--ink)}
+.gate-note{margin-top:4px;opacity:.85}
 .loading{opacity:.55;transition:opacity .2s}
 .banner-error{margin:20px 4px;padding:14px 18px;border-radius:16px;color:var(--down);font-weight:600}
 

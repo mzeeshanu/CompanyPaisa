@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { api, ApiError } from '../api/client';
 import type { CoverageArea } from '../api/types';
+import { DISCLAIMER } from '../lib/disclaimer';
 
 export interface Origin { latitude: number; longitude: number; label: string }
 
@@ -96,6 +97,7 @@ export function LocationGate({ coverageMiles, coverage, onLocated }: Props) {
           <button className="ghost" type="submit" disabled={busy !== null}>{busy === 'zip' ? '…' : 'Go'}</button>
         </form>
         <p className="err" role="alert">{error}</p>
+        <p className="fine gate-note" role="note">{DISCLAIMER}</p>
         {coverage.length > 0 ? (
           <div className="metros">
             <p className="fine">Or jump to a metro we cover:</p>
