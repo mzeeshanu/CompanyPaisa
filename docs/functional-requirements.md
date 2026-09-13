@@ -286,7 +286,7 @@ docs/                             this document, prototype/
 
 ## 9. Data Sourcing
 
-- **Company list** is the most important input. Seed = Wasatch Front public companies (Salt Lake City → Provo, target 40–60). Prototype currently lists 34, including **LifeVantage (LFVN, Lehi)**; every name, office and coordinate must be verified before launch — several local names are private or acquired (Qualtrics, Pluralsight, Instructure, Vivint→NRG, Vivint Solar→Sunrun).
+- **Coverage (2026-09-13):** the top 20 US metros plus the Wasatch Front, discovered automatically from SEC filings by business address (see decisions log). Originally: the seed was Wasatch Front public companies (Salt Lake City → Provo, target 40–60). Prototype currently lists 34, including **LifeVantage (LFVN, Lehi)**; every name, office and coordinate must be verified before launch — several local names are private or acquired (Qualtrics, Pluralsight, Instructure, Vivint→NRG, Vivint Solar→Sunrun).
 - **Financials & exec pay:** an **offline C# import tool** pulls from SEC EDGAR (10-K, 10-Q, DEF 14A / XBRL) into the workbook. Runs ahead of time, never at request time.
 - **Locations:** entered by hand (address + lat/long), checked against filings/websites.
 - **Refresh cadence:** quarterly, after earnings season; the UI shows "Data as of …".
@@ -329,6 +329,11 @@ docs/                             this document, prototype/
 
 | 2026-09-12 | **Real data from SEC EDGAR** via `tools/CompanyPaisa.Importer` (offline, cached, ≤8 req/s, User-Agent contact = Zee's email, approved). Region = Wasatch Front (Ogden, SLC, Lehi, Provo anchors); listed on Nasdaq/NYSE/CBOE, or OTC with ≥ $5M revenue; plus curated Utah sites of out-of-state companies. Financials from XBRL company facts; executive pay parsed from DEF 14A Summary Compensation Tables (filed total is authoritative, mismatches flagged in `data/import-report.md`). ZIP centroids from the 2025 Census Gazetteer. First load: 59 companies, 1,380 pay rows, 390 people. The app now serves `data/companypaisa.xlsx`; tests stay on the synthetic sample workbook. |
 | 2026-09-12 | **Executive names are real** (public SEC filings) — decided by Zee. Placeholder names were only ever for the synthetic sample. |
+| 2026-09-13 | **Phone layout:** header scrolls away on phones (sticky on desktop); ranked lists fit the screen (name column shrinks, secondary columns hidden); Rank-by chips swipe sideways. |
+| 2026-09-13 | **Sortable columns:** tapping a list column header sorts by it; tapping again reverses the order (client-side). Rows with no value ("—") stay at the bottom either way. |
+| 2026-09-13 | **Nationwide, metro by metro** — decided by Zee: the top 20 US metros plus the Wasatch Front (New York, Los Angeles, Chicago, Dallas–Fort Worth, Houston, Washington–Baltimore, Philadelphia, Atlanta, Miami–South Florida, Phoenix, Boston, SF Bay Area, Detroit, Seattle, Minneapolis–St. Paul, San Diego, Tampa Bay, Denver, Portland, Austin). Importer `Regions` = named metros with anchor circles; discovery searches every state they touch for recent 10-K and 10-Q filers (10-Q catches recent IPOs and reorganised companies), splitting date ranges so each query fits one results page; tickers missing from a submissions record fall back to the SEC ticker file. The importer reads the finished workbook back with the API's loader and fails if the API would reject it. The website lists the metros from `Ui:Coverage`. |
+| 2026-09-13 | **Person ids = SEC insider CIK** (answers open question 9): proxy names are matched to the company's insider list (Forms 3/4/5 owners, "Last First Middle", nicknames and suffixes handled); id = `name-slug-CIK`, so careers link across companies and two different "John Smith"s never merge. Unmatched names get a company-scoped id (`name-slug-ticker`). |
+| 2026-09-13 | **ZIP table covers the whole US** (`data/reference/us-zip-centroids.csv`): Census Gazetteer centroids + GeoNames US postal codes for city/state names and PO-box ZIPs (CC BY 4.0, credited in the footer). Importer download cache is gzip-compressed. |
 
 ## 11. Open Questions
 
@@ -337,7 +342,11 @@ docs/                             this document, prototype/
 3. **Market cap** — needs a price feed; do we store an end-of-day snapshot at refresh time (still offline), or drop market cap from v1?
 4. ~~**Executive names**~~ — **Decided: real names** from SEC filings. Still to do: a correction/contact route, and keep to what's filed (name, title, pay).
 8. **Location precision** — companies are placed at their ZIP-code centroid (several Lehi companies share one point). Geocode street addresses (e.g. the free Census Geocoder, offline at import time)?
-9. **Person linking** — people are matched across companies by normalised name. Switch to SEC person CIKs (Forms 3/4) to avoid false matches / misses?
+9. ~~**Person linking**~~ — **Decided: SEC insider CIKs** (see decisions log).
+11. **Base map outside Utah** — the hand-drawn base map only covers the Wasatch Front; other metros show bubbles on a blank ground. Draw simple maps per metro, or move to self-hosted Protomaps tiles (Phase 4)?
+12. **Storage at scale** — thousands of companies in one Excel workbook: fine while load time and memory stay acceptable; switch the `ICompanyRepository` implementation to SQLite/Postgres when they don't.
+14. **Successor companies** — when a company reorganises into a new holding company (ExxonMobil → ExxonMobil Holdings Corp, July 2026), the ticker moves to a new SEC CIK with no history; the 10 years of financials and pay stay under the old CIK. Add a predecessor link (curated list, or detected from Form 8-K12B) so history carries over?
+13. **Curated offices nationwide** — `data/curated/` only lists Utah offices of out-of-state companies (Adobe Lehi…). Add big offices in other metros (e.g. Google in Seattle/NYC), or keep HQs only outside Utah?
 10. **Review queue** — 84 flagged pay rows and a few unrecognised proxy tables (see `data/import-report.md`); fix parser cases or hand-correct?
 7. **Executives on the Map** — should Executives mode get a map (company bubbles sized by total executive pay), or stay list-only?
 5. **"Size by" switch** (revenue / market cap / growth) — v1 or later?
@@ -354,5 +363,6 @@ docs/                             this document, prototype/
 - **Phase 3** ✅ (2026-09-12) — Company details panel (earnings, executives). Map view with the simplified base map also done early.
 - **Phase 3b** ✅ (2026-09-12) — Executive lookup: people across companies, 10-year pay, careers; API + client + website; 39 passing tests.
 - **Phase 3c** ✅ (2026-09-12) — Real dataset: SEC EDGAR importer (companies, XBRL financials, DEF 14A executive pay), Census ZIP centroids; 47 passing tests.
-- **Phase 4** — Map view with self-hosted MapLibre/Protomaps base map; street-level geocoding; person CIK linking; scheduled quarterly refresh.
+- **Phase 3d** (2026-09-13) — Nationwide metros: top 20 US metros + Wasatch Front, national ZIP table, SEC insider-CIK person ids, metro chips on the location screen.
+- **Phase 4** — Map view with self-hosted MapLibre/Protomaps base map; street-level geocoding; scheduled quarterly refresh.
 - **Phase 5** — Swap storage to a database; optional "Size by", clustering, predictive features.

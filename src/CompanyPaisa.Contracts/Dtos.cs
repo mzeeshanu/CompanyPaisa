@@ -170,4 +170,8 @@ public sealed record ClientConfigDto(
     string? MapTilesUrl,
     string ConsentCookieName,
     int ConsentCookieDays,
-    IReadOnlyDictionary<string, bool> Features);
+    IReadOnlyDictionary<string, bool> Features,
+    IReadOnlyList<CoverageAreaDto> Coverage);
+
+/// <summary>A metro area the data set covers, with a ZIP to try.</summary>
+public sealed record CoverageAreaDto(string Name, string ExampleZip);

@@ -63,7 +63,8 @@ public sealed class GetExecutivesNearHandler(
         var people = localRows.Select(x => x.PersonId).Distinct(StringComparer.OrdinalIgnoreCase).ToList();
         var allRows = await repository.GetCompensationForPeopleAsync(people, ct);
 
-        var latestYearInData = allRows.Count == 0 ? DateTime.UtcNow.Year : allRows.Max(x => x.Year);
+        // Capped at the current year so one bad row (a misread "2042") can't slide everyone else out of the window.
+        var latestYearInData = allRows.Count == 0 ? DateTime.UtcNow.Year : Math.Min(allRows.Max(x => x.Year), DateTime.UtcNow.Year);
         var fromYear = latestYearInData - windowYears + 1;
         var otherCompanies = (await repository.GetCompaniesAsync(
                 allRows.Select(x => x.CompanyId).Where(id => !nearbyCompanies.ContainsKey(id)).Distinct(StringComparer.OrdinalIgnoreCase), ct))

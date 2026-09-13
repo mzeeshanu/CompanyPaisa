@@ -49,6 +49,8 @@ src/CompanyPaisa.Api/wwwroot/
 
 # Importer download cache (re-creatable from the SEC)
 data/cache/
+# Importer staging file (written, verified, then swapped in)
+*.new.xlsx
 # Personal settings (e.g. the SEC contact email)
 appsettings.Local.json
 

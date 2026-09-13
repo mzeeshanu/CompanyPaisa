@@ -92,6 +92,9 @@ export interface ClientConfig {
   defaultRadiusMiles: number; allowedRadiiMiles: number[]; defaultSort: CompanySort;
   showBaseMapByDefault: boolean; mapTilesUrl: string | null;
   consentCookieName: string; consentCookieDays: number; features: Record<string, boolean>;
+  coverage: CoverageArea[];
 }
+
+export interface CoverageArea { name: string; exampleZip: string }
 
 export interface ProblemDetails { title?: string; detail?: string; status?: number; errors?: Record<string, string[]> }

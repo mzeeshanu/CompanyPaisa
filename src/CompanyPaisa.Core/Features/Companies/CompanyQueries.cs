@@ -92,7 +92,7 @@ public sealed class GetExecutivesHandler(ICompanyRepository repository) : IReque
         var rows = await repository.GetExecutiveCompensationAsync(c.CompanyId, ct);
         if (rows.Count == 0) return new ExecutivesResponse(c.Ticker, []);
 
-        var fromYear = rows.Max(x => x.Year) - (q.Years ?? 5) + 1;
+        var fromYear = Math.Min(rows.Max(x => x.Year), DateTime.UtcNow.Year) - (q.Years ?? 5) + 1;
         var execs = rows
             .Where(x => x.Year >= fromYear)
             .GroupBy(x => x.PersonId)

@@ -1,19 +1,26 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { api, ApiError } from '../api/client';
+import type { CoverageArea } from '../api/types';
 
 export interface Origin { latitude: number; longitude: number; label: string }
 
 interface Props {
   coverageMiles: number;
+  coverage: CoverageArea[];
   onLocated: (origin: Origin) => void;
 }
 
+const SHOWN_METROS = 6;
+
 /** First screen: blurred page behind a small card asking for location or ZIP. */
-export function LocationGate({ coverageMiles, onLocated }: Props) {
+export function LocationGate({ coverageMiles, coverage, onLocated }: Props) {
   const [zip, setZip] = useState('');
   const [error, setError] = useState('');
   const [busy, setBusy] = useState<'geo' | 'zip' | null>(null);
+  const [allMetros, setAllMetros] = useState(false);
   const input = useRef<HTMLInputElement>(null);
+  const example = coverage[0]?.exampleZip ?? '84043';
+  const metros = allMetros ? coverage : coverage.slice(0, SHOWN_METROS);
 
   useEffect(() => { const t = setTimeout(() => input.current?.focus(), 300); return () => clearTimeout(t); }, []);
 
@@ -21,15 +28,18 @@ export function LocationGate({ coverageMiles, onLocated }: Props) {
   async function accept(latitude: number, longitude: number, label: string) {
     const probe = await api.near({ latitude, longitude, radiusMiles: coverageMiles, pageSize: 1 });
     if (probe.totalCount === 0) {
-      setError(`We don't cover your area yet — there are no companies within ${coverageMiles} miles. Try a Utah ZIP like 84043.`);
+      setError(`We don't cover your area yet — there are no companies within ${coverageMiles} miles. Pick one of the metros below.`);
       return;
     }
     onLocated({ latitude, longitude, label });
   }
 
-  async function submitZip(e: FormEvent) {
+  function submitZip(e: FormEvent) {
     e.preventDefault();
-    const q = zip.trim();
+    return lookupZip(zip.trim());
+  }
+
+  async function lookupZip(q: string) {
     if (!/^\d{5}$/.test(q)) { setError('Enter a 5-digit ZIP code.'); return; }
     setBusy('zip'); setError('');
     try {
@@ -37,7 +47,7 @@ export function LocationGate({ coverageMiles, onLocated }: Props) {
       await accept(hit.point.latitude, hit.point.longitude, `${hit.city}, ${hit.state} ${hit.postalCode ?? q}`);
     } catch (err) {
       setError(err instanceof ApiError && err.status === 404
-        ? `We don't have ${q} yet. Try a Wasatch Front ZIP like 84043 or 84101.`
+        ? `We don't recognise ZIP ${q}. Try another, or pick a metro below.`
         : 'Something went wrong looking up that ZIP. Please try again.');
     } finally { setBusy(null); }
   }
@@ -72,7 +82,7 @@ export function LocationGate({ coverageMiles, onLocated }: Props) {
           <circle cx="40" cy="14" r="8" fill="url(#mg2)" />
           <circle cx="42" cy="38" r="5" fill="url(#mg3)" />
         </svg>
-        <p className="eyebrow">Silicon Slopes · Utah</p>
+        <p className="eyebrow">Public companies{coverage.length > 1 ? ` · ${coverage.length} US metros` : ''}</p>
         <h1 id="gateTitle">Who's making money around you?</h1>
         <p className="lede">See the public companies near you, how big they are and where they're heading. Your location stays in your browser.</p>
         <button className="primary wide" onClick={useMyLocation} disabled={busy !== null}>
@@ -86,7 +96,23 @@ export function LocationGate({ coverageMiles, onLocated }: Props) {
           <button className="ghost" type="submit" disabled={busy !== null}>{busy === 'zip' ? '…' : 'Go'}</button>
         </form>
         <p className="err" role="alert">{error}</p>
-        <p className="fine">We currently cover Utah's Wasatch Front. Try <b>84043</b> (Lehi) or <b>84101</b> (Salt Lake City).</p>
+        {coverage.length > 0 ? (
+          <div className="metros">
+            <p className="fine">Or jump to a metro we cover:</p>
+            <div className="metro-list">
+              {metros.map(m => (
+                <button key={m.name} type="button" disabled={busy !== null} onClick={() => { setZip(m.exampleZip); lookupZip(m.exampleZip); }}>{m.name}</button>
+              ))}
+              {coverage.length > SHOWN_METROS && (
+                <button type="button" className="more" onClick={() => setAllMetros(a => !a)}>
+                  {allMetros ? 'Fewer' : `+${coverage.length - SHOWN_METROS} more`}
+                </button>
+              )}
+            </div>
+          </div>
+        ) : (
+          <p className="fine">Try ZIP <b>{example}</b>.</p>
+        )}
       </div>
     </div>
   );

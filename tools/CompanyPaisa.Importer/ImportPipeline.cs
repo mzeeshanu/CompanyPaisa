@@ -28,7 +28,7 @@ public sealed partial class ImportPipeline(
     RepoPaths paths,
     ILogger<ImportPipeline> logger)
 {
-    private sealed record Candidate(SecCompany Sec, CompanyLocation Location, bool FromCurated, string? Note);
+    private sealed record Candidate(SecCompany Sec, CompanyLocation Location, string Region, bool FromCurated, string? Note);
 
     private sealed class Outcome
     {
@@ -37,7 +37,11 @@ public sealed partial class ImportPipeline(
         public List<FinancialPeriod> Financials { get; } = [];
         public List<ExecutiveCompensation> Pay { get; } = [];
         public Dictionary<string, Person> People { get; } = new();
-        public List<string> Included { get; } = [];
+        public List<(string Region, string Line)> Included { get; } = [];
+        public int NoTicker { get; set; }
+        public int OutsideMetros { get; set; }
+        public int PeopleLinkedByCik { get; set; }
+        public int PeopleByNameOnly { get; set; }
         public List<string> Excluded { get; } = [];
         public List<string> Warnings { get; } = [];
     }
@@ -49,24 +53,29 @@ public sealed partial class ImportPipeline(
         var outcome = new Outcome();
         await geo.LoadAsync(ct);
 
-        // 1. Utah filers from EDGAR full-text search, filtered to the region and to listed companies.
+        // 1. Filers in the configured states (EDGAR full-text search), filtered to the covered metros and to listed companies.
         var candidates = new Dictionary<long, Candidate>();
-        foreach (var cik in await edgar.DiscoverFilerCiksAsync(ct))
+        var discovered = await edgar.DiscoverFilerCiksAsync(ct);
+        var seen = 0;
+        foreach (var cik in discovered)
         {
+            if (++seen % 250 == 0) logger.LogInformation("Screening filers: {Seen}/{Total} ({Kept} in covered metros so far)", seen, discovered.Count, candidates.Count);
             var sec = await edgar.GetCompanyAsync(cik, historyStart, ct);
             if (sec?.BusinessAddress is not { } addr) { outcome.Excluded.Add($"CIK {cik}: no company record"); continue; }
             geo.LearnCityName(addr.Zip, addr.City, addr.State);
 
-            if (!string.Equals(addr.State, o.Discovery.State, StringComparison.OrdinalIgnoreCase))
-            { outcome.Excluded.Add($"{Label(sec)}: business address in {addr.State}"); continue; }
-            if (geo.Locate(addr.Zip, addr.City) is not { } point)
-            { outcome.Excluded.Add($"{Label(sec)}: unknown ZIP {addr.Zip} ({Text.TitleCase(addr.City)})"); continue; }
-            if (geo.RegionAnchorFor(point) is null)
-            { outcome.Excluded.Add($"{Label(sec)}: {Text.TitleCase(addr.City)} is outside the {o.Region.Name}"); continue; }
-            if (sec.PrimaryTicker is null && !o.Listing.IncludeUnlisted)
-            { outcome.Excluded.Add($"{Label(sec)}: not publicly traded (no ticker)"); continue; }
+            // Cheapest test first: most filers are funds, trusts and shells with no ticker.
+            // Thousands of filers fall out here, so they're counted rather than listed one by one in the report.
+            if (sec.PrimaryTicker is null && !o.Listing.IncludeUnlisted) { outcome.NoTicker++; continue; }
+            if (geo.Locate(addr.Zip, addr.City, addr.State) is not { } point)
+            { outcome.Excluded.Add($"{Label(sec)}: unknown ZIP {addr.Zip} ({Text.TitleCase(addr.City)}, {addr.State})"); continue; }
+            if (geo.RegionFor(point) is null) { outcome.OutsideMetros++; continue; }
 
-            candidates[cik] = new Candidate(sec, HeadquartersLocation(sec, addr, point), false, null);
+            // Some SEC records leave the state blank or use a country code; the ZIP knows the real state.
+            var state = addr.State is { Length: 2 } s && char.IsLetter(s[0]) && char.IsLetter(s[1]) ? s.ToUpperInvariant() : geo.StateOf(addr.Zip);
+            if (state is null)
+            { outcome.Excluded.Add($"{Label(sec)}: no US state for ZIP {addr.Zip} ({Text.TitleCase(addr.City)})"); continue; }
+            candidates[cik] = new Candidate(sec, HeadquartersLocation(sec, addr, point, state), geo.RegionFor(point)!.Value.Region, false, null);
         }
 
         // 2. Curated sites of companies headquartered elsewhere (or extra sites of Utah companies).
@@ -75,23 +84,39 @@ public sealed partial class ImportPipeline(
         {
             var cik = await edgar.FindCikByTickerAsync(row.Ticker, ct);
             if (cik is null) { outcome.Warnings.Add($"Curated {row.Ticker}: ticker not found at the SEC."); continue; }
-            if (geo.Locate(row.Zip, row.City) is not { } point) { outcome.Warnings.Add($"Curated {row.Ticker}: unknown ZIP {row.Zip}."); continue; }
+            var state = geo.StateOf(row.Zip);
+            if (state is null || geo.Locate(row.Zip, row.City, state) is not { } point) { outcome.Warnings.Add($"Curated {row.Ticker}: unknown ZIP {row.Zip}."); continue; }
             var site = new CompanyLocation
             {
                 LocationId = $"{row.Ticker}-{row.Zip}", CompanyId = row.Ticker, Type = row.Type, Label = row.Label,
-                Street = row.Street, City = row.City, State = "UT", PostalCode = row.Zip, Point = point
+                Street = row.Street, City = row.City, State = state, PostalCode = row.Zip, Point = point
             };
             if (candidates.ContainsKey(cik.Value)) { extraSites.Add((cik.Value, site)); continue; }
             var sec = await edgar.GetCompanyAsync(cik.Value, historyStart, ct);
             if (sec is null) { outcome.Warnings.Add($"Curated {row.Ticker}: no SEC company record."); continue; }
-            candidates[cik.Value] = new Candidate(sec, site, true, row.Note);
+            candidates[cik.Value] = new Candidate(sec, site, geo.RegionFor(point)?.Region ?? "Other", true, row.Note);
+        }
+
+        // A ticker can be claimed by two SEC entities (a bank and its holding company, say). Keep the one the SEC's
+        // ticker file assigns it to, so company ids stay unique.
+        foreach (var dup in candidates.Values.Where(c => c.Sec.PrimaryTicker is not null).GroupBy(c => c.Sec.PrimaryTicker!, StringComparer.OrdinalIgnoreCase).Where(g => g.Count() > 1).ToList())
+        {
+            var owner = await edgar.FindCikByTickerAsync(dup.Key, ct);
+            var keep = dup.FirstOrDefault(c => c.Sec.Cik == owner) ?? dup.OrderByDescending(c => c.Sec.Filings.Count).First();
+            foreach (var drop in dup.Where(c => c != keep))
+            {
+                candidates.Remove(drop.Sec.Cik);
+                outcome.Excluded.Add($"{Label(drop.Sec)} (CIK {drop.Sec.Cik}): ticker {dup.Key} belongs to CIK {keep.Sec.Cik}");
+            }
         }
 
         // 3. Financials, listing rules and executive pay per company.
         var parsedProxies = 0;
+        var done = 0;
         foreach (var c in candidates.Values.OrderBy(c => c.Sec.Name))
         {
             ct.ThrowIfCancellationRequested();
+            if (++done % 100 == 0) logger.LogInformation("Companies: {Done}/{Total}", done, candidates.Count);
             var ticker = c.Sec.PrimaryTicker ?? c.Sec.Cik10;
             var facts = await edgar.GetCompanyFactsAsync(c.Sec.Cik, ct);
             var fin = facts is null ? null : financials.Extract(ticker, c.Sec.Cik, facts, o.History.Years);
@@ -120,9 +145,22 @@ public sealed partial class ImportPipeline(
             outcome.Locations.Add(c.Location with { CompanyId = ticker, LocationId = $"{ticker}-HQ" });
             outcome.Locations.AddRange(extraSites.Where(s => s.Cik == c.Sec.Cik).Select(s => s.Site with { CompanyId = ticker }));
             outcome.Financials.AddRange(fin.Periods.Select(p => p with { CompanyId = ticker }));
+
+            // Give each executive a nationwide id: their SEC insider CIK when we can match the name, else company-scoped.
+            var ids = new Dictionary<string, string>();
+            if (pay.Count > 0)
+            {
+                var insiders = await edgar.GetInsidersAsync(c.Sec.Cik, ct);
+                foreach (var name in pay.Select(p => p.Name).DistinctBy(PersonId))
+                {
+                    var match = InsiderMatcher.Match(name, insiders);
+                    ids[PersonId(name)] = match is null ? $"{PersonId(name)}-{ticker.ToLowerInvariant()}" : $"{PersonId(name)}-{match.Cik}";
+                    if (match is null) outcome.PeopleByNameOnly++; else outcome.PeopleLinkedByCik++;
+                }
+            }
             foreach (var row in pay)
             {
-                var personId = PersonId(row.Name);
+                var personId = ids[PersonId(row.Name)];
                 outcome.People.TryAdd(personId, new Person { PersonId = personId, Name = row.Name });
                 outcome.Pay.Add(new ExecutiveCompensation
                 {
@@ -131,23 +169,31 @@ public sealed partial class ImportPipeline(
                     SourceFiling = row.Source
                 });
             }
-            outcome.Included.Add(string.Create(CultureInfo.InvariantCulture,
-                $"| {ticker} | {company.Name} | {c.Location.City} | {exchange} | {company.Sector} | {Money(fin.LatestAnnualRevenue)} | {pay.Select(p => p.Name).Distinct().Count()} | {(pay.Count > 0 ? $"{pay.Min(p => p.Year)}–{pay.Max(p => p.Year)}" : "—")} |"));
+            outcome.Included.Add((c.Region, string.Create(CultureInfo.InvariantCulture,
+                $"| {ticker} | {company.Name} | {c.Location.City}, {c.Location.State} | {exchange} | {company.Sector} | {Money(fin.LatestAnnualRevenue)} | {pay.Select(p => p.Name).Distinct().Count()} | {(pay.Count > 0 ? $"{pay.Min(p => p.Year)}–{pay.Max(p => p.Year)}" : "—")} |")));
             logger.LogInformation("{Ticker,-6} {Name}: {Periods} periods, {People} executives from {Proxies} proxies",
                 ticker, company.Name, fin.Periods.Count, pay.Select(p => p.Name).Distinct().Count(), proxies);
         }
 
         // 4. Write everything.
+        // Write next to the real file, verify, then swap in — the running API never sees a half-written or invalid workbook.
         var workbook = paths.Resolve(o.Output.WorkbookPath);
-        ExcelWorkbookWriter.Write(workbook, outcome.Companies, outcome.Locations, outcome.Financials, outcome.Pay, outcome.People.Values,
+        var staging = workbook + ".new.xlsx";
+        ExcelWorkbookWriter.Write(staging, outcome.Companies, outcome.Locations, outcome.Financials, outcome.Pay, outcome.People.Values,
             new Dictionary<string, string>
             {
                 ["data_version"] = $"sec-{DateTime.UtcNow:yyyy.MM.dd}",
                 ["as_of_date"] = DateTime.UtcNow.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture),
                 ["is_sample"] = "false",
-                ["source"] = "SEC EDGAR: company submissions, XBRL company facts, DEF 14A summary compensation tables. ZIP centroids: US Census Gazetteer.",
-                ["region"] = o.Region.Name
+                ["source"] = "SEC EDGAR: company submissions, XBRL company facts, DEF 14A summary compensation tables, insider (Form 3/4/5) owner lists. ZIP centroids: US Census Gazetteer. ZIP names: GeoNames (CC-BY 4.0).",
+                ["region"] = string.Join("; ", o.Regions.Select(r => r.Name))
             });
+        // Read it back exactly as the API will — a workbook the API would reject must fail here, not on the website.
+        var verifyTimer = System.Diagnostics.Stopwatch.StartNew();
+        var (verifiedCompanies, verifiedLocations) = ExcelWorkbookWriter.Verify(staging);
+        logger.LogInformation("Workbook verified with the API loader: {Companies} companies, {Locations} locations, loaded in {Seconds:0.0}s",
+            verifiedCompanies, verifiedLocations, verifyTimer.Elapsed.TotalSeconds);
+        File.Move(staging, workbook, overwrite: true);
         var zips = await geo.WriteZipTableAsync(ct);
         await WriteReportAsync(outcome, zips, parsedProxies, ct);
 
@@ -181,7 +227,12 @@ public sealed partial class ImportPipeline(
             if (result.Rows.Count == 0) { warnings.Add($"proxy {proxy.FilingDate}: no compensation table recognised"); continue; }
             warnings.AddRange(result.Warnings.Take(3).Select(w => $"proxy {proxy.FilingDate}: {w}"));
 
-            foreach (var r in result.Rows.Where(r => r.Year >= fromYear))
+            // A proxy covers the last fiscal year and a few before it; any other year is a misread cell (one table produced 2042).
+            var impossible = result.Rows.Where(r => r.Year > proxy.FilingDate.Year || r.Year < proxy.FilingDate.Year - 5).ToList();
+            if (impossible.Count > 0)
+                warnings.Add($"proxy {proxy.FilingDate}: skipped {impossible.Count} row(s) with impossible years ({string.Join(", ", impossible.Select(r => r.Year).Distinct())})");
+
+            foreach (var r in result.Rows.Where(r => r.Year >= fromYear).Except(impossible))
             {
                 covered.Add(r.Year);
                 // Newer proxies win: they're read first, so only add what's missing.
@@ -204,10 +255,10 @@ public sealed partial class ImportPipeline(
         return words.Count >= 2 ? $"{words[0]}-{words[^1]}" : string.Join('-', words);
     }
 
-    private static CompanyLocation HeadquartersLocation(SecCompany sec, SecAddress addr, GeoPoint point) => new()
+    private static CompanyLocation HeadquartersLocation(SecCompany sec, SecAddress addr, GeoPoint point, string state) => new()
     {
         LocationId = "HQ", CompanyId = sec.PrimaryTicker ?? sec.Cik10, Type = LocationType.Headquarters, Label = "Headquarters",
-        Street = Text.TitleCase(addr.Street), City = Text.TitleCase(addr.City), State = addr.State.ToUpperInvariant(),
+        Street = Text.TitleCase(addr.Street), City = Text.TitleCase(addr.City), State = state,
         PostalCode = addr.Zip.Length >= 5 ? addr.Zip[..5] : addr.Zip, Point = point
     };
 
@@ -230,17 +281,29 @@ public sealed partial class ImportPipeline(
     {
         var sb = new StringBuilder();
         sb.AppendLine($"# Import report — {DateTime.UtcNow:yyyy-MM-dd HH:mm} UTC").AppendLine();
-        sb.AppendLine($"Region: **{options.Value.Region.Name}**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A). ZIP centroids: US Census Gazetteer.").AppendLine();
+        sb.AppendLine($"Metros: **{options.Value.Regions.Count}**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, insider owner lists). ZIP centroids: US Census Gazetteer; ZIP names: GeoNames.").AppendLine();
         sb.AppendLine($"- Companies included: **{o.Companies.Count}**");
         sb.AppendLine($"- Financial periods: {o.Financials.Count}");
         sb.AppendLine($"- Executive pay rows: {o.Pay.Count} for {o.People.Count} people, from {proxies} proxy statements");
+        sb.AppendLine($"- People linked by SEC insider id: {o.PeopleLinkedByCik}; matched by name within one company only: {o.PeopleByNameOnly}");
         sb.AppendLine($"- ZIP table rows written: {zipCount}");
         sb.AppendLine($"- Network requests this run: {client.NetworkRequests} (the rest came from the local cache)").AppendLine();
-        sb.AppendLine("## Included").AppendLine();
-        sb.AppendLine("| Ticker | Company | City | Exchange | Sector | Latest annual revenue | Executives | Pay years |");
-        sb.AppendLine("|---|---|---|---|---|---|---|---|");
-        foreach (var line in o.Included.OrderBy(x => x)) sb.AppendLine(line);
-        sb.AppendLine().AppendLine("## Excluded").AppendLine();
+        sb.AppendLine("| Metro | Companies |").AppendLine("|---|---|");
+        foreach (var r in options.Value.Regions) sb.AppendLine($"| {r.Name} | {o.Included.Count(i => i.Region == r.Name)} |");
+        sb.AppendLine();
+        foreach (var r in options.Value.Regions.Select(r => r.Name).Append("Other"))
+        {
+            var lines = o.Included.Where(i => i.Region == r).Select(i => i.Line).Order().ToList();
+            if (lines.Count == 0) continue;
+            sb.AppendLine($"## Included — {r} ({lines.Count})").AppendLine();
+            sb.AppendLine("| Ticker | Company | City | Exchange | Sector | Latest annual revenue | Executives | Pay years |");
+            sb.AppendLine("|---|---|---|---|---|---|---|---|");
+            foreach (var line in lines) sb.AppendLine(line);
+            sb.AppendLine();
+        }
+        sb.AppendLine("## Excluded").AppendLine();
+        sb.AppendLine($"- {o.NoTicker} filers with no ticker (funds, trusts, shells, private companies with public debt)");
+        sb.AppendLine($"- {o.OutsideMetros} listed companies in the searched states but outside the covered metros");
         foreach (var line in o.Excluded.OrderBy(x => x)) sb.AppendLine($"- {line}");
         sb.AppendLine().AppendLine("## Needs review").AppendLine();
         sb.AppendLine("Rows where the pay components didn't add up to the total, or a table couldn't be read, are listed here. Check them against the linked filing.").AppendLine();

@@ -90,6 +90,8 @@ public class ApiTests(SampleDataFactory factory) : IClassFixture<SampleDataFacto
         var config = await factory.CreateClient().GetFromJsonAsync<ClientConfigDto>("/api/v1/client-config", CompanyPaisaClientJson.Options);
         Assert.Equal([5, 10, 25, 50], config!.AllowedRadiiMiles);
         Assert.Equal("List", config.DefaultView);
+        Assert.Contains(config.Coverage, c => c.Name == "Wasatch Front" && c.ExampleZip == "84043");
+        Assert.Equal(21, config.Coverage.Count);
     }
 
     [Fact]

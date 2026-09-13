@@ -15,13 +15,15 @@ public interface IZipGeocoder
     Task LoadAsync(CancellationToken ct);
     GeoPoint? Locate(string zip);
     /// <summary>ZIP centroid, or — for PO-box / single-business ZIPs the Census doesn't map — another ZIP in the same city.</summary>
-    GeoPoint? Locate(string zip, string city);
+    GeoPoint? Locate(string zip, string city, string? state = null);
     /// <summary>Remember a city name for a ZIP (from SEC addresses) so the generated ZIP table can name it.</summary>
     void LearnCityName(string zip, string city, string state);
+    /// <summary>Two-letter state for a ZIP, if known.</summary>
+    string? StateOf(string zip);
     /// <summary>Writes zip,city,state,latitude,longitude for the configured prefixes (the API's ZIP lookup table).</summary>
     Task<int> WriteZipTableAsync(CancellationToken ct);
-    /// <summary>The configured anchor the point is inside, or null if outside the region.</summary>
-    string? RegionAnchorFor(GeoPoint point);
+    /// <summary>The metro (and anchor within it) the point falls in, or null if it's outside every covered metro.</summary>
+    (string Region, string Anchor)? RegionFor(GeoPoint point);
 }
 
 public sealed class ZipGeocoder(ISecClient client, IOptions<ImporterOptions> options, RepoPaths paths, ILogger<ZipGeocoder> logger) : IZipGeocoder
@@ -54,6 +56,27 @@ public sealed class ZipGeocoder(ISecClient client, IOptions<ImporterOptions> opt
                 _centroids[f[iZip].Trim()] = new GeoPoint(lat, lng);
         }
 
+        // ZIP → city/state names (and coordinates for PO-box ZIPs the Census doesn't map) from GeoNames.
+        if (!string.IsNullOrWhiteSpace(o.PlaceNamesUrl) && await client.GetBytesAsync(o.PlaceNamesUrl, CachePolicy.Immutable, ct) is { } names)
+        {
+            using var namesZip = new ZipArchive(new MemoryStream(names));
+            var txt = namesZip.Entries.First(e => e.Name.Equals("US.txt", StringComparison.OrdinalIgnoreCase));
+            using var nr = new StreamReader(txt.Open(), Encoding.UTF8);
+            var extra = 0;
+            // country, postal code, place name, state name, state code, county, county code, …, latitude, longitude, accuracy
+            while (await nr.ReadLineAsync(ct) is { } line)
+            {
+                var f = line.Split('\t');
+                if (f.Length < 11 || f[1].Length != 5) continue;
+                _names.TryAdd(f[1], (f[2].Trim(), f[4].Trim().ToUpperInvariant()));
+                if (!_centroids.ContainsKey(f[1]) &&
+                    double.TryParse(f[9], NumberStyles.Float, CultureInfo.InvariantCulture, out var la) &&
+                    double.TryParse(f[10], NumberStyles.Float, CultureInfo.InvariantCulture, out var lo))
+                { _centroids[f[1]] = new GeoPoint(la, lo); extra++; }
+            }
+            logger.LogInformation("Loaded {Count} ZIP names from GeoNames ({Extra} ZIPs the Census doesn't map, e.g. PO boxes)", _names.Count, extra);
+        }
+
         // Seed names from the existing hand-made table.
         var seed = paths.Resolve(o.ZipNamesSeed);
         if (File.Exists(seed))
@@ -72,11 +95,13 @@ public sealed class ZipGeocoder(ISecClient client, IOptions<ImporterOptions> opt
         return _centroids.TryGetValue(z, out var p) ? p : null;
     }
 
-    public GeoPoint? Locate(string zip, string city)
+    public GeoPoint? Locate(string zip, string city, string? state = null)
     {
         if (Locate(zip) is { } exact) return exact;
         var name = Text.TitleCase(city);
-        var sameCity = _names.Where(kv => string.Equals(kv.Value.City, name, StringComparison.OrdinalIgnoreCase) && _centroids.ContainsKey(kv.Key))
+        // Nationwide there are many Springfields: only borrow a ZIP from the same city in the same state.
+        var sameCity = _names.Where(kv => string.Equals(kv.Value.City, name, StringComparison.OrdinalIgnoreCase) && _centroids.ContainsKey(kv.Key) &&
+                                          (state is null || string.Equals(kv.Value.State, state, StringComparison.OrdinalIgnoreCase)))
             .Select(kv => kv.Key).Order().FirstOrDefault();
         return sameCity is null ? null : _centroids[sameCity];
     }
@@ -96,7 +121,7 @@ public sealed class ZipGeocoder(ISecClient client, IOptions<ImporterOptions> opt
             .OrderBy(kv => kv.Key)
             .Select(kv =>
             {
-                var (city, state) = _names.TryGetValue(kv.Key, out var n) ? n : ("", "UT");
+                var (city, state) = _names.TryGetValue(kv.Key, out var n) ? n : ("", "");
                 return string.Create(CultureInfo.InvariantCulture, $"{kv.Key},{Csv(city)},{state},{kv.Value.Latitude:F6},{kv.Value.Longitude:F6}");
             })
             .ToList();
@@ -104,10 +129,14 @@ public sealed class ZipGeocoder(ISecClient client, IOptions<ImporterOptions> opt
         return rows.Count;
     }
 
-    public string? RegionAnchorFor(GeoPoint point) =>
-        options.Value.Region.Anchors
-            .Where(a => _distance.DistanceMiles(point, new GeoPoint(a.Latitude, a.Longitude)) <= a.RadiusMiles)
-            .Select(a => a.Name)
+    public string? StateOf(string zip) =>
+        zip is { Length: >= 5 } && _names.TryGetValue(zip[..5], out var n) && n.State.Length == 2 ? n.State : null;
+
+    public (string Region, string Anchor)? RegionFor(GeoPoint point) =>
+        options.Value.Regions
+            .SelectMany(r => r.Anchors.Select(a => (Region: r.Name, Anchor: a)))
+            .Where(x => _distance.DistanceMiles(point, new GeoPoint(x.Anchor.Latitude, x.Anchor.Longitude)) <= x.Anchor.RadiusMiles)
+            .Select(x => ((string Region, string Anchor)?)(x.Region, x.Anchor.Name))
             .FirstOrDefault();
 
     private static string Csv(string s) => s.Contains(',') ? $"\"{s}\"" : s;

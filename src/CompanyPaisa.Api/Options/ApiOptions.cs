@@ -62,6 +62,14 @@ public sealed class UiOptions
     [RegularExpression("^(Auto|Light|Dark)$")] public string DefaultTheme { get; set; } = "Auto";
     public MapUiOptions Map { get; set; } = new();
     public ConsentUiOptions Consent { get; set; } = new();
+    /// <summary>Metros the data set covers, shown on the location screen. Keep in step with the importer's "Regions".</summary>
+    public List<CoverageAreaOptions> Coverage { get; set; } = [];
+}
+
+public sealed class CoverageAreaOptions
+{
+    [Required] public string Name { get; set; } = "";
+    [RegularExpression(@"^\d{5}$")] public string ExampleZip { get; set; } = "";
 }
 
 public sealed class MapUiOptions
@@ -90,5 +98,6 @@ internal static class UiOptionsExtensions
     public static ClientConfigDto ToClientConfig(this UiOptions ui, Core.Options.SearchOptions search, FeatureOptions features) => new(
         ui.DefaultView, ui.DefaultTheme, search.DefaultRadiusMiles, search.AllowedRadiiMiles, search.DefaultSort,
         ui.Map.ShowBaseMapByDefault, ui.Map.TilesUrl, ui.Consent.CookieName, ui.Consent.CookieDays,
-        new Dictionary<string, bool>(features, StringComparer.OrdinalIgnoreCase));
+        new Dictionary<string, bool>(features, StringComparer.OrdinalIgnoreCase),
+        ui.Coverage.Select(c => new CoverageAreaDto(c.Name, c.ExampleZip)).ToList());
 }

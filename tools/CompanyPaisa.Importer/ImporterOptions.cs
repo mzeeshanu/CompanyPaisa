@@ -9,7 +9,8 @@ public sealed class ImporterOptions
 
     public SecOptions Sec { get; set; } = new();
     public DiscoveryOptions Discovery { get; set; } = new();
-    public RegionOptions Region { get; set; } = new();
+    /// <summary>Metro areas to cover. A company is included if its address falls inside any metro's anchor circles.</summary>
+    [MinLength(1)] public List<RegionOptions> Regions { get; set; } = [];
     public ListingOptions Listing { get; set; } = new();
     public HistoryOptions History { get; set; } = new();
     public GeoImportOptions Geo { get; set; } = new();
@@ -26,14 +27,16 @@ public sealed class SecOptions
     /// <summary>SEC fair-access limit is 10/s; stay under it.</summary>
     [Range(1, 10)] public int MaxRequestsPerSecond { get; set; } = 8;
     public string CacheDirectory { get; set; } = "data/cache/sec";
+    /// <summary>Gzip cached responses (proxy statements shrink ~5×). Uncompressed files from older runs still read fine.</summary>
+    public bool CompressCache { get; set; } = true;
     /// <summary>Re-download cached responses older than this (filings themselves never change; indexes do).</summary>
     [Range(0, 8760)] public int IndexCacheHours { get; set; } = 24;
 }
 
 public sealed class DiscoveryOptions
 {
-    /// <summary>Two-letter state of the business address, used by EDGAR full-text search.</summary>
-    public string State { get; set; } = "UT";
+    /// <summary>Two-letter states searched with EDGAR full-text search (business address). Cover every state a metro touches.</summary>
+    [MinLength(1)] public List<string> States { get; set; } = [];
     public List<string> Forms { get; set; } = [];
     /// <summary>Only companies that filed one of <see cref="Forms"/> since this date (i.e. still reporting).</summary>
     public DateOnly FiledSince { get; set; } = new(2024, 6, 1);
@@ -41,8 +44,10 @@ public sealed class DiscoveryOptions
 
 public sealed class RegionOptions
 {
-    /// <summary>Human name for reports, e.g. "Wasatch Front".</summary>
-    public string Name { get; set; } = "Wasatch Front";
+    /// <summary>Human name for reports and the website, e.g. "Wasatch Front".</summary>
+    public string Name { get; set; } = "";
+    /// <summary>A ZIP to suggest on the website, e.g. "84043".</summary>
+    public string ExampleZip { get; set; } = "";
     /// <summary>A company is in the region if its location is within the radius of any anchor.</summary>
     public List<RegionAnchor> Anchors { get; set; } = [];
 }
@@ -76,9 +81,11 @@ public sealed class GeoImportOptions
 {
     /// <summary>Census Gazetteer ZCTA file (ZIP → lat/long).</summary>
     public string GazetteerUrl { get; set; } = "";
-    /// <summary>ZIP prefix(es) to keep in the generated ZIP table.</summary>
+    /// <summary>GeoNames US postal codes (CC-BY 4.0): ZIP → city and state names, and coordinates for ZIPs the Census doesn't map.</summary>
+    public string PlaceNamesUrl { get; set; } = "";
+    /// <summary>ZIP prefix(es) to keep in the generated ZIP table. Empty = every US ZIP.</summary>
     public List<string> ZipPrefixes { get; set; } = [];
-    public string ZipTableOutput { get; set; } = "data/reference/ut-zip-centroids.csv";
+    public string ZipTableOutput { get; set; } = "data/reference/us-zip-centroids.csv";
     /// <summary>Existing CSV (zip,city,state,…) used to name ZIPs; SEC business addresses add more names.</summary>
     public string ZipNamesSeed { get; set; } = "data/reference/us-zip-centroids.sample.csv";
 }

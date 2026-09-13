@@ -19,8 +19,9 @@ location and financial data comes from a directory we curate ahead of time.
 - ✅ **Phase 1 backend**: .NET 10 API, request pipeline, Excel data source, C# client, 31 tests
 - ✅ **Website**: React + TypeScript — location popup, List and Map views, company panel, themes, cookie consent
 - ✅ **Executive lookup**: executives of nearby companies, 10-year pay, careers across companies (39 tests)
-- ✅ **Real data**: 59 Wasatch Front public companies from SEC EDGAR — ~10 years of revenue/net income and
-  1,380 executive pay rows for 390 people (`tools/CompanyPaisa.Importer`, see [`data/README.md`](data/README.md))
+- ✅ **Real data**: 2,639 public companies in the top 20 US metros plus Utah's Wasatch Front, from SEC EDGAR —
+  ~10 years of revenue/net income and 59,475 executive pay rows for 15,881 people, linked across companies by SEC
+  insider id (`tools/CompanyPaisa.Importer`, see [`data/README.md`](data/README.md))
 
 ## Run it
 

@@ -1,3 +1,4 @@
+using System.IO.Compression;
 using System.Net;
 using System.Security.Cryptography;
 using System.Text;
@@ -63,7 +64,7 @@ public sealed class SecClient : ISecClient, IDisposable
         {
             var fresh = policy == CachePolicy.Immutable ||
                         DateTime.UtcNow - File.GetLastWriteTimeUtc(file) < TimeSpan.FromHours(_options.IndexCacheHours);
-            if (fresh) return await File.ReadAllBytesAsync(file, ct);
+            if (fresh) return Unpack(await File.ReadAllBytesAsync(file, ct));
         }
 
         for (var attempt = 1; attempt <= 5; attempt++)
@@ -83,7 +84,7 @@ public sealed class SecClient : ISecClient, IDisposable
                 }
                 response.EnsureSuccessStatusCode();
                 var bytes = await response.Content.ReadAsByteArrayAsync(ct);
-                await File.WriteAllBytesAsync(file, bytes, ct);
+                await File.WriteAllBytesAsync(file, _options.CompressCache ? Pack(bytes) : bytes, ct);
                 return bytes;
             }
             catch (HttpRequestException ex) when (attempt < 5)
@@ -112,6 +113,27 @@ public sealed class SecClient : ISecClient, IDisposable
             _nextSlot = DateTime.UtcNow.AddMilliseconds(1000.0 / _options.MaxRequestsPerSecond);
         }
         finally { _gate.Release(); }
+    }
+
+    // Cache files are gzip when CompressCache is on. Files are detected by the gzip magic bytes, so plain files from
+    // older runs still work — and already-compressed downloads (like the Census .zip) are stored as-is.
+    private static bool IsGzip(byte[] b) => b.Length > 2 && b[0] == 0x1F && b[1] == 0x8B;
+
+    internal static byte[] Pack(byte[] bytes)
+    {
+        if (IsGzip(bytes) || (bytes.Length > 1 && bytes[0] == 'P' && bytes[1] == 'K')) return bytes;
+        using var output = new MemoryStream();
+        using (var gz = new GZipStream(output, CompressionLevel.Fastest)) gz.Write(bytes);
+        return output.ToArray();
+    }
+
+    internal static byte[] Unpack(byte[] bytes)
+    {
+        if (!IsGzip(bytes)) return bytes;
+        using var gz = new GZipStream(new MemoryStream(bytes), CompressionMode.Decompress);
+        using var output = new MemoryStream();
+        gz.CopyTo(output);
+        return output.ToArray();
     }
 
     private static string Hash(string url) => Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(url)))[..32];

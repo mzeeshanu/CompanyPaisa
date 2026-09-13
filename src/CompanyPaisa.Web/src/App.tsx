@@ -19,6 +19,7 @@ const FALLBACK_CONFIG: ClientConfig = {
   defaultView: 'List', defaultTheme: 'Auto', defaultRadiusMiles: 10, allowedRadiiMiles: [5, 10, 25, 50],
   defaultSort: 'Revenue', showBaseMapByDefault: true, mapTilesUrl: null,
   consentCookieName: 'cp_prefs', consentCookieDays: 365, features: { MapView: true, ListView: true, Executives: true },
+  coverage: [],
 };
 const COVERAGE_MILES = 60;
 
@@ -159,7 +160,8 @@ export default function App() {
 
   const footer = (
     <div className="wrap foot">
-      <span>{meta?.isSampleData ? 'Sample data — company names and approximate locations are real; financial figures and executive names are synthetic.' : `Data as of ${meta?.asOfDate ?? '—'}.`}</span>
+      <span>{meta?.isSampleData ? 'Sample data — company names and approximate locations are real; financial figures and executive names are synthetic.' : `Data as of ${meta?.asOfDate ?? '—'} from SEC EDGAR filings.`}{' '}
+        ZIP names © <a className="linkbtn" href="https://www.geonames.org/" target="_blank" rel="noreferrer">GeoNames</a> (CC BY 4.0).</span>
       <span>
         <a className="linkbtn" href="/swagger" target="_blank" rel="noreferrer">Public API</a>
         {' · '}
@@ -221,7 +223,7 @@ export default function App() {
 
       <ExecutivePanel personId={selectedPerson} onClose={closePanels} onOpenCompany={openCompany} />
 
-      {gateOpen && <LocationGate coverageMiles={COVERAGE_MILES} onLocated={onLocated} />}
+      {gateOpen && <LocationGate coverageMiles={COVERAGE_MILES} coverage={(config ?? FALLBACK_CONFIG).coverage ?? []} onLocated={onLocated} />}
 
       {showConsent && !gateOpen && (
         <ConsentBanner

@@ -6,6 +6,16 @@ namespace CompanyPaisa.Data.Excel;
 /// <summary>Writes a workbook in the exact layout <see cref="ExcelCompanyRepository"/> reads. Used by tools (sample data, importers).</summary>
 public static class ExcelWorkbookWriter
 {
+    /// <summary>
+    /// Reads a workbook back with the same loader and validation the API uses; throws <see cref="DataLoadException"/>
+    /// listing every problem. Tools call this after writing so a bad workbook never reaches the website.
+    /// </summary>
+    public static (int Companies, int Locations) Verify(string path)
+    {
+        var snapshot = ExcelWorkbookReader.Read(path, new ExcelSheetNames(), DateTimeOffset.UtcNow);
+        return (snapshot.Companies.Count, snapshot.Locations.Count);
+    }
+
     public static void Write(
         string path,
         IEnumerable<Company> companies,
