@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import * as d3 from 'd3';
 import type { CompanySort, CompanySummary, NearbyResponse } from '../api/types';
 import { bubbleRadius, money, pct, tone, trendClass } from '../lib/format';
+import { SortHeader, useSortFlip } from './SortHeader';
 
 export interface Highlight { selected: string | null; hovered: string | null }
 export interface BubbleEvents {
@@ -61,7 +62,7 @@ export function ListView({ data, placeName, sort, onSort, highlight, loading, on
             {SORTS.map(k => <button key={k} aria-pressed={sort === k} onClick={() => onSort(k)}>{k}</button>)}
           </div>
         </div>
-        <RankedRows items={data.items} sort={sort} highlight={highlight} onHover={onHover} onSelect={onSelect} />
+        <RankedRows items={data.items} sort={sort} onSort={onSort} highlight={highlight} onHover={onHover} onSelect={onSelect} />
       </section>
     </main>
   );
@@ -104,17 +105,22 @@ function CityClusters({ items, highlight, onHover, onSelect }: { items: CompanyS
   );
 }
 
-function RankedRows({ items, sort, highlight, onHover, onSelect }: { items: CompanySummary[]; sort: CompanySort; highlight: Highlight } & BubbleEvents) {
+function RankedRows({ items, sort, onSort, highlight, onHover, onSelect }: { items: CompanySummary[]; sort: CompanySort; onSort: (s: CompanySort) => void; highlight: Highlight } & BubbleEvents) {
+  const { flipped, choose, order } = useSortFlip(sort, onSort, (c: CompanySummary, k) =>
+    k === 'Growth' ? c.indicators.revenueGrowthYoY : k === 'Profit' ? c.indicators.ttmNetIncome : k === 'Revenue' ? c.indicators.ttmRevenue : c.distanceMiles);
   if (items.length === 0) return <div className="empty">Nothing matches. Widen the radius or clear the filters.</div>;
-  const sorted = (k: CompanySort) => (sort === k ? ' sorted' : '');
+  const head = { sort, flipped, onSort: choose };
   return (
     <div className="rows">
-      <div className="row head" aria-hidden="true">
-        <span>#</span><span className="c-mini" /><span>Company</span><span className={`c-at${sorted('Distance')}`}>Nearest location</span>
-        <span className={`r${sorted('Revenue')}`}>Revenue</span><span className={`r${sorted('Growth')}`}>Growth</span>
-        <span className="r c-spark">History</span><span className={`r c-net${sorted('Profit')}`}>Net income</span>
+      <div className="row head">
+        <span>#</span><span className="c-mini" /><span>Company</span>
+        <SortHeader k="Distance" {...head} className="c-at">Nearest location</SortHeader>
+        <SortHeader k="Revenue" {...head} className="r">Revenue</SortHeader>
+        <SortHeader k="Growth" {...head} className="r">Growth</SortHeader>
+        <span className="r c-spark">History</span>
+        <SortHeader k="Profit" {...head} className="r c-net">Net income</SortHeader>
       </div>
-      {items.map((c, i) => (
+      {order(items).map((c, i) => (
         <button key={c.ticker}
           className={`row${highlight.hovered === c.ticker ? ' hl' : ''}${highlight.selected === c.ticker ? ' sel' : ''}`}
           onMouseEnter={() => onHover(c.ticker)} onMouseLeave={() => onHover(null)} onClick={() => onSelect(c.ticker)}>

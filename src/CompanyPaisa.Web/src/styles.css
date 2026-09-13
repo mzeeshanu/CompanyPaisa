@@ -171,6 +171,10 @@ select option{background:var(--ground);color:var(--ink)}
 .row.sel{background:var(--accent-soft)}
 .row.head{cursor:default;padding-top:10px;padding-bottom:10px;background:transparent}
 .row.head span{font:700 10px var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
+.sorthead{appearance:none;border:0;background:none;padding:6px 0;margin:-6px 0;cursor:pointer;display:inline-flex;align-items:center;gap:4px;font:700 10px var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--faint);text-align:inherit}
+.sorthead.r{justify-content:flex-end}
+.sorthead:hover{color:var(--ink)}
+.sorthead i{font-style:normal;font-size:8px;letter-spacing:0;min-width:8px}
 .row .r{text-align:right;justify-self:end}
 .rank{font:500 12px var(--mono);color:var(--faint)}
 .mini{width:26px;height:26px;border-radius:50%;background:radial-gradient(circle at 32% 26%,var(--bub-hi) 0 8%,var(--bub-hi2) 30%,transparent 50%),radial-gradient(circle at 68% 88%,var(--tint),transparent 70%),var(--bub-base);border:1px solid var(--bub-edge);box-shadow:0 3px 8px var(--tint-shadow)}

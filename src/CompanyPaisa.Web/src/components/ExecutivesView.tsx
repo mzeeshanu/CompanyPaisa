@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import * as d3 from 'd3';
-import type { ExecutiveSort, ExecutivesNearResponse, PayPoint } from '../api/types';
+import type { ExecutiveSort, ExecutiveSummary, ExecutivesNearResponse, PayPoint } from '../api/types';
 import { money, pct, tone } from '../lib/format';
+import { SortHeader, useSortFlip } from './SortHeader';
 
 interface Props {
   data: ExecutivesNearResponse;
@@ -29,6 +30,9 @@ export const initials = (name: string) =>
 export function ExecutivesView({ data, placeName, sort, onSort, search, onSearch, includeFormer, onIncludeFormer, selected, loading, onSelect }: Props) {
   const s = data.summary;
   const years = data.items[0]?.windowYears ?? 10;
+  const { flipped, choose, order } = useSortFlip(sort, onSort, (e: ExecutiveSummary, k) =>
+    k === 'PayGrowth' ? e.payGrowthYoY : k === 'Pay' ? e.latestTotalPay : k === 'TotalPay' ? e.windowTotalPay : k === 'Name' ? e.name : e.distanceMiles);
+  const head = { sort, flipped, onSort: choose };
 
   // Debounce typing so every keystroke doesn't hit the API.
   const [text, setText] = useState(search);
@@ -65,14 +69,16 @@ export function ExecutivesView({ data, placeName, sort, onSort, search, onSearch
 
         {data.items.length === 0 ? <div className="empty">Nothing matches.</div> : (
           <div className="rows">
-            <div className="row xrow head" aria-hidden="true">
-              <span>#</span><span className="c-mini" /><span>Executive</span><span className="c-at">Company · distance</span>
-              <span className={`r${sort === 'Pay' ? ' sorted' : ''}`}>Latest pay</span>
-              <span className={`r${sort === 'PayGrowth' ? ' sorted' : ''}`}>Change</span>
+            <div className="row xrow head">
+              <span>#</span><span className="c-mini" />
+              <SortHeader k="Name" {...head}>Executive</SortHeader>
+              <SortHeader k="Distance" {...head} className="c-at">Company · distance</SortHeader>
+              <SortHeader k="Pay" {...head} className="r">Latest pay</SortHeader>
+              <SortHeader k="PayGrowth" {...head} className="r">Change</SortHeader>
               <span className="r c-spark">Pay history</span>
-              <span className={`r c-net${sort === 'TotalPay' ? ' sorted' : ''}`}>{years}-yr total</span>
+              <SortHeader k="TotalPay" {...head} className="r c-net">{`${years}-yr total`}</SortHeader>
             </div>
-            {data.items.map((e, i) => (
+            {order(data.items).map((e, i) => (
               <button key={e.personId} className={`row xrow${selected === e.personId ? ' sel' : ''}${e.isCurrent ? '' : ' former'}`} onClick={() => onSelect(e.personId)}>
                 <span className="rank">{i + 1}</span>
                 <span className="avatar c-mini" aria-hidden="true">{initials(e.name)}</span>

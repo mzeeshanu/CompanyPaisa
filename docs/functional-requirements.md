@@ -145,7 +145,7 @@ The defining constraint: **the app does not perform live third-party lookups at 
 ### 6.6 List view (default)
 1. **Summary line:** "**15 public companies** within 10 miles of Lehi" · combined TTM revenue · # growing · # headquartered here.
 2. **By city, nearest first:** a glass card per city with its bubbles **circle-packed** (no overlap), header "Lehi · 12 · 2.1 mi". Horizontal swipe row on mobile.
-3. **Ranked list:** Rank-by chips (Revenue / Growth / Profit / Distance). Columns: rank · mini bubble · name + HQ badge + ticker/sector · nearest location + city + distance · TTM revenue · growth pill · revenue sparkline since 2017 · TTM net income. Fewer columns on tablet/mobile.
+3. **Ranked list:** Rank-by chips (Revenue / Growth / Profit / Distance). Columns: rank · mini bubble · name + HQ badge + ticker/sector · nearest location + city + distance · TTM revenue · growth pill · revenue sparkline since 2017 · TTM net income. Fewer columns on tablet/mobile. **Column headers are tappable** (both Companies and Executives lists): tap a header to sort by it; tap the active header again to reverse the order (▼/▲ shows direction; rows with no value stay at the bottom). On phones the list always fits the screen width (no sideways scrolling); the Rank-by chips swipe sideways.
 4. Empty state: "Nothing matches. Widen the radius or clear the filters."
 
 ### 6.7 Company details panel
