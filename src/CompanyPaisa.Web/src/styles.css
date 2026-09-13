@@ -370,9 +370,17 @@ td.co i{width:8px;height:8px;border-radius:2px;display:inline-block}
   .sel-wrap::after{top:11px}
   .clusters{flex-wrap:nowrap;overflow-x:auto;padding-bottom:8px;scroll-snap-type:x mandatory}
   .city{flex:none;scroll-snap-align:start}
-  .row,.xrow{grid-template-columns:22px minmax(140px,1fr) 88px 74px;gap:10px;padding:12px}
+  /* The name column shrinks (minmax 0) so a row never outgrows a phone screen. */
+  .row,.xrow{grid-template-columns:20px minmax(0,1fr) 74px 72px;gap:8px;padding:12px}
+  .row>*{min-width:0;overflow-wrap:anywhere}
+  .row .pill{white-space:nowrap;overflow-wrap:normal;padding:3px 7px}
   .row .c-mini{display:none}
+  .toolbar{padding:12px}
   .toolbar .switch{margin-left:0}
+  /* Rank-by chips: one line you can swipe sideways instead of wrapping or being cut off. */
+  .toolbar .chips{max-width:100%;overflow-x:auto;scrollbar-width:none}
+  .toolbar .chips::-webkit-scrollbar{display:none}
+  .toolbar .chips button{flex:none;white-space:nowrap}
   .m-sum{left:12px;max-width:calc(100% - 24px)}
   .m-ctl{top:auto;bottom:12px;right:12px}
   .m-leg,.m-hint{display:none}
