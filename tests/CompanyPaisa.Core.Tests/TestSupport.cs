@@ -48,6 +48,23 @@ internal sealed class FakeRepository : ICompanyRepository
             ids.ToDictionary(id => id, id => (IReadOnlyList<FinancialPeriod>)Financials.Where(f => f.CompanyId == id).ToList()));
     public Task<IReadOnlyList<ExecutiveCompensation>> GetExecutiveCompensationAsync(string id, CancellationToken ct = default) =>
         Task.FromResult<IReadOnlyList<ExecutiveCompensation>>(Executives.Where(e => e.CompanyId == id).ToList());
+    public Task<IReadOnlyList<ExecutiveCompensation>> GetExecutiveCompensationAsync(IEnumerable<string> ids, CancellationToken ct = default) =>
+        Task.FromResult<IReadOnlyList<ExecutiveCompensation>>(Executives.Where(e => ids.Contains(e.CompanyId)).ToList());
+    public Task<IReadOnlyList<ExecutiveCompensation>> GetCompensationForPeopleAsync(IEnumerable<string> ids, CancellationToken ct = default) =>
+        Task.FromResult<IReadOnlyList<ExecutiveCompensation>>(Executives.Where(e => ids.Contains(e.PersonId)).ToList());
+    public Task<Person?> GetPersonAsync(string id, CancellationToken ct = default) => Task.FromResult<Person?>(null);
+
+    /// <summary>Adds one pay row per year for a person at a company.</summary>
+    public FakeRepository Pay(string personId, string company, string title, int fromYear, int toYear, decimal total)
+    {
+        for (var y = fromYear; y <= toYear; y++)
+            Executives.Add(new ExecutiveCompensation
+            {
+                CompanyId = company, PersonId = personId, ExecutiveName = "Person " + personId, Title = title,
+                Year = y, Salary = total / 4, StockAwards = total * 3 / 4, Total = total
+            });
+        return this;
+    }
     public Task<IReadOnlyList<string>> GetSectorsAsync(CancellationToken ct = default) =>
         Task.FromResult<IReadOnlyList<string>>(Companies.Select(c => c.Sector).Distinct().ToList());
     public Task<DataSetMetadata> GetMetadataAsync(CancellationToken ct = default) =>

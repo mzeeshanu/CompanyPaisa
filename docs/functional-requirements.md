@@ -3,7 +3,7 @@
 **Product:** CompanyPaisa.com — "Company + Paisa (money)"
 **Author:** Zee
 **Status:** Draft v0.2 — design agreed via clickable prototype, ready for Phase 1
-**Last updated:** 2026-09-12
+**Last updated:** 2026-09-12 (executive lookup added)
 
 > **Clickable prototype:** [`docs/prototype/home-prototype.html`](prototype/home-prototype.html) — open it in a browser.
 > It is the visual reference for everything in §6 (UI & UX). Financial figures in it are **illustrative samples**, not real data.
@@ -87,6 +87,16 @@ The defining constraint: **the app does not perform live third-party lookups at 
 - **FR-16** Persist only after consent: first-party cookie `cp_prefs` (JSON, 1 year, `SameSite=Lax; Secure; path=/`).
 - **FR-17** Consent banner appears after the location step (never stacked on top of the location popup): **"Remember my choices"** / **"Just this visit"**. Declining stores nothing and clears any earlier cookie. A **"Cookie settings"** link reopens it.
 - **FR-18** Do not store the user's location without a separate, explicit opt-in (not in v1).
+- **FR-15a** Also persist the lookup **mode** (Companies / Executives).
+
+### 5.6 Executive Lookup (people)
+- **FR-19** "Executives near me": list the **named executive officers of public companies that have a location within the radius** — the company's location defines "near", never where a person lives (we don't store home locations).
+- **FR-20** A **person is one record across companies** (`person_id`). In real data `person_id` = the person's **SEC CIK** (reporting-owner id), so filings from different companies link to the same person.
+- **FR-21** For each person show: current title and company, nearest location + distance, latest year's total pay, change vs prior year, **total pay over the last 10 years across all companies**, number of companies, pay-per-year sparkline (dots mark company changes).
+- **FR-22** Sort by **Latest pay** (default), **10-year total**, **Pay growth**, **Distance**, **Name**. Filters: radius + sector (shared with Companies), **text search** on name/title, and **"Include people who moved away"** (former executives of nearby companies, flagged as former).
+- **FR-23** Person profile: total earned (first–latest year), career as a list of roles (company, title, years, total pay), stacked pay-by-year chart **coloured by company**, and a year-by-year table (salary, bonus, stock, total). Company names link to the company panel; executive names in the company panel link to the person profile.
+- **FR-24** Be explicit about scope: pay = **reported compensation** from DEF 14A summary compensation tables (stock at grant-date value, not realized); only roles as a **named executive officer of a public company** appear — private-company or non-NEO roles are not in SEC filings.
+- **FR-25** API: `GET /api/v1/executives/near` (same location/radius/sector params as companies + `includeFormer`, `search`, `sort`, `years`) and `GET /api/v1/executives/{personId}`; available in the C# client. Behind the `Features:Executives` flag.
 
 ---
 
@@ -108,8 +118,8 @@ The defining constraint: **the app does not perform live third-party lookups at 
 ### 6.3 Page structure
 - **Landing / location popup:** blurred page behind a glass card — headline "Who's making money around you?", **Use my location** button, **ZIP** input, clear error messages.
 - **Top bar (sticky, glass):**
-  - Row 1: wordmark · "Near *Lehi, UT 84043* · Change" · **Map | List** switch · theme button.
-  - Row 2: **Within 5/10/25/50 mi** chips · Sector dropdown · "Headquartered here only" switch.
+  - Row 1: wordmark · "Near *Lehi, UT 84043* · Change" · Sample-data badge · **Companies | Executives** switch · **Map | List** switch (Companies only) · theme button.
+  - Row 2: **Within 5/10/25/50 mi** chips · Sector dropdown · "Headquartered here only" switch (Companies only).
 - **Company details panel:** slides in from the right (bottom sheet on mobile). Closes with ✕, Esc, or clicking outside.
 
 ### 6.4 Bubbles (shared by both views)
@@ -146,7 +156,14 @@ The defining constraint: **the app does not perform live third-party lookups at 
 - **Executives tab:** per named executive — title, name, 2025 total pay + change vs prior year, stacked bar (salary / bonus / stock / other, scaled to the top earner), 5-year pay sparkline.
 - Footer: data source note (10-K, 10-Q, DEF 14A).
 
-### 6.8 Responsive & accessibility
+### 6.8 Executives view & person panel
+- **Summary line:** "**49 executives** at 14 public companies within 10 miles of Lehi" · combined pay (latest year) · median pay · scope note ("named executive officers only").
+- **Toolbar:** Rank-by chips (Latest pay / 10-year total / Pay growth / Distance / Name) · search box (debounced) · "Include people who moved away" switch.
+- **Rows:** rank · initials avatar · name + title (+ "former") · company + ticker · city · distance · latest pay + year · change pill · pay sparkline (amber dots = company change) · 10-year total (or "N companies").
+- **Person panel** (same shell as the company panel; only one panel open at a time): chips (current ticker, sector, SEC CIK when known) · avatar + name · title · company link · KPIs (latest pay, change, total earned, # companies) · stacked pay-by-year bars coloured by company with a company legend · **Career** list · **Year by year** table · scope disclaimer.
+- The Executives mode is list-only for now (no Map view).
+
+### 6.9 Responsive & accessibility
 - Mobile: details panel becomes a bottom sheet; clusters scroll horizontally; map controls move to bottom-right; legend hidden.
 - All bubbles and rows are keyboard-focusable buttons (Enter opens details), visible focus ring, `aria-pressed` on toggles, `aria-live` summary.
 - The List view is the accessible alternative to the Map view.
@@ -194,13 +211,22 @@ Tables map to Excel sheets now, SQL tables / NoSQL collections later.
 | operating_income, eps | (values, later) |
 | source_filing | SEC URL |
 
-**ExecutiveCompensation** (one row per exec per year)
+**ExecutiveCompensation** (one row per person per company per year)
 | field | example |
 |---|---|
-| company_id, exec_id, year | LFVN, LFVN-E01, 2025 |
-| exec_name, title | (name), Chief Executive Officer |
+| company_id, person_id, year | LFVN, 0001234567 (SEC CIK), 2025 |
+| exec_name, title | (name as filed), Chief Executive Officer |
 | salary, bonus, stock_awards, other, total | (values) |
 | source_filing | SEC URL |
+
+`person_id` is shared across companies — that's what links a career. (Older workbooks with a per-company `exec_id` still load.)
+
+**People** (optional, one row per person)
+| field | example |
+|---|---|
+| person_id | 0001234567 |
+| name | (canonical name) |
+| sec_cik | 0001234567 |
 
 **Reference data:** `us-zip-centroids.csv` (zip, city, state, lat, lng). **`_meta` sheet:** data version and last-refreshed date (shown as "Data as of …").
 
@@ -299,12 +325,21 @@ docs/                             this document, prototype/
 
 | 2026-09-12 | **Hosting: Railway** (answers open question 2). One service built from the repo `Dockerfile` (Node stage → .NET publish → ASP.NET runtime), `railway.json` health check on `/health`. App listens on `PORT` (IPv4+IPv6), trusts forwarded headers (`Hosting:TrustForwardedHeaders`) so rate limits use real visitor IPs. Data files ship in the image for now; move to a Railway volume (or Postgres later) when data changes often. Guide: `docs/deployment-railway.md`. |
 
+| 2026-09-12 | **Executive lookup** (answers "look up by executives"): Companies / Executives switch; executives are the named officers of *nearby companies* (by company location, not residence); a person is one record across companies (`person_id` = SEC CIK in real data); 10-year pay window (`Metrics:HistoryYears`); careers span companies only where the person was a public-company NEO. Shared `INearbySearchService` now backs both company and executive searches. Sample data: 10 years of pay, 110 people, 8 career moves between local companies. |
+
+| 2026-09-12 | **Real data from SEC EDGAR** via `tools/CompanyPaisa.Importer` (offline, cached, ≤8 req/s, User-Agent contact = Zee's email, approved). Region = Wasatch Front (Ogden, SLC, Lehi, Provo anchors); listed on Nasdaq/NYSE/CBOE, or OTC with ≥ $5M revenue; plus curated Utah sites of out-of-state companies. Financials from XBRL company facts; executive pay parsed from DEF 14A Summary Compensation Tables (filed total is authoritative, mismatches flagged in `data/import-report.md`). ZIP centroids from the 2025 Census Gazetteer. First load: 59 companies, 1,380 pay rows, 390 people. The app now serves `data/companypaisa.xlsx`; tests stay on the synthetic sample workbook. |
+| 2026-09-12 | **Executive names are real** (public SEC filings) — decided by Zee. Placeholder names were only ever for the synthetic sample. |
+
 ## 11. Open Questions
 
 1. **Company list verification** — Zee to supply/confirm the companies, offices and addresses known locally.
 2. ~~**Hosting**~~ — **Decided: Railway** (see decisions log).
 3. **Market cap** — needs a price feed; do we store an end-of-day snapshot at refresh time (still offline), or drop market cap from v1?
-4. **Executive names** — show real names from proxy filings (public record) — confirm OK.
+4. ~~**Executive names**~~ — **Decided: real names** from SEC filings. Still to do: a correction/contact route, and keep to what's filed (name, title, pay).
+8. **Location precision** — companies are placed at their ZIP-code centroid (several Lehi companies share one point). Geocode street addresses (e.g. the free Census Geocoder, offline at import time)?
+9. **Person linking** — people are matched across companies by normalised name. Switch to SEC person CIKs (Forms 3/4) to avoid false matches / misses?
+10. **Review queue** — 84 flagged pay rows and a few unrecognised proxy tables (see `data/import-report.md`); fix parser cases or hand-correct?
+7. **Executives on the Map** — should Executives mode get a map (company bubbles sized by total executive pay), or stay list-only?
 5. **"Size by" switch** (revenue / market cap / growth) — v1 or later?
 6. **Clustering in Map view** ("+7" merge bubbles when zoomed far out) — needed once the dataset grows past ~60.
 
@@ -317,5 +352,7 @@ docs/                             this document, prototype/
   Still open from Phase 1: full Census ZIP table; **verified real company list** (currently sample data).
 - **Phase 2** ✅ (2026-09-12) — List view (summary, city clusters, ranked list, filters) + location popup + themes + consent, on the live API.
 - **Phase 3** ✅ (2026-09-12) — Company details panel (earnings, executives). Map view with the simplified base map also done early.
-- **Phase 4** — Map view with self-hosted MapLibre/Protomaps base map; ~10 years of history; EDGAR import tool.
+- **Phase 3b** ✅ (2026-09-12) — Executive lookup: people across companies, 10-year pay, careers; API + client + website; 39 passing tests.
+- **Phase 3c** ✅ (2026-09-12) — Real dataset: SEC EDGAR importer (companies, XBRL financials, DEF 14A executive pay), Census ZIP centroids; 47 passing tests.
+- **Phase 4** — Map view with self-hosted MapLibre/Protomaps base map; street-level geocoding; person CIK linking; scheduled quarterly refresh.
 - **Phase 5** — Swap storage to a database; optional "Size by", clustering, predictive features.

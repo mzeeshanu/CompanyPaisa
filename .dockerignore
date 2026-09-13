@@ -10,4 +10,5 @@ tests/
 tools/
 docs/
 src/CompanyPaisa.Api/wwwroot/
+data/cache/
 **/*.md

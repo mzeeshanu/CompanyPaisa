@@ -75,7 +75,8 @@ internal static class ExcelWorkbookReader
         var executives = ReadSheet(workbook, sheets.ExecutiveCompensation, problems, r => new ExecutiveCompensation
         {
             CompanyId = r.Required("company_id"),
-            ExecutiveId = r.Required("exec_id"),
+            // person_id links one person across companies; older workbooks only had a per-company exec_id.
+            PersonId = r.Text("person_id") ?? r.Required("exec_id"),
             ExecutiveName = r.Required("exec_name"),
             Title = r.Required("title"),
             Year = r.Int("year") ?? throw r.Problem("year", "is required"),
@@ -87,10 +88,19 @@ internal static class ExcelWorkbookReader
             SourceFiling = r.Text("source_filing")
         }, required: false);
 
+        var people = ReadSheet(workbook, sheets.People, problems, r => new Person
+        {
+            PersonId = r.Required("person_id"),
+            Name = r.Required("name"),
+            SecCik = r.Text("sec_cik")
+        }, required: false);
+
         CheckIntegrity(companies, locations, financials, executives, sheets, problems);
+        foreach (var dup in executives.GroupBy(e => (e.PersonId.ToUpperInvariant(), e.CompanyId.ToUpperInvariant(), e.Year)).Where(g => g.Count() > 1))
+            problems.Add($"{sheets.ExecutiveCompensation}: person '{dup.Key.Item1}' has {dup.Count()} rows for {dup.Key.Item2} in {dup.Key.Year}.");
         if (problems.Count > 0) throw new DataLoadException(path, problems);
 
-        return new DataSnapshot(companies, locations, financials, executives, ReadMeta(workbook, sheets.Meta, loadedAt));
+        return new DataSnapshot(companies, locations, financials, executives, people, ReadMeta(workbook, sheets.Meta, loadedAt));
     }
 
     private static void CheckIntegrity(List<Company> companies, List<CompanyLocation> locations, List<FinancialPeriod> financials,

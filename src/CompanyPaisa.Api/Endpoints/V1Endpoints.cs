@@ -3,6 +3,7 @@ using CompanyPaisa.Api.Security;
 using CompanyPaisa.Contracts;
 using CompanyPaisa.Core;
 using CompanyPaisa.Core.Features.Companies;
+using CompanyPaisa.Core.Features.Executives;
 using CompanyPaisa.Core.Features.Reference;
 using CompanyPaisa.Core.Features.Search;
 using CompanyPaisa.Core.Messaging;
@@ -62,6 +63,34 @@ public static class V1Endpoints
                     : Results.NotFound())
             .WithName("GetExecutives").WithSummary("Executive compensation by year (salary, bonus, stock, other, total).")
             .Produces<ExecutivesResponse>();
+
+        // ----- Executives (people) -----
+        v1.MapGet("/executives/near", async (
+                string? near, double? latitude, double? longitude, double? radiusMiles, string? sector, bool? includeFormer,
+                string? search, string? sort, int? years, int? page, int? pageSize,
+                IServiceRequestor requestor, IOptionsMonitor<FeatureOptions> features, CancellationToken ct) =>
+            {
+                if (!features.CurrentValue.IsEnabled("Executives")) return Results.NotFound();
+                var request = new ExecutivesNearRequest
+                {
+                    Near = near, Latitude = latitude, Longitude = longitude, RadiusMiles = radiusMiles, Sector = sector,
+                    IncludeFormer = includeFormer ?? false, Search = search, Sort = ParseEnum<ExecutiveSort>(sort, "sort"),
+                    Years = years, Page = page, PageSize = pageSize
+                };
+                return Results.Ok(await requestor.SendAsync(new GetExecutivesNearQuery(request), ct));
+            })
+            .WithName("GetExecutivesNear")
+            .WithSummary("Named executive officers of public companies near a ZIP code, city or coordinates, with up to 10 years of pay.")
+            .WithDescription("Examples: ?near=84043  ·  ?near=84043&sort=TotalPay&years=10  ·  ?near=84043&includeFormer=true&search=financial")
+            .Produces<ExecutivesNearResponse>();
+
+        v1.MapGet("/executives/{personId}", async (string personId, IServiceRequestor requestor, IOptionsMonitor<FeatureOptions> features, CancellationToken ct) =>
+                features.CurrentValue.IsEnabled("Executives")
+                    ? Results.Ok(await requestor.SendAsync(new GetExecutiveQuery(personId), ct))
+                    : Results.NotFound())
+            .WithName("GetExecutive")
+            .WithSummary("One executive's career and pay history across every company they were a named executive officer at.")
+            .Produces<ExecutiveDetailDto>();
 
         // ----- Reference -----
         v1.MapGet("/geo/lookup", async (string q, IServiceRequestor requestor, CancellationToken ct) =>

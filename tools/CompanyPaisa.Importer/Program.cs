@@ -1,0 +1,42 @@
+// Builds the real CompanyPaisa dataset from SEC EDGAR (offline — never runs inside the website).
+// Usage (from the repo root):  dotnet run --project tools/CompanyPaisa.Importer
+// Settings: tools/CompanyPaisa.Importer/appsettings.json ("Importer" section). Downloads are cached in data/cache/sec.
+
+using CompanyPaisa.Importer;
+using CompanyPaisa.Importer.Compensation;
+using CompanyPaisa.Importer.Financials;
+using CompanyPaisa.Importer.Geo;
+using CompanyPaisa.Importer.Sec;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+
+var builder = Host.CreateApplicationBuilder(new HostApplicationBuilderSettings { Args = args, ContentRootPath = AppContext.BaseDirectory });
+// Personal settings (the SEC contact email) live in appsettings.Local.json, which git ignores.
+// Environment variable alternative: Importer__Sec__UserAgent="CompanyPaisa you@example.com"
+builder.Configuration.AddJsonFile("appsettings.Local.json", optional: true);
+builder.Configuration.AddEnvironmentVariables();
+builder.Services.AddOptions<ImporterOptions>().Bind(builder.Configuration.GetSection(ImporterOptions.SectionName)).ValidateDataAnnotations().ValidateOnStart();
+builder.Services.AddSingleton<RepoPaths>();
+builder.Services.AddSingleton<ISecClient, SecClient>();
+builder.Services.AddSingleton<IEdgarService, EdgarService>();
+builder.Services.AddSingleton<IFinancialsExtractor, XbrlFinancialsExtractor>();
+builder.Services.AddSingleton<ICompensationParser, SummaryCompensationTableParser>();
+builder.Services.AddSingleton<IZipGeocoder, ZipGeocoder>();
+builder.Services.AddSingleton<ImportPipeline>();
+
+using var host = builder.Build();
+
+// Diagnostics: dotnet run --project tools/CompanyPaisa.Importer -- --debug-proxy <filing url>
+if (args is ["--debug-proxy", var url])
+{
+    var html = await host.Services.GetRequiredService<ISecClient>().GetStringAsync(url, CachePolicy.Immutable) ?? "";
+    foreach (var line in SummaryCompensationTableParser.Describe(html)) Console.WriteLine(line);
+    foreach (var row in new SummaryCompensationTableParser().Parse(html).Rows)
+        Console.WriteLine($"{row.Name} | {row.Title} | {row.Year} | sal {row.Salary:N0} bonus {row.Bonus:N0} stock {row.StockAwards:N0} other {row.Other:N0} total {row.Total:N0} {(row.ComponentsVerified ? "✓" : "✗")}");
+    return 0;
+}
+
+using var cts = new CancellationTokenSource();
+Console.CancelKeyPress += (_, e) => { e.Cancel = true; cts.Cancel(); };
+return await host.Services.GetRequiredService<ImportPipeline>().RunAsync(cts.Token);

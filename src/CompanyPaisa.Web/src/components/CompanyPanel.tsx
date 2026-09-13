@@ -10,6 +10,7 @@ interface Props {
   nearestLabel: string | null;
   showExecutives: boolean;
   onClose: () => void;
+  onOpenPerson: (personId: string) => void;
 }
 
 interface Loaded {
@@ -19,7 +20,7 @@ interface Loaded {
   executives: Executive[];
 }
 
-export function CompanyPanel({ ticker, distanceMiles, nearestLabel, showExecutives, onClose }: Props) {
+export function CompanyPanel({ ticker, distanceMiles, nearestLabel, showExecutives, onClose, onOpenPerson }: Props) {
   const [data, setData] = useState<Loaded | null>(null);
   const [error, setError] = useState('');
   const [tab, setTab] = useState<'earn' | 'exec'>('earn');
@@ -108,7 +109,7 @@ export function CompanyPanel({ ticker, distanceMiles, nearestLabel, showExecutiv
               </section>
             )}
 
-            {tab === 'exec' && <Executives execs={d.executives} />}
+            {tab === 'exec' && <Executives execs={d.executives} onOpenPerson={onOpenPerson} />}
 
             <p className="disclaimer">
               Source: company 10-K, 10-Q and proxy (DEF 14A) filings{d.detail.asOfDate ? `, as of ${d.detail.asOfDate}` : ''}.
@@ -181,7 +182,7 @@ const STACK = [
   { key: 'other', label: 'Other', color: 'var(--s4)' },
 ] as const;
 
-function Executives({ execs }: { execs: Executive[] }) {
+function Executives({ execs, onOpenPerson }: { execs: Executive[]; onOpenPerson: (personId: string) => void }) {
   if (execs.length === 0) return <p className="fine">No executive compensation on file.</p>;
   const max = d3.max(execs, e => e.history[e.history.length - 1].total) ?? 1;
   return (
@@ -196,7 +197,10 @@ function Executives({ execs }: { execs: Executive[] }) {
           return (
             <div className="exec" key={e.executiveId}>
               <div className="ex-top">
-                <div><div className="ex-title">{e.title}</div><div className="ex-name">{e.name}</div></div>
+                <div>
+                  <div className="ex-title">{e.title}</div>
+                  <div className="ex-name"><button className="linkbtn" onClick={() => onOpenPerson(e.executiveId)} title="See this person's pay across all companies">{e.name} →</button></div>
+                </div>
                 <div className="ex-total num">{money(a.total)}<small>total {a.year}{ch != null && <> · <span className={`chg ${tone(ch)}`}>{pct(ch)}</span></>}</small></div>
               </div>
               <div className="stack" style={{ width: `${(a.total / max) * 100}%` }}>

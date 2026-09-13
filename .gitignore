@@ -47,5 +47,10 @@ TestResults/
 *.nupkg
 src/CompanyPaisa.Api/wwwroot/
 
+# Importer download cache (re-creatable from the SEC)
+data/cache/
+# Personal settings (e.g. the SEC contact email)
+appsettings.Local.json
+
 # Data (uncomment if seed data should stay local / large)
 # data/*.xlsx

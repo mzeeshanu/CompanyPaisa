@@ -12,6 +12,7 @@ public static class ExcelWorkbookWriter
         IEnumerable<CompanyLocation> locations,
         IEnumerable<FinancialPeriod> financials,
         IEnumerable<ExecutiveCompensation> executives,
+        IEnumerable<Person> people,
         IReadOnlyDictionary<string, string> meta,
         ExcelSheetNames? sheetNames = null)
     {
@@ -31,8 +32,10 @@ public static class ExcelWorkbookWriter
             financials.Select(f => new object?[] { f.CompanyId, f.PeriodType.ToString(), f.FiscalYear, f.FiscalQuarter, f.Revenue, f.NetIncome, f.OperatingIncome, f.Eps, f.SourceFiling }));
 
         AddSheet(wb, s.ExecutiveCompensation,
-            ["company_id", "exec_id", "exec_name", "title", "year", "salary", "bonus", "stock_awards", "other", "total", "source_filing"],
-            executives.Select(e => new object?[] { e.CompanyId, e.ExecutiveId, e.ExecutiveName, e.Title, e.Year, e.Salary, e.Bonus, e.StockAwards, e.Other, e.Total, e.SourceFiling }));
+            ["company_id", "person_id", "exec_name", "title", "year", "salary", "bonus", "stock_awards", "other", "total", "source_filing"],
+            executives.Select(e => new object?[] { e.CompanyId, e.PersonId, e.ExecutiveName, e.Title, e.Year, e.Salary, e.Bonus, e.StockAwards, e.Other, e.Total, e.SourceFiling }));
+
+        AddSheet(wb, s.People, ["person_id", "name", "sec_cik"], people.Select(p => new object?[] { p.PersonId, p.Name, p.SecCik }));
 
         AddSheet(wb, s.Meta, ["key", "value"], meta.Select(kv => new object?[] { kv.Key, kv.Value }));
 

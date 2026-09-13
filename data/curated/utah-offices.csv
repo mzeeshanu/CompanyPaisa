@@ -1,0 +1,11 @@
+ticker,type,label,street,city,zip,note
+ADBE,Campus,Adobe Lehi campus,3900 Adobe Way,Lehi,84043,Large Utah campus of a California-headquartered company
+EBAY,Office,eBay Draper office,583 W eBay Way,Draper,84020,
+GS,Office,Goldman Sachs Salt Lake City office,222 S Main St,Salt Lake City,84101,
+VRSK,Campus,Xactware (Verisk) Lehi campus,,Lehi,84043,Verisk acquired Xactware
+TXN,Plant,Texas Instruments LFAB (Lehi wafer fab),,Lehi,84043,Former Micron/IM Flash fab bought by TI
+NRG,Campus,Vivint campus (NRG Energy),4931 N 300 W,Provo,84604,NRG acquired Vivint Smart Home in 2023
+RUN,Office,Sunrun Lehi office,,Lehi,84043,Former Vivint Solar headquarters
+NICE,Office,NICE (CXone) Sandy office,,Sandy,84070,Former inContact headquarters
+ALLY,Office,Ally Bank Sandy office,,Sandy,84070,Ally Bank is chartered in Utah
+NOC,Plant,Northrop Grumman Utah operations,,Roy,84067,Includes former ATK operations

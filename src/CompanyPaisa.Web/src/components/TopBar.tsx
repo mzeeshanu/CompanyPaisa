@@ -1,9 +1,10 @@
 import { forwardRef } from 'react';
-import type { Theme, View } from '../lib/prefs';
+import type { Mode, Theme, View } from '../lib/prefs';
 
 interface Props {
   placeLabel: string;
   onChangeLocation: () => void;
+  mode: Mode; onMode: (m: Mode) => void; showExecutives: boolean;
   view: View; onView: (v: View) => void; showMapView: boolean;
   theme: Theme; onTheme: (t: Theme) => void;
   radii: number[]; radius: number; onRadius: (r: number) => void;
@@ -31,7 +32,13 @@ export const TopBar = forwardRef<HTMLElement, Props>(function TopBar(p, ref) {
             <div className="where">Near <b>{p.placeLabel}</b> <button className="linkbtn" onClick={p.onChangeLocation}>Change</button></div>
             {p.isSample && <span className="sample-badge" title="Figures are synthetic sample data">Sample data</span>}
             <span className="spacer" />
-            {p.showMapView && (
+            {p.showExecutives && (
+              <div className="chips" role="group" aria-label="Look up">
+                <button aria-pressed={p.mode === 'companies'} onClick={() => p.onMode('companies')}>Companies</button>
+                <button aria-pressed={p.mode === 'executives'} onClick={() => p.onMode('executives')}>Executives</button>
+              </div>
+            )}
+            {p.showMapView && p.mode === 'companies' && (
               <div className="chips" role="group" aria-label="View">
                 <button aria-pressed={p.view === 'map'} onClick={() => p.onView('map')}>
                   <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" strokeWidth="1.4" /><circle cx="8" cy="8" r="3" fill="none" stroke="currentColor" strokeWidth="1.4" /><circle cx="8" cy="8" r="1.2" fill="currentColor" /></svg>Map
@@ -56,7 +63,9 @@ export const TopBar = forwardRef<HTMLElement, Props>(function TopBar(p, ref) {
                 {p.sectors.map(s => <option key={s} value={s}>{s}</option>)}
               </select>
             </div>
-            <label className="switch"><input type="checkbox" checked={p.hqOnly} onChange={e => p.onHqOnly(e.target.checked)} /> Headquartered here only</label>
+            {p.mode === 'companies' && (
+              <label className="switch"><input type="checkbox" checked={p.hqOnly} onChange={e => p.onHqOnly(e.target.checked)} /> Headquartered here only</label>
+            )}
           </div>
         </div>
       </div>

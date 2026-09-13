@@ -21,6 +21,11 @@ public interface ICompanyRepository
     Task<IReadOnlyDictionary<string, IReadOnlyList<FinancialPeriod>>> GetFinancialsAsync(IEnumerable<string> companyIds, CancellationToken ct = default);
 
     Task<IReadOnlyList<ExecutiveCompensation>> GetExecutiveCompensationAsync(string companyId, CancellationToken ct = default);
+    Task<IReadOnlyList<ExecutiveCompensation>> GetExecutiveCompensationAsync(IEnumerable<string> companyIds, CancellationToken ct = default);
+
+    /// <summary>Every pay row for these people, at any company.</summary>
+    Task<IReadOnlyList<ExecutiveCompensation>> GetCompensationForPeopleAsync(IEnumerable<string> personIds, CancellationToken ct = default);
+    Task<Person?> GetPersonAsync(string personId, CancellationToken ct = default);
 
     Task<IReadOnlyList<string>> GetSectorsAsync(CancellationToken ct = default);
     Task<DataSetMetadata> GetMetadataAsync(CancellationToken ct = default);
@@ -38,6 +43,22 @@ public interface IDistanceCalculator
 {
     double DistanceMiles(GeoPoint from, GeoPoint to);
     GeoBoundingBox BoundingBox(GeoPoint center, double radiusMiles);
+}
+
+/// <summary>A company with a location inside the search radius, and its closest such location.</summary>
+public sealed record NearbyCompanyHit(string CompanyId, CompanyLocation NearestLocation, double DistanceMiles, bool HasHeadquartersInRange);
+
+/// <summary>
+/// Shared by every "near me" search (companies, executives…): resolves where the search starts
+/// and which companies have a location within the radius.
+/// </summary>
+public interface INearbySearchService
+{
+    /// <summary>Coordinates win; otherwise the ZIP / "City, ST" in <paramref name="near"/> is looked up. Throws NotFound if unknown.</summary>
+    Task<(GeoPoint Point, string? Label)> ResolveOriginAsync(string? near, double? latitude, double? longitude, CancellationToken ct = default);
+
+    /// <summary>Companies with at least one location within the radius, keyed by company id.</summary>
+    Task<IReadOnlyDictionary<string, NearbyCompanyHit>> FindCompaniesAsync(GeoPoint origin, double radiusMiles, CancellationToken ct = default);
 }
 
 /// <summary>Computes TTM, growth, CAGR, margin and trend status.</summary>

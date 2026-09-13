@@ -51,6 +51,14 @@ var companies = new List<Company>();
 var locations = new List<CompanyLocation>();
 var financials = new List<FinancialPeriod>();
 var executives = new List<ExecutiveCompensation>();
+var people = new List<Person>();
+(string Title, string Role, double Factor)[] Roles =
+[
+    ("Chief Executive Officer", "CEO", 1.0),
+    ("Chief Financial Officer", "CFO", .34),
+    ("Chief Operating Officer", "COO", .28),
+];
+var seats = new Dictionary<(string Company, string Role), string>();   // original holder of each seat
 var asOf = new DateOnly(2026, 6, 30);
 
 foreach (var s in seed)
@@ -90,26 +98,53 @@ foreach (var s in seed)
         Revenue = g.Sum(q => q.Revenue), NetIncome = g.Sum(q => q.NetIncome)
     }));
 
-    // Three executives, 2021-2025. Names are placeholders on purpose.
+    // Three executive seats, 10 years (2016-2025). Pay scales with company size. Names are placeholders on purpose.
     var scale = Math.Sqrt(s.Rev / 20);
-    foreach (var (title, short_, factor, id) in new[] { ("Chief Executive Officer", "CEO", 1.0, "E01"), ("Chief Financial Officer", "CFO", .34, "E02"), ("Chief Operating Officer", "COO", .28, "E03") })
-    for (var j = 0; j < 5; j++)
+    foreach (var (title, role, factor) in Roles)
     {
-        var total = (1.6 + 21 * scale) * factor * (.78 + .1 * j) * (.85 + rnd.NextDouble() * .3) * 1e6;
-        var salary = Math.Min(total * .32, (.55 + .5 * scale) * Math.Max(factor, .6) * 1e6);
-        var bonus = total * (.08 + rnd.NextDouble() * .08);
-        var other = total * .03;
-        executives.Add(new ExecutiveCompensation
+        var personId = NewPerson();
+        seats[(s.T, role)] = personId;
+        for (var j = 0; j < 10; j++)
         {
-            CompanyId = s.T, ExecutiveId = $"{s.T}-{id}", ExecutiveName = $"Sample {short_}",
-            Title = title, Year = 2021 + j,
-            Salary = Math.Round((decimal)salary), Bonus = Math.Round((decimal)bonus), Other = Math.Round((decimal)other),
-            StockAwards = Math.Round((decimal)(total - salary - bonus - other)), Total = Math.Round((decimal)total)
-        });
+            var total = (1.6 + 21 * scale) * factor * (.6 + .05 * j) * (.85 + rnd.NextDouble() * .3) * 1e6;
+            var salary = Math.Min(total * .32, (.55 + .5 * scale) * Math.Max(factor, .6) * 1e6);
+            var bonus = total * (.08 + rnd.NextDouble() * .08);
+            var other = total * .03;
+            executives.Add(new ExecutiveCompensation
+            {
+                CompanyId = s.T, PersonId = personId, ExecutiveName = NameOf(personId),
+                Title = title, Year = 2016 + j,
+                Salary = Math.Round((decimal)salary), Bonus = Math.Round((decimal)bonus), Other = Math.Round((decimal)other),
+                StockAwards = Math.Round((decimal)(total - salary - bonus - other)), Total = Math.Round((decimal)total)
+            });
+        }
     }
 }
 
-ExcelWorkbookWriter.Write(output, companies, locations, financials, executives, new Dictionary<string, string>
+// Career moves: a CFO/COO at one company becomes CEO of another from a given year.
+// The mover takes over the destination seat; a new person fills the seat they left.
+var moves = new (string FromCo, string FromRole, string ToCo, string ToRole, int Year)[]
+{
+    ("NUS", "CFO", "LFVN", "CEO", 2021), ("ADBE", "COO", "WEAV", "CEO", 2020), ("TXN", "CFO", "PRPL", "CEO", 2022),
+    ("EBAY", "COO", "HQY", "CEO", 2019), ("ZION", "CFO", "PRG", "CEO", 2021), ("USNA", "COO", "NATR", "CEO", 2023),
+    ("VRSK", "CFO", "DOMO", "CEO", 2022), ("GS", "COO", "EXR", "CEO", 2020),
+};
+foreach (var m in moves)
+{
+    var mover = seats[(m.FromCo, m.FromRole)];
+    var successor = NewPerson();
+    for (var i = 0; i < executives.Count; i++)
+    {
+        var e = executives[i];
+        if (e.Year < m.Year) continue;
+        if (e.CompanyId == m.FromCo && e.PersonId == mover)
+            executives[i] = e with { PersonId = successor, ExecutiveName = NameOf(successor) };
+        else if (e.CompanyId == m.ToCo && e.Title == TitleOf(m.ToRole))
+            executives[i] = e with { PersonId = mover, ExecutiveName = NameOf(mover) };
+    }
+}
+
+ExcelWorkbookWriter.Write(output, companies, locations, financials, executives, people, new Dictionary<string, string>
 {
     ["data_version"] = "sample-2026.09",
     ["as_of_date"] = asOf.ToString("yyyy-MM-dd"),
@@ -117,7 +152,18 @@ ExcelWorkbookWriter.Write(output, companies, locations, financials, executives, 
     ["note"] = "Synthetic figures for development only. Company names and approximate locations are real."
 });
 
-Console.WriteLine($"Wrote {companies.Count} companies, {financials.Count} financial rows, {executives.Count} executive rows to {Path.GetFullPath(output)}");
+Console.WriteLine($"Wrote {companies.Count} companies, {financials.Count} financial rows, {executives.Count} executive pay rows, {people.Count} people to {Path.GetFullPath(output)}");
+
+string NewPerson()
+{
+    var id = $"P{people.Count + 1:000}";
+    people.Add(new Person { PersonId = id, Name = $"Sample Executive {people.Count + 1:000}" });
+    return id;
+}
+
+string NameOf(string personId) => people.First(p => p.PersonId == personId).Name;
+
+string TitleOf(string role) => Roles.First(r => r.Role == role).Title;
 
 static int StableHash(string s)
 {

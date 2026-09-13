@@ -21,6 +21,7 @@ public static class DependencyInjection
 
         services.TryAddSingleton<IDistanceCalculator, HaversineDistanceCalculator>();
         services.TryAddSingleton<IFinancialMetricsService, FinancialMetricsService>();
+        services.TryAddSingleton<INearbySearchService, NearbySearchService>();
 
         services.AddRequestHandlersFrom(typeof(DependencyInjection).Assembly);
         return services;

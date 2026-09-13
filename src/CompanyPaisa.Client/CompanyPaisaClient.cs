@@ -22,6 +22,12 @@ public interface ICompanyPaisaClient
     Task<FinancialsResponse?> GetFinancialsAsync(string ticker, PeriodType period = PeriodType.Quarterly, int? years = null, CancellationToken ct = default);
     Task<ExecutivesResponse?> GetExecutivesAsync(string ticker, int? years = null, CancellationToken ct = default);
 
+    /// <summary>Named executives of public companies near a ZIP/city or coordinates, with their pay history.</summary>
+    Task<ExecutivesNearResponse> GetExecutivesNearAsync(ExecutivesNearRequest request, CancellationToken ct = default);
+
+    /// <summary>One person's career and pay across companies, or null if unknown.</summary>
+    Task<ExecutiveDetailDto?> GetExecutiveAsync(string personId, CancellationToken ct = default);
+
     /// <summary>ZIP code or "City, ST" → coordinates, or null if not found.</summary>
     Task<GeoLookupDto?> LookupAsync(string query, CancellationToken ct = default);
 
@@ -65,6 +71,16 @@ public sealed class CompanyPaisaClient(HttpClient http) : ICompanyPaisaClient
     public Task<ExecutivesResponse?> GetExecutivesAsync(string ticker, int? years = null, CancellationToken ct = default) =>
         GetOptionalAsync<ExecutivesResponse>($"api/v1/companies/{Uri.EscapeDataString(ticker)}/executives" +
             Query(("years", years?.ToString(CultureInfo.InvariantCulture))), ct);
+
+    public Task<ExecutivesNearResponse> GetExecutivesNearAsync(ExecutivesNearRequest r, CancellationToken ct = default) =>
+        GetRequiredAsync<ExecutivesNearResponse>("api/v1/executives/near" + Query(
+            ("near", r.Near), ("latitude", Num(r.Latitude)), ("longitude", Num(r.Longitude)), ("radiusMiles", Num(r.RadiusMiles)),
+            ("sector", r.Sector), ("includeFormer", r.IncludeFormer ? "true" : null), ("search", r.Search), ("sort", r.Sort?.ToString()),
+            ("years", r.Years?.ToString(CultureInfo.InvariantCulture)),
+            ("page", r.Page?.ToString(CultureInfo.InvariantCulture)), ("pageSize", r.PageSize?.ToString(CultureInfo.InvariantCulture))), ct);
+
+    public Task<ExecutiveDetailDto?> GetExecutiveAsync(string personId, CancellationToken ct = default) =>
+        GetOptionalAsync<ExecutiveDetailDto>($"api/v1/executives/{Uri.EscapeDataString(personId)}", ct);
 
     public Task<GeoLookupDto?> LookupAsync(string query, CancellationToken ct = default) =>
         GetOptionalAsync<GeoLookupDto>("api/v1/geo/lookup" + Query(("q", query)), ct);

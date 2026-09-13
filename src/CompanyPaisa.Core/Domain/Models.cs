@@ -68,10 +68,23 @@ public sealed record FinancialPeriod
     public string Label => PeriodType == PeriodType.Quarterly ? $"Q{FiscalQuarter} {FiscalYear}" : $"FY {FiscalYear}";
 }
 
+/// <summary>
+/// A person who has been a named executive officer at one or more companies.
+/// In real data <see cref="PersonId"/> should be the SEC reporting-owner CIK so one person is linked across filings.
+/// </summary>
+public sealed record Person
+{
+    public required string PersonId { get; init; }
+    public required string Name { get; init; }
+    public string? SecCik { get; init; }
+}
+
+/// <summary>One person's reported pay at one company for one fiscal year (DEF 14A summary compensation table).</summary>
 public sealed record ExecutiveCompensation
 {
     public required string CompanyId { get; init; }
-    public required string ExecutiveId { get; init; }
+    /// <summary>The person, shared across companies (not per company).</summary>
+    public required string PersonId { get; init; }
     public required string ExecutiveName { get; init; }
     public required string Title { get; init; }
     public required int Year { get; init; }

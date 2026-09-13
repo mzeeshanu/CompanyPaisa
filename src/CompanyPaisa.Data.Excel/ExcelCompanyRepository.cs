@@ -121,6 +121,25 @@ public sealed class ExcelCompanyRepository : ICompanyRepository, IDisposable
     public Task<IReadOnlyList<ExecutiveCompensation>> GetExecutiveCompensationAsync(string companyId, CancellationToken ct = default) =>
         Task.FromResult(Data.ExecutivesByCompany.GetValueOrDefault(companyId) ?? []);
 
+    public Task<IReadOnlyList<ExecutiveCompensation>> GetExecutiveCompensationAsync(IEnumerable<string> companyIds, CancellationToken ct = default)
+    {
+        var data = Data;
+        IReadOnlyList<ExecutiveCompensation> list = companyIds.Distinct(StringComparer.OrdinalIgnoreCase)
+            .SelectMany(id => data.ExecutivesByCompany.GetValueOrDefault(id) ?? []).ToList();
+        return Task.FromResult(list);
+    }
+
+    public Task<IReadOnlyList<ExecutiveCompensation>> GetCompensationForPeopleAsync(IEnumerable<string> personIds, CancellationToken ct = default)
+    {
+        var data = Data;
+        IReadOnlyList<ExecutiveCompensation> list = personIds.Distinct(StringComparer.OrdinalIgnoreCase)
+            .SelectMany(id => data.CompensationByPerson.GetValueOrDefault(id) ?? []).ToList();
+        return Task.FromResult(list);
+    }
+
+    public Task<Person?> GetPersonAsync(string personId, CancellationToken ct = default) =>
+        Task.FromResult(Data.PeopleById.GetValueOrDefault(personId.Trim()));
+
     public Task<IReadOnlyList<string>> GetSectorsAsync(CancellationToken ct = default) => Task.FromResult(Data.Sectors);
 
     public Task<DataSetMetadata> GetMetadataAsync(CancellationToken ct = default) => Task.FromResult(Data.Metadata);

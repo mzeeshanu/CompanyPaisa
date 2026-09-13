@@ -10,7 +10,7 @@ namespace CompanyPaisa.Api.Tests;
 /// End-to-end tests: hosts the real API (with the sample workbook) in memory and calls it
 /// through the same <see cref="CompanyPaisaClient"/> other apps will use.
 /// </summary>
-public class ApiTests(WebApplicationFactory<Program> factory) : IClassFixture<WebApplicationFactory<Program>>
+public class ApiTests(SampleDataFactory factory) : IClassFixture<SampleDataFactory>
 {
     private const string DevKey = "dev-only-key-change-me-0001";
 
@@ -44,6 +44,25 @@ public class ApiTests(WebApplicationFactory<Program> factory) : IClassFixture<We
         Assert.Equal("LifeVantage", company!.Name);
         Assert.Equal(3, annual!.Periods.Count);
         Assert.NotEmpty(execs!.Executives);
+    }
+
+    [Fact]
+    public async Task Executives_near_a_ZIP_code_have_ten_years_of_pay_and_careers_across_companies()
+    {
+        var client = Client();
+        var result = await client.GetExecutivesNearAsync(new ExecutivesNearRequest { Near = "84043", RadiusMiles = 25, Sort = ExecutiveSort.TotalPay });
+
+        Assert.NotEmpty(result.Items);
+        Assert.Equal(result.Items.OrderByDescending(e => e.WindowTotalPay).Select(e => e.PersonId), result.Items.Select(e => e.PersonId));
+        Assert.All(result.Items, e => Assert.True(e.DistanceMiles <= 25));
+
+        // The sample data has people who moved companies (e.g. into LifeVantage's CEO seat in 2021).
+        var mover = Assert.Single(result.Items, e => e.Company.Ticker == "LFVN" && e.Title == "Chief Executive Officer");
+        Assert.Equal(2, mover.CompanyCount);
+
+        var career = await client.GetExecutiveAsync(mover.PersonId);
+        Assert.Equal(["LFVN", "NUS"], career!.Roles.Select(r => r.Company.Ticker));
+        Assert.Equal(career.History.Sum(h => h.Total), career.TotalPay);
     }
 
     [Fact]

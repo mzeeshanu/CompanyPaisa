@@ -325,7 +325,34 @@ td.chg{font-size:13px}
 .espark .area{fill:var(--accent-soft)} .espark .line{fill:none;stroke:var(--accent);stroke-width:1.6} .espark .end{fill:var(--accent);stroke:var(--ground);stroke-width:1.5}
 .disclaimer{margin:0;font-size:12px;color:var(--faint);border-top:1px solid var(--hair);padding-top:14px}
 
+/* ---------- executives ---------- */
+.avatar{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font:700 11px var(--body);letter-spacing:.02em;color:var(--accent);
+  background:radial-gradient(circle at 32% 26%,var(--bub-hi) 0 8%,var(--bub-hi2) 30%,transparent 50%),var(--accent-soft);border:1px solid var(--bub-edge)}
+.avatar.big{width:54px;height:54px;font-size:18px;flex:none}
+.xrow{grid-template-columns:26px 30px minmax(190px,2fr) minmax(150px,1.4fr) 100px 84px 96px 110px}
+.row.former .who b,.row.former .val{opacity:.7}
+.xrow .who small{font-family:var(--body)}
+.searchbox{height:34px;min-width:0;flex:0 1 220px;padding:0 14px;border-radius:999px;border:1px solid var(--hair-2);background:var(--field);font-size:12.5px;outline:none}
+.searchbox:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.toolbar .switch{margin-left:auto}
+.person-head{display:flex;align-items:center;gap:14px;margin-top:12px}
+.person-head h2{margin:0 0 4px}
+.subh{margin:0 0 10px;font:700 10.5px var(--body);letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
+.career{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.career li{display:grid;grid-template-columns:10px 1fr auto;align-items:center;gap:12px;padding:12px 14px;border-radius:14px;background:var(--field);border:1px solid var(--hair)}
+.career li i{width:10px;height:10px;border-radius:3px}
+.career li b{display:block;font-weight:800}
+.career li small{display:block;color:var(--faint);font:500 11.5px var(--mono)}
+.career li .linkbtn{font-size:12.5px;font-weight:600}
+.career li .num{font-size:14px}
+.tablewrap{overflow-x:auto}
+td.co{display:flex;align-items:center;gap:6px;font-family:var(--mono);font-weight:600}
+td.co i{width:8px;height:8px;border-radius:2px;display:inline-block}
+.ex-name .linkbtn{font-size:12px;font-weight:600}
+
 @media (max-width:900px){
+  .xrow{grid-template-columns:22px 26px minmax(150px,1fr) 96px 78px}
+  .xrow .c-at,.xrow .c-spark,.xrow .c-net{display:none}
   .row{grid-template-columns:22px 26px minmax(150px,1fr) 96px 78px}
   .row .c-at,.row .c-spark,.row .c-net{display:none}
 }
@@ -336,8 +363,9 @@ td.chg{font-size:13px}
   .bar-row{padding:10px 12px}
   .clusters{flex-wrap:nowrap;overflow-x:auto;padding-bottom:8px;scroll-snap-type:x mandatory}
   .city{flex:none;scroll-snap-align:start}
-  .row{grid-template-columns:22px minmax(140px,1fr) 88px 74px;gap:10px;padding:12px}
+  .row,.xrow{grid-template-columns:22px minmax(140px,1fr) 88px 74px;gap:10px;padding:12px}
   .row .c-mini{display:none}
+  .toolbar .switch{margin-left:0}
   .m-sum{left:12px;max-width:calc(100% - 24px)}
   .m-ctl{top:auto;bottom:12px;right:12px}
   .m-leg,.m-hint{display:none}

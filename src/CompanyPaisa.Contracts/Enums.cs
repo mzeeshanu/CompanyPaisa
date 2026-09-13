@@ -17,6 +17,19 @@ public enum CompanySort
     Distance
 }
 
+/// <summary>How executives are ranked.</summary>
+public enum ExecutiveSort
+{
+    /// <summary>Most recent year's total pay.</summary>
+    Pay,
+    /// <summary>Total pay over the history window (default 10 years), across all companies.</summary>
+    TotalPay,
+    /// <summary>Change in total pay versus the prior year.</summary>
+    PayGrowth,
+    Distance,
+    Name
+}
+
 /// <summary>Granularity of a financial period.</summary>
 public enum PeriodType
 {

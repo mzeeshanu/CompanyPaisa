@@ -1,6 +1,6 @@
 import type {
-  ClientConfig, CompanyDetail, CompanySort, DataMeta, ExecutivesResponse, FinancialsResponse,
-  GeoLookup, NearbyResponse, PeriodType, ProblemDetails,
+  ClientConfig, CompanyDetail, CompanySort, DataMeta, ExecutiveDetail, ExecutiveSort, ExecutivesNearResponse,
+  ExecutivesResponse, FinancialsResponse, GeoLookup, NearbyResponse, PeriodType, ProblemDetails,
 } from './types';
 
 /** Error carrying the API's problem details; `message` is safe to show to users. */
@@ -50,4 +50,15 @@ export const api = {
     get<FinancialsResponse>(`/companies/${encodeURIComponent(ticker)}/financials`, { period, years }),
   executives: (ticker: string, years = 5) =>
     get<ExecutivesResponse>(`/companies/${encodeURIComponent(ticker)}/executives`, { years }),
+  executivesNear: (q: ExecutivesNearQuery, signal?: AbortSignal) =>
+    get<ExecutivesNearResponse>('/executives/near', {
+      latitude: q.latitude, longitude: q.longitude, radiusMiles: q.radiusMiles, sector: q.sector,
+      includeFormer: q.includeFormer || undefined, search: q.search, sort: q.sort, years: q.years, pageSize: q.pageSize ?? 200,
+    }, signal),
+  executive: (personId: string) => get<ExecutiveDetail>(`/executives/${encodeURIComponent(personId)}`),
 };
+
+export interface ExecutivesNearQuery {
+  latitude: number; longitude: number; radiusMiles: number;
+  sector?: string; includeFormer?: boolean; search?: string; sort?: ExecutiveSort; years?: number; pageSize?: number;
+}

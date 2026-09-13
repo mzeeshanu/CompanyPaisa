@@ -26,5 +26,7 @@ public sealed class ExcelSheetNames
     public string Locations { get; set; } = "Locations";
     public string Financials { get; set; } = "Financials";
     public string ExecutiveCompensation { get; set; } = "ExecutiveCompensation";
+    /// <summary>Optional: one row per person (person_id, name, sec_cik).</summary>
+    public string People { get; set; } = "People";
     public string Meta { get; set; } = "_meta";
 }

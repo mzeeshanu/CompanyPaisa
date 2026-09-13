@@ -10,6 +10,7 @@ internal sealed class DataSnapshot
         IReadOnlyList<CompanyLocation> locations,
         IReadOnlyList<FinancialPeriod> financials,
         IReadOnlyList<ExecutiveCompensation> executives,
+        IReadOnlyList<Person> people,
         DataSetMetadata metadata)
     {
         Companies = companies;
@@ -21,6 +22,9 @@ internal sealed class DataSnapshot
         LocationsByCompany = Group(locations, l => l.CompanyId);
         FinancialsByCompany = Group(financials, f => f.CompanyId);
         ExecutivesByCompany = Group(executives, e => e.CompanyId);
+        CompensationByPerson = Group(executives, e => e.PersonId);
+        PeopleById = people.GroupBy(p => p.PersonId, StringComparer.OrdinalIgnoreCase)
+            .ToDictionary(g => g.Key, g => g.First(), StringComparer.OrdinalIgnoreCase);
         Sectors = companies.Select(c => c.Sector).Distinct(StringComparer.OrdinalIgnoreCase).Order(StringComparer.OrdinalIgnoreCase).ToList();
     }
 
@@ -32,6 +36,8 @@ internal sealed class DataSnapshot
     public IReadOnlyDictionary<string, IReadOnlyList<CompanyLocation>> LocationsByCompany { get; }
     public IReadOnlyDictionary<string, IReadOnlyList<FinancialPeriod>> FinancialsByCompany { get; }
     public IReadOnlyDictionary<string, IReadOnlyList<ExecutiveCompensation>> ExecutivesByCompany { get; }
+    public IReadOnlyDictionary<string, IReadOnlyList<ExecutiveCompensation>> CompensationByPerson { get; }
+    public IReadOnlyDictionary<string, Person> PeopleById { get; }
     public IReadOnlyList<string> Sectors { get; }
 
     public Company? Find(string idOrTicker) =>

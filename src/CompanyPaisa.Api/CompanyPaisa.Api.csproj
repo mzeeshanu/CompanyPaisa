@@ -23,6 +23,12 @@
     <ProjectReference Include="..\CompanyPaisa.Data.Excel\CompanyPaisa.Data.Excel.csproj" />
   </ItemGroup>
 
+  <!-- wwwroot holds the built React site and is git-ignored. ASP.NET Core's static-asset manifest can point at it,
+       so it must always exist (even empty) or the app fails at startup with DirectoryNotFoundException. -->
+  <Target Name="EnsureWwwroot" BeforeTargets="BeforeBuild">
+    <MakeDir Directories="$(MSBuildProjectDirectory)\wwwroot" />
+  </Target>
+
   <!-- First Debug build: install the front end's npm packages if they're missing. -->
   <Target Name="EnsureSpaDependencies" BeforeTargets="Build" Condition="'$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules')">
     <Exec Command="node --version" ContinueOnError="true" StandardOutputImportance="low">

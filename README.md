@@ -18,7 +18,9 @@ location and financial data comes from a directory we curate ahead of time.
 - ✅ Design agreed (prototype), requirements documented
 - ✅ **Phase 1 backend**: .NET 10 API, request pipeline, Excel data source, C# client, 31 tests
 - ✅ **Website**: React + TypeScript — location popup, List and Map views, company panel, themes, cookie consent
-- ⏳ Real company data (verified list + SEC EDGAR import)
+- ✅ **Executive lookup**: executives of nearby companies, 10-year pay, careers across companies (39 tests)
+- ✅ **Real data**: 59 Wasatch Front public companies from SEC EDGAR — ~10 years of revenue/net income and
+  1,380 executive pay rows for 390 people (`tools/CompanyPaisa.Importer`, see [`data/README.md`](data/README.md))
 
 ## Run it
 
@@ -62,6 +64,8 @@ dotnet test CompanyPaisa.slnx
 | `GET /api/v1/companies/{ticker}` | Profile, locations, headline indicators |
 | `GET /api/v1/companies/{ticker}/financials?period=Annual&years=10` | Revenue & net income history with YoY growth |
 | `GET /api/v1/companies/{ticker}/executives?years=5` | Executive pay by year |
+| `GET /api/v1/executives/near?near=84043&sort=TotalPay&years=10` | Executives of nearby companies with 10 years of pay (sort: Pay / TotalPay / PayGrowth / Distance / Name; `includeFormer`, `search`, `sector`) |
+| `GET /api/v1/executives/{personId}` | One person's career and pay across every company they were a named executive at |
 | `GET /api/v1/geo/lookup?q=Lehi, UT` · `GET /api/v1/geo/zip/{zip}` | ZIP / city → coordinates |
 | `GET /api/v1/sectors` · `GET /api/v1/meta` · `GET /api/v1/client-config` | Reference data, data version, website settings |
 
@@ -79,6 +83,8 @@ builder.Services.AddCompanyPaisaClient(builder.Configuration.GetSection("Company
 
 // anywhere via DI:
 var nearby = await companyPaisa.GetCompaniesNearZipAsync("84043", radiusMiles: 10);
+var execs  = await companyPaisa.GetExecutivesNearAsync(new ExecutivesNearRequest { Near = "84043", Sort = ExecutiveSort.TotalPay });
+var career = await companyPaisa.GetExecutiveAsync(execs.Items[0].PersonId);
 ```
 
 ## Architecture
@@ -92,7 +98,8 @@ src/
   CompanyPaisa.Api/             minimal-API endpoints, API keys, rate limits, OpenAPI, health, serves the SPA
   CompanyPaisa.Client/          typed C# client for other apps
   CompanyPaisa.Web/             React + TypeScript website (Vite, D3) — calls only the public /api/v1
-tools/CompanyPaisa.SampleData/  generates the sample workbook
+tools/CompanyPaisa.Importer/    builds the real dataset from SEC EDGAR (offline; cached, rate-limited)
+tools/CompanyPaisa.SampleData/  generates the synthetic workbook used by tests
 tests/                          unit tests (Core) + end-to-end tests (Api via the client)
 ```
 

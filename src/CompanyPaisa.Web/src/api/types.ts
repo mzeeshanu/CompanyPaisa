@@ -53,6 +53,38 @@ export interface ExecutiveYear { year: number; salary: number; bonus: number; st
 export interface Executive { executiveId: string; name: string; title: string; history: ExecutiveYear[] }
 export interface ExecutivesResponse { ticker: string; executives: Executive[] }
 
+// ---------- executives (people) ----------
+
+export type ExecutiveSort = 'Pay' | 'TotalPay' | 'PayGrowth' | 'Distance' | 'Name';
+
+export interface CompanyRef { ticker: string; name: string; sector: string }
+export interface PayPoint { year: number; total: number; ticker: string }
+
+export interface ExecutiveSummary {
+  personId: string; name: string; title: string; company: CompanyRef;
+  nearestLocation: Location; distanceMiles: number; isCurrent: boolean;
+  latestYear: number; latestTotalPay: number; payGrowthYoY: number | null;
+  windowTotalPay: number; windowYears: number; companyCount: number; payHistory: PayPoint[];
+}
+
+export interface ExecutivesNearResponse {
+  origin: GeoPoint; originLabel: string | null; radiusMiles: number; sort: ExecutiveSort;
+  page: number; pageSize: number; totalCount: number;
+  summary: { executiveCount: number; companyCount: number; combinedLatestPay: number; medianLatestPay: number | null; latestYear: number | null };
+  items: ExecutiveSummary[];
+}
+
+export interface ExecutiveRole { company: CompanyRef; title: string; fromYear: number; toYear: number; totalPay: number }
+export interface ExecutivePayYear {
+  year: number; company: CompanyRef; title: string;
+  salary: number; bonus: number; stockAwards: number; other: number; total: number; sourceFiling: string | null;
+}
+export interface ExecutiveDetail {
+  personId: string; name: string; secCik: string | null; currentTitle: string; currentCompany: CompanyRef;
+  firstYear: number; latestYear: number; totalPay: number; yearsReported: number;
+  roles: ExecutiveRole[]; history: ExecutivePayYear[];
+}
+
 export interface DataMeta { dataVersion: string; asOfDate: string | null; isSampleData: boolean; companyCount: number; locationCount: number; loadedAt: string }
 
 export interface ClientConfig {

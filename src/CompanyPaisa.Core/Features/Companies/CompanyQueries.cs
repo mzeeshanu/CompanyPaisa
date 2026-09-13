@@ -95,7 +95,7 @@ public sealed class GetExecutivesHandler(ICompanyRepository repository) : IReque
         var fromYear = rows.Max(x => x.Year) - (q.Years ?? 5) + 1;
         var execs = rows
             .Where(x => x.Year >= fromYear)
-            .GroupBy(x => x.ExecutiveId)
+            .GroupBy(x => x.PersonId)
             .Select(g =>
             {
                 var latest = g.MaxBy(x => x.Year)!;

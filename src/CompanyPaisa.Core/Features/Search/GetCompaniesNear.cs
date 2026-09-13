@@ -22,28 +22,35 @@ public sealed class GetCompaniesNearValidator(IOptionsMonitor<SearchOptions> opt
     public IEnumerable<ValidationError> Validate(GetCompaniesNearQuery query)
     {
         var r = query.Request;
-        var o = options.CurrentValue;
-        var hasCoords = r.Latitude is not null || r.Longitude is not null;
+        return NearbyValidation.Validate(r.Near, r.Latitude, r.Longitude, r.RadiusMiles, r.Page, r.PageSize, options.CurrentValue);
+    }
+}
 
-        if (string.IsNullOrWhiteSpace(r.Near) && !hasCoords)
+/// <summary>Location / radius / paging rules shared by every "near me" search.</summary>
+public static class NearbyValidation
+{
+    public static IEnumerable<ValidationError> Validate(string? near, double? latitude, double? longitude, double? radiusMiles,
+        int? page, int? pageSize, SearchOptions o)
+    {
+        var hasCoords = latitude is not null || longitude is not null;
+        if (string.IsNullOrWhiteSpace(near) && !hasCoords)
             yield return new("near", "Provide a ZIP code or city in 'near', or 'latitude' and 'longitude'.");
-        if (hasCoords && (r.Latitude is null || r.Longitude is null))
+        if (hasCoords && (latitude is null || longitude is null))
             yield return new("latitude", "Provide both 'latitude' and 'longitude'.");
-        if (r.Latitude is not null && r.Longitude is not null && !new GeoPoint(r.Latitude.Value, r.Longitude.Value).IsValid)
+        if (latitude is not null && longitude is not null && !new GeoPoint(latitude.Value, longitude.Value).IsValid)
             yield return new("latitude", "Coordinates are out of range.");
-        if (r.RadiusMiles is { } radius && (radius <= 0 || radius > o.MaxRadiusMiles))
+        if (radiusMiles is { } radius && (radius <= 0 || radius > o.MaxRadiusMiles))
             yield return new("radiusMiles", $"Radius must be greater than 0 and at most {o.MaxRadiusMiles} miles.");
-        if (r.Page is < 1)
+        if (page is < 1)
             yield return new("page", "Page starts at 1.");
-        if (r.PageSize is { } size && (size < 1 || size > o.MaxPageSize))
+        if (pageSize is { } size && (size < 1 || size > o.MaxPageSize))
             yield return new("pageSize", $"Page size must be between 1 and {o.MaxPageSize}.");
     }
 }
 
 public sealed class GetCompaniesNearHandler(
     ICompanyRepository repository,
-    IGeoLocator geoLocator,
-    IDistanceCalculator distance,
+    INearbySearchService nearby,
     IFinancialMetricsService metrics,
     IOptionsMonitor<SearchOptions> options) : IRequestHandler<GetCompaniesNearQuery, NearbyCompaniesResponse>
 {
@@ -52,26 +59,19 @@ public sealed class GetCompaniesNearHandler(
         var r = query.Request;
         var o = options.CurrentValue;
 
-        var (origin, originLabel) = await ResolveOriginAsync(r, ct);
+        var (origin, originLabel) = await nearby.ResolveOriginAsync(r.Near, r.Latitude, r.Longitude, ct);
         var radius = r.RadiusMiles ?? o.DefaultRadiusMiles;
         var sort = r.Sort ?? o.DefaultSort;
         var page = r.Page ?? 1;
         var pageSize = r.PageSize ?? o.DefaultPageSize;
 
-        // 1. Cheap rectangle pre-filter, then exact distance; keep each company's nearest qualifying location.
-        var candidates = await repository.GetLocationsWithinAsync(distance.BoundingBox(origin, radius), ct);
-        var inRange = candidates
-            .Select(l => (Location: l, Miles: distance.DistanceMiles(origin, l.Point)))
-            .Where(x => x.Miles <= radius)
-            .GroupBy(x => x.Location.CompanyId)
-            .ToDictionary(g => g.Key, g => (
-                Nearest: g.MinBy(x => x.Miles),
-                HasHq: g.Any(x => x.Location.IsHeadquarters)));
+        // 1. Companies with a location in range, each with its nearest qualifying location.
+        var inRange = await nearby.FindCompaniesAsync(origin, radius, ct);
 
         // 2. Company-level filters.
         var companies = (await repository.GetCompaniesAsync(inRange.Keys, ct))
             .Where(c => string.IsNullOrWhiteSpace(r.Sector) || string.Equals(c.Sector, r.Sector.Trim(), StringComparison.OrdinalIgnoreCase))
-            .Where(c => !r.HeadquarteredOnly || inRange[c.CompanyId].HasHq)
+            .Where(c => !r.HeadquarteredOnly || inRange[c.CompanyId].HasHeadquartersInRange)
             .ToList();
 
         // 3. Indicators for every match (summary covers the whole result, not just this page).
@@ -80,8 +80,8 @@ public sealed class GetCompaniesNearHandler(
         {
             var hit = inRange[c.CompanyId];
             var indicators = metrics.Compute(financials.TryGetValue(c.CompanyId, out var f) ? f : []);
-            return new CompanySummaryDto(c.Ticker, c.Name, c.Exchange, c.Sector, hit.HasHq,
-                hit.Nearest.Location.ToDto(), Math.Round(hit.Nearest.Miles, 2), indicators.ToDto());
+            return new CompanySummaryDto(c.Ticker, c.Name, c.Exchange, c.Sector, hit.HasHeadquartersInRange,
+                hit.NearestLocation.ToDto(), hit.DistanceMiles, indicators.ToDto());
         }).ToList();
 
         var summary = new NearbySummaryDto(
@@ -92,16 +92,6 @@ public sealed class GetCompaniesNearHandler(
 
         var items = Sort(rows, sort).Skip((page - 1) * pageSize).Take(pageSize).ToList();
         return new NearbyCompaniesResponse(origin.ToDto(), originLabel, radius, sort, page, pageSize, rows.Count, summary, items);
-    }
-
-    private async Task<(GeoPoint Point, string? Label)> ResolveOriginAsync(NearbyCompaniesRequest r, CancellationToken ct)
-    {
-        if (r.Latitude is { } lat && r.Longitude is { } lng) return (new GeoPoint(lat, lng), null);
-
-        var hit = await geoLocator.LookupAsync(r.Near!, ct)
-                  ?? throw new NotFoundException($"We couldn't find '{r.Near}'. Try a 5-digit ZIP code or 'City, ST'.");
-        var label = hit.PostalCode is null ? $"{hit.City}, {hit.State}" : $"{hit.City}, {hit.State} {hit.PostalCode}";
-        return (hit.Point, label);
     }
 
     private static IEnumerable<CompanySummaryDto> Sort(IEnumerable<CompanySummaryDto> rows, CompanySort sort) => sort switch

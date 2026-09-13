@@ -18,3 +18,25 @@ public sealed class NearbyCompaniesRequest
     public int? Page { get; init; }
     public int? PageSize { get; init; }
 }
+
+/// <summary>
+/// Parameters for "executives near me": named executive officers of public companies that have a location
+/// within the radius. Give either <see cref="Near"/> or coordinates.
+/// </summary>
+public sealed class ExecutivesNearRequest
+{
+    public string? Near { get; init; }
+    public double? Latitude { get; init; }
+    public double? Longitude { get; init; }
+    public double? RadiusMiles { get; init; }
+    public string? Sector { get; init; }
+    /// <summary>Also include people who used to be executives at a nearby company but have since moved elsewhere.</summary>
+    public bool IncludeFormer { get; init; }
+    /// <summary>Case-insensitive match on name or title, e.g. "chief financial".</summary>
+    public string? Search { get; init; }
+    public ExecutiveSort? Sort { get; init; }
+    /// <summary>History window for totals; defaults to Metrics:HistoryYears (10).</summary>
+    public int? Years { get; init; }
+    public int? Page { get; init; }
+    public int? PageSize { get; init; }
+}

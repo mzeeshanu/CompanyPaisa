@@ -26,8 +26,7 @@ public class GetCompaniesNearHandlerTests
 
     private static GetCompaniesNearHandler Handler(FakeRepository repo) => new(
         repo,
-        new FakeGeoLocator(("84043", Lehi)),
-        new HaversineDistanceCalculator(),
+        new NearbySearchService(repo, new FakeGeoLocator(("84043", Lehi)), new HaversineDistanceCalculator()),
         new FinancialMetricsService(Opt.Monitor(new MetricsOptions())),
         Opt.Monitor(new SearchOptions { AllowedRadiiMiles = [5, 10, 25, 50] }));
 
