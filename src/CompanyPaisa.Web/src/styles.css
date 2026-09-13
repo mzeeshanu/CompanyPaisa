@@ -358,9 +358,16 @@ td.co i{width:8px;height:8px;border-radius:2px;display:inline-block}
 }
 @media (max-width:720px){
   .wrap{padding:0 12px}
-  .top{padding-top:10px}
+  /* Phones: the header scrolls away with the page instead of pinning a third of the screen. */
+  .top{position:relative;padding:8px 0 4px}
   .where{border-left:0;padding-left:0}
-  .bar-row{padding:10px 12px}
+  .bar{border-radius:16px}
+  .bar-row{padding:8px 10px;gap:8px 10px}
+  .wordmark{font-size:16px}
+  .chips button{height:28px;padding:0 10px}
+  .themebtn{height:34px;padding:0 10px}
+  select{height:30px}
+  .sel-wrap::after{top:11px}
   .clusters{flex-wrap:nowrap;overflow-x:auto;padding-bottom:8px;scroll-snap-type:x mandatory}
   .city{flex:none;scroll-snap-align:start}
   .row,.xrow{grid-template-columns:22px minmax(140px,1fr) 88px 74px;gap:10px;padding:12px}
