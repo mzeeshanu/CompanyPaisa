@@ -96,6 +96,7 @@ public class ApiTests(SampleDataFactory factory) : IClassFixture<SampleDataFacto
         Assert.Contains(config.Coverage, c => c.Name == "Rest of Utah");
         Assert.Equal(23, config.Coverage.Count(c => c.Country == "US"));
         Assert.Equal(10, config.Coverage.Count(c => c.Country == "UK"));
+        Assert.Equal("privacy@companypaisa.com", config.PrivacyContact);
     }
 
     [Fact]
