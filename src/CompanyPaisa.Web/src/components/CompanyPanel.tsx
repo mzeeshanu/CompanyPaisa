@@ -49,6 +49,12 @@ export function CompanyPanel({ ticker, distanceMiles, nearestLabel, showExecutiv
   const ind = d?.detail.indicators;
   const hq = d?.detail.locations.find(l => l.type === 'Headquarters');
   const nearestIsHq = !!hq && nearestLabel === hq.label;
+  const cur = d?.detail.currency ?? 'USD';
+  // UK companies report yearly only (no quarterly tagged data): show the latest year and default to the Annual view.
+  const noQuarters = !!d && d.quarterly.length === 0;
+  const lastYear = d?.annual[d.annual.length - 1];
+  const shownPeriod: PeriodType = noQuarters ? 'Annual' : period;
+  const uk = d?.detail.exchange === 'LSE';
 
   return (
     <aside className={`panel pane${open ? ' open' : ''}`} ref={panel} aria-label="Company details" aria-hidden={!open}>
@@ -72,9 +78,18 @@ export function CompanyPanel({ ticker, distanceMiles, nearestLabel, showExecutiv
             </header>
 
             <div className="kpis">
-              <Kpi k="Revenue" s={ind.latestQuarterLabel ?? 'Latest quarter'} v={money(ind.latestQuarterRevenue)} />
-              <Kpi k="Net income" s={ind.latestQuarterLabel ?? 'Latest quarter'} v={money(ind.latestQuarterNetIncome)} cls={(ind.latestQuarterNetIncome ?? 0) < 0 ? 'down' : ''} />
-              <Kpi k="Revenue growth" s="Last 12 mo vs prior" v={pct(ind.revenueGrowthYoY)} cls={tone(ind.revenueGrowthYoY)} />
+              {noQuarters && lastYear ? (
+                <>
+                  <Kpi k="Revenue" s={`Fiscal year ${lastYear.fiscalYear}`} v={money(lastYear.revenue, cur)} />
+                  <Kpi k="Net income" s={`Fiscal year ${lastYear.fiscalYear}`} v={money(lastYear.netIncome, cur)} cls={lastYear.netIncome < 0 ? 'down' : ''} />
+                </>
+              ) : (
+                <>
+                  <Kpi k="Revenue" s={ind.latestQuarterLabel ?? 'Latest quarter'} v={money(ind.latestQuarterRevenue, cur)} />
+                  <Kpi k="Net income" s={ind.latestQuarterLabel ?? 'Latest quarter'} v={money(ind.latestQuarterNetIncome, cur)} cls={(ind.latestQuarterNetIncome ?? 0) < 0 ? 'down' : ''} />
+                </>
+              )}
+              <Kpi k="Revenue growth" s={noQuarters ? 'Latest year vs prior' : 'Last 12 mo vs prior'} v={pct(ind.revenueGrowthYoY)} cls={tone(ind.revenueGrowthYoY)} />
               <Kpi k={`${ind.cagrYears}-year CAGR`} s="Annual revenue" v={pct(ind.revenueCagr)} cls={tone(ind.revenueCagr)} />
             </div>
             <p className="note">{nearestIsHq ? 'Company-wide figures.' : 'Company-wide figures, not just this location.'}</p>
@@ -88,19 +103,21 @@ export function CompanyPanel({ ticker, distanceMiles, nearestLabel, showExecutiv
               <section>
                 <div className="seg">
                   <div className="keys"><span><i style={{ background: 'var(--bar-b)' }} />Revenue</span><span><i style={{ background: 'var(--ink)', height: 2 }} />Net income</span></div>
-                  <div className="opts">
-                    <button aria-pressed={period === 'Quarterly'} onClick={() => setPeriod('Quarterly')}>Quarterly</button>
-                    <button aria-pressed={period === 'Annual'} onClick={() => setPeriod('Annual')}>Annual</button>
-                  </div>
+                  {!noQuarters && (
+                    <div className="opts">
+                      <button aria-pressed={period === 'Quarterly'} onClick={() => setPeriod('Quarterly')}>Quarterly</button>
+                      <button aria-pressed={period === 'Annual'} onClick={() => setPeriod('Annual')}>Annual</button>
+                    </div>
+                  )}
                 </div>
-                <EarningsChart rows={period === 'Quarterly' ? d.quarterly : d.annual} quarterly={period === 'Quarterly'} />
+                <EarningsChart rows={shownPeriod === 'Quarterly' ? d.quarterly : d.annual} quarterly={shownPeriod === 'Quarterly'} currency={cur} />
                 <table>
                   <thead><tr><th>Period</th><th>Revenue</th><th>Net income</th><th>YoY</th></tr></thead>
                   <tbody>
-                    {(period === 'Quarterly' ? d.quarterly : d.annual).slice(-4).reverse().map(p => (
+                    {(shownPeriod === 'Quarterly' ? d.quarterly : d.annual).slice(-4).reverse().map(p => (
                       <tr key={p.label}>
-                        <td>{p.label}</td><td>{money(p.revenue)}</td>
-                        <td className={`chg ${p.netIncome < 0 ? 'down' : ''}`}>{money(p.netIncome)}</td>
+                        <td>{p.label}</td><td>{money(p.revenue, cur)}</td>
+                        <td className={`chg ${p.netIncome < 0 ? 'down' : ''}`}>{money(p.netIncome, cur)}</td>
                         <td className={`chg ${tone(p.revenueGrowthYoY)}`}>{pct(p.revenueGrowthYoY)}</td>
                       </tr>
                     ))}
@@ -109,10 +126,12 @@ export function CompanyPanel({ ticker, distanceMiles, nearestLabel, showExecutiv
               </section>
             )}
 
-            {tab === 'exec' && <Executives execs={d.executives} onOpenPerson={onOpenPerson} />}
+            {tab === 'exec' && <Executives execs={d.executives} onOpenPerson={onOpenPerson} currency={d.detail.payCurrency ?? cur} />}
 
             <p className="disclaimer">
-              Source: company 10-K, 10-Q and proxy (DEF 14A) filings{d.detail.asOfDate ? `, as of ${d.detail.asOfDate}` : ''}.
+              {uk
+                ? `Source: the company's annual reports (ESEF) and their directors' remuneration reports${d.detail.asOfDate ? `, latest year ending ${d.detail.asOfDate}` : ''}. Pay is each executive director's "single total figure".`
+                : `Source: company 10-K, 10-Q and proxy (DEF 14A) filings${d.detail.asOfDate ? `, as of ${d.detail.asOfDate}` : ''}.`}
               {d.detail.description?.toLowerCase().includes('synthetic') && ' This is sample data — figures are synthetic.'}
             </p>
           </>
@@ -126,7 +145,8 @@ function Kpi({ k, s, v, cls = '' }: { k: string; s: string; v: string; cls?: str
   return <div className="kpi"><span className="k">{k}</span><span className="s">{s}</span><span className={`v ${cls}`}>{v}</span></div>;
 }
 
-function EarningsChart({ rows, quarterly }: { rows: FinancialPeriod[]; quarterly: boolean }) {
+function EarningsChart({ rows, quarterly, currency }: { rows: FinancialPeriod[]; quarterly: boolean; currency: string }) {
+  const money$ = (v: number) => money(v, currency);
   const host = useRef<HTMLDivElement>(null);
   const [w, setW] = useState(400);
   useEffect(() => {
@@ -156,13 +176,13 @@ function EarningsChart({ rows, quarterly }: { rows: FinancialPeriod[]; quarterly
         {y.ticks(4).map(t => (
           <g key={t}>
             <line className={t === 0 ? 'zero' : 'grid'} x1={m.l} x2={w - m.r} y1={y(t)} y2={y(t)} />
-            <text className="axis" x={m.l - 8} y={y(t)} dy=".32em" textAnchor="end">{t === 0 ? '0' : money(t)}</text>
+            <text className="axis" x={m.l - 8} y={y(t)} dy=".32em" textAnchor="end">{t === 0 ? '0' : money$(t)}</text>
           </g>
         ))}
         {rows.map((p, i) => (
           <rect key={p.label} x={x(label(p))} width={x.bandwidth()} rx={Math.min(5, x.bandwidth() / 3)}
             y={y(Math.max(0, p.revenue))} height={Math.abs(y(p.revenue) - y(0))} fill="url(#barg)" fillOpacity={i === rows.length - 1 ? 1 : 0.35}>
-            <title>{`${p.label}: revenue ${money(p.revenue)}, net income ${money(p.netIncome)}`}</title>
+            <title>{`${p.label}: revenue ${money$(p.revenue)}, net income ${money$(p.netIncome)}`}</title>
           </rect>
         ))}
         <path className="netline" d={line} />
@@ -182,7 +202,8 @@ const STACK = [
   { key: 'other', label: 'Other', color: 'var(--s4)' },
 ] as const;
 
-function Executives({ execs, onOpenPerson }: { execs: Executive[]; onOpenPerson: (personId: string) => void }) {
+function Executives({ execs, onOpenPerson, currency }: { execs: Executive[]; onOpenPerson: (personId: string) => void; currency: string }) {
+  const money$ = (v: number) => money(v, currency);
   if (execs.length === 0) return <p className="fine">No executive compensation on file.</p>;
   const max = d3.max(execs, e => e.history[e.history.length - 1].total) ?? 1;
   return (
@@ -201,12 +222,12 @@ function Executives({ execs, onOpenPerson }: { execs: Executive[]; onOpenPerson:
                   <div className="ex-title">{e.title}</div>
                   <div className="ex-name"><button className="linkbtn" onClick={() => onOpenPerson(e.executiveId)} title="See this person's pay across all companies">{e.name} →</button></div>
                 </div>
-                <div className="ex-total num">{money(a.total)}<small>total {a.year}{ch != null && <> · <span className={`chg ${tone(ch)}`}>{pct(ch)}</span></>}</small></div>
+                <div className="ex-total num">{money$(a.total)}<small>total {a.year}{ch != null && <> · <span className={`chg ${tone(ch)}`}>{pct(ch)}</span></>}</small></div>
               </div>
               <div className="stack" style={{ width: `${(a.total / max) * 100}%` }}>
-                {STACK.map(s => <i key={s.key} style={{ width: `${(a[s.key] / a.total) * 100}%`, background: s.color }} title={`${s.label}: ${money(a[s.key])}`} />)}
+                {STACK.map(s => <i key={s.key} style={{ width: `${(a[s.key] / a.total) * 100}%`, background: s.color }} title={`${s.label}: ${money$(a[s.key])}`} />)}
               </div>
-              <PaySpark history={e.history} />
+              <PaySpark history={e.history} currency={currency} />
             </div>
           );
         })}
@@ -215,7 +236,7 @@ function Executives({ execs, onOpenPerson }: { execs: Executive[]; onOpenPerson:
   );
 }
 
-function PaySpark({ history }: { history: Executive['history'] }) {
+function PaySpark({ history, currency }: { history: Executive['history']; currency: string }) {
   const w = 380, h = 40;
   if (history.length < 2) return null;
   const x = d3.scalePoint<number>().domain(history.map(d => d.year)).range([30, w - 40]);
@@ -229,7 +250,7 @@ function PaySpark({ history }: { history: Executive['history'] }) {
       <circle className="end" cx={x(last.year)} cy={y(last.total)} r={3.5} />
       <text className="axis" x={0} y={h - 4}>{history[0].year}</text>
       <text className="axis" x={w} y={h - 4} textAnchor="end">{last.year}</text>
-      {history.map(d => <circle key={d.year} cx={x(d.year)} cy={y(d.total)} r={8} fill="transparent"><title>{`${d.year}: ${money(d.total)}`}</title></circle>)}
+      {history.map(d => <circle key={d.year} cx={x(d.year)} cy={y(d.total)} r={8} fill="transparent"><title>{`${d.year}: ${money(d.total, currency)}`}</title></circle>)}
     </svg>
   );
 }

@@ -72,4 +72,10 @@ public sealed class GeoOptions
 
     /// <summary>CSV with columns zip,city,state,latitude,longitude. Relative paths resolve from the app's content root.</summary>
     [Required] public string ZipTablePath { get; set; } = "";
+
+    /// <summary>
+    /// More tables in the same format, e.g. UK postcode districts (zip = "SW1A", state = "UK").
+    /// A UK postcode typed in full ("SW1A 1AA") is looked up by its district. Missing files are skipped.
+    /// </summary>
+    public List<string> AdditionalTablePaths { get; set; } = [];
 }

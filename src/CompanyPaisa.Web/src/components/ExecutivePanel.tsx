@@ -44,6 +44,8 @@ export function ExecutivePanel({ personId, onClose, onOpenCompany }: Props) {
   const prevYearTotal = d && previous ? d.history.filter(h => h.year === previous.year).reduce((s, h) => s + h.total, 0) : 0;
   const change = prevYearTotal > 0 ? latestYearTotal / prevYearTotal - 1 : null;
   const companies = d ? new Set(d.roles.map(r => r.company.ticker)).size : 0;
+  const cur = d?.currentCompany.currency ?? 'USD';
+  const uk = !!d && d.roles.every(r => r.company.ticker.endsWith('.L'));
 
   return (
     <aside className={`panel pane${open ? ' open' : ''}`} ref={panel} aria-label="Executive details" aria-hidden={!open}>
@@ -69,12 +71,14 @@ export function ExecutivePanel({ personId, onClose, onOpenCompany }: Props) {
             </header>
 
             <div className="kpis">
-              <Kpi k="Latest pay" s={`${latest.year} total`} v={money(latestYearTotal)} />
+              <Kpi k="Latest pay" s={`${latest.year} total`} v={money(latestYearTotal, cur)} />
               <Kpi k="Change" s={`vs ${latest.year - 1}`} v={pct(change)} cls={tone(change)} />
-              <Kpi k="Total earned" s={`${d.firstYear}–${d.latestYear}`} v={money(d.totalPay)} />
-              <Kpi k="Career" s="as a named executive" v={`${companies} ${companies === 1 ? 'company' : 'companies'}`} />
+              <Kpi k="Total earned" s={`${d.firstYear}–${d.latestYear}`} v={money(d.totalPay, cur)} />
+              <Kpi k="Career" s={uk ? 'as an executive director' : 'as a named executive'} v={`${companies} ${companies === 1 ? 'company' : 'companies'}`} />
             </div>
-            <p className="note">Reported compensation (salary, bonus, stock awards at grant value, other) from each company's proxy filings.</p>
+            <p className="note">{uk
+              ? "Each year's \"single total figure\" from the company's directors' remuneration report (salary, bonus, long-term share awards as they vest, benefits and pension)."
+              : "Reported compensation (salary, bonus, stock awards at grant value, other) from each company's proxy filings."}</p>
 
             <section>
               <div className="seg">
@@ -84,7 +88,7 @@ export function ExecutivePanel({ personId, onClose, onOpenCompany }: Props) {
                   ))}
                 </div>
               </div>
-              <PayByYearChart detail={d} colorOf={colorOf} />
+              <PayByYearChart detail={d} colorOf={colorOf} currency={cur} />
             </section>
 
             <section>
@@ -98,7 +102,7 @@ export function ExecutivePanel({ personId, onClose, onOpenCompany }: Props) {
                       <button className="linkbtn" onClick={() => onOpenCompany(r.company.ticker)}>{r.company.name} ({r.company.ticker})</button>
                       <small>{r.fromYear === r.toYear ? r.fromYear : `${r.fromYear}–${r.toYear}`}</small>
                     </div>
-                    <span className="num">{money(r.totalPay)}</span>
+                    <span className="num">{money(r.totalPay, r.company.currency)}</span>
                   </li>
                 ))}
               </ol>
@@ -114,7 +118,7 @@ export function ExecutivePanel({ personId, onClose, onOpenCompany }: Props) {
                       <tr key={`${h.year}-${h.company.ticker}`}>
                         <td>{h.year}</td>
                         <td className="co"><i style={{ background: colorOf(h.company.ticker) }} />{h.company.ticker}</td>
-                        <td>{money(h.salary)}</td><td>{money(h.bonus)}</td><td>{money(h.stockAwards)}</td><td><b>{money(h.total)}</b></td>
+                        <td>{money(h.salary, h.company.currency)}</td><td>{money(h.bonus, h.company.currency)}</td><td>{money(h.stockAwards, h.company.currency)}</td><td><b>{money(h.total, h.company.currency)}</b></td>
                       </tr>
                     ))}
                   </tbody>
@@ -123,8 +127,9 @@ export function ExecutivePanel({ personId, onClose, onOpenCompany }: Props) {
             </section>
 
             <p className="disclaimer">
-              Only companies where this person was a named executive officer of a public company appear here.
-              Earlier or private-company roles aren't reported to the SEC.
+              {uk
+                ? 'Only years this person was an executive director of a FTSE 350 company in our data appear here; UK careers are not yet linked across companies.'
+                : "Only companies where this person was a named executive officer of a public company appear here. Earlier or private-company roles aren't reported to the SEC."}
             </p>
           </>
         )}
@@ -138,7 +143,7 @@ function Kpi({ k, s, v, cls = '' }: { k: string; s: string; v: string; cls?: str
 }
 
 /** Stacked bars: total pay per year, one segment per company paid that year. */
-function PayByYearChart({ detail, colorOf }: { detail: ExecutiveDetail; colorOf: (t: string) => string }) {
+function PayByYearChart({ detail, colorOf, currency }: { detail: ExecutiveDetail; colorOf: (t: string) => string; currency: string }) {
   const host = useRef<HTMLDivElement>(null);
   const [w, setW] = useState(400);
   useEffect(() => {
@@ -161,7 +166,7 @@ function PayByYearChart({ detail, colorOf }: { detail: ExecutiveDetail; colorOf:
         {y.ticks(4).map(t => (
           <g key={t}>
             <line className={t === 0 ? 'zero' : 'grid'} x1={m.l} x2={w - m.r} y1={y(t)} y2={y(t)} />
-            <text className="axis" x={m.l - 8} y={y(t)} dy=".32em" textAnchor="end">{t === 0 ? '0' : money(t)}</text>
+            <text className="axis" x={m.l - 8} y={y(t)} dy=".32em" textAnchor="end">{t === 0 ? '0' : money(t, currency)}</text>
           </g>
         ))}
         {byYear.map(b => {
@@ -171,7 +176,7 @@ function PayByYearChart({ detail, colorOf }: { detail: ExecutiveDetail; colorOf:
             return (
               <rect key={`${b.year}-${p.company.ticker}`} x={x(b.year)} width={x.bandwidth()} rx={2}
                 y={y(base)} height={Math.max(0, y(y0) - y(base))} style={{ fill: colorOf(p.company.ticker) }}>
-                <title>{`${b.year} · ${p.company.name}: ${money(p.total)} (${p.title})`}</title>
+                <title>{`${b.year} · ${p.company.name}: ${money(p.total, p.company.currency)} (${p.title})`}</title>
               </rect>
             );
           });

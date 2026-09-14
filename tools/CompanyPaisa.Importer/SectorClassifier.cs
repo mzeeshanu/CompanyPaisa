@@ -22,4 +22,27 @@ public static class SectorClassifier
         >= 7380 and <= 8999 => "Business services",
         _ => "Other"
     };
+
+    /// <summary>Maps an FTSE Russell ICB sector name (UK constituent lists) to the same broad sectors.</summary>
+    public static string FromIcb(string? icb)
+    {
+        var s = (icb ?? "").ToLowerInvariant();
+        (string Keyword, string Sector)[] map =
+        [
+            ("real estate", "Real estate"), ("software", "Software & IT"), ("computer", "Software & IT"),
+            ("technology hardware", "Technology hardware"), ("semiconductor", "Semiconductors"),
+            ("pharma", "Healthcare"), ("biotech", "Healthcare"), ("health", "Healthcare"), ("medical", "Healthcare"),
+            ("bank", "Finance"), ("insurance", "Finance"), ("financ", "Finance"), ("investment", "Finance"), ("asset manag", "Finance"),
+            ("oil", "Energy & utilities"), ("gas", "Energy & utilities"), ("electricity", "Energy & utilities"), ("energy", "Energy & utilities"), ("utilit", "Energy & utilities"),
+            ("mining", "Materials"), ("metals", "Materials"), ("chemical", "Materials"), ("materials", "Materials"),
+            ("telecom", "Media & telecom"), ("media", "Media & telecom"),
+            ("transport", "Transportation"), ("airline", "Transportation"),
+            ("retail", "Consumer & retail"), ("food", "Consumer & retail"), ("beverage", "Consumer & retail"), ("tobacco", "Consumer & retail"),
+            ("personal", "Consumer & retail"), ("household", "Consumer & retail"), ("leisure", "Consumer & retail"), ("travel", "Consumer & retail"),
+            ("consumer", "Consumer & retail"), ("automobile", "Consumer & retail"), ("home construction", "Consumer & retail"),
+            ("support services", "Business services"), ("aerospace", "Industrials"), ("defen", "Industrials"), ("industrial", "Industrials"),
+            ("construction", "Industrials"), ("engineering", "Industrials"), ("electronic", "Industrials")
+        ];
+        return map.FirstOrDefault(m => s.Contains(m.Keyword)).Sector ?? "Other";
+    }
 }

@@ -5,6 +5,7 @@ using CompanyPaisa.Core.Domain;
 using CompanyPaisa.Core.Mapping;
 using CompanyPaisa.Core.Messaging;
 using CompanyPaisa.Core.Options;
+using CompanyPaisa.Core.Services;
 using Microsoft.Extensions.Options;
 
 namespace CompanyPaisa.Core.Features.Search;
@@ -52,6 +53,7 @@ public sealed class GetCompaniesNearHandler(
     ICompanyRepository repository,
     INearbySearchService nearby,
     IFinancialMetricsService metrics,
+    ICurrencyConverter fx,
     IOptionsMonitor<SearchOptions> options) : IRequestHandler<GetCompaniesNearQuery, NearbyCompaniesResponse>
 {
     public async Task<NearbyCompaniesResponse> HandleAsync(GetCompaniesNearQuery query, CancellationToken ct)
@@ -81,24 +83,28 @@ public sealed class GetCompaniesNearHandler(
             var hit = inRange[c.CompanyId];
             var indicators = metrics.Compute(financials.TryGetValue(c.CompanyId, out var f) ? f : []);
             return new CompanySummaryDto(c.Ticker, c.Name, c.Exchange, c.Sector, hit.HasHeadquartersInRange,
-                hit.NearestLocation.ToDto(), hit.DistanceMiles, indicators.ToDto());
+                hit.NearestLocation.ToDto(), hit.DistanceMiles, indicators.ToDto(), c.Currency);
         }).ToList();
 
+        // A search can mix currencies (London: Shell reports in dollars, Tesco in pounds) — add up in the main one.
+        var currency = fx.Dominant(rows.Select(x => x.Currency));
         var summary = new NearbySummaryDto(
             rows.Count,
-            rows.Sum(x => x.Indicators.TtmRevenue),
+            rows.Sum(x => fx.Convert(x.Indicators.TtmRevenue, x.Currency, currency)),
             rows.Count(x => x.Indicators.Trend == TrendStatus.Up),
-            rows.Count(x => x.IsHeadquarteredNearby));
+            rows.Count(x => x.IsHeadquarteredNearby),
+            currency,
+            rows.Any(x => !string.Equals(x.Currency, currency, StringComparison.OrdinalIgnoreCase)));
 
         var items = Sort(rows, sort).Skip((page - 1) * pageSize).Take(pageSize).ToList();
         return new NearbyCompaniesResponse(origin.ToDto(), originLabel, radius, sort, page, pageSize, rows.Count, summary, items);
     }
 
-    private static IEnumerable<CompanySummaryDto> Sort(IEnumerable<CompanySummaryDto> rows, CompanySort sort) => sort switch
+    private IEnumerable<CompanySummaryDto> Sort(IEnumerable<CompanySummaryDto> rows, CompanySort sort) => sort switch
     {
         CompanySort.Growth => rows.OrderByDescending(x => x.Indicators.RevenueGrowthYoY ?? decimal.MinValue),
-        CompanySort.Profit => rows.OrderByDescending(x => x.Indicators.TtmNetIncome),
+        CompanySort.Profit => rows.OrderByDescending(x => fx.ToUsd(x.Indicators.TtmNetIncome, x.Currency)),
         CompanySort.Distance => rows.OrderBy(x => x.DistanceMiles),
-        _ => rows.OrderByDescending(x => x.Indicators.TtmRevenue)
+        _ => rows.OrderByDescending(x => fx.ToUsd(x.Indicators.TtmRevenue, x.Currency))
     };
 }

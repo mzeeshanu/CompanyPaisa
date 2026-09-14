@@ -6,6 +6,7 @@ using CompanyPaisa.Core.Features.Search;
 using CompanyPaisa.Core.Mapping;
 using CompanyPaisa.Core.Messaging;
 using CompanyPaisa.Core.Options;
+using CompanyPaisa.Core.Services;
 using Microsoft.Extensions.Options;
 
 namespace CompanyPaisa.Core.Features.Executives;
@@ -38,6 +39,7 @@ public sealed class GetExecutivesNearValidator(IOptionsMonitor<SearchOptions> se
 public sealed class GetExecutivesNearHandler(
     ICompanyRepository repository,
     INearbySearchService nearby,
+    ICurrencyConverter fx,
     IOptionsMonitor<SearchOptions> searchOptions,
     IOptionsMonitor<MetricsOptions> metricsOptions) : IRequestHandler<GetExecutivesNearQuery, ExecutivesNearResponse>
 {
@@ -103,7 +105,7 @@ public sealed class GetExecutivesNearHandler(
 
             rows.Add(new ExecutiveSummaryDto(
                 latest.PersonId, latest.ExecutiveName, shown.Title,
-                new CompanyRefDto(company.Ticker, company.Name, company.Sector),
+                new CompanyRefDto(company.Ticker, company.Name, company.Sector, company.PayCurrency ?? company.Currency),
                 hit.NearestLocation.ToDto(), hit.DistanceMiles, isCurrent,
                 last.Year, last.Total, growth,
                 byYear.Sum(p => p.Total), byYear.Count,
@@ -111,13 +113,17 @@ public sealed class GetExecutivesNearHandler(
                 byYear));
         }
 
-        var latestPays = rows.Where(x => x.IsCurrent).Select(x => x.LatestTotalPay).Order().ToList();
+        // Pay can be in different currencies (UK groups pay in pounds, some in dollars) — total it in the main one.
+        var currency = fx.Dominant(rows.Select(x => x.Company.Currency));
+        var latestPays = rows.Where(x => x.IsCurrent).Select(x => fx.Convert(x.LatestTotalPay, x.Company.Currency, currency)).Order().ToList();
         var summary = new ExecutivesNearSummaryDto(
             rows.Count,
             rows.Select(x => x.Company.Ticker).Distinct().Count(),
             latestPays.Sum(),
             Median(latestPays),
-            rows.Count == 0 ? null : rows.Max(x => x.LatestYear));
+            rows.Count == 0 ? null : rows.Max(x => x.LatestYear),
+            currency,
+            rows.Any(x => !string.Equals(x.Company.Currency, currency, StringComparison.OrdinalIgnoreCase)));
 
         var items = Sort(rows, sort).Skip((page - 1) * pageSize).Take(pageSize).ToList();
         return new ExecutivesNearResponse(origin.ToDto(), originLabel, radius, sort, page, pageSize, rows.Count, summary, items);
@@ -130,13 +136,13 @@ public sealed class GetExecutivesNearHandler(
         var n => (sorted[n / 2 - 1] + sorted[n / 2]) / 2
     };
 
-    private static IEnumerable<ExecutiveSummaryDto> Sort(IEnumerable<ExecutiveSummaryDto> rows, ExecutiveSort sort) => sort switch
+    private IEnumerable<ExecutiveSummaryDto> Sort(IEnumerable<ExecutiveSummaryDto> rows, ExecutiveSort sort) => sort switch
     {
-        ExecutiveSort.TotalPay => rows.OrderByDescending(x => x.WindowTotalPay),
+        ExecutiveSort.TotalPay => rows.OrderByDescending(x => fx.ToUsd(x.WindowTotalPay, x.Company.Currency)),
         ExecutiveSort.PayGrowth => rows.OrderByDescending(x => x.PayGrowthYoY ?? decimal.MinValue),
-        ExecutiveSort.Distance => rows.OrderBy(x => x.DistanceMiles).ThenByDescending(x => x.LatestTotalPay),
+        ExecutiveSort.Distance => rows.OrderBy(x => x.DistanceMiles).ThenByDescending(x => fx.ToUsd(x.LatestTotalPay, x.Company.Currency)),
         ExecutiveSort.Name => rows.OrderBy(x => x.Name, StringComparer.OrdinalIgnoreCase),
-        _ => rows.OrderByDescending(x => x.IsCurrent).ThenByDescending(x => x.LatestTotalPay)
+        _ => rows.OrderByDescending(x => x.IsCurrent).ThenByDescending(x => fx.ToUsd(x.LatestTotalPay, x.Company.Currency))
     };
 }
 
@@ -158,7 +164,7 @@ public sealed class GetExecutiveHandler(ICompanyRepository repository) : IReques
         var person = await repository.GetPersonAsync(q.PersonId, ct);
         var companies = (await repository.GetCompaniesAsync(rows.Select(x => x.CompanyId).Distinct(StringComparer.OrdinalIgnoreCase), ct))
             .ToDictionary(c => c.CompanyId, StringComparer.OrdinalIgnoreCase);
-        CompanyRefDto Ref(string id) => companies.TryGetValue(id, out var c) ? new CompanyRefDto(c.Ticker, c.Name, c.Sector) : new CompanyRefDto(id, id, "");
+        CompanyRefDto Ref(string id) => companies.TryGetValue(id, out var c) ? new CompanyRefDto(c.Ticker, c.Name, c.Sector, c.PayCurrency ?? c.Currency) : new CompanyRefDto(id, id, "");
 
         // Roles: consecutive years at the same company (a return later becomes a new role).
         var roles = new List<ExecutiveRoleDto>();

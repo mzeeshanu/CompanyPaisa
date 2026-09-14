@@ -13,7 +13,9 @@ public enum CachePolicy
     /// <summary>Filings never change once published — cache forever.</summary>
     Immutable,
     /// <summary>Indexes and company records change — refresh after Sec:IndexCacheHours.</summary>
-    Index
+    Index,
+    /// <summary>Don't read or write the cache — for huge documents we parse once and keep only the result (UK annual reports).</summary>
+    NoStore
 }
 
 /// <summary>Polite HTTP access to SEC / Census: identifies itself, stays under the rate limit, retries, and caches to disk.</summary>
@@ -35,14 +37,18 @@ public sealed class SecClient : ISecClient, IDisposable
     private int _requests;
 
     public SecClient(IOptions<ImporterOptions> options, RepoPaths paths, ILogger<SecClient> logger)
+        : this(options.Value.Sec, paths, logger) { }
+
+    /// <summary>Same polite client with its own identity, rate and cache folder (used for the UK sources).</summary>
+    public SecClient(SecOptions settings, RepoPaths paths, ILogger<SecClient> logger)
     {
-        _options = options.Value.Sec;
+        _options = settings;
         _logger = logger;
         _cacheDir = paths.Resolve(_options.CacheDirectory);
         Directory.CreateDirectory(_cacheDir);
         _http = new HttpClient(new HttpClientHandler { AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate })
         {
-            Timeout = TimeSpan.FromSeconds(120)
+            Timeout = TimeSpan.FromSeconds(300)   // UK annual reports can be 30 MB+
         };
         // The SEC's required format ("Company contact@email") isn't a valid product token, so skip header validation.
         _http.DefaultRequestHeaders.TryAddWithoutValidation("User-Agent", _options.UserAgent);
@@ -60,7 +66,7 @@ public sealed class SecClient : ISecClient, IDisposable
     public async Task<byte[]?> GetBytesAsync(string url, CachePolicy policy, CancellationToken ct = default)
     {
         var file = Path.Combine(_cacheDir, Hash(url));
-        if (File.Exists(file))
+        if (policy != CachePolicy.NoStore && File.Exists(file))
         {
             var fresh = policy == CachePolicy.Immutable ||
                         DateTime.UtcNow - File.GetLastWriteTimeUtc(file) < TimeSpan.FromHours(_options.IndexCacheHours);
@@ -84,7 +90,8 @@ public sealed class SecClient : ISecClient, IDisposable
                 }
                 response.EnsureSuccessStatusCode();
                 var bytes = await response.Content.ReadAsByteArrayAsync(ct);
-                await File.WriteAllBytesAsync(file, _options.CompressCache ? Pack(bytes) : bytes, ct);
+                if (policy != CachePolicy.NoStore)
+                    await File.WriteAllBytesAsync(file, _options.CompressCache ? Pack(bytes) : bytes, ct);
                 return bytes;
             }
             catch (HttpRequestException ex) when (attempt < 5)

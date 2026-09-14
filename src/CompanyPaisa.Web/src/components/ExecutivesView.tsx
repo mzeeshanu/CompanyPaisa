@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import * as d3 from 'd3';
 import type { ExecutiveSort, ExecutiveSummary, ExecutivesNearResponse, PayPoint } from '../api/types';
-import { money, pct, tone } from '../lib/format';
+import { money, pct, tone, total } from '../lib/format';
 import { SortHeader, useSortFlip } from './SortHeader';
 
 interface Props {
@@ -44,9 +44,12 @@ export function ExecutivesView({ data, placeName, sort, onSort, search, onSearch
         {s.executiveCount > 0 ? (
           <>
             <h1><em>{s.executiveCount} {s.executiveCount === 1 ? 'executive' : 'executives'}</em> at {s.companyCount} public {s.companyCount === 1 ? 'company' : 'companies'} within {data.radiusMiles} miles of {placeName}</h1>
-            <span className="stat"><b>{money(s.combinedLatestPay)}</b> combined pay{s.latestYear ? ` in ${s.latestYear}` : ''}</span>
-            <span className="stat"><b>{money(s.medianLatestPay)}</b> median</span>
-            <span className="stat">Pay as reported in proxy filings · named executive officers only</span>
+            <span className="stat" title={s.approximate ? 'Some pay is in another currency; converted at approximate rates' : undefined}>
+              <b>{total(s.combinedLatestPay, s.currency, s.approximate)}</b> combined pay{s.latestYear ? ` in ${s.latestYear}` : ''}</span>
+            <span className="stat"><b>{total(s.medianLatestPay, s.currency, s.approximate)}</b> median</span>
+            <span className="stat">{data.items.some(e => e.company.ticker.endsWith('.L'))
+              ? "Pay as reported in company filings · US named executive officers and UK executive directors"
+              : 'Pay as reported in proxy filings · named executive officers only'}</span>
           </>
         ) : (
           <>
@@ -84,10 +87,10 @@ export function ExecutivesView({ data, placeName, sort, onSort, search, onSearch
                 <span className="avatar c-mini" aria-hidden="true">{initials(e.name)}</span>
                 <span className="who"><b>{e.name}</b><small>{e.title}{!e.isCurrent && ' · former'}</small></span>
                 <span className="at c-at">{e.company.name}<small>{e.company.ticker} · {e.nearestLocation.city} · {e.distanceMiles.toFixed(1)} mi</small></span>
-                <span className="val">{money(e.latestTotalPay)}<small>{e.latestYear}</small></span>
+                <span className="val">{money(e.latestTotalPay, e.company.currency)}<small>{e.latestYear}</small></span>
                 <span className="r"><span className={`pill ${tone(e.payGrowthYoY)}`}>{pct(e.payGrowthYoY)}</span></span>
                 <span className="r c-spark spark"><PaySparkline points={e.payHistory} /></span>
-                <span className="val c-net">{money(e.windowTotalPay)}<small>{e.companyCount > 1 ? `${e.companyCount} companies` : `${e.windowYears} yrs`}</small></span>
+                <span className="val c-net">{money(e.windowTotalPay, e.company.currency)}<small>{e.companyCount > 1 ? `${e.companyCount} companies` : `${e.windowYears} yrs`}</small></span>
               </button>
             ))}
           </div>

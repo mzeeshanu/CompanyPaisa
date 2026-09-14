@@ -10,6 +10,12 @@ public sealed class ExcelDataSourceOptions
     /// <summary>Path to the .xlsx workbook. Relative paths resolve from the app's content root.</summary>
     [Required] public string Path { get; set; } = "";
 
+    /// <summary>
+    /// More workbooks merged into the same data set — e.g. the UK market, which has its own importer run.
+    /// Each is validated on its own; a company_id may only appear in one of them. A missing file is skipped with a warning.
+    /// </summary>
+    public List<string> AdditionalPaths { get; set; } = [];
+
     /// <summary>Reload automatically when the file is saved/replaced.</summary>
     public bool ReloadOnChange { get; set; } = true;
 

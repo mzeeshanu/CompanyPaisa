@@ -12,16 +12,24 @@ interface Props {
 }
 
 const SHOWN_METROS = 6;
+const US_ZIP = /^\d{5}$/;
+const UK_POSTCODE = /^[A-Z]{1,2}\d[A-Z\d]?(\s*\d[A-Z]{2})?$/i;
+const COUNTRY_NAMES = { US: 'United States', UK: 'United Kingdom' } as const;
 
-/** First screen: blurred page behind a small card asking for location or ZIP. */
+/** First screen: blurred page behind a small card asking for location, a US ZIP or a UK postcode. */
 export function LocationGate({ coverageMiles, coverage, onLocated }: Props) {
   const [zip, setZip] = useState('');
   const [error, setError] = useState('');
   const [busy, setBusy] = useState<'geo' | 'zip' | null>(null);
   const [allMetros, setAllMetros] = useState(false);
+  const countries = [...new Set(coverage.map(c => c.country ?? 'US'))];
+  // A British browser starts on the UK areas.
+  const [country, setCountry] = useState<'US' | 'UK'>(() =>
+    countries.includes('UK') && /-GB$/i.test(navigator.language) ? 'UK' : 'US');
   const input = useRef<HTMLInputElement>(null);
-  const example = coverage[0]?.exampleZip ?? '84043';
-  const metros = allMetros ? coverage : coverage.slice(0, SHOWN_METROS);
+  const inCountry = coverage.filter(c => (c.country ?? 'US') === country);
+  const example = inCountry[0]?.exampleZip ?? coverage[0]?.exampleZip ?? '84043';
+  const metros = allMetros ? inCountry : inCountry.slice(0, SHOWN_METROS);
 
   useEffect(() => { const t = setTimeout(() => input.current?.focus(), 300); return () => clearTimeout(t); }, []);
 
@@ -29,7 +37,7 @@ export function LocationGate({ coverageMiles, coverage, onLocated }: Props) {
   async function accept(latitude: number, longitude: number, label: string) {
     const probe = await api.near({ latitude, longitude, radiusMiles: coverageMiles, pageSize: 1 });
     if (probe.totalCount === 0) {
-      setError(`We don't cover your area yet — there are no companies within ${coverageMiles} miles. Pick one of the metros below.`);
+      setError(`We don't cover your area yet — there are no companies within ${coverageMiles} miles. Pick one of the areas below.`);
       return;
     }
     onLocated({ latitude, longitude, label });
@@ -41,15 +49,16 @@ export function LocationGate({ coverageMiles, coverage, onLocated }: Props) {
   }
 
   async function lookupZip(q: string) {
-    if (!/^\d{5}$/.test(q)) { setError('Enter a 5-digit ZIP code.'); return; }
+    q = q.toUpperCase();
+    if (!US_ZIP.test(q) && !UK_POSTCODE.test(q)) { setError('Enter a 5-digit US ZIP code or a UK postcode (e.g. SW1A 1AA).'); return; }
     setBusy('zip'); setError('');
     try {
       const hit = await api.lookup(q);
       await accept(hit.point.latitude, hit.point.longitude, `${hit.city}, ${hit.state} ${hit.postalCode ?? q}`);
     } catch (err) {
       setError(err instanceof ApiError && err.status === 404
-        ? `We don't recognise ZIP ${q}. Try another, or pick a metro below.`
-        : 'Something went wrong looking up that ZIP. Please try again.');
+        ? `We don't recognise ${q}. Try another, or pick an area below.`
+        : 'Something went wrong looking that up. Please try again.');
     } finally { setBusy(null); }
   }
 
@@ -83,7 +92,7 @@ export function LocationGate({ coverageMiles, coverage, onLocated }: Props) {
           <circle cx="40" cy="14" r="8" fill="url(#mg2)" />
           <circle cx="42" cy="38" r="5" fill="url(#mg3)" />
         </svg>
-        <p className="eyebrow">Public companies{coverage.length > 1 ? ` · ${coverage.length} US areas` : ''}</p>
+        <p className="eyebrow">Public companies{coverage.length > 1 ? ` · ${coverage.length} areas in the ${countries.join(' & ')}` : ''}</p>
         <h1 id="gateTitle">Who's making money around you?</h1>
         <p className="lede">See the public companies near you, how big they are and where they're heading. Your location stays in your browser.</p>
         <button className="primary wide" onClick={useMyLocation} disabled={busy !== null}>
@@ -92,22 +101,33 @@ export function LocationGate({ coverageMiles, coverage, onLocated }: Props) {
         </button>
         <div className="or">OR</div>
         <form className="zip" onSubmit={submitZip}>
-          <input ref={input} inputMode="numeric" maxLength={5} placeholder="ZIP" aria-label="ZIP code" autoComplete="postal-code"
-            value={zip} onChange={e => { setZip(e.target.value.replace(/\D/g, '')); setError(''); }} />
+          <input ref={input} maxLength={8} placeholder={countries.includes('UK') ? 'ZIP / postcode' : 'ZIP'} aria-label="US ZIP code or UK postcode"
+            autoComplete="postal-code" autoCapitalize="characters" spellCheck={false}
+            value={zip} onChange={e => { setZip(e.target.value.replace(/[^A-Za-z0-9 ]/g, '').toUpperCase()); setError(''); }} />
           <button className="ghost" type="submit" disabled={busy !== null}>{busy === 'zip' ? '…' : 'Go'}</button>
         </form>
         <p className="err" role="alert">{error}</p>
         <p className="fine gate-note" role="note">{DISCLAIMER}</p>
         {coverage.length > 0 ? (
           <div className="metros">
-            <p className="fine">Or jump to an area we cover:</p>
+            <div className="metros-h">
+              <p className="fine">Or jump to an area we cover:</p>
+              {countries.length > 1 && (
+                <div className="country-tabs" role="tablist" aria-label="Country">
+                  {countries.map(c => (
+                    <button key={c} role="tab" type="button" aria-selected={country === c} title={COUNTRY_NAMES[c]}
+                      onClick={() => { setCountry(c); setAllMetros(false); }}>{c}</button>
+                  ))}
+                </div>
+              )}
+            </div>
             <div className="metro-list">
               {metros.map(m => (
                 <button key={m.name} type="button" disabled={busy !== null} onClick={() => { setZip(m.exampleZip); lookupZip(m.exampleZip); }}>{m.name}</button>
               ))}
-              {coverage.length > SHOWN_METROS && (
+              {inCountry.length > SHOWN_METROS && (
                 <button type="button" className="more" onClick={() => setAllMetros(a => !a)}>
-                  {allMetros ? 'Fewer' : `+${coverage.length - SHOWN_METROS} more`}
+                  {allMetros ? 'Fewer' : `+${inCountry.length - SHOWN_METROS} more`}
                 </button>
               )}
             </div>

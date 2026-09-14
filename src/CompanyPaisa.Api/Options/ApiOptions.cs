@@ -64,12 +64,19 @@ public sealed class UiOptions
     public ConsentUiOptions Consent { get; set; } = new();
     /// <summary>Metros the data set covers, shown on the location screen. Keep in step with the importer's "Regions".</summary>
     public List<CoverageAreaOptions> Coverage { get; set; } = [];
+    /// <summary>
+    /// Where people can ask for a correction or exercise data-protection rights (an email address or a URL),
+    /// shown in the privacy notice. Empty = the notice says a contact route is coming.
+    /// </summary>
+    public string PrivacyContact { get; set; } = "";
 }
 
 public sealed class CoverageAreaOptions
 {
     [Required] public string Name { get; set; } = "";
-    [RegularExpression(@"^\d{5}$")] public string ExampleZip { get; set; } = "";
+    /// <summary>A US ZIP ("84043") or a UK postcode district ("EC2N").</summary>
+    [RegularExpression(@"^(\d{5}|[A-Z]{1,2}\d[A-Z\d]?)$")] public string ExampleZip { get; set; } = "";
+    [RegularExpression("^(US|UK)$")] public string Country { get; set; } = "US";
 }
 
 public sealed class MapUiOptions
@@ -99,5 +106,6 @@ internal static class UiOptionsExtensions
         ui.DefaultView, ui.DefaultTheme, search.DefaultRadiusMiles, search.AllowedRadiiMiles, search.DefaultSort,
         ui.Map.ShowBaseMapByDefault, ui.Map.TilesUrl, ui.Consent.CookieName, ui.Consent.CookieDays,
         new Dictionary<string, bool>(features, StringComparer.OrdinalIgnoreCase),
-        ui.Coverage.Select(c => new CoverageAreaDto(c.Name, c.ExampleZip)).ToList());
+        ui.Coverage.Select(c => new CoverageAreaDto(c.Name, c.ExampleZip, c.Country)).ToList(),
+        string.IsNullOrWhiteSpace(ui.PrivacyContact) ? null : ui.PrivacyContact.Trim());
 }

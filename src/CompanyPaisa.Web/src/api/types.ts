@@ -28,9 +28,14 @@ export interface Indicators {
 export interface CompanySummary {
   ticker: string; name: string; exchange: string; sector: string;
   isHeadquarteredNearby: boolean; nearestLocation: Location; distanceMiles: number; indicators: Indicators;
+  currency: string;
 }
 
-export interface NearbySummary { companyCount: number; combinedTtmRevenue: number; growingCount: number; headquarteredCount: number }
+/** Totals are in `currency`; `approximate` = some results were converted from another currency. */
+export interface NearbySummary {
+  companyCount: number; combinedTtmRevenue: number; growingCount: number; headquarteredCount: number;
+  currency: string; approximate: boolean;
+}
 
 export interface NearbyResponse {
   origin: GeoPoint; originLabel: string | null; radiusMiles: number; sort: CompanySort;
@@ -41,6 +46,8 @@ export interface CompanyDetail {
   ticker: string; name: string; exchange: string; sector: string; industry: string | null; website: string | null;
   employees: number | null; marketCap: number | null; description: string | null; currency: string;
   fiscalYearEnd: string | null; asOfDate: string | null; locations: Location[]; indicators: Indicators;
+  /** Currency of executive pay (can differ from the accounts' currency). */
+  payCurrency?: string | null;
 }
 
 export interface FinancialPeriod {
@@ -57,7 +64,7 @@ export interface ExecutivesResponse { ticker: string; executives: Executive[] }
 
 export type ExecutiveSort = 'Pay' | 'TotalPay' | 'PayGrowth' | 'Distance' | 'Name';
 
-export interface CompanyRef { ticker: string; name: string; sector: string }
+export interface CompanyRef { ticker: string; name: string; sector: string; currency: string }
 export interface PayPoint { year: number; total: number; ticker: string }
 
 export interface ExecutiveSummary {
@@ -70,7 +77,10 @@ export interface ExecutiveSummary {
 export interface ExecutivesNearResponse {
   origin: GeoPoint; originLabel: string | null; radiusMiles: number; sort: ExecutiveSort;
   page: number; pageSize: number; totalCount: number;
-  summary: { executiveCount: number; companyCount: number; combinedLatestPay: number; medianLatestPay: number | null; latestYear: number | null };
+  summary: {
+    executiveCount: number; companyCount: number; combinedLatestPay: number; medianLatestPay: number | null; latestYear: number | null;
+    currency: string; approximate: boolean;
+  };
   items: ExecutiveSummary[];
 }
 
@@ -93,8 +103,10 @@ export interface ClientConfig {
   showBaseMapByDefault: boolean; mapTilesUrl: string | null;
   consentCookieName: string; consentCookieDays: number; features: Record<string, boolean>;
   coverage: CoverageArea[];
+  /** Email address or URL for corrections and data-protection requests; null until the site owner sets one. */
+  privacyContact?: string | null;
 }
 
-export interface CoverageArea { name: string; exampleZip: string }
+export interface CoverageArea { name: string; exampleZip: string; country: 'US' | 'UK' }
 
 export interface ProblemDetails { title?: string; detail?: string; status?: number; errors?: Record<string, string[]> }

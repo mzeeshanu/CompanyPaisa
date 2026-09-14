@@ -45,10 +45,16 @@ public sealed record CompanySummaryDto(
     bool IsHeadquarteredNearby,
     LocationDto NearestLocation,
     double DistanceMiles,
-    CompanyIndicatorsDto Indicators);
+    CompanyIndicatorsDto Indicators,
+    string Currency = "USD");
 
 /// <summary>Totals for the whole result set (not just the current page).</summary>
-public sealed record NearbySummaryDto(int CompanyCount, decimal CombinedTtmRevenue, int GrowingCount, int HeadquarteredCount);
+/// <remarks>
+/// <see cref="CombinedTtmRevenue"/> is in <see cref="Currency"/> (the one most results use); <see cref="Approximate"/> means
+/// some results were in other currencies and were converted at the configured approximate rates.
+/// </remarks>
+public sealed record NearbySummaryDto(int CompanyCount, decimal CombinedTtmRevenue, int GrowingCount, int HeadquarteredCount,
+    string Currency = "USD", bool Approximate = false);
 
 /// <summary>Response of the "companies near" search.</summary>
 public sealed record NearbyCompaniesResponse(
@@ -77,7 +83,8 @@ public sealed record CompanyDetailDto(
     string? FiscalYearEnd,
     DateOnly? AsOfDate,
     IReadOnlyList<LocationDto> Locations,
-    CompanyIndicatorsDto Indicators);
+    CompanyIndicatorsDto Indicators,
+    string? PayCurrency = null);
 
 /// <summary>One reporting period.</summary>
 public sealed record FinancialPeriodDto(
@@ -100,7 +107,7 @@ public sealed record ExecutiveDto(string ExecutiveId, string Name, string Title,
 
 // ---------- People / executives lookup ----------
 
-public sealed record CompanyRefDto(string Ticker, string Name, string Sector);
+public sealed record CompanyRefDto(string Ticker, string Name, string Sector, string Currency = "USD");
 
 /// <summary>Total pay for one year; <see cref="Ticker"/> is the company that paid the most that year.</summary>
 public sealed record PayPointDto(int Year, decimal Total, string Ticker);
@@ -122,7 +129,9 @@ public sealed record ExecutiveSummaryDto(
     int CompanyCount,
     IReadOnlyList<PayPointDto> PayHistory);
 
-public sealed record ExecutivesNearSummaryDto(int ExecutiveCount, int CompanyCount, decimal CombinedLatestPay, decimal? MedianLatestPay, int? LatestYear);
+/// <remarks>Pay totals are in <see cref="Currency"/>; <see cref="Approximate"/> means some pay was converted from another currency.</remarks>
+public sealed record ExecutivesNearSummaryDto(int ExecutiveCount, int CompanyCount, decimal CombinedLatestPay, decimal? MedianLatestPay, int? LatestYear,
+    string Currency = "USD", bool Approximate = false);
 
 public sealed record ExecutivesNearResponse(
     GeoPointDto Origin,
@@ -171,7 +180,8 @@ public sealed record ClientConfigDto(
     string ConsentCookieName,
     int ConsentCookieDays,
     IReadOnlyDictionary<string, bool> Features,
-    IReadOnlyList<CoverageAreaDto> Coverage);
+    IReadOnlyList<CoverageAreaDto> Coverage,
+    string? PrivacyContact = null);
 
-/// <summary>A metro area the data set covers, with a ZIP to try.</summary>
-public sealed record CoverageAreaDto(string Name, string ExampleZip);
+/// <summary>An area the data set covers, with a ZIP / postcode district to try. Country: "US" or "UK".</summary>
+public sealed record CoverageAreaDto(string Name, string ExampleZip, string Country = "US");

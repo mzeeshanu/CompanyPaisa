@@ -8,6 +8,7 @@ import { ExecutivesView } from './components/ExecutivesView';
 import { ListView } from './components/ListView';
 import { LocationGate, type Origin } from './components/LocationGate';
 import { MapView } from './components/MapView';
+import { PrivacyNotice } from './components/PrivacyNotice';
 import { TopBar } from './components/TopBar';
 import { DISCLAIMER } from './lib/disclaimer';
 import { money, pct } from './lib/format';
@@ -50,6 +51,7 @@ export default function App() {
   const [showBaseMap, setShowBaseMap] = useState(true);
   const [consent, setConsent] = useState<Consent>(null);
   const [showConsent, setShowConsent] = useState(false);
+  const [showPrivacy, setShowPrivacy] = useState(false);
 
   const [data, setData] = useState<NearbyResponse | null>(null);
   const [execData, setExecData] = useState<ExecutivesNearResponse | null>(null);
@@ -164,10 +166,14 @@ export default function App() {
       <p className="disclaimer" role="note">
         <b>Please note:</b> {DISCLAIMER} This is not financial advice — check the company's original filing before relying on any number.
       </p>
-      <span>{meta?.isSampleData ? 'Sample data — company names and approximate locations are real; financial figures and executive names are synthetic.' : `Data as of ${meta?.asOfDate ?? '—'} from SEC EDGAR filings.`}{' '}
-        ZIP names © <a className="linkbtn" href="https://www.geonames.org/" target="_blank" rel="noreferrer">GeoNames</a> (CC BY 4.0).</span>
+      <span>{meta?.isSampleData
+        ? 'Sample data — company names and approximate locations are real; financial figures and executive names are synthetic.'
+        : `Data as of ${meta?.asOfDate ?? '—'} from SEC EDGAR filings${meta?.dataVersion.includes('uk-') ? ' and UK annual reports (ESEF, via filings.xbrl.org; addresses from GLEIF)' : ''}.`}{' '}
+        ZIP and postcode names © <a className="linkbtn" href="https://www.geonames.org/" target="_blank" rel="noreferrer">GeoNames</a> (CC BY 4.0).</span>
       <span>
         <a className="linkbtn" href="/swagger" target="_blank" rel="noreferrer">Public API</a>
+        {' · '}
+        <button className="linkbtn" onClick={() => setShowPrivacy(true)}>Privacy</button>
         {' · '}
         <button className="linkbtn" onClick={() => setShowConsent(true)}>Cookie settings</button>
       </span>
@@ -217,7 +223,7 @@ export default function App() {
       {tip && (
         <div className="tip pane" style={{ left: tip.x, top: tip.y }}>
           <b>{tip.company.name}</b>
-          <span>{money(tip.company.indicators.ttmRevenue)} revenue · {pct(tip.company.indicators.revenueGrowthYoY)} · {tip.company.distanceMiles.toFixed(1)} mi</span>
+          <span>{money(tip.company.indicators.ttmRevenue, tip.company.currency)} revenue · {pct(tip.company.indicators.revenueGrowthYoY)} · {tip.company.distanceMiles.toFixed(1)} mi</span>
         </div>
       )}
 
@@ -228,6 +234,8 @@ export default function App() {
       <ExecutivePanel personId={selectedPerson} onClose={closePanels} onOpenCompany={openCompany} />
 
       {gateOpen && <LocationGate coverageMiles={COVERAGE_MILES} coverage={(config ?? FALLBACK_CONFIG).coverage ?? []} onLocated={onLocated} />}
+
+      <PrivacyNotice open={showPrivacy} contact={config.privacyContact} onClose={() => setShowPrivacy(false)} />
 
       {showConsent && !gateOpen && (
         <ConsentBanner

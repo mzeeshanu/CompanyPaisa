@@ -30,8 +30,8 @@ public static class ExcelWorkbookWriter
         using var wb = new XLWorkbook();
 
         AddSheet(wb, s.Companies,
-            ["company_id", "name", "ticker", "exchange", "sector", "industry", "website", "employees", "market_cap", "description", "currency", "fiscal_year_end", "logo_url", "as_of_date"],
-            companies.Select(c => new object?[] { c.CompanyId, c.Name, c.Ticker, c.Exchange, c.Sector, c.Industry, c.Website, c.Employees, c.MarketCap, c.Description, c.Currency, c.FiscalYearEnd, c.LogoUrl, c.AsOfDate?.ToString("yyyy-MM-dd") }));
+            ["company_id", "name", "ticker", "exchange", "sector", "industry", "website", "employees", "market_cap", "description", "currency", "pay_currency", "fiscal_year_end", "logo_url", "as_of_date"],
+            companies.Select(c => new object?[] { c.CompanyId, c.Name, c.Ticker, c.Exchange, c.Sector, c.Industry, c.Website, c.Employees, c.MarketCap, c.Description, c.Currency, c.PayCurrency, c.FiscalYearEnd, c.LogoUrl, c.AsOfDate?.ToString("yyyy-MM-dd") }));
 
         AddSheet(wb, s.Locations,
             ["location_id", "company_id", "type", "label", "street", "city", "state", "postal_code", "latitude", "longitude"],

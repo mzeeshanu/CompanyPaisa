@@ -41,6 +41,7 @@ internal static class ExcelWorkbookReader
             MarketCap = r.Decimal("market_cap"),
             Description = r.Text("description"),
             Currency = r.Text("currency") ?? "USD",
+            PayCurrency = r.Text("pay_currency"),
             FiscalYearEnd = r.Text("fiscal_year_end"),
             LogoUrl = r.Text("logo_url"),
             AsOfDate = r.Date("as_of_date")

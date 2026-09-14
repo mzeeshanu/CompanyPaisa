@@ -29,6 +29,8 @@ public sealed record Company
     public decimal? MarketCap { get; init; }
     public string? Description { get; init; }
     public string Currency { get; init; } = "USD";
+    /// <summary>Currency of executive pay when it differs from the accounts (many UK groups report in USD but pay in GBP).</summary>
+    public string? PayCurrency { get; init; }
     public string? FiscalYearEnd { get; init; }
     public string? LogoUrl { get; init; }
     public DateOnly? AsOfDate { get; init; }

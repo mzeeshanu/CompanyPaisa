@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import type { NearbyResponse } from '../api/types';
-import { bubbleRadius, money } from '../lib/format';
+import { bubbleRadius, total } from '../lib/format';
 import { MapController } from '../lib/mapController';
 import type { BubbleEvents, Highlight } from './ListView';
 
@@ -51,7 +51,7 @@ export function MapView({ data, highlight, showBaseMap, onToggleBaseMap, onBackg
         {s.companyCount > 0 ? (
           <>
             <b>{s.companyCount} {s.companyCount === 1 ? 'company' : 'companies'} within {data.radiusMiles} mi</b>
-            <span><b>{money(s.combinedTtmRevenue)}</b> revenue</span>
+            <span><b>{total(s.combinedTtmRevenue, s.currency, s.approximate)}</b> revenue</span>
             <span><i className="dot up" /> <b>{s.growingCount}</b> growing</span>
             <span><b>{s.headquarteredCount}</b> HQ here</span>
           </>

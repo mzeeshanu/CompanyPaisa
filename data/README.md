@@ -4,6 +4,10 @@
 |---|---|---|
 | `companypaisa.xlsx` | **The live dataset** — public companies in the top 20 US metros plus the Wasatch Front, with ~10 years of financials and executive pay | **Real**, built from SEC EDGAR by `tools/CompanyPaisa.Importer` |
 | `import-report.md` | What the last import included (per metro), excluded (and why), and rows that need review | Generated |
+| `companypaisa-uk.xlsx` | **UK dataset** — FTSE 350 companies (minus investment trusts): ~6 years of figures and executive directors' single total figure pay. The API merges it with the US workbook | **Real**, built by `--uk` (see below) |
+| `import-report-uk.md` | The UK run's report: included per area, excluded (and why), rows that need review | Generated |
+| `curated/uk-ftse350.csv` | FTSE 100 + 250 members with the LEI each was matched to — edit an LEI to fix a wrong match | From Wikipedia's constituent tables; reviewable |
+| `reference/uk-postcode-districts.csv` | UK postcode districts → place name and coordinates (the postcode search box) | [GeoNames](https://www.geonames.org/) GB postal codes, CC BY 4.0 |
 | `reference/us-zip-centroids.csv` | Every US ZIP → city, state, coordinates (used by the ZIP search box) | Real — US Census Gazetteer 2025 ZCTA centroids; names (and PO-box ZIPs) from [GeoNames](https://www.geonames.org/) US postal codes, CC BY 4.0 |
 | `curated/utah-offices.csv` | Utah sites of companies headquartered elsewhere (Adobe Lehi, eBay Draper, Goldman Sachs SLC…) | Hand-curated — verify and extend |
 | `sample/companypaisa.sample.xlsx` | Synthetic workbook used by the automated tests | **Synthetic figures and names** |
@@ -45,6 +49,32 @@ To add a metro: add a `Regions` entry (and its states to `Discovery:States`) in 
 
 **Known gaps** (see `import-report.md`): foreign private issuers (e.g. NICE) don't file DEF 14A, so no executive pay;
 a few small companies use table layouts the parser doesn't recognise yet.
+
+## The UK dataset
+
+```bash
+dotnet run --project tools/CompanyPaisa.Importer -- --uk                     # uses data/curated/uk-ftse350.csv
+dotnet run --project tools/CompanyPaisa.Importer -- --uk --refresh-uk-list   # re-reads the FTSE 100/250 lists first
+```
+
+Settings: the `Importer:Uk` section (areas, how many reports to read for pay, rate limit). The UK sources are sent a
+generic `CompanyPaisa` User-Agent — no personal contact details.
+
+1. **Companies** — FTSE 100 + FTSE 250 from Wikipedia's constituent tables, minus investment trusts and funds. Each is
+   matched by name to a filer on [filings.xbrl.org](https://filings.xbrl.org) (UK listed companies file their annual
+   report in the tagged ESEF format); a wrong or missing match is fixed by setting the `lei` column in `curated/uk-ftse350.csv`.
+2. **Location** — the headquarters address in the global LEI registry ([GLEIF](https://www.gleif.org)); companies
+   headquartered outside the UK are left out. Placed at the centre of the postcode district (GeoNames), so precision
+   is a district — roughly a few streets in a city, a few miles in the country.
+3. **Financials** — IFRS revenue, profit attributable to shareholders, operating profit and EPS from each report's
+   xBRL-JSON: the year reported plus its comparative, newest report winning. Tagged reports began in 2021, so ~6 years.
+   Banks and insurers rarely tag plain "Revenue"; the report lists which concept was used.
+4. **Directors' pay** — the "single total figure of remuneration" table in the directors' remuneration report of the
+   latest 3 annual reports (each shows two years). The table is read from the report itself (a real HTML table or a
+   PDF converted to positioned text). The **total** is always the stated figure; salary, bonus, long-term incentives
+   and other are split where the table allows, with any gap shown as other. Annual reports are 5–40 MB, so only what was
+   parsed is cached (`cache/uk/pay`), not the report.
+5. **People** — named per company (`jane-smith-tsco-l`); UK directors aren't yet linked across companies.
 
 ## Workbook layout
 

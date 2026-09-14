@@ -117,7 +117,7 @@ export class MapController {
         return el;
       })
       .attr('class', d => `bub t-${trendClass(d.c.indicators.trend)}`)
-      .attr('aria-label', d => `${d.c.name}, revenue ${money(d.c.indicators.ttmRevenue)}`);
+      .attr('aria-label', d => `${d.c.name}, revenue ${money(d.c.indicators.ttmRevenue, d.c.currency)}`);
 
     if (moved || radiusChanged) this.fit(!moved); else this.render();
   }

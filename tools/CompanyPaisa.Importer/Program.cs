@@ -24,8 +24,28 @@ builder.Services.AddSingleton<IFinancialsExtractor, XbrlFinancialsExtractor>();
 builder.Services.AddSingleton<ICompensationParser, SummaryCompensationTableParser>();
 builder.Services.AddSingleton<IZipGeocoder, ZipGeocoder>();
 builder.Services.AddSingleton<ImportPipeline>();
+builder.Services.AddSingleton<CompanyPaisa.Importer.Uk.UkImportPipeline>();
 
 using var host = builder.Build();
+
+// UK market (FTSE 350): dotnet run --project tools/CompanyPaisa.Importer -- --uk [--refresh-uk-list]
+// Diagnostics for one annual report: -- --debug-uk-pay <report xhtml url>
+if (args is ["--debug-uk-pay", var reportUrl])
+{
+    var html = await new HttpClient { Timeout = TimeSpan.FromMinutes(5), DefaultRequestHeaders = { { "User-Agent", "CompanyPaisa" } } }.GetStringAsync(reportUrl);
+    foreach (var line in CompanyPaisa.Importer.Uk.RemunerationParser.Describe(html).Take(400)) Console.WriteLine(line);
+    var parsed = CompanyPaisa.Importer.Uk.RemunerationParser.Parse(html);
+    foreach (var r in parsed.Rows)
+        Console.WriteLine($"{r.Name} | {r.Year} | salary {r.Salary:N0} bonus {r.Bonus:N0} long-term {r.LongTerm:N0} other {r.Other:N0} total {r.Total:N0} {parsed.Currency} {(r.Verified ? "✓" : "✗")}");
+    foreach (var w in parsed.Warnings) Console.WriteLine("warning: " + w);
+    return 0;
+}
+if (args.Contains("--uk"))
+{
+    using var ukCts = new CancellationTokenSource();
+    Console.CancelKeyPress += (_, e) => { e.Cancel = true; ukCts.Cancel(); };
+    return await host.Services.GetRequiredService<CompanyPaisa.Importer.Uk.UkImportPipeline>().RunAsync(args.Contains("--refresh-uk-list"), ukCts.Token);
+}
 
 // Diagnostics: dotnet run --project tools/CompanyPaisa.Importer -- --debug-proxy <filing url>
 if (args is ["--debug-proxy", var url])

@@ -92,7 +92,9 @@ public class ApiTests(SampleDataFactory factory) : IClassFixture<SampleDataFacto
         Assert.Equal("List", config.DefaultView);
         Assert.Contains(config.Coverage, c => c.Name == "Wasatch Front" && c.ExampleZip == "84043");
         Assert.Contains(config.Coverage, c => c.Name == "Rest of Minnesota");
-        Assert.Equal(22, config.Coverage.Count);
+        Assert.Contains(config.Coverage, c => c.Name == "London" && c.ExampleZip == "EC2N" && c.Country == "UK");
+        Assert.Equal(22, config.Coverage.Count(c => c.Country == "US"));
+        Assert.Equal(10, config.Coverage.Count(c => c.Country == "UK"));
     }
 
     [Fact]

@@ -14,7 +14,7 @@ public sealed class LookupGeoValidator : IRequestValidator<LookupGeoQuery>
     public IEnumerable<ValidationError> Validate(LookupGeoQuery q)
     {
         if (string.IsNullOrWhiteSpace(q.Query) || q.Query.Length > 100)
-            yield return new("query", "Enter a ZIP code or 'City, ST'.");
+            yield return new("query", "Enter a US ZIP code, a UK postcode or 'City, ST'.");
     }
 }
 
@@ -22,7 +22,7 @@ public sealed class LookupGeoHandler(IGeoLocator geoLocator) : IRequestHandler<L
 {
     public async Task<GeoLookupDto> HandleAsync(LookupGeoQuery q, CancellationToken ct) =>
         (await geoLocator.LookupAsync(q.Query, ct))?.ToDto()
-        ?? throw new NotFoundException($"We couldn't find '{q.Query}'. Try a 5-digit ZIP code or 'City, ST'.");
+        ?? throw new NotFoundException($"We couldn't find '{q.Query}'. Try a 5-digit US ZIP code, a UK postcode or 'City, ST'.");
 }
 
 // ---------- Sectors ----------

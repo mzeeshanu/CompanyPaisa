@@ -18,6 +18,8 @@ public static class DependencyInjection
             .PostConfigure(o => { if (o.AllowedRadiiMiles.Count == 0) o.AllowedRadiiMiles.AddRange(SearchOptions.DefaultAllowedRadii); });
         services.AddValidatedOptions<MetricsOptions>(configuration, MetricsOptions.SectionName);
         services.AddValidatedOptions<GeoOptions>(configuration, GeoOptions.SectionName);
+        services.AddValidatedOptions<CurrencyOptions>(configuration, CurrencyOptions.SectionName);
+        services.TryAddSingleton<ICurrencyConverter, CurrencyConverter>();
 
         services.TryAddSingleton<IDistanceCalculator, HaversineDistanceCalculator>();
         services.TryAddSingleton<IFinancialMetricsService, FinancialMetricsService>();

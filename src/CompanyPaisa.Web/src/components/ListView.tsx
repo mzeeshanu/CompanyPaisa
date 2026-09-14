@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import * as d3 from 'd3';
 import type { CompanySort, CompanySummary, NearbyResponse } from '../api/types';
-import { bubbleRadius, money, pct, tone, trendClass } from '../lib/format';
+import { bubbleRadius, money, pct, tone, total, trendClass } from '../lib/format';
 import { SortHeader, useSortFlip } from './SortHeader';
 
 export interface Highlight { selected: string | null; hovered: string | null }
@@ -28,7 +28,8 @@ export function ListView({ data, placeName, sort, onSort, highlight, loading, on
         {s.companyCount > 0 ? (
           <>
             <h1><em>{s.companyCount} public {s.companyCount === 1 ? 'company' : 'companies'}</em> within {data.radiusMiles} miles of {placeName}</h1>
-            <span className="stat"><b>{money(s.combinedTtmRevenue)}</b> combined revenue, last 12 months</span>
+            <span className="stat" title={s.approximate ? 'Some companies report in another currency; converted at approximate rates' : undefined}>
+              <b>{total(s.combinedTtmRevenue, s.currency, s.approximate)}</b> combined annual revenue</span>
             <span className="stat"><i className="dot up" /><b>{s.growingCount}</b> growing</span>
             <span className="stat"><b>{s.headquarteredCount}</b> headquartered here</span>
           </>
@@ -90,7 +91,7 @@ function CityClusters({ items, highlight, onHover, onSelect }: { items: CompanyS
               <button key={n.c.ticker}
                 className={`bub t-${trendClass(n.c.indicators.trend)}${highlight.hovered === n.c.ticker ? ' hl' : ''}${highlight.selected === n.c.ticker ? ' sel' : ''}`}
                 style={{ left: n.x - g.enc.x + g.size / 2 - n.r, top: n.y - g.enc.y + g.size / 2 - n.r, width: n.r * 2, height: n.r * 2 }}
-                aria-label={`${n.c.name}, ${money(n.c.indicators.ttmRevenue)} revenue`}
+                aria-label={`${n.c.name}, ${money(n.c.indicators.ttmRevenue, n.c.currency)} revenue`}
                 onMouseEnter={e => onHover(n.c.ticker, e.currentTarget)} onMouseLeave={() => onHover(null)}
                 onFocus={e => onHover(n.c.ticker, e.currentTarget)} onBlur={() => onHover(null)}
                 onClick={() => onSelect(n.c.ticker)}>
@@ -128,10 +129,10 @@ function RankedRows({ items, sort, onSort, highlight, onHover, onSelect }: { ite
           <span className={`mini c-mini t-${trendClass(c.indicators.trend)}`} />
           <span className="who"><b>{c.name}</b>{c.isHeadquarteredNearby && <span className="hq">HQ</span>}<small>{c.ticker} · {c.sector}</small></span>
           <span className="at c-at">{c.nearestLocation.type === 'Headquarters' ? 'Headquarters' : c.nearestLocation.label}<small>{c.nearestLocation.city} · {c.distanceMiles.toFixed(1)} mi</small></span>
-          <span className="val">{money(c.indicators.ttmRevenue)}<small>12 mo</small></span>
+          <span className="val">{money(c.indicators.ttmRevenue, c.currency)}<small>{c.indicators.latestQuarterLabel ? '12 mo' : 'year'}</small></span>
           <span className="r"><span className={`pill ${tone(c.indicators.revenueGrowthYoY)}`}>{pct(c.indicators.revenueGrowthYoY)}</span></span>
           <span className="r c-spark spark"><Sparkline points={c.indicators.revenueHistory.map(p => p.revenue)} /></span>
-          <span className={`val c-net${c.indicators.ttmNetIncome < 0 ? ' neg' : ''}`}>{money(c.indicators.ttmNetIncome)}<small>12 mo</small></span>
+          <span className={`val c-net${c.indicators.ttmNetIncome < 0 ? ' neg' : ''}`}>{money(c.indicators.ttmNetIncome, c.currency)}<small>{c.indicators.latestQuarterLabel ? '12 mo' : 'year'}</small></span>
         </button>
       ))}
     </div>

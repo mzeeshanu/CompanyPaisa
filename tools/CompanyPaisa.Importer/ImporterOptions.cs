@@ -15,6 +15,8 @@ public sealed class ImporterOptions
     public HistoryOptions History { get; set; } = new();
     public GeoImportOptions Geo { get; set; } = new();
     public OutputOptions Output { get; set; } = new();
+    /// <summary>UK market (run with --uk).</summary>
+    public Uk.UkOptions Uk { get; set; } = new();
     /// <summary>Hand-curated sites of companies headquartered elsewhere (Adobe Lehi, eBay Draper…).</summary>
     public string CuratedOfficesPath { get; set; } = "data/curated/utah-offices.csv";
 }

@@ -27,6 +27,7 @@ public class ExecutiveTests
         var repo = Repo();
         var handler = new GetExecutivesNearHandler(repo,
             new NearbySearchService(repo, new FakeGeoLocator(("84043", Lehi)), new HaversineDistanceCalculator()),
+            new CurrencyConverter(Opt.Monitor(new CurrencyOptions())),
             Opt.Monitor(new SearchOptions()), Opt.Monitor(new MetricsOptions()));
         return handler.HandleAsync(new GetExecutivesNearQuery(r), CancellationToken.None);
     }

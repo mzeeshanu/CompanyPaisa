@@ -13,6 +13,7 @@ public sealed class ExcelCompanyRepository : ICompanyRepository, IDisposable
 {
     private readonly ExcelDataSourceOptions _options;
     private readonly string _path;
+    private readonly IReadOnlyList<string> _additionalPaths;
     private readonly IClock _clock;
     private readonly IDataChangeSignal _changeSignal;
     private readonly ILogger<ExcelCompanyRepository> _logger;
@@ -30,6 +31,7 @@ public sealed class ExcelCompanyRepository : ICompanyRepository, IDisposable
     {
         _options = options.Value;
         _path = paths.Resolve(_options.Path);
+        _additionalPaths = _options.AdditionalPaths.Where(p => !string.IsNullOrWhiteSpace(p)).Select(paths.Resolve).ToList();
         _clock = clock;
         _changeSignal = changeSignal;
         _logger = logger;
@@ -38,15 +40,17 @@ public sealed class ExcelCompanyRepository : ICompanyRepository, IDisposable
         if (_options.ReloadOnChange && directory is not null && Directory.Exists(directory))
         {
             _debounce = new Timer(_ => Reload(), null, Timeout.Infinite, Timeout.Infinite);
-            _watcher = new FileSystemWatcher(directory, Path.GetFileName(_path))
+            // Watch every workbook we load (they normally sit in the same folder).
+            var watched = _additionalPaths.Prepend(_path).Select(Path.GetFullPath).ToHashSet(StringComparer.OrdinalIgnoreCase);
+            _watcher = new FileSystemWatcher(directory, "*.xlsx")
             {
                 NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.FileName | NotifyFilters.Size,
                 EnableRaisingEvents = true
             };
-            FileSystemEventHandler onChange = (_, _) => _debounce.Change(_options.ReloadDebounceMs, Timeout.Infinite);
-            _watcher.Changed += onChange;
-            _watcher.Created += onChange;
-            _watcher.Renamed += (_, _) => _debounce.Change(_options.ReloadDebounceMs, Timeout.Infinite);
+            void Schedule(string fullPath) { if (watched.Contains(fullPath)) _debounce.Change(_options.ReloadDebounceMs, Timeout.Infinite); }
+            _watcher.Changed += (_, e) => Schedule(e.FullPath);
+            _watcher.Created += (_, e) => Schedule(e.FullPath);
+            _watcher.Renamed += (_, e) => Schedule(e.FullPath);
         }
     }
 
@@ -64,9 +68,15 @@ public sealed class ExcelCompanyRepository : ICompanyRepository, IDisposable
 
     private DataSnapshot Load()
     {
-        var snapshot = ExcelWorkbookReader.Read(_path, _options.Sheets, _clock.UtcNow);
-        _logger.LogInformation("Loaded {Companies} companies, {Locations} locations from {Path} (version {Version}{Sample})",
-            snapshot.Companies.Count, snapshot.Locations.Count, _path, snapshot.Metadata.DataVersion,
+        var parts = new List<DataSnapshot> { ExcelWorkbookReader.Read(_path, _options.Sheets, _clock.UtcNow) };
+        foreach (var extra in _additionalPaths)
+        {
+            if (!File.Exists(extra)) { _logger.LogWarning("Additional workbook {Path} not found; skipping it", extra); continue; }
+            parts.Add(ExcelWorkbookReader.Read(extra, _options.Sheets, _clock.UtcNow));
+        }
+        var snapshot = parts.Count == 1 ? parts[0] : DataSnapshot.Merge(parts, _path);
+        _logger.LogInformation("Loaded {Companies} companies, {Locations} locations from {Count} workbook(s) (version {Version}{Sample})",
+            snapshot.Companies.Count, snapshot.Locations.Count, parts.Count, snapshot.Metadata.DataVersion,
             snapshot.Metadata.IsSampleData ? ", SAMPLE DATA" : "");
         return snapshot;
     }
