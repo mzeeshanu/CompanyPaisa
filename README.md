@@ -22,6 +22,8 @@ location and financial data comes from a directory we curate ahead of time.
 - ✅ **Real data**: 2,639 public companies in the top 20 US metros plus Utah's Wasatch Front, from SEC EDGAR —
   ~10 years of revenue/net income and 59,475 executive pay rows for 15,881 people, linked across companies by SEC
   insider id (`tools/CompanyPaisa.Importer`, see [`data/README.md`](data/README.md))
+- ✅ **US, Canada and UK**: 4,090 listed US companies and Canadian SEC filers (46 areas), plus 328 UK Main Market
+  companies; refreshed monthly by a scheduled task (`tools/refresh-data.ps1`)
 
 ## Run it
 

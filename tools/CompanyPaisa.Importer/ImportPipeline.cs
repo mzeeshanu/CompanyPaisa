@@ -40,6 +40,8 @@ public sealed partial class ImportPipeline(
         public List<(string Region, string Line)> Included { get; } = [];
         public int NoTicker { get; set; }
         public int OutsideMetros { get; set; }
+        public int NotReporting { get; set; }
+        public int Abroad { get; set; }
         public int PeopleLinkedByCik { get; set; }
         public int PeopleByNameOnly { get; set; }
         public List<string> Excluded { get; } = [];
@@ -67,14 +69,18 @@ public sealed partial class ImportPipeline(
             // Cheapest test first: most filers are funds, trusts and shells with no ticker.
             // Thousands of filers fall out here, so they're counted rather than listed one by one in the report.
             if (sec.PrimaryTicker is null && !o.Listing.IncludeUnlisted) { outcome.NoTicker++; continue; }
-            if (geo.Locate(addr.Zip, addr.City, addr.State) is not { } point)
-            { outcome.Excluded.Add($"{Label(sec)}: unknown ZIP {addr.Zip} ({Text.TitleCase(addr.City)}, {addr.State})"); continue; }
-            // Some SEC records leave the state blank or use a country code; the ZIP knows the real state.
-            var state = addr.State is { Length: 2 } s && char.IsLetter(s[0]) && char.IsLetter(s[1]) ? s.ToUpperInvariant() : geo.StateOf(addr.Zip);
-            if (geo.RegionFor(point, state) is not { } region) { outcome.OutsideMetros++; continue; }
-            if (state is null)
-            { outcome.Excluded.Add($"{Label(sec)}: no US state for ZIP {addr.Zip} ({Text.TitleCase(addr.City)})"); continue; }
-            candidates[cik] = new Candidate(sec, HeadquartersLocation(sec, addr, point, state), region.Region, false, null);
+            // Still reporting? The ticker file also lists companies that stopped filing years ago.
+            if (!sec.Filings.Any(f => StillReportingForms.Contains(f.Form) && f.FilingDate >= o.Discovery.Since)) { outcome.NotReporting++; continue; }
+            if (geo.Place(addr) is not { } placed)
+            {
+                // Listed in the US but based abroad (ADRs, Israeli and Chinese companies…): counted, not listed.
+                if (addr.State is { Length: 2 } s && char.IsLetter(s[0]) && char.IsLetter(s[1]) || addr.State is "A0" or "A1" or "A2" or "A3" or "A4" or "A5" or "A6" or "A7" or "A8" or "A9" or "B0" or "Z4")
+                    outcome.Excluded.Add($"{Label(sec)}: unknown postal code {addr.Zip} ({Text.TitleCase(addr.City)}, {addr.State})");
+                else outcome.Abroad++;
+                continue;
+            }
+            if (geo.RegionFor(placed.Point, placed.State, placed.Country) is not { } region) { outcome.OutsideMetros++; continue; }
+            candidates[cik] = new Candidate(sec, HeadquartersLocation(sec, addr, placed), region.Region, false, null);
         }
 
         // 2. Curated sites of companies headquartered elsewhere (or extra sites of Utah companies).
@@ -138,7 +144,9 @@ public sealed partial class ImportPipeline(
                 Sector = SectorClassifier.FromSic(c.Sec.Sic), Industry = Text.TitleCase(c.Sec.SicDescription),
                 Website = string.IsNullOrWhiteSpace(c.Sec.Website) ? null : c.Sec.Website,
                 FiscalYearEnd = c.Sec.FiscalYearEnd is { Length: 4 } fye ? $"{fye[..2]}-{fye[2..]}" : null,
-                Description = c.Note, AsOfDate = fin.LatestPeriodEnd
+                Description = c.Note, AsOfDate = fin.LatestPeriodEnd,
+                // Canadian companies often report in Canadian dollars; US proxy statements show pay in US dollars.
+                Currency = fin.Currency, PayCurrency = pay.Count > 0 && fin.Currency != "USD" ? "USD" : null
             };
             outcome.Companies.Add(company);
             outcome.Locations.Add(c.Location with { CompanyId = ticker, LocationId = $"{ticker}-HQ" });
@@ -254,12 +262,15 @@ public sealed partial class ImportPipeline(
         return words.Count >= 2 ? $"{words[0]}-{words[^1]}" : string.Join('-', words);
     }
 
-    private static CompanyLocation HeadquartersLocation(SecCompany sec, SecAddress addr, GeoPoint point, string state) => new()
+    private static CompanyLocation HeadquartersLocation(SecCompany sec, SecAddress addr, PlacedAddress placed) => new()
     {
         LocationId = "HQ", CompanyId = sec.PrimaryTicker ?? sec.Cik10, Type = LocationType.Headquarters, Label = "Headquarters",
-        Street = Text.TitleCase(addr.Street), City = Text.TitleCase(addr.City), State = state,
-        PostalCode = addr.Zip.Length >= 5 ? addr.Zip[..5] : addr.Zip, Point = point
+        Street = Text.TitleCase(addr.Street), City = placed.City ?? Text.TitleCase(addr.City), State = placed.State,
+        PostalCode = placed.PostalCode, Point = placed.Point
     };
+
+    /// <summary>Annual and quarterly reports: 40-F is the annual report of Canadian companies listed in the US.</summary>
+    private static readonly HashSet<string> StillReportingForms = ["10-K", "10-Q", "10-K/A", "40-F", "40-F/A", "20-F"];
 
     private sealed record CuratedRow(string Ticker, LocationType Type, string Label, string Street, string City, string Zip, string? Note);
 
@@ -302,6 +313,8 @@ public sealed partial class ImportPipeline(
         }
         sb.AppendLine("## Excluded").AppendLine();
         sb.AppendLine($"- {o.NoTicker} filers with no ticker (funds, trusts, shells, private companies with public debt)");
+        sb.AppendLine($"- {o.NotReporting} listed companies that haven't filed an annual or quarterly report since {options.Value.Discovery.Since:yyyy-MM-dd}");
+        sb.AppendLine($"- {o.Abroad} US-listed companies headquartered outside the US and Canada");
         sb.AppendLine($"- {o.OutsideMetros} listed companies in the searched states but outside the covered metros");
         foreach (var line in o.Excluded.OrderBy(x => x)) sb.AppendLine($"- {line}");
         sb.AppendLine().AppendLine("## Needs review").AppendLine();

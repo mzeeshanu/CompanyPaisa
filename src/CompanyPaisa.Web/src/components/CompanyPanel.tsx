@@ -131,7 +131,7 @@ export function CompanyPanel({ ticker, distanceMiles, nearestLabel, showExecutiv
             <p className="disclaimer">
               {uk
                 ? `Source: the company's annual reports (ESEF) and their directors' remuneration reports${d.detail.asOfDate ? `, latest year ending ${d.detail.asOfDate}` : ''}. Pay is each executive director's "single total figure".`
-                : `Source: company 10-K, 10-Q and proxy (DEF 14A) filings${d.detail.asOfDate ? `, as of ${d.detail.asOfDate}` : ''}.`}
+                : `Source: the company's SEC filings (10-K or 40-F annual reports, 10-Q quarterly reports and DEF 14A proxy statements)${d.detail.asOfDate ? `, as of ${d.detail.asOfDate}` : ''}.`}
               {d.detail.description?.toLowerCase().includes('synthetic') && ' This is sample data — figures are synthetic.'}
             </p>
           </>

@@ -16,6 +16,12 @@ public sealed class UkOptions
     /// <summary>Wikipedia pages whose constituent tables make up the list.</summary>
     public List<string> ConstituentPages { get; set; } = ["FTSE_100_Index", "FTSE_250_Index"];
     /// <summary>ICB sectors left out: investment trusts and funds have no operating revenue or executives.</summary>
+    /// <summary>
+    /// Also every other UK Main Market company that files ESEF reports (tickers via GLEIF ISINs + OpenFIGI), not only the FTSE 350.
+    /// </summary>
+    public bool AllMainMarket { get; set; }
+    /// <summary>Review copy of the companies added beyond the FTSE 350 (rewritten every run).</summary>
+    public string MainMarketListPath { get; set; } = "data/curated/uk-main-market.csv";
     public List<string> ExcludedSectors { get; set; } = ["Closed End Investments", "Investment Trusts", "Collective Investments", "Open End and Miscellaneous Investment Vehicles"];
 
     /// <summary>ESEF annual reports (xBRL-JSON + the report itself), indexed by LEI.</summary>

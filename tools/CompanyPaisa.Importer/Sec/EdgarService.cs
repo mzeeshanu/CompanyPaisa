@@ -33,6 +33,12 @@ public sealed class EdgarService(ISecClient client, IOptions<ImporterOptions> op
     public async Task<IReadOnlyList<long>> DiscoverFilerCiksAsync(CancellationToken ct)
     {
         var d = options.Value.Discovery;
+        if (d.AllListed)
+        {
+            await LoadTickersAsync(ct);
+            logger.LogInformation("Discovered {Count} companies with a listed ticker in the SEC's ticker file", _listings!.Count);
+            return _listings.Keys.Order().ToList();
+        }
         var all = new SortedSet<long>();
         var forms = string.Join(",", d.Forms.Count > 0 ? d.Forms : ["10-K"]);
         var today = DateOnly.FromDateTime(DateTime.UtcNow);
@@ -40,8 +46,8 @@ public sealed class EdgarService(ISecClient client, IOptions<ImporterOptions> op
         foreach (var state in d.States.Select(s => s.Trim().ToUpperInvariant()).Distinct())
         {
             var ciks = new HashSet<long>();
-            await SearchAsync(state, forms, d.FiledSince, today, ciks, ct);
-            logger.LogInformation("Discovered {Count} {State} filers of {Forms} since {Since}", ciks.Count, state, forms, d.FiledSince);
+            await SearchAsync(state, forms, d.Since, today, ciks, ct);
+            logger.LogInformation("Discovered {Count} {State} filers of {Forms} since {Since}", ciks.Count, state, forms, d.Since);
             all.UnionWith(ciks);
         }
         return all.ToList();

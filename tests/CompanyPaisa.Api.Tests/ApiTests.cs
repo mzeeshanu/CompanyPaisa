@@ -94,9 +94,26 @@ public class ApiTests(SampleDataFactory factory) : IClassFixture<SampleDataFacto
         Assert.Contains(config.Coverage, c => c.Name == "Rest of Minnesota");
         Assert.Contains(config.Coverage, c => c.Name == "London" && c.ExampleZip == "EC2N" && c.Country == "UK");
         Assert.Contains(config.Coverage, c => c.Name == "Rest of Utah");
-        Assert.Equal(23, config.Coverage.Count(c => c.Country == "US"));
+        Assert.Contains(config.Coverage, c => c.Name == "Toronto" && c.ExampleZip == "M5J" && c.Country == "CA");
+        Assert.Equal(40, config.Coverage.Count(c => c.Country == "US"));
+        Assert.Equal(6, config.Coverage.Count(c => c.Country == "CA"));
         Assert.Equal(10, config.Coverage.Count(c => c.Country == "UK"));
         Assert.Equal("privacy@companypaisa.com", config.PrivacyContact);
+    }
+
+    [Theory]
+    [InlineData("M5J", "Toronto", "ON")]          // Canadian postal area (no UK district called M5J)
+    [InlineData("m5j 2j2", "Toronto", "ON")]      // full Canadian postal code
+    [InlineData("V6C 1A1", "Vancouver", "BC")]
+    [InlineData("M2", "Manchester", "UK")]        // UK district
+    [InlineData("N1C", "London", "UK")]           // exact UK district wins over the Canadian FSA of the same name
+    [InlineData("EC2A 1NQ", "London", "UK")]      // UK fine district falls back to EC2
+    public async Task Postcodes_resolve_to_the_right_country(string query, string city, string state)
+    {
+        var hit = await Client().LookupAsync(query);
+        Assert.NotNull(hit);
+        Assert.Equal(state, hit!.State);
+        Assert.Contains(city, hit.City);
     }
 
     [Fact]

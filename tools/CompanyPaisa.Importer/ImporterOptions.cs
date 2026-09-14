@@ -37,11 +37,19 @@ public sealed class SecOptions
 
 public sealed class DiscoveryOptions
 {
+    /// <summary>
+    /// Screen every company in the SEC's listed-ticker file (nationwide) instead of searching <see cref="States"/>.
+    /// Every listed company has a ticker there, so nothing is lost; the address then decides the region.
+    /// </summary>
+    public bool AllListed { get; set; }
     /// <summary>Two-letter states searched with EDGAR full-text search (business address). Cover every state a metro touches.</summary>
-    [MinLength(1)] public List<string> States { get; set; } = [];
+    public List<string> States { get; set; } = [];
     public List<string> Forms { get; set; } = [];
     /// <summary>Only companies that filed one of <see cref="Forms"/> since this date (i.e. still reporting).</summary>
-    public DateOnly FiledSince { get; set; } = new(2024, 6, 1);
+    public DateOnly? FiledSince { get; set; }
+    /// <summary>When <see cref="FiledSince"/> isn't set: filed within this many months (keeps scheduled runs current).</summary>
+    [Range(1, 120)] public int FiledWithinMonths { get; set; } = 15;
+    public DateOnly Since => FiledSince ?? DateOnly.FromDateTime(DateTime.UtcNow).AddMonths(-FiledWithinMonths);
 }
 
 public sealed class RegionOptions
@@ -57,6 +65,10 @@ public sealed class RegionOptions
     /// first, so a statewide region only picks up what no metro claimed. The states must also be in Discovery:States.
     /// </summary>
     public List<string> States { get; set; } = [];
+    /// <summary>"US" or "CA". Anchors and States only match addresses in this country.</summary>
+    public string Country { get; set; } = "US";
+    /// <summary>Everything in <see cref="Country"/> that no metro or statewide region claimed ("Rest of US").</summary>
+    public bool WholeCountry { get; set; }
 }
 
 public sealed class RegionAnchor
@@ -93,6 +105,9 @@ public sealed class GeoImportOptions
     /// <summary>ZIP prefix(es) to keep in the generated ZIP table. Empty = every US ZIP.</summary>
     public List<string> ZipPrefixes { get; set; } = [];
     public string ZipTableOutput { get; set; } = "data/reference/us-zip-centroids.csv";
+    /// <summary>GeoNames Canadian postal areas (FSA, e.g. "M5J"; CC-BY 4.0). Empty = no Canadian companies.</summary>
+    public string CanadaPostalCodesUrl { get; set; } = "";
+    public string CanadaTableOutput { get; set; } = "data/reference/ca-postal-areas.csv";
     /// <summary>Existing CSV (zip,city,state,…) used to name ZIPs; SEC business addresses add more names.</summary>
     public string ZipNamesSeed { get; set; } = "data/reference/us-zip-centroids.sample.csv";
 }

@@ -46,7 +46,8 @@ public static class SubmissionsParser
         if (root.TryGetProperty("addresses", out var addrs) && addrs.TryGetProperty("business", out var b) && b.ValueKind == JsonValueKind.Object)
         {
             var street = string.Join(" ", new[] { Str(b, "street1"), Str(b, "street2") }.Where(s => !string.IsNullOrWhiteSpace(s)));
-            address = new SecAddress(street, Str(b, "city") ?? "", Str(b, "stateOrCountry") ?? "", (Str(b, "zipCode") ?? "").Trim());
+            // Foreign addresses can leave stateOrCountry empty and put EDGAR's code (A6 = Ontario) in countryCode instead.
+            address = new SecAddress(street, Str(b, "city") ?? "", Str(b, "stateOrCountry") ?? Str(b, "countryCode") ?? "", (Str(b, "zipCode") ?? "").Trim());
         }
 
         var company = new SecCompany(

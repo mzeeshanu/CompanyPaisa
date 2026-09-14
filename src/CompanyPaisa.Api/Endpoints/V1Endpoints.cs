@@ -95,7 +95,7 @@ public static class V1Endpoints
         // ----- Reference -----
         v1.MapGet("/geo/lookup", async (string q, IServiceRequestor requestor, CancellationToken ct) =>
                 Results.Ok(await requestor.SendAsync(new LookupGeoQuery(q), ct)))
-            .WithName("LookupGeo").WithSummary("Resolve a ZIP code or 'City, ST' to coordinates.")
+            .WithName("LookupGeo").WithSummary("Resolve a US ZIP code, Canadian or UK postcode, or 'City, ST' to coordinates.")
             .Produces<GeoLookupDto>();
 
         v1.MapGet("/geo/zip/{zip}", async (string zip, IServiceRequestor requestor, CancellationToken ct) =>

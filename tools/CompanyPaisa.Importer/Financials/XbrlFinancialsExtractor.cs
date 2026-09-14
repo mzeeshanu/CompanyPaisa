@@ -16,6 +16,8 @@ public sealed record FinancialsResult(IReadOnlyList<FinancialPeriod> Periods, st
 {
     public decimal? LatestAnnualRevenue => Periods.Where(p => p.PeriodType == PeriodType.Annual).OrderBy(p => p.FiscalYear).LastOrDefault()?.Revenue;
     public DateOnly? LatestPeriodEnd { get; init; }
+    /// <summary>Currency the figures are in (ISO code) — Canadian companies often report in CAD.</summary>
+    public string Currency { get; init; } = "USD";
 }
 
 public sealed partial class XbrlFinancialsExtractor : IFinancialsExtractor
@@ -31,6 +33,12 @@ public sealed partial class XbrlFinancialsExtractor : IFinancialsExtractor
     [
         "NetIncomeLoss", "ProfitLoss", "NetIncomeLossAvailableToCommonStockholdersBasic", "IncomeLossFromContinuingOperations"
     ];
+    // IFRS (Canadian 40-F filers and other foreign companies that file XBRL with the SEC).
+    private static readonly string[] IfrsRevenueConcepts =
+    [
+        "Revenue", "RevenueFromContractsWithCustomers", "RevenueFromSaleOfGoods", "RevenueFromRenderingOfServices", "RevenueAndOperatingIncome"
+    ];
+    private static readonly string[] IfrsNetIncomeConcepts = ["ProfitLoss", "ProfitLossAttributableToOwnersOfParent"];
 
     internal sealed record Fact(DateOnly? Start, DateOnly End, decimal Value, string? Frame, string Accession);
 
@@ -38,17 +46,33 @@ public sealed partial class XbrlFinancialsExtractor : IFinancialsExtractor
     {
         var notes = new List<string>();
         using var doc = JsonDocument.Parse(json);
-        if (!doc.RootElement.TryGetProperty("facts", out var facts) || !facts.TryGetProperty("us-gaap", out var gaap))
-            return new FinancialsResult([], null, ["No us-gaap XBRL facts."]);
+        if (!doc.RootElement.TryGetProperty("facts", out var facts))
+            return new FinancialsResult([], null, ["No XBRL facts."]);
 
-        var (revenue, revenueConcept) = MergeByFrame(gaap, RevenueConcepts);
+        // US GAAP first; companies from Canada and elsewhere may file IFRS instead.
+        JsonElement gaap = default;
+        string[] revenueConcepts = RevenueConcepts, netIncomeConcepts = NetIncomeConcepts;
+        if (facts.TryGetProperty("us-gaap", out var usGaap) && revenueConcepts.Any(c => usGaap.TryGetProperty(c, out _)))
+            gaap = usGaap;
+        else if (facts.TryGetProperty("ifrs-full", out var ifrs))
+            (gaap, revenueConcepts, netIncomeConcepts) = (ifrs, IfrsRevenueConcepts, IfrsNetIncomeConcepts);
+        else if (facts.TryGetProperty("us-gaap", out usGaap))
+            gaap = usGaap;
+        else
+            return new FinancialsResult([], null, ["No us-gaap or IFRS XBRL facts."]);
+
+        // The reporting currency: US dollars when the company reports in them, else the currency most of its revenue facts use.
+        var currency = ReportingCurrency(gaap, revenueConcepts);
+        if (currency != "USD") notes.Add($"Reports in {currency}.");
+
+        var (revenue, revenueConcept) = MergeByFrame(gaap, revenueConcepts, currency);
         if (revenue.Count == 0)
         {
             // Banks: total revenue ≈ interest & dividend income + non-interest income.
-            revenue = SumByFrame(Facts(gaap, "InterestAndDividendIncomeOperating"), Facts(gaap, "NoninterestIncome"));
+            revenue = SumByFrame(Facts(gaap, "InterestAndDividendIncomeOperating", currency), Facts(gaap, "NoninterestIncome", currency));
             if (revenue.Count > 0) { revenueConcept = "InterestAndDividendIncomeOperating + NoninterestIncome"; notes.Add("Revenue = interest & dividend income + non-interest income (bank)."); }
         }
-        var (netIncome, _) = MergeByFrame(gaap, NetIncomeConcepts);
+        var (netIncome, _) = MergeByFrame(gaap, netIncomeConcepts, currency);
         if (revenue.Count == 0) return new FinancialsResult([], null, ["No revenue facts in XBRL."]);
 
         // ---- annual: frames "CY2023" (≈12-month duration) ----
@@ -106,7 +130,7 @@ public sealed partial class XbrlFinancialsExtractor : IFinancialsExtractor
 
         var periods = annual.Where(p => p.FiscalYear >= fromYear).Concat(quarterly).ToList();
         var latestEnd = revenue.Values.Max(f => f.End);
-        return new FinancialsResult(periods, revenueConcept, notes) { LatestPeriodEnd = latestEnd };
+        return new FinancialsResult(periods, revenueConcept, notes) { LatestPeriodEnd = latestEnd, Currency = currency };
     }
 
     /// <summary>Retail-style years ending in January/February belong to the previous fiscal year.</summary>
@@ -122,14 +146,14 @@ public sealed partial class XbrlFinancialsExtractor : IFinancialsExtractor
         }
     }
 
-    private static (Dictionary<string, Fact> ByFrame, string? Concept) MergeByFrame(JsonElement gaap, IEnumerable<string> concepts)
+    private static (Dictionary<string, Fact> ByFrame, string? Concept) MergeByFrame(JsonElement gaap, IEnumerable<string> concepts, string currency)
     {
         var result = new Dictionary<string, Fact>();
         string? first = null;
         foreach (var concept in concepts)
         {
             var any = false;
-            foreach (var f in Facts(gaap, concept).Where(f => f.Frame is not null))
+            foreach (var f in Facts(gaap, concept, currency).Where(f => f.Frame is not null))
                 if (result.TryAdd(f.Frame!, f)) any = true;
             if (any) first ??= concept;
         }
@@ -144,9 +168,20 @@ public sealed partial class XbrlFinancialsExtractor : IFinancialsExtractor
             .ToDictionary(g => g.Key, g => g.First() with { Value = g.First().Value + bByFrame[g.Key].Value });
     }
 
-    internal static IEnumerable<Fact> Facts(JsonElement gaap, string concept)
+    /// <summary>USD if any revenue fact is in dollars; otherwise the currency unit with the most revenue facts (e.g. CAD).</summary>
+    private static string ReportingCurrency(JsonElement gaap, IEnumerable<string> concepts)
     {
-        if (!gaap.TryGetProperty(concept, out var c) || !c.TryGetProperty("units", out var units) || !units.TryGetProperty("USD", out var usd))
+        var counts = new Dictionary<string, int>();
+        foreach (var concept in concepts)
+            if (gaap.TryGetProperty(concept, out var c) && c.TryGetProperty("units", out var units))
+                foreach (var unit in units.EnumerateObject().Where(u => u.Name.Length == 3 && u.Name.All(char.IsUpper)))
+                    counts[unit.Name] = counts.GetValueOrDefault(unit.Name) + unit.Value.GetArrayLength();
+        return counts.ContainsKey("USD") || counts.Count == 0 ? "USD" : counts.MaxBy(kv => kv.Value).Key;
+    }
+
+    internal static IEnumerable<Fact> Facts(JsonElement gaap, string concept, string currency = "USD")
+    {
+        if (!gaap.TryGetProperty(concept, out var c) || !c.TryGetProperty("units", out var units) || !units.TryGetProperty(currency, out var usd))
             yield break;
         foreach (var f in usd.EnumerateArray())
         {

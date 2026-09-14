@@ -49,6 +49,21 @@ public sealed partial class UkImportPipeline(IOptions<ImporterOptions> options, 
         var byLei = entities.ToDictionary(e => e.Lei, StringComparer.OrdinalIgnoreCase);
         var byName = entities.GroupBy(e => NormaliseName(e.Name)).ToDictionary(g => g.Key, g => g.OrderByDescending(e => e.Filings.Count).First());
 
+        // 1b. The rest of the Main Market: filers no FTSE constituent claimed, with London-listed ordinary shares.
+        var added = new List<UkConstituent>();
+        if (_o.AllMainMarket)
+        {
+            var claimed = constituents
+                .Select(c => c.Lei is not null ? byLei.GetValueOrDefault(c.Lei) : byName.GetValueOrDefault(NormaliseName(c.Name)) ?? FuzzyMatch(c.Name, entities))
+                .Where(e => e is not null).Select(e => e!.Lei).ToHashSet(StringComparer.OrdinalIgnoreCase);
+            using var mainMarket = new UkMainMarket(client, _o.GleifApi, paths.Resolve(_o.CacheDirectory), _log);
+            added = await mainMarket.FindAsync(entities.Where(e => !claimed.Contains(e.Lei)),
+                constituents.Select(c => c.Ticker).ToHashSet(StringComparer.OrdinalIgnoreCase), recentYears: 2, ct);
+            UkConstituents.Write(paths.Resolve(_o.MainMarketListPath), added.OrderBy(a => a.Name));
+            constituents = [.. constituents, .. added];
+        }
+        var addedTickers = added.Select(a => a.Ticker).ToHashSet(StringComparer.OrdinalIgnoreCase);
+
         var companies = new List<Company>();
         var locations = new List<CompanyLocation>();
         var periods = new List<FinancialPeriod>();
@@ -168,7 +183,7 @@ public sealed partial class UkImportPipeline(IOptions<ImporterOptions> options, 
         }
 
         // 6. Keep the reviewed list (with the LEIs we matched) for next time.
-        UkConstituents.Write(listPath, matched);
+        UkConstituents.Write(listPath, matched.Where(m => !addedTickers.Contains(m.Ticker)));
 
         var workbook = paths.Resolve(_o.WorkbookPath);
         var staging = workbook + ".new.xlsx";
@@ -300,7 +315,9 @@ public sealed partial class UkImportPipeline(IOptions<ImporterOptions> options, 
     {
         var sb = new StringBuilder();
         sb.AppendLine($"# UK import report — {DateTime.UtcNow:yyyy-MM-dd HH:mm} UTC").AppendLine();
-        sb.AppendLine("Scope: FTSE 350 (FTSE 100 + FTSE 250) minus investment trusts. Sources: ESEF annual reports (filings.xbrl.org), GLEIF headquarters addresses, GeoNames postcode districts.").AppendLine();
+        sb.AppendLine(_o.AllMainMarket
+            ? "Scope: UK companies on the London Stock Exchange Main Market that file ESEF annual reports (FTSE 350 plus the rest; tickers via GLEIF ISINs and OpenFIGI), minus investment trusts and funds. Sources: ESEF annual reports (filings.xbrl.org), GLEIF headquarters addresses, GeoNames postcode districts."
+            : "Scope: FTSE 350 (FTSE 100 + FTSE 250) minus investment trusts. Sources: ESEF annual reports (filings.xbrl.org), GLEIF headquarters addresses, GeoNames postcode districts.").AppendLine();
         sb.AppendLine($"- Companies included: **{companies}**");
         sb.AppendLine($"- Years of figures: {periods}");
         sb.AppendLine($"- Directors' pay rows: {payRows} for {people} directors ({verified} add up exactly), from {reports} annual reports");

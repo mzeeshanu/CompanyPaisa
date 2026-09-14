@@ -30,16 +30,28 @@ public sealed partial class CsvZipGeoLocator(
         if (zip.Success)
             return Task.FromResult(index.ByZip.TryGetValue(zip.Groups[1].Value, out var z) ? z with { Query = q } : null);
 
+        // Canada: a full postal code ("M5J 2J2") is unambiguous; its first three characters (the FSA) locate it.
+        var ca = CanadaPostalPattern().Match(q.ToUpperInvariant());
+        if (ca.Success && ca.Groups["ldu"].Success && index.ByZip.TryGetValue(CanadaKey(ca.Groups["fsa"].Value), out var full))
+            return Task.FromResult<GeoLookupResult?>(full with { Query = q, PostalCode = $"{ca.Groups["fsa"].Value} {ca.Groups["ldu"].Value}" });
+
         // UK: "SW1A 1AA", "sw1a1aa" or just the district "SW1A" — all resolve to the district's centre.
         // The district table mixes fine districts ("SW1A") with coarser ones ("EC2"), so "EC2A" falls back to "EC2".
+        // A bare "M5J" could be either country: an exact UK district wins, then a Canadian FSA, then the coarser UK district.
         var uk = UkPostcodePattern().Match(q.ToUpperInvariant());
         if (uk.Success)
         {
             var district = uk.Groups["district"].Value;
-            if (index.ByZip.TryGetValue(district, out var d) ||
-                (char.IsLetter(district[^1]) && index.ByZip.TryGetValue(district[..^1], out d)))
-                return Task.FromResult<GeoLookupResult?>(d with { Query = q, PostalCode = uk.Groups["inward"].Success ? $"{district} {uk.Groups["inward"].Value}" : district });
+            var postal = uk.Groups["inward"].Success ? $"{district} {uk.Groups["inward"].Value}" : district;
+            if (index.ByZip.TryGetValue(district, out var d))
+                return Task.FromResult<GeoLookupResult?>(d with { Query = q, PostalCode = postal });
+            if (ca.Success && index.ByZip.TryGetValue(CanadaKey(ca.Groups["fsa"].Value), out var fsa))
+                return Task.FromResult<GeoLookupResult?>(fsa with { Query = q });
+            if (char.IsLetter(district[^1]) && index.ByZip.TryGetValue(district[..^1], out d))
+                return Task.FromResult<GeoLookupResult?>(d with { Query = q, PostalCode = postal });
         }
+        else if (ca.Success && index.ByZip.TryGetValue(CanadaKey(ca.Groups["fsa"].Value), out var fsa))
+            return Task.FromResult<GeoLookupResult?>(fsa with { Query = q });
 
         var cityState = CityStatePattern().Match(q);
         if (cityState.Success)
@@ -61,6 +73,15 @@ public sealed partial class CsvZipGeoLocator(
     private static partial Regex CityStatePattern();
 
     /// <summary>UK postcode: outward code (district) and an optional inward code.</summary>
+    /// <summary>Canadian postal code: forward sortation area ("M5J") and an optional local delivery unit ("2J2").</summary>
+    [GeneratedRegex(@"^(?<fsa>[ABCEGHJ-NPRSTVXY]\d[A-Z])(?:\s*(?<ldu>\d[A-Z]\d))?$")]
+    private static partial Regex CanadaPostalPattern();
+
+    /// <summary>Canadian areas are stored under "CA:M5J" so they never collide with a UK district of the same name.</summary>
+    private static string CanadaKey(string fsa) => "CA:" + fsa;
+
+    private static readonly HashSet<string> Provinces = ["AB", "BC", "MB", "NB", "NL", "NS", "NT", "NU", "ON", "PE", "QC", "SK", "YT"];
+
     [GeneratedRegex(@"^(?<district>[A-Z]{1,2}\d[A-Z\d]?)(?:\s*(?<inward>\d[A-Z]{2}))?$")]
     private static partial Regex UkPostcodePattern();
 
@@ -118,7 +139,8 @@ public sealed partial class CsvZipGeoLocator(
                 // US ZIPs lose leading zeros in spreadsheets; UK districts ("SW1A") are kept as they are.
                 var raw = f[cZip].Trim().ToUpperInvariant();
                 var zip = raw.All(char.IsDigit) ? raw.PadLeft(5, '0') : raw;
-                index.ByZip[zip] = new GeoLookupResult(zip, f[cCity].Trim(), f[cState].Trim().ToUpperInvariant(), zip, point);
+                var state = f[cState].Trim().ToUpperInvariant();
+                index.ByZip[Provinces.Contains(state) ? CanadaKey(zip) : zip] = new GeoLookupResult(zip, f[cCity].Trim(), f[cState].Trim().ToUpperInvariant(), zip, point);
 
                 var key = CityKey(f[cCity], f[cState]);
                 if (!cityPoints.TryGetValue(key, out var pts)) cityPoints[key] = pts = [];

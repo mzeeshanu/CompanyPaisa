@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { api, ApiError } from '../api/client';
-import type { CoverageArea } from '../api/types';
+import type { Country, CoverageArea } from '../api/types';
 import { DISCLAIMER } from '../lib/disclaimer';
 
 export interface Origin { latitude: number; longitude: number; label: string }
@@ -14,18 +14,30 @@ interface Props {
 const SHOWN_METROS = 6;
 const US_ZIP = /^\d{5}$/;
 const UK_POSTCODE = /^[A-Z]{1,2}\d[A-Z\d]?(\s*\d[A-Z]{2})?$/i;
-const COUNTRY_NAMES = { US: 'United States', UK: 'United Kingdom' } as const;
+const CA_POSTCODE = /^[ABCEGHJ-NPRSTVXY]\d[A-Z](\s*\d[A-Z]\d)?$/i;
+const COUNTRY_NAMES: Record<Country, string> = { US: 'United States', CA: 'Canada', UK: 'United Kingdom' };
+const SHORT_NAMES: Record<Country, string> = { US: 'US', CA: 'Canada', UK: 'UK' };
+const ORDER: Country[] = ['US', 'CA', 'UK'];
+/** "US, Canada & UK" */
+const listCountries = (cs: Country[]) => cs.map(c => SHORT_NAMES[c]).join(', ').replace(/, ([^,]*)$/, ' & $1');
 
-/** First screen: blurred page behind a small card asking for location, a US ZIP or a UK postcode. */
+/** Which tab a browser starts on: en-GB → UK, en-CA / fr-CA → Canada. */
+function browserCountry(available: Country[]): Country {
+  const lang = navigator.language;
+  if (available.includes('UK') && /-GB$/i.test(lang)) return 'UK';
+  if (available.includes('CA') && /-CA$/i.test(lang)) return 'CA';
+  return 'US';
+}
+
+/** First screen: blurred page behind a small card asking for location, a US ZIP, a Canadian or a UK postcode. */
 export function LocationGate({ coverageMiles, coverage, onLocated }: Props) {
   const [zip, setZip] = useState('');
   const [error, setError] = useState('');
   const [busy, setBusy] = useState<'geo' | 'zip' | null>(null);
   const [allMetros, setAllMetros] = useState(false);
-  const countries = [...new Set(coverage.map(c => c.country ?? 'US'))];
-  // A British browser starts on the UK areas.
-  const [country, setCountry] = useState<'US' | 'UK'>(() =>
-    countries.includes('UK') && /-GB$/i.test(navigator.language) ? 'UK' : 'US');
+  const countries = ORDER.filter(c => coverage.some(a => (a.country ?? 'US') === c));
+  // A British or Canadian browser starts on its own country's areas.
+  const [country, setCountry] = useState<Country>(() => browserCountry(countries));
   const input = useRef<HTMLInputElement>(null);
   const inCountry = coverage.filter(c => (c.country ?? 'US') === country);
   const example = inCountry[0]?.exampleZip ?? coverage[0]?.exampleZip ?? '84043';
@@ -50,7 +62,10 @@ export function LocationGate({ coverageMiles, coverage, onLocated }: Props) {
 
   async function lookupZip(q: string) {
     q = q.toUpperCase();
-    if (!US_ZIP.test(q) && !UK_POSTCODE.test(q)) { setError('Enter a 5-digit US ZIP code or a UK postcode (e.g. SW1A 1AA).'); return; }
+    if (!US_ZIP.test(q) && !UK_POSTCODE.test(q) && !CA_POSTCODE.test(q)) {
+      setError('Enter a 5-digit US ZIP code, a Canadian postal code (e.g. M5J 2J2) or a UK postcode (e.g. SW1A 1AA).');
+      return;
+    }
     setBusy('zip'); setError('');
     try {
       const hit = await api.lookup(q);
@@ -92,7 +107,7 @@ export function LocationGate({ coverageMiles, coverage, onLocated }: Props) {
           <circle cx="40" cy="14" r="8" fill="url(#mg2)" />
           <circle cx="42" cy="38" r="5" fill="url(#mg3)" />
         </svg>
-        <p className="eyebrow">Public companies{coverage.length > 1 ? ` · ${coverage.length} areas in the ${countries.join(' & ')}` : ''}</p>
+        <p className="eyebrow">Public companies{coverage.length > 1 ? ` · ${coverage.length} areas in the ${listCountries(countries)}` : ''}</p>
         <h1 id="gateTitle">Who's making money around you?</h1>
         <p className="lede">See the public companies near you, how big they are and where they're heading. Your location stays in your browser.</p>
         <button className="primary wide" onClick={useMyLocation} disabled={busy !== null}>
@@ -101,7 +116,7 @@ export function LocationGate({ coverageMiles, coverage, onLocated }: Props) {
         </button>
         <div className="or">OR</div>
         <form className="zip" onSubmit={submitZip}>
-          <input ref={input} maxLength={8} placeholder={countries.includes('UK') ? 'ZIP / postcode' : 'ZIP'} aria-label="US ZIP code or UK postcode"
+          <input ref={input} maxLength={8} placeholder={countries.length > 1 ? 'ZIP / postcode' : 'ZIP'} aria-label="US ZIP code, Canadian or UK postcode"
             autoComplete="postal-code" autoCapitalize="characters" spellCheck={false}
             value={zip} onChange={e => { setZip(e.target.value.replace(/[^A-Za-z0-9 ]/g, '').toUpperCase()); setError(''); }} />
           <button className="ghost" type="submit" disabled={busy !== null}>{busy === 'zip' ? '…' : 'Go'}</button>

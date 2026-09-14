@@ -20,20 +20,103 @@ public interface IZipGeocoder
     void LearnCityName(string zip, string city, string state);
     /// <summary>Two-letter state for a ZIP, if known.</summary>
     string? StateOf(string zip);
-    /// <summary>Writes zip,city,state,latitude,longitude for the configured prefixes (the API's ZIP lookup table).</summary>
+    /// <summary>Writes zip,city,state,latitude,longitude for the configured prefixes (the API's ZIP lookup table), and the Canadian table.</summary>
     Task<int> WriteZipTableAsync(CancellationToken ct);
-    /// <summary>The metro (and anchor within it) the point falls in, or null if it's outside every covered metro.</summary>
-    /// <summary>The metro whose circle contains the point, else a whole-state region covering <paramref name="state"/>.</summary>
-    (string Region, string Anchor)? RegionFor(GeoPoint point, string? state);
+    /// <summary>
+    /// The metro whose circle contains the point, else a whole-state region covering <paramref name="state"/>,
+    /// else a whole-country region covering <paramref name="country"/>.
+    /// </summary>
+    (string Region, string Anchor)? RegionFor(GeoPoint point, string? state, string country = "US");
+    /// <summary>
+    /// Where an SEC business address is: a US ZIP, or a Canadian postal code (EDGAR codes provinces as A0–B0, Z4 = Canada).
+    /// Null when the address is elsewhere or the code isn't known.
+    /// </summary>
+    PlacedAddress? Place(SecAddress address);
 }
 
-public sealed class ZipGeocoder(ISecClient client, IOptions<ImporterOptions> options, RepoPaths paths, ILogger<ZipGeocoder> logger) : IZipGeocoder
+/// <summary>
+/// A located address: <see cref="State"/> is the US state or Canadian province code. <see cref="City"/> is set for
+/// Canadian addresses (from the postal area), because EDGAR writes "Toronto, Ontario" or even "Canada" there.
+/// </summary>
+public sealed record PlacedAddress(GeoPoint Point, string State, string Country, string PostalCode, string? City = null);
+
+public sealed class ZipGeocoder(IOptions<ImporterOptions> options, RepoPaths paths, ILoggerFactory loggers) : IZipGeocoder
 {
     private readonly Dictionary<string, GeoPoint> _centroids = new();
     private readonly Dictionary<string, (string City, string State)> _names = new();
+    private readonly Dictionary<string, (string City, string Province, GeoPoint Point)> _canada = new(StringComparer.OrdinalIgnoreCase);
     private readonly HaversineDistanceCalculator _distance = new();
+    private readonly ILogger _logger = loggers.CreateLogger<ZipGeocoder>();
+    // Census and GeoNames get a generic identity: the contact email is only for the SEC. Same cache folder, so earlier downloads are reused.
+    private readonly SecClient client = new(new SecOptions
+    {
+        UserAgent = "CompanyPaisa", MaxRequestsPerSecond = 4, CacheDirectory = options.Value.Sec.CacheDirectory,
+        IndexCacheHours = options.Value.Sec.IndexCacheHours, CompressCache = options.Value.Sec.CompressCache
+    }, paths, loggers.CreateLogger<SecClient>());
+
+    /// <summary>EDGAR's codes for Canadian provinces (stateOrCountry). Z4 is "Canada" with no province.</summary>
+    private static readonly Dictionary<string, string> EdgarProvinces = new(StringComparer.OrdinalIgnoreCase)
+    {
+        ["A0"] = "AB", ["A1"] = "BC", ["A2"] = "MB", ["A3"] = "NB", ["A4"] = "NL", ["A5"] = "NS",
+        ["A6"] = "ON", ["A7"] = "PE", ["A8"] = "QC", ["A9"] = "SK", ["B0"] = "YT", ["Z4"] = ""
+    };
 
     public async Task LoadAsync(CancellationToken ct)
+    {
+        await LoadUsAsync(ct);
+        await LoadCanadaAsync(ct);
+    }
+
+    private async Task LoadCanadaAsync(CancellationToken ct)
+    {
+        var url = options.Value.Geo.CanadaPostalCodesUrl;
+        if (string.IsNullOrWhiteSpace(url)) return;
+        var zip = await client.GetBytesAsync(url, CachePolicy.Immutable, ct)
+                  ?? throw new InvalidOperationException($"Couldn't download Canadian postal codes from {url}.");
+        using var archive = new ZipArchive(new MemoryStream(zip));
+        using var reader = new StreamReader(archive.Entries.First(e => e.Name.Equals("CA.txt", StringComparison.OrdinalIgnoreCase)).Open(), Encoding.UTF8);
+        // country, FSA, place ("Downtown Toronto (Harbourfront East…)"), province name, province code, city, …, latitude, longitude
+        while (await reader.ReadLineAsync(ct) is { } line)
+        {
+            var f = line.Split('\t');
+            if (f.Length < 11 || f[1].Length != 3 ||
+                !double.TryParse(f[9], NumberStyles.Float, CultureInfo.InvariantCulture, out var lat) ||
+                !double.TryParse(f[10], NumberStyles.Float, CultureInfo.InvariantCulture, out var lng)) continue;
+            var city = f[5].Trim().Length > 0 ? f[5].Trim() : f[2].Split(" (")[0].Trim();
+            _canada[f[1]] = (city, f[4].Trim().ToUpperInvariant(), new GeoPoint(lat, lng));
+        }
+        _logger.LogInformation("Loaded {Count} Canadian postal areas (FSAs) from GeoNames", _canada.Count);
+    }
+
+    public PlacedAddress? Place(SecAddress address)
+    {
+        if (EdgarProvinces.TryGetValue(address.State.Trim(), out var province))
+        {
+            // "M5J 2J2" → M5J. The FSA also names the province when EDGAR only says "Canada".
+            var code = new string(address.Zip.Where(char.IsLetterOrDigit).ToArray()).ToUpperInvariant();
+            if (code.Length < 3 || !_canada.TryGetValue(code[..3], out var fsa)) return null;
+            var postal = code.Length == 6 ? $"{code[..3]} {code[3..]}" : code[..3];
+            return new PlacedAddress(fsa.Point, province.Length > 0 ? province : fsa.Province, "CA", postal, fsa.City);
+        }
+
+        // Some SEC records leave the state blank; the ZIP knows it, but only trust that when the city agrees too —
+        // otherwise an Israeli postcode like 4672530 would pass as ZIP 46725 in Indiana.
+        var state = address.State.Trim().ToUpperInvariant();
+        if (state.Length == 0 && StateOf(address.Zip) is { } fromZip && _names.TryGetValue(address.Zip[..5], out var n) &&
+            string.Equals(n.City, Text.TitleCase(address.City), StringComparison.OrdinalIgnoreCase))
+            state = fromZip;
+        if (!UsStates.Contains(state) || Locate(address.Zip, address.City, state) is not { } point) return null;
+        return new PlacedAddress(point, state, "US", address.Zip.Length >= 5 ? address.Zip[..5] : address.Zip);
+    }
+
+    private static readonly HashSet<string> UsStates = new(StringComparer.OrdinalIgnoreCase)
+    {
+        "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "DC", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD",
+        "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD",
+        "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY", "PR"
+    };
+
+    private async Task LoadUsAsync(CancellationToken ct)
     {
         var o = options.Value.Geo;
         var zip = await client.GetBytesAsync(o.GazetteerUrl, CachePolicy.Immutable, ct)
@@ -75,7 +158,7 @@ public sealed class ZipGeocoder(ISecClient client, IOptions<ImporterOptions> opt
                     double.TryParse(f[10], NumberStyles.Float, CultureInfo.InvariantCulture, out var lo))
                 { _centroids[f[1]] = new GeoPoint(la, lo); extra++; }
             }
-            logger.LogInformation("Loaded {Count} ZIP names from GeoNames ({Extra} ZIPs the Census doesn't map, e.g. PO boxes)", _names.Count, extra);
+            _logger.LogInformation("Loaded {Count} ZIP names from GeoNames ({Extra} ZIPs the Census doesn't map, e.g. PO boxes)", _names.Count, extra);
         }
 
         // Seed names from the existing hand-made table.
@@ -86,7 +169,7 @@ public sealed class ZipGeocoder(ISecClient client, IOptions<ImporterOptions> opt
                 var f = line.Split(',');
                 if (f.Length >= 3) _names.TryAdd(f[0].Trim(), (f[1].Trim(), f[2].Trim()));
             }
-        logger.LogInformation("Loaded {Count} ZIP centroids from the Census Gazetteer", _centroids.Count);
+        _logger.LogInformation("Loaded {Count} ZIP centroids from the Census Gazetteer", _centroids.Count);
     }
 
     public GeoPoint? Locate(string zip)
@@ -127,15 +210,22 @@ public sealed class ZipGeocoder(ISecClient client, IOptions<ImporterOptions> opt
             })
             .ToList();
         await File.WriteAllLinesAsync(path, ["zip,city,state,latitude,longitude", .. rows], ct);
+
+        // Canadian postal areas: "M5J,Toronto,ON,…" (the API tells them from UK districts by the province).
+        if (_canada.Count > 0 && !string.IsNullOrWhiteSpace(o.CanadaTableOutput))
+            await File.WriteAllLinesAsync(paths.Resolve(o.CanadaTableOutput),
+                ["zip,city,state,latitude,longitude", .. _canada.OrderBy(kv => kv.Key, StringComparer.Ordinal)
+                    .Select(kv => string.Create(CultureInfo.InvariantCulture, $"{kv.Key},{Csv(kv.Value.City)},{kv.Value.Province},{kv.Value.Point.Latitude:F5},{kv.Value.Point.Longitude:F5}"))], ct);
         return rows.Count;
     }
 
     public string? StateOf(string zip) =>
         zip is { Length: >= 5 } && _names.TryGetValue(zip[..5], out var n) && n.State.Length == 2 ? n.State : null;
 
-    public (string Region, string Anchor)? RegionFor(GeoPoint point, string? state)
+    public (string Region, string Anchor)? RegionFor(GeoPoint point, string? state, string country = "US")
     {
-        var regions = options.Value.Regions;
+        // Only regions in the same country: Detroit's circle reaches Windsor, Ontario.
+        var regions = options.Value.Regions.Where(r => string.Equals(r.Country, country, StringComparison.OrdinalIgnoreCase)).ToList();
         // Metro circles first, so a company in the Twin Cities stays in "Minneapolis–St. Paul"...
         var metro = regions
             .SelectMany(r => r.Anchors.Select(a => (Region: r.Name, Anchor: a)))
@@ -143,8 +233,12 @@ public sealed class ZipGeocoder(ISecClient client, IOptions<ImporterOptions> opt
             .Select(x => ((string Region, string Anchor)?)(x.Region, x.Anchor.Name))
             .FirstOrDefault();
         if (metro is not null || string.IsNullOrWhiteSpace(state)) return metro;
-        // ...then whole-state regions pick up the rest (Hormel in Austin, MN).
-        return regions.Where(r => r.States.Contains(state, StringComparer.OrdinalIgnoreCase))
+        // ...then whole-state regions pick up the rest (Hormel in Austin, MN)...
+        var statewide = regions.Where(r => r.States.Contains(state, StringComparer.OrdinalIgnoreCase))
+            .Select(r => ((string Region, string Anchor)?)(r.Name, state.ToUpperInvariant()))
+            .FirstOrDefault();
+        // ...and a whole-country region ("Rest of US") takes everything else.
+        return statewide ?? regions.Where(r => r.WholeCountry)
             .Select(r => ((string Region, string Anchor)?)(r.Name, state.ToUpperInvariant()))
             .FirstOrDefault();
     }

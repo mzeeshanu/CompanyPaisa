@@ -20,24 +20,25 @@
 dotnet run --project tools/CompanyPaisa.Importer
 ```
 
-Settings are in `tools/CompanyPaisa.Importer/appsettings.json`: the states to search, the metros (`Regions` — each a name,
+Settings are in `tools/CompanyPaisa.Importer/appsettings.json`: discovery (`AllListed` screens every company in the SEC's listed-ticker file that reported in the last `FiledWithinMonths`), the metros (`Regions` — each a name,
 an example ZIP and anchor circles), exchanges, minimum revenue for OTC companies, years of history, and the SEC contact
 header (put your email in `appsettings.Local.json`, which git ignores). The first nationwide run takes a few hours
 (thousands of filings, throttled under the SEC's 10 requests/second limit; the gzip cache grows to several GB); later
 runs reuse the cache. The running API reloads the workbook automatically when the file changes.
 
-To add a metro: add a `Regions` entry (and its states to `Discovery:States`) in the importer settings, and a matching
+To add a metro: add a `Regions` entry in the importer settings (`Country` "US" or "CA"; a `WholeCountry` region takes everything no metro claims), and a matching
 `Ui:Coverage` entry in `src/CompanyPaisa.Api/appsettings.json` so the website lists it.
 
 **How it's built**
 
-1. **Companies** — EDGAR full-text search for 10-K filers whose business address is in one of the searched states
-   (one query per state and calendar year), kept if the address is inside a metro and the company trades on
-   Nasdaq/NYSE/CBOE (or OTC with ≥ $5M revenue). Plus `curated/utah-offices.csv`.
+1. **Companies** — every company in the SEC's listed-ticker file that filed a 10-K, 10-Q, 40-F or 20-F recently, with a
+   business address in the US or Canada (Canadian postal areas from GeoNames), trading on Nasdaq/NYSE/CBOE (or OTC with
+   ≥ $5M revenue). Plus `curated/utah-offices.csv`. Companies based elsewhere are counted, not included.
 2. **Profile** — SEC submissions record: name, ticker, exchange, SIC industry (mapped to a sector), fiscal year end, address.
 3. **Location** — ZIP-code centroid (Census; GeoNames for PO-box ZIPs). Precision is ZIP-level, so companies in the
    same ZIP share a point.
-4. **Financials** — SEC XBRL "company facts": revenue and net income per SEC calendar frame (annual + quarterly);
+4. **Financials** — SEC XBRL "company facts" (US GAAP, or IFRS for Canadian 40-F filers, in the reported currency):
+   revenue and net income per SEC calendar frame (annual + quarterly);
    a missing fiscal Q4 is derived as annual minus the other three quarters. Every period links to its filing.
 5. **Executive pay** — the Summary Compensation Table in each DEF 14A proxy statement (newest first, older ones only for
    missing years). Salary, bonus, stock + option awards, other (non-equity incentive, pension, all other) and total.
@@ -50,12 +51,32 @@ To add a metro: add a `Regions` entry (and its states to `Discovery:States`) in 
 **Known gaps** (see `import-report.md`): foreign private issuers (e.g. NICE) don't file DEF 14A, so no executive pay;
 a few small companies use table layouts the parser doesn't recognise yet.
 
+## Monthly refresh (scheduled)
+
+`tools/refresh-data.ps1` runs both importers (US + Canada, then UK with a fresh FTSE list) and, only if both finish and
+verify their workbooks, commits and pushes the data files so Railway redeploys. It refuses to run while there are
+uncommitted changes outside `data/`, and logs to `%LOCALAPPDATA%\CompanyPaisa\logs`.
+
+```powershell
+powershell -ExecutionPolicy Bypass -File tools\register-refresh-task.ps1          # schedule: 2nd of each month, 2 am
+powershell -ExecutionPolicy Bypass -File tools\refresh-data.ps1 -NoPush          # run now, commit but don't push
+Start-ScheduledTask 'CompanyPaisa data refresh'                                   # run the scheduled job now
+powershell -ExecutionPolicy Bypass -File tools\register-refresh-task.ps1 -Remove  # stop scheduling
+```
+
+The task runs only while you're signed in (no stored password); if the PC was off, it runs when it's next on.
+
 ## The UK dataset
 
 ```bash
 dotnet run --project tools/CompanyPaisa.Importer -- --uk                     # uses data/curated/uk-ftse350.csv
 dotnet run --project tools/CompanyPaisa.Importer -- --uk --refresh-uk-list   # re-reads the FTSE 100/250 lists first
 ```
+
+With `Uk:AllMainMarket` (on), every other UK filer on filings.xbrl.org with London-listed ordinary shares or REIT units is
+added too: GLEIF lists each filer's ISINs and OpenFIGI maps them to London tickers (cached in
+`data/cache/uk/openfigi-isins.json`). Those companies are listed for review in `curated/uk-main-market.csv`; they have no
+sector yet. AIM companies don't file ESEF reports, so they aren't covered.
 
 Settings: the `Importer:Uk` section (areas, how many reports to read for pay, rate limit). The UK sources are sent a
 generic `CompanyPaisa` User-Agent — no personal contact details.

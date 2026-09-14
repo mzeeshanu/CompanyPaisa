@@ -22,7 +22,7 @@ public sealed class LookupGeoHandler(IGeoLocator geoLocator) : IRequestHandler<L
 {
     public async Task<GeoLookupDto> HandleAsync(LookupGeoQuery q, CancellationToken ct) =>
         (await geoLocator.LookupAsync(q.Query, ct))?.ToDto()
-        ?? throw new NotFoundException($"We couldn't find '{q.Query}'. Try a 5-digit US ZIP code, a UK postcode or 'City, ST'.");
+        ?? throw new NotFoundException($"We couldn't find '{q.Query}'. Try a 5-digit US ZIP code, a Canadian or UK postcode, or 'City, ST'.");
 }
 
 // ---------- Sectors ----------

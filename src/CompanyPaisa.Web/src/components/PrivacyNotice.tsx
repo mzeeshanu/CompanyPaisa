@@ -35,7 +35,7 @@ export function PrivacyNotice({ open, contact, onClose }: Props) {
         <h3>What we show</h3>
         <p>
           Financial figures of public companies, and the names, roles and pay of their executives and directors — exactly as the
-          companies publish them in their legally required filings: US SEC filings (10-K, 10-Q, proxy statements) and UK annual
+          companies publish them in their legally required filings: SEC filings (10-K, 10-Q, 40-F, proxy statements) for US and Canadian companies and UK annual
           reports (the directors' remuneration report). We don't collect anything else about these people: no contact details,
           no addresses, nothing that isn't in those public reports.
         </p>
