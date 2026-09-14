@@ -70,11 +70,36 @@ public class SummaryCompensationTableParserTests
     [Theory]
     [InlineData("Brad Bentley (5) Executive Vice President", "Brad Bentley", "Executive Vice President")]
     [InlineData("Todd King 5", "Todd King", "")]
+    [InlineData("Todd King 5 Chief Legal and Compliance Officer", "Todd King", "Chief Legal and Compliance Officer")]
     [InlineData("Jonathan E. Johnson III (7)", "Jonathan E. Johnson III", "")]
     [InlineData("Robert L. Smith, Jr., Chief Financial Officer", "Robert L. Smith, Jr.", "Chief Financial Officer")]
     [InlineData("David Wright (3) Co-Founder; Chairman of the Board", "David Wright", "Co-Founder; Chairman of the Board")]
     public void Splits_names_from_titles_and_footnotes(string text, string name, string title) =>
         Assert.Equal((name, title), SummaryCompensationTableParser.SplitNameAndTitle(text));
+
+    /// <summary>Shaped like PROG Holdings' 2026 proxy: a bare footnote "6" in its own cell before the Total.</summary>
+    private const string BareFootnoteHtml = """
+        <table>
+          <tr><td>Name and Principal Position</td><td>Year</td><td>Salary ($)</td><td>Bonus ($)</td><td>Stock Awards ($)</td><td>Option Awards ($)</td><td>Non-Equity Incentive Plan Compensation ($)</td><td>All Other Compensation ($)</td><td>Total ($)</td></tr>
+          <tr><td>Steven A. Michaels Chief Executive Officer</td><td>2025</td><td>1,000,000</td><td>—</td><td>7,424,432</td><td>—</td><td>1,408,500</td><td>47,498</td><td>6</td><td>9,880,430</td></tr>
+          <tr><td></td><td>2024</td><td>1,000,000</td><td>—</td><td>10,044,764</td><td>—</td><td>2,256,000</td><td>27,600</td><td>13,328,364</td></tr>
+          <tr><td>Wahid Nawabi President</td><td>2026</td><td>1,118,829 5</td><td>—</td><td>13,339,715</td><td>—</td><td>767,609</td><td>27,623</td><td>15,253,775</td></tr>
+        </table>
+        """;
+
+    [Fact]
+    public void Ignores_a_bare_footnote_number_between_amounts()
+    {
+        var rows = new SummaryCompensationTableParser().Parse(BareFootnoteHtml).Rows;
+        var y2025 = rows.Single(r => r.Name == "Steven A. Michaels" && r.Year == 2025);
+        Assert.Equal(9_880_430m, y2025.Total);
+        Assert.Equal(7_424_432m, y2025.StockAwards);
+        Assert.True(y2025.ComponentsVerified);
+
+        var spaced = rows.Single(r => r.Name == "Wahid Nawabi");   // "1,118,829 5": footnote after a space
+        Assert.Equal(1_118_829m, spaced.Salary);
+        Assert.True(spaced.ComponentsVerified);
+    }
 
     [Fact]
     public void Returns_nothing_when_there_is_no_compensation_table() =>

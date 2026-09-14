@@ -180,7 +180,8 @@ public sealed partial class SummaryCompensationTableParser : ICompensationParser
 
         var sequence = row.Where(c => c.Start > yearCell.End)
             .Select(c => c.Text.Trim())
-            .Where(s => s.Length > 0 && s != "$" && !Footnote().IsMatch(s))
+            // A bare "6" in its own cell is a footnote marker, not six dollars (PROG's 2026 proxy shifted every column that way).
+            .Where(s => s.Length > 0 && s != "$" && !Footnote().IsMatch(s) && !BareFootnote().IsMatch(s))
             .Select(ParseAmount).Where(a => a is not null).Select(a => a!.Value).ToList();
         if (sequence.Count == amounts.Count)
         {
@@ -222,7 +223,8 @@ public sealed partial class SummaryCompensationTableParser : ICompensationParser
 
     internal static (string Name, string Title) SplitNameAndTitle(string raw)
     {
-        var text = FootnoteInline().Replace(raw, " ");
+        // "Todd King 5 Chief Legal Officer": a bare footnote number after the name.
+        var text = InlineBareFootnote().Replace(FootnoteInline().Replace(raw, " "), " ");
         text = TrailingNumber().Replace(HonorificPrefix().Replace(Spaces().Replace(text, " ").Trim(), ""), "").Trim();
         var comma = text.IndexOf(',');
         if (comma > 0)
@@ -289,6 +291,7 @@ public sealed partial class SummaryCompensationTableParser : ICompensationParser
         if (Footnote().IsMatch(cell.Trim())) return null;
         // "16,200,061 (d)" / "1,000,000(1)" / "250,000*" — drop footnote markers glued to the number.
         var c = FootnoteInline().Replace(LetterFootnote().Replace(cell, ""), "");
+        c = TrailingSpacedFootnote().Replace(c, "");   // "1,118,829 5" is $1,118,829 with footnote 5, not $11,188,295
         c = c.Replace("$", "").Replace(",", "").Replace(" ", "").Trim();
         if (c.Length == 0) return null;
         if (c is "-" or "—" or "–" or "--" or "0") return 0;
@@ -306,6 +309,9 @@ public sealed partial class SummaryCompensationTableParser : ICompensationParser
     [GeneratedRegex(@"^\(\s*(?:\d{1,2}|[a-z])\s*\)$|^\*+$", RegexOptions.IgnoreCase)] private static partial Regex Footnote();
     [GeneratedRegex(@"\(\s*\d{1,2}\s*\)|\*")] private static partial Regex FootnoteInline();
     [GeneratedRegex(@"\s+\d{1,2}$")] private static partial Regex TrailingNumber();
+    [GeneratedRegex(@"^[1-9]\d?$")] private static partial Regex BareFootnote();   // 1–99; "0" is a real amount
+    [GeneratedRegex(@"(?<=\d,\d{3})\s+\d{1,2}\s*$")] private static partial Regex TrailingSpacedFootnote();
+    [GeneratedRegex(@"(?<=[A-Za-z.])\s+\d{1,2}(?=\s+[A-Z])")] private static partial Regex InlineBareFootnote();
     [GeneratedRegex(@"\(\s*[a-z]{1,2}\s*\)", RegexOptions.IgnoreCase)] private static partial Regex LetterFootnote();
     [GeneratedRegex(@"\(\s*[“""][^)]*\)?\s*$")] private static partial Regex DefinedTermSuffix();
     [GeneratedRegex(@"\s+")] private static partial Regex Spaces();
