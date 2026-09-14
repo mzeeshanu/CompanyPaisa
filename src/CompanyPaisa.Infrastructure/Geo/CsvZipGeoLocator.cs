@@ -26,6 +26,19 @@ public sealed partial class CsvZipGeoLocator(
         var q = query.Trim();
         var index = _index.Value;
 
+        // Europe: the website sends the country with the code ("FR-75008", "NL 1012 AB"), because a bare 5-digit
+        // French, Italian or Spanish postcode looks exactly like a US ZIP.
+        var eu = EuropeanPostcodePattern().Match(q.ToUpperInvariant());
+        if (eu.Success)
+        {
+            var country = eu.Groups["country"].Value;
+            var digits = eu.Groups["digits"].Value;
+            var code = country == "NL" ? digits[..Math.Min(4, digits.Length)] : digits.PadLeft(5, '0');
+            return Task.FromResult(index.ByZip.TryGetValue($"{country}:{code}", out var e)
+                ? e with { Query = q, PostalCode = country == "NL" && eu.Groups["letters"].Success ? $"{code} {eu.Groups["letters"].Value}" : code }
+                : null);
+        }
+
         var zip = ZipPattern().Match(q);
         if (zip.Success)
             return Task.FromResult(index.ByZip.TryGetValue(zip.Groups[1].Value, out var z) ? z with { Query = q } : null);
@@ -73,6 +86,10 @@ public sealed partial class CsvZipGeoLocator(
     private static partial Regex CityStatePattern();
 
     /// <summary>UK postcode: outward code (district) and an optional inward code.</summary>
+    /// <summary>"FR-75008", "IT 00184", "ES-08002", "NL-1012 AB": country, then the code (Dutch codes may carry two letters).</summary>
+    [GeneratedRegex(@"^(?<country>FR|NL|IT|ES)[\s\-:]+(?<digits>\d{4,5})(?:\s*(?<letters>[A-Z]{2}))?$")]
+    private static partial Regex EuropeanPostcodePattern();
+
     /// <summary>Canadian postal code: forward sortation area ("M5J") and an optional local delivery unit ("2J2").</summary>
     [GeneratedRegex(@"^(?<fsa>[ABCEGHJ-NPRSTVXY]\d[A-Z])(?:\s*(?<ldu>\d[A-Z]\d))?$")]
     private static partial Regex CanadaPostalPattern();
@@ -128,6 +145,8 @@ public sealed partial class CsvZipGeoLocator(
             int Col(string name) => header.IndexOf(name) is var i and >= 0 ? i
                 : throw new FormatException($"ZIP table '{path}' is missing the '{name}' column.");
             int cZip = Col("zip"), cCity = Col("city"), cState = Col("state"), cLat = Col("latitude"), cLng = Col("longitude");
+            // Optional "country" column (European tables): rows are keyed "FR:75008" so they never collide with US ZIPs.
+            var cCountry = header.IndexOf("country");
 
             foreach (var line in lines.Skip(1))
             {
@@ -140,7 +159,10 @@ public sealed partial class CsvZipGeoLocator(
                 var raw = f[cZip].Trim().ToUpperInvariant();
                 var zip = raw.All(char.IsDigit) ? raw.PadLeft(5, '0') : raw;
                 var state = f[cState].Trim().ToUpperInvariant();
-                index.ByZip[Provinces.Contains(state) ? CanadaKey(zip) : zip] = new GeoLookupResult(zip, f[cCity].Trim(), f[cState].Trim().ToUpperInvariant(), zip, point);
+                var country = cCountry >= 0 ? f[cCountry].Trim().ToUpperInvariant() : "";
+                var zipKey = country.Length > 0 ? $"{country}:{raw}" : Provinces.Contains(state) ? CanadaKey(zip) : zip;
+                var shown = country.Length > 0 ? raw : zip;   // Dutch "1012" must not become "01012"
+                index.ByZip[zipKey] = new GeoLookupResult(shown, f[cCity].Trim(), state, shown, point);
 
                 var key = CityKey(f[cCity], f[cState]);
                 if (!cityPoints.TryGetValue(key, out var pts)) cityPoints[key] = pts = [];

@@ -25,6 +25,7 @@ builder.Services.AddSingleton<ICompensationParser, SummaryCompensationTableParse
 builder.Services.AddSingleton<IZipGeocoder, ZipGeocoder>();
 builder.Services.AddSingleton<ImportPipeline>();
 builder.Services.AddSingleton<CompanyPaisa.Importer.Uk.UkImportPipeline>();
+builder.Services.AddSingleton<CompanyPaisa.Importer.Eu.EuImportPipeline>();
 
 using var host = builder.Build();
 
@@ -39,6 +40,13 @@ if (args is ["--debug-uk-pay", var reportUrl])
         Console.WriteLine($"{r.Name} | {r.Year} | salary {r.Salary:N0} bonus {r.Bonus:N0} long-term {r.LongTerm:N0} other {r.Other:N0} total {r.Total:N0} {parsed.Currency} {(r.Verified ? "✓" : "✗")}");
     foreach (var w in parsed.Warnings) Console.WriteLine("warning: " + w);
     return 0;
+}
+// Europe (France, Netherlands, Italy, Spain — financials only): dotnet run --project tools/CompanyPaisa.Importer -- --eu
+if (args.Contains("--eu"))
+{
+    using var euCts = new CancellationTokenSource();
+    Console.CancelKeyPress += (_, e) => { e.Cancel = true; euCts.Cancel(); };
+    return await host.Services.GetRequiredService<CompanyPaisa.Importer.Eu.EuImportPipeline>().RunAsync(euCts.Token);
 }
 if (args.Contains("--uk"))
 {

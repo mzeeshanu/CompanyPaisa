@@ -1,7 +1,7 @@
 <#
 .SYNOPSIS
-  Scheduled data refresh: rebuilds the US + Canada (SEC) and UK (Main Market) workbooks, then commits and pushes them
-  so Railway redeploys the site with fresh data.
+  Scheduled data refresh: rebuilds the US + Canada (SEC), UK (Main Market) and European (ESEF) workbooks, then commits
+  and pushes them so Railway redeploys the site with fresh data.
 
 .DESCRIPTION
   Run by the Windows scheduled task "CompanyPaisa data refresh" (see tools/register-refresh-task.ps1), or by hand:
@@ -9,7 +9,7 @@
       powershell -ExecutionPolicy Bypass -File tools\refresh-data.ps1 -NoPush    # import and commit only
 
   Safety:
-  - Nothing is committed unless both importers finish and verify their workbooks (they only swap a workbook in after
+  - Nothing is committed unless all three importers finish and verify their workbooks (they only swap a workbook in after
     reading it back with the API's own loader).
   - It refuses to run if you have uncommitted changes outside data/, so it never sweeps your work into a data commit.
   - Only data files are staged.
@@ -41,8 +41,8 @@ function Invoke-Step([string]$name, [string]$exe, [string[]]$arguments) {
 }
 
 $dataFiles = @(
-    'data/companypaisa.xlsx', 'data/companypaisa-uk.xlsx',
-    'data/import-report.md', 'data/import-report-uk.md',
+    'data/companypaisa.xlsx', 'data/companypaisa-uk.xlsx', 'data/companypaisa-eu.xlsx',
+    'data/import-report.md', 'data/import-report-uk.md', 'data/import-report-eu.md', 'data/reference/eu-postcodes.csv', 'data/curated/eu-companies.csv',
     'data/reference/us-zip-centroids.csv', 'data/reference/ca-postal-areas.csv', 'data/reference/uk-postcode-districts.csv',
     'data/curated/uk-ftse350.csv', 'data/curated/uk-main-market.csv'
 )
@@ -60,13 +60,14 @@ try {
 
     Invoke-Step 'US + Canada import (SEC EDGAR)' 'dotnet' @('run', '--project', 'tools/CompanyPaisa.Importer', '-c', 'Release')
     Invoke-Step 'UK import (Main Market ESEF reports)' 'dotnet' @('run', '--project', 'tools/CompanyPaisa.Importer', '-c', 'Release', '--', '--uk', '--refresh-uk-list')
+    Invoke-Step 'Europe import (France, Netherlands, Italy, Spain - ESEF reports)' 'dotnet' @('run', '--project', 'tools/CompanyPaisa.Importer', '-c', 'Release', '--', '--eu')
 
     $existing = $dataFiles | Where-Object { Test-Path (Join-Path $repo $_) }
     Invoke-Step 'git add' 'git' (@('add', '--') + $existing)
     git diff --cached --quiet
     if ($LASTEXITCODE -eq 0) { Write-Log 'No data changed; nothing to commit.'; exit 0 }
 
-    $message = "Data refresh {0:yyyy-MM-dd}`n`nAutomatic run of tools/refresh-data.ps1: SEC EDGAR (US + Canada) and UK Main Market ESEF reports." -f (Get-Date)
+    $message = "Data refresh {0:yyyy-MM-dd}`n`nAutomatic run of tools/refresh-data.ps1: SEC EDGAR (US + Canada), UK Main Market and European ESEF reports." -f (Get-Date)
     $msgFile = Join-Path $logDir 'commit-message.txt'
     Set-Content -Path $msgFile -Value $message -Encoding utf8
     Invoke-Step 'git commit' 'git' @('commit', '-F', $msgFile)

@@ -34,9 +34,11 @@ public static class EsefFinancials
     {
         using var doc = JsonDocument.Parse(json);
         var facts = new List<Fact>();
-        foreach (var f in doc.RootElement.GetProperty("facts").EnumerateObject().Select(p => p.Value))
+        // A report whose xBRL-JSON has no facts (a failed conversion) simply contributes nothing.
+        if (doc.RootElement.ValueKind != JsonValueKind.Object || !doc.RootElement.TryGetProperty("facts", out var allFacts) || allFacts.ValueKind != JsonValueKind.Object) return [];
+        foreach (var f in allFacts.EnumerateObject().Select(p => p.Value))
         {
-            var dims = f.GetProperty("dimensions");
+            if (!f.TryGetProperty("dimensions", out var dims) || !dims.TryGetProperty("concept", out _)) continue;
             // Company-level figures only: any extra axis (segment, restatement member…) means a breakdown.
             if (dims.EnumerateObject().Any(d => d.Name is not ("concept" or "entity" or "period" or "unit" or "language"))) continue;
             var concept = dims.GetProperty("concept").GetString() ?? "";
@@ -84,4 +86,34 @@ public static class EsefFinancials
         CompanyId = companyId, PeriodType = PeriodType.Annual, FiscalYear = y.FiscalYear, Revenue = y.Revenue, NetIncome = y.NetIncome,
         OperatingIncome = y.OperatingIncome, Eps = y.Eps, SourceFiling = source
     };
+
+    /// <summary>
+    /// A company's comparable yearly figures from all its reports (newest wins, so restatements count), each with the
+    /// report it came from. One revenue concept and one currency for every year; empty when nothing was tagged.
+    /// </summary>
+    public static async Task<Dictionary<int, (EsefYear Year, string Source)>> CollectYearsAsync(
+        Sec.ISecClient client, UkEntity entity, string label, List<string> warnings, CancellationToken ct)
+    {
+        var years = new Dictionary<int, (EsefYear Year, string Source)>();
+        foreach (var filing in entity.Filings.OrderByDescending(f => f.PeriodEnd))
+        {
+            var json = await client.GetStringAsync(filing.JsonUrl, Sec.CachePolicy.Immutable, ct);
+            if (json is null) { warnings.Add($"{label}: report data for {filing.PeriodEnd} could not be downloaded"); continue; }
+            try
+            {
+                foreach (var y in Extract(json, filing.PeriodEnd)) years.TryAdd(y.FiscalYear, (y, filing.JsonUrl.Replace(".json", "")));
+            }
+            catch (JsonException) { warnings.Add($"{label}: report data for {filing.PeriodEnd} is not valid JSON"); }
+        }
+        if (years.Count == 0) return years;
+        var latest = years.Values.MaxBy(y => y.Year.FiscalYear).Year;
+        // One revenue definition for all years (a bank can tag different lines in different reports).
+        foreach (var fy in years.Keys.ToList())
+            years[fy] = (years[fy].Year.WithRevenueConcept(latest.RevenueConcept), years[fy].Source);
+        // A year that didn't tag that line is measured differently; mixing them fakes growth (Barclays £12bn → £35bn).
+        foreach (var fy in years.Where(y => y.Value.Year.RevenueConcept != latest.RevenueConcept).Select(y => y.Key).ToList()) years.Remove(fy);
+        // Other currencies in older reports (a company that switched to reporting in dollars) can't be compared; drop them.
+        foreach (var fy in years.Where(y => y.Value.Year.Currency != latest.Currency).Select(y => y.Key).ToList()) years.Remove(fy);
+        return years;
+    }
 }

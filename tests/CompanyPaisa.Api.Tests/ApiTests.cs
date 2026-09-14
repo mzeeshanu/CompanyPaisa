@@ -98,6 +98,8 @@ public class ApiTests(SampleDataFactory factory) : IClassFixture<SampleDataFacto
         Assert.Equal(40, config.Coverage.Count(c => c.Country == "US"));
         Assert.Equal(6, config.Coverage.Count(c => c.Country == "CA"));
         Assert.Equal(10, config.Coverage.Count(c => c.Country == "UK"));
+        Assert.Contains(config.Coverage, c => c.Name == "Paris" && c.ExampleZip == "75008" && c.Country == "FR");
+        Assert.Equal(14, config.Coverage.Count(c => c.Country is "FR" or "NL" or "IT" or "ES"));
         Assert.Equal("privacy@companypaisa.com", config.PrivacyContact);
     }
 
@@ -108,12 +110,24 @@ public class ApiTests(SampleDataFactory factory) : IClassFixture<SampleDataFacto
     [InlineData("M2", "Manchester", "UK")]        // UK district
     [InlineData("N1C", "London", "UK")]           // exact UK district wins over the Canadian FSA of the same name
     [InlineData("EC2A 1NQ", "London", "UK")]      // UK fine district falls back to EC2
+    [InlineData("FR-75008", "Paris", "FR")]       // European codes come with their country
+    [InlineData("NL-1012 AB", "Amsterdam", "NL")]
+    [InlineData("IT 20121", "Milano", "IT")]
+    [InlineData("ES-08002", "Barcelona", "ES")]
     public async Task Postcodes_resolve_to_the_right_country(string query, string city, string state)
     {
         var hit = await Client().LookupAsync(query);
         Assert.NotNull(hit);
         Assert.Equal(state, hit!.State);
         Assert.Contains(city, hit.City);
+    }
+
+    /// <summary>A bare 5-digit code is only ever a US ZIP — never a French, Italian or Spanish postcode.</summary>
+    [Fact]
+    public async Task A_bare_five_digit_code_is_not_looked_up_in_europe()
+    {
+        var hit = await Client().LookupAsync("75008");   // Paris 8e, and also a US ZIP (Carrollton, TX)
+        Assert.True(hit is null || hit.State == "TX");
     }
 
     [Fact]

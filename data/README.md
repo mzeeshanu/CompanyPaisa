@@ -97,6 +97,20 @@ generic `CompanyPaisa` User-Agent — no personal contact details.
    parsed is cached (`cache/uk/pay`), not the report.
 5. **People** — named per company (`jane-smith-tsco-l`); UK directors aren't yet linked across companies.
 
+## The European dataset (financials only)
+
+```bash
+dotnet run --project tools/CompanyPaisa.Importer -- --eu
+```
+
+France, the Netherlands, Italy and Spain (`Importer:Eu:Countries`), written to `companypaisa-eu.xlsx`. For each country:
+ESEF filers on filings.xbrl.org → shares on the home exchange (GLEIF ISINs → OpenFIGI; if a bank's share ISIN is lost
+among its bond ISINs, an OpenFIGI name search, exact name match only) → GLEIF headquarters in that country → GeoNames
+postcode (`reference/eu-postcodes.csv`) → IFRS revenue and profit from each report. No executives yet, sector "Other".
+Germany isn't on filings.xbrl.org. To add another country on it, add a `Countries` entry (exchange codes, ticker suffix,
+areas) and matching `Ui:Coverage` entries. OpenFIGI name searches are slow without an API key (about 5 a minute), but
+answers are cached in `data/cache/eu/openfigi-*.json`.
+
 ## Workbook layout
 
 Columns are matched by header name (any order, case-insensitive); extra columns are ignored.

@@ -15,28 +15,38 @@ const SHOWN_METROS = 6;
 const US_ZIP = /^\d{5}$/;
 const UK_POSTCODE = /^[A-Z]{1,2}\d[A-Z\d]?(\s*\d[A-Z]{2})?$/i;
 const CA_POSTCODE = /^[ABCEGHJ-NPRSTVXY]\d[A-Z](\s*\d[A-Z]\d)?$/i;
-const COUNTRY_NAMES: Record<Country, string> = { US: 'United States', CA: 'Canada', UK: 'United Kingdom' };
-const SHORT_NAMES: Record<Country, string> = { US: 'US', CA: 'Canada', UK: 'UK' };
-const ORDER: Country[] = ['US', 'CA', 'UK'];
+/** European postcodes: 5 digits, or a Dutch 4 digits with optional letters ("1012 AB"). */
+const EU_POSTCODE: Partial<Record<Country, RegExp>> = { FR: /^\d{5}$/, IT: /^\d{5}$/, ES: /^\d{5}$/, NL: /^\d{4}(\s*[A-Z]{2})?$/i };
+const EU_EXAMPLES: Partial<Record<Country, string>> = { FR: '75008', IT: '20121', ES: '28013', NL: '1012 AB' };
+const COUNTRY_NAMES: Record<Country, string> = {
+  US: 'United States', CA: 'Canada', UK: 'United Kingdom', FR: 'France', NL: 'Netherlands', IT: 'Italy', ES: 'Spain'
+};
+const SHORT_NAMES: Record<Country, string> = { US: 'US', CA: 'Canada', UK: 'UK', FR: 'France', NL: 'Netherlands', IT: 'Italy', ES: 'Spain' };
+const ORDER: Country[] = ['US', 'CA', 'UK', 'FR', 'NL', 'IT', 'ES'];
 /** "US, Canada & UK" */
 const listCountries = (cs: Country[]) => cs.map(c => SHORT_NAMES[c]).join(', ').replace(/, ([^,]*)$/, ' & $1');
 
-/** Which tab a browser starts on: en-GB → UK, en-CA / fr-CA → Canada. */
+/** Which tab a browser starts on: en-GB → UK, en-CA / fr-CA → Canada, fr-FR → France, nl → Netherlands… */
 function browserCountry(available: Country[]): Country {
   const lang = navigator.language;
-  if (available.includes('UK') && /-GB$/i.test(lang)) return 'UK';
-  if (available.includes('CA') && /-CA$/i.test(lang)) return 'CA';
+  const pick = (c: Country, re: RegExp) => available.includes(c) && re.test(lang);
+  if (pick('UK', /-GB$/i)) return 'UK';
+  if (pick('CA', /-CA$/i)) return 'CA';
+  if (pick('FR', /^fr(-FR)?$/i)) return 'FR';
+  if (pick('NL', /^nl/i)) return 'NL';
+  if (pick('IT', /^it/i)) return 'IT';
+  if (pick('ES', /^es(-ES)?$/i)) return 'ES';
   return 'US';
 }
 
-/** First screen: blurred page behind a small card asking for location, a US ZIP, a Canadian or a UK postcode. */
+/** First screen: blurred page behind a small card asking for location or a ZIP / postcode (US, Canada, UK, Europe). */
 export function LocationGate({ coverageMiles, coverage, onLocated }: Props) {
   const [zip, setZip] = useState('');
   const [error, setError] = useState('');
   const [busy, setBusy] = useState<'geo' | 'zip' | null>(null);
   const [allMetros, setAllMetros] = useState(false);
   const countries = ORDER.filter(c => coverage.some(a => (a.country ?? 'US') === c));
-  // A British or Canadian browser starts on its own country's areas.
+  // A British, Canadian or European browser starts on its own country's areas.
   const [country, setCountry] = useState<Country>(() => browserCountry(countries));
   const input = useRef<HTMLInputElement>(null);
   const inCountry = coverage.filter(c => (c.country ?? 'US') === country);
@@ -57,18 +67,24 @@ export function LocationGate({ coverageMiles, coverage, onLocated }: Props) {
 
   function submitZip(e: FormEvent) {
     e.preventDefault();
-    return lookupZip(zip.trim());
+    return lookupZip(zip.trim(), country);
   }
 
-  async function lookupZip(q: string) {
+  /** On a European tab the code goes to the API with its country ("FR-75008"): a bare 75008 would be a US ZIP. */
+  async function lookupZip(q: string, from: Country) {
     q = q.toUpperCase();
-    if (!US_ZIP.test(q) && !UK_POSTCODE.test(q) && !CA_POSTCODE.test(q)) {
+    const eu = EU_POSTCODE[from];
+    let query = q;
+    if (eu) {
+      if (!eu.test(q)) { setError(`Enter a ${COUNTRY_NAMES[from]} postcode (e.g. ${EU_EXAMPLES[from]}).`); return; }
+      query = `${from}-${q}`;
+    } else if (!US_ZIP.test(q) && !UK_POSTCODE.test(q) && !CA_POSTCODE.test(q)) {
       setError('Enter a 5-digit US ZIP code, a Canadian postal code (e.g. M5J 2J2) or a UK postcode (e.g. SW1A 1AA).');
       return;
     }
     setBusy('zip'); setError('');
     try {
-      const hit = await api.lookup(q);
+      const hit = await api.lookup(query);
       await accept(hit.point.latitude, hit.point.longitude, `${hit.city}, ${hit.state} ${hit.postalCode ?? q}`);
     } catch (err) {
       setError(err instanceof ApiError && err.status === 404
@@ -107,7 +123,7 @@ export function LocationGate({ coverageMiles, coverage, onLocated }: Props) {
           <circle cx="40" cy="14" r="8" fill="url(#mg2)" />
           <circle cx="42" cy="38" r="5" fill="url(#mg3)" />
         </svg>
-        <p className="eyebrow">Public companies{coverage.length > 1 ? ` · ${coverage.length} areas in the ${listCountries(countries)}` : ''}</p>
+        <p className="eyebrow">Public companies{coverage.length > 1 ? ` · ${coverage.length} areas in ${countries.length > 3 ? `${countries.length} countries` : `the ${listCountries(countries)}`}` : ''}</p>
         <h1 id="gateTitle">Who's making money around you?</h1>
         <p className="lede">See the public companies near you, how big they are and where they're heading. Your location stays in your browser.</p>
         <button className="primary wide" onClick={useMyLocation} disabled={busy !== null}>
@@ -116,7 +132,7 @@ export function LocationGate({ coverageMiles, coverage, onLocated }: Props) {
         </button>
         <div className="or">OR</div>
         <form className="zip" onSubmit={submitZip}>
-          <input ref={input} maxLength={8} placeholder={countries.length > 1 ? 'ZIP / postcode' : 'ZIP'} aria-label="US ZIP code, Canadian or UK postcode"
+          <input ref={input} maxLength={8} placeholder={EU_EXAMPLES[country] ? `${SHORT_NAMES[country]} postcode` : countries.length > 1 ? 'ZIP / postcode' : 'ZIP'} aria-label="ZIP code or postcode"
             autoComplete="postal-code" autoCapitalize="characters" spellCheck={false}
             value={zip} onChange={e => { setZip(e.target.value.replace(/[^A-Za-z0-9 ]/g, '').toUpperCase()); setError(''); }} />
           <button className="ghost" type="submit" disabled={busy !== null}>{busy === 'zip' ? '…' : 'Go'}</button>
@@ -138,7 +154,7 @@ export function LocationGate({ coverageMiles, coverage, onLocated }: Props) {
             </div>
             <div className="metro-list">
               {metros.map(m => (
-                <button key={m.name} type="button" disabled={busy !== null} onClick={() => { setZip(m.exampleZip); lookupZip(m.exampleZip); }}>{m.name}</button>
+                <button key={m.name} type="button" disabled={busy !== null} onClick={() => { setZip(m.exampleZip); lookupZip(m.exampleZip, m.country ?? 'US'); }}>{m.name}</button>
               ))}
               {inCountry.length > SHOWN_METROS && (
                 <button type="button" className="more" onClick={() => setAllMetros(a => !a)}>

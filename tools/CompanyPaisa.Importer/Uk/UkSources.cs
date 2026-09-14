@@ -69,16 +69,16 @@ public static partial class UkConstituents
     [GeneratedRegex(@"<t[hd][^>]*>([\s\S]*?)</t[hd]>")] private static partial Regex Cell();
 }
 
-/// <summary>Every UK filer on filings.xbrl.org with its LEI, name and annual reports.</summary>
+/// <summary>Every filer from one country (default the UK) on filings.xbrl.org with its LEI, name and annual reports.</summary>
 public static class UkFilingsIndex
 {
-    public static async Task<List<UkEntity>> LoadAsync(ISecClient client, string api, CancellationToken ct)
+    public static async Task<List<UkEntity>> LoadAsync(ISecClient client, string api, CancellationToken ct, string country = "GB")
     {
         var entities = new Dictionary<string, UkEntity>(StringComparer.OrdinalIgnoreCase);
         var names = new Dictionary<string, string>();   // JSON:API entity id → LEI
         for (var page = 1; ; page++)
         {
-            var url = $"{api}/api/filings?filter%5Bcountry%5D=GB&include=entity&page%5Bsize%5D=200&page%5Bnumber%5D={page}";
+            var url = $"{api}/api/filings?filter%5Bcountry%5D={country}&include=entity&page%5Bsize%5D=200&page%5Bnumber%5D={page}";
             var json = await client.GetStringAsync(url, CachePolicy.Index, ct) ?? throw new InvalidOperationException($"filings.xbrl.org page {page} failed; re-run.");
             using var doc = JsonDocument.Parse(json);
             var root = doc.RootElement;

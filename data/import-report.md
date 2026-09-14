@@ -1,13 +1,13 @@
-# Import report — 2026-09-14 08:57 UTC
+# Import report — 2026-09-14 16:58 UTC
 
 Metros: **46**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, insider owner lists). ZIP centroids: US Census Gazetteer; ZIP names: GeoNames.
 
 - Companies included: **4090**
 - Financial periods: 167276
-- Executive pay rows: 90981 for 23802 people, from 17256 proxy statements
-- People linked by SEC insider id: 22938; matched by name within one company only: 1627
+- Executive pay rows: 90979 for 23801 people, from 17256 proxy statements
+- People linked by SEC insider id: 22937; matched by name within one company only: 1627
 - ZIP table rows written: 41637
-- Network requests this run: 135 (the rest came from the local cache)
+- Network requests this run: 934 (the rest came from the local cache)
 
 | Metro | Companies |
 |---|---|
@@ -2972,7 +2972,7 @@ Metros: **46**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | FSTR | Foster L B Co | Pittsburgh, PA | Nasdaq | Consumer & retail | $540.0M | 8 | 2019–2025 |
 | HWM | Howmet Aerospace Inc. | Pittsburgh, PA | NYSE | Materials | $8.25B | 8 | 2019–2025 |
 | KHC | Kraft Heinz Co | Pittsburgh, PA | Nasdaq | Consumer & retail | $24.94B | 10 | 2019–2025 |
-| KMT | Kennametal Inc | Pittsburgh, PA | NYSE | Industrials | $2.36B | 11 | 2019–2025 |
+| KMT | Kennametal Inc | Pittsburgh, PA | NYSE | Industrials | $2.36B | 10 | 2020–2026 |
 | KOP | Koppers Holdings Inc. | Pittsburgh, PA | NYSE | Industrials | $1.88B | 7 | 2019–2025 |
 | KRYS | Krystal Biotech, Inc. | Pittsburgh, PA | Nasdaq | Healthcare | $389.1M | 4 | 2019–2025 |
 | MATW | Matthews International Corp | Pittsburgh, PA | Nasdaq | Materials | $1.50B | 8 | 2018–2025 |
@@ -4098,7 +4098,7 @@ Metros: **46**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | TTD | Trade Desk, Inc. | Ventura, CA | Nasdaq | Software & IT | $2.90B | 8 | 2021–2025 |
 | TUSK | Mammoth Energy Services, Inc. | Oklahoma City, OK | Nasdaq | Energy & utilities | $44.3M | 4 | 2020–2025 |
 | TVE | Tennessee Valley Authority | Knoxville, TN | NYSE | Energy & utilities | $12.05B | 0 | — |
-| TWIN | Twin Disc Inc | Racine, WI | Nasdaq | Industrials | $381.3M | 3 | 2020–2025 |
+| TWIN | Twin Disc Inc | Racine, WI | Nasdaq | Industrials | $381.3M | 3 | 2021–2026 |
 | TXNM | Txnm Energy Inc | Albuquerque, NM | NYSE | Energy & utilities | $2.17B | 10 | 2019–2025 |
 | TXRH | Texas Roadhouse, Inc. | Louisville, KY | Nasdaq | Consumer & retail | $5.88B | 14 | 2019–2025 |
 | TXT | Textron Inc | Providence, RI | NYSE | Industrials | $14.80B | 5 | 2019–2025 |
@@ -8480,6 +8480,9 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - KRNY: proxy 9/6/2024: Craig L. Montanaro 2024: components 2,793,066 ≠ total 1,396,533; difference shown as Other.
 - KRNY: proxy 9/6/2024: Keith Suchodolski 2024: components 1,599,768 ≠ total 799,884; difference shown as Other.
 - KRNY: proxy 9/6/2024: Patrick M. Joyce 2024: components 1,213,982 ≠ total 606,991; difference shown as Other.
+- KMT: proxy 9/14/2026: Sanjay Chowbey 2026: components 5,844,750 ≠ total 7,356,246; difference shown as Other.
+- KMT: proxy 9/14/2026: Sanjay Chowbey 2025: components 4,051,573 ≠ total 4,694,633; difference shown as Other.
+- KMT: proxy 9/14/2026: Sanjay Chowbey 2024: components 1,449,795 ≠ total 1,794,097; difference shown as Other.
 - KMT: proxy 9/15/2025: Sanjay Chowbey 2025: components 4,051,573 ≠ total 4,694,633; difference shown as Other.
 - KMT: proxy 9/15/2025: Sanjay Chowbey 2024: components 1,449,795 ≠ total 1,794,097; difference shown as Other.
 - KMT: proxy 9/15/2025: Sanjay Chowbey 2023: components 1,275,697 ≠ total 1,632,272; difference shown as Other.
@@ -10611,7 +10614,6 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - TOGI: proxy 8/26/2026: Amos Kohn 2025: components 433,720 ≠ total 408,720; difference shown as Other.
 - TOGI: proxy 6/16/2023: no compensation table recognised
 - TVRD: proxy 4/23/2026: John Kauh 2024: components 535,600 ≠ total 565,830; difference shown as Other.
-- TWIN: proxy 9/9/2021: James E. Feiertag 2020: components 883,453 ≠ total 843,453; difference shown as Other.
 - VEEE: proxy 8/17/2026: no compensation table recognised
 - VEEE: proxy 8/28/2023: Preston Yarborough 2022: components 223,197 ≠ total 211,197; difference shown as Other.
 - TXNM: proxy 4/28/2026: Joseph D. Tarry 2024: components 2,178,034 ≠ total 2,904,377; difference shown as Other.

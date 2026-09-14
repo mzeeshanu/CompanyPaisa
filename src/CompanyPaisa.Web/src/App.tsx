@@ -168,7 +168,7 @@ export default function App() {
       </p>
       <span>{meta?.isSampleData
         ? 'Sample data — company names and approximate locations are real; financial figures and executive names are synthetic.'
-        : `Data as of ${meta?.asOfDate ?? '—'} from SEC EDGAR filings${meta?.dataVersion.includes('uk-') ? ' and UK annual reports (ESEF, via filings.xbrl.org; addresses from GLEIF)' : ''}.`}{' '}
+        : `Data as of ${meta?.asOfDate ?? '—'} from SEC EDGAR filings${meta?.dataVersion.includes('uk-') || meta?.dataVersion.includes('eu-') ? ` and ${meta.dataVersion.includes('eu-') ? 'UK and European' : 'UK'} annual reports (ESEF, via filings.xbrl.org; addresses from GLEIF; tickers from OpenFIGI)` : ''}.`}{' '}
         ZIP and postcode names © <a className="linkbtn" href="https://www.geonames.org/" target="_blank" rel="noreferrer">GeoNames</a> (CC BY 4.0).</span>
       <span>
         <a className="linkbtn" href="/swagger" target="_blank" rel="noreferrer">Public API</a>

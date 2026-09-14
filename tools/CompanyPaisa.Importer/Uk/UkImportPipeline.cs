@@ -94,26 +94,9 @@ public sealed partial class UkImportPipeline(IOptions<ImporterOptions> options, 
             var region = RegionFor(place.Point);
 
             // 4. Financials: every report gives its year and the comparative; newer reports win (restatements).
-            var years = new Dictionary<int, (EsefYear Year, string Source)>();
-            foreach (var filing in entity.Filings.OrderByDescending(f => f.PeriodEnd))
-            {
-                var json = await client.GetStringAsync(filing.JsonUrl, CachePolicy.Immutable, ct);
-                if (json is null) { warnings.Add($"{c.Ticker}: report data for {filing.PeriodEnd} could not be downloaded"); continue; }
-                try
-                {
-                    foreach (var y in EsefFinancials.Extract(json, filing.PeriodEnd)) years.TryAdd(y.FiscalYear, (y, filing.JsonUrl.Replace(".json", "")));
-                }
-                catch (JsonException) { warnings.Add($"{c.Ticker}: report data for {filing.PeriodEnd} is not valid JSON"); }
-            }
+            var years = await EsefFinancials.CollectYearsAsync(client, entity, c.Ticker, warnings, ct);
             if (years.Count == 0) { excluded.Add($"{c.Ticker} {c.Name}: no revenue in its tagged reports"); continue; }
             var latest = years.Values.MaxBy(y => y.Year.FiscalYear).Year;
-            // One revenue definition for all years (a bank can tag different lines in different reports).
-            foreach (var fy in years.Keys.ToList())
-                years[fy] = (years[fy].Year.WithRevenueConcept(latest.RevenueConcept), years[fy].Source);
-            // A year that didn't tag that line is measured differently; mixing them fakes growth (Barclays £12bn → £35bn).
-            foreach (var fy in years.Where(y => y.Value.Year.RevenueConcept != latest.RevenueConcept).Select(y => y.Key).ToList()) years.Remove(fy);
-            // Other currencies in older reports (a company that switched to reporting in dollars) can't be compared; drop them.
-            foreach (var fy in years.Where(y => y.Value.Year.Currency != latest.Currency).Select(y => y.Key).ToList()) years.Remove(fy);
             var currency = latest.Currency;
             var companyId = $"{c.Ticker}.L";
 
