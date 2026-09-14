@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import * as d3 from 'd3';
 import type { CompanySort, CompanySummary, NearbyResponse } from '../api/types';
 import { bubbleRadius, money, pct, tone, total, trendClass } from '../lib/format';
@@ -81,30 +81,52 @@ function CityClusters({ items, highlight, onHover, onSelect }: { items: CompanyS
       .sort((a, b) => a.nearest - b.nearest);
   }, [items]);
 
+  // A big city's bubble pack can be wider than a phone: shrink it to fit the card instead of spilling off the screen.
+  const box = useRef<HTMLDivElement>(null);
+  const [room, setRoom] = useState(Infinity);
+  useEffect(() => {
+    const el = box.current;
+    if (!el) return;
+    const measure = () => setRoom(el.clientWidth - CITY_PADDING);
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
   return (
-    <div className="clusters">
-      {groups.map(g => (
-        <div className="city pane" key={g.city}>
-          <div className="city-h"><b>{g.city}</b><span>{g.nodes.length} · {g.nearest.toFixed(1)} mi</span></div>
-          <div className="pack" style={{ width: g.size, height: g.size }}>
-            {g.nodes.map(n => (
-              <button key={n.c.ticker}
-                className={`bub t-${trendClass(n.c.indicators.trend)}${highlight.hovered === n.c.ticker ? ' hl' : ''}${highlight.selected === n.c.ticker ? ' sel' : ''}`}
-                style={{ left: n.x - g.enc.x + g.size / 2 - n.r, top: n.y - g.enc.y + g.size / 2 - n.r, width: n.r * 2, height: n.r * 2 }}
-                aria-label={`${n.c.name}, ${money(n.c.indicators.ttmRevenue, n.c.currency)} revenue`}
-                onMouseEnter={e => onHover(n.c.ticker, e.currentTarget)} onMouseLeave={() => onHover(null)}
-                onFocus={e => onHover(n.c.ticker, e.currentTarget)} onBlur={() => onHover(null)}
-                onClick={() => onSelect(n.c.ticker)}>
-                <span className="glass" />
-                <span className="tk" style={{ fontSize: Math.max(8.5, Math.min(16, n.r * 0.38)) }}>{n.c.ticker}</span>
-              </button>
-            ))}
+    <div className="clusters" ref={box}>
+      {groups.map(g => {
+        const scale = Math.min(1, room / g.size);
+        const shown = g.size * scale;
+        return (
+          <div className="city pane" key={g.city}>
+            <div className="city-h"><b>{g.city}</b><span>{g.nodes.length} · {g.nearest.toFixed(1)} mi</span></div>
+            <div className="pack-fit" style={{ width: shown, height: shown }}>
+              <div className="pack" style={{ width: g.size, height: g.size, transform: scale < 1 ? `scale(${scale})` : undefined }}>
+                {g.nodes.map(n => (
+                  <button key={n.c.ticker}
+                    className={`bub t-${trendClass(n.c.indicators.trend)}${highlight.hovered === n.c.ticker ? ' hl' : ''}${highlight.selected === n.c.ticker ? ' sel' : ''}`}
+                    style={{ left: n.x - g.enc.x + g.size / 2 - n.r, top: n.y - g.enc.y + g.size / 2 - n.r, width: n.r * 2, height: n.r * 2 }}
+                    aria-label={`${n.c.name}, ${money(n.c.indicators.ttmRevenue, n.c.currency)} revenue`}
+                    onMouseEnter={e => onHover(n.c.ticker, e.currentTarget)} onMouseLeave={() => onHover(null)}
+                    onFocus={e => onHover(n.c.ticker, e.currentTarget)} onBlur={() => onHover(null)}
+                    onClick={() => onSelect(n.c.ticker)}>
+                    <span className="glass" />
+                    <span className="tk" style={{ fontSize: Math.max(8.5, Math.min(16, n.r * 0.38)) }}>{n.c.ticker}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
           </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 }
+
+/** Left + right padding and border of a city card (.city in styles.css). */
+const CITY_PADDING = 34;
 
 function RankedRows({ items, sort, onSort, highlight, onHover, onSelect }: { items: CompanySummary[]; sort: CompanySort; onSort: (s: CompanySort) => void; highlight: Highlight } & BubbleEvents) {
   const { flipped, choose, order } = useSortFlip(sort, onSort, (c: CompanySummary, k) =>

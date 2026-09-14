@@ -137,7 +137,8 @@ select option{background:var(--ground);color:var(--ink)}
 .city-h{display:flex;justify-content:space-between;align-items:baseline;gap:14px}
 .city-h b{font:600 15px var(--display);letter-spacing:-.01em}
 .city-h span{font:500 11.5px var(--mono);color:var(--faint);white-space:nowrap}
-.pack{position:relative;margin:0 auto}
+.pack-fit{margin:0 auto}
+.pack{position:relative;transform-origin:top left}
 
 /* glass bubble — shared by both views */
 .t-up{--tint:var(--tu);--tint-soft:var(--tus);--tint-shadow:var(--tush)}
@@ -255,8 +256,9 @@ select option{background:var(--ground);color:var(--ink)}
 .modal-card h3{font:700 12px var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin:18px 0 6px}
 .modal-card p{margin:0 0 8px;line-height:1.55;color:var(--ink)}
 .modal-card .close{position:absolute;top:14px;right:14px}
-.gate{position:fixed;inset:0;display:grid;place-items:center;z-index:20;background:color-mix(in srgb,var(--ground) 25%,transparent);transition:opacity .6s}
-.card{width:min(420px,calc(100vw - 32px));padding:34px 32px 26px;border-radius:28px;background:var(--glass-strong)}
+/* Scrolls when the card is taller than the screen (phones, "+34 more"); the auto margins centre it when it fits. */
+.gate{position:fixed;inset:0;display:flex;flex-direction:column;padding:16px 0;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;z-index:20;background:color-mix(in srgb,var(--ground) 25%,transparent);transition:opacity .6s}
+.card{margin:auto;flex:none;width:min(420px,calc(100vw - 32px));padding:34px 32px 26px;border-radius:28px;background:var(--glass-strong)}
 .mark{width:52px;height:52px;margin-bottom:18px;display:block}
 .eyebrow{font:600 11px var(--body);letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin:0 0 8px}
 .card h1{font:600 27px/1.18 var(--display);letter-spacing:-.03em;margin:0 0 10px;text-wrap:balance}
@@ -277,9 +279,10 @@ select option{background:var(--ground);color:var(--ink)}
 .fine{margin:4px 0 0;color:var(--faint);font-size:12px}
 .fine b{color:var(--dim);font-family:var(--mono);font-weight:500}
 .metros{margin-top:14px}
-.metros-h{display:flex;align-items:center;justify-content:space-between;gap:10px}
-.metros-h .fine{margin:0}
-.country-tabs{display:flex;gap:2px;padding:3px;border-radius:999px;background:var(--track)}
+/* The label keeps one line; with many countries the tabs drop below it instead of squeezing it into a column. */
+.metros-h{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 10px}
+.metros-h .fine{margin:0;white-space:nowrap}
+.country-tabs{display:flex;gap:2px;padding:3px;border-radius:999px;background:var(--track);max-width:100%;overflow-x:auto}
 .country-tabs button{height:24px;padding:0 10px;border:0;border-radius:999px;background:transparent;color:var(--dim);cursor:pointer;font:700 11px var(--body);letter-spacing:.06em}
 .country-tabs button[aria-selected="true"]{background:var(--field);color:var(--ink);box-shadow:0 1px 4px rgba(20,26,60,.14)}
 .metro-list{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
@@ -392,8 +395,9 @@ td.co i{width:8px;height:8px;border-radius:2px;display:inline-block}
   .themebtn{height:34px;padding:0 10px}
   select{height:30px}
   .sel-wrap::after{top:11px}
-  .clusters{flex-wrap:nowrap;overflow-x:auto;padding-bottom:8px;scroll-snap-type:x mandatory}
-  .city{flex:none;scroll-snap-align:start}
+  /* One city card per row, full width with the page's own margins; big bubble packs shrink to fit (ListView). */
+  .clusters{flex-direction:column;align-items:stretch}
+  .city{width:100%}
   /* The name column shrinks (minmax 0) so a row never outgrows a phone screen. */
   .row,.xrow{grid-template-columns:20px minmax(0,1fr) 74px 72px;gap:8px;padding:12px}
   .row>*{min-width:0;overflow-wrap:anywhere}
