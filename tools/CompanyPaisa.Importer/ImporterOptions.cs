@@ -50,6 +50,11 @@ public sealed class RegionOptions
     public string ExampleZip { get; set; } = "";
     /// <summary>A company is in the region if its location is within the radius of any anchor.</summary>
     public List<RegionAnchor> Anchors { get; set; } = [];
+    /// <summary>
+    /// Whole states (e.g. ["MN"]): every listed company headquartered anywhere in them. Metro circles are checked
+    /// first, so a statewide region only picks up what no metro claimed. The states must also be in Discovery:States.
+    /// </summary>
+    public List<string> States { get; set; } = [];
 }
 
 public sealed class RegionAnchor

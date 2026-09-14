@@ -23,7 +23,8 @@ public interface IZipGeocoder
     /// <summary>Writes zip,city,state,latitude,longitude for the configured prefixes (the API's ZIP lookup table).</summary>
     Task<int> WriteZipTableAsync(CancellationToken ct);
     /// <summary>The metro (and anchor within it) the point falls in, or null if it's outside every covered metro.</summary>
-    (string Region, string Anchor)? RegionFor(GeoPoint point);
+    /// <summary>The metro whose circle contains the point, else a whole-state region covering <paramref name="state"/>.</summary>
+    (string Region, string Anchor)? RegionFor(GeoPoint point, string? state);
 }
 
 public sealed class ZipGeocoder(ISecClient client, IOptions<ImporterOptions> options, RepoPaths paths, ILogger<ZipGeocoder> logger) : IZipGeocoder
@@ -132,12 +133,21 @@ public sealed class ZipGeocoder(ISecClient client, IOptions<ImporterOptions> opt
     public string? StateOf(string zip) =>
         zip is { Length: >= 5 } && _names.TryGetValue(zip[..5], out var n) && n.State.Length == 2 ? n.State : null;
 
-    public (string Region, string Anchor)? RegionFor(GeoPoint point) =>
-        options.Value.Regions
+    public (string Region, string Anchor)? RegionFor(GeoPoint point, string? state)
+    {
+        var regions = options.Value.Regions;
+        // Metro circles first, so a company in the Twin Cities stays in "Minneapolis–St. Paul"...
+        var metro = regions
             .SelectMany(r => r.Anchors.Select(a => (Region: r.Name, Anchor: a)))
             .Where(x => _distance.DistanceMiles(point, new GeoPoint(x.Anchor.Latitude, x.Anchor.Longitude)) <= x.Anchor.RadiusMiles)
             .Select(x => ((string Region, string Anchor)?)(x.Region, x.Anchor.Name))
             .FirstOrDefault();
+        if (metro is not null || string.IsNullOrWhiteSpace(state)) return metro;
+        // ...then whole-state regions pick up the rest (Hormel in Austin, MN).
+        return regions.Where(r => r.States.Contains(state, StringComparer.OrdinalIgnoreCase))
+            .Select(r => ((string Region, string Anchor)?)(r.Name, state.ToUpperInvariant()))
+            .FirstOrDefault();
+    }
 
     private static string Csv(string s) => s.Contains(',') ? $"\"{s}\"" : s;
 }

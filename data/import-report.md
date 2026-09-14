@@ -1,13 +1,13 @@
-# Import report — 2026-09-13 19:17 UTC
+# Import report — 2026-09-14 04:32 UTC
 
-Metros: **21**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, insider owner lists). ZIP centroids: US Census Gazetteer; ZIP names: GeoNames.
+Metros: **22**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, insider owner lists). ZIP centroids: US Census Gazetteer; ZIP names: GeoNames.
 
-- Companies included: **2639**
-- Financial periods: 108376
-- Executive pay rows: 59475 for 15881 people, from 11484 proxy statements
-- People linked by SEC insider id: 15362; matched by name within one company only: 998
+- Companies included: **2644**
+- Financial periods: 108644
+- Executive pay rows: 59629 for 15918 people, from 11509 proxy statements
+- People linked by SEC insider id: 15398; matched by name within one company only: 999
 - ZIP table rows written: 41637
-- Network requests this run: 20 (the rest came from the local cache)
+- Network requests this run: 523 (the rest came from the local cache)
 
 | Metro | Companies |
 |---|---|
@@ -27,6 +27,7 @@ Metros: **21**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | Detroit | 31 |
 | Seattle | 46 |
 | Minneapolis–St. Paul | 61 |
+| Rest of Minnesota | 5 |
 | San Diego | 87 |
 | Tampa Bay | 34 |
 | Denver | 107 |
@@ -2453,6 +2454,16 @@ Metros: **21**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | WINA | Winmark Corp | Minneapolis, MN | Nasdaq | Consumer & retail | $86.1M | 4 | 2019–2025 |
 | XEL | Xcel Energy Inc | Minneapolis, MN | Nasdaq | Energy & utilities | $11.54B | 11 | 2019–2025 |
 
+## Included — Rest of Minnesota (5)
+
+| Ticker | Company | City | Exchange | Sector | Latest annual revenue | Executives | Pay years |
+|---|---|---|---|---|---|---|---|
+| ELMD | Electromed, Inc. | New Prague, MN | NYSE | Healthcare | $73.8M | 8 | 2020–2025 |
+| FAST | Fastenal Co | Winona, MN | Nasdaq | Consumer & retail | $8.20B | 10 | 2019–2025 |
+| HRL | Hormel Foods Corp /De/ | Austin, MN | NYSE | Consumer & retail | $12.11B | 13 | 2019–2025 |
+| NUVR | Nuvera Communications, Inc. | New Ulm, MN | OTC | Media & telecom | $71.8M | 3 | 2020–2025 |
+| OTTR | Otter Tail Corp | Fergus Falls, MN | Nasdaq | Energy & utilities | $1.30B | 6 | 2019–2025 |
+
 ## Included — San Diego (87)
 
 | Ticker | Company | City | Exchange | Sector | Latest annual revenue | Executives | Pay years |
@@ -2780,7 +2791,7 @@ Metros: **21**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 ## Excluded
 
 - 1966 filers with no ticker (funds, trusts, shells, private companies with public debt)
-- 904 listed companies in the searched states but outside the covered metros
+- 899 listed companies in the searched states but outside the covered metros
 - AAAU Goldman Sachs Physical Gold ETF: no revenue data in XBRL filings
 - AAC Ares Acquisition Corp III: no revenue data in XBRL filings
 - AACB Artius II Acquisition Inc.: no revenue data in XBRL filings
@@ -4693,6 +4704,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - ELSE: proxy 3/31/2022: no compensation table recognised
 - ELSE: proxy 3/25/2021: no compensation table recognised
 - ECOR: proxy 12/23/2022: no compensation table recognised
+- ELMD: proxy 9/26/2023: Christopher G. Holland (h) 2023: components 544,415 ≠ total 534,375; difference shown as Other.
 - ELTP: proxy 4/29/2020: no compensation table recognised
 - ELTP: proxy 10/10/2019: Douglas Plassche 2019: components 334,552 ≠ total 259,552; difference shown as Other.
 - ELME: proxy 4/17/2025: Paul T. McDermott 2024: components 1,898,700 ≠ total 3,980,371; difference shown as Other.
@@ -5997,6 +6009,12 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - NUTX: proxy 3/13/2026: Thomas T. Vo 2023: components 0 ≠ total 20,395; difference shown as Other.
 - NUTX: proxy 5/19/2023: Warren Hosseinion MD 2021: components 1,832,670 ≠ total 1,307,407; difference shown as Other.
 - NUTX: proxy 5/19/2023: Michael Bowen 2022: components 686,084 ≠ total 642,600; difference shown as Other.
+- NUVR: proxy 4/13/2023: Glenn H. Zerbe 2022: components 331,494 ≠ total 534,619; difference shown as Other.
+- NUVR: proxy 4/13/2023: Glenn H. Zerbe 2021: components 312,711 ≠ total 358,690; difference shown as Other.
+- NUVR: proxy 4/13/2023: Barbara A.J. Bornhoft 2022: components 247,242 ≠ total 337,733; difference shown as Other.
+- NUVR: proxy 4/6/2022: Glenn H. Zerbe 2021: components 275,000 ≠ total 358,690; difference shown as Other.
+- NUVR: proxy 4/6/2022: Glenn H. Zerbe 2020: components 255,000 ≠ total 339,930; difference shown as Other.
+- NUVR: proxy 4/6/2022: Barbara A.J. Bornhoft 2021: components 222,128 ≠ total 297,292; difference shown as Other.
 - NUWE: proxy 7/7/2026: no compensation table recognised
 - NUWE: proxy 7/14/2025: no compensation table recognised
 - NVEC: proxy 6/20/2023: Peter G. Eames 2023: components 289,743 ≠ total 269,743; difference shown as Other.

@@ -83,7 +83,7 @@ export function LocationGate({ coverageMiles, coverage, onLocated }: Props) {
           <circle cx="40" cy="14" r="8" fill="url(#mg2)" />
           <circle cx="42" cy="38" r="5" fill="url(#mg3)" />
         </svg>
-        <p className="eyebrow">Public companies{coverage.length > 1 ? ` · ${coverage.length} US metros` : ''}</p>
+        <p className="eyebrow">Public companies{coverage.length > 1 ? ` · ${coverage.length} US areas` : ''}</p>
         <h1 id="gateTitle">Who's making money around you?</h1>
         <p className="lede">See the public companies near you, how big they are and where they're heading. Your location stays in your browser.</p>
         <button className="primary wide" onClick={useMyLocation} disabled={busy !== null}>
@@ -100,7 +100,7 @@ export function LocationGate({ coverageMiles, coverage, onLocated }: Props) {
         <p className="fine gate-note" role="note">{DISCLAIMER}</p>
         {coverage.length > 0 ? (
           <div className="metros">
-            <p className="fine">Or jump to a metro we cover:</p>
+            <p className="fine">Or jump to an area we cover:</p>
             <div className="metro-list">
               {metros.map(m => (
                 <button key={m.name} type="button" disabled={busy !== null} onClick={() => { setZip(m.exampleZip); lookupZip(m.exampleZip); }}>{m.name}</button>

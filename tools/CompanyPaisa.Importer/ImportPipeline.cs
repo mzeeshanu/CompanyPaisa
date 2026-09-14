@@ -69,13 +69,12 @@ public sealed partial class ImportPipeline(
             if (sec.PrimaryTicker is null && !o.Listing.IncludeUnlisted) { outcome.NoTicker++; continue; }
             if (geo.Locate(addr.Zip, addr.City, addr.State) is not { } point)
             { outcome.Excluded.Add($"{Label(sec)}: unknown ZIP {addr.Zip} ({Text.TitleCase(addr.City)}, {addr.State})"); continue; }
-            if (geo.RegionFor(point) is null) { outcome.OutsideMetros++; continue; }
-
             // Some SEC records leave the state blank or use a country code; the ZIP knows the real state.
             var state = addr.State is { Length: 2 } s && char.IsLetter(s[0]) && char.IsLetter(s[1]) ? s.ToUpperInvariant() : geo.StateOf(addr.Zip);
+            if (geo.RegionFor(point, state) is not { } region) { outcome.OutsideMetros++; continue; }
             if (state is null)
             { outcome.Excluded.Add($"{Label(sec)}: no US state for ZIP {addr.Zip} ({Text.TitleCase(addr.City)})"); continue; }
-            candidates[cik] = new Candidate(sec, HeadquartersLocation(sec, addr, point, state), geo.RegionFor(point)!.Value.Region, false, null);
+            candidates[cik] = new Candidate(sec, HeadquartersLocation(sec, addr, point, state), region.Region, false, null);
         }
 
         // 2. Curated sites of companies headquartered elsewhere (or extra sites of Utah companies).
@@ -94,7 +93,7 @@ public sealed partial class ImportPipeline(
             if (candidates.ContainsKey(cik.Value)) { extraSites.Add((cik.Value, site)); continue; }
             var sec = await edgar.GetCompanyAsync(cik.Value, historyStart, ct);
             if (sec is null) { outcome.Warnings.Add($"Curated {row.Ticker}: no SEC company record."); continue; }
-            candidates[cik.Value] = new Candidate(sec, site, geo.RegionFor(point)?.Region ?? "Other", true, row.Note);
+            candidates[cik.Value] = new Candidate(sec, site, geo.RegionFor(point, state)?.Region ?? "Other", true, row.Note);
         }
 
         // A ticker can be claimed by two SEC entities (a bank and its holding company, say). Keep the one the SEC's
