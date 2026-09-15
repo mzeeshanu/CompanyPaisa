@@ -10,6 +10,7 @@ import { ListView } from './components/ListView';
 import { LocationGate, type Origin } from './components/LocationGate';
 import { MapView } from './components/MapView';
 import { PrivacyNotice } from './components/PrivacyNotice';
+import { ReportProblem } from './components/ReportProblem';
 import { TopBar } from './components/TopBar';
 import { DISCLAIMER } from './lib/disclaimer';
 import { money, pct } from './lib/format';
@@ -248,6 +249,10 @@ export default function App() {
       <PrivacyNotice open={showPrivacy} contact={config.privacyContact} onClose={() => setShowPrivacy(false)} />
       <AboutData open={showAbout} contact={config.privacyContact} onClose={() => setShowAbout(false)} />
 
+      {!gateOpen && !showConsent && (
+        <ReportProblem contact={config.privacyContact}
+          about={selectedSummary ? `${selectedSummary.name} (${selectedSummary.ticker})` : selected ?? (selectedPerson ? `executive ${selectedPerson}` : origin ? `companies near ${origin.label}` : 'CompanyPaisa')} />
+      )}
       {showConsent && !gateOpen && (
         <ConsentBanner
           onAccept={() => { setConsent('yes'); writeSessionConsent('yes'); setShowConsent(false); }}

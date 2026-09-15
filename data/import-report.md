@@ -1,39 +1,40 @@
-# Import report — 2026-09-15 04:22 UTC
+# Import report — 2026-09-15 05:40 UTC
 
 Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, insider owner lists). ZIP centroids: US Census Gazetteer; ZIP names: GeoNames.
 
-- Companies included: **4115**
-- Financial periods: 171238
-- Executive pay rows: 90949 for 23808 people, from 17294 proxy statements
-- People linked by SEC insider id: 22948; matched by name within one company only: 1625
+- Companies included: **3997**
+- Financial periods: 165242
+- Executive pay rows: 89246 for 23360 people, from 16837 proxy statements
+- People linked by SEC insider id: 22496; matched by name within one company only: 1593
+- CEO pay checked against the pay-versus-performance totals companies tag in their proxies: 18647 match, 272 misread totals corrected to the tagged figure, 38 rows left out, 1822 tagged CEO-years with no table row
 - ZIP table rows written: 41637
-- Network requests this run: 78 (the rest came from the local cache)
+- Network requests this run: 30 (the rest came from the local cache)
 
 | Metro | Companies |
 |---|---|
 | Wasatch Front | 50 |
-| New York | 485 |
-| Los Angeles | 207 |
-| Chicago | 119 |
-| Dallas–Fort Worth | 155 |
-| Houston | 161 |
-| Washington–Baltimore | 141 |
-| Philadelphia | 95 |
-| Atlanta | 74 |
-| Miami–South Florida | 123 |
-| Phoenix | 63 |
-| Boston | 208 |
-| San Francisco Bay Area | 327 |
-| Detroit | 30 |
-| Seattle | 46 |
-| Minneapolis–St. Paul | 60 |
+| New York | 466 |
+| Los Angeles | 202 |
+| Chicago | 116 |
+| Dallas–Fort Worth | 153 |
+| Houston | 159 |
+| Washington–Baltimore | 135 |
+| Philadelphia | 93 |
+| Atlanta | 73 |
+| Miami–South Florida | 120 |
+| Phoenix | 62 |
+| Boston | 191 |
+| San Francisco Bay Area | 319 |
+| Detroit | 28 |
+| Seattle | 42 |
+| Minneapolis–St. Paul | 58 |
 | Rest of Minnesota | 5 |
 | Rest of Utah | 1 |
-| San Diego | 86 |
+| San Diego | 83 |
 | Tampa Bay | 35 |
-| Denver | 102 |
+| Denver | 99 |
 | Portland | 18 |
-| Austin | 54 |
+| Austin | 51 |
 | St. Louis | 23 |
 | Nashville | 29 |
 | Charlotte | 36 |
@@ -43,17 +44,17 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | Columbus | 25 |
 | Cincinnati | 16 |
 | Kansas City | 14 |
-| Indianapolis | 22 |
+| Indianapolis | 21 |
 | Milwaukee | 24 |
-| Las Vegas | 37 |
+| Las Vegas | 36 |
 | Sacramento | 3 |
 | Orlando | 31 |
-| Richmond | 22 |
+| Richmond | 21 |
 | Omaha | 13 |
-| Rest of US | 915 |
-| Toronto | 62 |
-| Vancouver | 39 |
-| Calgary | 19 |
+| Rest of US | 895 |
+| Toronto | 55 |
+| Vancouver | 38 |
+| Calgary | 18 |
 | Montréal | 11 |
 | Ottawa | 3 |
 | Rest of Canada | 21 |
@@ -120,18 +121,16 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | WEAV | Weave Communications, Inc. | Lehi, UT | NYSE | Software & IT | $239.0M | 9 | 2020–2025 |
 | ZION | Zions Bancorporation, National Association /UT/ | Salt Lake City, UT | Nasdaq | Finance | $4.94B | 9 | 2019–2025 |
 
-## Included — New York (485)
+## Included — New York (466)
 
 | Ticker | Company | City | Exchange | Sector | Latest annual revenue | Executives | Pay years |
 |---|---|---|---|---|---|---|---|
 | AAWH | Ascend Wellness Holdings, Inc. | Rochelle Park, NJ | OTC | Healthcare | $500.6M | 8 | 2020–2025 |
 | ABM | Abm Industries Inc /De/ | New York, NY | NYSE | Other | $8.75B | 12 | 2019–2025 |
-| ABR | Arbor Realty Trust Inc | Uniondale, NY | NYSE | Real estate | $10.1M | 8 | 2019–2025 |
 | ACGP | Associated Capital Group, Inc. | Greenwich, CT | OTC | Finance | $13.2M | 6 | 2020–2024 |
 | ACR | ACRES Commercial Realty Corp. | Uniondale, NY | NYSE | Real estate | $79.9M | 4 | 2019–2025 |
 | ACRE | Ares Commercial Real Estate Corp | New York, NY | NYSE | Real estate | $54.8M | 5 | 2019–2025 |
 | ACTG | Acacia Research Corp | New York, NY | Nasdaq | Finance | $285.2M | 10 | 2020–2025 |
-| ADAM | Adamas Trust, Inc. | New York, NY | Nasdaq | Real estate | — | 5 | 2019–2025 |
 | ADP | Automatic Data Processing Inc | Roseland, NJ | Nasdaq | Software & IT | $21.95B | 9 | 2019–2025 |
 | AEHL | Antelope Enterprise Holdings Ltd | New York, NY | Nasdaq | Media & telecom | $98.8M | 0 | — |
 | AERA | AI Era Corp. | Mt. Kisco, NY | OTC | Finance | $6.4M | 0 | — |
@@ -244,7 +243,6 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | CVV | Cvd Equipment Corp | Central Islip, NY | Nasdaq | Industrials | $25.8M | 7 | 2019–2024 |
 | CWEN | Clearway Energy, Inc. | Princeton, NJ | NYSE | Energy & utilities | $1.43B | 6 | 2019–2025 |
 | CXM | Sprinklr, Inc. | New York, NY | NYSE | Software & IT | $857.2M | 17 | 2021–2026 |
-| DB | Deutsche Bank Aktiengesellschaft | New York, NY | NYSE | Finance | $31.16B | 0 | — |
 | DCGO | DocGo Inc. | New York, NY | Nasdaq | Healthcare | $322.2M | 7 | 2020–2025 |
 | DCOM | Dime Commercial Bancshares, Inc. /NY/ | Hauppauge, NY | NYSE | Finance | $730.4M | 10 | 2019–2025 |
 | DDOG | Datadog, Inc. | New York, NY | Nasdaq | Software & IT | $3.43B | 7 | 2019–2025 |
@@ -291,8 +289,6 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | FTFT | Future FinTech Group Inc. | New York, NY | Nasdaq | Business services | $3.8M | 0 | — |
 | FUBO | FuboTV Inc. | New York, NY | NYSE | Business services | $402.3M | 5 | 2020–2024 |
 | GBTG | Global Business Travel Group, Inc. | New York, NY | NYSE | Transportation | $2.72B | 8 | 2020–2025 |
-| GCTK | Glucotrack, Inc. | Rutherford, NJ | Nasdaq | Healthcare | $208K | 3 | 2023–2025 |
-| GDC | GD Culture Group Ltd | Jersey City, NJ | Nasdaq | Consumer & retail | $153K | 7 | 2021–2024 |
 | GEMI | Gemini Space Station, Inc. | New York, NY | Nasdaq | Finance | $179.6M | 5 | 2024–2025 |
 | GFF | Griffon Corp | New York, NY | NYSE | Industrials | $2.52B | 4 | 2018–2025 |
 | GIC | GLOBAL INDUSTRIAL Co | Port Washington, NY | NYSE | Consumer & retail | $1.38B | 12 | 2019–2025 |
@@ -302,13 +298,10 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | GNK | Genco Shipping & Trading Ltd | New York, NY | NYSE | Transportation | $342.1M | 7 | 2018–2024 |
 | GNL | Global Net Lease, Inc. | New York, NY | NYSE | Real estate | $495.3M | 5 | 2020–2025 |
 | GPGI | GPGI, Inc. | Somerset, NJ | NYSE | Finance | $59.8M | 8 | 2020–2025 |
-| GRCE | Grace Therapeutics, Inc. | Princeton, NJ | Nasdaq | Healthcare | $100.0M | 3 | 2024–2026 |
-| GRFS | Grifols SA | New York, NY | Nasdaq | Healthcare | $7.21B | 0 | — |
 | GS | Goldman Sachs Group Inc | New York, NY | NYSE | Finance | $125.10B | 8 | 2019–2025 |
 | GTY | Getty Realty Corp /Md/ | New York, NY | NYSE | Real estate | $221.7M | 4 | 2019–2025 |
 | GXAI | Gaxos.Ai Inc. | Roseland, NJ | Nasdaq | Software & IT | $1.9M | 2 | 2022–2025 |
 | GXO | GXO Logistics, Inc. | Greenwich, CT | NYSE | Transportation | $13.18B | 8 | 2021–2025 |
-| GYRO | Gyrodyne, LLC | St. James, NY | Nasdaq | Real estate | $2.8M | 3 | 2019–2024 |
 | HAIN | Hain Celestial Group Inc | Hoboken, NJ | Nasdaq | Consumer & retail | $1.35B | 17 | 2019–2025 |
 | HKHC | Horizon Kinetics Holding Corp | New York, NY | OTC | Finance | $72.8M | 9 | 2020–2025 |
 | HNVR | Hanover Bancorp, Inc. /MD | Mineola, NY | Nasdaq | Finance | $143.3M | 4 | 2021–2025 |
@@ -336,7 +329,6 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | IPM | Intelligent Protection Management Corp. | Jericho, NY | Nasdaq | Software & IT | $23.6M | 4 | 2020–2025 |
 | IT | Gartner Inc | Stamford, CT | NYSE | Business services | $6.50B | 7 | 2019–2025 |
 | ITT | Itt Inc. | Stamford, CT | NYSE | Industrials | $3.94B | 8 | 2019–2025 |
-| IWSH | Wright Investors Service Holdings, Inc. | Mt Kisco, NY | OTC | Finance | $5.4M | 2 | 2017–2018 |
 | JANL | Janel Corp | New York, NY | OTC | Business services | $207.4M | 4 | 2024–2025 |
 | JBLU | Jetblue Airways Corp | Long Island City, NY | Nasdaq | Transportation | $9.06B | 8 | 2019–2025 |
 | JEF | Jefferies Financial Group Inc. | New York, NY | NYSE | Finance | $10.82B | 6 | 2020–2025 |
@@ -348,13 +340,11 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | KIDZ | KIDZ AI Inc. | New York, NY | Nasdaq | Education | $3.4M | 2 | 2024–2025 |
 | KIM | Kimco Realty Corp | Jericho, NY | NYSE | Real estate | $2.14B | 5 | 2020–2025 |
 | KKR | KKR & Co. Inc. | New York, NY | NYSE | Finance | $19.46B | 7 | 2016–2017 |
-| KLRS | Kalaris Therapeutics, Inc. | Berkeley Heights, NJ | Nasdaq | Healthcare | $165K | 8 | 2021–2025 |
 | KLTR | Kaltura Inc | New York, NY | Nasdaq | Software & IT | $180.9M | 6 | 2020–2025 |
 | KPLT | Katapult Holdings, Inc. | New York, NY | Nasdaq | Other | $291.8M | 5 | 2021–2025 |
 | KRNY | Kearny Financial Corp. | Fairfield, NJ | Nasdaq | Finance | $347.1M | 6 | 2020–2026 |
 | KVUE | Kenvue Inc. | Summit, NJ | NYSE | Other | $15.12B | 9 | 2021–2025 |
 | L | Loews Corp | New York, NY | NYSE | Finance | $18.45B | 0 | — |
-| LADR | Ladder Capital Corp | New York, NY | NYSE | Real estate | $106.2M | 6 | 2019–2025 |
 | LAZ | Lazard, Inc. | New York, NY | NYSE | Finance | $3.19B | 10 | 2019–2025 |
 | LBRA | 1847 Holdings LLC | New York, NY | OTC | Business services | $48.3M | 3 | 2022–2023 |
 | LCUT | Lifetime Brands, Inc | Garden City, NY | Nasdaq | Industrials | $647.9M | 4 | 2019–2025 |
@@ -370,7 +360,6 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | LPSN | Liveperson Inc | New York, NY | Nasdaq | Software & IT | $243.7M | 9 | 2018–2024 |
 | LSTA | Lisata Therapeutics, Inc. | Basking Ridge, NJ | Nasdaq | Healthcare | $170K | 8 | 2018–2024 |
 | LUCD | Lucid Diagnostics Inc. | New York, NY | Nasdaq | Healthcare | $4.7M | 4 | 2021–2025 |
-| LXEO | Lexeo Therapeutics, Inc. | New York, NY | Nasdaq | Healthcare | $654K | 6 | 2022–2025 |
 | LXP | LXP Industrial Trust | New York, NY | NYSE | Real estate | $350.2M | 8 | 2018–2025 |
 | M | Macy's, Inc. | New York, NY | NYSE | Consumer & retail | $22.62B | 9 | 2019–2025 |
 | MA | Mastercard Inc | Purchase, NY | NYSE | Business services | $32.79B | 9 | 2019–2025 |
@@ -382,14 +371,12 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | MDB | MongoDB, Inc. | New York, NY | Nasdaq | Software & IT | $2.46B | 7 | 2020–2026 |
 | MDIA | Mediaco Holding Inc. | New York, NY | Nasdaq | Media & telecom | $133.3M | 9 | 2021–2025 |
 | MET | Metlife Inc | New York, NY | NYSE | Finance | $77.08B | 7 | 2019–2025 |
-| MFA | Mfa Financial, Inc. | New York, NY | NYSE | Real estate | $921.8M | 7 | 2019–2025 |
 | MFIN | Medallion Financial Corp | New York, NY | Nasdaq | Finance | $353.3M | 7 | 2017–2024 |
 | MGNI | Magnite, Inc. | New York, NY | Nasdaq | Software & IT | $714.0M | 7 | 2019–2025 |
 | MGTE | Marblegate Capital Corp | Rye, NY | OTC | Finance | $48.5M | 0 | — |
 | MGTX | MeiraGTx Holdings plc | New York, NY | Nasdaq | Healthcare | $81.4M | 4 | 2020–2025 |
 | MGYR | Magyar Bancorp, Inc. | New Brunswick, NJ | Nasdaq | Finance | $40.8M | 3 | 2022–2025 |
 | MIAX | Miami International Holdings, Inc. | Princeton, NJ | NYSE | Finance | $1.36B | 5 | 2023–2025 |
-| MITT | TPG Mortgage Investment Trust, Inc. | New York, NY | NYSE | Real estate | $4.1M | 2 | 2024–2024 |
 | MKTX | Marketaxess Holdings Inc | New York, NY | Nasdaq | Finance | $846.3M | 11 | 2019–2025 |
 | MLCI | Mount Logan Capital Inc. | New York, NY | Nasdaq | Finance | $53.6M | 3 | 2024–2025 |
 | MLGO | MicroAlgo Inc. | New York, NY | Nasdaq | Software & IT | $60.0M | 0 | — |
@@ -415,7 +402,6 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | NFE | New Fortress Energy Inc. | New York, NY | Nasdaq | Energy & utilities | $1.50B | 3 | 2019–2024 |
 | NGNE | Neurogene Inc. | New York, NY | Nasdaq | Healthcare | $0K | 10 | 2020–2025 |
 | NHP | National Healthcare Properties, Inc. | New York, NY | Nasdaq | Real estate | $342.3M | 6 | 2019–2025 |
-| NIKI | Niki BioSolutions, Inc. | Princeton, NJ | Nasdaq | Industrials | $431K | 0 | — |
 | NIXX | Nixxy, Inc. | New York, NY | Nasdaq | Software & IT | $97.9M | 7 | 2019–2024 |
 | NLCP | NewLake Capital Partners, Inc. | New Canaan, CT | OTC | Real estate | $51.1M | 4 | 2020–2025 |
 | NLOP | Net Lease Office Properties | New York, NY | NYSE | Real estate | $118.9M | 0 | — |
@@ -429,7 +415,6 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | NYT | New York Times Co | New York, NY | NYSE | Media & telecom | $2.82B | 6 | 2019–2025 |
 | OGN | Organon & Co. | Jersey City, NJ | NYSE | Healthcare | $6.22B | 9 | 2021–2025 |
 | OLB | Olb Group, Inc. | New York, NY | Nasdaq | Business services | $8.7M | 3 | 2020–2024 |
-| OLP | One Liberty Properties Inc | Great Neck, NY | NYSE | Real estate | $82.7M | 8 | 2019–2025 |
 | OMC | Omnicom Group Inc. | New York, NY | NYSE | Other | $17.27B | 8 | 2019–2025 |
 | OPTT | Ocean Power Technologies, Inc. | Monroe Township, NJ | NYSE | Energy & utilities | $3.7M | 5 | 2023–2025 |
 | OPTU | Optimum Communications, Inc. | Long Island City, NY | NYSE | Media & telecom | $8.59B | 9 | 2019–2025 |
@@ -481,7 +466,6 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | PVH | Pvh Corp. /De/ | New York, NY | NYSE | Consumer & retail | $8.95B | 9 | 2019–2025 |
 | PW | Power REIT | Old Bethpage, NY | NYSE | Real estate | $2.0M | 2 | 2020–2024 |
 | PWP | Perella Weinberg Partners | New York, NY | Nasdaq | Finance | $750.9M | 4 | 2020–2025 |
-| QCLS | Q/C Technologies, Inc. | New York, NY | Nasdaq | Healthcare | $1.6M | 5 | 2021–2024 |
 | QETA | Quetta Acquisition Corp | New York, NY | Nasdaq | Finance | $5.0M | 0 | — |
 | QUBT | Quantum Computing Inc. | Hoboken, NJ | Nasdaq | Software & IT | $682K | 6 | 2020–2025 |
 | QXO | QXO, Inc. | Greenwich, CT | NYSE | Consumer & retail | $6.84B | 7 | 2022–2025 |
@@ -521,7 +505,6 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | SKYA | SkyAI, Inc. | Melville, NY | Nasdaq | Finance | $204K | 5 | 2022–2025 |
 | SLG | Sl Green Realty Corp | New York, NY | NYSE | Real estate | $1.00B | 4 | 2019–2025 |
 | SLGN | Silgan Holdings Inc | Norwalk, CT | NYSE | Industrials | $6.48B | 4 | 2021–2025 |
-| SLS | SELLAS Life Sciences Group, Inc. | New York, NY | Nasdaq | Healthcare | $0K | 4 | 2022–2025 |
 | SMP | Standard Motor Products, Inc. | Long Island City, NY | NYSE | Industrials | $1.79B | 5 | 2019–2025 |
 | SNDX | Syndax Pharmaceuticals Inc | New York, NY | Nasdaq | Healthcare | $172.4M | 12 | 2020–2025 |
 | SNEX | StoneX Group Inc. | New York, NY | Nasdaq | Finance | $132.38B | 11 | 2020–2025 |
@@ -543,7 +526,6 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | STUB | StubHub Holdings, Inc. | New York, NY | NYSE | Business services | $1.75B | 5 | 2024–2025 |
 | SUNE | SUNation Energy, Inc. | Ronkonkoma, NY | Nasdaq | Industrials | $71.9M | 6 | 2022–2024 |
 | TAOX | TAO Synergies Inc. | New York, NY | Nasdaq | Finance | $299K | 3 | 2021–2024 |
-| TARA | Protara Therapeutics, Inc. | New York, NY | Nasdaq | Healthcare | $2.9M | 6 | 2020–2025 |
 | TBLA | Taboola.com Ltd. | New York, NY | Nasdaq | Software & IT | $1.91B | 5 | 2021–2025 |
 | TDOC | Teladoc Health, Inc. | New York, NY | NYSE | Healthcare | $2.53B | 11 | 2019–2025 |
 | TEAD | Teads Holding Co. | New York, NY | Nasdaq | Software & IT | $1.30B | 8 | 2021–2025 |
@@ -610,13 +592,12 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | ZNB | Zeta Network Group | New York, NY | Nasdaq | Education | $8.7M | 0 | — |
 | ZTS | Zoetis Inc. | Parsippany, NJ | NYSE | Healthcare | $9.47B | 10 | 2019–2025 |
 
-## Included — Los Angeles (207)
+## Included — Los Angeles (202)
 
 | Ticker | Company | City | Exchange | Sector | Latest annual revenue | Executives | Pay years |
 |---|---|---|---|---|---|---|---|
 | ADGM | Adagio Medical Holdings, Inc. | Laguna Hills, CA | Nasdaq | Healthcare | $0K | 5 | 2023–2025 |
 | AHR | American Healthcare REIT, Inc. | Irvine, CA | NYSE | Real estate | $2.26B | 7 | 2021–2025 |
-| AIXC | AIxCrypto Holdings, Inc. | El Segundo, CA | Nasdaq | Finance | $5.0M | 3 | 2021–2022 |
 | ALHC | Alignment Healthcare, Inc. | Orange, CA | Nasdaq | Finance | $3.95B | 0 | — |
 | AMGN | Amgen Inc | Thousand Oaks, CA | Nasdaq | Healthcare | $36.75B | 5 | 2022–2024 |
 | AMPH | Amphastar Pharmaceuticals, Inc. | Rancho Cucamonga, CA | Nasdaq | Healthcare | $719.9M | 5 | 2019–2025 |
@@ -624,7 +605,6 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | AMZE | Amaze Holdings, Inc. | Newport Beach, CA | NYSE | Consumer & retail | $2.0M | 9 | 2020–2025 |
 | ARE | Alexandria Real Estate Equities, Inc. | Pasadena, CA | NYSE | Real estate | $3.03B | 15 | 2019–2025 |
 | ARES | Ares Management Corp | Los Angeles, CA | NYSE | Finance | $5.60B | 9 | 2019–2025 |
-| ARMP | Armata Pharmaceuticals, Inc. | Los Angeles, CA | NYSE | Healthcare | $409K | 9 | 2020–2025 |
 | ARQT | Arcutis Biotherapeutics, Inc. | Westlake Village, CA | Nasdaq | Healthcare | $376.1M | 11 | 2019–2025 |
 | ARWR | Arrowhead Pharmaceuticals, Inc. | Pasadena, CA | Nasdaq | Healthcare | $829.4M | 9 | 2019–2025 |
 | ASTH | Astrana Health, Inc. | Alhambra, CA | Nasdaq | Business services | $3.18B | 8 | 2019–2025 |
@@ -670,7 +650,6 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | EACO | Eaco Corp | Anaheim, CA | OTC | Consumer & retail | $427.9M | 5 | 2016–2018 |
 | EIX | Edison International | Rosemead, CA | NYSE | Energy & utilities | $19.32B | 14 | 2019–2025 |
 | ELAB | PMGC Holdings Inc. | Newport Beach, CA | Nasdaq | Healthcare | $590K | 4 | 2023–2025 |
-| ELDN | Eledon Pharmaceuticals, Inc. | Irvine, CA | Nasdaq | Healthcare | $0K | 4 | 2020–2025 |
 | EMMA | Emmaus Life Sciences, Inc. | Torrance, CA | OTC | Healthcare | $12.5M | 6 | 2016–2021 |
 | EOLS | Evolus, Inc. | Newport Beach, CA | Nasdaq | Healthcare | $297.2M | 6 | 2020–2025 |
 | ETS | Elite Express Holding Inc. | Laguna Hills, CA | Nasdaq | Transportation | $2.7M | 5 | 2025–2025 |
@@ -678,7 +657,6 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | EVGO | EVgo Inc. | El Segundo, CA | Nasdaq | Business services | $384.1M | 8 | 2020–2025 |
 | EW | Edwards Lifesciences Corp | Irvine, CA | NYSE | Healthcare | $6.07B | 0 | — |
 | EWBC | East West Bancorp Inc | Pasadena, CA | Nasdaq | Finance | $4.67B | 8 | 2019–2025 |
-| EXOZ | Exozymes Inc. | Monrovia, CA | Nasdaq | Healthcare | $70K | 5 | 2023–2024 |
 | FAF | First American Financial Corp | Santa Ana, CA | NYSE | Finance | $7.45B | 7 | 2019–2025 |
 | FCUV | Focus Universal Inc. | West Covina, CA | Nasdaq | Industrials | $255K | 2 | 2021–2025 |
 | FDCT | Fdctech, Inc. | Irvine, CA | OTC | Software & IT | $35.0M | 0 | — |
@@ -748,7 +726,6 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | NRGV | Energy Vault Holdings, Inc. | Westlake Villiage, CA | NYSE | Technology hardware | $203.7M | 6 | 2021–2025 |
 | NTHI | Neonc Technologies Holdings, Inc. | Calabasas, CA | Nasdaq | Healthcare | $40K | 4 | 2024–2025 |
 | NTWK | Netsol Technologies Inc | Encino,, CA | Nasdaq | Software & IT | $73.1M | 4 | 2019–2025 |
-| NVNO | enVVeno Medical Corp | Irvine, CA | Nasdaq | Healthcare | $31K | 5 | 2019–2024 |
 | NVST | Envista Holdings Corp | Brea, CA | NYSE | Healthcare | $2.72B | 12 | 2019–2025 |
 | NVTS | Navitas Semiconductor Corp | Torrance, CA | Nasdaq | Semiconductors | $45.9M | 7 | 2020–2025 |
 | NWTG | Newton Golf Company, Inc. | Camarillo, CA | Nasdaq | Consumer & retail | $8.1M | 5 | 2021–2024 |
@@ -822,7 +799,7 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | ZIP | Ziprecruiter, Inc. | Santa Monica, CA | NYSE | Software & IT | $449.0M | 6 | 2020–2025 |
 | ZVIA | Zevia PBC | Encino, CA | NYSE | Consumer & retail | $161.3M | 10 | 2020–2025 |
 
-## Included — Chicago (119)
+## Included — Chicago (116)
 
 | Ticker | Company | City | Exchange | Sector | Latest annual revenue | Executives | Pay years |
 |---|---|---|---|---|---|---|---|
@@ -857,7 +834,6 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | DOV | DOVER Corp | Downers Grove, IL | NYSE | Industrials | $8.09B | 7 | 2019–2025 |
 | ELS | Equity Lifestyle Properties Inc | Chicago, IL | NYSE | Real estate | $1.53B | 5 | 2019–2025 |
 | ENVA | Enova International, Inc. | Chicago, IL | NYSE | Finance | $3.15B | 4 | 2019–2025 |
-| EQR | Erp Operating Ltd Partnership | Chicago, IL | NYSE | Real estate | $1.94B | 0 | — |
 | ETON | Eton Pharmaceuticals, Inc. | Deer Park, IL | Nasdaq | Healthcare | $80.0M | 5 | 2020–2025 |
 | EXC | Exelon Corp | Chicago, IL | Nasdaq | Energy & utilities | $24.26B | 0 | — |
 | FBIN | Fortune Brands Innovations, Inc. | Deerfield, IL | NYSE | Industrials | $4.46B | 12 | 2019–2025 |
@@ -921,7 +897,6 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | PTLO | Portillo's Inc. | Oak Brook, IL | Nasdaq | Consumer & retail | $732.1M | 10 | 2020–2025 |
 | QNME | Quanome Technologies, Inc. | Itasca, IL | Nasdaq | Transportation | $17.8M | 0 | — |
 | RAIL | FreightCar America, Inc. | Chicago, IL | Nasdaq | Industrials | $501.0M | 6 | 2020–2025 |
-| REFI | Chicago Atlantic Real Estate Finance, Inc. | Chicago, IL | Nasdaq | Real estate | $48.9M | 0 | — |
 | RSI | Rush Street Interactive, Inc. | Chicago, IL | NYSE | Business services | $1.13B | 7 | 2020–2025 |
 | RYAN | Ryan Specialty Holdings, Inc. | Chicago, IL | NYSE | Finance | $3.05B | 11 | 2020–2025 |
 | RYM | RYTHM, Inc. | Rolling Meadows, IL | Nasdaq | Other | $17.3M | 8 | 2021–2025 |
@@ -938,7 +913,6 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | UAL | United Airlines Holdings, Inc. | Chicago, IL | Nasdaq | Transportation | $59.07B | 8 | 2019–2025 |
 | ULS | UL Solutions Inc. | Northbrook, IL | NYSE | Business services | $3.05B | 6 | 2022–2025 |
 | USFD | US Foods Holding Corp. | Rosemont, IL | NYSE | Consumer & retail | $39.42B | 9 | 2018–2025 |
-| VMRK | Vivmark Residential | Chicago, IL | NYSE | Real estate | $2.57B | 0 | — |
 | VRNO | Verano Holdings Corp. | Chicago, IL | OTC | Other | $821.5M | 9 | 2021–2025 |
 | VTR | Ventas, Inc. | Chicago, IL | NYSE | Real estate | $5.83B | 6 | 2018–2025 |
 | WTFC | Wintrust Financial Corp | Rosemont, IL | Nasdaq | Finance | $4.23B | 6 | 2019–2025 |
@@ -946,7 +920,7 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | XERS | Xeris Biopharma Holdings, Inc. | Chicago, IL | Nasdaq | Healthcare | $291.8M | 11 | 2020–2025 |
 | YHGJ | Yunhong Green Cti Ltd. | Barrington, IL | Nasdaq | Industrials | $19.7M | 5 | 2018–2024 |
 
-## Included — Dallas–Fort Worth (155)
+## Included — Dallas–Fort Worth (153)
 
 | Ticker | Company | City | Exchange | Sector | Latest annual revenue | Executives | Pay years |
 |---|---|---|---|---|---|---|---|
@@ -1022,7 +996,6 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | HYPD | Hyperion Defi, Inc. | Dallas, TX | Nasdaq | Healthcare | $813K | 7 | 2021–2025 |
 | INTZ | Intrusion Inc | Plano, TX | Nasdaq | Technology hardware | $7.1M | 5 | 2021–2025 |
 | INVH | Invitation Homes Inc. | Dallas, TX | NYSE | Real estate | $2.73B | 0 | — |
-| IOR | Income Opportunity Realty Investors Inc /Tx/ | Dallas, TX | NYSE | Real estate | $0K | 0 | — |
 | ITGR | Integer Holdings Corp | Plano, TX | NYSE | Healthcare | $1.85B | 13 | 2019–2025 |
 | ITXP | Independence Power Holdings, Inc. | Dallas, TX | OTC | Business services | $97.2M | 0 | — |
 | J | Jacobs Solutions Inc. | Dallas, TX | NYSE | Industrials | $12.03B | 10 | 2019–2025 |
@@ -1076,7 +1049,6 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | TCI | Transcontinental Realty Investors Inc | Dallas, TX | NYSE | Real estate | $49.1M | 0 | — |
 | TFIN | Triumph Financial, Inc. | Dallas, TX | NYSE | Finance | $518.9M | 10 | 2019–2025 |
 | THC | Tenet Healthcare Corp | Dallas, TX | NYSE | Healthcare | $21.31B | 8 | 2019–2025 |
-| TIL | Instil Bio, Inc. | Dallas, TX | Nasdaq | Healthcare | $0K | 6 | 2020–2025 |
 | TLF | Tandy Leather Factory Inc | Ft Worth, TX | Nasdaq | Industrials | $76.3M | 3 | 2021–2025 |
 | TPG | TPG Inc. | Fort Worth, TX | Nasdaq | Finance | $4.67B | 6 | 2020–2025 |
 | TPL | Texas Pacific Land Corp | Dallas, TX | NYSE | Finance | $798.2M | 5 | 2018–2024 |
@@ -1106,7 +1078,7 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | ZNOG | Zion Oil & Gas Inc | Dallas, TX | OTC | Energy & utilities | $11.3M | 3 | 2019–2025 |
 | ZSTK | ZeroStack Corp. | Dallas, TX | Nasdaq | Finance | $35.7M | 8 | 2021–2024 |
 
-## Included — Houston (161)
+## Included — Houston (159)
 
 | Ticker | Company | City | Exchange | Sector | Latest annual revenue | Executives | Pay years |
 |---|---|---|---|---|---|---|---|
@@ -1116,7 +1088,6 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | AMIX | Autonomix Medical, Inc. | The Woodlands, TX | Nasdaq | Healthcare | $0K | 7 | 2023–2026 |
 | AMPY | Amplify Energy Corp. | Houston, TX | NYSE | Energy & utilities | $263.4M | 5 | 2020–2025 |
 | ANG-PD | American National Group Inc. | Houston, TX | NYSE | Finance | $7.49B | 13 | 2016–2022 |
-| APA | APA Corp | Houston, TX | Nasdaq | Energy & utilities | — | 9 | 2019–2025 |
 | AROC | Archrock, Inc. | Houston, TX | NYSE | Energy & utilities | $1.49B | 5 | 2018–2025 |
 | ASO | Academy Sports & Outdoors, Inc. | Katy, TX | Nasdaq | Consumer & retail | $6.05B | 12 | 2019–2025 |
 | AZIO | Azio AI Holdings, Inc. | Houston, TX | Nasdaq | Industrials | $5.9M | 6 | 2020–2024 |
@@ -1260,7 +1231,6 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | TWFG | TWFG, Inc. | The Woodlands, TX | Nasdaq | Finance | $248.5M | 3 | 2023–2025 |
 | UAN | Cvr Partners, LP | Sugar Land, TX | NYSE | Other | $606.0M | 0 | — |
 | USPH | U S Physical Therapy Inc /NV | Houston, TX | NYSE | Healthcare | $781.0M | 6 | 2019–2025 |
-| VRM | Vroom, Inc. | Houston, TX | Nasdaq | Consumer & retail | $893.2M | 7 | 2021–2025 |
 | VTOL | Bristow Group Inc. | Houston, TX | NYSE | Transportation | $1.49B | 9 | 2019–2025 |
 | WBI | WaterBridge Infrastructure LLC | Houston, TX | NYSE | Energy & utilities | $525.6M | 5 | 2024–2025 |
 | WES | Western Midstream Partners, LP | The Woodlands, TX | NYSE | Energy & utilities | $3.84B | 0 | — |
@@ -1272,7 +1242,7 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | WTI | W&T Offshore Inc | Houston, TX | NYSE | Energy & utilities | $501.5M | 9 | 2019–2025 |
 | XOM | ExxonMobil Holdings Corp | Spring, TX | NYSE | Energy & utilities | — | 0 | — |
 
-## Included — Washington–Baltimore (141)
+## Included — Washington–Baltimore (135)
 
 | Ticker | Company | City | Exchange | Sector | Latest annual revenue | Executives | Pay years |
 |---|---|---|---|---|---|---|---|
@@ -1315,7 +1285,6 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | CTEV | Claritev Corp | Mclean, VA | NYSE | Business services | $965.4M | 0 | — |
 | CTM | Castellum, Inc. | Vienna, VA | NYSE | Business services | $52.9M | 5 | 2021–2025 |
 | CURI | CuriosityStream Inc. | Silver Spring, MD | Nasdaq | Business services | $71.7M | 7 | 2020–2025 |
-| CVM | Cel Sci Corp | Vienna, VA | NYSE | Healthcare | $264K | 5 | 2020–2025 |
 | CYCU | Cycurion, Inc. | Mclean, VA | Nasdaq | Software & IT | $15.1M | 6 | 2023–2025 |
 | DAIC | CID Holdco, Inc. | Bethesda, MD | Nasdaq | Software & IT | $5.8M | 3 | 2024–2025 |
 | DEA | Easterly Government Properties, Inc. | Washington, DC | NYSE | Real estate | $336.1M | 6 | 2019–2025 |
@@ -1338,7 +1307,6 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | FRST | Primis Financial Corp. | Mclean, VA | Nasdaq | Finance | $312.8M | 8 | 2019–2025 |
 | FRT | Federal Realty Investment Trust | North Bethesda, MD | NYSE | Real estate | $1.28B | 6 | 2019–2025 |
 | FVCB | FVCBankcorp, Inc. | Fairfax, VA | Nasdaq | Finance | $1.8M | 4 | 2020–2025 |
-| GANX | Gain Therapeutics, Inc. | Bethesda, MD | Nasdaq | Healthcare | $55K | 6 | 2020–2025 |
 | GD | General Dynamics Corp | Reston, VA | NYSE | Industrials | $52.55B | 7 | 2019–2025 |
 | GHC | Graham Holdings Co | Arlington, VA | NYSE | Education | $4.91B | 6 | 2019–2025 |
 | GILT | Gilat Satellite Networks Ltd | Mclean, VA | Nasdaq | Technology hardware | $451.7M | 0 | — |
@@ -1375,21 +1343,17 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | MSTR | Strategy Inc | Tysons Corner, VA | Nasdaq | Finance | $477.2M | 7 | 2019–2025 |
 | MXCT | Maxcyte, Inc. | Rockville, MD | Nasdaq | Business services | $33.0M | 8 | 2020–2025 |
 | NAVI | Navient Corp | Herndon, VA | Nasdaq | Finance | $3.20B | 8 | 2019–2025 |
-| NBP | NovaBridge Biosciences | Rockville, MD | Nasdaq | Healthcare | $632K | 0 | — |
 | NN | Nextnav Inc. | Reston, VA | Nasdaq | Industrials | $4.6M | 8 | 2020–2025 |
 | NOC | Northrop Grumman Corp /De/ | Falls Church, VA | NYSE | Industrials | $41.95B | 10 | 2019–2025 |
 | NOTE | FiscalNote Holdings, Inc. | Washington, DC | OTC | Business services | $95.4M | 5 | 2021–2025 |
-| NRUC | National Rural Utilities Cooperative Finance Corp /Dc/ | Dulles, VA | NYSE | Finance | — | 0 | — |
 | NVAX | Novavax Inc | Gaithersburg, MD | Nasdaq | Healthcare | $1.12B | 11 | 2019–2025 |
 | NVR | Nvr Inc | Reston, VA | NYSE | Industrials | $10.32B | 5 | 2019–2025 |
-| NXTC | NextCure, Inc. | Baltimore, MD | Nasdaq | Healthcare | $22.4M | 7 | 2020–2025 |
 | PEB | Pebblebrook Hotel Trust | Bethesda, MD | NYSE | Real estate | $1.48B | 3 | 2019–2025 |
 | PK | Park Hotels & Resorts Inc. | Tysons, VA | NYSE | Consumer & retail | $2.54B | 6 | 2019–2025 |
 | PLUS | Eplus Inc | Herndon, VA | Nasdaq | Consumer & retail | $2.44B | 4 | 2020–2026 |
 | PPHC | Public Policy Holding Company, Inc. | Washington, DC | Nasdaq | Business services | $186.5M | 3 | 2024–2025 |
 | PRVA | Privia Health Group, Inc. | Arlington, VA | Nasdaq | Healthcare | $2.12B | 6 | 2020–2025 |
 | PSN | Parsons Corp | Centreville, VA | NYSE | Software & IT | $6.36B | 7 | 2019–2025 |
-| QNRX | Quoin Pharmaceuticals Ltd. | Ashburn, VA | Nasdaq | Healthcare | $0K | 4 | 2021–2025 |
 | REKR | Rekor Systems, Inc. | Columbia, MD | Nasdaq | Technology hardware | $48.5M | 5 | 2020–2025 |
 | RGNX | REGENXBIO Inc. | Rockville, MD | Nasdaq | Healthcare | $170.4M | 7 | 2019–2025 |
 | RLJ | RLJ Lodging Trust | Bethesda, MD | NYSE | Real estate | $1.35B | 7 | 2019–2025 |
@@ -1418,7 +1382,7 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | XRN | Chiron Real Estate Inc. | Bethesda, MD | NYSE | Real estate | $148.2M | 6 | 2019–2025 |
 | XYL | Xylem Inc. | Washington, DC | NYSE | Industrials | $9.04B | 11 | 2019–2025 |
 
-## Included — Philadelphia (95)
+## Included — Philadelphia (93)
 
 | Ticker | Company | City | Exchange | Sector | Latest annual revenue | Executives | Pay years |
 |---|---|---|---|---|---|---|---|
@@ -1475,7 +1439,6 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | JJSF | J&J Snack Foods Corp | Mount Laurel, NJ | Nasdaq | Consumer & retail | $1.58B | 13 | 2019–2025 |
 | KWR | Quaker Chemical Corp | Conshohocken, PA | NYSE | Energy & utilities | $1.89B | 11 | 2020–2025 |
 | LNC | Lincoln National Corp | Radnor, PA | NYSE | Finance | $18.21B | 11 | 2019–2025 |
-| LRMR | Larimar Therapeutics, Inc. | Bala Cynwyd, PA | Nasdaq | Healthcare | $0K | 0 | — |
 | MRBK | Meridian Corp | Malvern, PA | Nasdaq | Finance | $205.5M | 7 | 2020–2025 |
 | MRVL | Marvell Technology, Inc. | Wilmington, DE | Nasdaq | Semiconductors | $8.19B | 10 | 2020–2026 |
 | NABL | N-able, Inc. | Wilmington, DE | NYSE | Software & IT | $508.8M | 5 | 2020–2025 |
@@ -1484,7 +1447,6 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | NXGL | Nexgel, Inc. | Langhorne, PA | Nasdaq | Healthcare | $11.4M | 3 | 2022–2025 |
 | OCGN | Ocugen, Inc. | Malvern, PA | Nasdaq | Healthcare | $4.4M | 8 | 2021–2025 |
 | ONFO | Onfolio Holdings, Inc | Wilmington, DE | Nasdaq | Software & IT | $10.7M | 6 | 2021–2025 |
-| PHIO | Phio Pharmaceuticals Corp. | King Of Prussia, PA | Nasdaq | Healthcare | $0K | 5 | 2021–2025 |
 | PHR | Phreesia, Inc. | Wilmington, DE | NYSE | Business services | $480.6M | 8 | 2020–2026 |
 | PKBK | Parke Bancorp, Inc. | Washington Township, NJ | Nasdaq | Finance | $146.1M | 5 | 2020–2025 |
 | PRLD | Prelude Therapeutics Inc | Wilmington, DE | Nasdaq | Healthcare | $12.1M | 7 | 2020–2025 |
@@ -1518,7 +1480,7 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | XE | X-Energy, Inc. | Wilmington, DE | Nasdaq | Industrials | — | 0 | — |
 | XHLD | TEN Holdings, Inc. | Langhorne, PA | Nasdaq | Business services | $3.1M | 3 | 2024–2025 |
 
-## Included — Atlanta (74)
+## Included — Atlanta (73)
 
 | Ticker | Company | City | Exchange | Sector | Latest annual revenue | Executives | Pay years |
 |---|---|---|---|---|---|---|---|
@@ -1528,7 +1490,6 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | AGCO | Agco Corp /De | Duluth, GA | NYSE | Industrials | $10.08B | 9 | 2019–2025 |
 | AGYS | Agilysys Inc | Alpharetta, GA | Nasdaq | Software & IT | $319.3M | 0 | — |
 | AIZ | Assurant, Inc. | Atlanta, GA | NYSE | Finance | $12.81B | 9 | 2019–2025 |
-| AOMR | Angel Oak Mortgage REIT, Inc. | Atlanta, GA | NYSE | Real estate | $53.2M | 4 | 2020–2025 |
 | AORT | Artivion, Inc. | Kennesaw, GA | NYSE | Healthcare | $441.3M | 8 | 2019–2025 |
 | ATLC | Atlanticus Holdings Corp | Atlanta, GA | Nasdaq | Finance | $1.97B | 3 | 2019–2025 |
 | AVAH | Aveanna Healthcare Holdings, Inc. | Atlanta, GA | Nasdaq | Healthcare | $2.43B | 9 | 2020–2025 |
@@ -1597,7 +1558,7 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | VSTS | Vestis Corp | Roswell, GA | NYSE | Consumer & retail | $2.73B | 11 | 2023–2025 |
 | VYX | NCR Voyix Corp | Atlanta, GA | NYSE | Technology hardware | $2.69B | 12 | 2019–2025 |
 
-## Included — Miami–South Florida (123)
+## Included — Miami–South Florida (120)
 
 | Ticker | Company | City | Exchange | Sector | Latest annual revenue | Executives | Pay years |
 |---|---|---|---|---|---|---|---|
@@ -1657,7 +1618,6 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | JETMF | Global Crossing Airlines Group Inc. | Miami, FL | OTC | Transportation | $246.3M | 4 | 2020–2024 |
 | JFB | JFB Construction Holdings | Lantana, FL | Nasdaq | Industrials | $30.5M | 0 | — |
 | JUSH | Jushi Holdings Inc. | Boca Raton, FL | OTC | Healthcare | $262.9M | 6 | 2021–2025 |
-| KTTA | Pasithea Therapeutics Corp. | Miami Beach, FL | Nasdaq | Healthcare | $487K | 5 | 2021–2025 |
 | LAUR | Laureate Education, Inc. | Miami, FL | Nasdaq | Education | $1.70B | 4 | 2021–2025 |
 | LEN | Lennar Corp /New/ | Miami, FL | NYSE | Industrials | $34.19B | 8 | 2019–2025 |
 | LGVN | Longeveron Inc. | Miami, FL | Nasdaq | Healthcare | $1.2M | 7 | 2022–2025 |
@@ -1668,7 +1628,6 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | MTZ | Mastec Inc | Coral Gables, FL | NYSE | Industrials | $14.30B | 0 | — |
 | NCLH | Norwegian Cruise Line Holdings Ltd. | Miami, FL | NYSE | Transportation | $9.83B | 9 | 2019–2025 |
 | NEE | Nextera Energy Inc | Juno Beach, FL | NYSE | Energy & utilities | $25.80B | 10 | 2019–2025 |
-| NMAD | Nomad Power Solutions, Inc. | Boca Raton, FL | Nasdaq | Healthcare | $200K | 8 | 2021–2024 |
 | NMAX | Newsmax Inc. | Boca Raton, FL | NYSE | Media & telecom | $189.3M | 3 | 2024–2025 |
 | NSPR | InspireMD, Inc. | Miami, FL | Nasdaq | Healthcare | $9.0M | 5 | 2020–2025 |
 | NXPL | NextPlat Corp | Hallandale Beach, FL | Nasdaq | Media & telecom | $54.3M | 8 | 2019–2025 |
@@ -1686,7 +1645,6 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | RDVT | Red Violet, Inc. | Boca Raton, FL | Nasdaq | Software & IT | $90.3M | 3 | 2020–2025 |
 | RENX | RenX Enterprises Corp. | Miami, FL | Nasdaq | Energy & utilities | $8.2M | 2 | 2023–2025 |
 | RIME | Algorhythm Holdings, Inc. | Fort Lauderdale, FL | Nasdaq | Software & IT | $4.4M | 5 | 2019–2024 |
-| RLMD | Relmada Therapeutics, Inc. | Coral Gables, FL | Nasdaq | Healthcare | $5K | 0 | — |
 | RMTG | Regenerative Medical Technology Group Inc. | Boca Raton, FL | OTC | Consumer & retail | $5.1M | 0 | — |
 | SABS | SAB Biotherapeutics, Inc. | Miami Beach, FL | Nasdaq | Healthcare | $0K | 6 | 2022–2025 |
 | SBAC | Sba Communications Corp | Boca Raton, FL | Nasdaq | Real estate | $2.82B | 9 | 2019–2025 |
@@ -1725,7 +1683,7 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | ZEOX | Zeo ScientifiX, Inc. | Davie, FL | OTC | Healthcare | $5.2M | 0 | — |
 | ZSQR | Z Squared Inc. | Fort Lauderdale, FL | Nasdaq | Finance | $1.4M | 5 | 2021–2023 |
 
-## Included — Phoenix (63)
+## Included — Phoenix (62)
 
 | Ticker | Company | City | Exchange | Sector | Latest annual revenue | Executives | Pay years |
 |---|---|---|---|---|---|---|---|
@@ -1766,7 +1724,6 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | LOPE | Grand Canyon Education, Inc. | Phoenix, AZ | Nasdaq | Education | $1.11B | 6 | 2019–2025 |
 | MCHP | Microchip Technology Inc | Chandler, AZ | Nasdaq | Semiconductors | $4.71B | 8 | 2020–2026 |
 | MRAM | Everspin Technologies Inc. | Chandler, AZ | Nasdaq | Semiconductors | $55.2M | 7 | 2020–2025 |
-| MTH | Meritage Homes CORP | Scottsdale, AZ | NYSE | Industrials | $3.23B | 7 | 2019–2025 |
 | NSIT | Insight Enterprises Inc | Chandler, AZ | Nasdaq | Consumer & retail | $8.25B | 11 | 2019–2025 |
 | ODYS | Odysight.ai Inc. | Scottsdale, AZ | Nasdaq | Software & IT | $3.0M | 3 | 2023–2024 |
 | ON | On Semiconductor Corp | Scottsdale, AZ | Nasdaq | Semiconductors | $6.00B | 8 | 2020–2025 |
@@ -1793,7 +1750,7 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | WAL | Western Alliance Bancorporation | Phoenix, AZ | NYSE | Finance | $5.37B | 11 | 2019–2025 |
 | WSC | WillScot Holdings Corp | Scottsdale, AZ | Nasdaq | Other | $2.28B | 9 | 2019–2025 |
 
-## Included — Boston (208)
+## Included — Boston (191)
 
 | Ticker | Company | City | Exchange | Sector | Latest annual revenue | Executives | Pay years |
 |---|---|---|---|---|---|---|---|
@@ -1817,10 +1774,8 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | ASPN | Aspen Aerogels Inc | Northborough, MA | NYSE | Consumer & retail | $271.1M | 12 | 2019–2025 |
 | ATNI | ATN International, Inc. | Beverly, MA | Nasdaq | Media & telecom | $728.0M | 7 | 2019–2025 |
 | AVBC | Avidia Bancorp, Inc. | Hudson, MA | NYSE | Finance | $147.6M | 1 | 2025–2025 |
-| AVIR | Atea Pharmaceuticals, Inc. | Boston, MA | Nasdaq | Healthcare | $351.4M | 6 | 2019–2025 |
 | AWRE | Aware Inc /Ma/ | Burlington, MA | Nasdaq | Software & IT | $17.3M | 8 | 2021–2025 |
 | AZTA | Azenta, Inc. | Burlington, MA | Nasdaq | Industrials | $593.8M | 17 | 2019–2025 |
-| BBLG | Bone Biologics Corp | Burlington, MA | Nasdaq | Healthcare | $1.07B | 2 | 2022–2025 |
 | BBT | Beacon Financial Corp | Boston, MA | NYSE | Finance | $882.7M | 20 | 2018–2025 |
 | BDTX | Black Diamond Therapeutics, Inc. | Cambridge, MA | Nasdaq | Healthcare | $70.0M | 6 | 2020–2025 |
 | BEAM | Beam Therapeutics Inc. | Cambridge, MA | Nasdaq | Healthcare | $139.7M | 6 | 2019–2025 |
@@ -1829,27 +1784,22 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | BFRI | Biofrontera Inc. | Woburn, MA | Nasdaq | Healthcare | $41.7M | 4 | 2022–2025 |
 | BIIB | Biogen Inc. | Cambridge, MA | Nasdaq | Healthcare | $9.89B | 11 | 2019–2025 |
 | BJ | BJ's Wholesale Club Holdings, Inc. | Marlborough, MA | NYSE | Consumer & retail | $21.46B | 0 | — |
-| BJDX | Bluejay Diagnostics, Inc. | Acton, MA | Nasdaq | Healthcare | $249K | 3 | 2022–2025 |
 | BLIN | Bridgeline Digital, Inc. | Woburn, MA | Nasdaq | Software & IT | $15.4M | 3 | 2020–2025 |
 | BRKR | Bruker Corp | Billerica, MA | Nasdaq | Industrials | $3.44B | 6 | 2019–2025 |
 | BSX | Boston Scientific Corp | Marlborough, MA | NYSE | Healthcare | $20.07B | 7 | 2020–2025 |
 | BXP | BXP, Inc. | Boston, MA | NYSE | Real estate | $3.48B | 6 | 2019–2025 |
 | BYRN | Byrna Technologies Inc. | Andover, MA | Nasdaq | Technology hardware | $118.1M | 5 | 2020–2025 |
-| CADL | Candel Therapeutics, Inc. | Needham, MA | Nasdaq | Healthcare | $125K | 7 | 2020–2025 |
 | CAMP | Camp4 Therapeutics Corp | Watertown, MA | Nasdaq | Healthcare | $3.5M | 3 | 2023–2025 |
 | CARG | CarGurus, Inc. | Boston, MA | Nasdaq | Software & IT | $907.0M | 11 | 2019–2025 |
 | CBIO | Crescent Biopharma, Inc. | Waltham, MA | Nasdaq | Healthcare | $10.8M | 7 | 2019–2023 |
 | CBT | Cabot Corp | Boston, MA | NYSE | Other | $3.71B | 6 | 2019–2025 |
 | CCCC | C4 Therapeutics, Inc. | Watertown, MA | Nasdaq | Healthcare | $35.9M | 9 | 2019–2025 |
-| CGEM | Cullinan Therapeutics, Inc. | Cambridge, MA | Nasdaq | Healthcare | $0K | 6 | 2020–2025 |
 | CGNX | Cognex Corp | Natick, MA | Nasdaq | Industrials | $994.4M | 9 | 2019–2025 |
 | CLH | Clean Harbors Inc | Norwell, MA | NYSE | Energy & utilities | $6.03B | 9 | 2019–2025 |
 | CMPX | Compass Therapeutics, Inc. | Boston, MA | Nasdaq | Healthcare | $0K | 5 | 2020–2025 |
 | CNTM | ConnectM Technology Solutions, Inc. | Marlborough, MA | OTC | Industrials | $35.8M | 0 | — |
-| COGT | Cogent Biosciences, Inc. | Waltham, MA | Nasdaq | Healthcare | $7.9M | 5 | 2020–2025 |
 | COLL | Collegium Pharmaceutical, Inc | Stoughton, MA | Nasdaq | Healthcare | $780.6M | 11 | 2019–2025 |
 | CRAI | Cra International, Inc. | Boston, MA | Nasdaq | Business services | $751.6M | 6 | 2019–2025 |
-| CRBP | Corbus Pharmaceuticals Holdings, Inc. | Norwood, MA | Nasdaq | Healthcare | $0K | 4 | 2021–2025 |
 | CRIS | Curis Inc | Lexington, MA | Nasdaq | Healthcare | $9.4M | 1 | 2023–2023 |
 | CRL | Charles River Laboratories International, Inc. | Wilmington, MA | NYSE | Business services | $4.02B | 8 | 2019–2025 |
 | CRNC | Cerence Inc. | Burlington, MA | Nasdaq | Software & IT | $251.8M | 16 | 2019–2025 |
@@ -1857,7 +1807,6 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | CUE | Cue Biopharma, Inc. | Boston, MA | Nasdaq | Healthcare | $27.5M | 7 | 2022–2025 |
 | CXT | Crane NXT, Co. | Waltham, MA | NYSE | Industrials | $1.66B | 12 | 2019–2025 |
 | CYCN | Korsana Biosciences, Inc. | Waltham, MA | Nasdaq | Healthcare | $2.1M | 9 | 2019–2024 |
-| CYPH | Cypherpunk Technologies Inc. | Cambridge, MA | Nasdaq | Healthcare | $1.5M | 4 | 2021–2025 |
 | DH | Definitive Healthcare Corp. | Framingham, MA | Nasdaq | Software & IT | $241.5M | 12 | 2020–2025 |
 | DHC | Diversified Healthcare Trust | Newton, MA | Nasdaq | Real estate | $1.54B | 4 | 2019–2025 |
 | DKNG | DraftKings Inc. | Boston, MA | Nasdaq | Business services | $6.05B | 7 | 2020–2025 |
@@ -1868,10 +1817,8 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | ECBK | ECB Bancorp, Inc. /MD/ | Everett, MA | Nasdaq | Finance | $79.5M | 4 | 2021–2025 |
 | EDIT | Editas Medicine, Inc. | Cambridge, MA | Nasdaq | Healthcare | $40.5M | 11 | 2019–2025 |
 | ELOX | Eloxx Pharmaceuticals, Inc. | Arlington, MA | Nasdaq | Healthcare | $0K | 9 | 2018–2022 |
-| ELTX | Elicio Therapeutics, Inc. | Boston, MA | Nasdaq | Healthcare | $2.3M | 8 | 2020–2024 |
 | ENTA | Enanta Pharmaceuticals Inc | Watertown, MA | Nasdaq | Healthcare | $65.3M | 8 | 2019–2025 |
 | ENTG | Entegris Inc | Billerica, MA | Nasdaq | Industrials | $3.20B | 12 | 2019–2025 |
-| ENVB | Enveric Biosciences, Inc. | Cambridge, MA | Nasdaq | Healthcare | $39.9M | 4 | 2022–2025 |
 | ERNA | Ernexa Therapeutics Inc. | Cambridge, MA | Nasdaq | Healthcare | $582K | 10 | 2020–2025 |
 | EVER | EverQuote, Inc. | Cambridge, MA | Nasdaq | Software & IT | $692.5M | 9 | 2019–2025 |
 | EVLV | Evolv Technologies Holdings, Inc. | Waltham, MA | Nasdaq | Technology hardware | $145.9M | 9 | 2021–2025 |
@@ -1890,8 +1837,6 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | HAE | Haemonetics Corp | Boston, MA | NYSE | Healthcare | $1.33B | 9 | 2020–2026 |
 | HHS | Harte Hanks Inc | Chelmsford, MA | Nasdaq | Other | $159.6M | 7 | 2020–2025 |
 | HUBS | Hubspot Inc | Cambridge, MA | NYSE | Software & IT | $3.13B | 7 | 2019–2025 |
-| ILPT | Industrial Logistics Properties Trust | Newton, MA | Nasdaq | Real estate | $162.5M | 5 | 2019–2025 |
-| IMRX | Immuneering Corp | Cambridge, MA | Nasdaq | Healthcare | $0K | 6 | 2020–2025 |
 | INDB | Independent Bank Corp | Rockland, MA | Nasdaq | Finance | $1.17B | 15 | 2019–2025 |
 | INGN | Inogen Inc | Beverly, MA | Nasdaq | Healthcare | $348.7M | 14 | 2019–2025 |
 | IPGP | Ipg Photonics Corp | Marlborough, MA | Nasdaq | Semiconductors | $1.00B | 12 | 2019–2025 |
@@ -1909,7 +1854,6 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | LMAT | Lemaitre Vascular Inc | Burlington, MA | Nasdaq | Healthcare | $249.6M | 5 | 2019–2025 |
 | LNTH | Lantheus Holdings, Inc. | Bedford, MA | Nasdaq | Healthcare | $1.54B | 11 | 2019–2025 |
 | MASS | 908 Devices Inc. | Burlington, MA | Nasdaq | Industrials | $56.2M | 6 | 2020–2025 |
-| MBIO | Mustang Bio, Inc. | Waltham, MA | Nasdaq | Healthcare | — | 4 | 2019–2024 |
 | MBOT | Microbot Medical Inc. | Hingham, MA | Nasdaq | Healthcare | $117K | 6 | 2020–2024 |
 | MCRB | Seres Therapeutics, Inc. | Cambridge, MA | Nasdaq | Healthcare | $789K | 8 | 2020–2025 |
 | MKSI | Mks Inc | Andover, MA | Nasdaq | Industrials | $3.93B | 9 | 2019–2025 |
@@ -1924,7 +1868,6 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | NEUP | Neuphoria Therapeutics Inc. | Burlington, MA | Nasdaq | Healthcare | $15.6M | 2 | 2024–2025 |
 | NNDM | Nano Dimension Ltd. | Waltham, MA | Nasdaq | Technology hardware | $102.4M | 0 | — |
 | NOVT | Novanta Inc | Bedford, MA | Nasdaq | Technology hardware | $980.6M | 7 | 2019–2025 |
-| NSARO | Nstar Electric Co | Boston, MA | OTC | Energy & utilities | $2.49B | 0 | — |
 | NTLA | Intellia Therapeutics, Inc. | Cambridge, MA | Nasdaq | Healthcare | $67.7M | 9 | 2019–2025 |
 | OBAI | Our Bond, Inc. | Boston, MA | Nasdaq | Media & telecom | $10.0M | 0 | — |
 | OBX | Obsidian Therapeutics, Inc. | Cambridge, MA | Nasdaq | Healthcare | $0K | 0 | — |
@@ -1939,7 +1882,6 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | PAYD | Paid Inc | Westborough, MA | OTC | Business services | $20.7M | 0 | — |
 | PBLS | Parabilis Medicines, Inc. | Cambridge, MA | Nasdaq | Healthcare | — | 0 | — |
 | PEGA | Pegasystems Inc | Waltham, MA | Nasdaq | Software & IT | $1.75B | 0 | — |
-| PIAC | Princeton Capital Corp | North Andover, MA | OTC | Other | $9.0M | 0 | — |
 | PODD | Insulet Corp | Acton, MA | Nasdaq | Healthcare | $2.71B | 13 | 2019–2025 |
 | PRAX | Praxis Precision Medicines, Inc. | Boston, MA | Nasdaq | Healthcare | $0K | 5 | 2021–2025 |
 | PRGS | Progress Software Corp /Ma | Burlington, MA | Nasdaq | Software & IT | $977.8M | 8 | 2019–2025 |
@@ -1950,7 +1892,6 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | QTRX | Quanterix Corp | Billerica, MA | Nasdaq | Industrials | $138.9M | 11 | 2019–2025 |
 | QTTB | Q32 Bio Inc. | Waltham, MA | Nasdaq | Healthcare | $53.7M | 8 | 2019–2025 |
 | RAPP | Rapport Therapeutics, Inc. | Boston, MA | Nasdaq | Healthcare | — | 4 | 2023–2025 |
-| REPL | Replimune Group, Inc. | Woburn, MA | Nasdaq | Healthcare | — | 6 | 2021–2026 |
 | RGEN | Repligen Corp | Waltham, MA | Nasdaq | Healthcare | $738.3M | 8 | 2019–2025 |
 | RLAY | Relay Therapeutics, Inc. | Cambridge, MA | Nasdaq | Healthcare | $15.4M | 8 | 2019–2025 |
 | RMR | Rmr Group Inc. | Newton, MA | Nasdaq | Business services | $700.3M | 9 | 2019–2025 |
@@ -1962,7 +1903,6 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | SAM | Boston Beer Co Inc | Boston, MA | NYSE | Consumer & retail | $2.09B | 15 | 2019–2025 |
 | SES | SES AI Corp | Woburn, MA | NYSE | Technology hardware | $21.0M | 7 | 2020–2024 |
 | SEVN | Seven Hills Realty Trust | Newton, MA | Nasdaq | Real estate | $29.4M | 5 | 2021–2025 |
-| SLDB | Solid Biosciences Inc. | Charlestown, MA | Nasdaq | Healthcare | $8.1M | 8 | 2020–2025 |
 | SN | SharkNinja, Inc. | Needham, MA | NYSE | Industrials | $6.40B | 5 | 2023–2025 |
 | SNUS-PH | Santander Holdings USA, Inc. | Boston, MA | NYSE | Finance | $15.92B | 0 | — |
 | SPRO | Spero Therapeutics, Inc. | Cambridge, MA | Nasdaq | Healthcare | $66.8M | 7 | 2020–2025 |
@@ -2006,7 +1946,7 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | ZBIO | Zenas BioPharma, Inc. | Waltham, MA | Nasdaq | Healthcare | $10.0M | 5 | 2023–2025 |
 | ZVRA | Zevra Therapeutics, Inc. | Boston, MA | Nasdaq | Healthcare | $106.5M | 9 | 2019–2025 |
 
-## Included — San Francisco Bay Area (327)
+## Included — San Francisco Bay Area (319)
 
 | Ticker | Company | City | Exchange | Sector | Latest annual revenue | Executives | Pay years |
 |---|---|---|---|---|---|---|---|
@@ -2031,7 +1971,6 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | ALLO | Allogene Therapeutics, Inc. | South San Francisco, CA | Nasdaq | Healthcare | $0K | 9 | 2019–2025 |
 | ALMR | Alamar Biosciences, Inc. | Fremont, CA | Nasdaq | Industrials | — | 0 | — |
 | ALMS | Alumis Inc. | South San Francisco, CA | Nasdaq | Healthcare | $24.1M | 5 | 2023–2025 |
-| ALXO | Alx Oncology Holdings Inc | South San Francisco, CA | Nasdaq | Healthcare | $0K | 8 | 2019–2025 |
 | AMAT | Applied Materials Inc /De | Santa Clara, CA | Nasdaq | Semiconductors | $28.37B | 3 | 2021–2022 |
 | AMBA | Ambarella Inc | Santa Clara, CA | Nasdaq | Semiconductors | $390.7M | 7 | 2022–2026 |
 | AMBO | Ambow Education Holding Ltd. | Cupertino, CA | NYSE | Education | $9.5M | 0 | — |
@@ -2065,7 +2004,6 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | BIRD | Smartbird, Inc. | Palo Alto, CA | Nasdaq | Software & IT | $152.5M | 5 | 2021–2025 |
 | BLLN | BillionToOne, Inc. | Menlo Park, CA | Nasdaq | Healthcare | $305.1M | 3 | 2024–2025 |
 | BLZE | Backblaze, Inc. | San Francisco, CA | Nasdaq | Software & IT | $145.8M | 5 | 2020–2025 |
-| BMEA | Biomea Fusion, Inc. | San Carlos, CA | Nasdaq | Healthcare | — | 6 | 2020–2025 |
 | BNTC | Benitec Biopharma Inc. | Hayward, CA | Nasdaq | Healthcare | $0K | 4 | 2021–2025 |
 | BOLT | Bolt Biotherapeutics, Inc. | Redwood City, CA | Nasdaq | Healthcare | $7.7M | 5 | 2021–2025 |
 | BOX | Box Inc | Redwood City, CA | NYSE | Software & IT | $1.18B | 4 | 2020–2026 |
@@ -2142,7 +2080,6 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | GROV | Grove Collaborative Holdings, Inc. | San Francisco, CA | NYSE | Consumer & retail | $173.7M | 6 | 2021–2025 |
 | GSG | iShares S&P GSCI Commodity-Indexed Trust | San Francisco, CA | NYSE | Finance | $42.5M | 0 | — |
 | GSIT | Gsi Technology Inc | Sunnyvale, CA | Nasdaq | Semiconductors | $25.1M | 6 | 2020–2026 |
-| GTBP | GT Biopharma, Inc. | San Francisco, CA | Nasdaq | Healthcare | $0K | 4 | 2021–2025 |
 | GTLB | Gitlab Inc. | San Francisco, CA | Nasdaq | Software & IT | $955.2M | 7 | 2021–2026 |
 | GWRE | Guidewire Software, Inc. | San Mateo, CA | NYSE | Software & IT | $1.48B | 7 | 2019–2025 |
 | GYGY | Game Your Game Inc. | Palo Alto, CA | Nasdaq | Software & IT | $59K | 0 | — |
@@ -2157,7 +2094,6 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | HPQ | Hp Inc | Palo Alto, CA | NYSE | Technology hardware | $55.30B | 9 | 2019–2025 |
 | HTFL | Heartflow, Inc. | San Francisco, CA | Nasdaq | Healthcare | $176.0M | 3 | 2024–2025 |
 | HTO | H2o America | San Jose, CA | Nasdaq | Energy & utilities | $805.6M | 10 | 2019–2025 |
-| IAU | Ishares Gold Trust | San Francisco, CA | NYSE | Finance | $-606324K | 0 | — |
 | ICHR | Ichor Holdings, Ltd. | Fremont, CA | Nasdaq | Semiconductors | $947.7M | 8 | 2019–2025 |
 | IDYA | IDEAYA Biosciences, Inc. | South San Francisco, CA | Nasdaq | Healthcare | $218.7M | 11 | 2020–2025 |
 | INTA | Intapp, Inc. | Palo Alto, CA | Nasdaq | Software & IT | $577.8M | 6 | 2020–2025 |
@@ -2281,10 +2217,8 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | SFIX | Stitch Fix, Inc. | San Francisco, CA | Nasdaq | Consumer & retail | $1.27B | 11 | 2019–2025 |
 | SGHT | Sight Sciences, Inc. | Menlo Park, CA | Nasdaq | Healthcare | $77.4M | 6 | 2020–2025 |
 | SGMOQ | Sangamo Therapeutics, Inc | Richmond, CA | OTC | Healthcare | $39.6M | 11 | 2018–2024 |
-| SGMT | Sagimet Biosciences Inc. | Foster City, CA | Nasdaq | Healthcare | $2.0M | 6 | 2022–2025 |
 | SIBN | SI-BONE, Inc. | Santa Clara, CA | Nasdaq | Healthcare | $200.9M | 5 | 2020–2025 |
 | SITM | SITIME Corp | Santa Clara, CA | Nasdaq | Semiconductors | $326.7M | 6 | 2020–2025 |
-| SLV | iShares Silver Trust | San Francisco, CA | NYSE | Finance | $-1914970K | 0 | — |
 | SMCI | Super Micro Computer, Inc. | San Jose, CA | Nasdaq | Technology hardware | $39.06B | 6 | 2019–2025 |
 | SNDK | Sandisk Corp | Milpitas, CA | Nasdaq | Technology hardware | $20.25B | 4 | 2025–2025 |
 | SNOW | Snowflake Inc. | Menlo Park, CA | NYSE | Software & IT | $4.68B | 10 | 2020–2026 |
@@ -2305,7 +2239,6 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | TNON | Tenon Medical, Inc. | Los Gatos, CA | Nasdaq | Healthcare | $3.9M | 0 | — |
 | TNYA | Tenaya Therapeutics, Inc. | South San Francisco, CA | Nasdaq | Healthcare | — | 5 | 2020–2025 |
 | TOGI | TurnOnGreen, Inc. | Milpitas, CA | OTC | Technology hardware | $7.2M | 3 | 2022–2025 |
-| TPST | Tempest Therapeutics, Inc. | Brisbane, CA | Nasdaq | Healthcare | $295K | 3 | 2022–2024 |
 | TRNO | Terreno Realty Corp | San Francisco, CA | NYSE | Real estate | $476.4M | 3 | 2019–2022 |
 | TWLO | Twilio Inc | San Francisco, CA | NYSE | Software & IT | $5.07B | 9 | 2019–2025 |
 | TWST | Twist Bioscience Corp | South San Francisco, CA | Nasdaq | Healthcare | $376.6M | 9 | 2019–2025 |
@@ -2314,7 +2247,6 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | U | Unity Software Inc. | San Francisco, CA | NYSE | Software & IT | $1.85B | 16 | 2019–2025 |
 | UBER | Uber Technologies, Inc | San Francisco, CA | NYSE | Business services | $52.02B | 8 | 2019–2025 |
 | UCTT | Ultra Clean Holdings, Inc. | Hayward, CA | Nasdaq | Semiconductors | $2.05B | 10 | 2019–2025 |
-| UNCY | Unicycive Therapeutics, Inc. | Mountain View, CA | Nasdaq | Healthcare | $675K | 4 | 2020–2025 |
 | UPST | Upstart Holdings, Inc. | Burlingame, CA | Nasdaq | Finance | $1.04B | 6 | 2019–2025 |
 | UPWK | Upwork, Inc | Palo Alto, CA | Nasdaq | Software & IT | $787.8M | 5 | 2019–2025 |
 | V | Visa Inc. | San Francisco, CA | NYSE | Business services | $40.00B | 8 | 2019–2025 |
@@ -2338,7 +2270,7 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | ZS | Zscaler, Inc. | San Jose, CA | Nasdaq | Software & IT | $3.35B | 10 | 2019–2025 |
 | ZSPC | zSpace, Inc. | San Jose, CA | OTC | Software & IT | $27.9M | 4 | 2023–2024 |
 
-## Included — Detroit (30)
+## Included — Detroit (28)
 
 | Ticker | Company | City | Exchange | Sector | Latest annual revenue | Executives | Pay years |
 |---|---|---|---|---|---|---|---|
@@ -2351,7 +2283,6 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | CACC | Credit Acceptance Corp | Southfield, MI | Nasdaq | Finance | $2.32B | 12 | 2019–2025 |
 | DCH | Dauch Corp | Detroit, MI | NYSE | Industrials | $5.84B | 8 | 2019–2025 |
 | DPZ | Dominos Pizza Inc | Ann Arbor, MI | Nasdaq | Consumer & retail | $4.94B | 9 | 2019–2025 |
-| DTE | Dte Energy Co | Detroit, MI | NYSE | Energy & utilities | $12.61B | 8 | 2019–2025 |
 | DTM | DT Midstream, Inc. | Detroit, MI | NYSE | Energy & utilities | $1.24B | 6 | 2020–2025 |
 | F | Ford Motor Co | Dearborn, MI | NYSE | Industrials | $187.27B | 10 | 2019–2025 |
 | GM | General Motors Co | Detroit, MI | NYSE | Industrials | $185.02B | 11 | 2019–2025 |
@@ -2360,7 +2291,6 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | LEA | Lear Corp | Southfield, MI | NYSE | Industrials | $23.26B | 0 | — |
 | MAS | Masco Corp /De/ | Livonia, MI | NYSE | Industrials | $7.56B | 10 | 2019–2025 |
 | MEI | Methode Electronics Inc | Southfiled, MI | NYSE | Technology hardware | $1.02B | 16 | 2020–2026 |
-| NDRA | ENDRA Life Sciences Inc. | Ann Arbor, MI | Nasdaq | Healthcare | $0K | 6 | 2021–2024 |
 | PAG | Penske Automotive Group, Inc. | Bloomfield Hills, MI | NYSE | Consumer & retail | $31.81B | 6 | 2019–2025 |
 | PHIN | Phinia Inc. | Auburn Hills, MI | NYSE | Industrials | $3.48B | 7 | 2022–2025 |
 | PRHI | Presurance Holdings, Inc. | Troy, MI | Nasdaq | Finance | $43.3M | 4 | 2020–2025 |
@@ -2373,19 +2303,15 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | UWMC | UWM Holdings Corp | Pontiac, MI | NYSE | Finance | $3.16B | 7 | 2019–2025 |
 | ZOMDF | Zomedica Corp. | Ann Arbor, MI | OTC | Healthcare | $32.0M | 0 | — |
 
-## Included — Seattle (46)
+## Included — Seattle (42)
 
 | Ticker | Company | City | Exchange | Sector | Latest annual revenue | Executives | Pay years |
 |---|---|---|---|---|---|---|---|
-| ACHV | Achieve Life Sciences, Inc. | Seattle, WA | Nasdaq | Healthcare | $0K | 6 | 2019–2025 |
 | ADPT | Adaptive Biotechnologies Corp | Seattle, WA | Nasdaq | Healthcare | $277.0M | 8 | 2020–2025 |
 | AISP | Airship AI Holdings, Inc. | Redmond, WA | Nasdaq | Software & IT | $15.3M | 0 | — |
 | ALK | Alaska Air Group, Inc. | Seattle, WA | NYSE | Transportation | $14.24B | 9 | 2019–2025 |
 | AMZN | Amazon Com Inc | Seattle, WA | Nasdaq | Consumer & retail | $716.92B | 8 | 2019–2025 |
-| APVO | Aptevo Therapeutics Inc. | Seattle, WA | Nasdaq | Healthcare | $3.1M | 3 | 2023–2025 |
-| ATOS | Atossa Therapeutics, Inc. | Seattle, WA | Nasdaq | Healthcare | $2K | 6 | 2021–2025 |
 | BLFS | Biolife Solutions Inc | Bothell, WA | Nasdaq | Healthcare | $96.2M | 10 | 2019–2024 |
-| CATX | Perspective Therapeutics, Inc. | Seattle, WA | NYSE | Healthcare | $1.4M | 11 | 2020–2025 |
 | COCP | Cocrystal Pharma, Inc. | Bothell, WA | Nasdaq | Healthcare | $2.0M | 3 | 2020–2025 |
 | COLB | Columbia Banking System, Inc. | Tacoma, WA | Nasdaq | Finance | $3.21B | 12 | 2019–2025 |
 | COST | Costco Wholesale Corp /New | Issaquah, WA | Nasdaq | Consumer & retail | $275.24B | 9 | 2019–2025 |
@@ -2403,7 +2329,7 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | KMTS | Kestra Medical Technologies, Ltd. | Kirkland, WA | Nasdaq | Healthcare | $95.1M | 4 | 2024–2026 |
 | MCHX | Marchex Inc | Seattle, WA | Nasdaq | Software & IT | $45.4M | 10 | 2019–2024 |
 | MSFT | Microsoft Corp | Redmond, WA | Nasdaq | Software & IT | $331.84B | 7 | 2019–2025 |
-| MVIS | Microvision, Inc. | Redmond, WA | Nasdaq | Technology hardware | $1.2M | 7 | 2019–2025 |
+| MVIS | Microvision, Inc. | Redmond, WA | Nasdaq | Technology hardware | $1.2M | 6 | 2019–2025 |
 | NAUT | Nautilus Biotechnology, Inc. | Seattle, WA | Nasdaq | Industrials | — | 6 | 2020–2025 |
 | OMER | Omeros Corp | Seattle, WA | Nasdaq | Healthcare | $73.8M | 5 | 2019–2025 |
 | OSRH | OSR Health, Inc. | Bellevue, WA | Nasdaq | Healthcare | $2.9M | 3 | 2024–2025 |
@@ -2424,7 +2350,7 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | ZG | Zillow Group, Inc. | Seattle, WA | Nasdaq | Business services | $2.58B | 8 | 2019–2025 |
 | ZUMZ | Zumiez Inc | Lynnwood, WA | Nasdaq | Consumer & retail | $929.1M | 7 | 2019–2025 |
 
-## Included — Minneapolis–St. Paul (60)
+## Included — Minneapolis–St. Paul (58)
 
 | Ticker | Company | City | Exchange | Sector | Latest annual revenue | Executives | Pay years |
 |---|---|---|---|---|---|---|---|
@@ -2443,7 +2369,6 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | DCI | DONALDSON Co INC | Bloomington, MN | NYSE | Industrials | $3.69B | 8 | 2019–2025 |
 | DGII | Digi International Inc | Hopkins, MN | Nasdaq | Technology hardware | $430.2M | 9 | 2019–2025 |
 | DLX | Deluxe Corp | Minneapolis, MN | NYSE | Media & telecom | $2.13B | 10 | 2019–2025 |
-| DMAC | DiaMedica Therapeutics Inc. | Minneapolis, MN | Nasdaq | Healthcare | $500K | 7 | 2020–2025 |
 | ECL | Ecolab Inc. | Saint Paul, MN | NYSE | Other | $16.08B | 12 | 2019–2025 |
 | FUL | Fuller H B Co | St Paul, MN | NYSE | Other | $3.47B | 13 | 2019–2025 |
 | GGG | Graco Inc | Minneapolis, MN | NYSE | Industrials | $2.24B | 10 | 2019–2025 |
@@ -2487,7 +2412,6 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | VREOF | Vireo Growth Inc. | Minneapolis, MN | OTC | Healthcare | $268.8M | 11 | 2019–2025 |
 | WGO | Winnebago Industries Inc | Eden Prairie, MN | NYSE | Industrials | $2.80B | 7 | 2019–2025 |
 | WINA | Winmark Corp | Minneapolis, MN | Nasdaq | Consumer & retail | $86.1M | 4 | 2019–2025 |
-| XEL | Xcel Energy Inc | Minneapolis, MN | Nasdaq | Energy & utilities | $11.54B | 11 | 2019–2025 |
 
 ## Included — Rest of Minnesota (5)
 
@@ -2505,7 +2429,7 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 |---|---|---|---|---|---|---|---|
 | SKYW | Skywest Inc | St George, UT | Nasdaq | Transportation | $4.06B | 6 | 2019–2025 |
 
-## Included — San Diego (86)
+## Included — San Diego (83)
 
 | Ticker | Company | City | Exchange | Sector | Latest annual revenue | Executives | Pay years |
 |---|---|---|---|---|---|---|---|
@@ -2520,7 +2444,6 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | ARTV | Artiva Biotherapeutics, Inc. | San Diego, CA | Nasdaq | Healthcare | $0K | 4 | 2023–2025 |
 | ATEC | Alphatec Holdings, Inc. | Carlsbad, CA | Nasdaq | Healthcare | $764.2M | 6 | 2020–2025 |
 | ATYR | aTYR PHARMA INC | San Diego, CA | Nasdaq | Healthcare | $190K | 3 | 2021–2025 |
-| BCAB | BioAtla, Inc. | San Diego, CA | Nasdaq | Healthcare | $300K | 5 | 2020–2025 |
 | BCAL | California BanCorp \ CA | San Diego, CA | Nasdaq | Finance | $237.1M | 6 | 2021–2024 |
 | BEEM | Beam Global | San Diego, CA | Nasdaq | Technology hardware | $28.2M | 5 | 2019–2024 |
 | BNGO | Bionano Genomics, Inc. | San Diego, CA | Nasdaq | Industrials | $28.5M | 3 | 2022–2025 |
@@ -2528,7 +2451,6 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | CAPR | Capricor Therapeutics, Inc. | San Diego, CA | Nasdaq | Healthcare | $0K | 3 | 2020–2025 |
 | CARL | Carlsmed, Inc. | Carlsbad, CA | Nasdaq | Healthcare | $50.5M | 3 | 2024–2025 |
 | CBUS | Cibus, Inc. | San Diego, CA | Nasdaq | Other | $3.6M | 11 | 2020–2025 |
-| CLDI | Calidi Biotherapeutics, Inc. | San Diego, CA | NYSE | Healthcare | $45K | 9 | 2022–2025 |
 | CNTB | Connect Biopharma Holdings Ltd | San Diego, CA | Nasdaq | Healthcare | $64K | 0 | — |
 | CRDF | Cardiff Oncology, Inc. | San Diego, CA | Nasdaq | Healthcare | $593K | 5 | 2021–2025 |
 | CTNM | Contineum Therapeutics, Inc. | San Diego, CA | Nasdaq | Healthcare | $0K | 5 | 2023–2025 |
@@ -2544,7 +2466,6 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | FKWL | Franklin Wireless Corp | San Diego, CA | Nasdaq | Technology hardware | $46.1M | 4 | 2020–2025 |
 | FLUX | Flux Power Holdings, Inc. | Vista, CA | Nasdaq | Technology hardware | $42.1M | 6 | 2021–2025 |
 | GOSS | Gossamer Bio, Inc. | San Diego, CA | Nasdaq | Healthcare | $48.5M | 4 | 2021–2025 |
-| GRI | GRI Bio, Inc. | La Jolla, CA | Nasdaq | Healthcare | $0K | 5 | 2022–2024 |
 | GYRE | Gyre Therapeutics, Inc. | San Diego, CA | Nasdaq | Healthcare | $116.6M | 9 | 2018–2025 |
 | HALO | Halozyme Therapeutics, Inc. | San Diego, CA | Nasdaq | Healthcare | $1.40B | 7 | 2019–2025 |
 | HGBL | Heritage Global Inc. | San Diego, CA | Nasdaq | Business services | $51.0M | 3 | 2020–2025 |
@@ -2636,7 +2557,7 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | UPXI | Upexi, Inc. | Tampa, FL | Nasdaq | Finance | $15.8M | 4 | 2022–2025 |
 | XZO | Exzeo Group, Inc. | Tampa, FL | NYSE | Software & IT | $217.0M | 3 | 2024–2025 |
 
-## Included — Denver (102)
+## Included — Denver (99)
 
 | Ticker | Company | City | Exchange | Sector | Latest annual revenue | Executives | Pay years |
 |---|---|---|---|---|---|---|---|
@@ -2649,7 +2570,6 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | ARW | Arrow Electronics, Inc. | Centennial, CO | NYSE | Consumer & retail | $30.85B | 13 | 2019–2025 |
 | ASTI | Ascent Solar Technologies, Inc. | Thornton, CO | Nasdaq | Semiconductors | $77K | 5 | 2016–2025 |
 | AUID | authID Inc. | Denver, CO | Nasdaq | Software & IT | $2.0M | 10 | 2020–2025 |
-| AUMN | Golden Minerals Co | Denver, CO | OTC | Materials | $12.0M | 6 | 2020–2025 |
 | AUUD | Auddia Inc. | Boulder, CO | Nasdaq | Software & IT | $0K | 4 | 2021–2024 |
 | AYTU | Aytu Biopharma, Inc | Denver, CO | Nasdaq | Healthcare | $66.4M | 6 | 2021–2025 |
 | BALL | BALL Corp | Westminster, CO | NYSE | Industrials | $13.16B | 14 | 2019–2025 |
@@ -2738,8 +2658,6 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | VTS | Vitesse Energy, Inc. | Greenwood Village, CO | NYSE | Energy & utilities | $274.0M | 3 | 2022–2025 |
 | VVOS | Vivos Therapeutics, Inc. | Littleton, CO | Nasdaq | Healthcare | $17.4M | 6 | 2019–2024 |
 | WU | Western Union CO | Denver, CO | NYSE | Business services | $4.05B | 10 | 2019–2024 |
-| WWR | Westwater Resources, Inc. | Greenwood Village, CO | NYSE | Materials | $0K | 3 | 2020–2021 |
-| XPL | Solitario Resources Corp. | Wheat Ridge, CO | NYSE | Materials | $0K | 3 | 2022–2025 |
 | YSS | York Space Systems Inc. | Greenwood Village, CO | NYSE | Industrials | — | 0 | — |
 | ZARE | Ares Real Estate Income Trust Inc. | Denver, CO | OTC | Real estate | $498.8M | 0 | — |
 
@@ -2766,7 +2684,7 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | PXLW | Pixelworks, Inc | Portland, OR | Nasdaq | Software & IT | $693K | 3 | 2020–2025 |
 | RVSB | Riverview Bancorp Inc | Vancouver, WA | Nasdaq | Finance | $64.7M | 7 | 2021–2026 |
 
-## Included — Austin (54)
+## Included — Austin (51)
 
 | Ticker | Company | City | Exchange | Sector | Latest annual revenue | Executives | Pay years |
 |---|---|---|---|---|---|---|---|
@@ -2788,7 +2706,6 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | EZPW | Ezcorp Inc | Rollingwood, TX | Nasdaq | Consumer & retail | $1.27B | 0 | — |
 | FABC | Fabric.AI, Inc. | Round Rock, TX | Nasdaq | Media & telecom | $64K | 7 | 2021–2025 |
 | FLEX | Flex Ltd. | Austin, TX | Nasdaq | Technology hardware | $27.91B | 8 | 2020–2026 |
-| FLNA | Filana Therapeutics, Inc. | Austin, TX | Nasdaq | Healthcare | $41.1M | 7 | 2019–2025 |
 | FOXX | Foxx Development Holdings Inc. | Austin, TX | Nasdaq | Technology hardware | $65.9M | 0 | — |
 | FTCI | FTC Solar, Inc. | Austin, TX | Nasdaq | Semiconductors | $99.7M | 7 | 2021–2024 |
 | FWDI | Forward Industries, Inc. | Austin, TX | Nasdaq | Finance | $18.2M | 6 | 2022–2025 |
@@ -2810,7 +2727,6 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | SLAB | Silicon Laboratories Inc. | Austin, TX | Nasdaq | Semiconductors | $784.8M | 8 | 2019–2025 |
 | STRS | Stratus Properties Inc | Austin, TX | Nasdaq | Real estate | $29.9M | 2 | 2017–2024 |
 | STTK | Shattuck Labs, Inc. | Austin, TX | Nasdaq | Healthcare | $1.0M | 6 | 2020–2025 |
-| SVRA | Savara Inc | Austin, TX | Nasdaq | Healthcare | $257K | 6 | 2020–2025 |
 | SWMR | Swarmer, Inc | Austin, TX | Nasdaq | Software & IT | — | 0 | — |
 | TE | T1 Energy Inc. | Austin, TX | NYSE | Semiconductors | $755.3M | 11 | 2021–2024 |
 | TRNR | Interactive Strength, Inc. | Austin, TX | Nasdaq | Industrials | $11.5M | 3 | 2022–2025 |
@@ -2822,7 +2738,6 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | VITL | Vital Farms, Inc. | Austin, TX | Nasdaq | Consumer & retail | $759.4M | 9 | 2020–2025 |
 | VTIX | Virtuix Holdings Inc. | Austin, TX | Nasdaq | Technology hardware | $4.3M | 3 | 2025–2026 |
 | WETO | Wetour Robotics Ltd | Austin, TX | Nasdaq | Transportation | $5.0M | 0 | — |
-| XBIT | XBiotech Inc. | Austin, TX | Nasdaq | Healthcare | $0K | 4 | 2019–2024 |
 | YETI | YETI Holdings, Inc. | Austin, TX | NYSE | Consumer & retail | $1.87B | 9 | 2020–2025 |
 
 ## Included — St. Louis (23)
@@ -3102,7 +3017,7 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | SLQT | SelectQuote, Inc. | Overland Park, KS | NYSE | Finance | $1.62B | 7 | 2020–2025 |
 | UMBF | Umb Financial Corp | Kansas City, MO | Nasdaq | Finance | $4.14B | 8 | 2019–2025 |
 
-## Included — Indianapolis (22)
+## Included — Indianapolis (21)
 
 | Ticker | Company | City | Exchange | Sector | Latest annual revenue | Executives | Pay years |
 |---|---|---|---|---|---|---|---|
@@ -3111,7 +3026,6 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | AREC | American Resources Corp | Fishers, IN | Nasdaq | Materials | $0K | 4 | 2019–2024 |
 | CLMT | Calumet, Inc. /DE | Indianapolis, IN | Nasdaq | Energy & utilities | $4.14B | 5 | 2022–2025 |
 | CNO | CNO Financial Group, Inc. | Carmel, IN | NYSE | Finance | $4.49B | 6 | 2019–2025 |
-| CTA-PB | EIDP, Inc. | Indianapolis, IN | NYSE | Materials | $24.59B | 5 | 2016–2016 |
 | CTVA | Corteva, Inc. | Indianapolis, IN | NYSE | Other | $17.40B | 11 | 2019–2025 |
 | EHTH | eHealth, Inc. | Indianapolis, IN | Nasdaq | Finance | $554.0M | 13 | 2019–2025 |
 | ELAN | Elanco Animal Health Inc | Indianapolis, IN | NYSE | Healthcare | $4.72B | 9 | 2019–2025 |
@@ -3158,13 +3072,12 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | WSBF | Waterstone Financial, Inc. | Wauwatosa, WI | Nasdaq | Finance | $201.3M | 6 | 2019–2025 |
 | ZWS | Zurn Elkay Water Solutions Corp | Milwaukee, WI | NYSE | Industrials | $1.70B | 10 | 2019–2025 |
 
-## Included — Las Vegas (37)
+## Included — Las Vegas (36)
 
 | Ticker | Company | City | Exchange | Sector | Latest annual revenue | Executives | Pay years |
 |---|---|---|---|---|---|---|---|
 | AIFC | AI Financial Corp | Las Vegas, NV | Nasdaq | Finance | $24.8M | 4 | 2020–2024 |
 | ALGT | Allegiant Travel CO | Las Vegas, NV | Nasdaq | Transportation | $2.61B | 11 | 2019–2025 |
-| AMH | American Homes 4 Rent | Las Vegas, NV | NYSE | Real estate | $1.18B | 10 | 2019–2025 |
 | AX | Axos Financial, Inc. | Las Vegas, NV | NYSE | Finance | $2.19B | 9 | 2019–2025 |
 | BYD | Boyd Gaming Corp | Las Vegas, NV | NYSE | Consumer & retail | $4.09B | 6 | 2019–2025 |
 | CDIX | Cardiff Lexington Corp | Las Vegas, NV | OTC | Healthcare | $11.5M | 0 | — |
@@ -3244,7 +3157,7 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | VRME | VerifyMe, Inc. | Lake Mary, FL | Nasdaq | Finance | $16.4M | 10 | 2020–2024 |
 | XHR | Xenia Hotels & Resorts, Inc. | Orlando, FL | NYSE | Consumer & retail | $1.08B | 5 | 2019–2025 |
 
-## Included — Richmond (22)
+## Included — Richmond (21)
 
 | Ticker | Company | City | Exchange | Sector | Latest annual revenue | Executives | Pay years |
 |---|---|---|---|---|---|---|---|
@@ -3268,7 +3181,6 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | MO | Altria Group, Inc. | Richmond, VA | NYSE | Consumer & retail | $23.28B | 7 | 2019–2025 |
 | NEU | Newmarket Corp | Richmond, VA | NYSE | Other | $2.73B | 8 | 2019–2025 |
 | PFGC | Performance Food Group Co | Richmond, VA | NYSE | Consumer & retail | $67.84B | 12 | 2019–2025 |
-| TG | Tredegar Corp | Richmond, VA | NYSE | Materials | $961.3M | 3 | 2019–2025 |
 | UVV | Universal Corp /Va/ | Richmond, VA | NYSE | Consumer & retail | $2.89B | 7 | 2020–2026 |
 
 ## Included — Omaha (13)
@@ -3289,7 +3201,7 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | WERN | Werner Enterprises Inc | Omaha, NE | Nasdaq | Transportation | $2.97B | 9 | 2019–2025 |
 | ZONE | Zone Frontier Inc. | Omaha, NE | NYSE | Other | $2.1M | 5 | 2023–2025 |
 
-## Included — Rest of US (915)
+## Included — Rest of US (895)
 
 | Ticker | Company | City | Exchange | Sector | Latest annual revenue | Executives | Pay years |
 |---|---|---|---|---|---|---|---|
@@ -3366,7 +3278,6 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | BAER | Bridger Aerospace Group Holdings, Inc. | Belgrade, MT | Nasdaq | Business services | $122.8M | 5 | 2021–2025 |
 | BALY | Bally's Corp | Providence, RI | NYSE | Consumer & retail | $2.44B | 10 | 2019–2025 |
 | BANF | Bancfirst Corp /Ok/ | Oklahoma City, OK | Nasdaq | Finance | $960.4M | 8 | 2019–2025 |
-| BANR | Banner Corp | Walla Walla, WA | Nasdaq | Finance | — | 10 | 2019–2025 |
 | BBGI | Beasley Broadcast Group Inc | Naples, FL | Nasdaq | Media & telecom | $205.9M | 3 | 2021–2025 |
 | BC | Brunswick Corp | Mettawa, IL | NYSE | Industrials | $5.36B | 0 | — |
 | BCC | BOISE CASCADE Co | Boise, ID | NYSE | Consumer & retail | $6.40B | 8 | 2019–2025 |
@@ -3382,7 +3293,6 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | BHB | Bar Harbor Bankshares | Bar Harbor, ME | NYSE | Finance | $244.0M | 6 | 2019–2025 |
 | BIAF | bioAffinity Technologies, Inc. | San Antonio, TX | Nasdaq | Business services | $6.2M | 3 | 2023–2025 |
 | BIO | Bio-Rad Laboratories, Inc. | Hercules, CA | NYSE | Industrials | $2.58B | 11 | 2019–2025 |
-| BIVI | Biovie Inc. | Carson City, NV | Nasdaq | Healthcare | — | 3 | 2022–2025 |
 | BKE | Buckle Inc | Kearney, NE | NYSE | Consumer & retail | $1.30B | 7 | 2019–2025 |
 | BKH | Black Hills Corp /Sd/ | Rapid City, SD | NYSE | Energy & utilities | $2.31B | 13 | 2019–2025 |
 | BKTI | BK Technologies Corp | West Melbourne, FL | NYSE | Technology hardware | $86.1M | 7 | 2020–2025 |
@@ -3475,7 +3385,6 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | COFS | Choiceone Financial Services Inc | Sparta, MI | Nasdaq | Finance | $227.6M | 5 | 2020–2025 |
 | COHR | Coherent Corp. | Saxonburg, PA | NYSE | Industrials | $7.12B | 13 | 2019–2025 |
 | COHU | Cohu Inc | Poway, CA | Nasdaq | Industrials | $453.0M | 6 | 2019–2025 |
-| COPR | Idaho Copper Corp | Boise, ID | NYSE | Materials | $609K | 0 | — |
 | CORZ | Core Scientific, Inc./tx | Dover, DE | Nasdaq | Finance | $319.0M | 6 | 2020–2025 |
 | CPBI | Central Plains Bancshares, Inc. | Grand Island, NE | Nasdaq | Finance | $30.3M | 3 | 2023–2025 |
 | CPF | Central Pacific Financial Corp | Honolulu, HI | NYSE | Finance | $366.0M | 12 | 2019–2025 |
@@ -3582,7 +3491,6 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | FCCO | First Community Corp /Sc/ | Lexington, SC | Nasdaq | Finance | $114.0M | 4 | 2020–2025 |
 | FCEL | Fuelcell Energy Inc | Danbury, CT | Nasdaq | Industrials | $158.2M | 6 | 2021–2025 |
 | FCF | First Commonwealth Financial Corp /Pa/ | Indiana, PA | NYSE | Finance | $729.5M | 6 | 2019–2025 |
-| FCHS | First Choice Healthcare Solutions, Inc. | Melbourne, FL | OTC | Healthcare | $6.5M | 0 | — |
 | FCPT | Four Corners Property Trust, Inc. | Mill Valley, CA | NYSE | Real estate | $294.1M | 4 | 2019–2025 |
 | FDBC | Fidelity D & D Bancorp Inc | Dunmore, PA | Nasdaq | Finance | $140.4M | 5 | 2023–2025 |
 | FDSB | Fifth District Bancorp, Inc. | New Orleans, LA | Nasdaq | Finance | $26.5M | 4 | 2023–2025 |
@@ -3701,7 +3609,6 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | HWC | Hancock Whitney Corp | Gulfport, MS | Nasdaq | Finance | $2.02B | 7 | 2020–2025 |
 | HWNI | High Wire Networks, Inc. | Scottsdale, AZ | OTC | Media & telecom | $8.4M | 0 | — |
 | HYFM | Hydrofarm Holdings Group, Inc. | Shoemakersville, PA | Nasdaq | Consumer & retail | $134.3M | 6 | 2019–2025 |
-| HYMC | Hycroft Mining Holding Corp | Winnemucca, NV | Nasdaq | Materials | $0K | 6 | 2020–2025 |
 | HYPR | Hyperfine, Inc. | Guilford, CT | Nasdaq | Healthcare | $13.6M | 9 | 2020–2025 |
 | IA | Innovative Solutions & Support Inc | Exton, PA | Nasdaq | Software & IT | $84.3M | 5 | 2019–2025 |
 | IBCP | Independent Bank Corp /Mi/ | Grand Rapids, MI | Nasdaq | Finance | $315.4M | 6 | 2019–2025 |
@@ -3714,7 +3621,6 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | IHRT | iHeartMedia, Inc. | San Antonio, TX | Nasdaq | Media & telecom | $3.86B | 5 | 2019–2025 |
 | IIIN | Insteel Industries Inc | Mount Airy, NC | NYSE | Materials | $647.7M | 7 | 2019–2025 |
 | IMKTA | Ingles Markets Inc | Asheville, NC | Nasdaq | Consumer & retail | $5.33B | 6 | 2018–2024 |
-| IMNN | Imunon, Inc. | Lawrenceville, NJ | Nasdaq | Healthcare | $500K | 9 | 2020–2025 |
 | INIS | Radnostix Inc | Idaho Falls, ID | OTC | Industrials | $13.1M | 4 | 2021–2025 |
 | INR | Infinity Natural Resources, Inc. | Morgantown, WV | NYSE | Energy & utilities | $356.4M | 3 | 2024–2025 |
 | INUV | Inuvo, Inc. | Little Rock, AR | NYSE | Other | $86.2M | 5 | 2020–2025 |
@@ -3796,7 +3702,6 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | MEC | Mayville Engineering Company, Inc. | Mayville, WI | NYSE | Industrials | $546.5M | 9 | 2021–2025 |
 | METC | Ramaco Resources, Inc. | Lexington, KY | Nasdaq | Materials | $536.6M | 6 | 2020–2025 |
 | MG | Mistras Group, Inc. | Princeton Junction, NJ | NYSE | Business services | $724.0M | 0 | — |
-| MGEE | Mge Energy Inc | Madison, WI | Nasdaq | Energy & utilities | $414.3M | 0 | — |
 | MGLD | Marygold Companies, Inc. | San Clemente, CA | NYSE | Finance | $30.2M | 3 | 2023–2025 |
 | MGPI | Mgp Ingredients Inc | Atchison, KS | Nasdaq | Consumer & retail | $536.4M | 13 | 2019–2025 |
 | MHK | Mohawk Industries Inc | Calhoun, GA | NYSE | Consumer & retail | $10.79B | 8 | 2019–2025 |
@@ -3809,7 +3714,6 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | MNR | Mach Natural Resources LP | Oklahoma City, OK | NYSE | Energy & utilities | $1.18B | 0 | — |
 | MNRO | Monro, Inc. | Fairport, NY | Nasdaq | Business services | $1.16B | 10 | 2020–2026 |
 | MOD | Modine Manufacturing Co | Racine, WI | NYSE | Industrials | $3.18B | 11 | 2020–2026 |
-| MODD | Modular Medical, Inc. | San Diego, CA | Nasdaq | Healthcare | $0K | 5 | 2021–2025 |
 | MOG-A | Moog Inc. | East Aurora, NY | NYSE | Industrials | $3.86B | 10 | 2019–2025 |
 | MPB | Mid Penn Bancorp Inc | Harrisburg, PA | Nasdaq | Finance | $350.6M | 11 | 2019–2025 |
 | MPC | Marathon Petroleum Corp | Findlay, OH | NYSE | Energy & utilities | $132.70B | 13 | 2019–2025 |
@@ -3820,7 +3724,6 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | MSGM | Motorsport Games Inc. | Miramar, FL | Nasdaq | Software & IT | $11.3M | 4 | 2022–2025 |
 | MTB | M&T Bank Corp | Buffalo, NY | NYSE | Finance | $13.23B | 0 | — |
 | MTEX | Mannatech Inc | Flower Mound, TX | Nasdaq | Healthcare | $108.0M | 4 | 2020–2025 |
-| MTNB | Matinas BioPharma Holdings, Inc. | Bedminster, NJ | NYSE | Healthcare | $1.1M | 4 | 2019–2024 |
 | MTRX | Matrix Service Co | Tulsa, OK | Nasdaq | Industrials | $873.6M | 9 | 2019–2025 |
 | MTSI | MACOM Technology Solutions Holdings, Inc. | Lowell, MA | Nasdaq | Semiconductors | $967.3M | 6 | 2019–2025 |
 | MTUS | Metallus Inc. | Canton, OH | NYSE | Materials | $1.16B | 8 | 2019–2025 |
@@ -3846,7 +3749,6 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | NIC | Nicolet Bankshares Inc | Green Bay, WI | NYSE | Finance | $556.5M | 8 | 2019–2025 |
 | NJR | New Jersey Resources Corp | Wall, NJ | NYSE | Energy & utilities | $1.35B | 12 | 2019–2025 |
 | NKSH | National Bankshares Inc | Blacksburg, VA | Nasdaq | Finance | $85.3M | 0 | — |
-| NNI | Nelnet Inc | Lincoln, NE | NYSE | Finance | $1.99B | 7 | 2019–2025 |
 | NNVC | Nanoviricides, Inc. | Shelton, CT | NYSE | Healthcare | $0K | 3 | 2019–2025 |
 | NOBH | Nobility Homes Inc | Ocala, FL | OTC | Industrials | $52.7M | 2 | 2020–2025 |
 | NODK | NI Holdings, Inc. | Fargo, ND | Nasdaq | Finance | $285.1M | 8 | 2019–2025 |
@@ -3876,8 +3778,6 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | OFG | Ofg Bancorp | San Juan, PR | NYSE | Finance | $903.9M | 9 | 2019–2025 |
 | OFLX | Omega Flex, Inc. | Exton, PA | Nasdaq | Industrials | $98.3M | 6 | 2020–2025 |
 | OGE | Oge Energy Corp. | Oklahoma City, OK | NYSE | Energy & utilities | $3.26B | 7 | 2019–2025 |
-| OGEN | Oragenics Inc | Lakewood Ranch, FL | NYSE | Healthcare | $38K | 6 | 2020–2025 |
-| OGS | ONE Gas, Inc. | Tulsa, OK | NYSE | Energy & utilities | $2.58B | 8 | 2019–2025 |
 | OHI | Omega Healthcare Investors Inc | Hunt Valley, MD | NYSE | Real estate | $1.19B | 0 | — |
 | OI | O-I Glass, Inc. /DE/ | Perrysburg, OH | NYSE | Industrials | $6.43B | 10 | 2019–2025 |
 | OKE | Oneok Inc /New/ | Tulsa, OK | NYSE | Energy & utilities | $33.63B | 15 | 2019–2025 |
@@ -3910,7 +3810,6 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | PBI | Pitney Bowes Inc /De/ | Shelton, CT | NYSE | Technology hardware | $1.89B | 15 | 2021–2025 |
 | PBSV | Pharma-Bio Serv, Inc. | Dorado, PR | OTC | Business services | $9.0M | 2 | 2020–2025 |
 | PCOR | Procore Technologies, Inc. | Carpinteria, CA | NYSE | Software & IT | $1.32B | 9 | 2020–2025 |
-| PCSA | Processa Pharmaceuticals, Inc. | Vero Beach, FL | Nasdaq | Healthcare | $0K | 5 | 2022–2025 |
 | PCSV | PCS Edventures!, Inc. | Meridian, ID | OTC | Education | $6.3M | 0 | — |
 | PCYO | Pure Cycle Corp | Watkins, CO | Nasdaq | Energy & utilities | $26.1M | 3 | 2020–2025 |
 | PEBK | Peoples Bancorp Of North Carolina Inc | Newton, NC | Nasdaq | Finance | $114.6M | 5 | 2019–2025 |
@@ -3945,7 +3844,6 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | PRXA | Procaccianti Hotel REIT, Inc. | Cranston, RI | OTC | Real estate | $32.8M | 0 | — |
 | PSQH | PSQ Holdings, Inc. | Bozeman, MT | NYSE | Other | $18.2M | 6 | 2022–2025 |
 | PUMP | ProPetro Holding Corp. | Midland, TX | NYSE | Energy & utilities | $1.27B | 9 | 2019–2025 |
-| PZG | Paramount Gold Nevada Corp. | Winnemucca, NV | NYSE | Materials | $330K | 3 | 2019–2025 |
 | PZZA | Papa Johns International Inc | Louisville, KY | Nasdaq | Consumer & retail | $2.05B | 12 | 2019–2025 |
 | QCRH | Qcr Holdings Inc | Moline, IL | Nasdaq | Finance | $603.7M | 6 | 2020–2025 |
 | QNBC | Qnb Corp. | Quakertown, PA | Nasdaq | Finance | $99.6M | 8 | 2019–2025 |
@@ -4000,7 +3898,6 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | SACH | Sachem Capital Corp. | Branford, CT | NYSE | Real estate | $57.5M | 6 | 2020–2025 |
 | SBCF | Seacoast Banking Corp Of Florida | Stuart, FL | Nasdaq | Finance | $935.5M | 6 | 2019–2022 |
 | SBDS | Solo Brands, Inc. | Grapevine, TX | OTC | Consumer & retail | $316.6M | 11 | 2020–2025 |
-| SBFG | Sb Financial Group, Inc. | Defiance, OH | Nasdaq | Finance | $62.8M | 4 | 2020–2025 |
 | SBGI | Sinclair, Inc. | Hunt Valley, MD | Nasdaq | Media & telecom | $3.17B | 7 | 2021–2025 |
 | SBMW | Security Midwest Bancorp, Inc. | Sprinfield, IL | OTC | Finance | $11.9M | 0 | — |
 | SBSI | Southside Bancshares Inc | Tyler, TX | NYSE | Finance | $419.0M | 8 | 2019–2025 |
@@ -4094,13 +3991,12 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | TITN | Titan Machinery Inc. | West Fargo, ND | Nasdaq | Consumer & retail | $2.43B | 4 | 2020–2026 |
 | TKNO | Alpha Teknova, Inc. | Hollister, CA | Nasdaq | Healthcare | $40.5M | 3 | 2020–2021 |
 | TKR | Timken Co | North Canton, OH | NYSE | Industrials | $4.58B | 10 | 2019–2025 |
-| TLSS | Transportation & Logistics Systems, Inc. | Jupiter, FL | OTC | Transportation | $7.7M | 0 | — |
 | TMCI | Treace Medical Concepts, Inc. | Ponte Vedra, FL | Nasdaq | Healthcare | $212.7M | 6 | 2020–2025 |
 | TMP | Tompkins Financial Corp | Ithaca, NY | NYSE | Finance | $578.9M | 10 | 2019–2025 |
 | TOMZ | TOMI Environmental Solutions, Inc. | Frederick, MD | Nasdaq | Other | $5.6M | 4 | 2019–2024 |
 | TPB | Turning Point Brands, Inc. | Louisville, KY | NYSE | Consumer & retail | $463.1M | 9 | 2019–2025 |
 | TPCS | Techprecision Corp | Westminster, MA | Nasdaq | Industrials | $31.6M | 5 | 2020–2026 |
-| TRAW | Traws Pharma, Inc. | Newtown, PA | Nasdaq | Healthcare | $2.8M | 7 | 2022–2025 |
+| TRAW | Traws Pharma, Inc. | Newtown, PA | Nasdaq | Healthcare | $2.8M | 6 | 2022–2025 |
 | TRC | Tejon Ranch Co | Lebec, CA | NYSE | Real estate | $49.6M | 9 | 2018–2025 |
 | TRCK | Track Group, Inc. | Naperville, IL | OTC | Technology hardware | $35.2M | 4 | 2016–2021 |
 | TREX | Trex Co Inc | Winchester, VA | NYSE | Industrials | $1.17B | 8 | 2019–2025 |
@@ -4112,7 +4008,6 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | TSN | Tyson Foods, Inc. | Springdale, AR | NYSE | Consumer & retail | $54.44B | 14 | 2019–2025 |
 | TTD | Trade Desk, Inc. | Ventura, CA | Nasdaq | Software & IT | $2.90B | 8 | 2021–2025 |
 | TUSK | Mammoth Energy Services, Inc. | Oklahoma City, OK | Nasdaq | Energy & utilities | $44.3M | 4 | 2020–2025 |
-| TVE | Tennessee Valley Authority | Knoxville, TN | NYSE | Energy & utilities | $12.05B | 0 | — |
 | TWIN | Twin Disc Inc | Racine, WI | Nasdaq | Industrials | $381.3M | 3 | 2021–2026 |
 | TXNM | Txnm Energy Inc | Albuquerque, NM | NYSE | Energy & utilities | $2.17B | 10 | 2019–2025 |
 | TXRH | Texas Roadhouse, Inc. | Louisville, KY | Nasdaq | Consumer & retail | $5.88B | 14 | 2019–2025 |
@@ -4139,9 +4034,6 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | UNTY | Unity Bancorp Inc /Nj/ | Clinton, NJ | Nasdaq | Finance | $188.4M | 9 | 2019–2025 |
 | URG | Ur-Energy Inc | Casper, WY | NYSE | Materials | $27.2M | 6 | 2019–2025 |
 | USAR | USA Rare Earth, Inc. | Stillwater, OK | Nasdaq | Materials | $1.6M | 4 | 2024–2025 |
-| USAU | U.S. Gold Corp. | Elko, NV | Nasdaq | Materials | $17.4M | 3 | 2021–2026 |
-| USBC | USBC, Inc. | Reno, NV | NYSE | Finance | $0K | 2 | 2023–2024 |
-| USCI | United States Commodity Index Funds Trust | Walnut Creek, CA | NYSE | Finance | $-16559K | 0 | — |
 | USIO | Usio, Inc. | San Antonio, TX | Nasdaq | Finance | $85.4M | 5 | 2020–2025 |
 | USL | United States 12 Month Oil Fund, LP | Walnut Creek, CA | NYSE | Finance | $-5333K | 0 | — |
 | USO | United States Oil Fund, LP | Walnut Creek, CA | NYSE | Finance | $321K | 0 | — |
@@ -4209,7 +4101,7 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | ZBRA | Zebra Technologies Corp | Lincolnshire, IL | Nasdaq | Industrials | $5.40B | 8 | 2019–2025 |
 | ZYME | Zymeworks Inc. | Middletown, DE | Nasdaq | Healthcare | $106.0M | 10 | 2019–2024 |
 
-## Included — Toronto (62)
+## Included — Toronto (55)
 
 | Ticker | Company | City | Exchange | Sector | Latest annual revenue | Executives | Pay years |
 |---|---|---|---|---|---|---|---|
@@ -4225,24 +4117,19 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | BNS | Bank Of Nova Scotia | Toronto, ON | NYSE | Finance | $37.74B | 0 | — |
 | BRAG | Bragg Gaming Group Inc. | Toronto, ON | Nasdaq | Software & IT | $106.1M | 0 | — |
 | BRLS | Borealis Foods Inc. | Oakville, ON | Nasdaq | Consumer & retail | $31.5M | 0 | — |
-| CGAU | Centerra Gold Inc. | Toronto, ON | NYSE | Materials | $1.10B | 0 | — |
 | CIGI | Colliers International Group Inc. | Toronto, ON | Nasdaq | Real estate | $5.56B | 0 | — |
 | CLS | Celestica Inc | Willowdale, ON | NYSE | Technology hardware | $12.39B | 5 | 2022–2025 |
 | CM | Canadian Imperial Bank Of Commerce /Can/ | Toronto, ON | NYSE | Finance | $29.13B | 0 | — |
-| CRDL | Cardiol Therapeutics Inc. | Oakville, ON | Nasdaq | Healthcare | $79K | 0 | — |
 | CSCID | COSCIENS Biopharma Inc. | Toronto, ON | OTC | Other | $7.5M | 0 | — |
 | DCBO | Docebo Inc. | Toronto, ON | Nasdaq | Software & IT | $242.7M | 0 | — |
 | DEFT | Defi Technologies, Inc. | Toronto, ON | Nasdaq | Finance | $99.1M | 0 | — |
 | DGXX | Digi Power X Inc. | Toronto, ON | Nasdaq | Finance | $34.2M | 0 | — |
-| DNN | Denison Mines Corp. | Toronto, ON | NYSE | Materials | $11.1M | 0 | — |
 | ELVA | Electrovaya Inc. | Mississauga, ON | Nasdaq | Technology hardware | $44.6M | 0 | — |
 | FNV | FRANCO NEVADA Corp | Toronto, ON | NYSE | Materials | $1.82B | 0 | — |
-| FRFHF | Fairfax Financial Holdings Ltd/ Can | Toronto, ON | OTC | Finance | $28.05B | 0 | — |
 | FSV | FirstService Corp | Toronto, ON | Nasdaq | Real estate | $5.50B | 0 | — |
 | GOOS | Canada Goose Holdings Inc. | York, ON | NYSE | Consumer & retail | $1.35B | 0 | — |
 | GV | Visionary Holdings Inc. | Don Mills, ON | Nasdaq | Education | $5.0M | 0 | — |
 | HBM | Hudbay Minerals Inc. | Toronto, ON | NYSE | Materials | $2.21B | 0 | — |
-| HELP | Cybin Inc. | Toronto, ON | Nasdaq | Healthcare | $0K | 0 | — |
 | HRNNF | Hydro One Ltd | Toronto, ON | OTC | Energy & utilities | $9.04B | 0 | — |
 | IAG | Iamgold Corp | Toronto, ON | NYSE | Materials | $2.85B | 0 | — |
 | IAUX | i-80 Gold Corp. | Toronto, ON | NYSE | Materials | $95.2M | 9 | 2022–2025 |
@@ -4257,11 +4144,9 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | PAPL | Pineapple Financial Inc. | North York, BC | NYSE | Finance | $3.0M | 5 | 2022–2025 |
 | POET | Poet Technologies Inc. | Toronto, ON | Nasdaq | Semiconductors | $1.1M | 0 | — |
 | PROF | Profound Medical Corp. | Mississauga, ON | Nasdaq | Healthcare | $16.1M | 0 | — |
-| QNTM | Quantum Biopharma Ltd. | Toronto, ON | Nasdaq | Healthcare | $257K | 0 | — |
 | QSP | Restaurant Brands International Limited Partnership | Toronto, ON | OTC | Consumer & retail | $9.43B | 11 | 2019–2025 |
 | RCI | Rogers Communications Inc | Toronto, ON | NYSE | Media & telecom | $21.71B | 0 | — |
 | RY | Royal Bank Of Canada | Toronto, ON | NYSE | Finance | $66.61B | 0 | — |
-| SA | Seabridge Gold Inc | Toronto, ON | NYSE | Materials | $72K | 0 | — |
 | SANG | Sangoma Technologies Corp | Markham, ON | Nasdaq | Software & IT | $236.7M | 0 | — |
 | SII | Sprott Inc. | Toronto, ON | NYSE | Finance | $285.1M | 0 | — |
 | SLF | Sun Life Financial Inc | Toronto, ON | NYSE | Finance | $41.90B | 0 | — |
@@ -4276,7 +4161,7 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | WCN | Waste Connections, Inc. | Woodbridge, ON | NYSE | Energy & utilities | $9.47B | 7 | 2019–2025 |
 | XNDU | Xanadu Quantum Technologies Ltd | Toronto, ON | Nasdaq | Technology hardware | — | 0 | — |
 
-## Included — Vancouver (39)
+## Included — Vancouver (38)
 
 | Ticker | Company | City | Exchange | Sector | Latest annual revenue | Executives | Pay years |
 |---|---|---|---|---|---|---|---|
@@ -4303,7 +4188,6 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | LULU | lululemon athletica inc. | Vancouver, BC | Nasdaq | Consumer & retail | $11.10B | 7 | 2018–2024 |
 | MERC | Mercer International Inc. | Vancouver, BC | Nasdaq | Other | $1.87B | 4 | 2022–2024 |
 | MTA | Metalla Royalty & Streaming Ltd. | Vancouver, BC | NYSE | Materials | $11.7M | 0 | — |
-| NEWP | New Pacific Metals Corp | Vancouver, BC | NYSE | Materials | $178K | 0 | — |
 | ORIO | Orion Digital Corp. | Vancouver, BC | Nasdaq | Finance | $71.2M | 0 | — |
 | PAAS | Pan American Silver Corp | Vancouver, BC | NYSE | Materials | $3.62B | 0 | — |
 | PFAI | Pinnacle Food Group Ltd | Vancouver, BC | Nasdaq | Other | $3.4M | 0 | — |
@@ -4320,7 +4204,7 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | WPRT | Westport Fuel Systems Inc. | Vancouver, BC | Nasdaq | Industrials | $23.3M | 0 | — |
 | ZENA | ZenaTech, Inc. | Vancouver, BC | Nasdaq | Software & IT | $2.0M | 0 | — |
 
-## Included — Calgary (19)
+## Included — Calgary (18)
 
 | Ticker | Company | City | Exchange | Sector | Latest annual revenue | Executives | Pay years |
 |---|---|---|---|---|---|---|---|
@@ -4340,7 +4224,6 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | SOBO | South Bow Corp | Calgary, AB | NYSE | Transportation | $1.99B | 0 | — |
 | SU | Suncor Energy Inc | Calgary, AB | NYSE | Energy & utilities | $52.38B | 0 | — |
 | TAC | Transalta Corp | Calgary, AB | NYSE | Energy & utilities | $2.41B | 0 | — |
-| TCPA | Transcanada Pipelines Ltd | Calgary, AB | NYSE | Energy & utilities | $13.45B | 0 | — |
 | TRP | Tc Energy Corp | Calgary, AB | NYSE | Energy & utilities | $15.24B | 0 | — |
 | VET | Vermilion Energy Inc. | Calgary, AB | NYSE | Energy & utilities | $1.77B | 0 | — |
 
@@ -4443,22 +4326,25 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 - AAGH America Great Health: OTC, annual revenue $392K below $5.0M
 - AAPI Apple iSports Group, Inc.: OTC, annual revenue $0K below $5.0M
 - AAQL Antiaging Quantum Living Inc.: OTC, annual revenue $1.0M below $5.0M
-- AASP Agassi Sports Entertainment Corp.: OTC, annual revenue $13K below $5.0M
+- AASP Agassi Sports Entertainment Corp.: newest figures are for 2016
 - AAUAF Almaden Minerals Ltd: no revenue data in XBRL filings
 - AB Alliancebernstein Holding L.P.: no revenue data in XBRL filings
 - ABCP AmBase Corp: no revenue data in XBRL filings
 - ABOS Acumen Pharmaceuticals, Inc.: no revenue data in XBRL filings
 - ABPO Abpro Holdings, Inc.: OTC, annual revenue $183K below $5.0M
+- ABR Arbor Realty Trust Inc: newest figures are for 2019
 - ACAA Averin Capital Acquisition Corp.: no revenue data in XBRL filings
 - ACBM Acro Biomedical Co., Ltd.: OTC, annual revenue $0K below $5.0M
 - ACET Adicet Bio, Inc.: no revenue data in XBRL filings
 - ACGC ACP Holdings Acquisition Corp.: no revenue data in XBRL filings
-- ACRG American Clean Resources Group, Inc.: OTC, annual revenue $0K below $5.0M
+- ACHV Achieve Life Sciences, Inc.: newest figures are for 2019
+- ACRG American Clean Resources Group, Inc.: newest figures are for 2017
 - ACRV Acrivon Therapeutics, Inc.: no revenue data in XBRL filings
 - ACTU Actuate Therapeutics, Inc.: no revenue data in XBRL filings
 - ACUT Accustem Sciences Inc.: OTC, annual revenue — below $5.0M
 - ACXP Acurx Pharmaceuticals, Inc.: no revenue data in XBRL filings
 - ADAC American Drive Acquisition Co: no revenue data in XBRL filings
+- ADAM Adamas Trust, Inc.: newest figures are for 2020
 - ADIA Adia Nutrition, Inc.: OTC, annual revenue $701K below $5.0M
 - ADIL Adial Pharmaceuticals, Inc.: no revenue data in XBRL filings
 - ADMT Adm Tronics Unlimited, Inc.: OTC, annual revenue $3.3M below $5.0M
@@ -4478,13 +4364,14 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 - AGGI BILI Social International, Inc.: OTC, annual revenue $1.9M below $5.0M
 - AGI Alamos Gold Inc: unknown postal code  (Toronto, A6)
 - AGNC AGNC Investment Corp.: no revenue data in XBRL filings
-- AGTX Agentix Corp.: OTC, annual revenue $0K below $5.0M
+- AGTX Agentix Corp.: newest figures are for 2023
 - AHNRF Athena Gold Corp: no revenue data in XBRL filings
 - AHRO Authentic Holdings, Inc.: OTC, annual revenue $399K below $5.0M
 - AIBT Aibotics, Inc.: OTC, annual revenue $2K below $5.0M
 - AIIA AI Infrastructure Acquisition Corp.: no revenue data in XBRL filings
 - AILIH Ameren Illinois Co: no revenue data in XBRL filings
 - AIRJ AirJoule Technologies Corp.: no revenue data in XBRL filings
+- AIXC AIxCrypto Holdings, Inc.: newest figures are for 2023
 - ALCE Aedis Energy Inc.: OTC, annual revenue $0K below $5.0M
 - ALCYF Alchemy Investments Acquisition Corp 1: no revenue data in XBRL filings
 - ALDA Atlantica Inc: OTC, annual revenue $0K below $5.0M
@@ -4497,15 +4384,19 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 - ALPX Alpex Acquisition Corp: no revenue data in XBRL filings
 - ALSAF Alpha Star Acquisition Corp: no revenue data in XBRL filings
 - ALTX Altex Industries Inc: OTC, annual revenue $18K below $5.0M
+- ALXO Alx Oncology Holdings Inc: newest figures are for 2022
 - ALYAF Alithya Group inc: unknown postal code  (Montreal, A8)
 - ALZN Alzamend Neuro, Inc.: no revenue data in XBRL filings
 - AMFN American Fusion, Inc.: OTC, annual revenue — below $5.0M
+- AMH American Homes 4 Rent: newest figures are for 2020
 - ANEB Anebulo Pharmaceuticals, Inc.: no revenue data in XBRL filings
 - ANNX Annexon, Inc.: no revenue data in XBRL filings
 - ANRO Alto Neuroscience, Inc.: no revenue data in XBRL filings
 - ANTX AN2 Therapeutics, Inc.: no revenue data in XBRL filings
-- ANVI Anvi Global Holdings, Inc.: OTC, annual revenue $138K below $5.0M
+- ANVI Anvi Global Holdings, Inc.: newest figures are for 2019
+- AOMR Angel Oak Mortgage REIT, Inc.: newest figures are for 2022
 - AOXY Advanced Oxygen Technologies Inc: OTC, annual revenue $43K below $5.0M
+- APA APA Corp: newest figures are for 2021
 - APAC StoneBridge Acquisition II Corp: no revenue data in XBRL filings
 - APCX AppTech Payments Corp.: OTC, annual revenue $1.4M below $5.0M
 - APHP American Picture House Corp: OTC, annual revenue $853K below $5.0M
@@ -4514,11 +4405,13 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 - APTN Adaptin Bio, Inc.: no revenue data in XBRL filings
 - APUR Aperture AC: no revenue data in XBRL filings
 - APUS Apimeds Pharmaceuticals US, Inc.: no revenue data in XBRL filings
+- APVO Aptevo Therapeutics Inc.: newest figures are for 2022
 - APXT Apex Treasury Corp: no revenue data in XBRL filings
 - ARCC Ares Capital Corp: no revenue data in XBRL filings
 - ARCI Archimedes Tech SPAC Partners III Co.: no revenue data in XBRL filings
 - ARCL ARC Group Acquisition I Corp.: no revenue data in XBRL filings
 - ARKB Ark 21Shares Bitcoin ETF: no revenue data in XBRL filings
+- ARMP Armata Pharmaceuticals, Inc.: newest figures are for 2020
 - AROW Arrow Financial Corp: no revenue data in XBRL filings
 - ARR Armour Residential REIT, Inc.: no revenue data in XBRL filings
 - ARRT Artisan Consumer Goods, Inc.: OTC, annual revenue $0K below $5.0M
@@ -4530,15 +4423,18 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 - ATEK Athena Technology Acquisition Corp. II: no revenue data in XBRL filings
 - ATII Archimedes Tech SPAC Partners II Co.: no revenue data in XBRL filings
 - ATLQ JAB Acquisition Corp I: no revenue data in XBRL filings
+- ATOS Atossa Therapeutics, Inc.: newest figures are for 2016
 - ATVK Globaltek Ventures, Inc.: OTC, annual revenue $678K below $5.0M
 - ATXI Avenue Therapeutics, Inc.: OTC, annual revenue $1.4M below $5.0M
+- AUMN Golden Minerals Co: newest figures are for 2023
 - AURA Aura Biosciences, Inc.: no revenue data in XBRL filings
 - AURX Nuo Therapeutics, Inc.: OTC, annual revenue $3.3M below $5.0M
 - AUSI Aura Systems Inc: OTC, annual revenue $278K below $5.0M
 - AUST Austin Gold Corp.: no revenue data in XBRL filings
-- AVAI Avai Bio, Inc.: OTC, annual revenue $276K below $5.0M
+- AVAI Avai Bio, Inc.: newest figures are for 2023
 - AVBP ArriVent BioPharma, Inc.: no revenue data in XBRL filings
 - AVCRF Avricore Health Inc.: Unlisted, annual revenue $4.8M below $5.0M
+- AVIR Atea Pharmaceuticals, Inc.: newest figures are for 2021
 - AVLN Avalyn Pharma Inc.: no revenue data in XBRL filings
 - AVNI Arvana Inc: OTC, annual revenue $68K below $5.0M
 - AVPMF Avrupa Minerals Ltd.: no revenue data in XBRL filings
@@ -4548,12 +4444,15 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 - BABB Bab, Inc.: OTC, annual revenue $3.4M below $5.0M
 - BACC Blue Acquisition Corp/Cayman: no revenue data in XBRL filings
 - BAFN BayFirst Financial Corp.: no revenue data in XBRL filings
+- BANR Banner Corp: newest figures are for 2022
 - BAR GraniteShares Gold Trust: no revenue data in XBRL filings
 - BASA Basanite, Inc.: OTC, annual revenue $88K below $5.0M
 - BAVA Bitwise Avalanche ETF: no revenue data in XBRL filings
 - BBDC Barings BDC, Inc.: no revenue data in XBRL filings
+- BBLG Bone Biologics Corp: newest figures are for 2021
 - BBLR Bubblr Inc.: OTC, annual revenue $3K below $5.0M
 - BBOT BridgeBio Oncology Therapeutics, Inc.: no revenue data in XBRL filings
+- BCAB BioAtla, Inc.: newest figures are for 2023
 - BCAX Bicara Therapeutics Inc.: no revenue data in XBRL filings
 - BCCG Blue Chip Capital Group Inc.: no revenue data in XBRL filings
 - BCCQ Bleichroeder Acquisition Corp. III: no revenue data in XBRL filings
@@ -4571,7 +4470,7 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 - BEAG Bold Eagle Acquisition Corp.: no revenue data in XBRL filings
 - BEAT HeartBeam, Inc.: no revenue data in XBRL filings
 - BETRF BetterLife Pharma Inc.: no revenue data in XBRL filings
-- BFNH Bioforce Nanosciences Holdings, Inc.: OTC, annual revenue $18K below $5.0M
+- BFNH Bioforce Nanosciences Holdings, Inc.: newest figures are for 2019
 - BGSI Boyd Group Services Inc.: unknown postal code 00000 (Winnipeg, A2)
 - BHLL Bunker Hill Mining Corp.: OTC, annual revenue $0K below $5.0M
 - BHRB Burke & Herbert Financial Services Corp.: no revenue data in XBRL filings
@@ -4581,38 +4480,41 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 - BID Tribeca Strategic Acquisition Corp.: no revenue data in XBRL filings
 - BINI Bollinger Innovations, Inc.: OTC, annual revenue $1.1M below $5.0M
 - BIOE Bio Essence Corp: OTC, annual revenue $1.9M below $5.0M
-- BIOF Blue Biofuels, Inc.: OTC, annual revenue $60K below $5.0M
+- BIOF Blue Biofuels, Inc.: newest figures are for 2019
 - BISA Baltic International USA Inc: no revenue data in XBRL filings
 - BITA iShares Bitcoin Premium Income ETF: no revenue data in XBRL filings
 - BITB Bitwise Bitcoin ETF: no revenue data in XBRL filings
 - BITW Bitwise 10 Crypto Index ETF: no revenue data in XBRL filings
+- BIVI Biovie Inc.: newest figures are for 2016
 - BIXI Bitcoin Infrastructure Acquisition Corp Ltd: no revenue data in XBRL filings
-- BIXT Bioxytran, Inc: OTC, annual revenue $191K below $5.0M
+- BIXT Bioxytran, Inc: newest figures are for 2018
+- BJDX Bluejay Diagnostics, Inc.: newest figures are for 2022
 - BKHA Black Hawk Acquisition Corp: no revenue data in XBRL filings
 - BLNC Balance Labs, Inc.: OTC, annual revenue $6K below $5.0M
 - BLNH Blue Line Holdings, Inc.: no revenue data in XBRL filings
 - BLRK Bluerock Acquisition Corp.: no revenue data in XBRL filings
 - BLTE Belite Bio, Inc: no revenue data in XBRL filings
-- BLTH American Battery Materials, Inc.: OTC, annual revenue $80K below $5.0M
+- BLTH American Battery Materials, Inc.: newest figures are for 2019
 - BLUW Blue Water Acquisition Corp. III: no revenue data in XBRL filings
 - BLZR Trailblazer Acquisition Corp.: no revenue data in XBRL filings
+- BMEA Biomea Fusion, Inc.: newest figures are for 2022
 - BMM Blue Moon Metals Inc.: no revenue data in XBRL filings
 - BNBX Bnb Plus Corp.: OTC, annual revenue $2.1M below $5.0M
 - BNET Bion Environmental Technologies Inc: OTC, annual revenue $0K below $5.0M
 - BOLD Boundless Bio, Inc.: no revenue data in XBRL filings
 - BOTY Lingerie Fighting Championships, Inc.: OTC, annual revenue $208K below $5.0M
 - BPAC Blueport Acquisition Ltd: no revenue data in XBRL filings
-- BPTH Bio-Path Holdings, Inc.: OTC, annual revenue $0K below $5.0M
+- BPTH Bio-Path Holdings, Inc.: newest figures are for 2018
 - BRGX Bioregenx, Inc.: OTC, annual revenue $1.9M below $5.0M
 - BRKH Burtech Acquisition Corp II: no revenue data in XBRL filings
 - BRLL Barrel Energy Inc.: OTC, annual revenue — below $5.0M
 - BRQL DYNAMIC AEROSPACE SYSTEMS Corp: OTC, annual revenue $0K below $5.0M
-- BRRN Bryn Inc.: OTC, annual revenue $41K below $5.0M
+- BRRN Bryn Inc.: newest figures are for 2012
 - BRRR CoinShares Bitcoin ETF: no revenue data in XBRL filings
 - BRTM B&R Technology Merger Corp.: no revenue data in XBRL filings
 - BRVE Braveheart Bio, Inc.: no revenue data in XBRL filings
-- BRVO Bravo Multinational Inc.: OTC, annual revenue $1.8M below $5.0M
-- BSAI Blusky AI Inc.: OTC, annual revenue $4.7M below $5.0M
+- BRVO Bravo Multinational Inc.: newest figures are for 2017
+- BSAI Blusky AI Inc.: newest figures are for 2022
 - BSFC Blue Star Foods Corp.: OTC, annual revenue $2.9M below $5.0M
 - BSOL Bitwise Solana Staking ETF: no revenue data in XBRL filings
 - BSPK Bespoke Extracts, Inc.: Unlisted, annual revenue $1.1M below $5.0M
@@ -4630,12 +4532,14 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 - BXSL Blackstone Secured Lending Fund: no revenue data in XBRL filings
 - BZYR Burzynski Research Institute Inc: OTC, annual revenue $0K below $5.0M
 - CABA Cabaletta Bio, Inc.: no revenue data in XBRL filings
+- CADL Candel Therapeutics, Inc.: newest figures are for 2022
 - CAES Cantor Equity Partners VII, Inc.: no revenue data in XBRL filings
 - CAII Collective Acquisition Corp. II: no revenue data in XBRL filings
 - CALC CalciMedica, Inc.: no revenue data in XBRL filings
 - CAPC Capstone Companies, Inc.: OTC, annual revenue $143K below $5.0M
 - CAQ Cambridge Acquisition Corp.: no revenue data in XBRL filings
 - CATL Catalyst Acquisition Corp.: no revenue data in XBRL filings
+- CATX Perspective Therapeutics, Inc.: newest figures are for 2023
 - CBDW 1606 Corp.: OTC, annual revenue $0K below $5.0M
 - CBDY Target Group Inc.: OTC, annual revenue $3.9M below $5.0M
 - CBIH Cannabis Bioscience International Holdings, Inc.: OTC, annual revenue $303K below $5.0M
@@ -4657,8 +4561,10 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 - CEPV Cantor Equity Partners V, Inc.: no revenue data in XBRL filings
 - CERO Cero Therapeutics Holdings, Inc.: no revenue data in XBRL filings
 - CETI Cyber Enviro-Tech, Inc.: OTC, annual revenue $0K below $5.0M
+- CGAU Centerra Gold Inc.: newest figures are for 2023
 - CGBD Carlyle Secured Lending, Inc.: no revenue data in XBRL filings
 - CGCF Cartesian Growth Corp IV: no revenue data in XBRL filings
+- CGEM Cullinan Therapeutics, Inc.: newest figures are for 2022
 - CGTX Cognition Therapeutics Inc: no revenue data in XBRL filings
 - CHAR Charlton Aria Acquisition Corp: no revenue data in XBRL filings
 - CHPG ChampionsGate Acquisition Corp: no revenue data in XBRL filings
@@ -4670,12 +4576,13 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 - CKDXF Opthea Ltd: OTC, annual revenue $25K below $5.0M
 - CLBR Colombier Acquisition Corp. III: no revenue data in XBRL filings
 - CLBZ Collab Z Inc.: Unlisted, annual revenue $1.4M below $5.0M
-- CLCS Cell Source, Inc.: OTC, annual revenue $0K below $5.0M
+- CLCS Cell Source, Inc.: newest figures are for 2015
+- CLDI Calidi Biotherapeutics, Inc.: newest figures are for 2022
 - CLEV Concrete Leveling Systems Inc: OTC, annual revenue $1K below $5.0M
 - CLNK Bitwise Chainlink ETF: no revenue data in XBRL filings
 - CLNV Clean Vision Corp: OTC, annual revenue $231K below $5.0M
 - CLOQ Cyberloq Technologies, Inc.: OTC, annual revenue $15K below $5.0M
-- CLOW Cloudweb, Inc.: OTC, annual revenue $31K below $5.0M
+- CLOW Cloudweb, Inc.: newest figures are for 2017
 - CLRB Cellectar Biosciences, Inc.: no revenue data in XBRL filings
 - CLRI Cleartronic, Inc.: OTC, annual revenue $4.1M below $5.0M
 - CLYD Beacon Topco, Inc.: Unlisted, annual revenue — below $5.0M
@@ -4693,8 +4600,10 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 - CNXU Conexeu Sciences Inc.: no revenue data in XBRL filings
 - COAG Hemab Therapeutics Holdings, Inc.: no revenue data in XBRL filings
 - COBA Chilean Cobalt Corp.: OTC, annual revenue $0K below $5.0M
+- COGT Cogent Biosciences, Inc.: newest figures are for 2020
 - CONC Conectisys Corp: OTC, annual revenue $0K below $5.0M
 - COOLU Corner Growth Acquisition Corp.: no revenue data in XBRL filings
+- COPR Idaho Copper Corp: newest figures are for 2020
 - CPLX Certiplex Corp: OTC, annual revenue $144K below $5.0M
 - CPMD Cannapharmarx, Inc.: OTC, annual revenue $1.4M below $5.0M
 - CPMV Mosaic ImmunoEngineering Inc.: no revenue data in XBRL filings
@@ -4703,9 +4612,11 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 - CPWR Ocean Thermal Energy Corp: OTC, annual revenue $3.0M below $5.0M
 - CRAN Crane Harbor Acquisition Corp. II: no revenue data in XBRL filings
 - CRAQ Cal Redwood Acquisition Corp.: no revenue data in XBRL filings
+- CRBP Corbus Pharmaceuticals Holdings, Inc.: newest figures are for 2022
 - CRCE Circle Energy, Inc./NV: OTC, annual revenue $0K below $5.0M
 - CRCUF Canagold Resources Ltd.: no revenue data in XBRL filings
 - CRCW Crypto Co: OTC, annual revenue $19K below $5.0M
+- CRDL Cardiol Therapeutics Inc.: newest figures are for 2021
 - CRSF Crisp Momentum Inc.: OTC, annual revenue $0K below $5.0M
 - CRT Cross Timbers Royalty Trust: no revenue data in XBRL filings
 - CRTD Creatd, Inc.: OTC, annual revenue $1.3M below $5.0M
@@ -4715,6 +4626,7 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 - CSTAF Constellation Acquisition Corp I: no revenue data in XBRL filings
 - CSUI Cannabis Suisse Corp.: OTC, annual revenue $23K below $5.0M
 - CSWC Capital Southwest Corp: no revenue data in XBRL filings
+- CTA-PB EIDP, Inc.: newest figures are for 2019
 - CTAA Clearthink 1 Acquisition Corp.: no revenue data in XBRL filings
 - CTGO Contango Silver & Gold Inc.: no revenue data in XBRL filings
 - CTWO Cotwo Advisors Physical European Carbon Allowance Trust: no revenue data in XBRL filings
@@ -4723,9 +4635,12 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 - CURX Curanex Pharmaceuticals Inc: no revenue data in XBRL filings
 - CVAT Cavitation Technologies, Inc.: OTC, annual revenue $203K below $5.0M
 - CVKD Cadrenal Therapeutics, Inc.: no revenue data in XBRL filings
+- CVM Cel Sci Corp: newest figures are for 2014
 - CXII Churchill Capital Corp XII: no revenue data in XBRL filings
-- CYDY CytoDyn Inc.: OTC, annual revenue $0K below $5.0M
+- CYDY CytoDyn Inc.: newest figures are for 2023
+- CYPH Cypherpunk Technologies Inc.: newest figures are for 2021
 - DAAQ Digital Asset Acquisition Corp.: no revenue data in XBRL filings
+- DB Deutsche Bank Aktiengesellschaft: newest figures are for 2023
 - DBA Invesco Db Agriculture Fund: no revenue data in XBRL filings
 - DBB Invesco Db Base Metals Fund: no revenue data in XBRL filings
 - DBC Invesco DB Commodity Index Tracking Fund: no revenue data in XBRL filings
@@ -4740,20 +4655,23 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 - DGAC DISCIPLINED GROWTH ACQUISITION Corp: no revenue data in XBRL filings
 - DLTI DLT Resolution Inc.: OTC, annual revenue $143K below $5.0M
 - DMAA Drugs Made In America Acquisition Corp.: no revenue data in XBRL filings
+- DMAC DiaMedica Therapeutics Inc.: newest figures are for 2018
 - DMII Drugs Made In America Acquisition II Corp.: no revenue data in XBRL filings
 - DMRA Damora Therapeutics, Inc.: no revenue data in XBRL filings
 - DNKC Dankon Corp: OTC, annual revenue $56K below $5.0M
 - DNMX Dynamix Corp III: no revenue data in XBRL filings
+- DNN Denison Mines Corp.: newest figures are for 2017
 - DOGP Dogecoin Cash, Inc.: OTC, annual revenue $739K below $5.0M
 - DOO BRP Inc.: unknown postal code  (Valcourt, A8)
 - DPLS DarkPulse, Inc.: OTC, annual revenue $308K below $5.0M
 - DRDB Roman DBDR Acquisition Corp. II: no revenue data in XBRL filings
 - DRMA Dermata Therapeutics, Inc.: no revenue data in XBRL filings
-- DROR Dror Ortho-Design, Inc.: OTC, annual revenue $3K below $5.0M
+- DROR Dror Ortho-Design, Inc.: newest figures are for 2021
 - DRTTF Dirtt Environmental Solutions Ltd: unknown postal code  (Calgary Alberta T2c 1N6 Can, A1)
 - DRUG Bright Minds Biosciences Inc.: no revenue data in XBRL filings
 - DSFT DeltaSoft Corp: OTC, annual revenue $38K below $5.0M
 - DSNY Destiny Media Technologies Inc: OTC, annual revenue $4.5M below $5.0M
+- DTE Dte Energy Co: newest figures are for 2018
 - DTSQ DT Cloud Star Acquisition Corp: no revenue data in XBRL filings
 - DWAY Driveitaway Holdings, Inc.: OTC, annual revenue $988K below $5.0M
 - DWTX Dogwood Therapeutics, Inc.: no revenue data in XBRL filings
@@ -4772,13 +4690,17 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 - EIKN Eikon Therapeutics, Inc.: no revenue data in XBRL filings
 - ELBM Electra Battery Materials Corp: no revenue data in XBRL filings
 - ELC Entergy Louisiana, LLC: no revenue data in XBRL filings
+- ELDN Eledon Pharmaceuticals, Inc.: newest figures are for 2017
+- ELTX Elicio Therapeutics, Inc.: newest figures are for 2023
 - ELVN Enliven Therapeutics, Inc.: no revenue data in XBRL filings
 - EMCGF Embrace Change Acquisition Corp.: no revenue data in XBRL filings
 - EMIS Emmis Acquisition Corp.: no revenue data in XBRL filings
 - EMP Entergy Mississippi, LLC: no revenue data in XBRL filings
 - ENGN enGene Therapeutics Inc.: unknown postal code  (Saint-Laurent, A8)
 - ENJ Entergy New Orleans, LLC: no revenue data in XBRL filings
-- ENRT Enertopia Corp.: OTC, annual revenue $0K below $5.0M
+- ENRT Enertopia Corp.: newest figures are for 2015
+- ENVB Enveric Biosciences, Inc.: newest figures are for 2020
+- EQR Erp Operating Ltd Partnership: newest figures are for 2015
 - EQS Equus Total Return, Inc.: no revenue data in XBRL filings
 - ERAS Erasca, Inc.: no revenue data in XBRL filings
 - ESLA Estrella Immunopharma, Inc.: no revenue data in XBRL filings
@@ -4799,6 +4721,7 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 - EWAV East West Ave Acquisition Corp.: no revenue data in XBRL filings
 - EWTX Edgewise Therapeutics, Inc.: no revenue data in XBRL filings
 - EXK Endeavour Silver Corp: unknown postal code  (Vancouver, A1)
+- EXOZ Exozymes Inc.: newest figures are for 2023
 - EZBC Franklin Templeton Digital Holdings Trust: no revenue data in XBRL filings
 - EZET Franklin Ethereum Trust: no revenue data in XBRL filings
 - EZPZ Franklin Crypto Trust: no revenue data in XBRL filings
@@ -4807,6 +4730,7 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 - FBLG FibroBiologics, Inc.: no revenue data in XBRL filings
 - FBP First Bancorp /Pr/: unknown postal code 00908-0146 (San Juan, PR)
 - FBTC Fidelity Wise Origin Bitcoin Fund: no revenue data in XBRL filings
+- FCHS First Choice Healthcare Solutions, Inc.: newest figures are for 2014
 - FCRS FutureCrest Acquisition Corp.: no revenue data in XBRL filings
 - FDMM Freedom Metals Acquisition Corp.: no revenue data in XBRL filings
 - FDUS FIDUS INVESTMENT Corp: no revenue data in XBRL filings
@@ -4821,6 +4745,7 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 - FIGX FIGX Capital Acquisition Corp.: no revenue data in XBRL filings
 - FISN Deep Fission, Inc.: no revenue data in XBRL filings
 - FJDI ARC Group Securities Acquisition I: no revenue data in XBRL filings
+- FLNA Filana Therapeutics, Inc.: newest figures are for 2013
 - FMAC Future Money Acquisition Corp: no revenue data in XBRL filings
 - FMHS Farmhouse, Inc. /NV: OTC, annual revenue $1K below $5.0M
 - FMST Foremost Clean Energy Ltd.: unknown postal code  (Vancouver, A1)
@@ -4828,6 +4753,7 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 - FNUC Frontier Nuclear & Minerals Inc.: unknown postal code  (Winnipeg, A2)
 - FOFA Family Office Of America, Inc.: OTC, annual revenue $222K below $5.0M
 - FRBP Franklin BSP Capital Corp: no revenue data in XBRL filings
+- FRFHF Fairfax Financial Holdings Ltd/ Can: newest figures are for 2022
 - FRMI Fermi Inc.: no revenue data in XBRL filings
 - FRNM Freenome, Inc.: no revenue data in XBRL filings
 - FRQND Frequency Holdings, Inc: OTC, annual revenue $4.8M below $5.0M
@@ -4837,7 +4763,7 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 - FTH Faeth Therapeutics, Inc.: no revenue data in XBRL filings
 - FTRA FutureCorp Space Acquisition 1: no revenue data in XBRL filings
 - FTW PRESIDIO PRODUCTION Co: no revenue data in XBRL filings
-- FUNI Hypha Labs, Inc.: OTC, annual revenue $2.7M below $5.0M
+- FUNI Hypha Labs, Inc.: newest figures are for 2022
 - FURY Fury Gold Mines Ltd: no revenue data in XBRL filings
 - FUST Fuse Group Holding Inc.: OTC, annual revenue $46K below $5.0M
 - FVAV Fortress Value Acquisition Corp. V: no revenue data in XBRL filings
@@ -4848,13 +4774,16 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 - GAIN Gladstone Investment Corporation\De: no revenue data in XBRL filings
 - GALT Galectin Therapeutics Inc: no revenue data in XBRL filings
 - GAMG Global Asset Management Group, Inc.: OTC, annual revenue $95K below $5.0M
+- GANX Gain Therapeutics, Inc.: newest figures are for 2023
 - GAVA Grayscale Avalanche Staking ETF: no revenue data in XBRL filings
 - GBDC GOLUB CAPITAL BDC, Inc.: no revenue data in XBRL filings
 - GBTC Grayscale Bitcoin Trust ETF: no revenue data in XBRL filings
 - GBUX Givbux, Inc.: OTC, annual revenue $289K below $5.0M
-- GCAN Trafalgar International, Inc.: OTC, annual revenue $13K below $5.0M
-- GCGJ Guochun International Inc.: OTC, annual revenue $0K below $5.0M
+- GCAN Trafalgar International, Inc.: newest figures are for 2021
+- GCGJ Guochun International Inc.: newest figures are for 2021
 - GCGR General Catalyst Global Resilience Merger Corp.: no revenue data in XBRL filings
+- GCTK Glucotrack, Inc.: newest figures are for 2020
+- GDC GD Culture Group Ltd: newest figures are for 2023
 - GDLC Grayscale CoinDesk Crypto 5 ETF: no revenue data in XBRL filings
 - GDLG Glidelogic Corp.: OTC, annual revenue $0K below $5.0M
 - GDOG Grayscale Dogecoin Trust ETF: no revenue data in XBRL filings
@@ -4883,20 +4812,23 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 - GLEI Galaxy Enterprises Inc. /WY/: no revenue data in XBRL filings
 - GLND Greenland Energy Co: no revenue data in XBRL filings
 - GLNK Grayscale Chainlink Trust ETF: no revenue data in XBRL filings
-- GLNS Golden Star Resource Corp.: OTC, annual revenue $0K below $5.0M
+- GLNS Golden Star Resource Corp.: newest figures are for 2014
 - GLSI Greenwich LifeSciences, Inc.: no revenue data in XBRL filings
 - GLTR abrdn Precious Metals Basket ETF Trust: no revenue data in XBRL filings
 - GMER Good Gaming, Inc.: OTC, annual revenue $0K below $5.0M
 - GNOLF Genoil Inc: OTC, annual revenue $0K below $5.0M
 - GNTOF Gentor Resources Inc.: no revenue data in XBRL filings
-- GNVR Genvor Inc: OTC, annual revenue $0K below $5.0M
+- GNVR Genvor Inc: newest figures are for 2022
 - GPAC General Purpose Acquisition Corp.: no revenue data in XBRL filings
 - GPAT GP-Act III Acquisition Corp.: no revenue data in XBRL filings
 - GPCR Structure Therapeutics Inc.: no revenue data in XBRL filings
 - GPJA Georgia Power Co: no revenue data in XBRL filings
 - GPLB Green Planet Bio Engineering Co. Ltd.: no revenue data in XBRL filings
 - GPMT Granite Point Mortgage Trust Inc.: no revenue data in XBRL filings
+- GRCE Grace Therapeutics, Inc.: newest figures are for 2022
+- GRFS Grifols SA: US listing of Grifols, which is shown from its home listing in Madrid (GRF.MC)
 - GRHI Gold Rock Holdings, Inc.: OTC, annual revenue $212K below $5.0M
+- GRI GRI Bio, Inc.: newest figures are for 2022
 - GRML Greenland Mines Ltd: no revenue data in XBRL filings
 - GRO Brazil Potash Corp.: no revenue data in XBRL filings
 - GRPS Trans American Aquaculture, Inc: OTC, annual revenue $332K below $5.0M
@@ -4906,27 +4838,30 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 - GSOL Grayscale Solana Staking ETF: no revenue data in XBRL filings
 - GSRF GSR IV Acquisition Corp.: no revenue data in XBRL filings
 - GSRV GSR V Acquisition Corp.: no revenue data in XBRL filings
-- GSTX Graphene & Solar Technologies Ltd: OTC, annual revenue $0K below $5.0M
+- GSTX Graphene & Solar Technologies Ltd: newest figures are for 2021
 - GSUI Grayscale Sui Staking ETF: no revenue data in XBRL filings
 - GTAO Grayscale Bittensor Trust (TAO): no revenue data in XBRL filings
-- GTCH GBT Technologies Inc.: OTC, annual revenue $0K below $5.0M
+- GTBP GT Biopharma, Inc.: newest figures are for 2021
+- GTCH GBT Technologies Inc.: newest figures are for 2023
 - GTEN Gores Holdings X, Inc. / CI: no revenue data in XBRL filings
 - GTERA Globa Terra Acquisition Corp: no revenue data in XBRL filings
 - GTHP Guided Therapeutics Inc: OTC, annual revenue $767K below $5.0M
-- GTIC Greentech Innovations, Inc.: OTC, annual revenue $0K below $5.0M
+- GTIC Greentech Innovations, Inc.: newest figures are for 2020
 - GTLL Global Technologies Ltd: OTC, annual revenue $3.1M below $5.0M
 - GUAC Berto Acquisition Corp. II: no revenue data in XBRL filings
 - GULTU Gulf Coast Ultra Deep Royalty Trust: no revenue data in XBRL filings
 - GWLL Goldenwell Biotech, Inc.: OTC, annual revenue $0K below $5.0M
-- GWTI Greenway Technologies, Inc. & Subsidiaries: OTC, annual revenue $25K below $5.0M
+- GWTI Greenway Technologies, Inc. & Subsidiaries: newest figures are for 2022
 - GXLM Grayscale Stellar Lumens Trust (XLM): no revenue data in XBRL filings
 - GXRP Grayscale XRP Trust ETF: no revenue data in XBRL filings
+- GYRO Gyrodyne, LLC: newest figures are for 2015
 - HACQ HCM IV Acquisition Corp.: no revenue data in XBRL filings
 - HBIA Hills Bancorporation: no revenue data in XBRL filings
 - HBUV Hubilu Venture Corp: OTC, annual revenue $2.2M below $5.0M
 - HCIC Hennessy Capital Investment Corp. VIII: no revenue data in XBRL filings
 - HCMA Hcm III Acquisition Corp.: no revenue data in XBRL filings
 - HCMC Healthier Choices Management Corp.: OTC, annual revenue $3K below $5.0M
+- HELP Cybin Inc.: newest figures are for 2022
 - HEPA Hepion Pharmaceuticals, Inc.: OTC, annual revenue $0K below $5.0M
 - HGAS Global Gas Corp: OTC, annual revenue $33K below $5.0M
 - HGTXU Hugoton Royalty Trust: no revenue data in XBRL filings
@@ -4952,12 +4887,14 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 - HWKE Hawkeye Digital, Inc.: OTC, annual revenue $0K below $5.0M
 - HYEX Healthy Extracts Inc.: OTC, annual revenue $4.5M below $5.0M
 - HYFT MindWalk Holdings Corp.: unknown postal code  (Victoria, A1)
+- HYMC Hycroft Mining Holding Corp: newest figures are for 2023
 - HYOR HyOrc Corp: OTC, annual revenue $59K below $5.0M
 - HYPG Grayscale Hyperliquid Staking ETF: no revenue data in XBRL filings
 - HYSR Sunhydrogen, Inc.: OTC, annual revenue — below $5.0M
 - HZEN Grayscale Horizen Trust (ZEN): no revenue data in XBRL filings
 - IACO Idea Acquisition Corp.: no revenue data in XBRL filings
 - IACQ Irenic Acquisition Corp.: no revenue data in XBRL filings
+- IAU Ishares Gold Trust: newest figures are for 2013
 - IAUM iShares Gold Trust Micro: no revenue data in XBRL filings
 - IBAC IB Acquisition Corp.: no revenue data in XBRL filings
 - IBATF International Battery Metals Ltd.: OTC, annual revenue — below $5.0M
@@ -4968,22 +4905,26 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 - IGAC Invest Green Acquisition Corp: no revenue data in XBRL filings
 - ILAL International Land Alliance Inc.: OTC, annual revenue $2.4M below $5.0M
 - ILLU Illumination Acquisition Corp. I: no revenue data in XBRL filings
+- ILPT Industrial Logistics Properties Trust: newest figures are for 2019
 - IMAA IMA Tech: OTC, annual revenue $55K below $5.0M
 - IMAQ International Media Acquisition Corp.: no revenue data in XBRL filings
 - IMMX Immix Biopharma, Inc.: no revenue data in XBRL filings
+- IMNN Imunon, Inc.: newest figures are for 2022
 - IMRN Immuron Ltd: no revenue data in XBRL filings
+- IMRX Immuneering Corp: newest figures are for 2023
 - IMVT Immunovant, Inc.: no revenue data in XBRL filings
 - INAB In8bio, Inc.: no revenue data in XBRL filings
 - INAC Indigo Acquisition Corp.: no revenue data in XBRL filings
 - INDP Indaptus Therapeutics, Inc.: no revenue data in XBRL filings
 - INKT MiNK Therapeutics, Inc.: no revenue data in XBRL filings
-- INTI Inhibitor Therapeutics, Inc.: OTC, annual revenue $0K below $5.0M
+- INTI Inhibitor Therapeutics, Inc.: newest figures are for 2022
 - INTS Intensity Therapeutics, Inc.: no revenue data in XBRL filings
 - IONI I-ON Digital Corp.: OTC, annual revenue $433K below $5.0M
 - IONR ioneer Ltd: unknown postal code  (North Sydney, NV)
+- IOR Income Opportunity Realty Investors Inc /Tx/: newest figures are for 2021
 - IPB Merrill Lynch Depositor Inc Indexplus Trust Series 2003-1: no revenue data in XBRL filings
 - IPFX Inflection Point Acquisition Corp. VI: no revenue data in XBRL filings
-- IPSI Innovative Payment Solutions, Inc.: OTC, annual revenue $0K below $5.0M
+- IPSI Innovative Payment Solutions, Inc.: newest figures are for 2023
 - IPVV InterPrivate Investment Partners V, Inc.: no revenue data in XBRL filings
 - IPX IPERIONX Ltd: no revenue data in XBRL filings
 - IPXG Inflection Point Acquisition Corp. VII: no revenue data in XBRL filings
@@ -4998,6 +4939,7 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 - IVHI Invech Holdings, Inc.: OTC, annual revenue $0K below $5.0M
 - IVR Invesco Mortgage Capital Inc.: no revenue data in XBRL filings
 - IWAL iWallet Corp: OTC, annual revenue $0K below $5.0M
+- IWSH Wright Investors Service Holdings, Inc.: newest figures are for 2018
 - JACS Jackson Acquisition Co II: no revenue data in XBRL filings
 - JAGU Jaguar Uranium Corp.: no revenue data in XBRL filings
 - JBIO Jade Biosciences, Inc.: no revenue data in XBRL filings
@@ -5014,7 +4956,7 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 - KAVL Kaival Brands Innovations Group, Inc.: OTC, annual revenue $485K below $5.0M
 - KAYS Kaya Holdings, Inc.: OTC, annual revenue $7K below $5.0M
 - KBDC Kayne Anderson BDC, Inc.: no revenue data in XBRL filings
-- KBLB Kraig Biocraft Laboratories, Inc.: OTC, annual revenue $402K below $5.0M
+- KBLB Kraig Biocraft Laboratories, Inc.: newest figures are for 2021
 - KCAC-UN Kensington Capital Acquisition Corp. VI: no revenue data in XBRL filings
 - KCHV Kochav Defense Acquisition Corp.: no revenue data in XBRL filings
 - KCRD Kindcard, Inc.: OTC, annual revenue $366K below $5.0M
@@ -5022,6 +4964,7 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 - KFII K&F Growth Acquisition Corp. II: no revenue data in XBRL filings
 - KGC Kinross Gold Corp: unknown postal code  (Toronto, A6)
 - KLRA Kailera Therapeutics, Inc.: no revenue data in XBRL filings
+- KLRS Kalaris Therapeutics, Inc.: newest figures are for 2019
 - KOAN Resonate Blends, Inc.: OTC, annual revenue $1.9M below $5.0M
 - KOD Kodiak Sciences Inc.: no revenue data in XBRL filings
 - KPET KPET Ultra Paceline Corp: no revenue data in XBRL filings
@@ -5030,15 +4973,17 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 - KSEZ Kinetic Seas Inc.: OTC, annual revenue $71K below $5.0M
 - KTH Structured Products Corp Corts Tr For Peco Energy Cap Tr III: no revenue data in XBRL filings
 - KTN Structured Products Corp Cred Enhance Corts Tr For Aon Cap A: no revenue data in XBRL filings
+- KTTA Pasithea Therapeutics Corp.: newest figures are for 2022
 - KTWO K2 Capital Acquisition Corp: no revenue data in XBRL filings
 - KVAC Keen Vision Acquisition Corp.: no revenue data in XBRL filings
 - KWIK KwikClick, Inc.: OTC, annual revenue $1.3M below $5.0M
 - KYTX Kyverna Therapeutics, Inc.: no revenue data in XBRL filings
 - LABT Lakewood-Amedex Biotherapeutics Inc.: no revenue data in XBRL filings
 - LAC Lithium Americas Corp.: no revenue data in XBRL filings
+- LADR Ladder Capital Corp: newest figures are for 2020
 - LATA Galata Acquisition Corp. II: no revenue data in XBRL filings
 - LBRX Lb Pharmaceuticals Inc: no revenue data in XBRL filings
-- LBSR Liberty Star Uranium & Metals Corp.: OTC, annual revenue $0K below $5.0M
+- LBSR Liberty Star Uranium & Metals Corp.: newest figures are for 2015
 - LCCC Lakeshore Acquisition III Corp.: no revenue data in XBRL filings
 - LCGMF Lion Copper & Gold Corp.: no revenue data in XBRL filings
 - LDXC Londax Corp.: OTC, annual revenue $66K below $5.0M
@@ -5063,6 +5008,7 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 - LPCV Launchpad Cadenza Acquisition Corp I: no revenue data in XBRL filings
 - LQMT Liquidmetal Technologies Inc: OTC, annual revenue $784K below $5.0M
 - LRDC Laredo Oil, Inc.: OTC, annual revenue $9K below $5.0M
+- LRMR Larimar Therapeutics, Inc.: newest figures are for 2020
 - LSEB LSEB Creative Corp.: OTC, annual revenue $18K below $5.0M
 - LTCN Grayscale Litecoin Trust (LTC): no revenue data in XBRL filings
 - LTGO Latigo Biotherapeutics, Inc.: no revenue data in XBRL filings
@@ -5071,14 +5017,16 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 - LTUM Lithium Corp: OTC, annual revenue $0K below $5.0M
 - LUDG Ludwig Enterprises, Inc.: OTC, annual revenue $0K below $5.0M
 - LWAC LightWave Acquisition Corp.: no revenue data in XBRL filings
+- LXEO Lexeo Therapeutics, Inc.: newest figures are for 2022
 - LYTHF Lytus Technologies Holdings PTV. Ltd.: unknown postal code  (Nad Al Sheba, Dubai, XX)
 - MACI Melar Acquisition Corp. I/Cayman: no revenue data in XBRL filings
 - MADL Man Ahl Diversified I LP: no revenue data in XBRL filings
-- MAGE MAGELLAN COPPER & GOLD Corp: OTC, annual revenue $33K below $5.0M
+- MAGE MAGELLAN COPPER & GOLD Corp: newest figures are for 2019
 - MAIN Main Street Capital CORP: no revenue data in XBRL filings
 - MAKO Mako Mining Corp.: no revenue data in XBRL filings
 - MANE Veradermics, Inc: no revenue data in XBRL filings
 - MARPS Marine Petroleum Trust: no revenue data in XBRL filings
+- MBIO Mustang Bio, Inc.: newest figures are for 2019
 - MBVI M3-Brigade Acquisition VI Corp.: no revenue data in XBRL filings
 - MBX MBX Biosciences, Inc.: no revenue data in XBRL filings
 - MC Moelis & Co: no revenue data in XBRL filings
@@ -5089,16 +5037,18 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 - MCOM micromobility.com Inc.: OTC, annual revenue $1.4M below $5.0M
 - MDBH MDB Capital Holdings, LLC: no revenue data in XBRL filings
 - MDCX Medicus Pharma Ltd.: no revenue data in XBRL filings
-- MDEX Madison Technologies Inc.: OTC, annual revenue $1.2M below $5.0M
+- MDEX Madison Technologies Inc.: newest figures are for 2022
 - MDGL Madrigal Pharmaceuticals, Inc.: unknown postal code  (West Conshohocken, PA)
 - MDWK MDWerks, Inc.: OTC, annual revenue $2.2M below $5.0M
 - MEOH Methanex Corp: unknown postal code 00000 (Vancouver Bc Canada, A1)
 - MESH Meshflow Acquisition Corp: no revenue data in XBRL filings
 - MEVO M Evo Global Acquisition Corp II: no revenue data in XBRL filings
+- MFA Mfa Financial, Inc.: newest figures are for 2020
 - MFBI Monroe Federal Bancorp, Inc.: no revenue data in XBRL filings
 - MFIC MidCap Financial Investment Corp: no revenue data in XBRL filings
 - MFON Mobivity Holdings Corp.: OTC, annual revenue $1.1M below $5.0M
 - MGAM Mobile Global Esports, Inc.: OTC, annual revenue $4K below $5.0M
+- MGEE Mge Energy Inc: newest figures are for 2018
 - MGNC Mag Magna Corp: OTC, annual revenue $50K below $5.0M
 - MGNO Magnolia Bancorp, Inc.: OTC, annual revenue $6K below $5.0M
 - MGTI Mgt Capital Investments, Inc.: OTC, annual revenue $87K below $5.0M
@@ -5107,6 +5057,7 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 - MINE Mayfair Gold Corp.: no revenue data in XBRL filings
 - MIRA Mira Pharmaceuticals, Inc.: no revenue data in XBRL filings
 - MITI Mitesco, Inc.: OTC, annual revenue $39K below $5.0M
+- MITT TPG Mortgage Investment Trust, Inc.: newest figures are for 2019
 - MKLY McKinley Acquisition Corp: no revenue data in XBRL filings
 - MLAA Mountain Lake Acquisition Corp. II: no revenue data in XBRL filings
 - MLYS Mineralys Therapeutics, Inc.: unknown postal code  (Radnor, PA)
@@ -5117,6 +5068,7 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 - MMTX Miluna Acquisition Corp: no revenue data in XBRL filings
 - MNTR Mentor Capital, Inc.: OTC, annual revenue $167K below $5.0M
 - MOBQ Mobiquity Technologies, Inc.: OTC, annual revenue $112K below $5.0M
+- MODD Modular Medical, Inc.: newest figures are for 2018
 - MOJO EQUATOR Beverage Co: OTC, annual revenue $4.2M below $5.0M
 - MPLT MapLight Therapeutics, Inc.: no revenue data in XBRL filings
 - MRCO Mercator Acquisition Corp.: no revenue data in XBRL filings
@@ -5128,10 +5080,12 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 - MSPR MSP Recovery, Inc.: no revenue data in XBRL filings
 - MSSAF Metal Sky Star Acquisition Corp: no revenue data in XBRL filings
 - MTAK Market Technology Acquisition Corp: no revenue data in XBRL filings
+- MTH Meritage Homes CORP: newest figures are for 2022
+- MTNB Matinas BioPharma Holdings, Inc.: newest figures are for 2023
 - MTNE CH4 Natural Solutions Corp: no revenue data in XBRL filings
 - MTR Mesa Royalty Trust/Tx: no revenue data in XBRL filings
 - MTVA MetaVia Inc.: no revenue data in XBRL filings
-- MTWO M2i Global, Inc.: OTC, annual revenue $3K below $5.0M
+- MTWO M2i Global, Inc.: newest figures are for 2023
 - MUX McEwen Inc.: unknown postal code  (Toronto, A6)
 - MUZE Muzero Acquisition Corp: no revenue data in XBRL filings
 - MWAI MedWellAI, Inc.: OTC, annual revenue $595K below $5.0M
@@ -5142,28 +5096,34 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 - NAPD NAPC Defense, Inc.: OTC, annual revenue $1.4M below $5.0M
 - NB Niocorp Developments Ltd: no revenue data in XBRL filings
 - NBND NetBrands Corp.: OTC, annual revenue $18K below $5.0M
+- NBP NovaBridge Biosciences: newest figures are for 2023
 - NCDL Nuveen Churchill Direct Lending Corp.: no revenue data in XBRL filings
 - NCO Southern Cross Acquisition I Corp.: no revenue data in XBRL filings
+- NDRA ENDRA Life Sciences Inc.: newest figures are for 2020
 - NELR Neolara Corp.: OTC, annual revenue $29K below $5.0M
 - NEWH NewHydrogen, Inc.: no revenue data in XBRL filings
+- NEWP New Pacific Metals Corp: newest figures are for 2023
 - NEWT NewtekOne, Inc.: no revenue data in XBRL filings
 - NEXM NexMetals Mining Corp.: no revenue data in XBRL filings
 - NGEN Nervgen Pharma Corp.: no revenue data in XBRL filings
-- NGLD Nevada Canyon Gold Corp.: OTC, annual revenue $4K below $5.0M
+- NGLD Nevada Canyon Gold Corp.: newest figures are for 2017
 - NGTF NightFood Holdings, Inc.: OTC, annual revenue $482K below $5.0M
 - NHIC NewHold Investment Corp. III: no revenue data in XBRL filings
 - NHIV NewHold Investment Corp IV: no revenue data in XBRL filings
 - NICH Nitches Inc: OTC, annual revenue $5K below $5.0M
 - NICM Nicola Mining Inc.: no revenue data in XBRL filings
-- NIHK Video River Networks, Inc.: OTC, annual revenue $665K below $5.0M
+- NIHK Video River Networks, Inc.: newest figures are for 2023
 - NIKA Nika Pharmaceuticals, Inc: OTC, annual revenue $0K below $5.0M
-- NIMU Non Invasive Monitoring Systems Inc /Fl/: OTC, annual revenue $6K below $5.0M
+- NIKI Niki BioSolutions, Inc.: newest figures are for 2023
+- NIMU Non Invasive Monitoring Systems Inc /Fl/: newest figures are for 2017
 - NLY Annaly Capital Management Inc: no revenue data in XBRL filings
+- NMAD Nomad Power Solutions, Inc.: newest figures are for 2015
 - NMEX Northern Minerals & Exploration Ltd.: OTC, annual revenue $9K below $5.0M
 - NMFC New Mountain Finance Corp: no revenue data in XBRL filings
 - NMG Nouveau Monde Graphite Inc.: no revenue data in XBRL filings
 - NMHI Nature's Miracle Holding Inc.: OTC, annual revenue $1.7M below $5.0M
 - NMRA Neumora Therapeutics, Inc.: no revenue data in XBRL filings
+- NNI Nelnet Inc: newest figures are for 2023
 - NNUP Nocopi Technologies Inc/Md/: OTC, annual revenue $1.5M below $5.0M
 - NOA North American Construction Group Ltd.: unknown postal code  (Acheson, A0)
 - NOEM CO2 Energy Transition Corp.: no revenue data in XBRL filings
@@ -5172,34 +5132,41 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 - NPAC New Providence Acquisition Corp. III/Cayman: no revenue data in XBRL filings
 - NPB Northpointe Bancshares Inc: no revenue data in XBRL filings
 - NPHC Nutra Pharma Corp: OTC, annual revenue $258K below $5.0M
-- NRDE Stark Novus Financial Inc.: OTC, annual revenue $2.3M below $5.0M
+- NRDE Stark Novus Financial Inc.: newest figures are for 2023
 - NREF NexPoint Real Estate Finance, Inc.: no revenue data in XBRL filings
-- NRHI Natural Resource Holdings, Inc.: OTC, annual revenue $22K below $5.0M
+- NRHI Natural Resource Holdings, Inc.: newest figures are for 2019
 - NRIS Norris Industries, Inc.: OTC, annual revenue $286K below $5.0M
+- NRUC National Rural Utilities Cooperative Finance Corp /Dc/: newest figures are for 2021
+- NSARO Nstar Electric Co: newest figures are for 2012
 - NSFDF NXT Energy Solutions Inc.: unknown postal code 90035 (Calgary, T3e 0B4, A0)
 - NSLR Neostellar Capital Corp.: no revenue data in XBRL filings
-- NSTM NovelStem International Corp.: OTC, annual revenue $616K below $5.0M
+- NSTM NovelStem International Corp.: newest figures are for 2013
 - NTRP NextTrip, Inc.: unknown postal code  (Sunrise, FL)
 - NTWO Newbury Street II Acquisition Corp: no revenue data in XBRL filings
 - NUCL Eagle Nuclear Energy Corp.: no revenue data in XBRL filings
 - NUMD Nu-Med Plus, Inc.: OTC, annual revenue $0K below $5.0M
 - NVCT Nuvectis Pharma, Inc.: no revenue data in XBRL filings
+- NVNO enVVeno Medical Corp: newest figures are for 2019
 - NVVE Nuvve Holding Corp.: OTC, annual revenue $4.8M below $5.0M
 - NWAX New America Acquisition I Corp.: no revenue data in XBRL filings
 - NWBO Northwest Biotherapeutics Inc: OTC, annual revenue $1.4M below $5.0M
 - NXE NexGen Energy Ltd.: no revenue data in XBRL filings
 - NXNT Nexscient, Inc.: OTC, annual revenue $0K below $5.0M
+- NXTC NextCure, Inc.: newest figures are for 2020
 - OACC Oaktree Acquisition Corp. III Life Sciences: no revenue data in XBRL filings
 - OBDC Blue Owl Capital Corp: no revenue data in XBRL filings
 - OBTC Osprey Bitcoin Trust: no revenue data in XBRL filings
 - OCSL Oaktree Specialty Lending Corp: no revenue data in XBRL filings
 - ODRS Outdoor Specialty Products, Inc.: OTC, annual revenue $0K below $5.0M
-- ODYY Odyssey Health, Inc.: OTC, annual revenue $0K below $5.0M
+- ODYY Odyssey Health, Inc.: newest figures are for 2020
 - OFS OFS Capital Corp: no revenue data in XBRL filings
+- OGEN Oragenics Inc: newest figures are for 2023
+- OGS ONE Gas, Inc.: newest figures are for 2022
 - OHAC Oceanhawk Acquisition Corp.: no revenue data in XBRL filings
 - OIM OneIM Acquisition Corp.: no revenue data in XBRL filings
 - OKMN Okmin Resources, Inc.: OTC, annual revenue $22K below $5.0M
 - OLMA Olema Pharmaceuticals, Inc.: no revenue data in XBRL filings
+- OLP One Liberty Properties Inc: newest figures are for 2022
 - OMAB Central North Airport Group: unknown postal code 66600 (Apodaca, NY)
 - OMTK Omnitek Engineering Corp: OTC, annual revenue $1.4M below $5.0M
 - ONAR Onar Holding Corp: OTC, annual revenue $3.2M below $5.0M
@@ -5215,7 +5182,7 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 - OTGA OTG Acquisition Corp. I: no revenue data in XBRL filings
 - OTLC Oncotelic Therapeutics, Inc.: OTC, annual revenue $70K below $5.0M
 - OUNZ VanEck Merk Gold ETF: no revenue data in XBRL filings
-- OVTZ Oculus Inc.: OTC, annual revenue $0K below $5.0M
+- OVTZ Oculus Inc.: newest figures are for 2023
 - OWPC One World Products, Inc.: Unlisted, annual revenue $5K below $5.0M
 - OXSQ Oxford Square Capital Corp.: no revenue data in XBRL filings
 - OYSE Oyster Enterprises II Acquisition Corp: no revenue data in XBRL filings
@@ -5234,6 +5201,7 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 - PBT Permian Basin Royalty Trust: no revenue data in XBRL filings
 - PCAP ProCap Acquisition Corp: no revenue data in XBRL filings
 - PCMC Public Co Management Corp: no revenue data in XBRL filings
+- PCSA Processa Pharmaceuticals, Inc.: newest figures are for 2023
 - PCVX Vaxcyte, Inc.: no revenue data in XBRL filings
 - PDSB PDS Biotechnology Corp: no revenue data in XBRL filings
 - PECE Peace Acquisition Corp.: no revenue data in XBRL filings
@@ -5246,8 +5214,10 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 - PGIM PGIM Private Credit Fund: no revenue data in XBRL filings
 - PGOL Patriot Gold Corp: OTC, annual revenue $0K below $5.0M
 - PHCI Panamera Holdings Corp: OTC, annual revenue $241K below $5.0M
+- PHIO Phio Pharmaceuticals Corp.: newest figures are for 2020
 - PHYS Sprott Physical Gold Trust: no revenue data in XBRL filings
-- PKTX ProtoKinetix, Inc.: Unlisted, annual revenue $0K below $5.0M
+- PIAC Princeton Capital Corp: newest figures are for 2022
+- PKTX ProtoKinetix, Inc.: newest figures are for 2014
 - PLG Platinum Group Metals Ltd: unknown postal code  (Vancouver, A1)
 - PLMK Plum Acquisition Corp, IV: no revenue data in XBRL filings
 - PLTM GraniteShares Platinum Trust: no revenue data in XBRL filings
@@ -5277,7 +5247,7 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 - PSPX Pacific Sports Exchange Inc.: OTC, annual revenue $5K below $5.0M
 - PTAC Patriot Acquisition Corp./CI: no revenue data in XBRL filings
 - PTCHF PureTech Health plc: OTC, annual revenue $4.8M below $5.0M
-- PTCO PetroGas Co: OTC, annual revenue $0K below $5.0M
+- PTCO PetroGas Co: newest figures are for 2022
 - PTIX Protagenic Therapeutics, Inc.\new: OTC, annual revenue $0K below $5.0M
 - PTOR Praetorian Acquisition Corp.: no revenue data in XBRL filings
 - PTOS P2 Solar, Inc.: OTC, annual revenue $26K below $5.0M
@@ -5288,10 +5258,14 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 - PVL Permianville Royalty Trust: no revenue data in XBRL filings
 - PWDY Powerdyne International, Inc.: OTC, annual revenue $1.2M below $5.0M
 - PYT PPLUS Trust Series GSC-2: no revenue data in XBRL filings
+- PZG Paramount Gold Nevada Corp.: newest figures are for 2022
 - QADR QDRO Acquisition Corp.: no revenue data in XBRL filings
+- QCLS Q/C Technologies, Inc.: newest figures are for 2020
 - QETH Invesco Galaxy Ethereum ETF: no revenue data in XBRL filings
 - QNC Quantum eMotion Corp: no revenue data in XBRL filings
 - QNCX Quince Therapeutics, Inc.: no revenue data in XBRL filings
+- QNRX Quoin Pharmaceuticals Ltd.: newest figures are for 2021
+- QNTM Quantum Biopharma Ltd.: newest figures are for 2019
 - QPRC Quest Patent Research Corp: OTC, annual revenue $2.8M below $5.0M
 - QRED QuasarEdge Acquisition Corp: no revenue data in XBRL filings
 - QS QuantumScape Corp: no revenue data in XBRL filings
@@ -5301,7 +5275,7 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 - QTZM Quantum Genesis AI Corp.: OTC, annual revenue $0K below $5.0M
 - QUMS Quantumsphere Acquisition Corp: no revenue data in XBRL filings
 - QURT Quarta-Rad, Inc.: OTC, annual revenue $245K below $5.0M
-- QWTR Quest Water Global, Inc.: OTC, annual revenue $150K below $5.0M
+- QWTR Quest Water Global, Inc.: newest figures are for 2021
 - QZMRF Quartz Mountain Resources Ltd: no revenue data in XBRL filings
 - RAC Rithm Acquisition Corp.: no revenue data in XBRL filings
 - RACC Research Alliance Corp III: no revenue data in XBRL filings
@@ -5317,11 +5291,14 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 - RDGL Vivos Inc: OTC, annual revenue $68K below $5.0M
 - REA Rare Earths Americas, Inc.: no revenue data in XBRL filings
 - REEMF Rare Element Resources Ltd: OTC, annual revenue $0K below $5.0M
+- REFI Chicago Atlantic Real Estate Finance, Inc.: newest figures are for 2023
 - RENEF Cartesian Growth Corp II: no revenue data in XBRL filings
+- REPL Replimune Group, Inc.: newest figures are for 2018
 - REVB Revelation Biosciences, Inc.: no revenue data in XBRL filings
 - RGBP Regen BioPharma Inc: OTC, annual revenue $237K below $5.0M
 - RHNO Rhino Bitcoin Inc.: OTC, annual revenue $478K below $5.0M
 - RITE MINERALRITE Corp: OTC, annual revenue $5K below $5.0M
+- RLMD Relmada Therapeutics, Inc.: newest figures are for 2014
 - RMGL Rocky Mountains Group Ltd: OTC, annual revenue $25K below $5.0M
 - RMSL RemSleep Holdings Inc.: OTC, annual revenue $17K below $5.0M
 - RMXI Rmx Industries, Inc.: OTC, annual revenue — below $5.0M
@@ -5340,11 +5317,13 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 - RWAY Runway Growth Finance Corp.: no revenue data in XBRL filings
 - RYES Rise Gold Corp.: no revenue data in XBRL filings
 - RZLT Rezolute, Inc.: no revenue data in XBRL filings
+- SA Seabridge Gold Inc: newest figures are for 2022
 - SAAQ Space Asset Acquisition Corp.: no revenue data in XBRL filings
 - SAC Safeguard Acquisition Corp.: no revenue data in XBRL filings
 - SANA Sana Biotechnology, Inc.: no revenue data in XBRL filings
 - SAR Saratoga Investment Corp.: no revenue data in XBRL filings
-- SATT Sativus Tech Corp.: OTC, annual revenue $36K below $5.0M
+- SATT Sativus Tech Corp.: newest figures are for 2019
+- SBFG Sb Financial Group, Inc.: newest figures are for 2023
 - SBMT Silver Bow Mining Corp.: no revenue data in XBRL filings
 - SBR Sabine Royalty Trust: no revenue data in XBRL filings
 - SBXD SilverBox Corp IV: no revenue data in XBRL filings
@@ -5359,28 +5338,32 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 - SEII Sharing Economy International Inc.: OTC, annual revenue $317K below $5.0M
 - SEQC SeeQC, Inc.: Unlisted, annual revenue $4.2M below $5.0M
 - SEV Aptera Motors Corp: no revenue data in XBRL filings
-- SFCX SUPA Consolidated Inc.: OTC, annual revenue $0K below $5.0M
+- SFCX SUPA Consolidated Inc.: newest figures are for 2021
 - SFRX Seafarer Exploration Corp: OTC, annual revenue $16K below $5.0M
+- SGMT Sagimet Biosciences Inc.: newest figures are for 2023
 - SGOL abrdn Gold ETF Trust: no revenue data in XBRL filings
 - SGP SpyGlass Pharma, Inc.: no revenue data in XBRL filings
 - SHOT RMG ML Sports Holdings: no revenue data in XBRL filings
 - SHPH Shuttle Pharmaceuticals Holdings, Inc.: no revenue data in XBRL filings
-- SIGY Sigyn Therapeutics, Inc.: OTC, annual revenue $143K below $5.0M
+- SIGY Sigyn Therapeutics, Inc.: newest figures are for 2020
 - SIMAU SIM Acquisition Corp. I: no revenue data in XBRL filings
 - SION Sionna Therapeutics, Inc.: no revenue data in XBRL filings
 - SIVR abrdn Silver ETF Trust: no revenue data in XBRL filings
 - SJT San Juan Basin Royalty Trust: no revenue data in XBRL filings
 - SKAS Saker Aviation Services, Inc.: OTC, annual revenue $1.3M below $5.0M
 - SKE Skeena Resources Ltd: no revenue data in XBRL filings
-- SKFG Stark Focus Group, Inc.: OTC, annual revenue $44K below $5.0M
+- SKFG Stark Focus Group, Inc.: newest figures are for 2021
 - SKKY Skkynet Cloud Systems, Inc.: OTC, annual revenue $2.6M below $5.0M
-- SKTG Skytech Orion Global Corp.: OTC, annual revenue $12K below $5.0M
+- SKTG Skytech Orion Global Corp.: newest figures are for 2020
 - SKVI Skinvisible, Inc.: OTC, annual revenue $20K below $5.0M
 - SKYE Skye Bioscience, Inc.: no revenue data in XBRL filings
 - SKYI Sky Century Investment, Inc.: OTC, annual revenue $76K below $5.0M
 - SKYQ Sky Quarry Inc.: no revenue data in XBRL filings
+- SLDB Solid Biosciences Inc.: newest figures are for 2022
 - SLI Standard Lithium Ltd.: no revenue data in XBRL filings
 - SLRC SLR Investment Corp.: no revenue data in XBRL filings
+- SLS SELLAS Life Sciences Group, Inc.: newest figures are for 2023
+- SLV iShares Silver Trust: newest figures are for 2013
 - SMBK Smartfinancial Inc.: no revenue data in XBRL filings
 - SMNR Semnur Pharmaceuticals, Inc.: no revenue data in XBRL filings
 - SNBH Sentient Brands Holdings Inc.: OTC, annual revenue $701K below $5.0M
@@ -5420,6 +5403,7 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 - SVBL Silver Bull Resources, Inc.: no revenue data in XBRL filings
 - SVCC Stellar V Capital Corp. (Cayman Islands): no revenue data in XBRL filings
 - SVIV Spring Valley Acquisition Corp. IV: no revenue data in XBRL filings
+- SVRA Savara Inc: newest figures are for 2021
 - SVVC Firsthand Technology Value Fund, Inc.: no revenue data in XBRL filings
 - SYBX Synlogic, Inc.: OTC, annual revenue $0K below $5.0M
 - SYF Synchrony Financial: no revenue data in XBRL filings
@@ -5428,10 +5412,12 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 - TACH Titan Acquisition Corp.: no revenue data in XBRL filings
 - TACO Berto Acquisition Corp.: no revenue data in XBRL filings
 - TAIT Taitron Components Inc: OTC, annual revenue $4.1M below $5.0M
+- TARA Protara Therapeutics, Inc.: newest figures are for 2014
 - TARSF Silver North Resources Ltd.: no revenue data in XBRL filings
 - TAVI Tavia Acquisition Corp.: no revenue data in XBRL filings
 - TBPH Theravance Biopharma, Inc.: unknown postal code KY1-1104 (George Town, Grand Cayman, CA)
 - TCBX Third Coast Bancshares, Inc.: no revenue data in XBRL filings
+- TCPA Transcanada Pipelines Ltd: newest figures are for 2017
 - TCPC BlackRock TCP Capital Corp.: no revenue data in XBRL filings
 - TCRG Cannaisseur Group Inc.: OTC, annual revenue $0K below $5.0M
 - TDAC Translational Development Acquisition Corp.: no revenue data in XBRL filings
@@ -5441,20 +5427,24 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 - TELO Telomir Pharmaceuticals, Inc.: no revenue data in XBRL filings
 - TETEF Technology & Telecommunication Acquisition Corp: no revenue data in XBRL filings
 - TETH 21Shares Ethereum Staking ETF: no revenue data in XBRL filings
+- TG Tredegar Corp: newest figures are for 2018
 - TGLO Theglobe Com Inc: OTC, annual revenue $0K below $5.0M
 - TGNT Totaligent, Inc.: OTC, annual revenue $2K below $5.0M
 - THEO BOA Acquisition Corp. II: no revenue data in XBRL filings
-- THMG Thunder Mountain Gold Inc: OTC, annual revenue $300K below $5.0M
+- THMG Thunder Mountain Gold Inc: newest figures are for 2023
 - THYP 21Shares Hyperliquid Staking ETF: no revenue data in XBRL filings
+- TIL Instil Bio, Inc.: newest figures are for 2021
 - TKLS Trutankless, Inc.: OTC, annual revenue $1.1M below $5.0M
 - TKNZ T. Rowe Price Active Crypto ETF: no revenue data in XBRL filings
 - TLNC Talon Capital Corp.: no revenue data in XBRL filings
+- TLSS Transportation & Logistics Systems, Inc.: newest figures are for 2023
 - TMCR Metals Royalty Co Inc.: no revenue data in XBRL filings
 - TMGI Transglobal Management Group, Inc.: OTC, annual revenue $11K below $5.0M
 - TMQ Trilogy Metals Inc.: no revenue data in XBRL filings
 - TMTS Spartacus Acquisition Corp. II: no revenue data in XBRL filings
 - TONT Graf Global Corp.: no revenue data in XBRL filings
 - TOXR 21Shares XRP ETF: no revenue data in XBRL filings
+- TPST Tempest Therapeutics, Inc.: newest figures are for 2018
 - TPVG TriplePoint Venture Growth BDC Corp.: no revenue data in XBRL filings
 - TRAD APEX Tech Acquisition Inc.: no revenue data in XBRL filings
 - TRAX First Tracks Biotherapeutics, Inc.: no revenue data in XBRL filings
@@ -5474,6 +5464,7 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 - TVA Texas Ventures Acquisition III Corp: no revenue data in XBRL filings
 - TVAI Thayer Ventures Acquisition Corp II: no revenue data in XBRL filings
 - TVCN TV Channels Network Inc.: Unlisted, annual revenue $0K below $5.0M
+- TVE Tennessee Valley Authority: newest figures are for 2023
 - TVGN Tevogen Inc.: no revenue data in XBRL filings
 - TVIV Texas Ventures Acquisition IV Corp: no revenue data in XBRL filings
 - TWLV Twelve Seas Investment Co III/Cayman: no revenue data in XBRL filings
@@ -5484,10 +5475,14 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 - UDN Invesco Db US Dollar Index Bearish Fund: no revenue data in XBRL filings
 - UEEC United Health Products, Inc.: OTC, annual revenue $0K below $5.0M
 - UELMO Union Electric Co: no revenue data in XBRL filings
+- UNCY Unicycive Therapeutics, Inc.: newest figures are for 2023
 - UNXP Oz Vision Inc.: OTC, annual revenue $54K below $5.0M
 - UPYY Upay: OTC, annual revenue $746K below $5.0M
 - URSB URSB Bancorp, Inc.: OTC, annual revenue — below $5.0M
 - USAQ QHSLab, Inc.: OTC, annual revenue $2.7M below $5.0M
+- USAU U.S. Gold Corp.: newest figures are for 2017
+- USBC USBC, Inc.: newest figures are for 2023
+- USCI United States Commodity Index Funds Trust: newest figures are for 2020
 - USDW Made In USA Inc.: OTC, annual revenue $37K below $5.0M
 - USGO U.S. GoldMining Inc.: no revenue data in XBRL filings
 - UTKN Universal Token: OTC, annual revenue $0K below $5.0M
@@ -5511,6 +5506,7 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 - VLOS Velos Acquisition I Corp.: no revenue data in XBRL filings
 - VMCAF Valuence Merger Corp. I: no revenue data in XBRL filings
 - VMET Versamet Royalties Corp: no revenue data in XBRL filings
+- VMRK Vivmark Residential: newest figures are for 2021
 - VNJA Vanjia Corp: OTC, annual revenue $83K below $5.0M
 - VNME Vendome Acquisition Corp I: no revenue data in XBRL filings
 - VNOV VitaNova Life Sciences Corp: OTC, annual revenue $3.0M below $5.0M
@@ -5518,6 +5514,7 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 - VOR Vor Biopharma Inc.: no revenue data in XBRL filings
 - VPLM Voip-pal.com Inc: no revenue data in XBRL filings
 - VRDR Verde Resources, Inc.: OTC, annual revenue $133K below $5.0M
+- VRM Vroom, Inc.: newest figures are for 2023
 - VS Versus Systems Inc.: unknown postal code  (Vancouver, A1)
 - VSBC Vitaspring Biomedical Co. Ltd.: OTC, annual revenue $0K below $5.0M
 - VSOL VanEck Solana ETF: no revenue data in XBRL filings
@@ -5528,14 +5525,14 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 - WAMFF Alaska Silver Corp.: no revenue data in XBRL filings
 - WAST Waste Energy Corp.: OTC, annual revenue $424K below $5.0M
 - WBQNL Woodbridge Liquidation Trust: no revenue data in XBRL filings
-- WBSR Webstar Technology Group Inc.: OTC, annual revenue $7K below $5.0M
+- WBSR Webstar Technology Group Inc.: newest figures are for 2020
 - WENN WEN Acquisition Corp: no revenue data in XBRL filings
 - WEWA Wewards, Inc.: OTC, annual revenue $0K below $5.0M
 - WEYS Weyco Group Inc: unknown postal code 53312 (Glendale, WI)
 - WHEN World Health Energy Holdings, Inc.: OTC, annual revenue $166K below $5.0M
 - WHF WhiteHorse Finance, Inc.: no revenue data in XBRL filings
 - WHLT Chase Packaging Corp: OTC, annual revenue $0K below $5.0M
-- WINT Windtree Therapeutics Inc /De/: Unlisted, annual revenue $198K below $5.0M
+- WINT Windtree Therapeutics Inc /De/: newest figures are for 2019
 - WINV WinVest Acquisition Corp.: no revenue data in XBRL filings
 - WLCO Wilco 63 Corp: no revenue data in XBRL filings
 - WLII Willow Lane Acquisition Corp. II: no revenue data in XBRL filings
@@ -5546,14 +5543,18 @@ Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 - WPAC White Pearl Acquisition Corp.: no revenue data in XBRL filings
 - WRN Western Copper & Gold Corp: no revenue data in XBRL filings
 - WSTRF Western Uranium & Vanadium Corp.: unknown postal code  (Toronto, A6)
+- WWR Westwater Resources, Inc.: newest figures are for 2020
 - WYTC Wytec International Inc: OTC, annual revenue $131K below $5.0M
 - XAEIU Aei Income & Growth Fund Xxii Ltd Partnership: OTC, annual revenue $417K below $5.0M
 - XAGE Longevity Health Holdings, Inc.: OTC, annual revenue $1.9M below $5.0M
+- XBIT XBiotech Inc.: newest figures are for 2023
 - XCBE X3 Acquisition Corp. Ltd.: no revenue data in XBRL filings
+- XEL Xcel Energy Inc: newest figures are for 2019
 - XENE Xenon Pharmaceuticals Inc.: unknown postal code  (Burnaby, A1)
-- XERI Xeriant, Inc.: OTC, annual revenue $80K below $5.0M
+- XERI Xeriant, Inc.: newest figures are for 2018
 - XESP Electronic Servitor Publication Network, Inc.: OTC, annual revenue $0K below $5.0M
 - XFLH XFLH Capital Corp: no revenue data in XBRL filings
+- XPL Solitario Resources Corp.: newest figures are for 2020
 - XRP Bitwise XRP ETF: no revenue data in XBRL filings
 - XRPZ Franklin XRP Trust: no revenue data in XBRL filings
 - XRTX XORTX Therapeutics Inc.: no revenue data in XBRL filings
@@ -5609,6 +5610,10 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - ABT: proxy 3/15/2024: Robert B. Ford 2022: components 30,691,347 ≠ total 21,722,152; difference shown as Other.
 - ABT: proxy 3/15/2024: Robert B. Ford 2021: components 33,929,728 ≠ total 22,485,091; difference shown as Other.
 - ABT: proxy 3/15/2024: Robert E. Funck, Jr. 2023: components 12,214,882 ≠ total 7,992,913; difference shown as Other.
+- ABT: Robert B. Ford 2025: table read total 23,173,052; the filing tags the CEO's total as 24,198,660 — corrected
+- ABT: Robert B. Ford 2024: table read total 22,591,322; the filing tags the CEO's total as 22,777,075 — corrected
+- ABT: Robert B. Ford 2023: table read total 20,373,964; the filing tags the CEO's total as 23,268,171 — corrected
+- ABT: Robert B. Ford 2021: table read total 22,485,091; the filing tags the CEO's total as 24,914,886 — corrected
 - ABBV: proxy 3/23/2026: Robert A. Michael 2025: components 23,883,903 ≠ total 32,530,984; difference shown as Other.
 - ABBV: proxy 3/23/2026: Robert A. Michael 2024: components 16,483,531 ≠ total 18,492,517; difference shown as Other.
 - ABBV: proxy 3/23/2026: Robert A. Michael 2023: components 11,422,208 ≠ total 14,441,320; difference shown as Other.
@@ -5630,7 +5635,10 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - AGIG: proxy 4/11/2025: no compensation table recognised
 - ABVC: proxy 5/16/2025: skipped 1 row(s) with impossible years (2042)
 - ABVC: proxy 6/21/2023: no compensation table recognised
+- ACTG: Clifford Press 2022: table read total 447,950; the filing tags the CEO's total as 543,556 — corrected
 - ACHC: proxy 4/8/2022: John S. Hollinsworth 2019: components 2,077,199 ≠ total 2,197,199; difference shown as Other.
+- AKR: Kenneth F. Bernstein 2020: table read total 5,205,726; the filing tags the CEO's total as 5,250,726 — corrected
+- AAMI: Kelly Young 2025: table read total 10,519,228; the filing tags the CEO's total as 10,504,228 — corrected
 - ACH: proxy 3/27/2024: Daniel J. Starck 2023: components 652,023 ≠ total 3,153,991; difference shown as Other.
 - ACCS: proxy 4/30/2025: Steven Knerr 2024: components 1,927,682 ≠ total 261,646; difference shown as Other.
 - ACCO: proxy 4/1/2022: Boris Elisman 2021: components 6,091,807 ≠ total 7,276,781; difference shown as Other.
@@ -5648,12 +5656,15 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - ADT: proxy 4/14/2026: Donald M. Young 2025: components 5,974,454 ≠ total 2,987,227; difference shown as Other.
 - ADT: proxy 4/14/2026: Donald M. Young 2024: components 12,381,262 ≠ total 6,190,631; difference shown as Other.
 - ADT: proxy 4/14/2026: Donald M. Young 2023: components 3,837,458 ≠ total 1,918,729; difference shown as Other.
+- ADTN: Thomas R. Stanton 2024: table read total 3,819,284; the filing tags the CEO's total as 3,973,485 — corrected
 - AAP: proxy 3/21/2025: Shane M. O'Kelly 2024: components 7,380,449 ≠ total 129,464; difference shown as Other.
 - AAP: proxy 3/21/2025: Shane M. O'Kelly 2023: components 1,302,885 ≠ total 9,439,086; difference shown as Other.
 - AAP: proxy 3/21/2025: Ryan P. Grimsland 2024: components 732,375 ≠ total 2,814,194; difference shown as Other.
 - AAP: proxy 4/8/2024: Shane M. O'Kelly 2023: components 4,896,478 ≠ total 19,108; difference shown as Other.
 - AAP: proxy 4/8/2024: Thomas R. Greco 2023: components 1,125,000 ≠ total 4,139,044; difference shown as Other.
 - AAP: proxy 4/8/2024: Thomas R. Greco 2022: components 1,870,911 ≠ total 8,384,948; difference shown as Other.
+- AEIS: Stephen Kelley 2023: table read total 8,607,231; the filing tags the CEO's total as 8,296,122 — corrected
+- AEIS: Stephen Kelley 2022: table read total 7,666,604; the filing tags the CEO's total as 7,484,931 — corrected
 - AFCG: proxy 4/17/2026: no compensation table recognised
 - AFCG: proxy 9/16/2025: no compensation table recognised
 - AEHR: proxy 9/23/2022: Gayn Erickson 2022: components 975,251 ≠ total 4,203,614; difference shown as Other.
@@ -5674,6 +5685,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - AFRM: proxy 10/25/2024: Libor Michalek 2022: components 14,317,339 ≠ total 7,347,345; difference shown as Other.
 - AFL: proxy 3/19/2026: Bradley E. Dyslin 2023: components 7,088,510 ≠ total 4,313,447; difference shown as Other.
 - AFL: proxy 3/19/2026: Virgil R. Miller 2024: components 5,355,686 ≠ total 3,613,104; difference shown as Other.
+- AFL: Daniel P. Amos 2023: table read total 17,982,988; the filing tags the CEO's total as 20,703,253 — corrected
 - AGCO: proxy 3/25/2024: Luis F.S. Felli 2023: components 3,881,644 ≠ total 2,485,223; difference shown as Other.
 - AGCO: proxy 3/27/2023: Andrew H. Beck 2020: components 4,972,825 ≠ total 5,129,162; difference shown as Other.
 - AGCO: proxy 3/27/2023: Robert B. Crain 2020: components 4,246,671 ≠ total 4,372,233; difference shown as Other.
@@ -5687,12 +5699,15 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - A: proxy 1/31/2025: Padraig McDonnell 2022: components 3,162,314 ≠ total 4,790,676; difference shown as Other.
 - AGL: proxy 4/14/2023: Timothy Bensley 2022: components 2,706,349 ≠ total 2,706; difference shown as Other.
 - AGL: proxy 4/14/2023: left out 1 row(s) that can't be right (Timothy Bensley 2022: salary 2,706, total 2,706)
+- AGL: Steven J. Sell 2022: table read total 5,789,157; the filing tags the CEO's total as 8,039,173 — corrected
 - AGYS: proxy 7/16/2026: no compensation table recognised
 - AGYS: proxy 7/18/2025: no compensation table recognised
 - AGYS: proxy 7/26/2024: no compensation table recognised
 - AGYS: proxy 7/13/2023: no compensation table recognised
 - AGYS: proxy 7/19/2022: no compensation table recognised
+- AGNT: Glenn Sanford 2022: table read total 1,711,519; the filing tags the CEO's total as 1,774,464 — corrected
 - AIFC: proxy 9/26/2025: no compensation table recognised
+- AIFC: Tony Isaac 2024: table read total 1,068,000, but the filing tags the CEO's total as 700,459; row left out
 - AIB: proxy 4/29/2026: no compensation table recognised
 - AIM: proxy 6/25/2026: no compensation table recognised
 - AIM: proxy 4/2/2025: no compensation table recognised
@@ -5714,10 +5729,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - AISP: proxy 11/28/2022: no compensation table recognised
 - YYAI: proxy 4/6/2026: Thomas Tarala 2025: components 320,000 ≠ total 1,620,000; difference shown as Other.
 - YYAI: proxy 8/11/2023: no compensation table recognised
-- AIXC: proxy 12/15/2025: no compensation table recognised
-- AIXC: proxy 10/20/2025: no compensation table recognised
-- AIXC: proxy 9/10/2024: no compensation table recognised
-- AIXC: proxy 7/13/2022: no compensation table recognised
+- YYAI: Thomas Tarala 2025: table read total 1,620,000; the filing tags the CEO's total as 2,520,000 — corrected
 - AKAM: proxy 3/31/2026: no compensation table recognised
 - AKAM: proxy 4/1/2025: no compensation table recognised
 - AKAM: proxy 3/28/2024: no compensation table recognised
@@ -5727,6 +5739,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - AKTX: proxy 11/17/2025: no compensation table recognised
 - AKBA: proxy 4/28/2023: no compensation table recognised
 - AKBA: proxy 3/1/2023: no compensation table recognised
+- AKBA: John P. Butler 2022: table read total 3,072,538; the filing tags the CEO's total as 3,036,388 — corrected
 - ALG: proxy 3/17/2022: no compensation table recognised
 - TCRT: proxy 5/21/2025: Kevin S. Boyle, Sr. 2023: components 887,836 ≠ total 1,986,946; difference shown as Other.
 - TCRT: proxy 4/27/2022: Raffaele Baffa 2020: components 1,513,584 ≠ total 1,673,584; difference shown as Other.
@@ -5753,6 +5766,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - ALX: proxy 4/8/2022: no compensation table recognised
 - RIME: proxy 12/19/2024: no compensation table recognised
 - ALCO: proxy 1/15/2025: Brad Heine 2023: components 45,336 ≠ total 46,615; difference shown as Other.
+- ALCO: John E. Kiernan 2023: table read total 952,442; the filing tags the CEO's total as 840,943 — corrected
 - ALIT: proxy 6/4/2024: Martin T. Felli 2023: components 6,515,548 ≠ total 3,257,774; difference shown as Other.
 - ALIT: proxy 4/5/2023: Cesar Jelvez 2020: components 2,768,044 ≠ total 3; difference shown as Other.
 - ALIT: proxy 4/5/2023: left out 1 row(s) that can't be right (Cesar Jelvez 2020: salary 3, total 3)
@@ -5761,8 +5775,12 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - ALHC: proxy 4/26/2024: no compensation table recognised
 - ALHC: proxy 4/26/2023: no compensation table recognised
 - ALHC: proxy 4/28/2022: no compensation table recognised
+- ALKT: Alex Shootman 2025: table read total 7,492,018; the filing tags the CEO's total as 7,781,711 — corrected
+- ALKT: Alex Shootman 2024: table read total 7,781,711, but the filing tags the CEO's total as 4,306,036; row left out
+- ALKT: Alex Shootman 2023: the filing tags the CEO's total as 998,299, far from the table's 4,306,036; kept the table figure
 - AIFA: proxy 5/21/2026: no compensation table recognised
 - AIFA: proxy 1/9/2026: no compensation table recognised
+- AIFA: Yinghua Chen 2025: the filing tags the CEO's total as 37, far from the table's 255,000; kept the table figure
 - ALLR: proxy 4/30/2025: James G. Cullem 2024: components 338,315 ≠ total 249,155; difference shown as Other.
 - ALLR: proxy 4/30/2025: Steen Knudsen 2024: components 197,311 ≠ total 140,937; difference shown as Other.
 - ALLR: proxy 4/30/2025: Jeremy R. Graff 2024: components 519,174 ≠ total 447,923; difference shown as Other.
@@ -5778,6 +5796,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - ALLO: proxy 4/30/2026: David Chang 2024: components 7,947,456 ≠ total 3,465,248; difference shown as Other.
 - ALLO: proxy 4/30/2026: Zachary J. Roberts 2025: components 2,325,114 ≠ total 1,987,723; difference shown as Other.
 - ALLO: proxy 4/30/2026: Zachary J. Roberts 2024: components 4,441,514 ≠ total 2,220,757; difference shown as Other.
+- ALLO: David Chang 2024: table read total 3,465,248; the filing tags the CEO's total as 4,482,208 — corrected
 - ALL: proxy 4/10/2026: Thomas J. Wilson 2025: components 35,272,683 ≠ total 22,920,898; difference shown as Other.
 - ALL: proxy 4/10/2026: Thomas J. Wilson 2024: components 40,061,211 ≠ total 26,147,468; difference shown as Other.
 - ALL: proxy 4/10/2026: Thomas J. Wilson 2023: components 25,756,122 ≠ total 16,487,957; difference shown as Other.
@@ -5810,7 +5829,6 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - AEI: proxy 10/24/2022: no compensation table recognised
 - AEI: proxy 4/25/2022: no compensation table recognised
 - ALTI: proxy 4/30/2026: Colleen Graham 2025: components 3,957,687 ≠ total 3,907,687; difference shown as Other.
-- ALXO: proxy 4/22/2022: Steffen Pietzke 2020: components 1,526,153 ≠ total 1,562,865; difference shown as Other.
 - AMAL: proxy 3/21/2022: no compensation table recognised
 - AMZE: proxy 11/13/2025: no compensation table recognised
 - AMZE: proxy 5/7/2025: left out 1 row(s) that can't be right (Michael Pruitt 2023: salary 0, total 8,780)
@@ -5910,8 +5928,6 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - ANDE: proxy 3/11/2026: William E. Krueger 2025: components 4,288,739 ≠ total 5,472,539; difference shown as Other.
 - ANDE: proxy 3/11/2026: William E. Krueger 2024: components 3,725,262 ≠ total 4,835,199; difference shown as Other.
 - ANDE: proxy 3/11/2026: William E. Krueger 2023: components 3,712,588 ≠ total 5,346,588; difference shown as Other.
-- AOMR: proxy 4/1/2026: left out 1 row(s) that can't be right (Sreeniwas Prabhu 2024: salary 0, total 3,368)
-- AOMR: proxy 4/2/2025: left out 1 row(s) that can't be right (Sreeniwas Prabhu 2024: salary 0, total 3,368)
 - ANGX: proxy 10/2/2024: no compensation table recognised
 - ANGX: proxy 3/7/2024: no compensation table recognised
 - ANGX: proxy 5/22/2023: no compensation table recognised
@@ -5959,19 +5975,19 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - ATR: proxy 3/25/2022: Stephan B. Tanda 2021: components 9,145,238 ≠ total 9,379,483; difference shown as Other.
 - ATR: proxy 3/25/2022: Stephan B. Tanda 2020: components 6,255,627 ≠ total 7,018,822; difference shown as Other.
 - ATR: proxy 3/25/2022: Stephan B. Tanda 2019: components 7,674,013 ≠ total 8,447,909; difference shown as Other.
-- APVO: proxy 8/31/2026: no compensation table recognised
-- APVO: proxy 1/26/2026: no compensation table recognised
-- APVO: proxy 4/25/2025: no compensation table recognised
 - AQMS: proxy 6/23/2025: table read as thousands of dollars (every total was under $25,000)
 - AQMS: proxy 9/27/2024: no compensation table recognised
 - AQMS: proxy 4/16/2024: table read as thousands of dollars (every total was under $25,000)
 - AQMS: proxy 4/5/2023: table read as thousands of dollars (every total was under $25,000)
 - AQB: proxy 9/1/2023: no compensation table recognised
+- AQB: D. Melbourne 2024: table read total 314,546; the filing tags the CEO's total as 439,799 — corrected
 - AQST: proxy 4/28/2023: Lori J. Braender 2022: components 947,393 ≠ total 935,909; difference shown as Other.
+- AQST: Daniel Barber 2023: table read total 2,416,088; the filing tags the CEO's total as 2,496,141 — corrected
 - ARMK: proxy 12/12/2024: James Tarangelo 2024: components 1,118,923 ≠ total 2,821,138; difference shown as Other.
 - RKDA: proxy 1/6/2023: no compensation table recognised
 - ACHR: proxy 11/14/2024: no compensation table recognised
 - ARCT: proxy 5/2/2022: Steven Hughes 2019: components 548,873 ≠ total 299,873; difference shown as Other.
+- ARDX: Michael Raab 2023: table read total 4,118,144; the filing tags the CEO's total as 4,113,194 — corrected
 - ZARE: proxy 4/14/2026: no compensation table recognised
 - ZARE: proxy 4/7/2025: no compensation table recognised
 - ZARE: proxy 4/10/2024: no compensation table recognised
@@ -5980,7 +5996,9 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - AGX: proxy 4/30/2024: no compensation table recognised
 - ARHS: proxy 3/30/2023: no compensation table recognised
 - ARHS: proxy 4/4/2022: no compensation table recognised
-- ARMP: proxy 4/29/2024: left out 1 row(s) that can't be right (Brian Varnum 2023: salary 331,002, total 634,140)
+- ARHS: John Reed 2025: table read total 4,175,276; the filing tags the CEO's total as 4,649,751 — corrected
+- ARHS: John Reed 2024: the filing tags the CEO's total as 2,257,528, far from the table's 877,958; kept the table figure
+- ARHS: John Reed 2023: table read total 2,130,453; the filing tags the CEO's total as 2,873,977 — corrected
 - AWI: proxy 4/27/2022: Ellen R. Romano 2021: components 1,197,203 ≠ total 912,939; difference shown as Other.
 - AD: proxy 4/9/2024: Laurent C. Therivel 2022: components 13,066,876 ≠ total 6,908,886; difference shown as Other.
 - ARW: proxy 3/30/2026: William F. Austen 2025: components 8,694,590 ≠ total 4,347,295; difference shown as Other.
@@ -6019,6 +6037,10 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - APAM: proxy 4/18/2022: Eric R. Colson 2021: components 6,000,000 ≠ total 7,924,716; difference shown as Other.
 - APAM: proxy 4/18/2022: Eric R. Colson 2020: components 5,725,000 ≠ total 7,659,599; difference shown as Other.
 - APAM: proxy 4/18/2022: Eric R. Colson 2019: components 5,250,000 ≠ total 6,823,500; difference shown as Other.
+- APAM: Eric R. Colson 2025: table read total 7,098,708; the filing tags the CEO's total as 7,244,256 — corrected
+- APAM: Eric R. Colson 2024: table read total 6,991,880; the filing tags the CEO's total as 6,789,609 — corrected
+- APAM: Eric R. Colson 2023: table read total 6,006,868; the filing tags the CEO's total as 6,670,285 — corrected
+- APAM: Eric R. Colson 2022: table read total 6,729,080; the filing tags the CEO's total as 6,756,387 — corrected
 - ARTV: proxy 4/29/2025: Fred Aslan 2024: components 621,583 ≠ total 7,827,554; difference shown as Other.
 - ARTV: proxy 4/29/2025: Jennifer Bush 2024: components 478,194 ≠ total 1,505,605; difference shown as Other.
 - ARTV: proxy 4/29/2025: Neha Krishnamohan 2024: components 340,879 ≠ total 2,176,102; difference shown as Other.
@@ -6036,13 +6058,19 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - ASH: proxy 12/6/2022: J. Kevin Willis 2022: components 4,142,844 ≠ total 2,770,444; difference shown as Other.
 - ASH: proxy 12/6/2022: J. Kevin Willis 2021: components 2,931,298 ≠ total 2,834,614; difference shown as Other.
 - ASH: proxy 12/7/2021: J. Kevin Willis 2021: components 2,931,298 ≠ total 2,834,614; difference shown as Other.
+- ASH: Guillermo Novo 2025: table read total 7,907,423; the filing tags the CEO's total as 7,868,591 — corrected
+- ASH: Guillermo Novo 2024: table read total 8,981,991; the filing tags the CEO's total as 8,730,361 — corrected
+- ASH: Guillermo Novo 2023: table read total 6,957,914; the filing tags the CEO's total as 6,971,609 — corrected
+- ASH: Guillermo Novo 2021: table read total 7,524,422; the filing tags the CEO's total as 7,597,903 — corrected
 - ASPI: proxy 11/25/2025: no compensation table recognised
 - ASPI: proxy 10/21/2024: no compensation table recognised
 - ASPI: proxy 11/2/2023: no compensation table recognised
 - ASPN: proxy 4/21/2022: Kelley W. Conte 2020: components 540,079 ≠ total 549,841; difference shown as Other.
+- ASPN: Donald R. Young 2022: table read total 2,363,418; the filing tags the CEO's total as 2,378,906 — corrected
 - AWHL: proxy 4/11/2025: Minh Merchant 2024: components 209,470 ≠ total 159,470; difference shown as Other.
 - AWHL: proxy 4/11/2025: Minh Merchant 2023: components 512,501 ≠ total 562,501; difference shown as Other.
 - AWHL: proxy 12/28/2022: no compensation table recognised
+- AWHL: Nicole Sandford 2022: table read total 604,256; the filing tags the CEO's total as 505,005 — corrected
 - ASBP: proxy 5/8/2026: no compensation table recognised
 - ASBP: proxy 2/24/2026: no compensation table recognised
 - ASBP: proxy 9/23/2025: no compensation table recognised
@@ -6054,9 +6082,11 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - ASTS: proxy 7/6/2023: left out 1 row(s) that can't be right (Abel Avellan 2021: salary 8,995, total 8,995)
 - ASTS: proxy 8/5/2022: left out 1 row(s) that can't be right (Abel Avellan 2021: salary 8,995, total 8,995)
 - ASTE: proxy 3/12/2024: Rebecca A. Weyenberg 2023: components 1,817,758 ≠ total 1,187,758; difference shown as Other.
+- ATRO: Peter J. Gundermann 2020: the filing tags the CEO's total as 2,784,517, far from the table's 831,216; kept the table figure
 - ASTC: proxy 10/28/2025: Thomas B. Pickens III 2025: components 659,851 ≠ total 954,851; difference shown as Other.
 - ATRA: proxy 4/24/2026: no compensation table recognised
 - ATI: proxy 3/27/2025: Kimberly A. Fields 2023: components 3,802,735 ≠ total 3,996,987; difference shown as Other.
+- ATI: Robert S. Wetherbee 2022: table read total 11,007,607; the filing tags the CEO's total as 10,996,223 — corrected
 - BATRA: proxy 4/2/2026: Gregory J. Heller 2025: components 4,896,762 ≠ total 4,451,051; difference shown as Other.
 - AUB: proxy 3/22/2022: David V. Ring 2021: components 992,851 ≠ total 922,851; difference shown as Other.
 - ATLC: proxy 4/10/2026: Jeffrey A. Howard 2024: components 1,812,375 ≠ total 2; difference shown as Other.
@@ -6070,7 +6100,6 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - ATMU: proxy 3/27/2024: Renee Swan 2023: components 3,391,492 ≠ total 1,757,066; difference shown as Other.
 - ATNI: proxy 4/29/2026: Justin M. Leon 2025: components 1,149,586 ≠ total 1,194,586; difference shown as Other.
 - ATOM: proxy 3/11/2022: Robert Mears 2020: components 641,682 ≠ total 845,452; difference shown as Other.
-- ATOS: proxy 12/22/2025: no compensation table recognised
 - ATRC: proxy 4/6/2026: Michael H. Carrel 2025: components 828,439 ≠ total 1,171,703; difference shown as Other.
 - ATRC: proxy 4/6/2026: Michael H. Carrel 2024: components 10,188,361 ≠ total 11,070,400; difference shown as Other.
 - ATRC: proxy 4/6/2026: Michael H. Carrel 2023: components 7,555,975 ≠ total 8,749,289; difference shown as Other.
@@ -6142,8 +6171,10 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - AVT: proxy 10/2/2023: Ken E. Arnold 2021: components 1,359,574 ≠ total 1,402,381; difference shown as Other.
 - AVT: proxy 10/3/2022: Ken E. Arnold 2021: components 1,359,574 ≠ total 1,402,381; difference shown as Other.
 - AVT: proxy 10/7/2021: Ken E. Arnold 2021: components 1,359,574 ≠ total 1,402,381; difference shown as Other.
+- ACLS: Russell J. Low 2023: table read total 4,150,974; the filing tags the CEO's total as 4,135,438 — corrected
 - AGPU: proxy 8/18/2025: no compensation table recognised
 - AGPU: proxy 3/29/2023: no compensation table recognised
+- AXON: Patrick Smith 2022: table read total 33,203; the filing tags the CEO's total as 34,291 — corrected
 - AXTI: proxy 3/31/2026: Morris S. Young 2025: components 1,500,504 ≠ total 1,673,404; difference shown as Other.
 - AXTI: proxy 3/31/2026: Morris S. Young 2024: components 920,841 ≠ total 1,060,841; difference shown as Other.
 - AXTI: proxy 3/31/2026: Gary L. Fischer 2025: components 758,286 ≠ total 839,526; difference shown as Other.
@@ -6158,6 +6189,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - AXTI: proxy 4/8/2022: Morris S. Young 2021: components 2,371,108 ≠ total 2,836,108; difference shown as Other.
 - AXTI: proxy 4/8/2022: Morris S. Young 2020: components 944,531 ≠ total 1,304,531; difference shown as Other.
 - AXTI: proxy 4/8/2022: Morris S. Young 2019: components 1,994,466 ≠ total 2,121,866; difference shown as Other.
+- AXTI: Morris S. Young 2024: table read total 1,060,841; the filing tags the CEO's total as 920,841 — corrected
 - AYTU: proxy 4/7/2023: Joshua R. Disbrow 2021: components 1,007,203 ≠ total 6,199,203; difference shown as Other.
 - AYTU: proxy 4/7/2023: Mark K Oki 2022: components 217,596 ≠ total 352,596; difference shown as Other.
 - AYTU: proxy 4/7/2023: Richard Eisenstadt 2021: components 326,934 ≠ total 782,881; difference shown as Other.
@@ -6179,12 +6211,14 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - BLZE: proxy 4/14/2025: Gleb Budman 2023: components 614,185 ≠ total 641,185; difference shown as Other.
 - BKR: proxy 3/30/2026: Lorenzo Simonelli 2024: components 20,239,220 ≠ total 19,897,221; difference shown as Other.
 - BKR: proxy 3/31/2025: Lorenzo Simonelli 2024: components 20,239,220 ≠ total 19,897,221; difference shown as Other.
+- BKR: Lorenzo Simonelli 2023: table read total 22,186,164; the filing tags the CEO's total as 21,680,736 — corrected
 - BKKT: proxy 4/30/2026: Karen Alexander 2024: components 1,959,692 ≠ total 979,846; difference shown as Other.
 - BKKT: proxy 4/30/2026: Karen Alexander 2023: components 1,489,104 ≠ total 944,552; difference shown as Other.
 - BKKT: proxy 4/30/2026: Andrew Main 2025: components 12,320,530 ≠ total 6,160,265; difference shown as Other.
 - BKKT: proxy 9/9/2025: no compensation table recognised
 - BKKT: proxy 7/16/2025: no compensation table recognised
 - BKKT: proxy 4/19/2024: no compensation table recognised
+- BCPC: Ted Harris 2022: table read total 11,948,265; the filing tags the CEO's total as 11,851,472 — corrected
 - BALL: proxy 3/16/2023: Scott C. Morrison 2022: components 3,350,336 ≠ total 3,650,336; difference shown as Other.
 - BANC: proxy 3/28/2024: left out 1 row(s) that can't be right (Lynn Hopkins 2023: salary 111,562, total 632,438)
 - BANF: proxy 4/3/2026: David R. Harlow 2025: components 826,378 ≠ total 1,007,628; difference shown as Other.
@@ -6203,17 +6237,12 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - BANF: proxy 4/5/2022: David R. Harlow 2020: components 1,358,109 ≠ total 1,451,109; difference shown as Other.
 - BANF: proxy 4/5/2022: David R. Harlow 2019: components 604,282 ≠ total 711,282; difference shown as Other.
 - BAND: proxy 4/9/2024: Rebecca G. Bottorff 2023: components 383,943 ≠ total 1,330,685; difference shown as Other.
+- BAND: David A. Morken 2024: table read total 2,093,184; the filing tags the CEO's total as 2,073,558 — corrected
 - BFC: proxy 4/25/2025: Michael B. Molepske 2024: components 1,278,245 ≠ total 1,699,536; difference shown as Other.
 - BFC: proxy 4/25/2025: Michael B. Molepske 2023: components 1,084,030 ≠ total 1,434,645; difference shown as Other.
 - BFC: proxy 4/25/2025: Michael B. Molepske 2022: components 991,072 ≠ total 1,331,475; difference shown as Other.
 - BFC: proxy 4/16/2021: no compensation table recognised
 - BOTJ: proxy 4/7/2022: Harry P. Umberger 2021: components 315,016 ≠ total 60,000; difference shown as Other.
-- BANR: proxy 4/9/2024: James M. Costa 2023: components 423,383 ≠ total 332,729; difference shown as Other.
-- BANR: proxy 4/9/2024: James P. G. McLean 2022: components 327,558 ≠ total 170,685; difference shown as Other.
-- BANR: proxy 4/9/2024: James P. G. McLean 2021: components 316,594 ≠ total 141,729; difference shown as Other.
-- BANR: proxy 4/7/2022: Cynthia D. Purcell 2021: components 1,002,649 ≠ total 897,972; difference shown as Other.
-- BANR: proxy 4/7/2022: Cynthia D. Purcell 2020: components 1,096,239 ≠ total 920,472; difference shown as Other.
-- BANR: proxy 4/7/2022: Cynthia D. Purcell 2019: components 1,077,279 ≠ total 796,023; difference shown as Other.
 - PARA: proxy 4/17/2026: no compensation table recognised
 - PARA: proxy 6/18/2025: no compensation table recognised
 - PARA: proxy 2/18/2025: Joseph P. Davy 2024: components 818,216 ≠ total 318,216; difference shown as Other.
@@ -6269,6 +6298,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - BDC: proxy 4/7/2022: Roel Vestjens 2021: components 4,751,406 ≠ total 6,831,323; difference shown as Other.
 - BDC: proxy 4/7/2022: Roel Vestjens 2020: components 1,755,939 ≠ total 2,648,191; difference shown as Other.
 - BDC: proxy 4/7/2022: Roel Vestjens 2019: components 1,218,601 ≠ total 1,466,450; difference shown as Other.
+- BRBR: Darcy Horn Davenport 2023: table read total 6,801,904, but the filing tags the CEO's total as 4,321,300; row left out
 - OZ: proxy 8/27/2026: no compensation table recognised
 - OZ: proxy 7/28/2025: no compensation table recognised
 - OZ: proxy 11/5/2024: no compensation table recognised
@@ -6299,6 +6329,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - BGDE: proxy 12/23/2022: no compensation table recognised
 - BBAI: proxy 10/17/2025: no compensation table recognised
 - BBAI: proxy 3/13/2025: no compensation table recognised
+- BBAI: Amanda Long 2025: table read total 1,297,102; the filing tags the CEO's total as 1,558,820 — corrected
 - BESS: proxy 12/15/2020: no compensation table recognised
 - BESS: proxy 9/19/2018: no compensation table recognised
 - BESS: proxy 9/20/2017: no compensation table recognised
@@ -6315,7 +6346,6 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - BIAF: proxy 11/7/2025: no compensation table recognised
 - BIAF: proxy 11/22/2024: no compensation table recognised
 - BIAF: proxy 9/5/2024: no compensation table recognised
-- BCAB: proxy 12/5/2025: no compensation table recognised
 - BCDA: proxy 4/30/2021: Peter Altman 2019: components 747,085 ≠ total 671,790; difference shown as Other.
 - BCDA: proxy 4/30/2021: David McClung 2019: components 470,735 ≠ total 417,087; difference shown as Other.
 - BCDA: proxy 4/30/2021: Henricus Duckers 2019: components 517,971 ≠ total 524,186; difference shown as Other.
@@ -6332,8 +6362,6 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - BTMD: proxy 4/2/2026: Teresa S. Weber 2025: components 86,162 ≠ total 945,910; difference shown as Other.
 - BTMD: proxy 4/2/2026: Teresa S. Weber 2024: components 618,643 ≠ total 3,821,727; difference shown as Other.
 - BVS: proxy 4/22/2025: Anthony Bihl, III 2023: components 2,286,554 ≠ total 1,614,108; difference shown as Other.
-- BIVI: proxy 6/2/2025: no compensation table recognised
-- BIVI: proxy 6/17/2024: no compensation table recognised
 - BTAI: proxy 12/30/2024: no compensation table recognised
 - BCHT: proxy 11/27/2024: no compensation table recognised
 - BCHT: proxy 11/3/2023: no compensation table recognised
@@ -6413,19 +6441,18 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - BDCO: proxy 4/28/2022: no compensation table recognised
 - BRBS: proxy 5/7/2024: no compensation table recognised
 - BRBS: proxy 1/24/2024: no compensation table recognised
-- BJDX: proxy 9/10/2024: no compensation table recognised
-- BJDX: proxy 7/16/2024: no compensation table recognised
 - BXC: proxy 4/10/2025: Tricia Kinney 2023: components 639,516 ≠ total 780,476; difference shown as Other.
 - BHM: proxy 4/14/2026: no compensation table recognised
 - BHM: proxy 4/15/2025: no compensation table recognised
 - BHM: proxy 4/16/2024: no compensation table recognised
 - BHM: proxy 4/14/2023: no compensation table recognised
+- BA: David L. Calhoun 2022: table read total 22,597,178; the filing tags the CEO's total as 22,480,396 — corrected
 - BSBK: proxy 4/4/2023: Kevin Pace 2021: components 1,024,400 ≠ total 1,069,495; difference shown as Other.
 - BSBK: proxy 4/4/2023: Brian McCourt 2021: components 1,028,485 ≠ total 1,045,540; difference shown as Other.
-- BBLG: proxy 11/20/2023: no compensation table recognised
 - BNKK: proxy 10/6/2025: no compensation table recognised
 - BNKK: proxy 11/9/2023: Richard Miller 2021: components 230,831 ≠ total 124,000; difference shown as Other.
 - BNKK: proxy 11/29/2022: Glynn Wilson 2021: components 346,875 ≠ total 366,875; difference shown as Other.
+- BKNG: Glenn D. Fogel 2022: table read total 31,519,648; the filing tags the CEO's total as 30,774,922 — corrected
 - BAH: proxy 6/11/2026: no compensation table recognised
 - BAH: proxy 6/12/2025: no compensation table recognised
 - BAH: proxy 6/13/2024: no compensation table recognised
@@ -6434,8 +6461,11 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - BRLS: proxy 6/2/2026: no compensation table recognised
 - BRLS: proxy 11/20/2023: no compensation table recognised
 - BRLS: proxy 2/10/2023: no compensation table recognised
+- BWA: Frédéric B. Lissalde 2023: table read total 19,152,545; the filing tags the CEO's total as 19,308,195 — corrected
+- BWA: Frédéric B. Lissalde 2022: table read total 17,724,227; the filing tags the CEO's total as 17,860,730 — corrected
 - SAM: proxy 4/10/2026: left out 1 row(s) that can't be right (Jim Koch 2025: salary 0, total 5,695)
 - BOC: proxy 6/30/2025: Alex B. Rozek 2024: components 3,609,462 ≠ total 3,879,462; difference shown as Other.
+- BOC: Alex B. Rozek 2024: table read total 3,879,462; the filing tags the CEO's total as 3,246,962 — corrected
 - BSX: proxy 3/19/2025: Arthur C. Butcher 2023: components 5,528,239 ≠ total 4,256,164; difference shown as Other.
 - BSX: proxy 3/19/2025: Arthur C. Butcher 2022: components 7,391,280 ≠ total 5,956,967; difference shown as Other.
 - BSX: proxy 3/20/2024: Arthur C. Butcher 2022: components 7,391,280 ≠ total 5,956,967; difference shown as Other.
@@ -6472,6 +6502,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - BDN: proxy 3/31/2022: Gerard H. Sweeney 2021: components 2,714,038 ≠ total 6,089,044; difference shown as Other.
 - BDN: proxy 3/31/2022: Gerard H. Sweeney 2020: components 2,113,948 ≠ total 5,301,445; difference shown as Other.
 - BDN: proxy 3/31/2022: Gerard H. Sweeney 2019: components 2,467,701 ≠ total 5,335,186; difference shown as Other.
+- BDN: Gerard H. Sweeney 2023: table read total 6,102,885; the filing tags the CEO's total as 6,012,885 — corrected
 - RILY: proxy 4/19/2022: no compensation table recognised
 - BAER: proxy 4/29/2024: Timothy Sheehy 2023: components 37,965,650 ≠ total 20,212,815; difference shown as Other.
 - BAER: proxy 4/29/2024: James Muchmore 2023: components 15,570,622 ≠ total 10,152,961; difference shown as Other.
@@ -6502,6 +6533,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - BCO: proxy 3/23/2022: Douglas A. Pertz 2021: components 10,163,920 ≠ total 11,405,920; difference shown as Other.
 - BCO: proxy 3/23/2022: Douglas A. Pertz 2020: components 12,585,539 ≠ total 13,901,789; difference shown as Other.
 - BCO: proxy 3/23/2022: Douglas A. Pertz 2019: components 7,091,439 ≠ total 8,401,209; difference shown as Other.
+- VTOL: Christopher S. Bradshaw 2022: table read total 4,415,807; the filing tags the CEO's total as 4,569,959 — corrected
 - BNL: proxy 3/20/2026: Kevin M. Fennell 2023: components 4,047,927 ≠ total 2,201,374; difference shown as Other.
 - BWEN: proxy 8/30/2024: no compensation table recognised
 - BF-B: proxy 6/20/2025: Lawson E. Whiting 2025: components 1,276,083 ≠ total 10,026,083; difference shown as Other.
@@ -6517,6 +6549,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - BC: proxy 3/20/2024: no compensation table recognised
 - BC: proxy 3/23/2023: no compensation table recognised
 - BC: proxy 3/18/2022: no compensation table recognised
+- BLDR: David E. Flitman 2022: table read total 6,377,169, but the filing tags the CEO's total as 5,965,326; row left out
 - BFRG: proxy 9/26/2025: no compensation table recognised
 - BFST: proxy 4/8/2026: David R. Melville, III 2025: components 1,714,076 ≠ total 2,582,764; difference shown as Other.
 - BFST: proxy 4/8/2026: David R. Melville, III 2024: components 2,294,788 ≠ total 3,116,949; difference shown as Other.
@@ -6524,9 +6557,12 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - BFST: proxy 4/9/2025: David R. Melville, III 2024: components 2,294,788 ≠ total 3,116,949; difference shown as Other.
 - BFST: proxy 4/9/2025: David R. Melville, III 2023: components 2,332,825 ≠ total 64,555; difference shown as Other.
 - BFST: proxy 4/9/2025: David R. Melville, III 2022: components 2,141,652 ≠ total 110,739; difference shown as Other.
+- BFST: David R. Melville, III 2021: table read total 1,927,166; the filing tags the CEO's total as 2,025,480 — corrected
 - BUKS: proxy 9/16/2024: table read as thousands of dollars (every total was under $25,000)
 - BUKS: proxy 8/24/2023: table read as thousands of dollars (every total was under $25,000)
 - BUKS: proxy 8/15/2022: no compensation table recognised
+- BWXT: Rex D. Geveden 2024: table read total 8,242,096; the filing tags the CEO's total as 8,201,636 — corrected
+- BWXT: Rex D. Geveden 2023: table read total 6,673,090; the filing tags the CEO's total as 5,833,085 — corrected
 - BYRN: proxy 9/2/2026: Bryan Ganz 2024: components 3,019,842 ≠ total 2,595,060; difference shown as Other.
 - CFFI: proxy 3/11/2026: Thomas F. Cherry 2025: components 1,079,950 ≠ total 1,471,984; difference shown as Other.
 - CFFI: proxy 3/11/2026: Thomas F. Cherry 2024: components 1,014,779 ≠ total 1,297,343; difference shown as Other.
@@ -6545,11 +6581,13 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - CFFI: proxy 3/11/2022: Thomas F. Cherry 2019: components 643,947 ≠ total 939,650; difference shown as Other.
 - CHRW: proxy 3/25/2025: Michael D. Castagnetto 2024: components 1,118,582 ≠ total 2,463,659; difference shown as Other.
 - AI: proxy 8/22/2024: Edward Y. Abbo 2022: components 64,528,694 ≠ total 32,264,347; difference shown as Other.
+- CCCC: Andrew J. Hirsch 2024: table read total 4,633,005; the filing tags the CEO's total as 5,239,784 — corrected
 - CBT: proxy 1/27/2026: Erica McLaughlin 2023: components 4,273,470 ≠ total 2,355,485; difference shown as Other.
 - CACI: proxy 9/6/2024: Jeffrey D. MacLauchlan 2023: components 7,395,194 ≠ total 3,697,597; difference shown as Other.
 - CACI: proxy 9/6/2024: Todd Probert 2022: components 8,185,656 ≠ total 4,092,828; difference shown as Other.
 - CDNS: proxy 3/25/2026: Paul Scannell 2024: components 4,994,992 ≠ total 5,172,527; difference shown as Other.
 - CDNS: proxy 3/25/2025: Paul Scannell 2024: components 4,994,992 ≠ total 5,172,527; difference shown as Other.
+- CDNS: Anirudh Devgan 2025: table read total 56,683,576; the filing tags the CEO's total as 56,547,667 — corrected
 - CDZI: proxy 4/30/2026: no compensation table recognised
 - CDZI: proxy 4/26/2024: no compensation table recognised
 - CDZI: proxy 4/28/2023: no compensation table recognised
@@ -6561,8 +6599,6 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - CWD: proxy 1/7/2026: no compensation table recognised
 - CWD: proxy 4/8/2025: no compensation table recognised
 - CWD: proxy 3/27/2025: no compensation table recognised
-- CLDI: proxy 5/9/2024: no compensation table recognised
-- CLDI: proxy 8/23/2022: no compensation table recognised
 - BCAL: proxy 4/14/2026: no compensation table recognised
 - CRC: proxy 3/19/2025: Michael L. Preston 2022: components 1,377,757 ≠ total 1,407,801; difference shown as Other.
 - CRC: proxy 3/21/2024: Michael L. Preston 2022: components 1,377,757 ≠ total 1,407,801; difference shown as Other.
@@ -6607,9 +6643,11 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - CCBG: proxy 3/15/2023: William G. Smith, Jr. 2021: components 2,049,162 ≠ total 1,238,364; difference shown as Other.
 - CCBG: proxy 3/15/2023: William G. Smith, Jr. 2020: components 2,126,772 ≠ total 2,637,979; difference shown as Other.
 - CCBG: proxy 3/17/2022: Thomas A. Barron 2021: components 811,621 ≠ total 787,751; difference shown as Other.
+- CCBG: William G. Smith, Jr. 2023: table read total 1,884,634; the filing tags the CEO's total as 1,890,467 — corrected
 - CFFN: proxy 12/18/2025: John B. Dicus 2025: components 794,770 ≠ total 1,324,805; difference shown as Other.
 - CFFN: proxy 12/18/2025: John B. Dicus 2024: components 765,539 ≠ total 1,014,121; difference shown as Other.
 - CFFN: proxy 12/18/2025: John B. Dicus 2023: components 742,939 ≠ total 862,031; difference shown as Other.
+- CAPR: Linda Marbán 2023: table read total 774,300, but the filing tags the CEO's total as 747,315; row left out
 - CAPS: proxy 7/10/2019: left out 1 row(s) that can't be right (Randolph C. Steer 2016: salary 4,000, total 4,000)
 - CRDF: proxy 8/26/2026: no compensation table recognised
 - CDIO: proxy 5/3/2023: no compensation table recognised
@@ -6639,6 +6677,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - RNAC: proxy 8/16/2024: no compensation table recognised
 - RNAC: proxy 2/14/2024: no compensation table recognised
 - CASS: proxy 3/8/2023: no compensation table recognised
+- CASS: Eric H. Brunngraber 2022: table read total 2,378,274; the filing tags the CEO's total as 2,277,000 — corrected
 - CTM: proxy 4/7/2026: David T. Bell 2024: components 2,683,955 ≠ total 2,653,764; difference shown as Other.
 - CTM: proxy 4/11/2025: David T. Bell 2024: components 2,683,955 ≠ total 2,653,764; difference shown as Other.
 - CSTL: proxy 4/9/2025: Frank Stokes 2024: components 4,186,347 ≠ total 2,306,525; difference shown as Other.
@@ -6670,6 +6709,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - CELH: proxy 4/21/2022: John Fieldly 2021: components 12,559,089 ≠ total 12,214,089; difference shown as Other.
 - CELH: proxy 4/21/2022: John Fieldly 2019: components 2,141,014 ≠ total 1,741,014; difference shown as Other.
 - CELH: proxy 4/21/2022: Edwin Negron-Carballo 2021: components 2,721,340 ≠ total 2,676,340; difference shown as Other.
+- CELH: John Fieldly 2025: table read total 9,607,616; the filing tags the CEO's total as 9,586,642 — corrected
 - CELU: proxy 2/2/2024: no compensation table recognised
 - CETX: proxy 3/26/2026: no compensation table recognised
 - CETX: proxy 3/27/2025: no compensation table recognised
@@ -6683,6 +6723,8 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - CNP: proxy 3/10/2023: Scott E. Doyle 2022: components 2,273,270 ≠ total 2,034,702; difference shown as Other.
 - CNP: proxy 3/10/2023: Gregory E. Knight 2022: components 2,236,807 ≠ total 2,205,487; difference shown as Other.
 - CNP: proxy 3/10/2023: Gregory E. Knight 2021: components 1,904,946 ≠ total 1,866,547; difference shown as Other.
+- CNP: Jason P. Wells 2024: table read total 9,250,795; the filing tags the CEO's total as 9,231,166 — corrected
+- CNP: David J. Lesar 2022: table read total 13,943,974; the filing tags the CEO's total as 13,868,875 — corrected
 - CSR: proxy 4/3/2026: Anne Olson 2025: components 617,500 ≠ total 3,105,197; difference shown as Other.
 - CSR: proxy 4/3/2026: Anne Olson 2024: components 592,250 ≠ total 2,992,339; difference shown as Other.
 - CSR: proxy 4/3/2026: Anne Olson 2023: components 673,963 ≠ total 2,209,687; difference shown as Other.
@@ -6702,11 +6744,14 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - CPBI: proxy 10/24/2024: Steven D. Kunzman 2024: components 231,986 ≠ total 385,027; difference shown as Other.
 - CPBI: proxy 10/24/2024: Steven D. Kunzman 2023: components 223,867 ≠ total 327,810; difference shown as Other.
 - CPBI: proxy 10/24/2024: Kurt A. Haecker 2024: components 180,249 ≠ total 282,754; difference shown as Other.
+- LEU: Daniel B. Poneman 2023: the filing tags the CEO's total as 1,929,231, far from the table's 5,606,490; kept the table figure
 - CTRI: proxy 4/6/2026: Jason S. Wilcock 2023: components 542,258 ≠ total 1,419,639; difference shown as Other.
 - CTRI: proxy 3/5/2025: Jason S. Wilcock 2023: components 927,553 ≠ total 1,419,639; difference shown as Other.
+- CNTY: Peter Hoetzinger 2023: table read total 3,446,059; the filing tags the CEO's total as 3,473,062 — corrected
 - IPSC: proxy 4/27/2026: Brent Pfeiffenberger 2025: components 3,064,022 ≠ total 2,381,022; difference shown as Other.
 - IPSC: proxy 12/2/2025: no compensation table recognised
 - CRNC: proxy 1/2/2026: Antonio Rodriquez 2025: components 10,743,653 ≠ total 5,735,685; difference shown as Other.
+- CRNC: Stefan Ortmanns 2024: table read total 832,937; the filing tags the CEO's total as 861,734 — corrected
 - CNSY: proxy 3/31/2026: no compensation table recognised
 - CNSY: proxy 7/21/2025: no compensation table recognised
 - CNSY: proxy 4/10/2025: no compensation table recognised
@@ -6739,6 +6784,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - CLDT: proxy 4/11/2022: Jeffrey H. Fisher 2021: components 2,350,251 ≠ total 4,737,901; difference shown as Other.
 - CLDT: proxy 4/11/2022: Jeffrey H. Fisher 2020: components 1,662,232 ≠ total 3,824,632; difference shown as Other.
 - CLDT: proxy 4/11/2022: Jeffrey H. Fisher 2019: components 2,476,864 ≠ total 4,639,264; difference shown as Other.
+- CLDT: Jeffrey H. Fisher 2023: table read total 5,254,928; the filing tags the CEO's total as 5,235,398 — corrected
 - CTNT: proxy 12/18/2025: no compensation table recognised
 - CTNT: proxy 8/30/2024: no compensation table recognised
 - CHE: proxy 4/6/2026: S.S. Lee 2025: components 3,168,735 ≠ total 3,208,764; difference shown as Other.
@@ -6748,20 +6794,20 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - CC: proxy 3/20/2025: Mark Newman 2022: components 7,524,587 ≠ total 1,024,400; difference shown as Other.
 - CC: proxy 3/11/2022: Mark Newman 2021: components 5,537,669 ≠ total 5,538; difference shown as Other.
 - CC: proxy 3/11/2022: left out 1 row(s) that can't be right (Mark Newman 2021: salary 5,538, total 5,538)
+- CC: Mark Newman 2023: the filing tags the CEO's total as 7,335,430, far from the table's 2,999,990; kept the table figure
 - CHMG: proxy 4/27/2023: Anders M. Tomson 2020: components 913,777 ≠ total 902,748; difference shown as Other.
 - CPK: proxy 3/26/2024: Jeffry M. Householder 2023: components 2,593,472 ≠ total 3,269,505; difference shown as Other.
 - CPK: proxy 3/26/2024: Jeffry M. Householder 2022: components 1,956,353 ≠ total 2,768,416; difference shown as Other.
 - CPK: proxy 3/26/2024: Jeffry M. Householder 2021: components 1,837,109 ≠ total 2,916,989; difference shown as Other.
+- CPK: Jeffry M. Householder 2023: table read total 3,428,139; the filing tags the CEO's total as 3,269,505 — corrected
+- CPK: Jeffry M. Householder 2022: table read total 2,843,149; the filing tags the CEO's total as 2,768,416 — corrected
+- CVX: M.K. Wirth 2023: table read total 27,385,655; the filing tags the CEO's total as 26,489,856 — corrected
+- CVX: M.K. Wirth 2022: table read total 24,192,742; the filing tags the CEO's total as 23,573,925 — corrected
 - CHWY: proxy 5/22/2026: no compensation table recognised
 - CHWY: proxy 5/23/2025: no compensation table recognised
 - CHWY: proxy 5/24/2024: no compensation table recognised
 - CHWY: proxy 6/2/2023: no compensation table recognised
 - CHWY: proxy 5/26/2022: no compensation table recognised
-- REFI: proxy 4/23/2026: no compensation table recognised
-- REFI: proxy 4/28/2025: no compensation table recognised
-- REFI: proxy 4/26/2024: no compensation table recognised
-- REFI: proxy 4/28/2023: no compensation table recognised
-- REFI: proxy 5/2/2022: no compensation table recognised
 - CVR: proxy 4/2/2024: Michael J. Bourg 2023: components 311,176 ≠ total 317,968; difference shown as Other.
 - CVR: proxy 4/2/2024: Michael J. Bourg 2022: components 313,707 ≠ total 328,683; difference shown as Other.
 - CVR: proxy 3/30/2023: Michael J. Bourg 2022: components 313,707 ≠ total 328,683; difference shown as Other.
@@ -6775,6 +6821,11 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - CHRD: proxy 3/17/2022: Daniel E. Brown 2021: components 6,509,607 ≠ total 15,109,345; difference shown as Other.
 - CHRD: proxy 3/17/2022: Taylor L. Reid 2021: components 4,030,307 ≠ total 6,963,001; difference shown as Other.
 - CHRD: proxy 3/17/2022: Taylor L. Reid 2020: components 2,367,445 ≠ total 4,126,309; difference shown as Other.
+- CHRD: Daniel Brown 2025: the filing tags the CEO's total as 3,608,619, far from the table's 8,567,235; kept the table figure
+- CHRD: Daniel Brown 2024: the filing tags the CEO's total as 3,350,803, far from the table's 8,179,724; kept the table figure
+- CHRD: Daniel Brown 2022: table read total 1,862,495; the filing tags the CEO's total as 1,517,316 — corrected
+- CHD: Matthew T. Farrell 2024: table read total 12,284,216; the filing tags the CEO's total as 12,253,425 — corrected
+- CHD: Matthew T. Farrell 2023: table read total 11,220,766; the filing tags the CEO's total as 11,182,166 — corrected
 - CBUS: proxy 4/20/2026: Greg Gocal 2025: components 587,021 ≠ total 805,422; difference shown as Other.
 - CMRF: proxy 4/26/2024: no compensation table recognised
 - CMRF: proxy 4/28/2023: no compensation table recognised
@@ -6782,6 +6833,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - CMRF: proxy 11/17/2021: no compensation table recognised
 - CINF: proxy 3/20/2024: Steven J. Johnston 2022: components 13,486,308 ≠ total 7,596,511; difference shown as Other.
 - CINF: proxy 3/20/2024: Steven J. Johnston 2021: components 11,945,619 ≠ total 6,490,767; difference shown as Other.
+- CNK: Mark Zoradi 2021: table read total 7,553,272; the filing tags the CEO's total as 7,753,272 — corrected
 - CNVS: proxy 8/10/2026: no compensation table recognised
 - CNVS: proxy 4/28/2023: no compensation table recognised
 - CIFR: proxy 10/6/2025: no compensation table recognised
@@ -6798,11 +6850,18 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - CSCO: proxy 10/28/2025: Charles H. Robbins 2025: components 100,099,441 ≠ total 41,266,351; difference shown as Other.
 - CSCO: proxy 10/28/2025: Charles H. Robbins 2024: components 75,966,546 ≠ total 39,848,592; difference shown as Other.
 - CSCO: proxy 10/28/2025: Charles H. Robbins 2023: components 57,342,687 ≠ total 38,734,840; difference shown as Other.
+- CSCO: R. Scott Herren 2025: the filing tags the CEO's total as 52,838,751, far from the table's 19,240,877; kept the table figure
+- CSCO: R. Scott Herren 2024: the filing tags the CEO's total as 39,202,654, far from the table's 18,758,624; kept the table figure
+- CSCO: R. Scott Herren 2023: table read total 19,013,898; the filing tags the CEO's total as 31,843,708 — corrected
+- CSCO: Charles H. Robbins 2024: table read total 39,848,592, but the filing tags the CEO's total as 39,202,654; row left out
 - CTOR: proxy 1/8/2024: no compensation table recognised
 - CTXR: proxy 4/28/2025: no compensation table recognised
 - CZNC: proxy 3/13/2026: J. BRADLEY SCOVILL 2025: components 2,013,731 ≠ total 69,267; difference shown as Other.
 - CZNC: proxy 3/13/2026: J. BRADLEY SCOVILL 2024: components 2,820,049 ≠ total 70,441; difference shown as Other.
 - CZNC: proxy 3/13/2026: J. BRADLEY SCOVILL 2023: components 2,079,056 ≠ total 372,118; difference shown as Other.
+- CZNC: J. BRADLEY SCOVILL 2025: the filing tags the CEO's total as 1,049,149, far from the table's 69,267; kept the table figure
+- CZNC: J. BRADLEY SCOVILL 2024: the filing tags the CEO's total as 1,445,245, far from the table's 70,441; kept the table figure
+- CZNC: J. BRADLEY SCOVILL 2023: the filing tags the CEO's total as 1,225,587, far from the table's 372,118; kept the table figure
 - CZWI: proxy 4/29/2026: no compensation table recognised
 - CZWI: proxy 4/29/2025: no compensation table recognised
 - CZWI: proxy 4/29/2024: no compensation table recognised
@@ -6810,6 +6869,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - CZWI: proxy 4/29/2022: no compensation table recognised
 - CZFS: proxy 3/9/2023: no compensation table recognised
 - CZFS: proxy 3/10/2022: no compensation table recognised
+- CZFS: Randall E. Black 2024: the filing tags the CEO's total as 1,399,597, far from the table's 318,974; kept the table figure
 - CHCO: proxy 3/27/2026: no compensation table recognised
 - CHCO: proxy 3/28/2025: no compensation table recognised
 - CHCO: proxy 3/25/2024: no compensation table recognised
@@ -6851,6 +6911,8 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - CLIR: proxy 4/25/2023: Colin J. Deller 2021: components 449,712 ≠ total 524,909; difference shown as Other.
 - CLIR: proxy 4/25/2023: Brent Hinds 2022: components 299,127 ≠ total 329,847; difference shown as Other.
 - CLW: proxy 3/29/2024: Michael S. Gadd 2023: components 1,590,170 ≠ total 1,608,565; difference shown as Other.
+- CLW: Arsen S. Kitch 2023: table read total 5,288,096; the filing tags the CEO's total as 5,076,406 — corrected
+- CLW: Arsen S. Kitch 2022: table read total 4,693,688; the filing tags the CEO's total as 4,665,888 — corrected
 - CWEN: proxy 3/15/2024: Christopher S. Sotos 2023: components 3,438,999 ≠ total 3,459; difference shown as Other.
 - CWEN: proxy 3/15/2024: left out 1 row(s) that can't be right (Christopher S. Sotos 2023: salary 3,459, total 3,459)
 - NET: proxy 6/9/2026: Matthew Prince 2025: components 58,788,601 ≠ total 60,551,052; difference shown as Other.
@@ -6887,6 +6949,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - CCOI: proxy 3/25/2024: Thaddeus Weed 2023: components 2,389,379 ≠ total 2,332,668; difference shown as Other.
 - CCOI: proxy 3/25/2024: John Chang 2023: components 1,031,660 ≠ total 976,326; difference shown as Other.
 - CCOI: proxy 3/25/2024: Jeffrey Danielson 2023: components 1,515,225 ≠ total 1,302,802; difference shown as Other.
+- CCOI: Dave Schaeffer 2023: the filing tags the CEO's total as 8,839, far from the table's 8,976,177; kept the table figure
 - CGNX: proxy 3/18/2022: Robert J. Shillman 2021: components 16,051 ≠ total 216,051; difference shown as Other.
 - CGNX: proxy 3/18/2022: Robert J. Shillman 2020: components 16,705 ≠ total 116,705; difference shown as Other.
 - CGNX: proxy 3/18/2022: Robert J. Shillman 2019: components 16,478 ≠ total 216,478; difference shown as Other.
@@ -6899,6 +6962,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - COLB: proxy 3/31/2026: Andrew H. Ognall 2025: components 5,900,952 ≠ total 2,950,476; difference shown as Other.
 - CMCO: proxy 6/10/2024: no compensation table recognised
 - CMCO: proxy 9/7/2022: no compensation table recognised
+- CMCO: David J. Wilson 2022: table read total 4,075,929; the filing tags the CEO's total as 4,067,021 — corrected
 - CBSH: proxy 3/13/2026: John W. Kemper 2025: components 3,137,232 ≠ total 6,498,082; difference shown as Other.
 - CBSH: proxy 3/13/2026: John W. Kemper 2024: components 7,997,332 ≠ total 6,032,891; difference shown as Other.
 - CBSH: proxy 3/13/2026: Charles G. Kim 2025: components 2,854,735 ≠ total 2,052,252; difference shown as Other.
@@ -6948,9 +7012,12 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - COMP: proxy 4/18/2024: no compensation table recognised
 - COMP: proxy 4/12/2023: Joseph Sirosh 2021: components 650,000 ≠ total 600,273; difference shown as Other.
 - COMP: proxy 4/15/2022: no compensation table recognised
+- COMP: Robert Reffkin 2022: table read total 400,000; the filing tags the CEO's total as 411,156 — corrected
 - SCOR: proxy 11/7/2025: no compensation table recognised
 - SCOR: proxy 10/31/2023: no compensation table recognised
 - LODE: proxy 1/23/2025: no compensation table recognised
+- CMTL: John Ratigan 2025: table read total 3,535,785; the filing tags the CEO's total as 3,929,785 — corrected
+- CAG: Sean Connolly 2025: table read total 13,120,822; the filing tags the CEO's total as 13,140,480 — corrected
 - CNDT: proxy 4/3/2026: Clifford Skelton 2025: components 835,000 ≠ total 6,851,997; difference shown as Other.
 - CNDT: proxy 4/3/2026: Clifford Skelton 2024: components 1,736,800 ≠ total 6,751,797; difference shown as Other.
 - CNDT: proxy 4/3/2026: Clifford Skelton 2023: components 1,473,775 ≠ total 6,473,771; difference shown as Other.
@@ -7006,7 +7073,6 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - CDP: proxy 3/31/2022: Stephen E. Budorick 2021: components 2,224,362 ≠ total 5,502,562; difference shown as Other.
 - CDP: proxy 3/31/2022: Stephen E. Budorick 2020: components 1,807,613 ≠ total 4,548,812; difference shown as Other.
 - CDP: proxy 3/31/2022: Stephen E. Budorick 2019: components 1,973,114 ≠ total 4,319,124; difference shown as Other.
-- CRBP: proxy 11/14/2022: no compensation table recognised
 - CNM: proxy 5/14/2024: no compensation table recognised
 - CMT: proxy 4/4/2025: no compensation table recognised
 - CMT: proxy 4/11/2024: no compensation table recognised
@@ -7061,6 +7127,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - CREX: proxy 4/6/2021: no compensation table recognised
 - CRMZ: proxy 6/7/2023: no compensation table recognised
 - CRMZ: proxy 6/15/2022: no compensation table recognised
+- CRMZ: Jennifer Gerold 2024: table read total 217,887, but the filing tags the CEO's total as 211,200; row left out
 - CBIO: proxy 4/21/2026: no compensation table recognised
 - CBIO: proxy 4/1/2024: Harout Semerjian 2023: components 2,012,508 ≠ total 2,389,418; difference shown as Other.
 - CBIO: proxy 4/1/2024: Harout Semerjian 2022: components 1,062,348 ≠ total 1,434,922; difference shown as Other.
@@ -7123,15 +7190,6 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - CYCU: proxy 6/24/2024: no compensation table recognised
 - CYCU: proxy 4/3/2024: no compensation table recognised
 - CYN: proxy 1/6/2025: no compensation table recognised
-- CYPH: proxy 11/3/2025: Douglas E. Onsi 2024: components 782,712 ≠ total 1,481,782; difference shown as Other.
-- CYPH: proxy 11/3/2025: Douglas E. Onsi 2023: components 1,095,267 ≠ total 1,534,507; difference shown as Other.
-- CYPH: proxy 11/3/2025: Augustine Lawlor 2024: components 591,131 ≠ total 940,666; difference shown as Other.
-- CYPH: proxy 4/28/2025: Douglas E. Onsi 2024: components 782,712 ≠ total 1,481,782; difference shown as Other.
-- CYPH: proxy 4/28/2025: Douglas E. Onsi 2023: components 1,095,267 ≠ total 1,534,507; difference shown as Other.
-- CYPH: proxy 4/28/2025: Augustine Lawlor 2024: components 591,131 ≠ total 940,666; difference shown as Other.
-- CYPH: proxy 4/29/2024: Douglas E. Onsi 2023: components 1,095,267 ≠ total 1,534,507; difference shown as Other.
-- CYPH: proxy 4/29/2024: Douglas E. Onsi 2022: components 1,041,295 ≠ total 1,883,176; difference shown as Other.
-- CYPH: proxy 4/29/2024: Augustine Lawlor 2023: components 749,808 ≠ total 1,001,632; difference shown as Other.
 - CTKB: proxy 4/14/2022: Ming Yan 2021: components 2,639,777 ≠ total 2,667,957; difference shown as Other.
 - CYTK: proxy 4/10/2025: Sung H. Lee 2024: components 5,998,931 ≠ total 5,918,931; difference shown as Other.
 - CYTK: proxy 4/7/2023: no compensation table recognised
@@ -7146,6 +7204,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - DRIO: proxy 3/10/2025: no compensation table recognised
 - DRIO: proxy 5/1/2024: no compensation table recognised
 - DAR: proxy 3/19/2026: John F. Sterling 2023: components 1,419,109 ≠ total 1,888,111; difference shown as Other.
+- DAIO: William Wentworth 2024: the filing tags the CEO's total as 926,843, far from the table's 353,112; kept the table figure
 - DTST: proxy 10/4/2022: Chris Panagiotakos 2021: components 2,886,936 ≠ total 146,936; difference shown as Other.
 - DTST: proxy 10/4/2022: Harold Schwartz 2021: components 213,650 ≠ total 190,747; difference shown as Other.
 - MEDS: proxy 5/4/2026: no compensation table recognised
@@ -7183,6 +7242,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - DK: proxy 4/4/2022: Louis LaBella 2021: components 2,623,840 ≠ total 2,007,137; difference shown as Other.
 - DAL: proxy 4/25/2025: no compensation table recognised
 - DSGN: proxy 4/13/2023: João Siffert 2021: components 993,000 ≠ total 933,000; difference shown as Other.
+- DRH: Mark W. Brugger 2023: table read total 4,937,320; the filing tags the CEO's total as 5,049,831 — corrected
 - DKS: proxy 5/1/2026: no compensation table recognised
 - DKS: proxy 5/2/2025: no compensation table recognised
 - DKS: proxy 5/2/2024: no compensation table recognised
@@ -7196,6 +7256,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - APPS: proxy 7/15/2024: no compensation table recognised
 - APPS: proxy 7/18/2023: no compensation table recognised
 - APPS: proxy 7/15/2022: no compensation table recognised
+- APPS: William G. Stone III 2024: table read total 6,779,631; the filing tags the CEO's total as 7,904,631 — corrected
 - DBRG: proxy 3/18/2024: Marc C. Ganzi 2023: components 7,782,551 ≠ total 7,282,550; difference shown as Other.
 - DBRG: proxy 3/30/2022: no compensation table recognised
 - DDS: proxy 7/29/2025: no compensation table recognised
@@ -7216,12 +7277,15 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - DSGR: proxy 4/1/2026: no compensation table recognised
 - DSGR: proxy 4/10/2025: no compensation table recognised
 - DHC: proxy 3/26/2024: left out 1 row(s) that can't be right (Richard W. Siedel Jr . 2023: salary 0, total 2,200)
+- DLHC: Zachary C. Parker 2024: table read total 2,437,099; the filing tags the CEO's total as 2,165,999 — corrected
 - BOOM: proxy 4/2/2024: Kevin T. Longe 2023: components 174,167 ≠ total 1,333,600; difference shown as Other.
 - BOOM: proxy 4/2/2024: James Schladen 2023: components 398,730 ≠ total 1,651,664; difference shown as Other.
 - SONM: proxy 5/23/2022: no compensation table recognised
 - DNOW: proxy 4/4/2025: no compensation table recognised
 - DNOW: proxy 4/5/2024: no compensation table recognised
 - DNOW: proxy 4/6/2023: no compensation table recognised
+- DNOW: David Cherechinsky 2025: the filing tags the CEO's total as 7,118,605, far from the table's 564,112; kept the table figure
+- DNOW: David Cherechinsky 2021: the filing tags the CEO's total as 5,988,481, far from the table's 1,110,508; kept the table figure
 - DCGO: proxy 4/26/2023: no compensation table recognised
 - DLPN: proxy 12/20/2024: no compensation table recognised
 - DLPN: proxy 9/1/2022: William O'Dowd, IV 2020: components 528,102 ≠ total 582,881; difference shown as Other.
@@ -7229,6 +7293,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - D: proxy 3/22/2024: Robert M. Blue 2022: components 1,225,000 ≠ total 6,794,985; difference shown as Other.
 - D: proxy 3/22/2024: Robert M. Blue 2021: components 1,225,000 ≠ total 8,161,083; difference shown as Other.
 - DOMO: proxy 4/22/2022: Joshua G. James 2020: components 776,546 ≠ total 759,767; difference shown as Other.
+- DCI: Tod E. Carpenter 2024: table read total 7,841,468; the filing tags the CEO's total as 7,181,607 — corrected
 - DFIN: proxy 4/5/2023: Craig Clay 2022: components 450,000 ≠ total 2,544,731; difference shown as Other.
 - DFIN: proxy 4/5/2023: Eric Johnson 2022: components 420,000 ≠ total 2,298,404; difference shown as Other.
 - DASH: proxy 4/29/2025: Tony Xu 2022: components 600,130 ≠ total 300,065; difference shown as Other.
@@ -7246,6 +7311,9 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - DOUG: proxy 7/11/2024: Howard M. Lorber 2021: components 29,539,305 ≠ total 32,246,658; difference shown as Other.
 - DOUG: proxy 7/11/2024: Richard J. Lampen 2021: components 10,481,468 ≠ total 10,801,700; difference shown as Other.
 - DOUG: proxy 7/11/2024: J. Bryant Kirkland III 2021: components 3,657,644 ≠ total 3,735,790; difference shown as Other.
+- DOUG: Howard M. Lorber 2024: the filing tags the CEO's total as 4,182,455, far from the table's 36,317; kept the table figure
+- DOUG: Howard M. Lorber 2023: the filing tags the CEO's total as 8,768,490, far from the table's 45,000; kept the table figure
+- DKNG: Jason D. Robins 2023: table read total 20,757,991; the filing tags the CEO's total as 20,800,000 — corrected
 - DFLI: proxy 3/24/2025: no compensation table recognised
 - DFLI: proxy 10/21/2024: Denis Phares 2022: components 3,019,752 ≠ total 30,197,524; difference shown as Other.
 - DFLI: proxy 10/27/2023: John Marchetti 2021: components 573,153 ≠ total 856,402; difference shown as Other.
@@ -7258,9 +7326,6 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - DSS: proxy 10/22/2024: Frank D. Heuszel 2022: components 434,638 ≠ total 314,639; difference shown as Other.
 - DSS: proxy 10/22/2024: Jason T. Grady 2023: components 675,973 ≠ total 555,973; difference shown as Other.
 - DSS: proxy 4/15/2022: no compensation table recognised
-- DTE: proxy 3/23/2023: Gerardo Norcia 2022: components 8,520,918 ≠ total 10,458,218; difference shown as Other.
-- DTE: proxy 3/23/2023: Gerardo Norcia 2021: components 9,095,577 ≠ total 11,128,277; difference shown as Other.
-- DTE: proxy 3/23/2023: Gerardo Norcia 2020: components 7,797,406 ≠ total 10,605,622; difference shown as Other.
 - DCO: proxy 3/14/2025: Stephen G. Oswald 2024: components 8,733,639 ≠ total 9,723,566; difference shown as Other.
 - DCO: proxy 3/14/2025: Stephen G. Oswald 2023: components 7,321,236 ≠ total 8,280,943; difference shown as Other.
 - DCO: proxy 3/14/2025: Stephen G. Oswald 2022: components 5,791,639 ≠ total 6,715,767; difference shown as Other.
@@ -7271,6 +7336,8 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - DLTH: proxy 4/8/2022: no compensation table recognised
 - BROS: proxy 3/31/2026: Travis Boersma 2023: components 59 ≠ total 1,500,059; difference shown as Other.
 - BROS: proxy 4/1/2024: Travis Boersma 2021: components 60 ≠ total 1,500,060; difference shown as Other.
+- DYAI: Mark A. Emalfarb ( ) 2023: table read total 1,033,297; the filing tags the CEO's total as 1,044,244 — corrected
+- DY: Steven E. Nielsen 2024: table read total 7,207,277; the filing tags the CEO's total as 8,496,043 — corrected
 - DYNR: proxy 4/30/2025: Jose Vargas Lugo 2023: components 345,586 ≠ total 350,836; difference shown as Other.
 - DYNR: proxy 6/12/2023: no compensation table recognised
 - DYNR: proxy 6/15/2020: no compensation table recognised
@@ -7294,6 +7361,8 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - EFSI: proxy 4/6/2022: Kathleen J. Chappell 2021: components 346,942 ≠ total 462,139; difference shown as Other.
 - EXP: proxy 6/23/2025: left out 2 row(s) that can't be right (Gypsum Company 2025: salary 336,868, total 1,231,634; Gypsum Company 2024: salary 323,912, total 1,179,699)
 - EXP: proxy 6/17/2024: left out 1 row(s) that can't be right (Gypsum Company 2024: salary 323,912, total 1,141,205)
+- EXP: Michael R. Haack 2024: table read total 8,464,214; the filing tags the CEO's total as 8,056,077 — corrected
+- EXP: Michael R. Haack 2023: table read total 7,997,493; the filing tags the CEO's total as 7,614,788 — corrected
 - ETST: proxy 7/29/2026: left out 1 row(s) that can't be right (Ernesto L. Flores 2024: salary 6,154, total 6,154)
 - EBC: proxy 3/26/2026: no compensation table recognised
 - EBC: proxy 3/27/2025: no compensation table recognised
@@ -7316,6 +7385,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - EPC: proxy 12/20/2023: Rod R. Little 2023: components 10,517,128 ≠ total 10,157,128; difference shown as Other.
 - EPC: proxy 12/20/2023: John N. Hill 2022: components 1,646,619 ≠ total 1,623,822; difference shown as Other.
 - EPC: proxy 12/20/2022: John N. Hill 2022: components 1,646,619 ≠ total 1,623,822; difference shown as Other.
+- EPC: Rod R. Little 2023: table read total 10,157,128; the filing tags the CEO's total as 10,517,129 — corrected
 - EDBL: proxy 12/23/2024: no compensation table recognised
 - EDBL: proxy 10/2/2023: no compensation table recognised
 - EIX: proxy 3/13/2026: Pedro J. Pizarro 2025: components 14,419,879 ≠ total 16,544,559; difference shown as Other.
@@ -7340,6 +7410,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - EW: proxy 3/22/2022: no compensation table recognised
 - ORBS: proxy 7/16/2024: no compensation table recognised
 - ORBS: proxy 5/26/2023: no compensation table recognised
+- ESTC: Ashutosh Kulkarni 2025: table read total 14,348,734, but the filing tags the CEO's total as 9,712,861; row left out
 - ECOR: proxy 12/23/2022: no compensation table recognised
 - ELMD: proxy 9/26/2023: Christopher G. Holland (h) 2023: components 544,415 ≠ total 534,375; difference shown as Other.
 - ETS: proxy 7/10/2026: left out 3 row(s) that can't be right (Huaqin He 2025: salary 1,028, total 1,028; Jianing Lu 2025: salary 194, total 194; Ninoslav Vasic 2025: salary 5,667, total 5,667)
@@ -7357,6 +7428,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - EP: proxy 7/27/2022: Michael R. Morrisett 2021: components 395,987 ≠ total 404,889; difference shown as Other.
 - ESRT: proxy 3/31/2022: no compensation table recognised
 - ENBP: proxy 4/4/2025: Chad E. Neiss 2024: components 512,491 ≠ total 895,820; difference shown as Other.
+- ENBP: Jeffrey S. Stauffer 2024: table read total 584,107; the filing tags the CEO's total as 447,766 — corrected
 - ECIA: proxy 7/14/2025: no compensation table recognised
 - ECIA: proxy 6/27/2024: no compensation table recognised
 - ECIA: proxy 7/8/2022: no compensation table recognised
@@ -7366,8 +7438,6 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - EDVA: proxy 8/7/2025: no compensation table recognised
 - EDVA: proxy 10/18/2024: William Meissner 2022: components 675,000 ≠ total 415,000; difference shown as Other.
 - EDVA: proxy 7/3/2024: no compensation table recognised
-- NDRA: proxy 9/16/2024: no compensation table recognised
-- NDRA: proxy 10/17/2022: no compensation table recognised
 - ENR: proxy 12/12/2024: Mark S. LaVigne 2024: components 13,427,305 ≠ total 10,819,861; difference shown as Other.
 - ENR: proxy 12/12/2024: John J. Drabik 2024: components 3,992,239 ≠ total 2,729,776; difference shown as Other.
 - ENR: proxy 12/12/2024: Michael A. Lampman 2024: components 2,836,076 ≠ total 1,940,778; difference shown as Other.
@@ -7381,6 +7451,9 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - UUUU: proxy 4/4/2023: Mark S. Chalmers 2022: components 241,657 ≠ total 403,739; difference shown as Other.
 - UUUU: proxy 4/4/2023: John L. Uhrie 2022: components 212,323 ≠ total 354,844; difference shown as Other.
 - UUUU: proxy 4/4/2022: no compensation table recognised
+- UUUU: Mark S. Chalmers 2025: table read total 1,913,691; the filing tags the CEO's total as 2,601,728 — corrected
+- UUUU: Mark S. Chalmers 2024: the filing tags the CEO's total as 2,445,027, far from the table's 1,068,266; kept the table figure
+- ERII: David W. Moon 2023: the filing tags the CEO's total as 2,159,000, far from the table's 365,216; kept the table figure
 - NRGV: proxy 11/2/2022: no compensation table recognised
 - EPAC: proxy 12/18/2024: Paul E. Sternlieb 2024: components 891,346 ≠ total 6,043,435; difference shown as Other.
 - EPAC: proxy 12/18/2024: Paul E. Sternlieb 2023: components 774,519 ≠ total 9,608,506; difference shown as Other.
@@ -7412,11 +7485,10 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - EPD: proxy 10/24/2022: A. James Teague 2021: components 5,219,014 ≠ total 10,416,514; difference shown as Other.
 - EPD: proxy 10/24/2022: A. James Teague 2020: components 4,853,369 ≠ total 10,649,369; difference shown as Other.
 - EPD: proxy 10/24/2022: A. James Teague 2019: components 4,710,161 ≠ total 10,537,661; difference shown as Other.
-- ENVB: proxy 10/27/2025: no compensation table recognised
-- ENVB: proxy 12/18/2024: no compensation table recognised
 - NVST: proxy 4/24/2025: Mark Nance 2024: components 5,105,715 ≠ total 3,103,878; difference shown as Other.
 - NVST: proxy 4/24/2025: Robert Befidi 2024: components 3,977,194 ≠ total 2,314,339; difference shown as Other.
 - NVST: proxy 4/24/2025: Mischa Reis 2024: components 3,629,654 ≠ total 2,214,783; difference shown as Other.
+- NVST: Paul Keel 2024: table read total 23,825,973; the filing tags the CEO's total as 24,236,357 — corrected
 - COCH: proxy 8/31/2026: no compensation table recognised
 - COCH: proxy 4/2/2026: David R. Wells 2025: components 440,654 ≠ total 4,406,564; difference shown as Other.
 - COCH: proxy 10/17/2025: no compensation table recognised
@@ -7481,6 +7553,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - EQH: proxy 4/9/2024: no compensation table recognised
 - EQH: proxy 4/11/2023: no compensation table recognised
 - EQH: proxy 4/6/2022: no compensation table recognised
+- EQBK: Brad S. Elliott 2022: table read total 2,513,347; the filing tags the CEO's total as 2,497,938 — corrected
 - ESAB: proxy 3/28/2025: Eleanor L. Lukens 2023: components 2,886,338 ≠ total 2,612,403; difference shown as Other.
 - ESAB: proxy 3/31/2023: Shyam P. Kambeyanda 2022: components 9,316,993 ≠ total 9,508,798; difference shown as Other.
 - ESAB: proxy 3/31/2023: Kevin J. Johnson 2022: components 3,508,748 ≠ total 3,564,629; difference shown as Other.
@@ -7532,6 +7605,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - ES: proxy 3/22/2024: Gregory B. Butler 2021: components 5,237,650 ≠ total 5,327,650; difference shown as Other.
 - ES: proxy 3/24/2023: Gregory B. Butler 2021: components 5,237,650 ≠ total 5,327,650; difference shown as Other.
 - ES: proxy 3/25/2022: Gregory B. Butler 2021: components 3,091,830 ≠ total 2,860,830; difference shown as Other.
+- EVTC: Morgan M. Schuessler, Jr. 2025: table read total 9,245,391; the filing tags the CEO's total as 9,218,893 — corrected
 - EVI: proxy 11/28/2022: no compensation table recognised
 - EVFM: proxy 10/29/2025: Saundra Pelletier 2023: components 1,070,455 ≠ total 1,520,455; difference shown as Other.
 - EVFM: proxy 2/15/2023: no compensation table recognised
@@ -7542,6 +7616,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - EMAT: proxy 8/28/2023: no compensation table recognised
 - EPM: proxy 10/26/2023: left out 1 row(s) that can't be right (Kelly W. Loyd 2022: salary 3,750, total 3,750)
 - EPM: proxy 10/27/2022: left out 1 row(s) that can't be right (Kelly W. Loyd 2022: salary 3,750, total 3,750)
+- EVLV: Michael Ellenbogen 2024: table read total 1,648,028; the filing tags the CEO's total as 1,727,316 — corrected
 - EXEL: proxy 4/15/2026: Patrick J. Haley 2025: components 18,042,832 ≠ total 9,021,416; difference shown as Other.
 - EXEL: proxy 4/18/2024: Product Development & Medical Affairs 2023: components 4,215,255 ≠ total 768,425; difference shown as Other.
 - EXEL: proxy 4/14/2022: Jeffrey J. Hessekiel 2021: components 2,174,751 ≠ total 2,147,751; difference shown as Other.
@@ -7565,9 +7640,12 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - EXE: proxy 4/29/2022: no compensation table recognised
 - XPON: proxy 9/3/2024: Brian Schaffner 2023: components 524,887 ≠ total 497,847; difference shown as Other.
 - XPON: proxy 9/3/2024: Paul Shoun 2023: components 524,887 ≠ total 497,847; difference shown as Other.
+- EXTR: Edward B. Meyercord 2025: table read total 12,958,781; the filing tags the CEO's total as 11,977,619 — corrected
+- FG: Christopher O. Blunt 2025: table read total 8,559,426; the filing tags the CEO's total as 10,875,126 — corrected
 - FABC: proxy 6/1/2026: Gilbert Villareal 2025: components 1,581,296 ≠ total 1,341,296; difference shown as Other.
 - FABC: proxy 9/18/2025: no compensation table recognised
 - FDS: proxy 10/27/2025: Helen L. Shan 2023: components 2,768,720 ≠ total 2,737,784; difference shown as Other.
+- FICO: William Lansing 2024: table read total 35,560,535; the filing tags the CEO's total as 35,321,363 — corrected
 - FFAI: proxy 7/13/2026: no compensation table recognised
 - FFAI: proxy 1/9/2026: no compensation table recognised
 - FFAI: proxy 8/18/2025: no compensation table recognised
@@ -7610,6 +7688,8 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - AGM: proxy 4/14/2023: Bradford T. Nordholm 2021: components 2,940,157 ≠ total 3,211,156; difference shown as Other.
 - AGM: proxy 4/14/2023: Bradford T. Nordholm 2020: components 2,486,474 ≠ total 2,680,795; difference shown as Other.
 - AGM: proxy 4/21/2022: no compensation table recognised
+- AGM: Bradford T. Nordholm 2024: table read total 3,316,471; the filing tags the CEO's total as 3,260,876 — corrected
+- AGM: Bradford T. Nordholm 2023: table read total 5,684,472; the filing tags the CEO's total as 5,631,233 — corrected
 - FRT: proxy 3/22/2024: Donald C. Wood (PEO) 2023: components 7,502,565 ≠ total 8,941,820; difference shown as Other.
 - FRT: proxy 3/22/2024: Donald C. Wood (PEO) 2022: components 7,474,391 ≠ total 8,916,031; difference shown as Other.
 - FRT: proxy 3/22/2024: Donald C. Wood (PEO) 2021: components 6,163,719 ≠ total 7,520,917; difference shown as Other.
@@ -7636,6 +7716,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - FENC: proxy 5/13/2024: left out 1 row(s) that can't be right (Shubh Goel 2022: salary 8,637, total 8,637)
 - FENC: proxy 4/28/2023: left out 1 row(s) that can't be right (Shubh Goel 2022: salary 8,637, total 8,637)
 - FENC: proxy 5/2/2022: Rostislav Raykov 2020: components 2,124,216 ≠ total 1,476,536; difference shown as Other.
+- FERG: Kevin Murphy 2025: table read total 14,137,493, but the filing tags the CEO's total as 7,660,469; row left out
 - FGNX: proxy 10/31/2022: no compensation table recognised
 - FGI: proxy 4/30/2026: David Bruce 2025: components 522,923 ≠ total 28,630; difference shown as Other.
 - FGI: proxy 4/30/2026: David Bruce 2024: components 506,539 ≠ total 30,650; difference shown as Other.
@@ -7674,6 +7755,8 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - FOA: proxy 4/26/2022: Graham A. Fleming 2021: components 33,348,570 ≠ total 17,625,510; difference shown as Other.
 - FOA: proxy 4/26/2022: Johan Gericke 2021: components 2,188,063 ≠ total 1,588,066; difference shown as Other.
 - AIFF: proxy 1/21/2025: no compensation table recognised
+- FBNC: Richard H. Moore 2023: table read total 1,257,821; the filing tags the CEO's total as 1,242,921 — corrected
+- FBNC: Richard H. Moore 2022: table read total 1,461,502; the filing tags the CEO's total as 1,447,218 — corrected
 - FCAP: proxy 4/8/2026: Michael C. Frederick 2025: components 351,077 ≠ total 393,421; difference shown as Other.
 - FCAP: proxy 4/8/2026: Michael C. Frederick 2024: components 333,015 ≠ total 363,748; difference shown as Other.
 - FCAP: proxy 4/8/2026: Joshua P. Stevens 2025: components 258,287 ≠ total 294,162; difference shown as Other.
@@ -7686,6 +7769,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - FCAP: proxy 4/12/2022: William W. Harrod 2021: components 265,352 ≠ total 335,123; difference shown as Other.
 - FCAP: proxy 4/12/2022: William W. Harrod 2020: components 257,613 ≠ total 328,764; difference shown as Other.
 - FCAP: proxy 4/12/2022: Michael C. Frederick 2021: components 169,191 ≠ total 221,498; difference shown as Other.
+- FCAP: Michael C. Frederick 2023: table read total 330,317; the filing tags the CEO's total as 375,698 — corrected
 - FCNCA: proxy 3/15/2024: Lorie K. Rupp 2021: components 1,771,413 ≠ total 2,466,660; difference shown as Other.
 - FCNCA: proxy 3/13/2023: Frank B. Holding, Jr. 2022: components 0 ≠ total 8,031,975; difference shown as Other.
 - FCNCA: proxy 3/13/2023: Frank B. Holding, Jr. 2021: components 0 ≠ total 5,629,478; difference shown as Other.
@@ -7744,6 +7828,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - FCFS: proxy 4/29/2022: Rick L. Wessel 2019: components 4,822,252 ≠ total 7,429,721; difference shown as Other.
 - FCFS: proxy 4/29/2022: T. Brent Stuart 2021: components 1,942,414 ≠ total 2,971,529; difference shown as Other.
 - NOTE: proxy 4/16/2025: Timothy Hwang 2024: components 590,885 ≠ total 607,625; difference shown as Other.
+- FISV: Frank J. Bisignano 2022: table read total 17,822,560; the filing tags the CEO's total as 17,882,560 — corrected
 - FIVE: proxy 5/2/2024: Joel D. Anderson 2023: components 1,250,000 ≠ total 10,185,354; difference shown as Other.
 - FIVE: proxy 5/2/2024: Joel D. Anderson 2022: components 1,211,538 ≠ total 7,026,551; difference shown as Other.
 - FIVE: proxy 5/2/2024: Joel D. Anderson 2021: components 1,000,000 ≠ total 9,047,922; difference shown as Other.
@@ -7784,7 +7869,9 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - FLS: proxy 4/2/2026: Alice DeBiasio 2025: components 1,676,588 ≠ total 926,588; difference shown as Other.
 - FLNT: proxy 5/7/2026: no compensation table recognised
 - FLNT: proxy 6/4/2024: no compensation table recognised
+- FLR: David E. Constable 2020: table read total 6,593,298; the filing tags the CEO's total as 11,236,632 — corrected
 - FLUX: proxy 8/14/2025: no compensation table recognised
+- FLUX: Ronald F. Dutt 2024: table read total 858,155; the filing tags the CEO's total as 859,155 — corrected
 - FLYE: proxy 4/11/2025: no compensation table recognised
 - FLYX: proxy 12/7/2023: no compensation table recognised
 - FLYX: proxy 4/21/2023: no compensation table recognised
@@ -7805,9 +7892,13 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - FORR: proxy 3/28/2023: George F. Colony 2022: components 621,380 ≠ total 992,630; difference shown as Other.
 - FORR: proxy 3/28/2023: George F. Colony 2021: components 629,768 ≠ total 1,552,268; difference shown as Other.
 - FORR: proxy 3/28/2023: L. Christian Finn 2022: components 931,381 ≠ total 1,077,117; difference shown as Other.
+- FTV: James A. Lico 2023: table read total 17,809,164; the filing tags the CEO's total as 17,659,164 — corrected
 - FTRE: proxy 4/27/2026: Anshul Thakral 2025: components 23,168,966 ≠ total 11,584,483; difference shown as Other.
 - FTRE: proxy 4/27/2026: Jill McConnell 2025: components 2,498,752 ≠ total 1,680,873; difference shown as Other.
+- FTRE: Thomas Pike 2025: table read total 7,791,722; the filing tags the CEO's total as 7,984,877 — corrected
+- FTRE: Thomas Pike 2024: table read total 1,119,906; the filing tags the CEO's total as 1,713,906 — corrected
 - FBIO: proxy 8/25/2023: no compensation table recognised
+- FET: Neal A. Lux 2024: table read total 5,061,976; the filing tags the CEO's total as 5,049,661 — corrected
 - FRMM: proxy 11/4/2025: no compensation table recognised
 - FRMM: proxy 9/5/2025: left out 1 row(s) that can't be right (Jonathan Rothbard 2024: salary 0, total 200)
 - FRMM: proxy 7/7/2025: left out 1 row(s) that can't be right (Jonathan Rothbard 2024: salary 0, total 200)
@@ -7838,6 +7929,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - FBRT: proxy 4/17/2026: no compensation table recognised
 - FBRT: proxy 4/15/2025: no compensation table recognised
 - FBRT: proxy 5/19/2022: no compensation table recognised
+- FBRT: Richard J. Byrne 2023: table read total 974,400; the filing tags the CEO's total as 1,039,506 — corrected
 - FRAF: proxy 3/24/2026: Craig W. Best 2025: components 580,888 ≠ total 788,859; difference shown as Other.
 - FRAF: proxy 3/24/2026: Timothy G. Henry 2024: components 586,325 ≠ total 762,401; difference shown as Other.
 - FRAF: proxy 3/24/2026: Mark R. Hollar 2025: components 351,042 ≠ total 431,372; difference shown as Other.
@@ -7896,15 +7988,6 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - FF: proxy 8/12/2024: no compensation table recognised
 - FF: proxy 8/9/2023: no compensation table recognised
 - FF: proxy 8/11/2022: no compensation table recognised
-- GANX: proxy 4/28/2026: Gene Mack 2025: components 1,317,139 ≠ total 1,467,139; difference shown as Other.
-- GANX: proxy 4/28/2026: Gianluca Fuggetta 2025: components 323,352 ≠ total 345,074; difference shown as Other.
-- GANX: proxy 4/28/2026: Gianluca Fuggetta 2024: components 344,053 ≠ total 367,910; difference shown as Other.
-- GANX: proxy 4/29/2025: Gianluca Fuggetta 2024: components 344,053 ≠ total 367,910; difference shown as Other.
-- GANX: proxy 4/29/2025: Gianluca Fuggetta 2023: components 219,795 ≠ total 230,652; difference shown as Other.
-- GANX: proxy 4/29/2025: Matthias Alder 2024: components 1,319,768 ≠ total 1,444,768; difference shown as Other.
-- GANX: proxy 4/26/2024: Matthias Alder 2023: components 1,389,786 ≠ total 1,514,786; difference shown as Other.
-- GANX: proxy 4/26/2024: Matthias Alder 2022: components 950,807 ≠ total 1,075,807; difference shown as Other.
-- GANX: proxy 4/26/2024: Salvatore Calabrese 2022: components 466,745 ≠ total 512,547; difference shown as Other.
 - GLXY: proxy 4/8/2026: left out 1 row(s) that can't be right (Michael Novogratz 2023: salary 0, total 3,392)
 - GLXZ: proxy 4/26/2024: no compensation table recognised
 - GLXZ: proxy 5/5/2023: no compensation table recognised
@@ -7937,11 +8020,10 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - GXAI: proxy 1/23/2024: no compensation table recognised
 - GCTS: proxy 10/13/2023: no compensation table recognised
 - GCTS: proxy 4/6/2023: no compensation table recognised
-- GDC: proxy 1/17/2024: left out 2 row(s) that can't be right (Hongxiang Yu 2022: salary 7,500, total 7,500; Wei Xu 2022: salary 7,500, total 7,500)
-- GDC: proxy 11/20/2023: left out 2 row(s) that can't be right (Hongxiang Yu 2022: salary 7,500, total 7,500; Wei Xu 2022: salary 7,500, total 7,500)
 - JOB: proxy 7/18/2022: Kim Thorpe 2021: components 443,140 ≠ total 433,140; difference shown as Other.
 - GEMI: proxy 4/30/2026: Marshall Beard 2024: components 1,217,461 ≠ total 953,661; difference shown as Other.
 - GNK: proxy 4/2/2021: Arthur L. Regan 2020: components 602,808 ≠ total 609,808; difference shown as Other.
+- GNK: John C. Wobensmith 2020: table read total 2,184,845; the filing tags the CEO's total as 2,171,564 — corrected
 - GENC: proxy 1/28/2026: Eric Mellen 2025: components 350,000 ≠ total 357,398; difference shown as Other.
 - GENC: proxy 1/28/2026: Eric Mellen 2024: components 350,000 ≠ total 358,070; difference shown as Other.
 - GENC: proxy 1/28/2026: Eric Mellen 2023: components 350,000 ≠ total 358,594; difference shown as Other.
@@ -7988,6 +8070,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - GERN: proxy 4/8/2025: Joseph Eid 2024: components 7,206,598 ≠ total 7,762,848; difference shown as Other.
 - GERN: proxy 4/8/2025: Andrew J. Grethlein 2024: components 2,214,556 ≠ total 2,813,956; difference shown as Other.
 - GERN: proxy 4/8/2025: James Ziegler 2024: components 5,406,965 ≠ total 5,768,744; difference shown as Other.
+- GERN: John A. Scarlett 2023: table read total 4,924,092; the filing tags the CEO's total as 4,950,424 — corrected
 - GEVO: proxy 4/9/2026: Patrick R. Gruber 2024: components 3,164,438 ≠ total 3,103,849; difference shown as Other.
 - GEVO: proxy 4/9/2025: Patrick R. Gruber 2024: components 3,164,438 ≠ total 3,103,849; difference shown as Other.
 - ROCK: proxy 4/1/2022: William T. Bosway 2021: components 8,007,694 ≠ total 23,078; difference shown as Other.
@@ -7997,6 +8080,8 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - GCT: proxy 4/30/2026: Erica Xiaoyang Wei 2025: components 470,142 ≠ total 665,142; difference shown as Other.
 - DNA: proxy 7/5/2024: no compensation table recognised
 - GTLB: proxy 5/15/2023: no compensation table recognised
+- GTLB: Sytse Sijbrandij 2024: the filing tags the CEO's total as 3,600, far from the table's 23,538,462; kept the table figure
+- GTLB: Sytse Sijbrandij 2022: the filing tags the CEO's total as 3,600, far from the table's 18,497,700; kept the table figure
 - GBCI: proxy 3/15/2022: no compensation table recognised
 - GOOD: proxy 3/20/2026: no compensation table recognised
 - GOOD: proxy 3/14/2025: no compensation table recognised
@@ -8026,13 +8111,11 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - SELF: proxy 4/27/2022: no compensation table recognised
 - GLTK: proxy 12/9/2025: no compensation table recognised
 - GLTK: proxy 10/17/2024: left out 2 row(s) that can't be right (Anser Iqbal 2023: salary 2,249, total 2,249; Anser Iqbal 2022: salary 5,289, total 5,289)
-- GCTK: proxy 8/10/2026: no compensation table recognised
-- GCTK: proxy 2/9/2026: no compensation table recognised
-- GCTK: proxy 10/3/2025: no compensation table recognised
-- GCTK: proxy 4/28/2025: Paul V Goode 2023: components 483,243 ≠ total 356,237; difference shown as Other.
 - GOGO: proxy 4/26/2024: no compensation table recognised
-- AUMN: proxy 3/28/2024: Pablo Castanos 2023: components 221,219 ≠ total 260,000; difference shown as Other.
+- GS: David Solomon 2023: table read total 27,003,260; the filing tags the CEO's total as 26,670,817 — corrected
+- GS: David Solomon 2022: table read total 32,165,331; the filing tags the CEO's total as 31,609,420 — corrected
 - GTIM: proxy 1/12/2024: Matthew Karnes 2023: components 163,383 ≠ total 173,383; difference shown as Other.
+- GT: MARK W. STEWART 2024: table read total 25,789,964; the filing tags the CEO's total as 25,706,039 — corrected
 - GPRO: proxy 4/22/2025: Dean Jahnke 2024: components 1,673,248 ≠ total 908,463; difference shown as Other.
 - GRC: proxy 3/25/2024: James C. Kerr 2023: components 1,012,984 ≠ total 1,045,015; difference shown as Other.
 - GRC: proxy 3/25/2024: Brigette A. Burnell 2023: components 903,194 ≠ total 928,681; difference shown as Other.
@@ -8042,13 +8125,13 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - GOVB: proxy 1/4/2024: Taylor Robbins 2023: components 134,000 ≠ total 147,535; difference shown as Other.
 - GOVB: proxy 1/4/2024: Kimberly A. Adams 2023: components 137,000 ≠ total 147,656; difference shown as Other.
 - PEW: proxy 4/30/2026: no compensation table recognised
-- GRCE: proxy 8/25/2023: no compensation table recognised
-- GRCE: proxy 8/31/2022: no compensation table recognised
-- GRCE: proxy 9/9/2020: no compensation table recognised
 - EAF: proxy 3/27/2026: Jeremy S. Halford 2023: components 1,996,150 ≠ total 1,966,150; difference shown as Other.
 - EAF: proxy 7/11/2025: no compensation table recognised
 - EAF: proxy 4/3/2025: Catherine Hedoux-Delgado 2023: components 1,996,150 ≠ total 1,966,150; difference shown as Other.
+- GHM: Daniel J. Thoren 2025: the filing tags the CEO's total as 679,842, far from the table's 1,853,374; kept the table figure
+- GHM: James R. Lines 2021: table read total 1,893,309; the filing tags the CEO's total as 1,064,678 — corrected
 - GRAL: proxy 4/15/2025: no compensation table recognised
+- GTE: Gary S. Guidry 2024: table read total 2,970,393; the filing tags the CEO's total as 3,017,224 — corrected
 - GVA: proxy 4/23/2026: Kyle T. Larkin 2025: components 1,000,000 ≠ total 9,861,425; difference shown as Other.
 - GVA: proxy 4/23/2026: Kyle T. Larkin 2024: components 975,000 ≠ total 7,726,356; difference shown as Other.
 - GVA: proxy 4/23/2026: Kyle T. Larkin 2023: components 925,000 ≠ total 4,224,356; difference shown as Other.
@@ -8063,8 +8146,11 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - GPK: proxy 4/8/2024: Stephen R. Scherger 2023: components 7,530,215 ≠ total 3,765,107; difference shown as Other.
 - GPK: proxy 4/8/2024: Stephen R. Scherger 2022: components 5,621,111 ≠ total 3,706,619; difference shown as Other.
 - GDOT: proxy 4/11/2025: Teresa Watkins 2022: components 1,192,603 ≠ total 844,562; difference shown as Other.
+- GPRE: Todd Becker 2024: table read total 5,676,017; the filing tags the CEO's total as 5,988,846 — corrected
+- GPRE: Todd Becker 2023: table read total 5,583,187; the filing tags the CEO's total as 5,836,449 — corrected
 - GTBIF: proxy 4/27/2026: no compensation table recognised
 - GBX: proxy 11/17/2025: MICHAEL J. DONFRIS 2025: components 632,025 ≠ total 2,886,867; difference shown as Other.
+- GBX: William A. Furman 2021: table read total 5,586,741; the filing tags the CEO's total as 5,580,229 — corrected
 - GCBC: proxy 9/19/2025: no compensation table recognised
 - GCBC: proxy 9/20/2024: no compensation table recognised
 - GCBC: proxy 9/22/2023: no compensation table recognised
@@ -8075,11 +8161,9 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - GNLN: proxy 3/7/2025: no compensation table recognised
 - GWAV: proxy 11/26/2024: no compensation table recognised
 - GWAV: proxy 6/3/2024: no compensation table recognised
+- GWAV: Danny Meeks 2024: the filing tags the CEO's total as 2,150,000, far from the table's 500,000; kept the table figure
 - GEF: proxy 1/14/2022: Peter G. Watson 2019: components 7,974,525 ≠ total 10,187,093; difference shown as Other.
 - GHI: proxy 4/30/2025: no compensation table recognised
-- GRI: proxy 12/29/2025: no compensation table recognised
-- GRI: proxy 1/17/2025: no compensation table recognised
-- GRI: proxy 5/9/2024: no compensation table recognised
 - GRDX: proxy 11/13/2023: no compensation table recognised
 - GRDX: proxy 5/15/2023: James Sapirstein 2022: components 741,720 ≠ total 645,720; difference shown as Other.
 - GRDX: proxy 5/15/2023: Sarah Romano 2022: components 493,669 ≠ total 439,670; difference shown as Other.
@@ -8087,9 +8171,6 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - GRDX: proxy 12/16/2022: no compensation table recognised
 - GRND: proxy 4/28/2023: Austin “AJ” Balance 2022: components 1,361,332 ≠ total 401,959; difference shown as Other.
 - GRWG: proxy 4/26/2024: Monty Lamirato 2021: components 4,467 ≠ total 129,114; difference shown as Other.
-- GTBP: proxy 11/6/2023: no compensation table recognised
-- GTBP: proxy 5/1/2023: Gregory Berk 2022: components 786,426 ≠ total 1,008,426; difference shown as Other.
-- GTBP: proxy 5/1/2023: left out 1 row(s) that can't be right (Gregory Berk 2022: salary 897,426, total 1,008,426)
 - GH: proxy 4/28/2026: no compensation table recognised
 - GH: proxy 4/29/2025: no compensation table recognised
 - GUER: proxy 4/9/2024: John Berg 2023: components 496,275 ≠ total 496; difference shown as Other.
@@ -8126,6 +8207,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - HHS: proxy 4/9/2026: Kirk Davis 2024: components 693,750 ≠ total 706,950; difference shown as Other.
 - HHS: proxy 4/25/2022: Andrew B. Benett 2021: components 244,231 ≠ total 580,208; difference shown as Other.
 - HHS: proxy 4/25/2022: Andrew B. Benett 2020: components 972,500 ≠ total 1,092,500; difference shown as Other.
+- HHS: Kirk Davis 2024: table read total 706,950; the filing tags the CEO's total as 1,031,938 — corrected
 - HBIO: proxy 1/30/2026: no compensation table recognised
 - HVT: proxy 3/28/2025: Steven G. Burdette 2022: components 1,265,683 ≠ total 1,302,850; difference shown as Other.
 - HVT: proxy 3/27/2024: Steven G. Burdette 2022: components 1,265,683 ≠ total 1,302,850; difference shown as Other.
@@ -8186,6 +8268,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - HSIC: proxy 4/8/2026: Stanley M. Bergman 2025: components 15,052,817 ≠ total 3,367,196; difference shown as Other.
 - HSIC: proxy 4/9/2025: no compensation table recognised
 - HSIC: proxy 4/6/2022: no compensation table recognised
+- HSIC: Stanley M. Bergman 2025: the filing tags the CEO's total as 12,013,915, far from the table's 3,367,196; kept the table figure
 - HRI: proxy 3/27/2026: Lawrence H. Silber 2025: components 6,805,126 ≠ total 8,289,126; difference shown as Other.
 - HRI: proxy 3/27/2026: Lawrence H. Silber 2024: components 5,448,492 ≠ total 6,921,392; difference shown as Other.
 - HRI: proxy 3/27/2026: Lawrence H. Silber 2023: components 3,846,664 ≠ total 6,117,875; difference shown as Other.
@@ -8242,6 +8325,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - HOFT: proxy 5/6/2022: Anne J. Smith 2022: components 544,520 ≠ total 538,254; difference shown as Other.
 - HMN: proxy 4/2/2025: Bret A. Conklin 2023: components 2,129,465 ≠ total 1,424,465; difference shown as Other.
 - HMN: proxy 4/9/2024: Bret A. Conklin 2023: components 2,129,465 ≠ total 1,424,465; difference shown as Other.
+- HMN: Marita Zuraitis 2023: table read total 6,135,530; the filing tags the CEO's total as 5,081,705 — corrected
 - HBNC: proxy 3/20/2026: Thomas M. Prame 2025: components 3,331,167 ≠ total 1,965,115; difference shown as Other.
 - HBNC: proxy 3/20/2026: Thomas M. Prame 2024: components 1,235,847 ≠ total 1,640,847; difference shown as Other.
 - HBNC: proxy 3/20/2026: Thomas M. Prame 2023: components 352,517 ≠ total 1,110,056; difference shown as Other.
@@ -8252,6 +8336,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - HBNC: proxy 3/18/2024: Craig M. Dwight 2022: components 2,803,848 ≠ total 1,328,910; difference shown as Other.
 - HBNC: proxy 3/18/2024: Craig M. Dwight 2021: components 2,577,319 ≠ total 1,402,359; difference shown as Other.
 - HKHC: proxy 5/13/2024: no compensation table recognised
+- HLI: Scott L. Beiser 2024: table read total 7,000,000; the filing tags the CEO's total as 6,500,000 — corrected
 - HOV: proxy 2/9/2026: Alexander A. Hovnanian 2025: components 3,234,083 ≠ total 3,324,083; difference shown as Other.
 - HOV: proxy 2/2/2024: Ara K. Hovnanian 2023: components 15,138,294 ≠ total 9,482,398; difference shown as Other.
 - HOV: proxy 2/2/2024: J. Larry Sorsby 2023: components 9,356,979 ≠ total 5,612,421; difference shown as Other.
@@ -8278,7 +8363,10 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - HUMA: proxy 4/29/2022: Laura E. Niklason 2020: components 181,277 ≠ total 201,283; difference shown as Other.
 - HUMA: proxy 4/29/2022: Rajiv Shukla 2021: components 17,255 ≠ total 115,414; difference shown as Other.
 - HBAN: proxy 3/10/2022: Zachary J. Wasserman 2019: components 2,623,090 ≠ total 1,848,090; difference shown as Other.
+- HBAN: Stephen D. Steinour 2023: table read total 10,179,479; the filing tags the CEO's total as 10,101,840 — corrected
 - HUN: proxy 3/17/2025: David M. Stryker 2022: components 2,995,297 ≠ total 3,895,297; difference shown as Other.
+- HUN: Peter R. Huntsman 2023: table read total 17,631,827; the filing tags the CEO's total as 15,243,328 — corrected
+- HUN: Peter R. Huntsman 2022: table read total 15,030,729; the filing tags the CEO's total as 13,380,023 — corrected
 - HURC: proxy 1/23/2023: Michael Doar 2020: components 588,215 ≠ total 2,088,194; difference shown as Other.
 - HUT: proxy 4/28/2026: no compensation table recognised
 - HUT: proxy 4/30/2025: no compensation table recognised
@@ -8333,6 +8421,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - IGC: proxy 7/8/2024: table read as thousands of dollars (every total was under $25,000)
 - IGC: proxy 7/26/2023: table read as thousands of dollars (every total was under $25,000)
 - IGC: proxy 7/25/2022: table read as thousands of dollars (every total was under $25,000)
+- ILMN: Charles Dadswell 2023: table read total 4,139,866; the filing tags the CEO's total as 4,104,066 — corrected
 - IMA: proxy 4/26/2024: no compensation table recognised
 - IMA: proxy 9/25/2023: no compensation table recognised
 - IMA: proxy 4/28/2023: no compensation table recognised
@@ -8345,12 +8434,6 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - IMMR: proxy 4/4/2024: Eric Singer 2023: components 2,555,296 ≠ total 3,902,822; difference shown as Other.
 - IMMR: proxy 4/4/2024: Eric Singer 2022: components 6,658,540 ≠ total 6,934,762; difference shown as Other.
 - IMMR: proxy 4/4/2024: William Martin 2023: components 1,100,832 ≠ total 1,625,832; difference shown as Other.
-- IMNN: proxy 6/9/2025: Khursheed Anwer 2024: components 654,090 ≠ total 741,680; difference shown as Other.
-- IOR: proxy 11/4/2025: no compensation table recognised
-- IOR: proxy 11/14/2024: no compensation table recognised
-- IOR: proxy 11/14/2023: no compensation table recognised
-- IOR: proxy 11/10/2022: no compensation table recognised
-- IOR: proxy 11/12/2021: no compensation table recognised
 - INDB: proxy 3/26/2026: Jeffrey Tengel 2025: components 2,221,054 ≠ total 3,606,962; difference shown as Other.
 - INDB: proxy 3/26/2026: Jeffrey Tengel 2024: components 1,872,909 ≠ total 2,924,622; difference shown as Other.
 - INDB: proxy 3/26/2026: Jeffrey Tengel 2023: components 2,912,632 ≠ total 5,213,225; difference shown as Other.
@@ -8360,9 +8443,6 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - INDB: proxy 3/28/2024: Jeffrey Tengel 2023: components 2,912,632 ≠ total 5,213,225; difference shown as Other.
 - INDB: proxy 3/28/2024: Christopher Oddleifson 2023: components 488,563 ≠ total 2,735,396; difference shown as Other.
 - INDB: proxy 3/28/2024: Christopher Oddleifson 2022: components 2,005,042 ≠ total 2,939,498; difference shown as Other.
-- ILPT: proxy 3/18/2026: left out 1 row(s) that can't be right (Tiffany R. Sy 2023: salary 0, total 5,491)
-- ILPT: proxy 3/19/2025: left out 1 row(s) that can't be right (Tiffany R. Sy 2023: salary 0, total 5,491)
-- ILPT: proxy 3/20/2024: left out 1 row(s) that can't be right (Tiffany R. Sy 2023: salary 0, total 5,491)
 - III: proxy 3/14/2024: Michael A. Sherrick 2023: components 1,262,092 ≠ total 1,062,092; difference shown as Other.
 - III: proxy 3/14/2024: Todd D. Lavieri 2021: components 8,538,993 ≠ total 1,788,993; difference shown as Other.
 - NGVT: proxy 3/17/2026: David H. Li 2025: components 11,546,119 ≠ total 12,839,719; difference shown as Other.
@@ -8385,8 +8465,10 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - INM: proxy 5/16/2025: no compensation table recognised
 - INM: proxy 10/28/2024: left out 1 row(s) that can't be right (Jonathan Tegge 2023: salary 0, total 2,100)
 - INMB: proxy 10/14/2025: no compensation table recognised
+- VATE: Paul K. Voigt 2023: the filing tags the CEO's total as 918,922, far from the table's 209,615; kept the table figure
 - IVFH: proxy 4/24/2024: Sam Klepfish 2023: components 1,948,210 ≠ total 1,988,891; difference shown as Other.
 - IVFH: proxy 4/20/2023: Justin Wiernasz 2022: components 448,185 ≠ total 431,069; difference shown as Other.
+- IVFH: Robert W. Bennett 2025: table read total 748,882, but the filing tags the CEO's total as 485,516; row left out
 - INVX: proxy 3/27/2026: no compensation table recognised
 - INVX: proxy 3/28/2025: no compensation table recognised
 - INVX: proxy 3/19/2024: no compensation table recognised
@@ -8407,6 +8489,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - IMDX: proxy 7/10/2023: no compensation table recognised
 - INSM: proxy 4/1/2022: no compensation table recognised
 - INSP: proxy 3/16/2022: no compensation table recognised
+- INSE: A. Lorne Weil 2023: table read total 4,514,234; the filing tags the CEO's total as 4,433,759 — corrected
 - NSPR: proxy 4/20/2026: Shane Gleason 2025: components 1,341,150 ≠ total 1,448,287; difference shown as Other.
 - NSPR: proxy 4/20/2026: Shane Gleason 2024: components 1,430,544 ≠ total 1,517,341; difference shown as Other.
 - NSPR: proxy 4/15/2025: Shane Gleason 2024: components 1,430,544 ≠ total 1,517,341; difference shown as Other.
@@ -8418,6 +8501,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - INTC: proxy 3/28/2024: Patrick P. Gelsinger 2023: components 13,857,400 ≠ total 16,855,400; difference shown as Other.
 - INBS: proxy 10/20/2023: no compensation table recognised
 - INBS: proxy 4/10/2023: no compensation table recognised
+- IPM: Jason Katz 2022: table read total 447,724; the filing tags the CEO's total as 461,202 — corrected
 - INLX: proxy 5/1/2023: James F. DeSocio 2021: components 355,557 ≠ total 276,674; difference shown as Other.
 - TRNR: proxy 8/17/2026: no compensation table recognised
 - TRNR: proxy 8/5/2024: no compensation table recognised
@@ -8446,6 +8530,8 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - LINK: proxy 4/2/2026: Ryan J. Hoffman 2024: components 154,059 ≠ total 158,247; difference shown as Other.
 - LINK: proxy 4/17/2025: Ryan J. Hoffman 2024: components 154,059 ≠ total 158,247; difference shown as Other.
 - LINK: proxy 4/17/2025: Ryan J. Hoffman 2023: components 112,417 ≠ total 115,559; difference shown as Other.
+- LINK: Steven N. Bronson 2025: table read total 340,674, but the filing tags the CEO's total as 280,674; row left out
+- IBOC: Dennis E. Nixon 2022: table read total 2,400,081; the filing tags the CEO's total as 2,403,081 — corrected
 - IBM: proxy 3/10/2026: no compensation table recognised
 - IBM: proxy 3/10/2025: no compensation table recognised
 - IBM: proxy 3/11/2024: no compensation table recognised
@@ -8491,6 +8577,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - IONS: proxy 4/25/2025: RSUs PRSUs 2024: components 9,772,465 ≠ total 15,400,343; difference shown as Other.
 - IONS: proxy 4/25/2025: RSUs PRSUs 2023: components 8,189,978 ≠ total 12,500,023; difference shown as Other.
 - IONS: proxy 4/25/2025: RSUs PRSUs 2022: components 5,118,828 ≠ total 7,264,496; difference shown as Other.
+- IONS: Brett P. Monia 2021: table read total 13,276,013; the filing tags the CEO's total as 13,305,673 — corrected
 - IPST: proxy 3/20/2026: no compensation table recognised
 - IPGP: proxy 4/6/2022: Alexander Ovtchinnikov 2019: components 1,822,350 ≠ total 1,882,350; difference shown as Other.
 - IPW: proxy 9/8/2026: no compensation table recognised
@@ -8504,6 +8591,8 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - IQV: proxy 2/27/2023: no compensation table recognised
 - IQV: proxy 2/28/2022: no compensation table recognised
 - IRIX: proxy 4/24/2026: Bassem BouHabib 2024: components 564,788 ≠ total 529,307; difference shown as Other.
+- IRIX: Patrick Mercer 2024: table read total 1,106,642, but the filing tags the CEO's total as 795,842; row left out
+- IRM: William L. Meaney 2023: table read total 14,899,851; the filing tags the CEO's total as 14,867,140 — corrected
 - ISBA: proxy 3/25/2024: Neil M. McDonnell 2022: components 379,283 ≠ total 415,419; difference shown as Other.
 - ISPC: proxy 9/14/2026: no compensation table recognised
 - ISPC: proxy 10/14/2025: no compensation table recognised
@@ -8518,6 +8607,8 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - SJM: proxy 6/27/2025: no compensation table recognised
 - SJM: proxy 6/28/2024: no compensation table recognised
 - SJM: proxy 7/7/2022: no compensation table recognised
+- SJM: Mark Smucker 2026: the filing tags the CEO's total as 10,935,216, far from the table's 3,309,947; kept the table figure
+- SJM: Mark T. Smucker 2023: the filing tags the CEO's total as 11,348,537, far from the table's 2,337,952; kept the table figure
 - JJSF: proxy 1/3/2025: Stephen J. Every 2024: components 656,357 ≠ total 686,357; difference shown as Other.
 - JJSF: proxy 1/3/2023: left out 3 row(s) that can't be right (Ken Plunk 2020: salary 8,750, total 8,750; ICEE Company 2022: salary 274,231, total 506,531; ICEE Company 2021: salary 139,423, total 198,086)
 - JJSF: proxy 12/23/2021: left out 1 row(s) that can't be right (Ken Plunk 2020: salary 8,750, total 8,750)
@@ -8604,6 +8695,8 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - FROG: proxy 4/7/2025: Shlomi Ben Haim 2022: components 756,394 ≠ total 3,808,122; difference shown as Other.
 - JOBY: proxy 4/21/2026: Kate DeHoff 2023: components 1,276,211 ≠ total 1,699,826; difference shown as Other.
 - JOBY: proxy 4/23/2025: Kate DeHoff 2022: components 2,349,998 ≠ total 2,752,075; difference shown as Other.
+- JOBY: JoeBen Bevirt 2023: table read total 4,028,762; the filing tags the CEO's total as 4,095,534 — corrected
+- JOBY: JoeBen Bevirt 2022: table read total 10,196,308, but the filing tags the CEO's total as 8,612,643; row left out
 - WLY: proxy 8/13/2026: table read as thousands of dollars (every total was under $25,000)
 - WLY: proxy 8/14/2025: Matthew S. Kissner ( 2025: components 11,097 ≠ total 5,548; difference shown as Other.
 - WLY: proxy 8/14/2025: Christopher F. Caridi ( 2025: components 2,268 ≠ total 1,134; difference shown as Other.
@@ -8617,6 +8710,8 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - JLL: proxy 4/17/2026: Christian Ulbrich 2023: components 3,353,205 ≠ total 12,041,383; difference shown as Other.
 - JLL: proxy 4/14/2023: no compensation table recognised
 - JLL: proxy 4/15/2022: no compensation table recognised
+- JSDA: Paul Norman 2024: the filing tags the CEO's total as 439,255, far from the table's 80,000; kept the table figure
+- JSDA: David Knight 2023: table read total 1,353,731; the filing tags the CEO's total as 2,233,531 — corrected
 - JPM: proxy 4/7/2025: James Dimon 2024: components 34,000,000 ≠ total 39,000,000; difference shown as Other.
 - JPM: proxy 4/7/2025: James Dimon 2023: components 1,500,000 ≠ total 36,000,000; difference shown as Other.
 - JPM: proxy 4/7/2025: James Dimon 2022: components 1,500,000 ≠ total 34,500,000; difference shown as Other.
@@ -8629,9 +8724,11 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - JPM: proxy 4/4/2022: James Dimon 2021: components 29,500,000 ≠ total 34,500,000; difference shown as Other.
 - JPM: proxy 4/4/2022: James Dimon 2020: components 26,500,000 ≠ total 31,500,000; difference shown as Other.
 - JPM: proxy 4/4/2022: James Dimon 2019: components 26,500,000 ≠ total 31,500,000; difference shown as Other.
+- JPM: James Dimon 2022: table read total 34,500,000; the filing tags the CEO's total as 35,610,013 — corrected
+- JPM: James Dimon 2021: the filing tags the CEO's total as 85,159,860, far from the table's 34,500,000; kept the table figure
+- JPM: James Dimon 2020: table read total 31,500,000; the filing tags the CEO's total as 32,249,183 — corrected
 - JUNS: proxy 6/22/2026: Christer Rosén 2025: components 651,000 ≠ total 671,407; difference shown as Other.
 - KALA: proxy 9/9/2022: no compensation table recognised
-- KLRS: proxy 12/6/2024: no compensation table recognised
 - KLTR: proxy 4/29/2024: Ron Yekutiel 2022: components 1,514,059 ≠ total 729,596; difference shown as Other.
 - KLTR: proxy 4/29/2024: Michal Tsur 2022: components 793,320 ≠ total 525,607; difference shown as Other.
 - KLTR: proxy 4/29/2024: Yaron Garmazi 2022: components 947,637 ≠ total 577,206; difference shown as Other.
@@ -8641,6 +8738,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - KPTI: proxy 1/9/2026: no compensation table recognised
 - KPTI: proxy 12/16/2024: no compensation table recognised
 - KPLT: proxy 6/26/2025: no compensation table recognised
+- KPLT: Orlando J. Zayas 2024: table read total 1,187,267; the filing tags the CEO's total as 1,100,565 — corrected
 - KBH: proxy 3/13/2026: no compensation table recognised
 - KBH: proxy 3/7/2025: no compensation table recognised
 - KBH: proxy 3/8/2024: no compensation table recognised
@@ -8665,6 +8763,9 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - KMT: proxy 9/17/2024: Patrick Watson 2023: components 802,036 ≠ total 1,034,356; difference shown as Other.
 - KMT: proxy 9/12/2023: Sanjay Chowbey 2023: components 1,632,272 ≠ total 1,667,357; difference shown as Other.
 - KEY: proxy 3/22/2024: Andrew J. “Randy” Paine III 2021: components 4,232,446 ≠ total 5,232,446; difference shown as Other.
+- KFRC: Joseph J. Liberatore 2023: table read total 4,571,826, but the filing tags the CEO's total as 3,034,998; row left out
+- KFRC: David L. Dunkel 2021: table read total 6,329,950, but the filing tags the CEO's total as 3,200,009; row left out
+- KFRC: Joseph J. Liberatore 2022: table read total 5,564,913, but the filing tags the CEO's total as 2,800,004; row left out
 - KDOZF: proxy 10/12/2022: no compensation table recognised
 - KDOZF: proxy 10/5/2021: no compensation table recognised
 - KDOZF: proxy 9/30/2020: no compensation table recognised
@@ -8693,6 +8794,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - KNTK: proxy 4/8/2024: Jamie Welch 2022: components 2,369,720 ≠ total 1,184,860; difference shown as Other.
 - KNTK: proxy 4/8/2024: Matthew Wall 2022: components 1,436,120 ≠ total 718,060; difference shown as Other.
 - KNTK: proxy 4/8/2024: Steven Stellato 2022: components 1,436,112 ≠ total 718,056; difference shown as Other.
+- KNTK: Jamie Welch 2023: table read total 2,321,989; the filing tags the CEO's total as 2,231,989 — corrected
 - KINS: proxy 7/1/2022: Barry B. Goldstein 2021: components 500,000 ≠ total 1,921,435; difference shown as Other.
 - KINS: proxy 7/1/2022: Barry B. Goldstein 2020: components 500,000 ≠ total 1,919,109; difference shown as Other.
 - KINS: proxy 7/1/2022: Meryl S. Golden 2021: components 500,000 ≠ total 734,620; difference shown as Other.
@@ -8744,6 +8846,8 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - LKFN: proxy 3/5/2026: no compensation table recognised
 - LAKE: proxy 5/2/2025: no compensation table recognised
 - LAKE: proxy 5/1/2023: no compensation table recognised
+- LAKE: Charles D. Roberson 2024: table read total 1,022,679; the filing tags the CEO's total as 956,513 — corrected
+- LAKE: James M. Jenkins 2025: table read total 2,055,038; the filing tags the CEO's total as 1,930,038 — corrected
 - LAMR: proxy 4/8/2022: Jay L. Johnson 2020: components 3,052,059 ≠ total 2,452,059; difference shown as Other.
 - LW: proxy 8/9/2024: Marc J.P.H. Schroeder 2024: components 1,842,527 ≠ total 2,672,453; difference shown as Other.
 - LB: proxy 4/30/2025: no compensation table recognised
@@ -8752,11 +8856,6 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - LNTH: proxy 3/18/2022: Robert J. Marshall, Jr. 2019: components 1,407,580 ≠ total 1,435,394; difference shown as Other.
 - LTRX: proxy 10/6/2021: Jeremy R. Whitaker 2021: components 418,930 ≠ total 670,678; difference shown as Other.
 - LNZA: proxy 9/9/2024: no compensation table recognised
-- LRMR: proxy 4/20/2026: no compensation table recognised
-- LRMR: proxy 4/11/2025: no compensation table recognised
-- LRMR: proxy 4/29/2024: no compensation table recognised
-- LRMR: proxy 4/11/2023: no compensation table recognised
-- LRMR: proxy 4/12/2022: no compensation table recognised
 - LASE: proxy 6/3/2026: Wayne Tupuola 2025: components 475,879 ≠ total 923,379; difference shown as Other.
 - LASE: proxy 6/3/2026: Carlos Sardinas 2025: components 340,887 ≠ total 348,750; difference shown as Other.
 - LASE: proxy 7/15/2024: Wayne Tupuola 2022: components 203,398 ≠ total 483,398; difference shown as Other.
@@ -8795,6 +8894,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - LMND: proxy 4/28/2023: Adina Eckstein 2022: components 2,051,172 ≠ total 1,976,531; difference shown as Other.
 - LNSR: proxy 6/20/2023: no compensation table recognised
 - LENZ: proxy 6/6/2023: Alethia R. Young 2022: components 1,986,839 ≠ total 1,835,489; difference shown as Other.
+- DRS: William J. Lynn III 2023: table read total 10,821,579; the filing tags the CEO's total as 9,674,976 — corrected
 - LESL: proxy 2/2/2026: Scott Bowman 2025: components 1,641,698 ≠ total 1,435,469; difference shown as Other.
 - LESL: proxy 2/2/2026: Moyo LaBode 2025: components 812,890 ≠ total 607,653; difference shown as Other.
 - LESL: proxy 2/2/2026: Naomi Cramer 2025: components 1,122,575 ≠ total 1,016,338; difference shown as Other.
@@ -8806,6 +8906,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - LEXX: proxy 8/23/2023: no compensation table recognised
 - LEXX: proxy 3/22/2023: no compensation table recognised
 - LXRX: proxy 3/17/2023: Kenneth B. Kassler-Taub 2020: components 885,739 ≠ total 704,569; difference shown as Other.
+- LXRX: Lonnel Coats 2024: table read total 3,512,773; the filing tags the CEO's total as 3,467,590 — corrected
 - LIFD: proxy 10/24/2024: Vincent J. Mesolella 2023: components 0 ≠ total 16,000; difference shown as Other.
 - LIFD: proxy 10/24/2024: Vincent J. Mesolella 2022: components 40,000 ≠ total 56,000; difference shown as Other.
 - LIFD: proxy 10/24/2024: Joshua A. Bloom 2023: components 0 ≠ total 16,000; difference shown as Other.
@@ -8842,8 +8943,10 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - LINE: proxy 4/28/2025: no compensation table recognised
 - LHAI: proxy 6/22/2026: Na Li 2025: components 33,600 ≠ total 78,000; difference shown as Other.
 - LQDA: proxy 4/28/2023: Damian deGoa 2022: components 47,162 ≠ total 121,036; difference shown as Other.
+- LITS: David M. Urso 2024: table read total 894,905; the filing tags the CEO's total as 934,046 — corrected
 - LAD: proxy 3/8/2023: no compensation table recognised
 - LAD: proxy 3/11/2022: no compensation table recognised
+- LFUS: David W. Heinzmann 2022: table read total 6,932,546; the filing tags the CEO's total as 6,850,271 — corrected
 - LVO: proxy 7/29/2022: Aaron Sullivan 2022: components 222,100 ≠ total 22,100; difference shown as Other.
 - LPSN: proxy 9/17/2025: no compensation table recognised
 - LDI: proxy 4/23/2026: Anthony Hsieh 2025: components 3,259,986 ≠ total 2,082,493; difference shown as Other.
@@ -8866,9 +8969,12 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - LPLA: proxy 3/25/2025: Richard Steinmeier 2024: components 9,403,961 ≠ total 4,717,883; difference shown as Other.
 - LPLA: proxy 3/25/2025: Richard Steinmeier 2023: components 5,783,732 ≠ total 3,729,366; difference shown as Other.
 - LPLA: proxy 3/25/2025: Richard Steinmeier 2022: components 5,327,228 ≠ total 3,313,614; difference shown as Other.
+- LXU: Mark T. Behrman 2023: table read total 4,474,648; the filing tags the CEO's total as 4,487,833 — corrected
 - LYTS: proxy 9/14/2023: no compensation table recognised
 - LYTS: proxy 9/14/2022: no compensation table recognised
 - LYTS: proxy 9/15/2021: no compensation table recognised
+- LTC: Wendy L. Simpson 2023: table read total 5,079,210; the filing tags the CEO's total as 5,248,068 — corrected
+- LTC: Wendy L. Simpson 2022: table read total 4,512,891; the filing tags the CEO's total as 4,662,529 — corrected
 - LCID: proxy 4/23/2026: Marc Winterhoff 2024: components 13,291,584 ≠ total 6,645,792; difference shown as Other.
 - LCID: proxy 4/23/2026: Taoufiq Boussaid 2025: components 24,106,184 ≠ total 12,053,092; difference shown as Other.
 - LCID: proxy 7/28/2025: no compensation table recognised
@@ -8899,6 +9005,9 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - LXP: proxy 4/8/2021: T. Wilson Eglin 2020: components 3,046,621 ≠ total 5,711,382; difference shown as Other.
 - LXP: proxy 4/8/2021: T. Wilson Eglin 2019: components 3,690,705 ≠ total 5,703,514; difference shown as Other.
 - LXP: proxy 4/8/2021: T. Wilson Eglin 2018: components 2,199,085 ≠ total 5,071,152; difference shown as Other.
+- LXP: T. Wilson Eglin 2020: table read total 5,711,382; the filing tags the CEO's total as 4,867,205 — corrected
+- LXP: T. Wilson Eglin 2022: table read total 5,231,778; the filing tags the CEO's total as 6,062,516 — corrected
+- MPTI: Michael J. Ferrantino, Jr. 2025: the filing tags the CEO's total as 1,182,127, far from the table's 256,561; kept the table figure
 - MHO: proxy 4/6/2023: Phillip G. Creek 2022: components 2,496,162 ≠ total 4,558,660; difference shown as Other.
 - MTB: proxy 3/10/2026: no compensation table recognised
 - MTB: proxy 3/4/2025: no compensation table recognised
@@ -8959,6 +9068,9 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - MKL: proxy 4/3/2025: Richard R. Grinnan 2024: components 4,189,170 ≠ total 2,445,690; difference shown as Other.
 - MKL: proxy 4/3/2025: Brian J. Costanzo 2024: components 2,857,352 ≠ total 1,708,226; difference shown as Other.
 - MKL: proxy 4/4/2024: Teresa S. Gendron 2023: components 5,066,935 ≠ total 2,604,435; difference shown as Other.
+- MKL: Thomas S. Gayner 2021: table read total 4,624,603; the filing tags the CEO's total as 4,639,603 — corrected
+- MKL: Richard R. Whitt, III 2021: table read total 4,615,441; the filing tags the CEO's total as 4,630,441 — corrected
+- MKL: Richard R. Whitt, III 2020: table read total 4,177,972; the filing tags the CEO's total as 4,192,222 — corrected
 - MRKR: proxy 3/20/2026: Juan Vera 2025: components 681,380 ≠ total 741,190; difference shown as Other.
 - MRKR: proxy 2/4/2025: no compensation table recognised
 - MRKR: proxy 4/26/2024: Peter Hoang 2022: components 566,170 ≠ total 556,170; difference shown as Other.
@@ -9007,7 +9119,6 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - MCFT: proxy 9/23/2024: no compensation table recognised
 - MCFT: proxy 9/15/2023: no compensation table recognised
 - MCFT: proxy 9/16/2022: no compensation table recognised
-- MTNB: proxy 3/3/2025: no compensation table recognised
 - MATV: proxy 3/21/2025: Michael W. Rickheim 2022: components 1,407,630 ≠ total 1,377,630; difference shown as Other.
 - MATX: proxy 3/9/2026: Matthew J. Cox 2025: components 6,284,709 ≠ total 6,490,287; difference shown as Other.
 - MATX: proxy 3/9/2026: Matthew J. Cox 2023: components 5,969,644 ≠ total 6,165,815; difference shown as Other.
@@ -9028,9 +9139,11 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - MAT: proxy 4/14/2026: Paul Ruh 2025: components 15,634,320 ≠ total 7,817,160; difference shown as Other.
 - MAT: proxy 4/14/2026: Steve Totzke 2025: components 9,234,022 ≠ total 4,617,011; difference shown as Other.
 - MAYS: proxy 10/19/2023: Ward N. Lyke, Jr. 2022: components 282,528 ≠ total 332,609; difference shown as Other.
+- MAYS: Lloyd J. Shulman. 2025: table read total 390,228; the filing tags the CEO's total as 330,055 — corrected
 - MEC: proxy 3/4/2022: no compensation table recognised
 - MGRC: proxy 4/28/2023: no compensation table recognised
 - MGRC: proxy 4/29/2022: no compensation table recognised
+- MGRC: Joseph F. Hanna 2024: table read total 5,477,843; the filing tags the CEO's total as 5,337,471 — corrected
 - MCK: proxy 6/12/2026: Brian S. Tyler 2026: components 19,756,376 ≠ total 24,213,044; difference shown as Other.
 - MCK: proxy 6/12/2026: Brian S. Tyler 2025: components 16,492,547 ≠ total 20,161,714; difference shown as Other.
 - MCK: proxy 6/12/2026: Brian S. Tyler 2024: components 15,855,133 ≠ total 18,997,543; difference shown as Other.
@@ -9047,6 +9160,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - MDRR: proxy 8/23/2024: C. Brent Winn, Jr. 2022: components 376,600 ≠ total 426,600; difference shown as Other.
 - MAX: proxy 4/5/2022: Tigran Sinanyan 2021: components 318,107 ≠ total 306,613; difference shown as Other.
 - MDIA: proxy 2/24/2025: no compensation table recognised
+- MNOV: Yuichi Iwaki 2025: table read total 1,736,711; the filing tags the CEO's total as 1,756,864 — corrected
 - MED: proxy 4/6/2026: Daniel R. Chard 2025: components 11,169,101 ≠ total 5,584,551; difference shown as Other.
 - MED: proxy 4/6/2026: Daniel R. Chard 2024: components 11,219,710 ≠ total 5,609,855; difference shown as Other.
 - MED: proxy 4/6/2026: Daniel R. Chard 2023: components 14,078,124 ≠ total 7,039,062; difference shown as Other.
@@ -9068,6 +9182,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - MBIN: proxy 4/8/2022: Michael F. Petrie 2021: components 821,050 ≠ total 1,549,064; difference shown as Other.
 - MBIN: proxy 4/8/2022: Michael F. Petrie 2020: components 922,419 ≠ total 1,578,683; difference shown as Other.
 - MBIN: proxy 4/8/2022: Michael J. Dunlap 2021: components 882,700 ≠ total 1,487,502; difference shown as Other.
+- MBIN: Michael F. Petrie 2024: the filing tags the CEO's total as 2,939,929, far from the table's 887,622; kept the table figure
 - MRCY: proxy 9/12/2024: Charles R. Wells, IV 2023: components 1,076,729 ≠ total 661,729; difference shown as Other.
 - MRCY: proxy 9/12/2024: Charles R. Wells, IV 2022: components 8,109,325 ≠ total 4,245,303; difference shown as Other.
 - MRBK: proxy 4/6/2026: Christopher J. Annas 2025: components 1,413,997 ≠ total 1,677,997; difference shown as Other.
@@ -9086,6 +9201,9 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - MMSI: proxy 4/2/2024: Fred P. Lampropoulos 2023: components 8,704,483 ≠ total 1,339,481; difference shown as Other.
 - MMSI: proxy 4/2/2024: Fred P. Lampropoulos 2022: components 7,130,097 ≠ total 990,036; difference shown as Other.
 - MMSI: proxy 4/2/2024: Fred P. Lampropoulos 2021: components 5,737,100 ≠ total 7,537,100; difference shown as Other.
+- MMSI: Fred P. Lampropoulos 2024: the filing tags the CEO's total as 10,381,624, far from the table's 1,348,326; kept the table figure
+- MMSI: Fred P. Lampropoulos 2023: the filing tags the CEO's total as 10,052,664, far from the table's 1,339,481; kept the table figure
+- MMSI: Fred P. Lampropoulos 2022: the filing tags the CEO's total as 8,128,833, far from the table's 990,036; kept the table figure
 - MRLN: proxy 9/26/2025: no compensation table recognised
 - MLAB: proxy 7/14/2022: Gary Owens 2022: components 18,076,981 ≠ total 17,306,341; difference shown as Other.
 - MSB: proxy 11/9/2018: no compensation table recognised
@@ -9096,16 +9214,13 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - MEI: proxy 7/27/2023: Andrea J. Barry 2021: components 2,193,078 ≠ total 20,819; difference shown as Other.
 - MEI: proxy 7/26/2022: Andrea J. Barry 2021: components 2,193,078 ≠ total 20,819; difference shown as Other.
 - MCB: proxy 4/20/2022: Nick Rosenberg 2021: components 943,450 ≠ total 934,078; difference shown as Other.
+- MTD: Patrick Kaltenbach 2021: table read total 11,850,385; the filing tags the CEO's total as 12,046,903 — corrected
+- MTD: Patrick Kaltenbach 2022: table read total 6,375,030; the filing tags the CEO's total as 6,223,115 — corrected
 - MXC: proxy 7/30/2026: left out 3 row(s) that can't be right (Donna Gail Yanko 2026: salary 1,200, total 1,200; Donna Gail Yanko 2025: salary 1,200, total 1,200; Donna Gail Yanko 2024: salary 1,200, total 1,200)
 - MXC: proxy 7/23/2025: left out 3 row(s) that can't be right (Donna Gail Yanko 2025: salary 1,200, total 1,200; Donna Gail Yanko 2024: salary 1,200, total 1,200; Donna Gail Yanko 2023: salary 1,200, total 1,200)
 - MXC: proxy 7/22/2024: left out 3 row(s) that can't be right (Donna Gail Yanko 2024: salary 1,200, total 1,200; Donna Gail Yanko 2023: salary 1,200, total 1,200; Donna Gail Yanko 2022: salary 1,200, total 1,200)
 - MXC: proxy 7/20/2023: left out 3 row(s) that can't be right (Donna Gail Yanko 2023: salary 1,200, total 1,200; Donna Gail Yanko 2022: salary 1,200, total 1,200; Donna Gail Yanko 2021: salary 1,200, total 1,200)
 - MXC: proxy 7/21/2022: left out 3 row(s) that can't be right (Donna Gail Yanko 2022: salary 1,200, total 1,200; Donna Gail Yanko 2021: salary 1,200, total 1,200; Donna Gail Yanko 2020: salary 1,200, total 1,200)
-- MGEE: proxy 4/2/2026: no compensation table recognised
-- MGEE: proxy 4/4/2025: no compensation table recognised
-- MGEE: proxy 4/5/2024: no compensation table recognised
-- MGEE: proxy 3/29/2023: no compensation table recognised
-- MGEE: proxy 3/30/2022: no compensation table recognised
 - MLGO: proxy 10/20/2022: no compensation table recognised
 - MBOT: proxy 2/28/2025: no compensation table recognised
 - MBOT: proxy 8/8/2022: Harel Gadot 2021: components 1,773,418 ≠ total 1,555,800; difference shown as Other.
@@ -9117,13 +9232,19 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - MCHP: proxy 7/7/2025: Steve Sanghi 2023: components 561,332 ≠ total 8,640,495; difference shown as Other.
 - MVST: proxy 7/1/2022: left out 1 row(s) that can't be right (Yang Wu 2020: salary 0, total 6,681)
 - MVST: proxy 3/25/2021: no compensation table recognised
+- MVIS: Glen DeVos 2025: table read total 3,387,845, but the filing tags the CEO's total as 2,486,790; row left out
+- MVIS: Sumit Sharma 2023: table read total 4,762,817; the filing tags the CEO's total as 4,726,729 — corrected
+- MVIS: Sumit Sharma 2022: table read total 8,917,261; the filing tags the CEO's total as 8,880,000 — corrected
 - MAA: proxy 4/4/2022: H. Eric Bolton, Jr. 2021: components 4,674,495 ≠ total 7,667,655; difference shown as Other.
 - MAA: proxy 4/4/2022: H. Eric Bolton, Jr. 2020: components 3,817,437 ≠ total 4,725,312; difference shown as Other.
 - MAA: proxy 4/4/2022: H. Eric Bolton, Jr. 2019: components 3,578,798 ≠ total 5,735,898; difference shown as Other.
 - MIDD: proxy 3/31/2023: no compensation table recognised
 - MIDD: proxy 3/31/2022: no compensation table recognised
+- MIDD: Timothy J. FitzGerald 2021: table read total 9,406,995, but the filing tags the CEO's total as 5,345,193; row left out
 - MSEX: proxy 4/6/2026: Jay L. Kooper 2025: components 1,172,486 ≠ total 586,243; difference shown as Other.
 - MSEX: proxy 4/6/2026: Georgia M. Simpson 2025: components 935,176 ≠ total 467,588; difference shown as Other.
+- MSEX: Nadine Leslie 2024: table read total 1,249,576; the filing tags the CEO's total as 1,828,153 — corrected
+- MIST: Joseph Oliveto 2024: table read total 854,266; the filing tags the CEO's total as 882,261 — corrected
 - MRP: proxy 4/2/2026: no compensation table recognised
 - MDXG: proxy 4/29/2026: no compensation table recognised
 - MDXG: proxy 4/30/2025: no compensation table recognised
@@ -9147,16 +9268,17 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - MG: proxy 4/12/2023: no compensation table recognised
 - MG: proxy 4/13/2022: no compensation table recognised
 - MITK: proxy 8/14/2024: Frank Teruel 2022: components 361,470 ≠ total 739,016; difference shown as Other.
+- MKSI: John T.C. Lee 2022: table read total 8,058,382; the filing tags the CEO's total as 8,148,398 — corrected
 - BEEP: proxy 5/1/2023: no compensation table recognised
 - MRNA: proxy 10/15/2025: no compensation table recognised
 - MRNA: proxy 3/11/2025: James Mock 2024: components 841,725 ≠ total 17,212,582; difference shown as Other.
+- MRNA: Stéphane Bancel 2020: table read total 12,885,275; the filing tags the CEO's total as 12,855,275 — corrected
 - MOD: proxy 7/10/2026: Neil D. Brinker 2026: components 7,306,368 ≠ total 10,159,548; difference shown as Other.
 - MOD: proxy 7/10/2026: Neil D. Brinker 2025: components 6,298,087 ≠ total 12,706,532; difference shown as Other.
 - MOD: proxy 7/10/2026: Neil D. Brinker 2024: components 4,684,623 ≠ total 8,505,827; difference shown as Other.
 - MOD: proxy 7/9/2025: Neil D. Brinker 2025: components 6,298,087 ≠ total 12,706,532; difference shown as Other.
 - MOD: proxy 7/9/2025: Neil D. Brinker 2024: components 4,684,623 ≠ total 8,505,827; difference shown as Other.
 - MOD: proxy 7/9/2025: Neil D. Brinker 2023: components 2,367,761 ≠ total 4,824,132; difference shown as Other.
-- MODD: proxy 1/24/2025: left out 1 row(s) that can't be right (James E. Besser 2023: salary 0, total 1)
 - MHK: proxy 4/5/2024: James F. Brunk 2023: components 683,100 ≠ total 1,871,742; difference shown as Other.
 - MHK: proxy 4/5/2024: James F. Brunk 2022: components 621,000 ≠ total 1,604,467; difference shown as Other.
 - MHK: proxy 4/7/2023: Bernard P. Thiers 2022: components 1,841,133 ≠ total 1,814,133; difference shown as Other.
@@ -9174,9 +9296,14 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - MNRO: proxy 7/6/2023: Michael T. Broderick 2022: components 8,716,786 ≠ total 4,366,643; difference shown as Other.
 - MNRO: proxy 7/6/2023: Brian J. D'Ambrosia 2023: components 2,250,864 ≠ total 1,142,782; difference shown as Other.
 - MNST: proxy 4/25/2025: no compensation table recognised
+- MNST: Hilton H. Schlosberg 2025: the filing tags the CEO's total as 19,282,630, far from the table's 2,995,503; kept the table figure
 - MCO: proxy 3/6/2024: Robert Fauber 2023: components 1,000,000 ≠ total 14,387,659; difference shown as Other.
 - MCO: proxy 3/6/2024: Mark Kaye 2023: components 525,609 ≠ total 3,349,028; difference shown as Other.
 - MCO: proxy 3/6/2024: Caroline Sullivan 2023: components 455,000 ≠ total 1,378,752; difference shown as Other.
+- MOG-A: Pat Roche 2025: table read total 5,598,110; the filing tags the CEO's total as 8,404,872 — corrected
+- MOG-A: John R. Scannell 2023: table read total 1,136,559; the filing tags the CEO's total as 2,252,909 — corrected
+- MOG-A: Pat Roche 2024: the filing tags the CEO's total as 10,187,189, far from the table's 4,615,800; kept the table figure
+- MOG-A: Pat Roche 2023: table read total 3,746,037; the filing tags the CEO's total as 6,015,785 — corrected
 - MOS: proxy 4/16/2026: Karen A. Swager 2024: components 2,817,627 ≠ total 2,588,145; difference shown as Other.
 - MOS: proxy 4/16/2025: Karen A. Swager 2024: components 2,817,627 ≠ total 2,588,145; difference shown as Other.
 - MOS: proxy 4/16/2025: Jenny Wang 2024: components 842,841 ≠ total 2,925,596; difference shown as Other.
@@ -9199,6 +9326,8 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - MYE: proxy 3/21/2022: left out 1 row(s) that can't be right (Thomas Harmon 2020: salary 261,538, total 641,974)
 - MYE: proxy 3/26/2021: Kevin Brackman 2018: components 868,528 ≠ total 869; difference shown as Other.
 - MYE: proxy 3/26/2021: left out 2 row(s) that can't be right (Kevin Brackman 2018: salary 869, total 869; Thomas Harmon 2020: salary 261,538, total 641,974)
+- MYE: Michael McGaugh 2022: table read total 3,952,085; the filing tags the CEO's total as 3,892,778 — corrected
+- MYE: Andrean Horton 2020: table read total 1,059,081; the filing tags the CEO's total as 1,048,702 — corrected
 - MYO: proxy 10/28/2022: no compensation table recognised
 - MYGN: proxy 4/9/2025: Paul J. Diaz 2022: components 22,782,376 ≠ total 11,391,188; difference shown as Other.
 - MYGN: proxy 4/9/2025: Scott J. Leffler 2024: components 12,306,340 ≠ total 6,153,170; difference shown as Other.
@@ -9206,6 +9335,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - MYGN: proxy 4/17/2024: Paul J. Diaz 2022: components 22,782,376 ≠ total 11,391,188; difference shown as Other.
 - MYGN: proxy 4/17/2024: Paul J. Diaz 2021: components 25,575,338 ≠ total 12,787,669; difference shown as Other.
 - MYGN: proxy 4/17/2024: R. Bryan Riggsbee 2022: components 5,741,558 ≠ total 2,870,779; difference shown as Other.
+- MYGN: R. Bryan Riggsbee 2020: the filing tags the CEO's total as 1,816,406, far from the table's 4,203,341; kept the table figure
 - MYSE: proxy 6/16/2025: Brett Blumberg 2023: components 60,000 ≠ total 75,543; difference shown as Other.
 - NAKA: proxy 4/17/2026: no compensation table recognised
 - NAKA: proxy 9/19/2024: Timothy Pickett 2022: components 433,416 ≠ total 439,763; difference shown as Other.
@@ -9234,12 +9364,16 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - FIZZ: proxy 8/26/2022: Joseph G. Caporella 2022: components 1,748,839 ≠ total 1,650,000; difference shown as Other.
 - FIZZ: proxy 8/26/2022: Joseph G. Caporella 2021: components 1,960,222 ≠ total 1,490,000; difference shown as Other.
 - FIZZ: proxy 8/26/2022: Joseph G. Caporella 2020: components 1,479,142 ≠ total 1,440,000; difference shown as Other.
+- FIZZ: Joseph G. Caporella 2026: the filing tags the CEO's total as 11,805,522, far from the table's 1,900,000; kept the table figure
+- FIZZ: Joseph G. Caporella 2025: the filing tags the CEO's total as 12,013,239, far from the table's 1,825,000; kept the table figure
 - NCMI: proxy 7/5/2023: no compensation table recognised
 - NHC: proxy 3/25/2022: no compensation table recognised
 - NPK: proxy 4/14/2026: no compensation table recognised
 - EYE: proxy 4/29/2025: Mark S. Banner 2024: components 1,407,105 ≠ total 1,456,101; difference shown as Other.
 - EYE: proxy 4/26/2023: Bill Clark 2020: components 747,775 ≠ total 817,813; difference shown as Other.
 - NGS: proxy 4/28/2026: no compensation table recognised
+- NGS: John W. Chisholm 2022: the filing tags the CEO's total as 1,379,126, far from the table's 429,129; kept the table figure
+- NGS: Justin C. Jacobs 2024: table read total 2,284,275; the filing tags the CEO's total as 2,546,910 — corrected
 - NGVC: proxy 1/20/2022: Todd Dissinger 2020: components 813,339 ≠ total 798,235; difference shown as Other.
 - NATR: proxy 3/20/2025: Terrence Moorehead 2024: components 875,492 ≠ total 1,456,000; difference shown as Other.
 - NATR: proxy 3/20/2025: Terrence Moorehead 2023: components 842,677 ≠ total 1,400,002; difference shown as Other.
@@ -9250,6 +9384,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - NATR: proxy 3/24/2023: Terrence Moorehead 2022: components 2,746,887 ≠ total 2,785,447; difference shown as Other.
 - NATR: proxy 3/24/2023: Terrence Moorehead 2021: components 2,516,031 ≠ total 3,563,563; difference shown as Other.
 - NATR: proxy 3/24/2023: Terrence Moorehead 2020: components 1,969,732 ≠ total 2,849,911; difference shown as Other.
+- NATR: Terrence Moorehead 2022: table read total 2,023,328; the filing tags the CEO's total as 2,785,447 — corrected
 - KITT: proxy 4/17/2026: John Symington 2024: components 119,956 ≠ total 113,077; difference shown as Other.
 - KITT: proxy 12/29/2025: no compensation table recognised
 - KITT: proxy 9/25/2025: no compensation table recognised
@@ -9257,6 +9392,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - KITT: proxy 4/29/2025: John D. Yamakoski 2023: components 242,006 ≠ total 368,201; difference shown as Other.
 - KITT: proxy 4/29/2025: John Symington 2024: components 123,077 ≠ total 113,077; difference shown as Other.
 - KITT: proxy 11/25/2024: no compensation table recognised
+- NAVI: Steve Hauber 2022: the filing tags the CEO's total as 8,273,918, far from the table's 1,747,016; kept the table figure
 - NBBK: proxy 3/27/2026: Joseph Campanelli 2025: components 7,385,242 ≠ total 8,098,855; difference shown as Other.
 - NBBK: proxy 3/27/2026: Joseph Campanelli 2024: components 2,018,000 ≠ total 2,779,579; difference shown as Other.
 - NBBK: proxy 3/27/2026: JP Lapointe 2025: components 2,375,903 ≠ total 2,457,585; difference shown as Other.
@@ -9266,6 +9402,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - NBBK: proxy 4/12/2024: Joseph Campanelli 2023: components 3,935,316 ≠ total 7,267,749; difference shown as Other.
 - NBBK: proxy 4/12/2024: Joseph Campanelli 2022: components 1,750,000 ≠ total 3,557,400; difference shown as Other.
 - NBBK: proxy 4/12/2024: Salvatore Rinaldi 2023: components 2,468,527 ≠ total 4,770,733; difference shown as Other.
+- NATL: Timothy C. Oliver 2024: table read total 8,670,022; the filing tags the CEO's total as 8,728,822 — corrected
 - VYX: proxy 4/22/2025: no compensation table recognised
 - VYX: proxy 4/17/2024: no compensation table recognised
 - NXH: proxy 8/19/2026: no compensation table recognised
@@ -9287,6 +9424,8 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - NCPL: proxy 6/7/2024: no compensation table recognised
 - NCPL: proxy 1/9/2024: no compensation table recognised
 - NFLX: proxy 4/21/2023: REED HASTINGS 2020: components 5,040,033 ≠ total 43,226,024; difference shown as Other.
+- NTGR: Charles (CJ) Prober 2025: the filing tags the CEO's total as 3,587,789, far from the table's 10,555,676; kept the table figure
+- NTGR: Patrick C.S. Lo 2024: table read total 2,464,183; the filing tags the CEO's total as 2,567,933 — corrected
 - NEUP: proxy 11/12/2024: no compensation table recognised
 - NRXS: proxy 4/28/2026: Brian Carrico 2025: components 914,903 ≠ total 936,439; difference shown as Other.
 - NRXS: proxy 4/28/2026: Brian Carrico 2024: components 559,703 ≠ total 578,376; difference shown as Other.
@@ -9299,11 +9438,14 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - GBR: proxy 10/18/2022: no compensation table recognised
 - NUAI: proxy 3/16/2026: no compensation table recognised
 - NFE: proxy 4/1/2026: no compensation table recognised
+- NWL: Ravichandra K. Saligram 2022: the filing tags the CEO's total as 10,296,665, far from the table's 1,816,473; kept the table figure
+- NWL: Ravichandra K. Saligram 2022: the filing tags the CEO's total as 10,296,665, far from the table's 1,816,473; kept the table figure
 - NMRK: proxy 8/16/2023: no compensation table recognised
 - NMRK: proxy 8/15/2022: no compensation table recognised
 - NEU: proxy 3/12/2025: William Skrobacz 2023: components 400,000 ≠ total 973,643; difference shown as Other.
 - NEU: proxy 3/12/2025: Bryce D. Jewett, III 2022: components 428,958 ≠ total 934,827; difference shown as Other.
 - NEU: proxy 3/11/2024: Bryce D. Jewett, III 2021: components 410,000 ≠ total 956,217; difference shown as Other.
+- NEU: Thomas E. Gottwald 2022: table read total 2,090,768; the filing tags the CEO's total as 2,098,436 — corrected
 - NEM: proxy 3/26/2026: TOM PALMER 2025: components 11,591,047 ≠ total 15,625,168; difference shown as Other.
 - NEM: proxy 3/26/2026: TOM PALMER 2024: components 10,855,061 ≠ total 12,965,126; difference shown as Other.
 - NEM: proxy 3/26/2026: TOM PALMER 2023: components 10,384,672 ≠ total 11,747,104; difference shown as Other.
@@ -9312,6 +9454,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - NEM: proxy 3/14/2025: TOM PALMER 2022: components 11,584,764 ≠ total 13,654,538; difference shown as Other.
 - NEM: proxy 3/11/2024: no compensation table recognised
 - NEM: proxy 3/7/2022: no compensation table recognised
+- NWSA: Robert J. Thomson 2021: table read total 23,024,845; the filing tags the CEO's total as 23,052,040 — corrected
 - NWTG: proxy 1/10/2025: no compensation table recognised
 - NXL: proxy 6/17/2025: Mark White 2023: components 111,678 ≠ total 154,478; difference shown as Other.
 - NXL: proxy 6/17/2025: Mark White 2024: components 677,052 ≠ total 873,140; difference shown as Other.
@@ -9340,6 +9483,8 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - NEE: proxy 4/1/2026: John W. Ketchum 2023: components 19,017,699 ≠ total 20,591,124; difference shown as Other.
 - NXXT: proxy 4/28/2023: Yehuda Levy 2021: components 99,108 ≠ total 142,065; difference shown as Other.
 - NXPL: proxy 3/16/2026: no compensation table recognised
+- NXPL: David Phipps 2025: table read total 652,980; the filing tags the CEO's total as 980,980 — corrected
+- NXPL: Charles M. Fernandez 2024: table read total 1,504,050; the filing tags the CEO's total as 1,906,050 — corrected
 - NXT: proxy 7/7/2026: Daniel Shugar 2026: components 27,436,684 ≠ total 22,204,244; difference shown as Other.
 - NXT: proxy 7/7/2026: Daniel Shugar 2025: components 36,314,327 ≠ total 20,097,412; difference shown as Other.
 - NXT: proxy 7/7/2026: Daniel Shugar 2024: components 36,596,480 ≠ total 20,725,590; difference shown as Other.
@@ -9367,6 +9512,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - NMIH: proxy 3/28/2024: Adam S. Pollitzer 2023: components 15,862,974 ≠ total 7,931,487; difference shown as Other.
 - NMIH: proxy 3/28/2024: Adam S. Pollitzer 2022: components 10,949,688 ≠ total 5,474,844; difference shown as Other.
 - NMIH: proxy 3/28/2024: Adam S. Pollitzer 2021: components 5,645,208 ≠ total 2,822,604; difference shown as Other.
+- NMIH: Claudia J. Merkle 2021: table read total 4,970,949; the filing tags the CEO's total as 3,877,097 — corrected
 - NNBR: proxy 8/28/2026: no compensation table recognised
 - NNBR: proxy 4/6/2026: no compensation table recognised
 - NOBH: proxy 2/4/2022: Terry E. Trexler 2020: components 363,955 ≠ total 343,500; difference shown as Other.
@@ -9374,11 +9520,10 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - NE: proxy 3/23/2023: Robert W. Eifler 2020: components 4,682,169 ≠ total 4,882,286; difference shown as Other.
 - NCRA: proxy 11/24/2025: Andy Ching-An Jin 2024: components 191,256 ≠ total 194,436; difference shown as Other.
 - NCRA: proxy 11/24/2025: Andy Ching-An Jin 2023: components 117,979 ≠ total 121,800; difference shown as Other.
-- NMAD: proxy 7/27/2026: no compensation table recognised
-- NMAD: proxy 4/11/2023: no compensation table recognised
 - NDLS: proxy 4/1/2026: Brad West 2025: components 523,490 ≠ total 328,071; difference shown as Other.
 - NDLS: proxy 12/22/2025: no compensation table recognised
 - NDSN: proxy 1/27/2023: Joseph P. Kelley 2022: components 2,867,126 ≠ total 2,935,688; difference shown as Other.
+- NDSN: Sundaram Nagarajan 2023: table read total 7,058,392; the filing tags the CEO's total as 6,981,645 — corrected
 - NRIM: proxy 4/14/2026: Michael G. Huston 2025: components 2,411,539 ≠ total 1,491,789; difference shown as Other.
 - NRIM: proxy 4/14/2026: Michael G. Huston 2023: components 1,009,526 ≠ total 682,997; difference shown as Other.
 - NRIM: proxy 4/14/2026: Jed W. Ballard 2025: components 1,401,045 ≠ total 904,344; difference shown as Other.
@@ -9395,6 +9540,8 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - NOV: proxy 4/4/2024: no compensation table recognised
 - NOV: proxy 4/6/2023: no compensation table recognised
 - NOV: proxy 4/8/2022: no compensation table recognised
+- NOV: Clay C. Williams 2025: the filing tags the CEO's total as 12,713,187, far from the table's 2,782,984; kept the table figure
+- NOV: Clay C. Williams 2024: the filing tags the CEO's total as 11,974,375, far from the table's 2,584,906; kept the table figure
 - NG: proxy 3/24/2023: no compensation table recognised
 - NG: proxy 3/25/2022: no compensation table recognised
 - NRG: proxy 3/15/2022: no compensation table recognised
@@ -9407,6 +9554,9 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - NUTX: proxy 3/13/2026: left out 1 row(s) that can't be right (Joshua DeTillio 2023: salary 0, total 9,183)
 - NUTX: proxy 5/19/2023: Warren Hosseinion MD 2021: components 1,832,670 ≠ total 1,307,407; difference shown as Other.
 - NUTX: proxy 5/19/2023: Michael Bowen 2022: components 686,084 ≠ total 642,600; difference shown as Other.
+- NUTX: Thomas T. Vo 2025: table read total 2,197,420; the filing tags the CEO's total as 1,938,970 — corrected
+- NUTX: Thomas T. Vo 2024: table read total 662,214; the filing tags the CEO's total as 1,162,214 — corrected
+- NUTX: Thomas T. Vo 2023: the filing tags the CEO's total as 1,020,395, far from the table's 20,395; kept the table figure
 - NTRB: proxy 12/19/2025: Gareth Sheridan 2024: components 295,110 ≠ total 285,110; difference shown as Other.
 - NTRB: proxy 12/15/2023: Serguei Melnik 2023: components 346,672 ≠ total 340,672; difference shown as Other.
 - NTRB: proxy 12/15/2023: Alan Smith 2022: components 180,654 ≠ total 264,654; difference shown as Other.
@@ -9424,6 +9574,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - OVLY: proxy 5/9/2022: Christopher M. Courtney 2019: components 644,335 ≠ total 768,782; difference shown as Other.
 - OVLY: proxy 5/9/2022: Christopher M. Courtney 2020: components 649,795 ≠ total 783,621; difference shown as Other.
 - OVLY: proxy 5/9/2022: Richard A. McCarty 2021: components 783,909 ≠ total 927,706; difference shown as Other.
+- OVLY: Christopher M. Courtney 2025: table read total 1,065,419; the filing tags the CEO's total as 908,283 — corrected
 - OPTT: proxy 8/3/2026: no compensation table recognised
 - OPTT: proxy 3/24/2025: no compensation table recognised
 - OPTT: proxy 7/15/2024: no compensation table recognised
@@ -9504,6 +9655,8 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - OSPN: proxy 4/23/2025: Jorge Martell 2022: components 1,813,971 ≠ total 1,723,692; difference shown as Other.
 - OSPN: proxy 4/23/2024: Matthew Moynahan 2021: components 14,176,832 ≠ total 7,111,207; difference shown as Other.
 - OSPN: proxy 4/23/2024: Jorge Martell 2022: components 1,813,971 ≠ total 1,723,692; difference shown as Other.
+- OSPN: Scott M. Clements 2021: table read total 4,491,559; the filing tags the CEO's total as 4,230,105 — corrected
+- OSPN: Scott M. Clements 2020: table read total 3,766,207, but the filing tags the CEO's total as 2,928,691; row left out
 - ONFO: proxy 6/18/2026: Adam Trainor 2025: components 240,000 ≠ total 356,005; difference shown as Other.
 - ONFO: proxy 6/18/2026: Adam Trainor 2024: components 141,000 ≠ total 149,867; difference shown as Other.
 - ONFO: proxy 2/13/2026: no compensation table recognised
@@ -9524,6 +9677,10 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - OPY: proxy 3/17/2023: left out 1 row(s) that can't be right (Management Inc. 2022: salary 125,000, total 958,900)
 - OPY: proxy 3/18/2022: Co. Inc. 2019: components 1,749,440 ≠ total 758,627; difference shown as Other.
 - OPY: proxy 3/18/2022: left out 3 row(s) that can't be right (Co. Inc. 2021: salary 300,000, total 2,383,900; Co. Inc. 2020: salary 300,000, total 1,930,700; Co. Inc. 2019: salary 200,000, total 758,627)
+- OPY: A. G. Lowenthal 2025: the filing tags the CEO's total as 10,861,724, far from the table's 4,756,700; kept the table figure
+- OPY: A. G. Lowenthal 2024: table read total 2,495,500; the filing tags the CEO's total as 2,487,200 — corrected
+- OPY: A. G. Lowenthal 2023: the filing tags the CEO's total as 4,764,786, far from the table's 2,306,350; kept the table figure
+- OPY: A. G. Lowenthal 2022: table read total 5,844,500; the filing tags the CEO's total as 8,337,803 — corrected
 - OPFI: proxy 4/26/2024: Christopher McKay 2023: components 570,064 ≠ total 561,147; difference shown as Other.
 - OPFI: proxy 6/9/2022: Jared Kaplan 2020: components 903,453 ≠ total 964,455; difference shown as Other.
 - OPFI: proxy 6/9/2022: Shiven Shah 2020: components 547,938 ≠ total 556,876; difference shown as Other.
@@ -9535,8 +9692,9 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - OPRX: proxy 4/29/2024: Stephen L. Silvestro 2022: components 1,538,637 ≠ total 15,586,371; difference shown as Other.
 - OPTU: proxy 4/30/2026: Marc Sirota 2025: components 9,678,076 ≠ total 5,595,709; difference shown as Other.
 - OPTU: proxy 4/30/2026: Michael Olsen 2025: components 3,531,701 ≠ total 4,684,840; difference shown as Other.
-- OGEN: proxy 10/31/2024: Janet Huffman 2023: components 317,896 ≠ total 267,396; difference shown as Other.
 - OBIO: proxy 7/1/2022: no compensation table recognised
+- OGN: Kevin Ali 2022: table read total 13,532,980; the filing tags the CEO's total as 14,947,950 — corrected
+- OESX: Michael H. Jenkins 2025: table read total 814,638; the filing tags the CEO's total as 1,004,244 — corrected
 - ORN: proxy 4/3/2024: Travis J. Boone 2022: components 1,606,368 ≠ total 5,708; difference shown as Other.
 - ORN: proxy 4/3/2024: G. Scott Thanisch 2022: components 578,618 ≠ total 7,916; difference shown as Other.
 - ORN: proxy 4/3/2024: Peter R. Buchler 2022: components 541,741 ≠ total 37,948; difference shown as Other.
@@ -9562,17 +9720,22 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - OTLK: proxy 6/1/2026: no compensation table recognised
 - OM: proxy 2/4/2025: no compensation table recognised
 - OVID: proxy 11/7/2025: no compensation table recognised
+- OVID: Jeremy M. Levin 2023: table read total 2,107,495; the filing tags the CEO's total as 2,136,546 — corrected
 - OC: proxy 3/7/2024: Gina A. Beredo 2022: components 3,658,498 ≠ total 2,197,466; difference shown as Other.
 - OWLT: proxy 7/3/2024: Jonathan Harris 2023: components 778,015 ≠ total 823,015; difference shown as Other.
 - PIII: proxy 3/3/2025: no compensation table recognised
+- PIII: Aric Coffman 2024: table read total 9,406,674; the filing tags the CEO's total as 10,754,366 — corrected
+- PCAR: R. P. Feight 2024: table read total 17,364,223; the filing tags the CEO's total as 12,184,223 — corrected
 - PCRX: proxy 4/21/2023: Kristen Williams 2022: components 1,770,280 ≠ total 2,008,835; difference shown as Other.
 - PKG: proxy 3/27/2026: no compensation table recognised
 - PKG: proxy 3/27/2025: no compensation table recognised
 - PKG: proxy 3/28/2024: no compensation table recognised
 - PKG: proxy 3/23/2023: no compensation table recognised
+- PACS: Jason Murray 2024: table read total 4,425,575; the filing tags the CEO's total as 5,039,085 — corrected
 - PGY: proxy 7/6/2026: no compensation table recognised
 - PGY: proxy 10/25/2024: no compensation table recognised
 - PLTR: proxy 11/10/2022: no compensation table recognised
+- PLTR: Alexander Karp 2024: table read total 4,360,170; the filing tags the CEO's total as 4,630,170 — corrected
 - PTN: proxy 6/25/2026: Stephen T. Wills 2024: components 1,524,644 ≠ total 1,424,644; difference shown as Other.
 - PTN: proxy 5/28/2024: Carl Spana 2023: components 1,043,925 ≠ total 1,303,800; difference shown as Other.
 - PALI: proxy 10/28/2025: no compensation table recognised
@@ -9580,14 +9743,11 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - PANL: proxy 12/18/2024: no compensation table recognised
 - PANL: proxy 6/24/2024: Gianni Del Signore 2022: components 946,326 ≠ total 924,898; difference shown as Other.
 - PANL: proxy 6/23/2023: Gianni Del Signore 2021: components 783,781 ≠ total 761,750; difference shown as Other.
+- PZZA: Robert M. Lynch 2024: the filing tags the CEO's total as 369,231, far from the table's 5,369,237; kept the table figure
 - PARR: proxy 3/21/2025: William Pate 2023: components 4,433,805 ≠ total 4,333,805; difference shown as Other.
 - PARR: proxy 3/18/2024: William Pate 2023: components 4,433,805 ≠ total 4,333,805; difference shown as Other.
 - PAR: proxy 4/17/2025: Cathy A. King 2024: components 1,959,029 ≠ total 1,543,029; difference shown as Other.
 - PAAI: proxy 11/19/2025: Kathryn Kulik 2024: components 653,720 ≠ total 645,644; difference shown as Other.
-- PZG: proxy 10/30/2024: no compensation table recognised
-- PZG: proxy 10/26/2021: Rachel Goldman 2021: components 488,020 ≠ total 369,010; difference shown as Other.
-- PZG: proxy 10/26/2021: Rachel Goldman 2020: components 101,335 ≠ total 84,001; difference shown as Other.
-- PZG: proxy 10/26/2021: Glen Van Treek 2021: components 467,190 ≠ total 383,595; difference shown as Other.
 - PKE: proxy 6/17/2022: P. Matthew Farabaugh 2022: components 261,399 ≠ total 272,713; difference shown as Other.
 - PKE: proxy 6/17/2022: Mark A. Esquivel 2022: components 347,309 ≠ total 326,639; difference shown as Other.
 - PK: proxy 3/12/2026: Thomas J. Baltimore, Jr. 2025: components 7,069,332 ≠ total 9,729,412; difference shown as Other.
@@ -9612,9 +9772,11 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - PKBK: proxy 3/21/2025: Vito S. Pantilione 2023: components 1,102,500 ≠ total 1,580,346; difference shown as Other.
 - PKBK: proxy 3/21/2025: Ralph Gallo 2024: components 292,000 ≠ total 373,150; difference shown as Other.
 - PKBK: proxy 3/22/2024: Vito S. Pantilione 2023: components 442,842 ≠ total 1,545,341; difference shown as Other.
+- PTRN: David Wright 2025: the filing tags the CEO's total as 835,488, far from the table's 44,352,948; kept the table figure
 - PAVM: proxy 2/24/2026: no compensation table recognised
 - PAVM: proxy 10/31/2025: no compensation table recognised
 - PAVM: proxy 12/6/2024: no compensation table recognised
+- PAVM: Lishan Aklog 2024: the filing tags the CEO's total as 1,365,200, far from the table's 663,550; kept the table figure
 - PAYC: proxy 3/28/2024: no compensation table recognised
 - PAYC: proxy 3/28/2023: no compensation table recognised
 - PAYC: proxy 3/31/2022: no compensation table recognised
@@ -9712,6 +9874,10 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - PEP: proxy 3/24/2022: Ramon L. Laguarta 2021: components 25,506,607 ≠ total 10,222,640; difference shown as Other.
 - PEP: proxy 3/24/2022: Ramon L. Laguarta 2020: components 21,486,982 ≠ total 5,303,125; difference shown as Other.
 - PEP: proxy 3/24/2022: Ramon L. Laguarta 2019: components 16,870,817 ≠ total 4,454,688; difference shown as Other.
+- PEP: Ramon L. Laguarta 2025: the filing tags the CEO's total as 23,903,545, far from the table's 5,771,000; kept the table figure
+- PEP: Ramon L. Laguarta 2024: the filing tags the CEO's total as 28,814,759, far from the table's 6,766,500; kept the table figure
+- PEP: Ramon L. Laguarta 2023: the filing tags the CEO's total as 33,906,212, far from the table's 13,417,400; kept the table figure
+- PEP: Ramon L. Laguarta 2022: the filing tags the CEO's total as 28,388,228, far from the table's 12,484,200; kept the table figure
 - PRDO: proxy 4/11/2023: no compensation table recognised
 - PRDO: proxy 4/12/2022: no compensation table recognised
 - PWP: proxy 4/10/2026: Peter A. Weinberg 2024: components 500,000 ≠ total 2,000,000; difference shown as Other.
@@ -9728,6 +9894,10 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - PWP: proxy 4/12/2022: Peter A. Weinberg 2021: components 16,208,500 ≠ total 55,550,975; difference shown as Other.
 - PWP: proxy 4/12/2022: Peter A. Weinberg 2020: components 5,008,550 ≠ total 513,728; difference shown as Other.
 - PWP: proxy 4/12/2022: Dietrich Becker 2021: components 13,016,762 ≠ total 41,228,122; difference shown as Other.
+- PWP: Andrew Bednar 2025: table read total 6,750,000, but the filing tags the CEO's total as 5,147,053; row left out
+- PWP: Andrew Bednar 2024: table read total 27,000,000; the filing tags the CEO's total as 27,381,184 — corrected
+- PWP: Andrew Bednar 2023: table read total 8,250,000; the filing tags the CEO's total as 12,404,570 — corrected
+- PWP: Peter A. Weinberg 2022: table read total 4,375,000; the filing tags the CEO's total as 6,756,430 — corrected
 - PMNT: proxy 11/26/2025: Jane Gottschalk 2025: components 257,921 ≠ total 1,493,964; difference shown as Other.
 - PR: proxy 4/6/2026: James H. Walter Co‑ 2023: components 8,594 ≠ total 4,297; difference shown as Other.
 - PR: proxy 4/6/2026: left out 1 row(s) that can't be right (James H. Walter Co‑ 2023: salary 0, total 4,297)
@@ -9759,10 +9929,11 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - PECO: proxy 3/19/2025: Jeffrey S. Edison 2023: components 907,460 ≠ total 7,146,228; difference shown as Other.
 - PECO: proxy 3/19/2025: Jeffrey S. Edison 2022: components 880,077 ≠ total 6,847,851; difference shown as Other.
 - PECO: proxy 3/21/2024: no compensation table recognised
-- PHIO: proxy 11/30/2022: no compensation table recognised
 - PLAB: proxy 2/23/2026: David Wang 2025: components 1,519,419 ≠ total 1,498,436; difference shown as Other.
 - PLAB: proxy 2/14/2025: Richelle Burr 2022: components 1,444,538 ≠ total 1,998,618; difference shown as Other.
 - PLAB: proxy 2/21/2023: Peter S. Kirlin 2022: components 2,470,279 ≠ total 3,758,562; difference shown as Other.
+- PHUN: Rusell Buyse 2023: table read total 351,400; the filing tags the CEO's total as 495,700 — corrected
+- PHUN: Michael Snavely 2023: table read total 339,961, but the filing tags the CEO's total as 282,551; row left out
 - PMI: proxy 2/19/2026: no compensation table recognised
 - PMI: proxy 9/29/2025: no compensation table recognised
 - PPC: proxy 12/10/2024: no compensation table recognised
@@ -9770,13 +9941,17 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - PAPL: proxy 2/6/2026: Kendall Marin 2025: components 231,539 ≠ total 224,615; difference shown as Other.
 - PAPL: proxy 9/30/2025: no compensation table recognised
 - PAPL: proxy 5/27/2025: no compensation table recognised
+- PNFP: M. Terry Turner 2025: table read total 6,611,454; the filing tags the CEO's total as 6,604,554 — corrected
 - PINS: proxy 4/10/2024: Bill Ready 2023: components 516,667 ≠ total 522,667; difference shown as Other.
 - PINS: proxy 4/10/2024: Julia Brau Donnelly 2023: components 31,843,514 ≠ total 16,527,467; difference shown as Other.
 - PINS: proxy 4/10/2024: Todd Morgenfeld 2023: components 8,449,399 ≠ total 4,460,576; difference shown as Other.
 - PBFS: proxy 4/7/2026: no compensation table recognised
 - PBFS: proxy 4/11/2025: no compensation table recognised
+- PIPR: Chad R. Abraham 2022: table read total 11,109,428; the filing tags the CEO's total as 11,182,201 — corrected
 - PBI: proxy 3/18/2022: no compensation table recognised
 - PBI: proxy 3/19/2021: no compensation table recognised
+- PJT: Paul J. Taubman 2021: table read total 1,799,500, but the filing tags the CEO's total as 1,015,000; row left out
+- PJT: Paul J. Taubman 2023: table read total 1,000,000; the filing tags the CEO's total as 1,029,620 — corrected
 - PLNH: proxy 6/17/2022: Larry Scheffler 2020: components 325,847 ≠ total 333,785; difference shown as Other.
 - PLNT: proxy 3/26/2025: Craig Benson 2023: components 178,462 ≠ total 232,774; difference shown as Other.
 - PLNT: proxy 3/22/2022: Bill Bode 2020: components 431,300 ≠ total 499,532; difference shown as Other.
@@ -9790,18 +9965,22 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - MYPS: proxy 5/29/2026: no compensation table recognised
 - MYPS: proxy 5/30/2025: no compensation table recognised
 - PLRX: proxy 4/29/2022: Éric Lefebvre 2020: components 934,671 ≠ total 874,671; difference shown as Other.
+- PLRX: Bernard Coulie 2022: table read total 10,927,715; the filing tags the CEO's total as 10,958,287 — corrected
 - PLUG: proxy 4/30/2026: Andrew J. Marsh 2024: components 2,420,079 ≠ total 2,240,079; difference shown as Other.
 - PLUG: proxy 12/12/2025: no compensation table recognised
 - PLUG: proxy 6/9/2025: Andrew J. Marsh 2024: components 2,420,079 ≠ total 2,240,079; difference shown as Other.
+- PNC: William S. Demchak 2022: table read total 20,197,045; the filing tags the CEO's total as 19,473,490 — corrected
 - PODC: proxy 7/26/2024: Sue McNamara 2023: components 379,490 ≠ total 456,990; difference shown as Other.
 - POLA: proxy 11/14/2025: no compensation table recognised
 - POLA: proxy 10/1/2024: no compensation table recognised
 - POLA: proxy 10/31/2023: no compensation table recognised
 - POLA: proxy 10/31/2022: no compensation table recognised
+- PDLB: Carlos P. Naudon 2023: table read total 3,645,215; the filing tags the CEO's total as 3,664,707 — corrected
 - PRCH: proxy 4/24/2024: Matt Ehrlichman 2023: components 1,800,000 ≠ total 4,266,774; difference shown as Other.
 - PRCH: proxy 4/24/2024: Matt Ehrlichman 2022: components 690,156 ≠ total 13,583,222; difference shown as Other.
 - PRCH: proxy 4/24/2024: Shawn Tabak 2023: components 780,000 ≠ total 1,339,769; difference shown as Other.
 - PRCH: proxy 4/27/2022: left out 1 row(s) that can't be right (Matt Ehrlichman 2019: salary 1, total 2,666)
+- PSTL: Andrew Spodek 2023: the filing tags the CEO's total as 2,586,144, far from the table's 439,712; kept the table figure
 - POWI: proxy 3/29/2024: Yang Chiah Yee 2021: components 1,884,346 ≠ total 1,923,336; difference shown as Other.
 - POWI: proxy 3/31/2023: Yang Chiah Yee 2021: components 1,884,346 ≠ total 1,923,336; difference shown as Other.
 - POWI: proxy 3/29/2022: Yang Chiah Yee 2021: components 1,884,346 ≠ total 1,923,336; difference shown as Other.
@@ -9849,20 +10028,15 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - FRST: proxy 4/13/2023: Dennis J. Zember, Jr. 2022: components 1,183,177 ≠ total 1,433,177; difference shown as Other.
 - FRST: proxy 4/13/2023: Dennis J. Zember, Jr. 2021: components 1,276,217 ≠ total 1,617,767; difference shown as Other.
 - FRST: proxy 4/13/2023: Dennis J. Zember, Jr. 2020: components 967,310 ≠ total 1,267,310; difference shown as Other.
-- PIAC: proxy 11/12/2025: no compensation table recognised
-- PIAC: proxy 11/13/2024: no compensation table recognised
-- PIAC: proxy 11/8/2023: no compensation table recognised
-- PIAC: proxy 11/9/2022: no compensation table recognised
-- PIAC: proxy 11/10/2021: no compensation table recognised
+- PRIM: Koti Vadlamudi 2025: the filing tags the CEO's total as 17,488,087, far from the table's 2,176,941; kept the table figure
 - PFG: proxy 4/4/2022: no compensation table recognised
 - PRTH: proxy 4/12/2022: Ranjana Ram 2021: components 2,157,351 ≠ total 11,600; difference shown as Other.
+- PRVA: Parth Mehrotra 2025: table read total 10,472,698; the filing tags the CEO's total as 9,241,448 — corrected
 - PRXA: proxy 10/28/2025: no compensation table recognised
 - PRXA: proxy 10/7/2024: no compensation table recognised
 - PRXA: proxy 10/10/2023: no compensation table recognised
 - PRXA: proxy 10/7/2022: no compensation table recognised
 - PRXA: proxy 9/15/2021: no compensation table recognised
-- PCSA: proxy 8/13/2025: no compensation table recognised
-- PCSA: proxy 10/5/2023: no compensation table recognised
 - PG: proxy 8/28/2026: no compensation table recognised
 - PG: proxy 8/29/2025: no compensation table recognised
 - PG: proxy 8/23/2024: no compensation table recognised
@@ -9915,20 +10089,22 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - PYXS: proxy 4/26/2024: Jay Feingold 2023: components 1,150,525 ≠ total 1,053,444; difference shown as Other.
 - PYYX: proxy 7/9/2025: Scott A. Burmeister 2024: components 932,251 ≠ total 1,078,652; difference shown as Other.
 - PYYX: proxy 7/14/2022: Flavia Landsberg 2022: components 712,016 ≠ total 725,767; difference shown as Other.
-- QCLS: proxy 10/20/2025: no compensation table recognised
-- QCLS: proxy 7/1/2024: no compensation table recognised
 - QCRH: proxy 4/8/2024: no compensation table recognised
 - QTI: proxy 12/11/2023: no compensation table recognised
 - QTI: proxy 9/18/2023: no compensation table recognised
 - QTI: proxy 3/14/2023: no compensation table recognised
+- NX: George L. Wilson 2023: table read total 4,840,411; the filing tags the CEO's total as 4,811,511 — corrected
 - QNME: proxy 1/30/2026: no compensation table recognised
 - QNME: proxy 11/5/2025: no compensation table recognised
 - QNME: proxy 5/22/2025: no compensation table recognised
+- QUBT: William J. McGann 2024: table read total 596,314, but the filing tags the CEO's total as 444,403; row left out
+- QUBT: Robert Liscouski 2023: table read total 478,393, but the filing tags the CEO's total as 472,237; row left out
 - QMCO: proxy 3/27/2025: no compensation table recognised
 - QMCO: proxy 7/2/2024: no compensation table recognised
 - QMCO: proxy 7/27/2023: no compensation table recognised
+- QMCO: James J. Lerner 2025: table read total 1,493,653; the filing tags the CEO's total as 1,496,653 — corrected
+- QRHC: S. Ray Hatch 2024: table read total 784,161, but the filing tags the CEO's total as 670,686; row left out
 - QETA: proxy 12/23/2024: no compensation table recognised
-- QNRX: proxy 2/27/2024: no compensation table recognised
 - RFIL: proxy 7/28/2026: Robert D. Dawson 2025: components 867,217 ≠ total 1,342,917; difference shown as Other.
 - RFIL: proxy 7/28/2026: Robert D. Dawson 2024: components 895,075 ≠ total 910,075; difference shown as Other.
 - RFIL: proxy 7/28/2026: Peter Yin 2025: components 440,717 ≠ total 636,767; difference shown as Other.
@@ -9952,6 +10128,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - RLYB: proxy 1/2/2026: no compensation table recognised
 - RNGR: proxy 3/28/2025: Melissa Cougle 2022: components 1,096,368 ≠ total 879,476; difference shown as Other.
 - RNGR: proxy 3/27/2024: Melissa Cougle 2022: components 1,300,983 ≠ total 879,476; difference shown as Other.
+- RNGR: William Austin 2021: table read total 305,614; the filing tags the CEO's total as 306,362 — corrected
 - RBC: proxy 8/1/2022: Robert M. Sullivan 2022: components 998,502 ≠ total 988,502; difference shown as Other.
 - RICK: proxy 7/11/2022: Eric S. Langan 2021: components 1,436,539 ≠ total 1,545,218; difference shown as Other.
 - RICK: proxy 7/11/2022: Eric S. Langan 2020: components 1,073,077 ≠ total 1,169,052; difference shown as Other.
@@ -10007,11 +10184,6 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - REKR: proxy 6/28/2022: Robert Berman 2020: components 495,000 ≠ total 519,826; difference shown as Other.
 - REKR: proxy 6/28/2022: Eyal Hen 2021: components 405,000 ≠ total 600,768; difference shown as Other.
 - EZRA: proxy 3/23/2026: Yaakov Beyman 2024: components 321,964 ≠ total 32,164; difference shown as Other.
-- RLMD: proxy 4/17/2026: no compensation table recognised
-- RLMD: proxy 4/11/2025: no compensation table recognised
-- RLMD: proxy 4/9/2024: no compensation table recognised
-- RLMD: proxy 3/31/2023: no compensation table recognised
-- RLMD: proxy 4/11/2022: no compensation table recognised
 - RNXT: proxy 11/27/2023: no compensation table recognised
 - RENT: proxy 9/29/2025: no compensation table recognised
 - RENT: proxy 5/23/2024: Anushka Salinas 2023: components 5,045,369 ≠ total 5,045; difference shown as Other.
@@ -10034,6 +10206,8 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - RBCAA: proxy 3/10/2023: Steven E. Trager ( 2022: components 481,657 ≠ total 804,352; difference shown as Other.
 - RBCAA: proxy 3/10/2023: Steven E. Trager ( 2021: components 622,308 ≠ total 664,050; difference shown as Other.
 - RBCAA: proxy 3/10/2023: Steven E. Trager ( 2020: components 425,000 ≠ total 641,217; difference shown as Other.
+- RSG: Jon Vander Ark 2024: table read total 12,806,922; the filing tags the CEO's total as 12,977,475 — corrected
+- RSG: Donald W. Slager 2021: table read total 15,190,061; the filing tags the CEO's total as 15,027,945 — corrected
 - REFR: proxy 4/30/2026: Michael R. LaPointe 2023: components 49,120 ≠ total 50,860; difference shown as Other.
 - REFR: proxy 4/26/2024: Michael R. LaPointe 2021: components 47,500 ≠ total 58,669; difference shown as Other.
 - REFR: proxy 4/28/2023: Joseph M. 2020: components 671,457 ≠ total 804,605; difference shown as Other.
@@ -10046,6 +10220,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - QSP: proxy 4/25/2024: David Shear 2023: components 7,601,186 ≠ total 9,706,125; difference shown as Other.
 - RGCO: proxy 12/5/2024: C. James Shockley, Jr. 2024: components 1,070,034 ≠ total 746,034; difference shown as Other.
 - RGCO: proxy 12/2/2022: Paul W. Nester 2022: components 741,816 ≠ total 434,884; difference shown as Other.
+- RH: Gary Friedman 2022: table read total 2,824,500; the filing tags the CEO's total as 2,840,898 — corrected
 - RYTM: proxy 4/29/2025: David P. Meeker 2024: components 13,919,607 ≠ total 14,663,742; difference shown as Other.
 - RYTM: proxy 4/29/2025: David P. Meeker 2023: components 6,596,404 ≠ total 7,230,457; difference shown as Other.
 - RYTM: proxy 4/29/2025: David P. Meeker 2022: components 2,820,338 ≠ total 3,325,758; difference shown as Other.
@@ -10079,6 +10254,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - RVSB: proxy 7/18/2025: B. Nicole Sherman 2025: components 1,353,996 ≠ total 1,481,716; difference shown as Other.
 - RVSB: proxy 7/18/2025: Daniel D. Cox 2025: components 411,103 ≠ total 458,684; difference shown as Other.
 - RVSB: proxy 7/18/2025: Daniel D. Cox 2024: components 364,500 ≠ total 403,949; difference shown as Other.
+- RIVN: Robert J. Scaringe 2022: table read total 1,018,970; the filing tags the CEO's total as 1,014,785 — corrected
 - RLJ: proxy 3/23/2026: Robert L. Johnson 2025: components 1,151,883 ≠ total 2,794,016; difference shown as Other.
 - RLJ: proxy 3/23/2026: Robert L. Johnson 2024: components 1,160,800 ≠ total 2,800,408; difference shown as Other.
 - RLJ: proxy 3/23/2026: Robert L. Johnson 2023: components 1,260,800 ≠ total 2,880,327; difference shown as Other.
@@ -10103,6 +10279,9 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - RDZN: proxy 8/2/2023: no compensation table recognised
 - RHI: proxy 4/13/2023: no compensation table recognised
 - RHI: proxy 4/14/2022: no compensation table recognised
+- RHI: M. Keith Waddell 2025: table read total 6,073,178; the filing tags the CEO's total as 6,236,917 — corrected
+- RHI: M. Keith Waddell 2024: table read total 6,692,263; the filing tags the CEO's total as 7,002,043 — corrected
+- RHI: M. Keith Waddell 2023: table read total 7,475,310; the filing tags the CEO's total as 8,126,837 — corrected
 - RKTO: proxy 11/14/2022: no compensation table recognised
 - RCKT: proxy 4/6/2026: Martin Wilson 2024: components 2,213,954 ≠ total 2,113,954; difference shown as Other.
 - ROG: proxy 3/24/2026: no compensation table recognised
@@ -10148,6 +10327,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - RTB: proxy 8/31/2022: Ben Errez 2021: components 421,715 ≠ total 381,710; difference shown as Other.
 - RTB: proxy 8/31/2022: Ben Errez 2020: components 763,874 ≠ total 750,846; difference shown as Other.
 - RTB: proxy 8/31/2022: Fredi Nisan 2021: components 380,362 ≠ total 346,357; difference shown as Other.
+- RTB: Fredi Nisan 2022: table read total 541,788, but the filing tags the CEO's total as 361,017; row left out
 - RTX: proxy 3/9/2026: no compensation table recognised
 - RTX: proxy 3/10/2025: no compensation table recognised
 - RTX: proxy 3/11/2024: no compensation table recognised
@@ -10170,6 +10350,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - SABR: proxy 3/13/2025: Roshan Mendis 2022: components 4,709,562 ≠ total 2,588,661; difference shown as Other.
 - SABR: proxy 3/15/2024: Roshan Mendis 2022: components 4,709,562 ≠ total 2,588,661; difference shown as Other.
 - SABR: proxy 3/15/2024: Roshan Mendis 2021: components 8,423,089 ≠ total 4,406,397; difference shown as Other.
+- SACH: John L. Villano 2024: table read total 1,722,327; the filing tags the CEO's total as 1,983,044 — corrected
 - SDOT: proxy 8/14/2026: no compensation table recognised
 - SDOT: proxy 2/23/2026: no compensation table recognised
 - SDOT: proxy 11/8/2024: no compensation table recognised
@@ -10235,6 +10416,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - SCHW: proxy 4/6/2026: no compensation table recognised
 - SCHW: proxy 4/5/2024: no compensation table recognised
 - SCHW: proxy 3/31/2023: no compensation table recognised
+- SCHW: Walter W. Bettinger II 2024: the filing tags the CEO's total as 26,388,559, far from the table's 6,560,656; kept the table figure
 - SAIC: proxy 4/23/2025: Toni Townes-Whitley 2025: components 20,483,486 ≠ total 10,241,743; difference shown as Other.
 - SCND: proxy 12/29/2025: no compensation table recognised
 - SCND: proxy 4/15/2024: no compensation table recognised
@@ -10264,8 +10446,6 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - SIGI: proxy 3/26/2026: no compensation table recognised
 - SIGI: proxy 3/29/2023: no compensation table recognised
 - SLQT: proxy 1/18/2023: no compensation table recognised
-- SLS: proxy 4/28/2023: no compensation table recognised
-- SLS: proxy 4/25/2022: no compensation table recognised
 - SRE: proxy 3/27/2026: no compensation table recognised
 - SRE: proxy 3/28/2025: no compensation table recognised
 - SRE: proxy 3/25/2024: no compensation table recognised
@@ -10300,6 +10480,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - SEZL: proxy 3/30/2023: no compensation table recognised
 - SHAK: proxy 4/28/2022: Zachary Koff 2020: components 759,392 ≠ total 743,342; difference shown as Other.
 - SBET: proxy 9/2/2025: no compensation table recognised
+- SBET: Rob Phythian 2024: table read total 753,183; the filing tags the CEO's total as 761,837 — corrected
 - SHEN: proxy 3/9/2026: no compensation table recognised
 - SHEN: proxy 3/10/2025: no compensation table recognised
 - SHEN: proxy 3/14/2024: no compensation table recognised
@@ -10337,10 +10518,15 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - SIDU: proxy 4/30/2024: Jamie Adams 2022: components 300,000 ≠ total 375,000; difference shown as Other.
 - SIDU: proxy 5/10/2023: Teresa Burchfield 2022: components 185,906 ≠ total 237,469; difference shown as Other.
 - SIDU: proxy 5/10/2023: Jamie Adams 2022: components 300,000 ≠ total 375,000; difference shown as Other.
+- SIGA: Diem Nguyen 2024: table read total 4,449,790; the filing tags the CEO's total as 4,588,317 — corrected
 - SLGN: proxy 4/17/2025: no compensation table recognised
 - SLGN: proxy 4/20/2023: no compensation table recognised
+- SLGN: Adam J. Greenlee ( 2023: the filing tags the CEO's total as 4,966,705, far from the table's 1,876,339; kept the table figure
+- SLGN: Adam J. Greenlee ( 2023: the filing tags the CEO's total as 4,966,705, far from the table's 1,876,339; kept the table figure
 - SILO: proxy 6/30/2026: Daniel Ryweck 2025: components 109,494 ≠ total 101,494; difference shown as Other.
 - SILO: proxy 2/14/2022: no compensation table recognised
+- SILO: Eric Weisblum 2022: table read total 332,250; the filing tags the CEO's total as 352,500 — corrected
+- SAMG: Richard R. Hough 2024: table read total 3,988,958; the filing tags the CEO's total as 4,088,958 — corrected
 - SMPL: proxy 12/7/2023: Linda M. Zink 2022: components 1,157,994 ≠ total 1,574,994; difference shown as Other.
 - SMPL: proxy 12/8/2022: Linda M. Zink 2022: components 1,157,994 ≠ total 1,574,994; difference shown as Other.
 - SSD: proxy 3/24/2026: Michael Olosky 2024: components 7,374,157 ≠ total 3,704,453; difference shown as Other.
@@ -10358,6 +10544,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - SGLY: proxy 9/29/2023: Lei Cao 2021: components 275,999 ≠ total 849,999; difference shown as Other.
 - SGLY: proxy 9/29/2023: Lei Cao 2021: components 175,000 ≠ total 634,200; difference shown as Other.
 - SINT: proxy 10/25/2023: left out 1 row(s) that can't be right (Bryan McEntire 2022: salary 9,283, total 9,283)
+- SIRI: Jennifer C. Witz 2021: table read total 32,104,884; the filing tags the CEO's total as 32,641,874 — corrected
 - SITM: proxy 4/19/2023: no compensation table recognised
 - FUN: proxy 4/9/2026: Robert White 2024: components 1,687,535 ≠ total 1,970,351; difference shown as Other.
 - FUN: proxy 4/9/2026: Monica Sauls 2025: components 963,460 ≠ total 2,957,460; difference shown as Other.
@@ -10403,6 +10590,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - SCKT: proxy 4/25/2022: no compensation table recognised
 - HSDT: proxy 5/2/2025: no compensation table recognised
 - SEI: proxy 4/4/2024: Christopher M. Powell 2022: components 1,632,518 ≠ total 306,538; difference shown as Other.
+- SEI: William A. Zartler 2022: table read total 2,781,816, but the filing tags the CEO's total as 2,369,923; row left out
 - SLSN: proxy 7/30/2025: Jess Jankowski 2024: components 525,650 ≠ total 565,348; difference shown as Other.
 - SLSN: proxy 12/23/2024: Jess Jankowski 2022: components 432,455 ≠ total 418,725; difference shown as Other.
 - SLSN: proxy 12/23/2024: Kevin Cureton 2022: components 382,312 ≠ total 368,582; difference shown as Other.
@@ -10422,14 +10610,13 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - SNGX: proxy 4/29/2024: Christopher J. Schaber 2022: components 638,127 ≠ total 711,185; difference shown as Other.
 - SNGX: proxy 4/29/2024: Jonathan Guarino 2023: components 309,405 ≠ total 354,693; difference shown as Other.
 - SNGX: proxy 1/6/2023: no compensation table recognised
-- XPL: proxy 4/28/2023: no compensation table recognised
-- XPL: proxy 4/29/2022: no compensation table recognised
 - SODI: proxy 3/6/2026: Tim Eriksen 2025: components 116,986 ≠ total 106,986; difference shown as Other.
 - SODI: proxy 11/5/2021: no compensation table recognised
 - SLNH: proxy 10/14/2025: no compensation table recognised
 - SLNH: proxy 10/28/2024: no compensation table recognised
 - SLNH: proxy 4/29/2024: Philip Patman, Jr. 2023: components 152,380 ≠ total 250,813; difference shown as Other.
 - SLNH: proxy 4/29/2024: Philip Patman, Jr. 2022: components 250,813 ≠ total 129,659; difference shown as Other.
+- SLNH: John Belizaire 2023: table read total 441,808, but the filing tags the CEO's total as 404,373; row left out
 - SNDA: proxy 2/20/2024: no compensation table recognised
 - SOTK: proxy 7/22/2026: no compensation table recognised
 - SOTK: proxy 7/25/2025: no compensation table recognised
@@ -10442,6 +10629,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - SSTI: proxy 4/24/2025: Nasim Golzadeh 2024: components 1,621,140 ≠ total 1,748,340; difference shown as Other.
 - SSTI: proxy 4/29/2024: no compensation table recognised
 - SSTI: proxy 5/1/2023: no compensation table recognised
+- SDSYA: Tom Kersting 2022: table read total 974,553; the filing tags the CEO's total as 977,553 — corrected
 - SO: proxy 4/3/2026: Christopher C. Womack 2025: components 33,449,164 ≠ total 19,262,046; difference shown as Other.
 - SO: proxy 4/3/2026: Christopher C. Womack 2024: components 28,710,250 ≠ total 16,742,438; difference shown as Other.
 - SO: proxy 4/3/2026: Christopher C. Womack 2023: components 27,568,471 ≠ total 14,167,824; difference shown as Other.
@@ -10449,6 +10637,8 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - SO: proxy 4/11/2025: Christopher C. Womack 2023: components 27,568,471 ≠ total 14,167,824; difference shown as Other.
 - SO: proxy 4/11/2025: Christopher C. Womack 2022: components 7,882,698 ≠ total 4,927,800; difference shown as Other.
 - SO: proxy 4/12/2024: Christopher C. Womack 2021: components 0 ≠ total 4,603,031; difference shown as Other.
+- SO: Christopher C. Womack 2025: table read total 19,262,046; the filing tags the CEO's total as 28,223,562 — corrected
+- SO: Christopher C. Womack 2024: table read total 16,742,438; the filing tags the CEO's total as 23,885,173 — corrected
 - SCCO: proxy 4/17/2026: Oscar González Rocha (b) 2025: components 561,260 ≠ total 1,298,630; difference shown as Other.
 - SCCO: proxy 4/17/2026: Oscar González Rocha (b) 2024: components 484,131 ≠ total 1,208,377; difference shown as Other.
 - SCCO: proxy 4/17/2026: Oscar González Rocha (b) 2023: components 535,730 ≠ total 1,171,116; difference shown as Other.
@@ -10497,6 +10687,10 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - SSRM: proxy 4/14/2022: Rod P. Antal 2021: components 2,776,402 ≠ total 5,572,402; difference shown as Other.
 - SSRM: proxy 4/14/2022: Rod P. Antal 2020: components 1,911,873 ≠ total 4,011,873; difference shown as Other.
 - SSRM: proxy 4/14/2022: Rod P. Antal 2019: components 1,876,787 ≠ total 7,743,637; difference shown as Other.
+- SSRM: Rod Antal 2025: the filing tags the CEO's total as 7,563,241, far from the table's 70,937; kept the table figure
+- SSRM: Rod Antal 2024: table read total 5,147,216; the filing tags the CEO's total as 5,115,709 — corrected
+- SSRM: Rod Antal 2023: table read total 5,304,953; the filing tags the CEO's total as 5,285,606 — corrected
+- SLNG: J. Casey Crenshaw 2025: the filing tags the CEO's total as 1,993,662, far from the table's 459,969; kept the table figure
 - SDEV: proxy 2/10/2026: no compensation table recognised
 - SDEV: proxy 3/19/2025: no compensation table recognised
 - SPFX: proxy 6/1/2022: William Koppelmann 2020: components 166,739 ≠ total 168,839; difference shown as Other.
@@ -10510,12 +10704,15 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - STHO: proxy 4/7/2026: no compensation table recognised
 - STHO: proxy 4/7/2025: no compensation table recognised
 - STHO: proxy 4/10/2024: no compensation table recognised
+- SBUX: Brian Niccol 2025: table read total 15,766,023; the filing tags the CEO's total as 30,992,773 — corrected
 - SWDR: proxy 6/17/2026: no compensation table recognised
 - SWDR: proxy 5/20/2025: no compensation table recognised
 - SWDR: proxy 5/17/2024: no compensation table recognised
 - SWDR: proxy 5/16/2023: no compensation table recognised
 - SWDR: proxy 6/2/2022: no compensation table recognised
 - STRZ: proxy 4/2/2026: no compensation table recognised
+- STEM: John Carrington 2024: the filing tags the CEO's total as 2,296,957, far from the table's 887,557; kept the table figure
+- SCL: Scott R. Behrens 2024: table read total 4,655,076; the filing tags the CEO's total as 4,665,076 — corrected
 - STEP: proxy 3/27/2024: no compensation table recognised
 - STXS: proxy 4/8/2022: left out 1 row(s) that can't be right (David L. Fischel 2020: salary 5,000, total 5,033)
 - STRL: proxy 3/25/2026: Joseph A. Cutillo 2025: components 3,739,685 ≠ total 8,414,685; difference shown as Other.
@@ -10527,6 +10724,8 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - STRL: proxy 3/26/2024: no compensation table recognised
 - STRL: proxy 3/24/2023: no compensation table recognised
 - STRL: proxy 3/23/2022: no compensation table recognised
+- STRL: Joseph A. Cutillo 2023: table read total 6,051,580; the filing tags the CEO's total as 6,243,352 — corrected
+- STRL: Joseph A. Cutillo 2022: table read total 5,177,786; the filing tags the CEO's total as 5,194,928 — corrected
 - STC: proxy 3/25/2026: David C. Hisey 2025: components 2,338,881 ≠ total 2,301,678; difference shown as Other.
 - STC: proxy 4/5/2023: Steven M. Lessack 2022: components 1,722,513 ≠ total 1,784,812; difference shown as Other.
 - SF: proxy 4/25/2025: James M. Zemlyak 2024: components 8,722,255 ≠ total 8,872,255; difference shown as Other.
@@ -10548,6 +10747,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - STSR: proxy 4/13/2023: no compensation table recognised
 - STEX: proxy 8/4/2025: no compensation table recognised
 - STEX: proxy 12/1/2023: no compensation table recognised
+- STEX: Anthony Amato 2024: table read total 2,291,471; the filing tags the CEO's total as 2,351,397 — corrected
 - ASST: proxy 3/16/2026: no compensation table recognised
 - RGR: proxy 4/17/2025: Christopher J. Killoy 2024: components 2,712,350 ≠ total 3,867,450; difference shown as Other.
 - RGR: proxy 4/17/2025: Christopher J. Killoy 2023: components 2,548,500 ≠ total 3,633,600; difference shown as Other.
@@ -10560,6 +10760,9 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - RGR: proxy 4/20/2023: Christopher J. Killoy 2020: components 2,300,650 ≠ total 3,280,650; difference shown as Other.
 - RGR: proxy 4/22/2022: no compensation table recognised
 - RGR: proxy 3/31/2021: no compensation table recognised
+- RGR: Christopher J. Killoy 2024: table read total 3,867,450; the filing tags the CEO's total as 3,458,903 — corrected
+- RGR: Christopher J. Killoy 2023: table read total 3,633,600; the filing tags the CEO's total as 3,380,797 — corrected
+- RGR: Christopher J. Killoy 2022: table read total 3,282,450; the filing tags the CEO's total as 3,335,852 — corrected
 - SPH: proxy 3/25/2024: Michael A. Stivala 2023: components 2,236,675 ≠ total 3,968,504; difference shown as Other.
 - SPH: proxy 3/25/2024: Michael A. Stivala 2022: components 2,288,854 ≠ total 3,960,001; difference shown as Other.
 - SPH: proxy 3/25/2024: Michael A. Stivala 2021: components 1,685,827 ≠ total 3,115,247; difference shown as Other.
@@ -10570,9 +10773,12 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - SPH: proxy 3/20/2018: Michael A. Stivala 2016: components 545,917 ≠ total 1,302,884; difference shown as Other.
 - SPH: proxy 3/20/2018: Michael A. Stivala 2015: components 851,027 ≠ total 1,114,268; difference shown as Other.
 - SMC: proxy 10/2/2024: no compensation table recognised
+- SMC: James D. Johnston 2023: the filing tags the CEO's total as 5,080,645, far from the table's 1,851,387; kept the table figure
 - SMMT: proxy 9/19/2023: no compensation table recognised
 - SUI: proxy 3/30/2026: Charles D. Young 2025: components 10,084,141 ≠ total 9,865,401; difference shown as Other.
 - SUI: proxy 4/1/2024: Aaron Weiss 2021: components 2,351,680 ≠ total 2,751,680; difference shown as Other.
+- SUI: Gary A. Shiffman 2024: table read total 2,663,867; the filing tags the CEO's total as 1,968,121 — corrected
+- SUI: Gary A. Shiffman 2023: table read total 11,870,887; the filing tags the CEO's total as 10,946,746 — corrected
 - SUNE: proxy 3/10/2025: no compensation table recognised
 - SUNE: proxy 10/10/2024: no compensation table recognised
 - SUNE: proxy 3/6/2024: no compensation table recognised
@@ -10587,6 +10793,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - SXC: proxy 3/27/2024: Michael G. Rippey 2021: components 9,249,913 ≠ total 5,410,975; difference shown as Other.
 - SPWR: proxy 2/20/2026: no compensation table recognised
 - SPWR: proxy 2/13/2023: no compensation table recognised
+- RUN: Mary Powell 2022: table read total 8,340,158; the filing tags the CEO's total as 8,840,158 — corrected
 - SBFM: proxy 9/5/2023: no compensation table recognised
 - SLE: proxy 4/2/2026: no compensation table recognised
 - SMCI: proxy 3/3/2026: Charles Liang 2024: components 56,190,204 ≠ total 28,095,227; difference shown as Other.
@@ -10600,8 +10807,11 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - SUPN: proxy 4/29/2024: Frank Mottola 2022: components 1,017,523 ≠ total 1,029,939; difference shown as Other.
 - SUPN: proxy 5/1/2023: Frank Mottola 2022: components 1,017,523 ≠ total 1,029,939; difference shown as Other.
 - SUPN: proxy 5/2/2022: James P. Kelly 2021: components 336,062 ≠ total 636,720; difference shown as Other.
+- SUPN: Jack A. Khattar 2024: table read total 12,640,989; the filing tags the CEO's total as 17,848,004 — corrected
 - SRZN: proxy 10/24/2023: no compensation table recognised
 - SLVM: proxy 4/6/2022: no compensation table recognised
+- SLVM: Jean-Michel Ribiéras 2024: table read total 8,392,842; the filing tags the CEO's total as 8,426,858 — corrected
+- SLVM: Jean-Michel Ribiéras 2023: table read total 6,811,434; the filing tags the CEO's total as 6,825,588 — corrected
 - SYNA: proxy 9/12/2024: Intelligent Sensing Division and 2024: components 435,000 ≠ total 6,547,613; difference shown as Other.
 - SYNA: proxy 9/7/2021: no compensation table recognised
 - SNYR: proxy 4/30/2026: left out 1 row(s) that can't be right (Jack Ross 2024: salary 1,321, total 1,321)
@@ -10625,6 +10835,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - TBTC: proxy 4/9/2024: no compensation table recognised
 - TBTC: proxy 4/10/2023: no compensation table recognised
 - TBTC: proxy 8/23/2022: no compensation table recognised
+- TBLA: Adam Singolda 2022: table read total 802,411; the filing tags the CEO's total as 791,411 — corrected
 - TCMD: proxy 3/28/2022: Daniel Reuvers 2020: components 2,024,978 ≠ total 1,773,247; difference shown as Other.
 - TTWO: proxy 7/27/2026: left out 3 row(s) that can't be right (Karl Slatoff 2026: salary 1, total 1; Karl Slatoff 2025: salary 1, total 1; Karl Slatoff 2024: salary 1, total 1)
 - TTWO: proxy 7/28/2025: left out 3 row(s) that can't be right (Karl Slatoff 2025: salary 1, total 1; Karl Slatoff 2024: salary 1, total 1; Karl Slatoff 2023: salary 1, total 8,869)
@@ -10684,9 +10895,6 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - TDY: proxy 3/14/2025: no compensation table recognised
 - TFX: proxy 3/31/2023: no compensation table recognised
 - TLS: proxy 3/27/2026: Malcolm G. Cooke V.P. 2025: components 664,975 ≠ total 644,975; difference shown as Other.
-- TPST: proxy 7/17/2026: no compensation table recognised
-- TPST: proxy 6/8/2026: no compensation table recognised
-- TPST: proxy 11/12/2024: no compensation table recognised
 - TEM: proxy 4/7/2026: left out 1 row(s) that can't be right (Eric Lefkofsky 2023: salary 0, total 2,100)
 - TEM: proxy 4/7/2025: left out 1 row(s) that can't be right (Eric Lefkofsky 2023: salary 0, total 2,100)
 - TENX: proxy 10/27/2023: no compensation table recognised
@@ -10712,6 +10920,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - TRNO: proxy 3/20/2026: no compensation table recognised
 - TRNO: proxy 3/21/2025: no compensation table recognised
 - TRNO: proxy 3/22/2024: no compensation table recognised
+- TRNO: W. Blake Baird 2022: table read total 2,316,211; the filing tags the CEO's total as 4,429,691 — corrected
 - TTEK: proxy 1/9/2026: no compensation table recognised
 - TTEK: proxy 1/16/2025: no compensation table recognised
 - TCBI: proxy 3/6/2025: left out 3 row(s) that can't be right (MD & CRO of the Company 2024: salary 570,000, total 2,010,907; MD & CRO of the Company 2023: salary 570,000, total 1,362,875; MD & CRO of the Company 2022: salary 570,000, total 1,554,003)
@@ -10763,6 +10972,8 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - THO: proxy 11/3/2021: Robert W. Martin 2021: components 10,437,843 ≠ total 19,085,967; difference shown as Other.
 - THO: proxy 11/3/2021: Robert W. Martin 2020: components 3,537,412 ≠ total 7,458,440; difference shown as Other.
 - THO: proxy 11/3/2021: Robert W. Martin 2019: components 6,282,480 ≠ total 9,048,728; difference shown as Other.
+- TDW: Quintin V. Kneen 2023: table read total 4,959,672, but the filing tags the CEO's total as 4,245,778; row left out
+- TDW: Quintin V. Kneen 2022: table read total 5,544,038, but the filing tags the CEO's total as 4,655,099; row left out
 - TYGO: proxy 1/27/2023: no compensation table recognised
 - TYGO: proxy 12/8/2022: no compensation table recognised
 - TTSH: proxy 11/5/2025: no compensation table recognised
@@ -10772,9 +10983,16 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - TSBK: proxy 12/17/2025: no compensation table recognised
 - TSBK: proxy 12/18/2024: no compensation table recognised
 - TIPT: proxy 3/18/2024: Sandra Bell 2022: components 2,940,000 ≠ total 1,470,000; difference shown as Other.
+- TIPT: Michael G. Barnes 2025: table read total 6,897,466; the filing tags the CEO's total as 8,215,284 — corrected
+- TIPT: Jonathan Ilany 2025: table read total 6,989,431; the filing tags the CEO's total as 10,278,460 — corrected
+- TIPT: Michael G. Barnes 2024: table read total 6,328,139; the filing tags the CEO's total as 6,934,324 — corrected
+- TIPT: Jonathan Ilany 2024: table read total 10,420,499; the filing tags the CEO's total as 8,993,520 — corrected
 - TMC: proxy 4/20/2023: Craig Shesky 2022: components 568,589 ≠ total 605,256; difference shown as Other.
 - TOFB: proxy 5/19/2022: David Mintz 2021: components 104,000 ≠ total 10,400; difference shown as Other.
 - TMP: proxy 3/28/2022: John M. McKenna 2019: components 674,932 ≠ total 559,499; difference shown as Other.
+- TMP: Stephen S. Romaine 2021: table read total 2,202,048; the filing tags the CEO's total as 2,180,714 — corrected
+- TMP: Stephen S. Romaine 2020: table read total 3,332,939; the filing tags the CEO's total as 3,362,179 — corrected
+- TMP: Stephen S. Romaine 2022: table read total 1,762,316; the filing tags the CEO's total as 1,766,476 — corrected
 - TONX: proxy 10/3/2025: table read as thousands of dollars (every total was under $25,000)
 - TONX: proxy 8/16/2024: table read as thousands of dollars (every total was under $25,000)
 - TONX: proxy 6/30/2023: table read as thousands of dollars (every total was under $25,000)
@@ -10782,9 +11000,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - TNXP: proxy 9/23/2024: no compensation table recognised
 - TNXP: proxy 1/8/2024: no compensation table recognised
 - TOPP: proxy 8/10/2026: left out 1 row(s) that can't be right (Kah Loong Randy Yeo 2025: salary 5,000, total 5,000)
-- MITT: proxy 3/19/2024: no compensation table recognised
-- MITT: proxy 3/22/2023: no compensation table recognised
-- MITT: proxy 3/21/2022: no compensation table recognised
+- TPG: Jon Winkelried 2022: table read total 34,123,944; the filing tags the CEO's total as 34,087,235 — corrected
 - TTD: proxy 7/24/2025: no compensation table recognised
 - TTD: proxy 10/3/2024: no compensation table recognised
 - COOK: proxy 1/26/2026: no compensation table recognised
@@ -10793,16 +11009,19 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - TCI: proxy 11/13/2023: no compensation table recognised
 - TCI: proxy 11/8/2022: no compensation table recognised
 - TCI: proxy 11/10/2021: no compensation table recognised
-- TLSS: proxy 6/29/2026: no compensation table recognised
+- TRU: Christopher A. Cartwright 2023: table read total 18,556,855; the filing tags the CEO's total as 18,521,855 — corrected
+- TRU: Christopher A. Cartwright 2022: table read total 10,472,396; the filing tags the CEO's total as 10,502,867 — corrected
+- TRV: Alan D. Schnitzer 2025: table read total 28,500,000, but the filing tags the CEO's total as 26,968,756; row left out
+- TRV: Alan D. Schnitzer 2024: table read total 23,700,000, but the filing tags the CEO's total as 23,059,498; row left out
+- TRV: Alan D. Schnitzer 2023: table read total 21,450,000; the filing tags the CEO's total as 22,730,072 — corrected
+- TRV: Alan D. Schnitzer 2022: table read total 22,350,000, but the filing tags the CEO's total as 21,072,397; row left out
 - TZOO: proxy 12/6/2022: no compensation table recognised
 - TRAW: proxy 2/6/2025: no compensation table recognised
 - TRAW: proxy 8/9/2024: no compensation table recognised
+- TRAW: Iain Dukes 2025: table read total 1,401,924, but the filing tags the CEO's total as 874,425; row left out
 - TGL: proxy 6/22/2026: left out 4 row(s) that can't be right (Chen Hoe “Samuel” Sam 2024: salary 3,643, total 3,643; Carlson Thow 2024: salary 4,454, total 4,454; Sook Lee Chin 2024: salary 2,557, total 2,557)
 - TGL: proxy 11/14/2025: no compensation table recognised
 - TGL: proxy 7/10/2025: left out 4 row(s) that can't be right (Chen Hoe “Samuel” Sam 2024: salary 3,643, total 3,643; Carlson Thow 2024: salary 4,454, total 4,454; Sook Lee Chin 2024: salary 2,557, total 2,557)
-- TG: proxy 3/26/2024: John M. Steitz 2022: components 3,362,131 ≠ total 3,673,092; difference shown as Other.
-- TG: proxy 3/26/2024: John M. Steitz 2021: components 3,673,092 ≠ total 3,362,131; difference shown as Other.
-- TG: proxy 3/23/2022: D. Andrew Edwards 2020: components 2,216,492 ≠ total 2,268,045; difference shown as Other.
 - TREX: proxy 3/21/2023: Bryan H. Fairbanks 2022: components 2,880,722 ≠ total 3,255,722; difference shown as Other.
 - TREX: proxy 3/21/2023: Bryan H. Fairbanks 2021: components 3,849,988 ≠ total 4,079,676; difference shown as Other.
 - TREX: proxy 3/21/2023: Bryan H. Fairbanks 2020: components 1,827,245 ≠ total 1,918,792; difference shown as Other.
@@ -10842,6 +11061,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - TRUG: proxy 2/26/2024: no compensation table recognised
 - TRUG: proxy 1/2/2024: no compensation table recognised
 - TRUG: proxy 6/22/2023: no compensation table recognised
+- TFC: William H. Rogers, Jr. 2023: table read total 12,401,590; the filing tags the CEO's total as 12,037,646 — corrected
 - TRLV: proxy 6/25/2026: no compensation table recognised
 - DJT: proxy 11/17/2023: no compensation table recognised
 - DJT: proxy 7/17/2023: no compensation table recognised
@@ -10863,6 +11083,8 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - TTEC: proxy 4/10/2024: Dustin J. Semach ( 2022: components 605,420 ≠ total 216,697; difference shown as Other.
 - TTMI: proxy 3/13/2025: Douglas L. Soder 2022: components 1,895,297 ≠ total 1,768,195; difference shown as Other.
 - TTMI: proxy 3/15/2024: Douglas L. Soder 2022: components 1,894,198 ≠ total 1,767,096; difference shown as Other.
+- TTMI: Thomas T. Edman 2024: table read total 5,414,211, but the filing tags the CEO's total as 4,012,941; row left out
+- TTMI: Thomas T. Edman 2023: table read total 4,187,200, but the filing tags the CEO's total as 3,109,523; row left out
 - HURA: proxy 9/11/2023: no compensation table recognised
 - HURA: proxy 3/31/2023: no compensation table recognised
 - HURA: proxy 5/6/2022: no compensation table recognised
@@ -10894,6 +11116,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - UGI: proxy 12/19/2024: S. P. O'Brien 2023: components 1,447,573 ≠ total 1,649,523; difference shown as Other.
 - UMH: proxy 3/31/2023: Anna T. Chew 2021: components 3,391,277 ≠ total 33,912,776; difference shown as Other.
 - UMH: proxy 4/1/2022: Eugene W. 2019: components 570,024 ≠ total 576,024; difference shown as Other.
+- UMH: Samuel A. Landy 2023: table read total 3,441,223, but the filing tags the CEO's total as 2,067,604; row left out
 - UNF: proxy 12/5/2024: Steven S. Sintros 2024: components 3,536,500 ≠ total 3,886,540; difference shown as Other.
 - UNF: proxy 12/5/2024: Steven S. Sintros 2023: components 3,085,586 ≠ total 3,435,556; difference shown as Other.
 - UNF: proxy 12/5/2024: Steven S. Sintros 2022: components 2,962,002 ≠ total 3,312,016; difference shown as Other.
@@ -10909,6 +11132,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - UNF: proxy 12/3/2020: Steven S. Sintros 2020: components 2,237,413 ≠ total 2,587,428; difference shown as Other.
 - UNF: proxy 12/3/2020: Steven S. Sintros 2019: components 2,409,617 ≠ total 2,722,142; difference shown as Other.
 - UNF: proxy 12/3/2020: Steven S. Sintros 2018: components 1,710,975 ≠ total 1,960,950; difference shown as Other.
+- UNB: David S. Silverman 2025: table read total 860,469; the filing tags the CEO's total as 869,347 — corrected
 - UNP: proxy 3/26/2024: Elizabeth F. Whited 2021: components 2,101,929 ≠ total 2,911,929; difference shown as Other.
 - UAL: proxy 4/7/2026: Scott Kirby 2025: components 24,272,253 ≠ total 32,282,253; difference shown as Other.
 - UAL: proxy 4/7/2026: Scott Kirby 2024: components 28,783,765 ≠ total 33,924,988; difference shown as Other.
@@ -10931,6 +11155,8 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - PRKS: proxy 8/19/2025: no compensation table recognised
 - UAMY: proxy 6/4/2024: left out 1 row(s) that can't be right (Kelly J. Stopher 2021: salary 6,000, total 6,000)
 - UAMY: proxy 11/17/2023: left out 1 row(s) that can't be right (Kelly J. Stopher 2021: salary 6,000, total 6,000)
+- UAMY: John C. Gustavsen 2022: table read total 122,655; the filing tags the CEO's total as 111,250 — corrected
+- UAMY: Russell C. Lawrence 2021: table read total 132,500, but the filing tags the CEO's total as 100,000; row left out
 - USLM: proxy 3/25/2022: Timothy W. Byrne 2021: components 3,827,569 ≠ total 3,568,689; difference shown as Other.
 - UNTY: proxy 3/6/2026: James A. Hughes 2025: components 2,703,888 ≠ total 2,106,018; difference shown as Other.
 - UNTY: proxy 3/6/2026: James A. Hughes 2024: components 3,300,108 ≠ total 1,917,213; difference shown as Other.
@@ -10947,8 +11173,13 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - UNTY: proxy 3/15/2022: James A. Hughes 2021: components 2,373,879 ≠ total 1,611,298; difference shown as Other.
 - UNTY: proxy 3/15/2022: James A. Hughes 2020: components 1,460,367 ≠ total 1,094,965; difference shown as Other.
 - UNTY: proxy 3/15/2022: James A. Hughes 2019: components 2,319,998 ≠ total 1,421,722; difference shown as Other.
+- UNTY: James A. Hughes 2025: table read total 2,106,018; the filing tags the CEO's total as 2,703,888 — corrected
+- UNTY: James A. Hughes 2024: table read total 1,917,213; the filing tags the CEO's total as 3,300,108 — corrected
+- UNTY: James A. Hughes 2023: table read total 1,694,050; the filing tags the CEO's total as 2,360,462 — corrected
+- UNTY: James A. Hughes 2022: table read total 1,765,840; the filing tags the CEO's total as 2,207,257 — corrected
 - U: proxy 4/20/2022: Kimberly Jabal 2020: components 2,242,826 ≠ total 1,907,813; difference shown as Other.
 - UHT: proxy 4/25/2023: left out 1 row(s) that can't be right (Timothy J. Fowler 2022: salary 0, total 3,399)
+- UVE: Stephen J. Donaghy 2023: table read total 4,359,477; the filing tags the CEO's total as 4,287,954 — corrected
 - ULH: proxy 3/31/2022: no compensation table recognised
 - UUU: proxy 6/23/2026: no compensation table recognised
 - UUU: proxy 2/24/2026: no compensation table recognised
@@ -10973,10 +11204,6 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - USAR: proxy 6/2/2025: no compensation table recognised
 - USAR: proxy 10/7/2024: no compensation table recognised
 - USNA: proxy 3/31/2023: David Mulham 2021: components 1,339,544 ≠ total 1,399,893; difference shown as Other.
-- USBC: proxy 6/30/2025: no compensation table recognised
-- USBC: proxy 1/17/2025: no compensation table recognised
-- USBC: proxy 10/7/2024: no compensation table recognised
-- USBC: proxy 8/12/2024: no compensation table recognised
 - USCB: proxy 4/22/2025: no compensation table recognised
 - USCB: proxy 4/23/2024: no compensation table recognised
 - USCB: proxy 4/17/2023: no compensation table recognised
@@ -11101,6 +11328,8 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - VRTS: proxy 4/5/2023: George R. Aylward 2022: components 600,000 ≠ total 6,515,250; difference shown as Other.
 - VRTS: proxy 4/5/2023: George R. Aylward 2021: components 600,000 ≠ total 8,614,966; difference shown as Other.
 - VRTS: proxy 4/5/2023: George R. Aylward 2020: components 591,667 ≠ total 8,005,917; difference shown as Other.
+- VRTS: George R. Aylward 2024: table read total 6,616,500; the filing tags the CEO's total as 6,858,917 — corrected
+- VRTS: George R. Aylward 2023: table read total 6,515,250; the filing tags the CEO's total as 6,616,500 — corrected
 - VSH: proxy 4/8/2026: no compensation table recognised
 - VSH: proxy 3/31/2025: Marc Zandman 2024: components 0 ≠ total 3,508,533; difference shown as Other.
 - VSH: proxy 3/31/2025: Marc Zandman 2023: components 0 ≠ total 6,904,363; difference shown as Other.
@@ -11138,11 +11367,6 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - VIVK: proxy 6/8/2026: left out 1 row(s) that can't be right (Kimberly Hawley 2025: salary 3,200, total 3,200)
 - VIVK: proxy 12/8/2025: no compensation table recognised
 - SEAT: proxy 7/11/2025: no compensation table recognised
-- VMRK: proxy 4/14/2026: no compensation table recognised
-- VMRK: proxy 4/15/2025: no compensation table recognised
-- VMRK: proxy 4/16/2024: no compensation table recognised
-- VMRK: proxy 4/18/2023: no compensation table recognised
-- VMRK: proxy 4/18/2022: no compensation table recognised
 - VVOS: proxy 8/28/2023: G. Dave Singh 2021: components 379,869 ≠ total 447,003; difference shown as Other.
 - VIVS: proxy 7/26/2022: Thomas Jurgensen 2021: components 730,021 ≠ total 695,683; difference shown as Other.
 - VIVS: proxy 7/26/2022: Jeffrey Miner 2021: components 995,417 ≠ total 953,317; difference shown as Other.
@@ -11171,13 +11395,15 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - VNO: proxy 4/8/2022: Steven Roth 2021: components 4,831,100 ≠ total 8,864,214; difference shown as Other.
 - VNO: proxy 4/8/2022: Steven Roth 2020: components 5,174,937 ≠ total 9,294,192; difference shown as Other.
 - VNO: proxy 4/8/2022: Steven Roth 2019: components 6,217,991 ≠ total 11,087,246; difference shown as Other.
-- VRM: proxy 4/29/2024: Robert R. Krakowiak 2022: components 1,980,750 ≠ total 2,111,546; difference shown as Other.
-- VRM: proxy 1/2/2024: no compensation table recognised
-- VRM: proxy 4/28/2023: Robert R. Krakowiak 2021: components 2,261,546 ≠ total 2,111,546; difference shown as Other.
+- VNO: Steven Roth 2025: the filing tags the CEO's total as 3,135,628, far from the table's 11,527,144; kept the table figure
+- VNO: Steven Roth 2024: table read total 2,500,000; the filing tags the CEO's total as 2,856,837 — corrected
+- VNO: Steven Roth 2023: table read total 19,719,375; the filing tags the CEO's total as 26,843,514 — corrected
+- VNO: Steven Roth 2022: table read total 9,102,606; the filing tags the CEO's total as 9,929,707 — corrected
 - VSEC: proxy 4/2/2024: Farinaz S. Tehrani 2023: components 2,289,040 ≠ total 1,144,520; difference shown as Other.
 - VSEE: proxy 2/5/2026: no compensation table recognised
 - VSEE: proxy 10/17/2023: no compensation table recognised
 - VSEE: proxy 8/28/2023: no compensation table recognised
+- VTVT: Paul Sekhri 2023: the filing tags the CEO's total as 650,913, far from the table's 1,331,955; kept the table figure
 - VIP: proxy 8/14/2023: Terence A. Burke 2022: components 602,765 ≠ total 70,793; difference shown as Other.
 - VMC: proxy 3/28/2022: J. Thomas Hill 2021: components 11,129,476 ≠ total 10,420,114; difference shown as Other.
 - VMC: proxy 3/28/2022: Stanley G. Bass 2021: components 3,392,887 ≠ total 3,175,609; difference shown as Other.
@@ -11189,6 +11415,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - HIND: proxy 1/24/2024: Thomas Stankovich 2021: components 2,200,164 ≠ total 2,294,743; difference shown as Other.
 - HIND: proxy 11/10/2022: Bart Bandy 2021: components 5,951,486 ≠ total 6,268,686; difference shown as Other.
 - HIND: proxy 11/10/2022: Thomas Stankovich 2021: components 2,200,164 ≠ total 2,294,743; difference shown as Other.
+- WPC: Jason E. Fox 2023: table read total 12,990,932; the filing tags the CEO's total as 11,790,275 — corrected
 - WTI: proxy 3/24/2022: Tracy W. Krohn 2021: components 3,937,002 ≠ total 5,492,721; difference shown as Other.
 - WTI: proxy 3/24/2022: Tracy W. Krohn 2020: components 1,000,000 ≠ total 2,030,112; difference shown as Other.
 - WTI: proxy 3/24/2022: Tracy W. Krohn 2019: components 2,310,335 ≠ total 5,341,858; difference shown as Other.
@@ -11241,6 +11468,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - WSBF: proxy 4/10/2025: William F. Bruss 2022: components 589,440 ≠ total 629,440; difference shown as Other.
 - WSBF: proxy 4/10/2025: Mark R. Gerke 2023: components 487,100 ≠ total 457,100; difference shown as Other.
 - WSBF: proxy 4/11/2024: no compensation table recognised
+- WSBF: Ryan J. Gordon 2023: the filing tags the CEO's total as 1,556,285, far from the table's 409,686; kept the table figure
 - WSO: proxy 4/25/2025: Albert H. Nahmad 2022: components 12,187,981 ≠ total 11,093,941; difference shown as Other.
 - WVE: proxy 5/7/2026: no compensation table recognised
 - WVE: proxy 6/26/2023: Paul B. Bolno 2021: components 2,320,610 ≠ total 3,892,610; difference shown as Other.
@@ -11273,6 +11501,8 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - WFC: proxy 3/18/2026: Charles W. Scharf 2024: components 53,185,669 ≠ total 30,313,559; difference shown as Other.
 - WFC: proxy 3/18/2026: Charles W. Scharf 2023: components 45,100,366 ≠ total 25,966,198; difference shown as Other.
 - WFC: proxy 3/18/2026: Michael P. Santomassimo 2025: components 26,209,868 ≠ total 15,552,934; difference shown as Other.
+- WELL: Shankh Mitra 2021: table read total 12,753,710; the filing tags the CEO's total as 12,787,358 — corrected
+- WELL: Shankh Mitra 2023: table read total 17,250,363; the filing tags the CEO's total as 17,199,891 — corrected
 - WEN: proxy 4/2/2026: no compensation table recognised
 - WEN: proxy 4/3/2025: no compensation table recognised
 - WEN: proxy 4/4/2024: no compensation table recognised
@@ -11284,6 +11514,8 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - WCC: proxy 4/10/2025: no compensation table recognised
 - WST: proxy 3/15/2023: Eric M. Green 2022: components 7,916,599 ≠ total 7,785,232; difference shown as Other.
 - WST: proxy 3/15/2023: Bernard J. Birkett 2022: components 3,010,150 ≠ total 2,872,904; difference shown as Other.
+- WST: Eric M. Green 2023: table read total 9,418,624; the filing tags the CEO's total as 9,395,896 — corrected
+- WST: Eric M. Green 2022: table read total 7,905,061; the filing tags the CEO's total as 7,785,232 — corrected
 - WABC: proxy 3/18/2022: John "Robert" A. Thorson 2020: components 695,514 ≠ total 709,306; difference shown as Other.
 - WABC: proxy 3/18/2022: John "Robert" A. Thorson 2019: components 709,306 ≠ total 695,329; difference shown as Other.
 - WABC: proxy 3/18/2022: Russell W. Rizzardi 2020: components 438,983 ≠ total 473,607; difference shown as Other.
@@ -11309,10 +11541,6 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - WLKP: proxy 3/18/2024: Albert Y. Chao 2021: components 1,163,167 ≠ total 116,317; difference shown as Other.
 - WLK: proxy 4/1/2022: M. Steven Bender 2019: components 3,392,560 ≠ total 3; difference shown as Other.
 - WLK: proxy 4/1/2022: left out 1 row(s) that can't be right (M. Steven Bender 2019: salary 3, total 3)
-- WWR: proxy 3/31/2026: no compensation table recognised
-- WWR: proxy 4/1/2025: no compensation table recognised
-- WWR: proxy 4/5/2024: no compensation table recognised
-- WWR: proxy 3/14/2023: no compensation table recognised
 - WHG: proxy 3/26/2024: Brian O. Casey 2023: components 1,394,800 ≠ total 2,067,532; difference shown as Other.
 - WHG: proxy 3/26/2024: Brian O. Casey 2022: components 1,080,800 ≠ total 1,362,050; difference shown as Other.
 - WHG: proxy 3/26/2024: Fabian Gomez 2023: components 619,800 ≠ total 864,685; difference shown as Other.
@@ -11331,6 +11559,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - WTM: proxy 4/2/2025: Liam P. Caffrey 2023: components 4,151,074 ≠ total 5,681,074; difference shown as Other.
 - WTM: proxy 4/2/2025: Liam P. Caffrey 2022: components 2,915,875 ≠ total 4,415,875; difference shown as Other.
 - WHWK: proxy 4/26/2024: Brendan Delaney 2022: components 1,264,358 ≠ total 1,534,358; difference shown as Other.
+- WHWK: David Lennon 2025: table read total 3,359,075; the filing tags the CEO's total as 3,402,090 — corrected
 - WYY: proxy 4/30/2026: no compensation table recognised
 - WYY: proxy 4/30/2026: no compensation table recognised
 - WYY: proxy 6/3/2025: no compensation table recognised
@@ -11339,6 +11568,8 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - WSC: proxy 4/17/2023: Sally J. Shanks 2021: components 1,167,442 ≠ total 1,187,442; difference shown as Other.
 - WSC: proxy 4/17/2023: Christopher Miner 2022: components 1,414,017 ≠ total 760,960; difference shown as Other.
 - WSC: proxy 4/17/2023: Christopher Miner 2021: components 774,011 ≠ total 760,960; difference shown as Other.
+- WSC: Bradley L. Soultz 2025: table read total 9,890,760; the filing tags the CEO's total as 7,310,991 — corrected
+- WSC: Bradley L. Soultz 2022: table read total 8,594,799; the filing tags the CEO's total as 8,179,593 — corrected
 - WBHC: proxy 3/24/2023: no compensation table recognised
 - WBHC: proxy 3/28/2022: no compensation table recognised
 - WINA: proxy 3/4/2026: Anthony D. Ishaug 2024: components 1,133,373 ≠ total 1,146,234; difference shown as Other.
@@ -11389,6 +11620,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - XMAX: proxy 10/3/2025: no compensation table recognised
 - XMAX: proxy 4/25/2025: no compensation table recognised
 - XMAX: proxy 4/23/2025: Thanh H. Lam 2023: components 110,000 ≠ total 100,000; difference shown as Other.
+- XMAX: Thanh H. Lam 2023: table read total 100,000; the filing tags the CEO's total as 110,000 — corrected
 - XOS: proxy 4/20/2023: no compensation table recognised
 - XOS: proxy 5/27/2022: no compensation table recognised
 - XPEL: proxy 4/25/2025: Barry R. Wood 2024: components 1,697,370 ≠ total 848,685; difference shown as Other.
@@ -11423,6 +11655,8 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - YUMC: proxy 4/16/2026: Joey Wat 2025: components 28,528,904 ≠ total 18,587,632; difference shown as Other.
 - YUMC: proxy 4/16/2026: Joey Wat 2024: components 18,444,073 ≠ total 14,222,077; difference shown as Other.
 - YUMC: proxy 4/16/2026: Joey Wat 2023: components 30,671,452 ≠ total 16,706,971; difference shown as Other.
+- YUMC: Joey Wat 2025: table read total 18,587,632; the filing tags the CEO's total as 19,591,868 — corrected
+- YUMC: Joey Wat 2023: table read total 16,706,971; the filing tags the CEO's total as 20,335,792 — corrected
 - YHGJ: proxy 7/28/2025: Frank Cesario 2024: components 250,000 ≠ total 335,500; difference shown as Other.
 - YHGJ: proxy 7/28/2025: Frank Cesario 2023: components 250,000 ≠ total 289,400; difference shown as Other.
 - YHGJ: proxy 7/28/2025: Jana M. Schwan 2024: components 249,000 ≠ total 297,659; difference shown as Other.
@@ -11436,6 +11670,8 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - ZSQR: proxy 10/11/2022: no compensation table recognised
 - ZSQR: proxy 4/5/2022: no compensation table recognised
 - ZSQR: proxy 11/19/2021: no compensation table recognised
+- ZBRA: William Burns 2025: the filing tags the CEO's total as 4,123,239, far from the table's 13,890,300; kept the table figure
+- ZBRA: William Burns 2024: the filing tags the CEO's total as 4,256,784, far from the table's 13,462,794; kept the table figure
 - ZDGE: proxy 11/26/2025: Jonathan Reich 2024: components 513,814 ≠ total 443,788; difference shown as Other.
 - ZDGE: proxy 11/25/2024: Jonathan Reich 2023: components 457,388 ≠ total 443,788; difference shown as Other.
 - ZDGE: proxy 11/22/2023: Jonathan Reich 2023: components 457,388 ≠ total 443,788; difference shown as Other.

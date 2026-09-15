@@ -116,6 +116,21 @@ public sealed partial class XbrlFinancialsExtractor : IFinancialsExtractor
         }
         if (derived > 0) notes.Add($"{derived} fourth quarter(s) derived as annual minus the other three quarters.");
 
+        // A year restated later (a business sold, an accounting change) no longer matches the quarters as first reported.
+        // Keep the restated year and drop those quarters, so a chart never mixes the two bases.
+        var restated = 0;
+        foreach (var (frame, a) in revenue.Where(kv => AnnualFrame().IsMatch(kv.Key)))
+        {
+            if (a.Start is null) continue;
+            var inYear = CalendarQuartersIn(a.Start.Value, a.End).ToList();
+            if (inYear.Count != 4 || !inYear.All(quarters.ContainsKey)) continue;
+            var sum = inYear.Sum(q => quarters[q].Rev);
+            if (Math.Abs(sum - a.Value) <= 0.02m * Math.Abs(a.Value)) continue;
+            foreach (var q in inYear) quarters.Remove(q);
+            restated++;
+        }
+        if (restated > 0) notes.Add($"{restated} year(s) restated after their quarters were reported; those quarters left out.");
+
         var latestYear = annual.Count > 0 ? annual[^1].FiscalYear : DateTime.UtcNow.Year;
         var fromYear = latestYear - years + 1;
         var quarterly = quarters

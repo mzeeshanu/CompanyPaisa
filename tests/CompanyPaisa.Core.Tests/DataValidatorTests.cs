@@ -75,6 +75,16 @@ public class DataValidatorTests
     }
 
     [Fact]
+    public void A_pay_total_bigger_than_any_ever_reported_is_an_error()
+    {
+        // A company tagged $10,990,318 with a "millions" scale: $10,990bn.
+        var data = Data([Co("SAIC")], [Hq("SAIC", "VA", 38.9, -77.4)], pay: [Pay("SAIC", "Toni Townes-Whitley", 2024, 1_000_000m, 10_990_318_000_000m)]);
+        var result = DataValidator.Validate(data, Rates, Today);
+        Assert.Equal(1, result.Checks.Single(c => c.Name == "Impossibly large total").Count);
+        Assert.True(result.Errors > 0);
+    }
+
+    [Fact]
     public void Flags_a_currency_the_site_has_no_rate_for() =>
         Assert.Equal(1, Failures(Data([Co("SIM", "MXN")], [Hq("SIM", "TX", 29.4, -98.5)]), "Currency without an exchange rate"));
 

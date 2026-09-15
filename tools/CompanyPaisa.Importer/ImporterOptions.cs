@@ -89,6 +89,8 @@ public sealed class ListingOptions
     public decimal MinOtcRevenue { get; set; } = 5_000_000;
     /// <summary>Include SEC filers with no ticker at all.</summary>
     public bool IncludeUnlisted { get; set; }
+    /// <summary>Reviewed exclusions, ticker → reason (e.g. a US listing of a company already shown from its home market).</summary>
+    public Dictionary<string, string> SkipTickers { get; set; } = new(StringComparer.OrdinalIgnoreCase);
 }
 
 public sealed class HistoryOptions

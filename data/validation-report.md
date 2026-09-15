@@ -1,4 +1,4 @@
-# Data validation report — 2026-09-15 04:24 UTC
+# Data validation report — 2026-09-15 05:41 UTC
 
 Checks every published workbook together, as the website sees it: 
 `companypaisa.xlsx`, `companypaisa-uk.xlsx`, `companypaisa-eu.xlsx`.
@@ -6,7 +6,7 @@ Checks every published workbook together, as the website sees it:
 **Errors** are values that can't be right. **Warnings** are unusual values worth a look — many are real (big acquisitions, holding-company gains, mega stock grants). Nothing here changes the data.
 
 - Errors: **0**
-- Warnings: **1302**
+- Warnings: **662**
 
 ## Checks
 
@@ -15,24 +15,25 @@ Checks every published workbook together, as the website sees it:
 | Companies | Currency without an exchange rate | Error | ✓ 0 |
 | Companies | No location at all | Error | ✓ 0 |
 | Companies | Only a local office, no headquarters | Warning | 1 |
-| Companies | Same name under two ids | Warning | 5 |
+| Companies | Same name under two ids | Warning | 4 |
 | Locations | Outside its country | Error | ✓ 0 |
 | Locations | Missing city | Warning | ✓ 0 |
 | Financials | No figures at all | Error | ✓ 0 |
-| Financials | Negative revenue | Warning | 294 |
+| Financials | Negative revenue | Warning | 244 |
 | Financials | Period in the future | Error | ✓ 0 |
 | Financials | Duplicate period | Error | ✓ 0 |
 | Financials | Implausibly large revenue | Warning | ✓ 0 |
-| Financials | Profit far bigger than revenue | Warning | 81 |
-| Financials | Revenue jumps 10× in a year | Warning | 52 |
-| Financials | Quarters don't add up to the year | Warning | 537 |
-| Financials | Out of date | Warning | 153 |
-| Financials | Annual figures missing, quarters only | Warning | 113 |
+| Financials | Profit far bigger than revenue | Warning | 78 |
+| Financials | Revenue jumps 10× in a year | Warning | 50 |
+| Financials | Quarters don't add up to the year | Warning | 70 |
+| Financials | Out of date | Warning | 44 |
+| Financials | Annual figures missing, quarters only | Warning | 105 |
 | Pay | Negative amount | Error | ✓ 0 |
 | Pay | Year in the future | Error | ✓ 0 |
 | Pay | Person record missing | Error | ✓ 0 |
 | Pay | Same person, company and year twice | Error | ✓ 0 |
 | Pay | Salary bigger than total | Warning | ✓ 0 |
+| Pay | Impossibly large total | Error | ✓ 0 |
 | Pay | Very large total | Warning | 66 |
 | Pay | Tiny total | Warning | ✓ 0 |
 | Pay | Name doesn't look like a person | Warning | ✓ 0 |
@@ -44,10 +45,10 @@ Checks every published workbook together, as the website sees it:
 
 | | Count |
 |---|---|
-| US | 3,943 |
+| US | 3,834 |
 | GB | 328 |
 | FR | 179 |
-| CA | 155 |
+| CA | 146 |
 | IT | 138 |
 | ES | 94 |
 | NL | 71 |
@@ -58,10 +59,10 @@ Checks every published workbook together, as the website sees it:
 
 | | Count |
 |---|---|
-| Nasdaq | 2,236 |
-| NYSE | 1,658 |
+| Nasdaq | 2,163 |
+| NYSE | 1,620 |
 | LSE | 328 |
-| OTC | 215 |
+| OTC | 208 |
 | Euronext Paris | 179 |
 | Borsa Italiana | 138 |
 | Bolsa de Madrid | 94 |
@@ -73,10 +74,10 @@ Checks every published workbook together, as the website sees it:
 
 | | Count |
 |---|---|
-| USD | 4,104 |
-| EUR | 487 |
+| USD | 3,993 |
+| EUR | 485 |
 | GBP | 268 |
-| CAD | 56 |
+| CAD | 51 |
 | AUD | 5 |
 | GEL | 2 |
 | CNY | 1 |
@@ -87,19 +88,19 @@ Checks every published workbook together, as the website sees it:
 
 | | Count |
 |---|---|
-| Other | 774 |
-| Healthcare | 739 |
-| Finance | 727 |
-| Consumer & retail | 512 |
-| Industrials | 500 |
+| Other | 773 |
+| Finance | 715 |
+| Healthcare | 674 |
+| Consumer & retail | 510 |
+| Industrials | 498 |
 | Software & IT | 347 |
-| Energy & utilities | 265 |
-| Real estate | 242 |
+| Energy & utilities | 257 |
+| Real estate | 228 |
 | Business services | 213 |
-| Materials | 167 |
+| Materials | 154 |
 | Technology hardware | 144 |
 | Media & telecom | 105 |
-| Transportation | 92 |
+| Transportation | 91 |
 | Semiconductors | 77 |
 | Education | 21 |
 
@@ -107,7 +108,7 @@ Checks every published workbook together, as the website sees it:
 
 | | Count |
 |---|---|
-| US | 3,505 |
+| US | 3,417 |
 | GB | 89 |
 | CA | 29 |
 | AU | 3 |
@@ -116,11 +117,11 @@ Checks every published workbook together, as the website sees it:
 
 | | Count |
 |---|---|
-| 10+ | 2,464 |
-| 6–9 | 1,231 |
-| 3–5 | 893 |
-| 1–2 | 224 |
-| 0 (quarters only) | 113 |
+| 10+ | 2,450 |
+| 6–9 | 1,196 |
+| 3–5 | 860 |
+| 1–2 | 196 |
+| 0 (quarters only) | 105 |
 
 ### Newest annual figures
 
@@ -128,20 +129,20 @@ Checks every published workbook together, as the website sees it:
 |---|---|
 | FY 2025 | 4,013 |
 | FY 2026 | 374 |
-| FY 2024 | 272 |
-| 2023 or older | 153 |
-| none | 113 |
+| FY 2024 | 271 |
+| none | 105 |
+| 2023 or older | 44 |
 
 ### Rows
 
 | | Count |
 |---|---|
-| Companies | 4,925 |
-| Locations | 4,935 |
-| Annual periods | 37,425 |
-| Quarterly periods | 137,906 |
-| Pay rows | 91,443 |
-| People | 24,041 |
+| Companies | 4,807 |
+| Locations | 4,817 |
+| Annual periods | 36,860 |
+| Quarterly periods | 132,475 |
+| Pay rows | 89,740 |
+| People | 23,593 |
 
 ## Details
 
@@ -151,35 +152,34 @@ Expected for hand-added offices of companies based abroad (e.g. NICE in Utah); a
 
 - NICE (NICE Ltd.)
 
-### Companies · Same name under two ids (5)
+### Companies · Same name under two ids (4)
 
 Usually two share classes or a parent and its subsidiary listed separately — one company shown twice.
 
 - DPZ, DOM.L — Dominos Pizza Inc
 - FMCB, FMAO — Farmers & Merchants Bancorp
-- GRFS, GRF.MC — Grifols SA
 - IPAR, ITP.PA — Interparfums Inc
 - IREN, IRE.MI — IREN Ltd
 
-### Financials · Negative revenue (294)
+### Financials · Negative revenue (244)
 
 Reported revenue below zero. Real for mortgage REITs and energy producers, whose revenue includes investment or hedging losses; otherwise a sign error.
 
-- ADAM (Adamas Trust, Inc.) Q1 2020: -411,390,000
 - AERA (AI Era Corp.) Q2 2021: -51,200
 - ALT (Altimmune, Inc.) FY 2022: -68,000
 - ANG-PD (American National Group Inc.) Q4 2018: -450,985,000
 - ANG-PD (American National Group Inc.) Q1 2020: -323,703,000
 - AMLX (Amylyx Pharmaceuticals, Inc.) Q2 2024: -1,023,000
-- AOMR (Angel Oak Mortgage REIT, Inc.) Q1 2022: -26,656,000
-- AOMR (Angel Oak Mortgage REIT, Inc.) Q2 2022: -31,565,000
-- AOMR (Angel Oak Mortgage REIT, Inc.) Q3 2022: -53,417,000
-- AR (ANTERO RESOURCES Corp) Q2 2016: -249,198,000
 - ABUS (Arbutus Biopharma Corp) Q4 2016: -195,000
-- ARMP (Armata Pharmaceuticals, Inc.) Q3 2013: -3,000
-- … and 282 more
+- ATH-PA (Athene Holding Ltd.) Q1 2020: -1,549,000,000
+- ATH-PA (Athene Holding Ltd.) Q1 2022: -281,000,000
+- AUID (authID Inc.) Q3 2025: -106,146
+- BMRC (Bank of Marin Bancorp) Q4 2025: -24,816,000
+- BENF (Beneficient) FY 2023: -104,903,000
+- BENF (Beneficient) FY 2024: -98,696,000
+- … and 232 more
 
-### Financials · Profit far bigger than revenue (81)
+### Financials · Profit far bigger than revenue (78)
 
 Net profit more than 3× revenue for a company with ≥ $10M revenue — possible for holding companies and one-off gains, often a revenue sub-line.
 
@@ -189,15 +189,15 @@ Net profit more than 3× revenue for a company with ≥ $10M revenue — possibl
 - AMSC (American Superconductor Corp /De/) FY 2024: revenue 145.6M, net income 6.03bn
 - AIV (Apartment Investment & Management Co) FY 2025: revenue 138.5M, net income 547.2M
 - APYX (Apyx Medical Corp) FY 2018: revenue 16.7M, net income 62.7M
-- ABR (Arbor Realty Trust Inc) FY 2016: revenue 14.9M, net income 62.5M
-- ABR (Arbor Realty Trust Inc) FY 2017: revenue 11.0M, net income 97.5M
-- ABR (Arbor Realty Trust Inc) FY 2018: revenue 10.1M, net income 148.1M
 - ACGP (Associated Capital Group, Inc.) FY 2024: revenue 13.2M, net income 44.3M
 - AZTA (Azenta, Inc.) FY 2022: revenue 555.5M, net income 2.13bn
 - BDTX (Black Diamond Therapeutics, Inc.) FY 2025: revenue 70.0M, net income 22.37bn
-- … and 69 more
+- CPT (Camden Property Trust) FY 2020: revenue 10.8M, net income 123.9M
+- CPT (Camden Property Trust) FY 2021: revenue 10.5M, net income 303.9M
+- CPT (Camden Property Trust) FY 2025: revenue 13.0M, net income 384.5M
+- … and 66 more
 
-### Financials · Revenue jumps 10× in a year (52)
+### Financials · Revenue jumps 10× in a year (50)
 
 Year-on-year revenue up or down more than tenfold (both years ≥ $10M) — a real acquisition, or a switch of revenue definition or units.
 
@@ -213,49 +213,48 @@ Year-on-year revenue up or down more than tenfold (both years ≥ $10M) — a re
 - CANG (Cango Inc.): FY 2023 1.70bn → FY 2024 110.2M
 - DNLI (Denali Therapeutics Inc.): FY 2019 26.7M → FY 2020 335.7M
 - DBRG (DigitalBridge Group, Inc.): FY 2018 1.17bn → FY 2019 61.0M
-- … and 40 more
+- … and 38 more
 
-### Financials · Quarters don't add up to the year (537)
+### Financials · Quarters don't add up to the year (70)
 
 For December year-ends, the four quarters differ from the annual figure by more than 2% (revenue ≥ $10M). Usually a restatement: the year was restated later (a business sold, an accounting change) while the quarters are as first reported.
 
-- ACHC (Acadia Healthcare Company, Inc.) FY 2018: quarters 3.01bn vs year 1.90bn
-- AAMI (Acadian Asset Management Inc.) FY 2020: quarters 612.3M vs year 697.9M
-- AAMI (Acadian Asset Management Inc.) FY 2021: quarters 539.4M vs year 523.8M
-- ADEA (Adeia Inc.) FY 2021: quarters 753.0M vs year 391.2M
-- ADT (ADT Inc.) FY 2022: quarters 5.17bn vs year 4.38bn
-- AEHR (Aehr Test Systems) FY 2017: quarters 24.3M vs year 18.9M
 - AEHR (Aehr Test Systems) FY 2018: quarters 25.3M vs year 29.6M
-- AEHR (Aehr Test Systems) FY 2019: quarters 22.8M vs year 21.1M
-- AEHR (Aehr Test Systems) FY 2020: quarters 13.6M vs year 22.3M
-- AEHR (Aehr Test Systems) FY 2021: quarters 28.2M vs year 16.6M
-- AEHR (Aehr Test Systems) FY 2022: quarters 61.1M vs year 50.8M
-- AEHR (Aehr Test Systems) FY 2023: quarters 75.9M vs year 65.0M
-- … and 525 more
+- AEHR (Aehr Test Systems) FY 2024: quarters 48.2M vs year 66.2M
+- RIME (Algorhythm Holdings, Inc.) FY 2016: quarters 53.0M vs year 48.9M
+- RIME (Algorhythm Holdings, Inc.) FY 2017: quarters 61.8M vs year 52.9M
+- RIME (Algorhythm Holdings, Inc.) FY 2018: quarters 48.2M vs year 60.8M
+- RIME (Algorhythm Holdings, Inc.) FY 2019: quarters 38.4M vs year 46.5M
+- RIME (Algorhythm Holdings, Inc.) FY 2020: quarters 43.3M vs year 38.5M
+- RIME (Algorhythm Holdings, Inc.) FY 2021: quarters 48.2M vs year 45.8M
+- RIME (Algorhythm Holdings, Inc.) FY 2022: quarters 38.7M vs year 47.5M
+- RCEL (AVITA Medical, Inc.) FY 2020: quarters 17.9M vs year 14.3M
+- BRT (BRT Apartments Corp.) FY 2016: quarters 101.8M vs year 98.5M
+- BRT (BRT Apartments Corp.) FY 2017: quarters 108.5M vs year 105.8M
+- … and 58 more
 
-### Financials · Out of date (153)
+### Financials · Out of date (44)
 
 Newest annual figures are more than two years old — the company may have stopped reporting, been taken over, or changed filer.
 
-- ACHV (Achieve Life Sciences, Inc.): latest FY 2019
-- AIXC (AIxCrypto Holdings, Inc.): latest FY 2022
 - AKTX (Akari Therapeutics Plc): latest FY 2023
-- ALXO (Alx Oncology Holdings Inc): latest FY 2022
-- AMH (American Homes 4 Rent): latest FY 2020
-- AOMR (Angel Oak Mortgage REIT, Inc.): latest FY 2021
-- APVO (Aptevo Therapeutics Inc.): latest FY 2022
 - AQB (Aquabounty Technologies Inc): latest FY 2023
-- ABR (Arbor Realty Trust Inc): latest FY 2018
-- ARMP (Armata Pharmaceuticals, Inc.): latest FY 2014
 - ASUR (Asure Software Inc): latest FY 2023
-- AVIR (Atea Pharmaceuticals, Inc.): latest FY 2021
-- … and 141 more
+- BESS (Bimergen Energy Corp): latest FY 2023
+- BXMT (Blackstone Mortgage Trust, Inc.): latest FY 2023
+- CTXR (Citius Pharmaceuticals, Inc.): latest FY 2022
+- CIA (Citizens, Inc.): latest FY 2022
+- COCP (Cocrystal Pharma, Inc.): latest FY 2020
+- DCOY (Decoy Therapeutics Inc.): latest FY 2022
+- ESOA (Energy Services of America CORP): latest FY 2022
+- GERN (Geron Corp): latest FY 2023
+- GGROU (Golden Growers Cooperative): latest FY 2023
+- … and 32 more
 
-### Financials · Annual figures missing, quarters only (113)
+### Financials · Annual figures missing, quarters only (105)
 
 Shown with quarterly figures only; the headline 'annual revenue' comes from the last four quarters.
 
-- ADAM (Adamas Trust, Inc.)
 - ADIG (Adi Global Distribution Inc.)
 - AVEX (AEVEX Corp.)
 - AIAI (AIAI Holdings Corp)
@@ -263,11 +262,12 @@ Shown with quarterly figures only; the headline 'annual revenue' comes from the 
 - AKTS (Aktis Oncology, Inc.)
 - ALMR (Alamar Biosciences, Inc.)
 - AMSS (Amass Brands)
-- APA (APA Corp)
 - APMD (Apnimed, Inc.)
 - AADX (Applied Aerospace & Defense, Inc.)
 - APC (ARKO Petroleum Corp.)
-- … and 101 more
+- ARXS (Arxis, Inc.)
+- RNA (Atrium Therapeutics, Inc.)
+- … and 93 more
 
 ### Pay · Very large total (66)
 

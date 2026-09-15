@@ -44,6 +44,11 @@ public sealed partial class ImportPipeline(
         public int Abroad { get; set; }
         public int PeopleLinkedByCik { get; set; }
         public int PeopleByNameOnly { get; set; }
+        /// <summary>CEO pay rows the proxy's pay-versus-performance tags confirm, correct or reject; tagged CEO-years with no row.</summary>
+        public int PayVerified { get; set; }
+        public int PayCorrected { get; set; }
+        public int PayDropped { get; set; }
+        public int PayUnmatched { get; set; }
         public List<string> Excluded { get; } = [];
         public List<string> Warnings { get; } = [];
     }
@@ -69,6 +74,7 @@ public sealed partial class ImportPipeline(
             // Cheapest test first: most filers are funds, trusts and shells with no ticker.
             // Thousands of filers fall out here, so they're counted rather than listed one by one in the report.
             if (sec.PrimaryTicker is null && !o.Listing.IncludeUnlisted) { outcome.NoTicker++; continue; }
+            if (sec.PrimaryTicker is { } t && o.Listing.SkipTickers.TryGetValue(t, out var why)) { outcome.Excluded.Add($"{Label(sec)}: {why}"); continue; }
             // Still reporting? The ticker file also lists companies that stopped filing years ago.
             if (!sec.Filings.Any(f => StillReportingForms.Contains(f.Form) && f.FilingDate >= o.Discovery.Since)) { outcome.NotReporting++; continue; }
             if (geo.Place(addr) is not { } placed)
@@ -127,6 +133,11 @@ public sealed partial class ImportPipeline(
             var fin = facts is null ? null : financials.Extract(ticker, c.Sec.Cik, facts, o.History.Years);
             if (fin is null || fin.Periods.Count == 0)
             { outcome.Excluded.Add($"{Label(c.Sec)}: no revenue data in XBRL filings"); continue; }
+            // Figures more than two years old describe a company that's since been taken over, gone private or stopped
+            // tagging its reports; showing them as "current" would mislead.
+            var newest = fin.Periods.Max(p => p.FiscalYear);
+            if (newest < DateTime.UtcNow.Year - 2 && !c.FromCurated)
+            { outcome.Excluded.Add($"{Label(c.Sec)}: newest figures are for {newest}"); continue; }
 
             var exchange = c.Sec.PrimaryExchange ?? "Unlisted";
             var listed = o.Listing.Exchanges.Contains(exchange, StringComparer.OrdinalIgnoreCase);
@@ -134,9 +145,15 @@ public sealed partial class ImportPipeline(
             { outcome.Excluded.Add($"{Label(c.Sec)}: {exchange}, annual revenue {Money(fin.LatestAnnualRevenue)} below {Money(o.Listing.MinOtcRevenue)}"); continue; }
 
             // Executives: newest proxy first; older proxies only for years we don't have yet.
-            var (pay, proxies, payWarnings) = await ReadExecutivePayAsync(c.Sec, ticker, historyStart.Year + 1, ct);
+            var payResult = await ReadExecutivePayAsync(c.Sec, ticker, historyStart.Year + 1, ct);
+            var pay = payResult.Rows;
+            var proxies = payResult.Proxies;
             parsedProxies += proxies;
-            outcome.Warnings.AddRange(payWarnings.Select(w => $"{ticker}: {w}"));
+            outcome.Warnings.AddRange(payResult.Warnings.Select(w => $"{ticker}: {w}"));
+            outcome.PayVerified += payResult.Verified;
+            outcome.PayCorrected += payResult.Corrected;
+            outcome.PayDropped += payResult.Dropped;
+            outcome.PayUnmatched += payResult.Unmatched;
 
             var company = new Company
             {
@@ -211,10 +228,14 @@ public sealed partial class ImportPipeline(
 
     private sealed record PayRow(string Name, string Title, int Year, decimal Salary, decimal Bonus, decimal StockAwards, decimal Other, decimal Total, string Source);
 
-    private async Task<(List<PayRow> Rows, int Proxies, List<string> Warnings)> ReadExecutivePayAsync(SecCompany sec, string ticker, int fromYear, CancellationToken ct)
+    /// <summary>Pay rows for one company, and how they fared against the CEO totals the proxies tag (pay versus performance).</summary>
+    private sealed record PayResult(List<PayRow> Rows, int Proxies, List<string> Warnings, int Verified, int Corrected, int Dropped, int Unmatched);
+
+    private async Task<PayResult> ReadExecutivePayAsync(SecCompany sec, string ticker, int fromYear, CancellationToken ct)
     {
         var rows = new Dictionary<(string Person, int Year), PayRow>();
         var warnings = new List<string>();
+        var pvp = new Dictionary<(DateOnly End, string? Name), PvpFact>();
         var proxies = sec.Filings.Where(f => f.Form == "DEF 14A").OrderByDescending(f => f.FilingDate).ToList();
         var read = 0;
         var covered = new HashSet<int>();
@@ -230,6 +251,8 @@ public sealed partial class ImportPipeline(
             var html = await edgar.GetDocumentAsync(proxy.Url(sec.Cik), ct);
             read++;
             if (html is null) { warnings.Add($"proxy {proxy.FilingDate} could not be downloaded"); continue; }
+            // The CEO totals the company tagged; the newest proxy wins for any year two proxies both cover.
+            foreach (var f in PayVersusPerformance.Read(html)) pvp.TryAdd((f.PeriodEnd, f.Name), f);
             var result = compensation.Parse(html);
             if (result.Rows.Count == 0) { warnings.Add($"proxy {proxy.FilingDate}: no compensation table recognised"); continue; }
             warnings.AddRange(result.Warnings.Take(3).Select(w => $"proxy {proxy.FilingDate}: {w}"));
@@ -261,7 +284,62 @@ public sealed partial class ImportPipeline(
                     new PayRow(r.Name, r.Title, r.Year, r.Salary, r.Bonus, r.StockAwards, r.Other, r.Total, proxy.Url(sec.Cik)));
             }
         }
-        return (rows.Values.OrderBy(r => r.Name).ThenBy(r => r.Year).ToList(), read, warnings);
+        var (verified, corrected, dropped, unmatched) = CheckAgainstPayVersusPerformance(rows, pvp.Values, warnings);
+        return new PayResult(rows.Values.OrderBy(r => r.Name).ThenBy(r => r.Year).ToList(), read, warnings, verified, corrected, dropped, unmatched);
+    }
+
+    /// <summary>
+    /// Compares each tagged CEO total with the table row for that person and year. A match verifies the row; the same person
+    /// with a different total means the table parser misread it: the tagged total replaces it (or the row is dropped). A tagged
+    /// CEO-year with no row at all is only counted (the table parser missed it).
+    /// </summary>
+    private static (int Verified, int Corrected, int Dropped, int Unmatched) CheckAgainstPayVersusPerformance(
+        Dictionary<(string Person, int Year), PayRow> rows, IEnumerable<PvpFact> facts, List<string> warnings)
+    {
+        int verified = 0, corrected = 0, dropped = 0, unmatched = 0;
+        static bool Close(decimal a, decimal b) => Math.Abs(a - b) <= Math.Max(1m, Math.Abs(b) * 0.001m);
+        // Some companies tag dollars with a "thousands" scale (Amtech's $723,580 tagged as $723,580,000): the same digits
+        // a power of 1,000 apart still confirm the table, which is right.
+        static bool Same(decimal table, decimal tagged) =>
+            Close(table, tagged) || Close(table * 1_000m, tagged) || Close(table * 1_000_000m, tagged) || Close(table, tagged * 1_000m);
+        foreach (var f in facts.Where(f => f.Total > 0))
+        {
+            // A fiscal year ending early in the calendar year can be labelled either way; try both.
+            var years = new[] { f.FiscalYear, f.PeriodEnd.Year }.Distinct().ToArray();
+            var inYear = rows.Where(kv => years.Contains(kv.Key.Year)).ToList();
+            if (inYear.Any(kv => Same(kv.Value.Total, f.Total))) { verified++; continue; }
+            var same = f.Name is null ? [] : inYear.Where(kv => PayVersusPerformance.SamePerson(f.Name, kv.Value.Name)).ToList();
+            if (same.Count == 1)
+            {
+                // The tagged total is the company's own figure: use it, and let "other" absorb the difference (the
+                // parser already puts columns it can't place there). If that would make "other" negative, the row's
+                // pieces are wrong too, so leave it out.
+                var (key, row) = (same[0].Key, same[0].Value);
+                // Only a nearby figure corrects the table; a tag far off (more than double, or under half) is itself wrong.
+                if (row.Total > 0 && (f.Total > row.Total * 2 || f.Total < row.Total / 2))
+                {
+                    unmatched++;
+                    warnings.Add($"{row.Name} {row.Year}: the filing tags the CEO's total as {f.Total:N0}, far from the table's {row.Total:N0}; kept the table figure");
+                    continue;
+                }
+                var other = row.Other + (f.Total - row.Total);
+                if (other >= 0)
+                {
+                    rows[key] = row with { Total = f.Total, Other = other };
+                    corrected++;
+                    warnings.Add($"{row.Name} {row.Year}: table read total {row.Total:N0}; the filing tags the CEO's total as {f.Total:N0} — corrected");
+                }
+                else
+                {
+                    rows.Remove(key);
+                    dropped++;
+                    warnings.Add($"{row.Name} {row.Year}: table read total {row.Total:N0}, but the filing tags the CEO's total as {f.Total:N0}; row left out");
+                }
+                continue;
+            }
+            unmatched++;
+        }
+        return (verified, corrected, dropped, unmatched);
     }
 
     /// <summary>
@@ -310,6 +388,8 @@ public sealed partial class ImportPipeline(
         sb.AppendLine($"- Financial periods: {o.Financials.Count}");
         sb.AppendLine($"- Executive pay rows: {o.Pay.Count} for {o.People.Count} people, from {proxies} proxy statements");
         sb.AppendLine($"- People linked by SEC insider id: {o.PeopleLinkedByCik}; matched by name within one company only: {o.PeopleByNameOnly}");
+        sb.AppendLine($"- CEO pay checked against the pay-versus-performance totals companies tag in their proxies: {o.PayVerified} match, " +
+                      $"{o.PayCorrected} misread totals corrected to the tagged figure, {o.PayDropped} rows left out, {o.PayUnmatched} tagged CEO-years with no table row");
         sb.AppendLine($"- ZIP table rows written: {zipCount}");
         sb.AppendLine($"- Network requests this run: {client.NetworkRequests} (the rest came from the local cache)").AppendLine();
         sb.AppendLine("| Metro | Companies |").AppendLine("|---|---|");

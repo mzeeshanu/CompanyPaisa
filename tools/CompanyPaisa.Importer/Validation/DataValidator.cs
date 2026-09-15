@@ -152,6 +152,11 @@ public static class DataValidator
             "The total should include salary (2% allowed for rounding); usually a misread column.",
             data.Pay.Where(p => p.Total > 0 && p.Salary > p.Total * 1.02m).Select(p => $"{Name(p.CompanyId)} {p.ExecutiveName} {p.Year}: salary {p.Salary:N0}, total {p.Total:N0}"));
 
+        Check("Pay", "Impossibly large total", Severity.Error,
+            "Above $3bn (US-dollar equivalent) in one year — larger than any package ever reported (Tesla's 2018 grant to Elon Musk was $2.3bn); a unit or scale error.",
+            data.Pay.Where(p => p.Total * usdPer.GetValueOrDefault(PayCurrency(companies, p.CompanyId), 1m) > 3_000_000_000m)
+                .Select(p => $"{Name(p.CompanyId)} {p.ExecutiveName} {p.Year}: {Money(p.Total)}"));
+
         Check("Pay", "Very large total", Severity.Warning,
             "Total above $150M (US-dollar equivalent) in one year — happens (mega stock grants), but check it's not a unit error.",
             data.Pay.Where(p => p.Total * usdPer.GetValueOrDefault(PayCurrency(companies, p.CompanyId), 1m) > 150_000_000m)
