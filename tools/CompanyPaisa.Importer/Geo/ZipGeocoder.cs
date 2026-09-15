@@ -28,15 +28,16 @@ public interface IZipGeocoder
     /// </summary>
     (string Region, string Anchor)? RegionFor(GeoPoint point, string? state, string country = "US");
     /// <summary>
-    /// Where an SEC business address is: a US ZIP, or a Canadian postal code (EDGAR codes provinces as A0–B0, Z4 = Canada).
+    /// Where an SEC business address is: a US ZIP, a Canadian postal code (EDGAR codes provinces as A0–B0, Z4 = Canada),
+    /// or an Australian (C3) or New Zealand (Q2) postcode when those countries are configured.
     /// Null when the address is elsewhere or the code isn't known.
     /// </summary>
     PlacedAddress? Place(SecAddress address);
 }
 
 /// <summary>
-/// A located address: <see cref="State"/> is the US state or Canadian province code. <see cref="City"/> is set for
-/// Canadian addresses (from the postal area), because EDGAR writes "Toronto, Ontario" or even "Canada" there.
+/// A located address: <see cref="State"/> is the US state, Canadian province or (Australia, New Zealand) country code. <see cref="City"/> is set for
+/// addresses outside the US (from the postal area), because EDGAR writes "Toronto, Ontario" or even "Canada" there.
 /// </summary>
 public sealed record PlacedAddress(GeoPoint Point, string State, string Country, string PostalCode, string? City = null);
 
@@ -61,10 +62,16 @@ public sealed class ZipGeocoder(IOptions<ImporterOptions> options, RepoPaths pat
         ["A6"] = "ON", ["A7"] = "PE", ["A8"] = "QC", ["A9"] = "SK", ["B0"] = "YT", ["Z4"] = ""
     };
 
+    /// <summary>EDGAR country codes of other countries whose SEC filers we include: Australia and New Zealand.</summary>
+    private static readonly Dictionary<string, string> EdgarOtherCountries = new(StringComparer.OrdinalIgnoreCase) { ["C3"] = "AU", ["Q2"] = "NZ" };
+    private readonly Eu.EuPostcodes _other = new();
+
     public async Task LoadAsync(CancellationToken ct)
     {
         await LoadUsAsync(ct);
         await LoadCanadaAsync(ct);
+        foreach (var country in options.Value.Geo.OtherCountries)
+            await _other.LoadAsync(client, options.Value.Geo.OtherPostcodesUrl, country, ct);
     }
 
     private async Task LoadCanadaAsync(CancellationToken ct)
@@ -98,6 +105,11 @@ public sealed class ZipGeocoder(IOptions<ImporterOptions> options, RepoPaths pat
             var postal = code.Length == 6 ? $"{code[..3]} {code[3..]}" : code[..3];
             return new PlacedAddress(fsa.Point, province.Length > 0 ? province : fsa.Province, "CA", postal, fsa.City);
         }
+
+        // Australia and New Zealand: 4-digit postcodes; the "state" shown is the country ("Sydney, AU").
+        if (EdgarOtherCountries.TryGetValue(address.State.Trim(), out var other) && options.Value.Geo.OtherCountries.Contains(other, StringComparer.OrdinalIgnoreCase))
+            return _other.Locate(other, address.Zip) is { } p && Eu.EuPostcodes.Normalise(other, address.Zip) is { } pc
+                ? new PlacedAddress(p.Point, other, other, pc, p.Place) : null;
 
         // Some SEC records leave the state blank; the ZIP knows it, but only trust that when the city agrees too —
         // otherwise an Israeli postcode like 4672530 would pass as ZIP 46725 in Indiana.
@@ -210,6 +222,9 @@ public sealed class ZipGeocoder(IOptions<ImporterOptions> options, RepoPaths pat
             })
             .ToList();
         await File.WriteAllLinesAsync(path, ["zip,city,state,latitude,longitude", .. rows], ct);
+
+        if (_other.Count > 0 && !string.IsNullOrWhiteSpace(o.OtherTableOutput))
+            await _other.WriteTableAsync(paths.Resolve(o.OtherTableOutput), ct);
 
         // Canadian postal areas: "M5J,Toronto,ON,…" (the API tells them from UK districts by the province).
         if (_canada.Count > 0 && !string.IsNullOrWhiteSpace(o.CanadaTableOutput))

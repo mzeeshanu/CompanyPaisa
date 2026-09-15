@@ -26,14 +26,14 @@ public sealed partial class CsvZipGeoLocator(
         var q = query.Trim();
         var index = _index.Value;
 
-        // Europe: the website sends the country with the code ("FR-75008", "NL 1012 AB"), because a bare 5-digit
-        // French, Italian or Spanish postcode looks exactly like a US ZIP.
+        // Europe, Australia, New Zealand: the website sends the country with the code ("FR-75008", "NL 1012 AB",
+        // "AU-2000"), because a bare 5-digit French, Italian or Spanish postcode looks exactly like a US ZIP.
         var eu = EuropeanPostcodePattern().Match(q.ToUpperInvariant());
         if (eu.Success)
         {
             var country = eu.Groups["country"].Value;
             var digits = eu.Groups["digits"].Value;
-            var code = country == "NL" ? digits[..Math.Min(4, digits.Length)] : digits.PadLeft(5, '0');
+            var code = country is "NL" or "AU" or "NZ" ? digits[..Math.Min(4, digits.Length)] : digits.PadLeft(5, '0');
             return Task.FromResult(index.ByZip.TryGetValue($"{country}:{code}", out var e)
                 ? e with { Query = q, PostalCode = country == "NL" && eu.Groups["letters"].Success ? $"{code} {eu.Groups["letters"].Value}" : code }
                 : null);
@@ -85,9 +85,11 @@ public sealed partial class CsvZipGeoLocator(
     [GeneratedRegex(@"^(?<city>[A-Za-z .'\-]+?)[,\s]+(?<state>[A-Za-z]{2})$")]
     private static partial Regex CityStatePattern();
 
-    /// <summary>UK postcode: outward code (district) and an optional inward code.</summary>
-    /// <summary>"FR-75008", "IT 00184", "ES-08002", "NL-1012 AB": country, then the code (Dutch codes may carry two letters).</summary>
-    [GeneratedRegex(@"^(?<country>FR|NL|IT|ES)[\s\-:]+(?<digits>\d{4,5})(?:\s*(?<letters>[A-Z]{2}))?$")]
+    /// <summary>
+    /// "FR-75008", "IT 00184", "ES-08002", "NL-1012 AB", "AU-2000", "NZ-1010": country, then the code
+    /// (Dutch codes may carry two letters; Dutch, Australian and New Zealand codes are 4 digits).
+    /// </summary>
+    [GeneratedRegex(@"^(?<country>FR|NL|IT|ES|AU|NZ)[\s\-:]+(?<digits>\d{4,5})(?:\s*(?<letters>[A-Z]{2}))?$")]
     private static partial Regex EuropeanPostcodePattern();
 
     /// <summary>Canadian postal code: forward sortation area ("M5J") and an optional local delivery unit ("2J2").</summary>
@@ -99,6 +101,7 @@ public sealed partial class CsvZipGeoLocator(
 
     private static readonly HashSet<string> Provinces = ["AB", "BC", "MB", "NB", "NL", "NS", "NT", "NU", "ON", "PE", "QC", "SK", "YT"];
 
+    /// <summary>UK postcode: outward code (district) and an optional inward code.</summary>
     [GeneratedRegex(@"^(?<district>[A-Z]{1,2}\d[A-Z\d]?)(?:\s*(?<inward>\d[A-Z]{2}))?$")]
     private static partial Regex UkPostcodePattern();
 

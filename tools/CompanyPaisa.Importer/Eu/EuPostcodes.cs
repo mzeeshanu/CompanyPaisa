@@ -8,7 +8,7 @@ using CompanyPaisa.Importer.Sec;
 namespace CompanyPaisa.Importer.Eu;
 
 /// <summary>
-/// Postcodes for the European countries (GeoNames): each code → a place name and the average of its points.
+/// Postcodes for Europe, Australia and New Zealand (GeoNames): each code → a place name and the average of its points.
 /// A French code can cover several villages; a Dutch code is the 4-digit area ("1012"), without the letters.
 /// </summary>
 public sealed partial class EuPostcodes
@@ -33,21 +33,40 @@ public sealed partial class EuPostcodes
             var code = Normalise(country, f[1]);
             if (code is null) continue;
             if (!rows.TryGetValue(code, out var list)) rows[code] = list = [];
-            list.Add((f[2].Trim(), lat, lng));
+            // Australian rows name a suburb ("Haymarket"); the city ("Sydney") is in the next-level column.
+            var name = country.Equals("AU", StringComparison.OrdinalIgnoreCase) && f[5].Trim().Length > 0 ? f[5].Trim() : f[2].Trim();
+            list.Add((name, lat, lng));
         }
         foreach (var (code, list) in rows)
         {
             // "Paris 08" and "Paris" share 75008: the plain city name reads better.
             var place = list.Select(x => ArrondissementSuffix().Replace(x.Place, "")).GroupBy(p => p).MaxBy(g => g.Count())!.Key;
-            _codes[Key(country, code)] = (country, code, place, new GeoPoint(list.Average(x => x.Lat), list.Average(x => x.Lng)));
+            var point = new GeoPoint(list.Average(x => x.Lat), list.Average(x => x.Lng));
+            // Australia's second-level names are councils ("Vincent" for central Perth): near a capital, use the capital.
+            if (country.Equals("AU", StringComparison.OrdinalIgnoreCase) &&
+                AustralianCapitals.FirstOrDefault(c => Distance.DistanceMiles(point, c.Point) <= 10) is { Name: { } capital })
+                place = capital;
+            _codes[Key(country, code)] = (country, code, place, point);
         }
     }
 
-    /// <summary>"1012 AB" → "1012" in the Netherlands; other countries keep their 5 digits ("8002" → "08002").</summary>
+    private static readonly Core.Services.HaversineDistanceCalculator Distance = new();
+
+    private static readonly (string Name, GeoPoint Point)[] AustralianCapitals =
+    [
+        ("Sydney", new(-33.8688, 151.2093)), ("Melbourne", new(-37.8136, 144.9631)), ("Brisbane", new(-27.4698, 153.0251)),
+        ("Perth", new(-31.9505, 115.8605)), ("Adelaide", new(-34.9285, 138.6007)), ("Hobart", new(-42.8821, 147.3272)),
+        ("Canberra", new(-35.2809, 149.1300)), ("Darwin", new(-12.4634, 130.8456))
+    ];
+
+    /// <summary>Countries whose postcodes are 4 digits: the Netherlands ("1012 AB" → 1012), Australia, New Zealand.</summary>
+    public static readonly HashSet<string> FourDigitCountries = new(StringComparer.OrdinalIgnoreCase) { "NL", "AU", "NZ" };
+
+    /// <summary>"1012 AB" → "1012" in the Netherlands, "2000" in Sydney; other countries keep their 5 digits ("8002" → "08002").</summary>
     public static string? Normalise(string country, string postcode)
     {
         var digits = PostcodeDigits().Match(postcode).Value;   // "75008", "1012 AB" → 1012, "F-75008" → 75008
-        if (country.Equals("NL", StringComparison.OrdinalIgnoreCase))
+        if (FourDigitCountries.Contains(country))
             return digits.Length >= 4 ? digits[..4] : null;
         return digits.Length is >= 4 and <= 5 ? digits.PadLeft(5, '0') : null;
     }

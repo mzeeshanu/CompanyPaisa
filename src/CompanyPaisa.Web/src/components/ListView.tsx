@@ -20,8 +20,12 @@ interface Props extends BubbleEvents {
 
 const SORTS: CompanySort[] = ['Revenue', 'Growth', 'Profit', 'Distance'];
 
+/** Phones start with one merged box (city boxes take a lot of scrolling there); wider screens start split by city. */
+const PHONE = '(max-width: 720px)';
+
 export function ListView({ data, placeName, sort, onSort, highlight, loading, onHover, onSelect }: Props) {
   const s = data.summary;
+  const [merged, setMerged] = useState(() => typeof window !== 'undefined' && window.matchMedia(PHONE).matches);
   return (
     <main className={`wrap${loading ? ' loading' : ''}`}>
       <section className="summary" aria-live="polite">
@@ -44,7 +48,13 @@ export function ListView({ data, placeName, sort, onSort, highlight, loading, on
       {data.items.length > 0 && (
         <>
           <div className="sec-h">
-            <h2>By city · nearest first</h2>
+            <div className="sec-title">
+              <h2>{merged ? 'All nearby companies' : 'By city · nearest first'}</h2>
+              <div className="chips group-toggle" role="group" aria-label="Group bubbles">
+                <button aria-pressed={!merged} onClick={() => setMerged(false)}>By city</button>
+                <button aria-pressed={merged} onClick={() => setMerged(true)}>All in one</button>
+              </div>
+            </div>
             <div className="legend-row">
               <span>Bubble size = annual revenue</span>
               <span><i className="dot up" />Growing</span>
@@ -52,7 +62,7 @@ export function ListView({ data, placeName, sort, onSort, highlight, loading, on
               <span><i className="dot down" />Shrinking or losing money</span>
             </div>
           </div>
-          <CityClusters items={data.items} highlight={highlight} onHover={onHover} onSelect={onSelect} />
+          <CityClusters items={data.items} merged={merged} allLabel={placeName} highlight={highlight} onHover={onHover} onSelect={onSelect} />
         </>
       )}
 
@@ -69,9 +79,12 @@ export function ListView({ data, placeName, sort, onSort, highlight, loading, on
   );
 }
 
-function CityClusters({ items, highlight, onHover, onSelect }: { items: CompanySummary[]; highlight: Highlight } & BubbleEvents) {
+/** Bubble packs per city, or (merged) one pack of every company labelled with the search place. */
+function CityClusters({ items, merged, allLabel, highlight, onHover, onSelect }:
+  { items: CompanySummary[]; merged: boolean; allLabel: string; highlight: Highlight } & BubbleEvents) {
   const groups = useMemo(() => {
-    return d3.groups(items, c => c.nearestLocation.city)
+    const byCity = merged ? [[`Near ${allLabel}`, items] as const] : d3.groups(items, c => c.nearestLocation.city);
+    return byCity
       .map(([city, list]) => {
         const nodes = list.map(c => ({ c, r: bubbleRadius(c.indicators.ttmRevenue), x: 0, y: 0 })).sort((a, b) => b.r - a.r);
         d3.packSiblings(nodes);
@@ -79,7 +92,7 @@ function CityClusters({ items, highlight, onHover, onSelect }: { items: CompanyS
         return { city, nodes, enc, size: Math.ceil(enc.r * 2 + 12), nearest: d3.min(list, c => c.distanceMiles)! };
       })
       .sort((a, b) => a.nearest - b.nearest);
-  }, [items]);
+  }, [items, merged, allLabel]);
 
   // A big city's bubble pack can be wider than a phone: shrink it to fit the card instead of spilling off the screen.
   const box = useRef<HTMLDivElement>(null);

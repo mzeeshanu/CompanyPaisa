@@ -76,7 +76,7 @@ public sealed class CoverageAreaOptions
     [Required] public string Name { get; set; } = "";
     /// <summary>A US ZIP ("84043"), a UK postcode district ("EC2N"), a Canadian postal area ("M5J") or a European postcode ("75008", Dutch "1012").</summary>
     [RegularExpression(@"^(\d{4,5}|[A-Z]{1,2}\d[A-Z\d]?)$")] public string ExampleZip { get; set; } = "";
-    [RegularExpression("^(US|CA|UK|FR|NL|IT|ES)$")] public string Country { get; set; } = "US";
+    [RegularExpression("^(US|CA|UK|FR|NL|IT|ES|AU|NZ)$")] public string Country { get; set; } = "US";
 }
 
 public sealed class MapUiOptions

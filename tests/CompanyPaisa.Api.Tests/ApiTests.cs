@@ -101,6 +101,7 @@ public class ApiTests(SampleDataFactory factory) : IClassFixture<SampleDataFacto
         Assert.Equal(10, config.Coverage.Count(c => c.Country == "UK"));
         Assert.Contains(config.Coverage, c => c.Name == "Paris" && c.ExampleZip == "75008" && c.Country == "FR");
         Assert.Equal(14, config.Coverage.Count(c => c.Country is "FR" or "NL" or "IT" or "ES"));
+        Assert.Equal(7, config.Coverage.Count(c => c.Country is "AU" or "NZ"));
         Assert.Equal("privacy@companypaisa.com", config.PrivacyContact);
     }
 
@@ -115,6 +116,8 @@ public class ApiTests(SampleDataFactory factory) : IClassFixture<SampleDataFacto
     [InlineData("NL-1012 AB", "Amsterdam", "NL")]
     [InlineData("IT 20121", "Milano", "IT")]
     [InlineData("ES-08002", "Barcelona", "ES")]
+    [InlineData("AU-2000", "Sydney", "AU")]
+    [InlineData("NZ 1010", "Auckland", "NZ")]
     public async Task Postcodes_resolve_to_the_right_country(string query, string city, string state)
     {
         var hit = await Client().LookupAsync(query);

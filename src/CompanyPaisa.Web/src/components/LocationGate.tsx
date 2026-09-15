@@ -15,14 +15,22 @@ const SHOWN_METROS = 6;
 const US_ZIP = /^\d{5}$/;
 const UK_POSTCODE = /^[A-Z]{1,2}\d[A-Z\d]?(\s*\d[A-Z]{2})?$/i;
 const CA_POSTCODE = /^[ABCEGHJ-NPRSTVXY]\d[A-Z](\s*\d[A-Z]\d)?$/i;
-/** European postcodes: 5 digits, or a Dutch 4 digits with optional letters ("1012 AB"). */
-const EU_POSTCODE: Partial<Record<Country, RegExp>> = { FR: /^\d{5}$/, IT: /^\d{5}$/, ES: /^\d{5}$/, NL: /^\d{4}(\s*[A-Z]{2})?$/i };
-const EU_EXAMPLES: Partial<Record<Country, string>> = { FR: '75008', IT: '20121', ES: '28013', NL: '1012 AB' };
-const COUNTRY_NAMES: Record<Country, string> = {
-  US: 'United States', CA: 'Canada', UK: 'United Kingdom', FR: 'France', NL: 'Netherlands', IT: 'Italy', ES: 'Spain'
+/**
+ * Postcodes sent with their country ("FR-75008", "AU-2000"): 5 digits in France, Italy and Spain; 4 in Australia and
+ * New Zealand; a Dutch 4 digits with optional letters ("1012 AB").
+ */
+const EU_POSTCODE: Partial<Record<Country, RegExp>> = {
+  FR: /^\d{5}$/, IT: /^\d{5}$/, ES: /^\d{5}$/, NL: /^\d{4}(\s*[A-Z]{2})?$/i, AU: /^\d{4}$/, NZ: /^\d{4}$/
 };
-const SHORT_NAMES: Record<Country, string> = { US: 'US', CA: 'Canada', UK: 'UK', FR: 'France', NL: 'Netherlands', IT: 'Italy', ES: 'Spain' };
-const ORDER: Country[] = ['US', 'CA', 'UK', 'FR', 'NL', 'IT', 'ES'];
+const EU_EXAMPLES: Partial<Record<Country, string>> = { FR: '75008', IT: '20121', ES: '28013', NL: '1012 AB', AU: '2000', NZ: '1010' };
+const COUNTRY_NAMES: Record<Country, string> = {
+  US: 'United States', CA: 'Canada', UK: 'United Kingdom', FR: 'France', NL: 'Netherlands', IT: 'Italy', ES: 'Spain',
+  AU: 'Australia', NZ: 'New Zealand'
+};
+const SHORT_NAMES: Record<Country, string> = {
+  US: 'US', CA: 'Canada', UK: 'UK', FR: 'France', NL: 'Netherlands', IT: 'Italy', ES: 'Spain', AU: 'Australia', NZ: 'New Zealand'
+};
+const ORDER: Country[] = ['US', 'CA', 'UK', 'FR', 'NL', 'IT', 'ES', 'AU', 'NZ'];
 /** "US, Canada & UK" */
 const listCountries = (cs: Country[]) => cs.map(c => SHORT_NAMES[c]).join(', ').replace(/, ([^,]*)$/, ' & $1');
 
@@ -36,10 +44,12 @@ function browserCountry(available: Country[]): Country {
   if (pick('NL', /^nl/i)) return 'NL';
   if (pick('IT', /^it/i)) return 'IT';
   if (pick('ES', /^es(-ES)?$/i)) return 'ES';
+  if (pick('AU', /-AU$/i)) return 'AU';
+  if (pick('NZ', /-NZ$/i)) return 'NZ';
   return 'US';
 }
 
-/** First screen: blurred page behind a small card asking for location or a ZIP / postcode (US, Canada, UK, Europe). */
+/** First screen: blurred page behind a small card asking for location or a ZIP / postcode (US, Canada, UK, Europe, Australia, NZ). */
 export function LocationGate({ coverageMiles, coverage, onLocated }: Props) {
   const [zip, setZip] = useState('');
   const [error, setError] = useState('');
@@ -70,7 +80,7 @@ export function LocationGate({ coverageMiles, coverage, onLocated }: Props) {
     return lookupZip(zip.trim(), country);
   }
 
-  /** On a European tab the code goes to the API with its country ("FR-75008"): a bare 75008 would be a US ZIP. */
+  /** On a European, Australian or NZ tab the code goes to the API with its country ("FR-75008"): a bare 75008 would be a US ZIP. */
   async function lookupZip(q: string, from: Country) {
     q = q.toUpperCase();
     const eu = EU_POSTCODE[from];

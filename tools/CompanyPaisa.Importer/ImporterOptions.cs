@@ -110,6 +110,11 @@ public sealed class GeoImportOptions
     /// <summary>GeoNames Canadian postal areas (FSA, e.g. "M5J"; CC-BY 4.0). Empty = no Canadian companies.</summary>
     public string CanadaPostalCodesUrl { get; set; } = "";
     public string CanadaTableOutput { get; set; } = "data/reference/ca-postal-areas.csv";
+    /// <summary>Other countries whose SEC filers are included (ISO codes, e.g. ["AU", "NZ"]); postcodes from GeoNames.</summary>
+    public List<string> OtherCountries { get; set; } = [];
+    /// <summary>GeoNames postcode file per country: {0} = country code.</summary>
+    public string OtherPostcodesUrl { get; set; } = "https://download.geonames.org/export/zip/{0}.zip";
+    public string OtherTableOutput { get; set; } = "data/reference/anz-postcodes.csv";
     /// <summary>Existing CSV (zip,city,state,…) used to name ZIPs; SEC business addresses add more names.</summary>
     public string ZipNamesSeed { get; set; } = "data/reference/us-zip-centroids.sample.csv";
 }

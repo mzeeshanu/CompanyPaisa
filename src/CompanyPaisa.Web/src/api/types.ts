@@ -107,7 +107,7 @@ export interface ClientConfig {
   privacyContact?: string | null;
 }
 
-export type Country = 'US' | 'CA' | 'UK' | 'FR' | 'NL' | 'IT' | 'ES';
+export type Country = 'US' | 'CA' | 'UK' | 'FR' | 'NL' | 'IT' | 'ES' | 'AU' | 'NZ';
 export interface CoverageArea { name: string; exampleZip: string; country: Country }
 
 export interface ProblemDetails { title?: string; detail?: string; status?: number; errors?: Record<string, string[]> }

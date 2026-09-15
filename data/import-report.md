@@ -1,26 +1,26 @@
-# Import report — 2026-09-14 16:58 UTC
+# Import report — 2026-09-15 02:09 UTC
 
-Metros: **46**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, insider owner lists). ZIP centroids: US Census Gazetteer; ZIP names: GeoNames.
+Metros: **53**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, insider owner lists). ZIP centroids: US Census Gazetteer; ZIP names: GeoNames.
 
-- Companies included: **4090**
-- Financial periods: 167276
-- Executive pay rows: 90979 for 23801 people, from 17256 proxy statements
-- People linked by SEC insider id: 22937; matched by name within one company only: 1627
+- Companies included: **4104**
+- Financial periods: 167332
+- Executive pay rows: 90948 for 23792 people, from 17254 proxy statements
+- People linked by SEC insider id: 22928; matched by name within one company only: 1626
 - ZIP table rows written: 41637
-- Network requests this run: 934 (the rest came from the local cache)
+- Network requests this run: 30 (the rest came from the local cache)
 
 | Metro | Companies |
 |---|---|
 | Wasatch Front | 50 |
-| New York | 484 |
+| New York | 483 |
 | Los Angeles | 206 |
 | Chicago | 119 |
 | Dallas–Fort Worth | 155 |
-| Houston | 162 |
+| Houston | 161 |
 | Washington–Baltimore | 140 |
 | Philadelphia | 95 |
 | Atlanta | 74 |
-| Miami–South Florida | 122 |
+| Miami–South Florida | 123 |
 | Phoenix | 63 |
 | Boston | 208 |
 | San Francisco Bay Area | 327 |
@@ -29,7 +29,7 @@ Metros: **46**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | Minneapolis–St. Paul | 60 |
 | Rest of Minnesota | 5 |
 | Rest of Utah | 1 |
-| San Diego | 87 |
+| San Diego | 86 |
 | Tampa Bay | 35 |
 | Denver | 102 |
 | Portland | 18 |
@@ -57,6 +57,13 @@ Metros: **46**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | Montréal | 11 |
 | Ottawa | 3 |
 | Rest of Canada | 21 |
+| Sydney | 6 |
+| Melbourne | 5 |
+| Brisbane | 0 |
+| Perth | 3 |
+| Rest of Australia | 2 |
+| Auckland | 0 |
+| Rest of New Zealand | 0 |
 
 ## Included — Wasatch Front (50)
 
@@ -113,7 +120,7 @@ Metros: **46**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | WEAV | Weave Communications, Inc. | Lehi, UT | NYSE | Software & IT | $239.0M | 9 | 2020–2025 |
 | ZION | Zions Bancorporation, National Association /UT/ | Salt Lake City, UT | Nasdaq | Finance | $662.0M | 9 | 2019–2025 |
 
-## Included — New York (484)
+## Included — New York (483)
 
 | Ticker | Company | City | Exchange | Sector | Latest annual revenue | Executives | Pay years |
 |---|---|---|---|---|---|---|---|
@@ -129,7 +136,7 @@ Metros: **46**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | AEHL | Antelope Enterprise Holdings Ltd | New York, NY | Nasdaq | Media & telecom | $98.8M | 0 | — |
 | AERA | AI Era Corp. | Mt. Kisco, NY | OTC | Finance | $6.4M | 0 | — |
 | AIB | AIB Data Centers Inc. | New York, NY | NYSE | Finance | — | 0 | — |
-| AIFA | All In FutureTech Alliance, Inc. | New York, NY | Nasdaq | Business services | $8.0M | 7 | 2019–2022 |
+| AIFA | All In FutureTech Alliance, Inc. | New York, NY | Nasdaq | Business services | $8.0M | 8 | 2020–2025 |
 | AIG | American International Group, Inc. | New York, NY | NYSE | Finance | $26.78B | 14 | 2019–2025 |
 | AIOT | Powerfleet, Inc. | Woodcliff Lake, NJ | Nasdaq | Technology hardware | $443.8M | 9 | 2019–2026 |
 | AIRI | Air Industries Group | Bay Shore, NY | NYSE | Industrials | $47.9M | 3 | 2019–2024 |
@@ -149,7 +156,6 @@ Metros: **46**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | ARKR | Ark Restaurants Corp | New York, NY | Nasdaq | Consumer & retail | $165.8M | 5 | 2020–2025 |
 | ASIC | Ategrity Specialty Insurance Co Holdings | New York, NY | NYSE | Finance | $424.3M | 3 | 2024–2025 |
 | ASIX | AdvanSix Inc. | Parsippany, NJ | NYSE | Materials | $1.52B | 7 | 2019–2025 |
-| ATAI | AtaiBeckley Inc. | New York, NY | Nasdaq | Healthcare | $4.1M | 3 | 2024–2025 |
 | ATER | Aterian, Inc. | Summit, NJ | Nasdaq | Industrials | $69.0M | 10 | 2019–2024 |
 | ATEX | Anterix Inc. | Woodland Park, NJ | Nasdaq | Media & telecom | $6.5M | 8 | 2020–2026 |
 | ATHR | Aether Holdings, Inc. | New York, NY | Nasdaq | Software & IT | $1.4M | 0 | — |
@@ -301,7 +307,7 @@ Metros: **46**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | GXAI | Gaxos.Ai Inc. | Roseland, NJ | Nasdaq | Software & IT | $1.9M | 2 | 2022–2025 |
 | GXO | GXO Logistics, Inc. | Greenwich, CT | NYSE | Transportation | $13.18B | 8 | 2021–2025 |
 | GYRO | Gyrodyne, LLC | St. James, NY | Nasdaq | Real estate | $2.8M | 3 | 2019–2024 |
-| HAIN | Hain Celestial Group Inc | Hoboken, NJ | Nasdaq | Consumer & retail | $1.56B | 17 | 2019–2025 |
+| HAIN | Hain Celestial Group Inc | Hoboken, NJ | Nasdaq | Consumer & retail | $1.35B | 17 | 2019–2025 |
 | HKHC | Horizon Kinetics Holding Corp | New York, NY | OTC | Finance | $72.8M | 9 | 2020–2025 |
 | HNVR | Hanover Bancorp, Inc. /MD | Mineola, NY | Nasdaq | Finance | $143.3M | 4 | 2021–2025 |
 | HOLO | MicroCloud Hologram Inc. | New York, NY | Nasdaq | Software & IT | $56.5M | 0 | — |
@@ -1073,7 +1079,7 @@ Metros: **46**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | TPL | Texas Pacific Land Corp | Dallas, TX | NYSE | Finance | $798.2M | 5 | 2018–2024 |
 | TRN | Trinity Industries Inc | Dallas, TX | NYSE | Industrials | $2.16B | 8 | 2019–2025 |
 | TSHA | Taysha Gene Therapies, Inc. | Dallas, TX | Nasdaq | Healthcare | $9.8M | 4 | 2021–2025 |
-| TWNPQ | Twin Hospitality Group Inc. | Dallas, TX | OTC | Consumer & retail | $353.8M | 3 | 2023–2024 |
+| TWNPQ | Twin Hospitality Group Inc. | Dallas, TX | Unlisted | Consumer & retail | $353.8M | 3 | 2023–2024 |
 | TXN | Texas Instruments Inc | Dallas, TX | Nasdaq | Semiconductors | $17.68B | 9 | 2019–2025 |
 | TXO | TXO Partners, L.P. | Fort Worth, TX | NYSE | Energy & utilities | $401.0M | 0 | — |
 | TYL | Tyler Technologies Inc | Plano, TX | NYSE | Software & IT | $2.33B | 5 | 2019–2025 |
@@ -1097,14 +1103,14 @@ Metros: **46**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | ZNOG | Zion Oil & Gas Inc | Dallas, TX | OTC | Energy & utilities | $11.3M | 3 | 2019–2025 |
 | ZSTK | ZeroStack Corp. | Dallas, TX | Nasdaq | Finance | $35.7M | 8 | 2021–2024 |
 
-## Included — Houston (162)
+## Included — Houston (161)
 
 | Ticker | Company | City | Exchange | Sector | Latest annual revenue | Executives | Pay years |
 |---|---|---|---|---|---|---|---|
 | AAOI | Applied Optoelectronics, Inc. | Sugar Land, TX | Nasdaq | Semiconductors | $455.7M | 5 | 2020–2025 |
 | AGIG | Abundia Global Impact Group, Inc. | Houston, TX | NYSE | Energy & utilities | $411K | 5 | 2021–2025 |
 | AIMD | Ainos, Inc. | Houston, TX | Nasdaq | Technology hardware | $124K | 5 | 2021–2024 |
-| AMIX | Autonomix Medical, Inc. | The Woodlands, TX | Nasdaq | Healthcare | $0K | 7 | 2023–2025 |
+| AMIX | Autonomix Medical, Inc. | The Woodlands, TX | Nasdaq | Healthcare | $0K | 7 | 2023–2026 |
 | AMPY | Amplify Energy Corp. | Houston, TX | NYSE | Energy & utilities | $263.4M | 5 | 2020–2025 |
 | ANG-PD | American National Group Inc. | Houston, TX | NYSE | Finance | $7.49B | 13 | 2016–2022 |
 | APA | APA Corp | Houston, TX | Nasdaq | Energy & utilities | — | 9 | 2019–2025 |
@@ -1118,7 +1124,7 @@ Metros: **46**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | BSIN | Big Sky Industrial Inc. | Houston, TX | Nasdaq | Energy & utilities | $7.4M | 4 | 2020–2025 |
 | BSM | Black Stone Minerals, L.P. | Houston, TX | NYSE | Energy & utilities | $469.9M | 5 | 2019–2022 |
 | CCI | Crown Castle Inc. | Houston, TX | NYSE | Real estate | $4.26B | 20 | 2018–2025 |
-| CEIN | Camber Energy, Inc. | Houston, TX | OTC | Energy & utilities | $6.2M | 4 | 2019–2022 |
+| CEIN | Viking Global Technologies, Inc. | Houston, TX | OTC | Energy & utilities | $6.2M | 4 | 2019–2022 |
 | CHRD | Chord Energy Corp | Houston, TX | Nasdaq | Energy & utilities | $4.88B | 11 | 2019–2025 |
 | CLB | Core Laboratories Inc. /DE/ | Houston, TX | NYSE | Energy & utilities | $526.5M | 4 | 2021–2025 |
 | CNP | Centerpoint Energy Inc | Houston, TX | NYSE | Energy & utilities | $9.36B | 12 | 2019–2025 |
@@ -1190,7 +1196,6 @@ Metros: **46**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | MSAI | MultiSensor AI Holdings, Inc. | Houston, TX | Nasdaq | Industrials | $5.6M | 6 | 2022–2025 |
 | MUR | Murphy Oil Corp | Houston, TX | NYSE | Energy & utilities | $2.72B | 8 | 2019–2025 |
 | MVST | Microvast Holdings, Inc. | Stafford, TX | Nasdaq | Technology hardware | $427.5M | 8 | 2020–2024 |
-| NCSM | NCS Multistage Holdings, Inc. | Houston, TX | Nasdaq | Energy & utilities | $183.6M | 6 | 2020–2025 |
 | NE | Noble Corp plc | Houston, TX | NYSE | Energy & utilities | $3.29B | 7 | 2020–2025 |
 | NESR | National Energy Services Reunited Corp. | Houston, TX | Nasdaq | Energy & utilities | $1.32B | 5 | 2023–2025 |
 | NEXT | NextDecade Corp | Houston, TX | Nasdaq | Energy & utilities | $0K | 5 | 2021–2025 |
@@ -1462,7 +1467,7 @@ Metros: **46**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | INVU | Investview, Inc. | Haverford, PA | OTC | Business services | $36.3M | 0 | — |
 | IPSC | Century Therapeutics, Inc. | Philadelphia, PA | Nasdaq | Healthcare | $109.2M | 6 | 2021–2025 |
 | IRT | Independence Realty Trust, Inc. | Philadelphia, PA | NYSE | Real estate | $657.7M | 7 | 2019–2025 |
-| ISPC | iSpecimen Inc. | Woburn, MA | Nasdaq | Business services | $1.9M | 4 | 2020–2024 |
+| ISPC | iSpecimen Inc. | Woburn, MA | Nasdaq | Business services | $1.9M | 4 | 2021–2024 |
 | JJSF | J&J Snack Foods Corp | Mount Laurel, NJ | Nasdaq | Consumer & retail | $1.58B | 15 | 2019–2025 |
 | KWR | Quaker Chemical Corp | Conshohocken, PA | NYSE | Energy & utilities | $1.89B | 11 | 2020–2025 |
 | LNC | Lincoln National Corp | Radnor, PA | NYSE | Finance | $18.21B | 11 | 2019–2025 |
@@ -1588,7 +1593,7 @@ Metros: **46**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | VSTS | Vestis Corp | Roswell, GA | NYSE | Consumer & retail | $2.73B | 11 | 2023–2025 |
 | VYX | NCR Voyix Corp | Atlanta, GA | NYSE | Technology hardware | $2.69B | 12 | 2019–2025 |
 
-## Included — Miami–South Florida (122)
+## Included — Miami–South Florida (123)
 
 | Ticker | Company | City | Exchange | Sector | Latest annual revenue | Executives | Pay years |
 |---|---|---|---|---|---|---|---|
@@ -1695,6 +1700,7 @@ Metros: **46**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | STWD | Starwood Property Trust, Inc. | Miami Beach, FL | NYSE | Real estate | $1.84B | 3 | 2019–2025 |
 | SUNS | Sunrise Realty Trust, Inc. | West Palm Beach, FL | Nasdaq | Real estate | $21.6M | 4 | 2024–2025 |
 | SWDR | Starwood Real Estate Income Trust, Inc. | Miami Beach, FL | OTC | Real estate | $1.58B | 0 | — |
+| SWRD | Stewards, Inc. | Lauderhill, FL | Nasdaq | Finance | — | 0 | — |
 | TCRT | Alaunos Therapeutics, Inc. | Fort Lauderdale, FL | Nasdaq | Healthcare | $5K | 12 | 2018–2024 |
 | TGLS | Tecnoglass Holdings Inc. | Miami, FL | NYSE | Industrials | $983.6M | 5 | 2019–2024 |
 | TPET | Trio Petroleum Corp | Boca Raton, FL | NYSE | Energy & utilities | $30K | 7 | 2022–2025 |
@@ -2400,9 +2406,9 @@ Metros: **46**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | PARA | Banzai International, Inc. | Bainbridge Island, WA | Nasdaq | Software & IT | $12.2M | 5 | 2022–2024 |
 | PCAR | Paccar Inc | Bellevue, WA | Nasdaq | Industrials | $28.44B | 8 | 2019–2025 |
 | PI | Impinj Inc | Seattle, WA | Nasdaq | Technology hardware | $361.1M | 5 | 2019–2025 |
-| PRCH | Porch Group, Inc. | Seattle, WA | Nasdaq | Software & IT | $482.4M | 4 | 2019–2025 |
+| PRCH | Porch Group, Inc. | Seattle, WA | Nasdaq | Finance | $482.4M | 4 | 2019–2025 |
 | RELY | Remitly Global, Inc. | Seattle, WA | Nasdaq | Business services | $1.64B | 11 | 2020–2025 |
-| RLGT | Radiant Logistics, Inc | Renton, WA | NYSE | Transportation | $902.7M | 6 | 2019–2025 |
+| RLGT | Radiant Logistics, Inc | Renton, WA | NYSE | Transportation | $934.4M | 6 | 2019–2025 |
 | SBUX | Starbucks Corp | Seattle, WA | Nasdaq | Consumer & retail | $37.18B | 14 | 2018–2025 |
 | SFBC | Sound Financial Bancorp, Inc. | Seattle, WA | Nasdaq | Finance | $61.5M | 3 | 2020–2025 |
 | SVV | Savers Value Village, Inc. | Bellevue, WA | NYSE | Consumer & retail | $1.68B | 7 | 2021–2025 |
@@ -2495,7 +2501,7 @@ Metros: **46**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 |---|---|---|---|---|---|---|---|
 | SKYW | Skywest Inc | St George, UT | Nasdaq | Transportation | $4.06B | 6 | 2019–2025 |
 
-## Included — San Diego (87)
+## Included — San Diego (86)
 
 | Ticker | Company | City | Exchange | Sector | Latest annual revenue | Executives | Pay years |
 |---|---|---|---|---|---|---|---|
@@ -2521,7 +2527,6 @@ Metros: **46**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | CLDI | Calidi Biotherapeutics, Inc. | San Diego, CA | NYSE | Healthcare | $45K | 9 | 2022–2025 |
 | CNTB | Connect Biopharma Holdings Ltd | San Diego, CA | Nasdaq | Healthcare | $64K | 0 | — |
 | CRDF | Cardiff Oncology, Inc. | San Diego, CA | Nasdaq | Healthcare | $593K | 5 | 2021–2025 |
-| CRNX | Crinetics Pharmaceuticals, Inc. | San Diego, CA | Nasdaq | Healthcare | $7.7M | 9 | 2020–2025 |
 | CTNM | Contineum Therapeutics, Inc. | San Diego, CA | Nasdaq | Healthcare | $0K | 5 | 2023–2025 |
 | CVSI | CV Sciences, Inc. | San Diego, CA | OTC | Healthcare | $13.8M | 2 | 2020–2025 |
 | DARE | Dare Bioscience, Inc. | San Diego, CA | Nasdaq | Healthcare | $1.0M | 4 | 2020–2025 |
@@ -4378,11 +4383,47 @@ Metros: **46**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 | VBNK | VersaBank | London, ON | Nasdaq | Finance | $124.6M | 0 | — |
 | ZTEKF | Zentek Ltd. | Guelph, ON | Nasdaq | Other | $872K | 0 | — |
 
+## Included — Sydney (6)
+
+| Ticker | Company | City | Exchange | Sector | Latest annual revenue | Executives | Pay years |
+|---|---|---|---|---|---|---|---|
+| IMMP | IMMUTEP Ltd | Sydney, AU | Nasdaq | Healthcare | $10.3M | 0 | — |
+| IREN | IREN Ltd | Sydney, AU | Nasdaq | Finance | $707.0M | 3 | 2023–2025 |
+| KZIA | Kazia Therapeutics Ltd | Sydney, AU | Nasdaq | Healthcare | $42K | 0 | — |
+| MMA | Mixed Martial Arts Group Ltd | Sydney, AU | NYSE | Business services | $1.4M | 0 | — |
+| TBN | Tamboran Resources Corp | Sydney, AU | NYSE | Energy & utilities | $0K | 3 | 2023–2025 |
+| WEBNF | Westpac Banking Corp | Sydney, AU | OTC | Finance | $58.05B | 0 | — |
+
+## Included — Melbourne (5)
+
+| Ticker | Company | City | Exchange | Sector | Latest annual revenue | Executives | Pay years |
+|---|---|---|---|---|---|---|---|
+| BHP | BHP Group Ltd | Melbourne, AU | NYSE | Materials | $51.26B | 0 | — |
+| MESO | Mesoblast Ltd | Melbourne, AU | Nasdaq | Healthcare | $17.2M | 0 | — |
+| MOB | Mobilicom Ltd | Melbourne, AU | Nasdaq | Industrials | $3.4M | 0 | — |
+| RADX | Radiopharm Theranostics Ltd | Melbourne, AU | Nasdaq | Healthcare | $3.6M | 0 | — |
+| TLX | Telix Pharmaceuticals Ltd | Melbourne, AU | Nasdaq | Healthcare | $803.8M | 0 | — |
+
+## Included — Perth (3)
+
+| Ticker | Company | City | Exchange | Sector | Latest annual revenue | Executives | Pay years |
+|---|---|---|---|---|---|---|---|
+| GVH | Globavend Holdings Ltd | Perth, AU | Nasdaq | Transportation | $23.6M | 0 | — |
+| LCFY | Locafy Ltd | Perth, AU | Nasdaq | Software & IT | $3.2M | 0 | — |
+| WDS | Woodside Energy Group Ltd | Perth, AU | NYSE | Energy & utilities | $12.98B | 0 | — |
+
+## Included — Rest of Australia (2)
+
+| Ticker | Company | City | Exchange | Sector | Latest annual revenue | Executives | Pay years |
+|---|---|---|---|---|---|---|---|
+| COOT | Australian Oilseeds Holdings Ltd | Junee, AU | Nasdaq | Consumer & retail | $41.7M | 2 | 2023–2024 |
+| IMTE | Integrated Media Technology Ltd | Adelaide, AU | Nasdaq | Industrials | $72K | 0 | — |
+
 ## Excluded
 
 - 0 filers with no ticker (funds, trusts, shells, private companies with public debt)
-- 1539 listed companies that haven't filed an annual or quarterly report since 2025-06-14
-- 1251 US-listed companies headquartered outside the US and Canada
+- 1542 listed companies that haven't filed an annual or quarterly report since 2025-06-15
+- 1231 US-listed companies headquartered outside the US and Canada
 - 0 listed companies in the searched states but outside the covered metros
 - AAAU Goldman Sachs Physical Gold ETF: no revenue data in XBRL filings
 - AAC Ares Acquisition Corp III: no revenue data in XBRL filings
@@ -4456,7 +4497,6 @@ Metros: **46**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 - AOXY Advanced Oxygen Technologies Inc: OTC, annual revenue $43K below $5.0M
 - APAC StoneBridge Acquisition II Corp: no revenue data in XBRL filings
 - APCX AppTech Payments Corp.: OTC, annual revenue $1.4M below $5.0M
-- APGE Apogee Therapeutics, Inc.: no revenue data in XBRL filings
 - APHP American Picture House Corp: OTC, annual revenue $853K below $5.0M
 - APMC AmperCap Acquisition Co: no revenue data in XBRL filings
 - APRE Aprea Therapeutics, Inc.: no revenue data in XBRL filings
@@ -4599,6 +4639,7 @@ Metros: **46**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 - CCCT Columbus Circle Capital Corp III: no revenue data in XBRL filings
 - CCII Cohen Circle Acquisition Corp. II: no revenue data in XBRL filings
 - CCJ Cameco Corp: unknown postal code  (Saskatoon, Z4)
+- CCTSF Cactus Acquisition Corp. 1 Ltd: no revenue data in XBRL filings
 - CCXI Churchill Capital Corp XI: no revenue data in XBRL filings
 - CDT CDT Equity Inc.: no revenue data in XBRL filings
 - CEF Sprott Physical Gold & Silver Trust: no revenue data in XBRL filings
@@ -4619,6 +4660,7 @@ Metros: **46**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 - CION CION Investment Corp: no revenue data in XBRL filings
 - CIRX Cirtran Corp: OTC, annual revenue $3.1M below $5.0M
 - CJAX CoJax Oil & Gas Corp: OTC, annual revenue $964K below $5.0M
+- CKDXF Opthea Ltd: OTC, annual revenue $25K below $5.0M
 - CLBR Colombier Acquisition Corp. III: no revenue data in XBRL filings
 - CLBZ Collab Z Inc.: Unlisted, annual revenue $1.4M below $5.0M
 - CLCS Cell Source, Inc.: OTC, annual revenue $0K below $5.0M
@@ -4926,6 +4968,7 @@ Metros: **46**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 - IMAA IMA Tech: OTC, annual revenue $55K below $5.0M
 - IMAQ International Media Acquisition Corp.: no revenue data in XBRL filings
 - IMMX Immix Biopharma, Inc.: no revenue data in XBRL filings
+- IMRN Immuron Ltd: no revenue data in XBRL filings
 - IMVT Immunovant, Inc.: no revenue data in XBRL filings
 - INAB In8bio, Inc.: no revenue data in XBRL filings
 - INAC Indigo Acquisition Corp.: no revenue data in XBRL filings
@@ -5222,6 +5265,7 @@ Metros: **46**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 - POLE Andretti Acquisition Corp. II: no revenue data in XBRL filings
 - PONO Pono Capital Four, Inc.: no revenue data in XBRL filings
 - POSC Positron Corp: OTC, annual revenue $461K below $5.0M
+- PPCB Propanc Biopharma, Inc.: no revenue data in XBRL filings
 - PPLT abrdn Platinum ETF Trust: no revenue data in XBRL filings
 - PPTA Perpetua Resources Corp.: no revenue data in XBRL filings
 - PRKR Parkervision Inc: OTC, annual revenue $0K below $5.0M
@@ -5278,6 +5322,7 @@ Metros: **46**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 - RGBP Regen BioPharma Inc: OTC, annual revenue $237K below $5.0M
 - RHNO Rhino Bitcoin Inc.: OTC, annual revenue $478K below $5.0M
 - RITE MINERALRITE Corp: OTC, annual revenue $5K below $5.0M
+- RMGL Rocky Mountains Group Ltd: OTC, annual revenue $25K below $5.0M
 - RMSL RemSleep Holdings Inc.: OTC, annual revenue $17K below $5.0M
 - RMXI Rmx Industries, Inc.: OTC, annual revenue — below $5.0M
 - RNAZ Transcode Therapeutics, Inc.: no revenue data in XBRL filings
@@ -5306,6 +5351,7 @@ Metros: **46**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 - SBXE SilverBox Corp V: no revenue data in XBRL filings
 - SCII SC II Acquisition Corp.: no revenue data in XBRL filings
 - SCM Stellus Capital Investment Corp: no revenue data in XBRL filings
+- SCVE Sound Cave Technology Inc.: OTC, annual revenue $0K below $5.0M
 - SDCO SDR Drone, Inc.: OTC, annual revenue $610K below $5.0M
 - SDHI Siddhi Acquisition Corp (Cayman Islands): no revenue data in XBRL filings
 - SDST Stardust Power Inc.: no revenue data in XBRL filings
@@ -5375,7 +5421,6 @@ Metros: **46**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 - SVCC Stellar V Capital Corp. (Cayman Islands): no revenue data in XBRL filings
 - SVIV Spring Valley Acquisition Corp. IV: no revenue data in XBRL filings
 - SVVC Firsthand Technology Value Fund, Inc.: no revenue data in XBRL filings
-- SWRD Stewards, Inc.: OTC, annual revenue — below $5.0M
 - SYBX Synlogic, Inc.: OTC, annual revenue $0K below $5.0M
 - SYF Synchrony Financial: no revenue data in XBRL filings
 - SZZL Sizzle Acquisition Corp. II: no revenue data in XBRL filings
@@ -5433,7 +5478,7 @@ Metros: **46**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 - TVIV Texas Ventures Acquisition IV Corp: no revenue data in XBRL filings
 - TWLV Twelve Seas Investment Co III/Cayman: no revenue data in XBRL filings
 - TWO-PC Two Harbors Investment Corp.: no revenue data in XBRL filings
-- TWOH Two Hands Corp: OTC, annual revenue $0K below $5.0M
+- TWOH Quantum X Inc.: OTC, annual revenue $0K below $5.0M
 - TYRA Tyra Biosciences, Inc.: no revenue data in XBRL filings
 - UAC United Acquisition Corp. I: no revenue data in XBRL filings
 - UDN Invesco Db US Dollar Index Bearish Fund: no revenue data in XBRL filings
@@ -5516,6 +5561,7 @@ Metros: **46**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, ins
 - XXI Twenty One Capital, Inc.: no revenue data in XBRL filings
 - YCY AA Mission Acquisition Corp. II: no revenue data in XBRL filings
 - YICC Yorkville International Capital Corp.: no revenue data in XBRL filings
+- YSGL Yellowstone Group Ltd.: OTC, annual revenue $41K below $5.0M
 - YTFD Yale Transaction Finders, Inc.: no revenue data in XBRL filings
 - ZCSH Zcash ETF: no revenue data in XBRL filings
 - ZDPY Zoned Properties, Inc.: OTC, annual revenue $4.1M below $5.0M
@@ -6023,6 +6069,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - AUPH: proxy 4/17/2025: Scott Habig 2023: components 6,182,370 ≠ total 3,091,185; difference shown as Other.
 - AUR: proxy 4/4/2025: David Maday 2024: components 523,750 ≠ total 1,494,895; difference shown as Other.
 - AUR: proxy 4/4/2025: Ossa Fisher 2024: components 519,769 ≠ total 1,005,344; difference shown as Other.
+- COOT: proxy 7/14/2025: no compensation table recognised
 - AUID: proxy 6/1/2026: Rhoniel Daguro 2025: components 746,770 ≠ total 531,230; difference shown as Other.
 - AUID: proxy 6/1/2026: Edward Sellitto 2024: components 449,964 ≠ total 450; difference shown as Other.
 - AUID: proxy 5/16/2025: Edward Sellitto 2024: components 449,964 ≠ total 450; difference shown as Other.
@@ -6473,9 +6520,6 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - CRC: proxy 3/16/2023: Shawn M. Kerns 2022: components 1,342,757 ≠ total 1,368,117; difference shown as Other.
 - CRC: proxy 3/16/2023: Michael L. Preston 2022: components 1,377,757 ≠ total 1,407,801; difference shown as Other.
 - CJMB: proxy 12/8/2025: no compensation table recognised
-- CEIN: proxy 3/10/2023: no compensation table recognised
-- CEIN: proxy 11/29/2021: no compensation table recognised
-- CEIN: proxy 1/7/2021: no compensation table recognised
 - CWH: proxy 4/9/2026: Marcus A. Lemonis 2024: components 0 ≠ total 13,414; difference shown as Other.
 - CWH: proxy 4/9/2026: Marcus A. Lemonis 2023: components 0 ≠ total 11,241; difference shown as Other.
 - CWH: proxy 4/9/2026: Thomas E. Kirn 2025: components 400,000 ≠ total 1,200,000; difference shown as Other.
@@ -7652,6 +7696,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - FLYW: proxy 4/20/2022: Robert Orgel 2021: components 3,583,143 ≠ total 3,779,143; difference shown as Other.
 - FLYW: proxy 4/20/2022: Michael Ellis 2021: components 1,784,930 ≠ total 1,952,930; difference shown as Other.
 - FCUV: proxy 6/8/2023: Irving Kau 2021: components 15,962 ≠ total 21,700; difference shown as Other.
+- FLD: proxy 9/14/2026: no compensation table recognised
 - FLD: proxy 11/26/2024: no compensation table recognised
 - FLD: proxy 12/28/2023: no compensation table recognised
 - FLD: proxy 8/30/2023: no compensation table recognised
@@ -8341,6 +8386,7 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - IQV: proxy 2/28/2022: no compensation table recognised
 - IRIX: proxy 4/24/2026: Bassem BouHabib 2024: components 564,788 ≠ total 529,307; difference shown as Other.
 - ISBA: proxy 3/25/2024: Neil M. McDonnell 2022: components 379,283 ≠ total 415,419; difference shown as Other.
+- ISPC: proxy 9/14/2026: no compensation table recognised
 - ISPC: proxy 10/14/2025: no compensation table recognised
 - ISPR: proxy 5/12/2026: Michael Wang 2025: components 7,891,998 ≠ total 3,183,808; difference shown as Other.
 - ITRI: proxy 3/22/2022: Michel Cadieux 2020: components 1,265,010 ≠ total 1,292,394; difference shown as Other.
@@ -8960,7 +9006,6 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - MG: proxy 4/13/2022: no compensation table recognised
 - MITK: proxy 8/14/2024: Frank Teruel 2022: components 361,470 ≠ total 739,016; difference shown as Other.
 - BEEP: proxy 5/1/2023: no compensation table recognised
-- MOBX: proxy 6/23/2023: no compensation table recognised
 - MRNA: proxy 10/15/2025: no compensation table recognised
 - MRNA: proxy 3/11/2025: James Mock 2024: components 841,725 ≠ total 17,212,582; difference shown as Other.
 - MOD: proxy 7/10/2026: Neil D. Brinker 2026: components 7,306,368 ≠ total 10,159,548; difference shown as Other.
@@ -10397,6 +10442,11 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - TBTC: proxy 8/23/2022: no compensation table recognised
 - TCMD: proxy 3/28/2022: Daniel Reuvers 2020: components 2,024,978 ≠ total 1,773,247; difference shown as Other.
 - TLPH: proxy 8/12/2022: no compensation table recognised
+- TBN: proxy 11/24/2025: no compensation table recognised
+- TBN: proxy 10/28/2025: Joel Riddle 2024: components 435,605 ≠ total 1,157,958; difference shown as Other.
+- TBN: proxy 10/28/2025: Eric Dyer 2024: components 357,473 ≠ total 812,521; difference shown as Other.
+- TBN: proxy 10/28/2025: Faron Thibodeaux 2024: components 409,313 ≠ total 727,929; difference shown as Other.
+- TBN: proxy 6/25/2025: no compensation table recognised
 - SKT: proxy 3/26/2026: Stephen Yalof 2025: components 5,050,036 ≠ total 7,113,515; difference shown as Other.
 - SKT: proxy 3/26/2026: Stephen Yalof 2024: components 4,650,008 ≠ total 6,871,995; difference shown as Other.
 - SKT: proxy 3/26/2026: Stephen Yalof 2023: components 4,350,027 ≠ total 6,100,202; difference shown as Other.
@@ -10434,11 +10484,11 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - TRC: proxy 4/3/2026: Robert D. Velasquez 2025: components 538,933 ≠ total 710,845; difference shown as Other.
 - TRC: proxy 4/3/2026: Robert D. Velasquez 2024: components 1,132,526 ≠ total 689,597; difference shown as Other.
 - TRC: proxy 3/28/2022: Hugh F. McMahon 2021: components 736,789 ≠ total 713,590; difference shown as Other.
+- TELA: proxy 9/14/2026: no compensation table recognised
 - TELA: proxy 4/30/2026: no compensation table recognised
 - TELA: proxy 4/17/2025: no compensation table recognised
 - TELA: proxy 4/18/2024: no compensation table recognised
 - TELA: proxy 4/17/2023: no compensation table recognised
-- TELA: proxy 4/21/2022: no compensation table recognised
 - TDY: proxy 3/14/2025: no compensation table recognised
 - TFX: proxy 3/31/2023: no compensation table recognised
 - TLS: proxy 3/27/2026: Malcolm G. Cooke V.P. 2025: components 664,975 ≠ total 644,975; difference shown as Other.
@@ -10803,6 +10853,9 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - VCTR: proxy 3/28/2024: David C. Brown 2022: components 19,366,820 ≠ total 9,683,410; difference shown as Other.
 - VCTR: proxy 3/28/2024: David C. Brown 2021: components 14,170,358 ≠ total 7,085,179; difference shown as Other.
 - VCTR: proxy 4/6/2022: David C. Brown 2020: components 9,263,133 ≠ total 9,950,394; difference shown as Other.
+- CEIN: proxy 3/10/2023: no compensation table recognised
+- CEIN: proxy 11/29/2021: no compensation table recognised
+- CEIN: proxy 1/7/2021: no compensation table recognised
 - VFF: proxy 5/12/2025: no compensation table recognised
 - VFF: proxy 5/22/2024: no compensation table recognised
 - VREOF: proxy 4/28/2021: Christian Gonzalez 2020: components 5,084,985 ≠ total 703,933; difference shown as Other.
