@@ -16,6 +16,13 @@ public static class ExcelWorkbookWriter
         return (snapshot.Companies.Count, snapshot.Locations.Count);
     }
 
+    /// <summary>Everything in a workbook, read and validated exactly as the API loads it (for data-quality checks).</summary>
+    public static WorkbookContents Read(string path)
+    {
+        var s = ExcelWorkbookReader.Read(path, new ExcelSheetNames(), DateTimeOffset.UtcNow);
+        return new WorkbookContents(s.Companies, s.Locations, s.Financials, s.Executives, s.People, s.Metadata);
+    }
+
     public static void Write(
         string path,
         IEnumerable<Company> companies,
@@ -80,3 +87,12 @@ public static class ExcelWorkbookWriter
         ws.Columns().AdjustToContents(1, Math.Min(r, 200));
     }
 }
+
+/// <summary>The rows of one workbook, as the API sees them.</summary>
+public sealed record WorkbookContents(
+    IReadOnlyList<Company> Companies,
+    IReadOnlyList<CompanyLocation> Locations,
+    IReadOnlyList<FinancialPeriod> Financials,
+    IReadOnlyList<ExecutiveCompensation> Pay,
+    IReadOnlyList<Person> People,
+    DataSetMetadata Metadata);

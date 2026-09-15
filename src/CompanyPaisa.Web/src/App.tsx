@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { api, ApiError } from './api/client';
 import type { ClientConfig, CompanySort, CompanySummary, DataMeta, ExecutiveSort, ExecutivesNearResponse, NearbyResponse } from './api/types';
+import { AboutData } from './components/AboutData';
 import { CompanyPanel } from './components/CompanyPanel';
 import { ConsentBanner } from './components/ConsentBanner';
 import { ExecutivePanel } from './components/ExecutivePanel';
@@ -52,6 +53,7 @@ export default function App() {
   const [consent, setConsent] = useState<Consent>(null);
   const [showConsent, setShowConsent] = useState(false);
   const [showPrivacy, setShowPrivacy] = useState(false);
+  const [showAbout, setShowAbout] = useState(false);
 
   const [data, setData] = useState<NearbyResponse | null>(null);
   const [execData, setExecData] = useState<ExecutivesNearResponse | null>(null);
@@ -164,13 +166,21 @@ export default function App() {
   const footer = (
     <div className="wrap foot">
       <p className="disclaimer" role="note">
-        <b>Please note:</b> {DISCLAIMER} This is not financial advice — check the company's original filing before relying on any number.
+        <b>Please note:</b> {DISCLAIMER} This is not financial advice — check the company's original filing before relying on any
+        number. <button className="linkbtn" onClick={() => setShowAbout(true)}>About the data</button>
       </p>
-      <span>{meta?.isSampleData
+      <span className="sources-line">{meta?.isSampleData
         ? 'Sample data — company names and approximate locations are real; financial figures and executive names are synthetic.'
-        : `Data as of ${meta?.asOfDate ?? '—'} from SEC EDGAR filings${meta?.dataVersion.includes('uk-') || meta?.dataVersion.includes('eu-') ? ` and ${meta.dataVersion.includes('eu-') ? 'UK and European' : 'UK'} annual reports (ESEF, via filings.xbrl.org; addresses from GLEIF; tickers from OpenFIGI)` : ''}.`}{' '}
-        ZIP and postcode names © <a className="linkbtn" href="https://www.geonames.org/" target="_blank" rel="noreferrer">GeoNames</a> (CC BY 4.0).</span>
+        : <>Data as of {meta?.asOfDate ?? '—'}. Sources:{' '}
+            <a className="linkbtn" href="https://www.sec.gov/search-filings/edgar-application-programming-interfaces" target="_blank" rel="noreferrer">SEC EDGAR</a>,{' '}
+            <a className="linkbtn" href="https://filings.xbrl.org/" target="_blank" rel="noreferrer">filings.xbrl.org</a> (UK &amp; European annual reports),{' '}
+            <a className="linkbtn" href="https://www.gleif.org/en" target="_blank" rel="noreferrer">GLEIF</a>,{' '}
+            <a className="linkbtn" href="https://www.openfigi.com/" target="_blank" rel="noreferrer">OpenFIGI</a>,{' '}
+            <a className="linkbtn" href="https://www.census.gov/geographies/reference-files/time-series/geo/gazetteer-files.html" target="_blank" rel="noreferrer">US Census</a>;
+            postcode names © <a className="linkbtn" href="https://www.geonames.org/" target="_blank" rel="noreferrer">GeoNames</a> (CC BY 4.0).</>}</span>
       <span>
+        <button className="linkbtn" onClick={() => setShowAbout(true)}>About the data</button>
+        {' · '}
         <a className="linkbtn" href="/swagger" target="_blank" rel="noreferrer">Public API</a>
         {' · '}
         <button className="linkbtn" onClick={() => setShowPrivacy(true)}>Privacy</button>
@@ -236,6 +246,7 @@ export default function App() {
       {gateOpen && <LocationGate coverageMiles={COVERAGE_MILES} coverage={(config ?? FALLBACK_CONFIG).coverage ?? []} onLocated={onLocated} />}
 
       <PrivacyNotice open={showPrivacy} contact={config.privacyContact} onClose={() => setShowPrivacy(false)} />
+      <AboutData open={showAbout} contact={config.privacyContact} onClose={() => setShowAbout(false)} />
 
       {showConsent && !gateOpen && (
         <ConsentBanner

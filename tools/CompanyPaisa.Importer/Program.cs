@@ -26,6 +26,7 @@ builder.Services.AddSingleton<IZipGeocoder, ZipGeocoder>();
 builder.Services.AddSingleton<ImportPipeline>();
 builder.Services.AddSingleton<CompanyPaisa.Importer.Uk.UkImportPipeline>();
 builder.Services.AddSingleton<CompanyPaisa.Importer.Eu.EuImportPipeline>();
+builder.Services.AddSingleton<CompanyPaisa.Importer.Validation.ValidationRun>();
 
 using var host = builder.Build();
 
@@ -41,6 +42,9 @@ if (args is ["--debug-uk-pay", var reportUrl])
     foreach (var w in parsed.Warnings) Console.WriteLine("warning: " + w);
     return 0;
 }
+// Data-quality checks over every published workbook: -- --validate [--strict]  (report: data/validation-report.md)
+if (args.Contains("--validate"))
+    return await host.Services.GetRequiredService<CompanyPaisa.Importer.Validation.ValidationRun>().RunAsync(args.Contains("--strict"), CancellationToken.None);
 // Europe (France, Netherlands, Italy, Spain — financials only): dotnet run --project tools/CompanyPaisa.Importer -- --eu
 if (args.Contains("--eu"))
 {

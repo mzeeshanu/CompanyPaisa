@@ -4,6 +4,7 @@ import { api } from '../api/client';
 import type { ExecutiveDetail } from '../api/types';
 import { money, pct, tone } from '../lib/format';
 import { initials } from './ExecutivesView';
+import { Filing } from './Filing';
 
 interface Props {
   personId: string | null;
@@ -116,7 +117,7 @@ export function ExecutivePanel({ personId, onClose, onOpenCompany }: Props) {
                   <tbody>
                     {d.history.map(h => (
                       <tr key={`${h.year}-${h.company.ticker}`}>
-                        <td>{h.year}</td>
+                        <td><Filing href={h.sourceFiling}>{h.year}</Filing></td>
                         <td className="co"><i style={{ background: colorOf(h.company.ticker) }} />{h.company.ticker}</td>
                         <td>{money(h.salary, h.company.currency)}</td><td>{money(h.bonus, h.company.currency)}</td><td>{money(h.stockAwards, h.company.currency)}</td><td><b>{money(h.total, h.company.currency)}</b></td>
                       </tr>

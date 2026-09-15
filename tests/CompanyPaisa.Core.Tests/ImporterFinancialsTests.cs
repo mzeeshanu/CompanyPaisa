@@ -46,4 +46,62 @@ public class XbrlFinancialsExtractorTests
         Assert.Equal("USD", result.Currency);
         Assert.Equal(8_880_000_000m, Assert.Single(result.Periods).Revenue);
     }
+
+    /// <summary>Acadia Healthcare 2018: "Revenues" held a $1.9bn sub-line while contract revenue had the $3.0bn total.</summary>
+    [Fact]
+    public void Takes_the_largest_revenue_line_for_each_period()
+    {
+        var json = $$"""
+            { "facts": { "us-gaap": {
+                "Revenues": { "units": { "USD": [ {{Fact("CY2018", "2018-01-01", "2018-12-31", 1_900_000_000m)}} ] } },
+                "RevenueFromContractWithCustomerExcludingAssessedTax": { "units": { "USD": [ {{Fact("CY2018", "2018-01-01", "2018-12-31", 3_010_000_000m)}} ] } },
+                "NetIncomeLoss": { "units": { "USD": [ {{Fact("CY2018", "2018-01-01", "2018-12-31", 150_000_000m)}} ] } }
+            } } }
+            """;
+
+        var result = new XbrlFinancialsExtractor().Extract("ACHC", 1520697, json, years: 10);
+
+        Assert.Equal(3_010_000_000m, Assert.Single(result.Periods).Revenue);
+    }
+
+    /// <summary>A company that moved from US GAAP to IFRS keeps its old US GAAP facts; the newer standard must win.</summary>
+    [Fact]
+    public void Uses_the_accounting_standard_with_the_newest_figures()
+    {
+        var json = $$"""
+            { "facts": {
+                "us-gaap": {
+                  "Revenues": { "units": { "USD": [ {{Fact("CY2013", "2013-01-01", "2013-12-31", 1_640_000_000m)}} ] } },
+                  "NetIncomeLoss": { "units": { "USD": [ {{Fact("CY2013", "2013-01-01", "2013-12-31", -600_000_000m)}} ] } } },
+                "ifrs-full": {
+                  "Revenue": { "units": { "USD": [ {{Fact("CY2025", "2025-01-01", "2025-12-31", 11_200_000_000m)}} ] } },
+                  "ProfitLoss": { "units": { "USD": [ {{Fact("CY2025", "2025-01-01", "2025-12-31", 3_100_000_000m)}} ] } } }
+            } }
+            """;
+
+        var result = new XbrlFinancialsExtractor().Extract("AEM", 2809, json, years: 20);
+
+        Assert.Equal(2025, Assert.Single(result.Periods).FiscalYear);
+    }
+
+    [Fact]
+    public void Never_derives_a_negative_fourth_quarter()
+    {
+        // Three quarters measured on a bigger basis than the year: year minus quarters would be negative.
+        var json = $$"""
+            { "facts": { "us-gaap": {
+                "Revenues": { "units": { "USD": [
+                  {{Fact("CY2023", "2023-01-01", "2023-12-31", 100m)}}, {{Fact("CY2023Q1", "2023-01-01", "2023-03-31", 50m)}},
+                  {{Fact("CY2023Q2", "2023-04-01", "2023-06-30", 50m)}}, {{Fact("CY2023Q3", "2023-07-01", "2023-09-30", 50m)}} ] } },
+                "NetIncomeLoss": { "units": { "USD": [
+                  {{Fact("CY2023", "2023-01-01", "2023-12-31", 10m)}}, {{Fact("CY2023Q1", "2023-01-01", "2023-03-31", 1m)}},
+                  {{Fact("CY2023Q2", "2023-04-01", "2023-06-30", 1m)}}, {{Fact("CY2023Q3", "2023-07-01", "2023-09-30", 1m)}} ] } }
+            } } }
+            """;
+
+        var result = new XbrlFinancialsExtractor().Extract("X", 1, json, years: 10);
+
+        Assert.DoesNotContain(result.Periods, p => p.Revenue < 0);
+        Assert.Equal(3, result.Periods.Count(p => p.PeriodType == PeriodType.Quarterly));
+    }
 }

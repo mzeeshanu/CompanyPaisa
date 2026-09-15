@@ -239,7 +239,21 @@ public sealed partial class ImportPipeline(
             if (impossible.Count > 0)
                 warnings.Add($"proxy {proxy.FilingDate}: skipped {impossible.Count} row(s) with impossible years ({string.Join(", ", impossible.Select(r => r.Year).Distinct())})");
 
-            foreach (var r in result.Rows.Where(r => r.Year >= fromYear).Except(impossible))
+            // A table printed "in thousands" reads as a $689 CEO: when every total is that small, scale the whole table.
+            var parsed = result.Rows.Except(impossible).ToList();
+            if (parsed.Count > 0 && parsed.All(r => r.Total < 25_000) && parsed.Any(r => r.Total > 0))
+            {
+                parsed = parsed.Select(r => r with { Salary = r.Salary * 1000, Bonus = r.Bonus * 1000, StockAwards = r.StockAwards * 1000, Other = r.Other * 1000, Total = r.Total * 1000 }).ToList();
+                warnings.Add($"proxy {proxy.FilingDate}: table read as thousands of dollars (every total was under $25,000)");
+            }
+            // Rows that can't be a person's pay: negative amounts, salary above the total, a label or company in the name
+            // column, or a tiny total in an otherwise normal table (a misread footnote).
+            var unusable = parsed.Where(r => r.Salary < 0 || r.Bonus < 0 || r.StockAwards < 0 || r.Total < 0 || (r.Total > 0 && r.Salary > r.Total * 1.02m)
+                                             || !Validation.DataValidator.LooksLikePerson(r.Name) || r.Total is > 0 and < 10_000).ToList();
+            if (unusable.Count > 0)
+                warnings.Add($"proxy {proxy.FilingDate}: left out {unusable.Count} row(s) that can't be right ({string.Join("; ", unusable.Take(3).Select(r => $"{r.Name} {r.Year}: salary {r.Salary:N0}, total {r.Total:N0}"))})");
+
+            foreach (var r in parsed.Where(r => r.Year >= fromYear).Except(unusable))
             {
                 covered.Add(r.Year);
                 // Newer proxies win: they're read first, so only add what's missing.

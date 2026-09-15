@@ -44,7 +44,7 @@ $dataFiles = @(
     'data/companypaisa.xlsx', 'data/companypaisa-uk.xlsx', 'data/companypaisa-eu.xlsx',
     'data/import-report.md', 'data/import-report-uk.md', 'data/import-report-eu.md', 'data/reference/eu-postcodes.csv', 'data/curated/eu-companies.csv', 'data/reference/anz-postcodes.csv',
     'data/reference/us-zip-centroids.csv', 'data/reference/ca-postal-areas.csv', 'data/reference/uk-postcode-districts.csv',
-    'data/curated/uk-ftse350.csv', 'data/curated/uk-main-market.csv'
+    'data/curated/uk-ftse350.csv', 'data/curated/uk-main-market.csv', 'data/validation-report.md'
 )
 
 try {
@@ -61,6 +61,8 @@ try {
     Invoke-Step 'US + Canada import (SEC EDGAR)' 'dotnet' @('run', '--project', 'tools/CompanyPaisa.Importer', '-c', 'Release')
     Invoke-Step 'UK import (Main Market ESEF reports)' 'dotnet' @('run', '--project', 'tools/CompanyPaisa.Importer', '-c', 'Release', '--', '--uk', '--refresh-uk-list')
     Invoke-Step 'Europe import (France, Netherlands, Italy, Spain - ESEF reports)' 'dotnet' @('run', '--project', 'tools/CompanyPaisa.Importer', '-c', 'Release', '--', '--eu')
+    # Data-quality checks over everything just built; any error-level finding stops the run before anything is published.
+    Invoke-Step 'Data validation (data/validation-report.md)' 'dotnet' @('run', '--project', 'tools/CompanyPaisa.Importer', '-c', 'Release', '--', '--validate', '--strict')
 
     $existing = $dataFiles | Where-Object { Test-Path (Join-Path $repo $_) }
     Invoke-Step 'git add' 'git' (@('add', '--') + $existing)

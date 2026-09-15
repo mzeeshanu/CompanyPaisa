@@ -22,7 +22,7 @@ public sealed record FinancialsResult(IReadOnlyList<FinancialPeriod> Periods, st
 
 public sealed partial class XbrlFinancialsExtractor : IFinancialsExtractor
 {
-    // First concept with a value for a period wins; companies switch concepts over the years (ASC 606 etc.).
+    // Revenue candidates; per period the largest one tagged wins (companies switch concepts over the years, ASC 606 etc.).
     private static readonly string[] RevenueConcepts =
     [
         "Revenues", "RevenueFromContractWithCustomerExcludingAssessedTax", "RevenueFromContractWithCustomerIncludingAssessedTax",
@@ -49,14 +49,15 @@ public sealed partial class XbrlFinancialsExtractor : IFinancialsExtractor
         if (!doc.RootElement.TryGetProperty("facts", out var facts))
             return new FinancialsResult([], null, ["No XBRL facts."]);
 
-        // US GAAP first; companies from Canada and elsewhere may file IFRS instead.
+        // US GAAP or IFRS, whichever has the newest revenue: a company that switched standards (Agnico Eagle, Alcon)
+        // keeps its old US GAAP facts forever, and those would freeze its figures in the year it switched.
         JsonElement gaap = default;
         string[] revenueConcepts = RevenueConcepts, netIncomeConcepts = NetIncomeConcepts;
-        if (facts.TryGetProperty("us-gaap", out var usGaap) && revenueConcepts.Any(c => usGaap.TryGetProperty(c, out _)))
-            gaap = usGaap;
-        else if (facts.TryGetProperty("ifrs-full", out var ifrs))
+        var hasGaap = facts.TryGetProperty("us-gaap", out var usGaap);
+        var hasIfrs = facts.TryGetProperty("ifrs-full", out var ifrs);
+        if (hasIfrs && (!hasGaap || LatestEnd(ifrs, IfrsRevenueConcepts) > LatestEnd(usGaap, RevenueConcepts)))
             (gaap, revenueConcepts, netIncomeConcepts) = (ifrs, IfrsRevenueConcepts, IfrsNetIncomeConcepts);
-        else if (facts.TryGetProperty("us-gaap", out usGaap))
+        else if (hasGaap)
             gaap = usGaap;
         else
             return new FinancialsResult([], null, ["No us-gaap or IFRS XBRL facts."]);
@@ -65,13 +66,14 @@ public sealed partial class XbrlFinancialsExtractor : IFinancialsExtractor
         var currency = ReportingCurrency(gaap, revenueConcepts);
         if (currency != "USD") notes.Add($"Reports in {currency}.");
 
-        var (revenue, revenueConcept) = MergeByFrame(gaap, revenueConcepts, currency);
-        if (revenue.Count == 0)
-        {
-            // Banks: total revenue ≈ interest & dividend income + non-interest income.
-            revenue = SumByFrame(Facts(gaap, "InterestAndDividendIncomeOperating", currency), Facts(gaap, "NoninterestIncome", currency));
-            if (revenue.Count > 0) { revenueConcept = "InterestAndDividendIncomeOperating + NoninterestIncome"; notes.Add("Revenue = interest & dividend income + non-interest income (bank)."); }
-        }
+        // Per period, the largest revenue line tagged: a total is never smaller than its own sub-lines, and companies also
+        // tag segment or product lines without dimensions (Acadia Healthcare's 2018 "Revenues" was $1.9bn of $3.0bn).
+        // Banks: interest & dividend income + non-interest income is a candidate too.
+        const string BankRevenue = "InterestAndDividendIncomeOperating + NoninterestIncome";
+        var candidates = revenueConcepts.Select(c => (c, (IEnumerable<Fact>)Facts(gaap, c, currency)))
+            .Append((BankRevenue, SumByFrame(Facts(gaap, "InterestAndDividendIncomeOperating", currency), Facts(gaap, "NoninterestIncome", currency)).Values));
+        var (revenue, revenueConcept) = LargestByFrame(candidates);
+        if (revenueConcept == BankRevenue) notes.Add("Revenue = interest & dividend income + non-interest income (bank).");
         var (netIncome, _) = MergeByFrame(gaap, netIncomeConcepts, currency);
         if (revenue.Count == 0) return new FinancialsResult([], null, ["No revenue facts in XBRL."]);
 
@@ -107,6 +109,8 @@ public sealed partial class XbrlFinancialsExtractor : IFinancialsExtractor
             var missing = inYear.Where(q => !quarters.ContainsKey(q)).ToList();
             if (inYear.Count != 4 || missing.Count != 1) continue;
             var others = inYear.Where(q => q != missing[0]).Select(q => quarters[q]).ToList();
+            // A negative remainder means the year and its quarters were measured differently; leave that quarter out.
+            if (a.Value - others.Sum(o => o.Rev) < 0) continue;
             quarters[missing[0]] = (a.Value - others.Sum(o => o.Rev), ani.Value - others.Sum(o => o.Ni), a.Accession);
             derived++;
         }
@@ -158,6 +162,30 @@ public sealed partial class XbrlFinancialsExtractor : IFinancialsExtractor
             if (any) first ??= concept;
         }
         return (result, first);
+    }
+
+    /// <summary>The largest value per frame across all candidates; the concept is the one chosen most often.</summary>
+    private static (Dictionary<string, Fact> ByFrame, string? Concept) LargestByFrame(IEnumerable<(string Concept, IEnumerable<Fact> Facts)> candidates)
+    {
+        var best = new Dictionary<string, (Fact Fact, string Concept)>();
+        foreach (var (concept, facts) in candidates)
+            foreach (var f in facts.Where(f => f.Frame is not null))
+                if (!best.TryGetValue(f.Frame!, out var b) || f.Value > b.Fact.Value) best[f.Frame!] = (f, concept);
+        var concept1 = best.Values.GroupBy(b => b.Concept).MaxBy(g => g.Count())?.Key;
+        return (best.ToDictionary(kv => kv.Key, kv => kv.Value.Fact), concept1);
+    }
+
+    /// <summary>End date of the newest fact for any of the concepts, in any currency.</summary>
+    private static DateOnly LatestEnd(JsonElement taxonomy, IEnumerable<string> concepts)
+    {
+        var latest = DateOnly.MinValue;
+        foreach (var concept in concepts)
+            if (taxonomy.TryGetProperty(concept, out var c) && c.TryGetProperty("units", out var units))
+                foreach (var unit in units.EnumerateObject())
+                    foreach (var f in unit.Value.EnumerateArray())
+                        if (f.TryGetProperty("end", out var e) && DateOnly.TryParse(e.GetString(), CultureInfo.InvariantCulture, out var end) && end > latest)
+                            latest = end;
+        return latest;
     }
 
     private static Dictionary<string, Fact> SumByFrame(IEnumerable<Fact> a, IEnumerable<Fact> b)

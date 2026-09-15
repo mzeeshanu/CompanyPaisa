@@ -3,6 +3,7 @@ import * as d3 from 'd3';
 import { api } from '../api/client';
 import type { CompanyDetail, Executive, FinancialPeriod, PeriodType } from '../api/types';
 import { money, pct, tone, trendClass } from '../lib/format';
+import { Filing } from './Filing';
 
 interface Props {
   ticker: string | null;
@@ -118,13 +119,14 @@ export function CompanyPanel({ ticker, distanceMiles, nearestLabel, showExecutiv
                   <tbody>
                     {(shownPeriod === 'Quarterly' ? d.quarterly : d.annual).slice(-4).reverse().map(p => (
                       <tr key={p.label}>
-                        <td>{p.label}</td><td>{money(p.revenue, cur)}</td>
+                        <td><Filing href={p.sourceFiling}>{p.label}</Filing></td><td>{money(p.revenue, cur)}</td>
                         <td className={`chg ${p.netIncome < 0 ? 'down' : ''}`}>{money(p.netIncome, cur)}</td>
                         <td className={`chg ${tone(p.revenueGrowthYoY)}`}>{pct(p.revenueGrowthYoY)}</td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
+                <p className="fine">Tap a period to open the filing it comes from.</p>
               </section>
             )}
 

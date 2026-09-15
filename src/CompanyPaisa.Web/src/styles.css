@@ -258,6 +258,9 @@ select option{background:var(--ground);color:var(--ink)}
 .modal-card h2{font:600 22px var(--display);letter-spacing:-.02em;margin:0 40px 8px 0}
 .modal-card h3{font:700 12px var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin:18px 0 6px}
 .modal-card p{margin:0 0 8px;line-height:1.55;color:var(--ink)}
+.modal-card ul.sources{margin:0 0 8px;padding-left:18px;line-height:1.55;color:var(--ink)}
+.modal-card ul.sources li{margin:0 0 6px}
+.linkbtn.filing{font:inherit}
 .modal-card .close{position:absolute;top:14px;right:14px}
 /* Scrolls when the card is taller than the screen (phones, "+34 more"); the auto margins centre it when it fits. */
 .gate{position:fixed;inset:0;display:flex;flex-direction:column;padding:16px 0;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;z-index:20;background:color-mix(in srgb,var(--ground) 25%,transparent);transition:opacity .6s}
