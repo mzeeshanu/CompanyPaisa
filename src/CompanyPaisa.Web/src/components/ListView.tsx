@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import * as d3 from 'd3';
 import type { CompanySort, CompanySummary, NearbyResponse } from '../api/types';
 import { bubbleRadius, money, pct, tone, total, trendClass } from '../lib/format';
@@ -83,7 +83,9 @@ export function ListView({ data, placeName, sort, onSort, highlight, loading, on
 function CityClusters({ items, merged, allLabel, highlight, onHover, onSelect }:
   { items: CompanySummary[]; merged: boolean; allLabel: string; highlight: Highlight } & BubbleEvents) {
   const groups = useMemo(() => {
-    const byCity = merged ? [[`Near ${allLabel}`, items] as const] : d3.groups(items, c => c.nearestLocation.city);
+    const byCity = merged
+      ? [[`Near ${allLabel}`, items] as const]
+      : d3.groups(items, c => cityKey(c.nearestLocation.city)).map(([, list]) => [displayName(list.map(c => c.nearestLocation.city)), list] as const);
     return byCity
       .map(([city, list]) => {
         const nodes = list.map(c => ({ c, r: bubbleRadius(c.indicators.ttmRevenue), x: 0, y: 0 })).sort((a, b) => b.r - a.r);
@@ -94,26 +96,46 @@ function CityClusters({ items, merged, allLabel, highlight, onHover, onSelect }:
       .sort((a, b) => a.nearest - b.nearest);
   }, [items, merged, allLabel]);
 
-  // A big city's bubble pack can be wider than a phone: shrink it to fit the card instead of spilling off the screen.
+  // Masonry: cards snap to whole columns (so every row ends flush at both edges) and to 1px rows sized from each card's
+  // measured height; "dense" placement drops small cities into the holes beside big ones. A big pack shrinks to fit.
   const box = useRef<HTMLDivElement>(null);
-  const [room, setRoom] = useState(Infinity);
+  const [width, setWidth] = useState(0);
+  const cards = useRef(new Map<string, HTMLDivElement>());
+  const [heights, setHeights] = useState<Record<string, number>>({});
   useEffect(() => {
     const el = box.current;
     if (!el) return;
-    const measure = () => setRoom(el.clientWidth - CITY_PADDING);
+    const measure = () => setWidth(el.clientWidth);
     measure();
     const ro = new ResizeObserver(measure);
     ro.observe(el);
-    return () => ro.disconnect();
+    window.addEventListener('resize', measure);   // rotation / window resizes, in case the observer misses them
+    return () => { ro.disconnect(); window.removeEventListener('resize', measure); };
   }, []);
 
+  const cols = width < 600 ? 1 : Math.max(1, Math.floor((width + GAP) / (COL_MIN + GAP)));
+  const colWidth = cols > 0 && width > 0 ? (width - GAP * (cols - 1)) / cols : 0;
+  const layout = groups.map(g => {
+    const span = width === 0 ? cols : Math.min(cols, Math.ceil((Math.max(CARD_MIN, g.size + CITY_PADDING) + GAP) / (colWidth + GAP)));
+    const cardWidth = span * colWidth + (span - 1) * GAP;
+    const scale = width === 0 ? 1 : Math.min(1, (cardWidth - CITY_PADDING) / g.size);
+    return { g, span, scale };
+  });
+
+  useLayoutEffect(() => {
+    const next: Record<string, number> = {};
+    cards.current.forEach((el, city) => { next[city] = Math.ceil(el.getBoundingClientRect().height); });
+    setHeights(prev => Object.keys(next).length === Object.keys(prev).length && Object.entries(next).every(([k, v]) => prev[k] === v) ? prev : next);
+  });
+
   return (
-    <div className="clusters" ref={box}>
-      {groups.map(g => {
-        const scale = Math.min(1, room / g.size);
+    <div className="clusters" ref={box} style={{ gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))` }}>
+      {layout.map(({ g, span, scale }) => {
         const shown = g.size * scale;
         return (
-          <div className="city pane" key={g.city}>
+          <div className="city pane" key={g.city}
+            ref={el => { if (el) cards.current.set(g.city, el); else cards.current.delete(g.city); }}
+            style={{ gridColumn: `span ${span}`, gridRowEnd: `span ${(heights[g.city] ?? shown + 70) + GAP}` }}>
             <div className="city-h"><b>{g.city}</b><span>{g.nodes.length} · {g.nearest.toFixed(1)} mi</span></div>
             <div className="pack-fit" style={{ width: shown, height: shown }}>
               <div className="pack" style={{ width: g.size, height: g.size, transform: scale < 1 ? `scale(${scale})` : undefined }}>
@@ -140,6 +162,23 @@ function CityClusters({ items, merged, allLabel, highlight, onHover, onSelect }:
 
 /** Left + right padding and border of a city card (.city in styles.css). */
 const CITY_PADDING = 34;
+/** Grid column minimum, gap between cards (matches .clusters in styles.css) and the narrowest card (fits a city name and count). */
+const COL_MIN = 100;
+const GAP = 14;
+const CARD_MIN = 200;
+
+/** "Issy-Les-Moulineaux", "Issy les Moulineaux" and "Paris 12" / "Paris" are the same place. */
+function cityKey(city: string): string {
+  return city.normalize('NFD').replace(/\p{M}/gu, '').toLowerCase()
+    .replace(/[-‐'’]/g, ' ').replace(/\s+\d+(e|er|eme)?$/, '').replace(/\s+/g, ' ').trim();
+}
+
+/** The spelling most companies in the group use (ties: the one without an arrondissement number). */
+function displayName(cities: string[]): string {
+  const counts = d3.rollups(cities, v => v.length, c => c);
+  counts.sort((a, b) => b[1] - a[1] || Number(/\d$/.test(a[0])) - Number(/\d$/.test(b[0])));
+  return counts[0][0];
+}
 
 function RankedRows({ items, sort, onSort, highlight, onHover, onSelect }: { items: CompanySummary[]; sort: CompanySort; onSort: (s: CompanySort) => void; highlight: Highlight } & BubbleEvents) {
   const { flipped, choose, order } = useSortFlip(sort, onSort, (c: CompanySummary, k) =>

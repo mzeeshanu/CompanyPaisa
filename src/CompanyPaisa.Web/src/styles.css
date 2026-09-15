@@ -135,9 +135,11 @@ select option{background:var(--ground);color:var(--ink)}
 .legend-row span{display:flex;align-items:center;gap:6px}
 .dot{width:9px;height:9px;border-radius:50%;display:inline-block;flex:none}
 .dot.up{background:var(--up)} .dot.flat{background:var(--flat)} .dot.down{background:var(--down)}
-.clusters{display:flex;flex-wrap:wrap;gap:14px;align-items:flex-start}
+/* Masonry grid: columns and each card's column/row span come from ListView (1px rows; the row span includes the gap). */
+.clusters{display:grid;grid-auto-rows:1px;column-gap:14px;row-gap:0;grid-auto-flow:row dense;align-items:start}
+.clusters .city{align-self:start;min-width:0}
 .city{border-radius:24px;padding:14px 16px 16px;display:flex;flex-direction:column;gap:10px}
-.city-h{display:flex;justify-content:space-between;align-items:baseline;gap:14px}
+.city-h{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:2px 14px}
 .city-h b{font:600 15px var(--display);letter-spacing:-.01em}
 .city-h span{font:500 11.5px var(--mono);color:var(--faint);white-space:nowrap}
 .pack-fit{margin:0 auto}
@@ -414,9 +416,6 @@ td.co i{width:8px;height:8px;border-radius:2px;display:inline-block}
   .themebtn{height:34px;padding:0 10px}
   select{height:30px}
   .sel-wrap::after{top:11px}
-  /* One city card per row, full width with the page's own margins; big bubble packs shrink to fit (ListView). */
-  .clusters{flex-direction:column;align-items:stretch}
-  .city{width:100%}
   /* The name column shrinks (minmax 0) so a row never outgrows a phone screen. */
   .row,.xrow{grid-template-columns:20px minmax(0,1fr) 74px 72px;gap:8px;padding:12px}
   .row>*{min-width:0;overflow-wrap:anywhere}
