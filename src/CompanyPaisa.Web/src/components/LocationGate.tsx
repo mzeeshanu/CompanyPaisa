@@ -12,6 +12,8 @@ interface Props {
 }
 
 const SHOWN_METROS = 6;
+/** Countries with more areas than this get a search box when the full list is open. */
+const SEARCH_FROM = 20;
 const US_ZIP = /^\d{5}$/;
 const UK_POSTCODE = /^[A-Z]{1,2}\d[A-Z\d]?(\s*\d[A-Z]{2})?$/i;
 const CA_POSTCODE = /^[ABCEGHJ-NPRSTVXY]\d[A-Z](\s*\d[A-Z]\d)?$/i;
@@ -61,7 +63,11 @@ export function LocationGate({ coverageMiles, coverage, onLocated }: Props) {
   const input = useRef<HTMLInputElement>(null);
   const inCountry = coverage.filter(c => (c.country ?? 'US') === country);
   const example = inCountry[0]?.exampleZip ?? coverage[0]?.exampleZip ?? '84043';
-  const metros = allMetros ? inCountry : inCountry.slice(0, SHOWN_METROS);
+  const [find, setFind] = useState('');
+  // A long list (the US has over a hundred areas) gets a search box and scrolls inside the card.
+  const searchable = inCountry.length > SEARCH_FROM;
+  const metros = !allMetros ? inCountry.slice(0, SHOWN_METROS)
+    : inCountry.filter(m => m.name.toLowerCase().includes(find.trim().toLowerCase()));
 
   useEffect(() => { const t = setTimeout(() => input.current?.focus(), 300); return () => clearTimeout(t); }, []);
 
@@ -157,17 +163,21 @@ export function LocationGate({ coverageMiles, coverage, onLocated }: Props) {
                 <div className="country-tabs" role="tablist" aria-label="Country">
                   {countries.map(c => (
                     <button key={c} role="tab" type="button" aria-selected={country === c} title={COUNTRY_NAMES[c]}
-                      onClick={() => { setCountry(c); setAllMetros(false); }}>{c}</button>
+                      onClick={() => { setCountry(c); setAllMetros(false); setFind(''); }}>{c}</button>
                   ))}
                 </div>
               )}
             </div>
-            <div className="metro-list">
+            {allMetros && searchable && (
+              <input className="metro-find" type="search" placeholder="Find a city or state" aria-label="Find a city or state"
+                value={find} onChange={e => setFind(e.target.value)} />
+            )}
+            <div className={`metro-list${allMetros && searchable ? ' all' : ''}`}>
               {metros.map(m => (
                 <button key={m.name} type="button" disabled={busy !== null} onClick={() => { setZip(m.exampleZip); lookupZip(m.exampleZip, m.country ?? 'US'); }}>{m.name}</button>
               ))}
               {inCountry.length > SHOWN_METROS && (
-                <button type="button" className="more" onClick={() => setAllMetros(a => !a)}>
+                <button type="button" className="more" onClick={() => { setAllMetros(a => !a); setFind(''); }}>
                   {allMetros ? 'Fewer' : `+${inCountry.length - SHOWN_METROS} more`}
                 </button>
               )}
