@@ -18,7 +18,7 @@ public sealed class SearchOptions : IValidatableObject
     [Range(0.1, 1000)] public double MaxRadiusMiles { get; set; } = 100;
     public CompanySort DefaultSort { get; set; } = CompanySort.Revenue;
     [Range(1, 1000)] public int DefaultPageSize { get; set; } = 50;
-    [Range(1, 1000)] public int MaxPageSize { get; set; } = 200;
+    [Range(1, 5000)] public int MaxPageSize { get; set; } = 200;
     /// <summary>If the nearest company is farther than this, the search reports "outside coverage".</summary>
     [Range(1, 5000)] public double CoverageMiles { get; set; } = 60;
 

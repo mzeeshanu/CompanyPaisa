@@ -14,7 +14,7 @@ namespace CompanyPaisa.Core.Features.Search;
 public sealed record GetCompaniesNearQuery(NearbyCompaniesRequest Request) : IRequest<NearbyCompaniesResponse>, ICacheableRequest
 {
     public string CacheKey => string.Create(CultureInfo.InvariantCulture,
-        $"near|{Request.Near?.Trim().ToUpperInvariant()}|{Request.Latitude:F5}|{Request.Longitude:F5}|{Request.RadiusMiles}|{Request.Sector?.ToUpperInvariant()}|{Request.HeadquarteredOnly}|{Request.Sort}|{Request.Page}|{Request.PageSize}");
+        $"near|{Request.Near?.Trim().ToUpperInvariant()}|{Request.Latitude:F3}|{Request.Longitude:F3}|{Request.RadiusMiles}|{Request.Sector?.ToUpperInvariant()}|{Request.HeadquarteredOnly}|{Request.Sort}|{Request.Page}|{Request.PageSize}");
     public string CacheProfile => "Search";
 }
 

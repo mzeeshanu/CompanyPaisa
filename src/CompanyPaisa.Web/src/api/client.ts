@@ -30,6 +30,11 @@ async function get<T>(path: string, params?: Record<string, string | number | bo
   return res.json() as Promise<T>;
 }
 
+/** Every company in the radius (the bubbles and the ranked list need them all; the API allows up to 2,000). */
+export const ALL_COMPANIES = 2000;
+/** Executives load a page at a time — a big city has thousands. */
+export const EXECUTIVES_PAGE = 200;
+
 export interface NearbyQuery {
   latitude: number; longitude: number; radiusMiles: number;
   sector?: string; headquarteredOnly?: boolean; sort?: CompanySort; pageSize?: number;
@@ -43,7 +48,7 @@ export const api = {
   near: (q: NearbyQuery, signal?: AbortSignal) =>
     get<NearbyResponse>('/companies/near', {
       latitude: q.latitude, longitude: q.longitude, radiusMiles: q.radiusMiles,
-      sector: q.sector, headquarteredOnly: q.headquarteredOnly || undefined, sort: q.sort, pageSize: q.pageSize ?? 200,
+      sector: q.sector, headquarteredOnly: q.headquarteredOnly || undefined, sort: q.sort, pageSize: q.pageSize ?? ALL_COMPANIES,
     }, signal),
   company: (ticker: string) => get<CompanyDetail>(`/companies/${encodeURIComponent(ticker)}`),
   financials: (ticker: string, period: PeriodType, years?: number) =>
@@ -53,12 +58,12 @@ export const api = {
   executivesNear: (q: ExecutivesNearQuery, signal?: AbortSignal) =>
     get<ExecutivesNearResponse>('/executives/near', {
       latitude: q.latitude, longitude: q.longitude, radiusMiles: q.radiusMiles, sector: q.sector,
-      includeFormer: q.includeFormer || undefined, search: q.search, sort: q.sort, years: q.years, pageSize: q.pageSize ?? 200,
+      includeFormer: q.includeFormer || undefined, search: q.search, sort: q.sort, years: q.years, page: q.page, pageSize: q.pageSize ?? EXECUTIVES_PAGE,
     }, signal),
   executive: (personId: string) => get<ExecutiveDetail>(`/executives/${encodeURIComponent(personId)}`),
 };
 
 export interface ExecutivesNearQuery {
   latitude: number; longitude: number; radiusMiles: number;
-  sector?: string; includeFormer?: boolean; search?: string; sort?: ExecutiveSort; years?: number; pageSize?: number;
+  sector?: string; includeFormer?: boolean; search?: string; sort?: ExecutiveSort; years?: number; page?: number; pageSize?: number;
 }

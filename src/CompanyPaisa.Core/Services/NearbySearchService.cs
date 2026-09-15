@@ -7,9 +7,14 @@ namespace CompanyPaisa.Core.Services;
 public sealed class NearbySearchService(ICompanyRepository repository, IGeoLocator geoLocator, IDistanceCalculator distance)
     : INearbySearchService
 {
+    /// <summary>Decimal places kept from a caller's coordinates (3 ≈ 110 m). Cache keys use the same precision.</summary>
+    public const int CoordinateDecimals = 3;
+
     public async Task<(GeoPoint Point, string? Label)> ResolveOriginAsync(string? near, double? latitude, double? longitude, CancellationToken ct = default)
     {
-        if (latitude is { } lat && longitude is { } lng) return (new GeoPoint(lat, lng), null);
+        // Coordinates are rounded to ~100 m: distances move by at most ~0.05 mi, and neighbours share cached results
+        // (a phone's exact position would otherwise make almost every search a new cache entry).
+        if (latitude is { } lat && longitude is { } lng) return (new GeoPoint(Math.Round(lat, CoordinateDecimals), Math.Round(lng, CoordinateDecimals)), null);
 
         var hit = await geoLocator.LookupAsync(near ?? "", ct)
                   ?? throw new NotFoundException($"We couldn't find '{near}'. Try a 5-digit ZIP code or 'City, ST'.");

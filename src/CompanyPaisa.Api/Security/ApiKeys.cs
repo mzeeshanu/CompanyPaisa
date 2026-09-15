@@ -24,21 +24,31 @@ public sealed class ApiKeyValidator(IOptionsMonitor<ApiOptions> options) : IApiK
         if (context.Items.TryGetValue(typeof(ApiCaller), out var cached) && cached is ApiCaller known) return known;
 
         ApiCaller caller;
+        var ip = ClientIp(context, o.ClientIpHeader);
         var presented = context.Request.Headers[o.ApiKeyHeader].ToString();
         if (string.IsNullOrEmpty(presented))
         {
-            caller = new ApiCaller(null, false, false, $"ip:{context.Connection.RemoteIpAddress}");
+            caller = new ApiCaller(null, false, false, $"ip:{ip}");
         }
         else
         {
             var match = o.Keys.FirstOrDefault(k => k.Enabled && FixedTimeEquals(k.Key, presented));
             caller = match is null
-                ? new ApiCaller(null, true, false, $"badkey:{context.Connection.RemoteIpAddress}")
+                ? new ApiCaller(null, true, false, $"badkey:{ip}")
                 : new ApiCaller(match.Name, true, true, $"key:{match.Name}");
         }
 
         context.Items[typeof(ApiCaller)] = caller;
         return caller;
+    }
+
+    /// <summary>The visitor's IP: from the CDN's header when configured and valid, else the connection's address.</summary>
+    public static string ClientIp(HttpContext context, string? header)
+    {
+        if (!string.IsNullOrWhiteSpace(header) && context.Request.Headers[header].ToString() is { Length: > 0 } value &&
+            System.Net.IPAddress.TryParse(value.Split(',')[0].Trim(), out var fromCdn))
+            return fromCdn.ToString();
+        return context.Connection.RemoteIpAddress?.ToString() ?? "unknown";
     }
 
     private static bool FixedTimeEquals(string a, string b) =>

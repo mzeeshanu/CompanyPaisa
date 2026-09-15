@@ -10,7 +10,7 @@ public sealed class CachingOptions
     public bool Enabled { get; set; } = true;
     /// <summary>Cache profile name → seconds. Requests pick a profile (Search, Company, Reference).</summary>
     public Dictionary<string, int> Profiles { get; set; } = new(StringComparer.OrdinalIgnoreCase);
-    /// <summary>Maximum number of cached responses.</summary>
+    /// <summary>Cache capacity in rows: a search counts one per company or executive it returns, anything else counts one.</summary>
     [Range(10, 1_000_000)] public int MaxEntries { get; set; } = 10_000;
 }
 

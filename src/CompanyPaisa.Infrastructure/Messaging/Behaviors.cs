@@ -73,8 +73,23 @@ public sealed class CachingBehavior<TRequest, TResponse>(
         cache.Set(key, response, new MemoryCacheEntryOptions
         {
             AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(seconds),
-            Size = 1
+            Size = CacheWeight.Of(response)
         });
         return response;
     }
+}
+
+/// <summary>
+/// Cache "size" in rows, so Caching:MaxEntries bounds memory: a 500-company search costs 500, a company profile 1.
+/// (Counting every entry as 1 let 10,000 large searches pile up.)
+/// </summary>
+public static class CacheWeight
+{
+    public static long Of(object? response) => response switch
+    {
+        Contracts.NearbyCompaniesResponse r => Math.Max(1, r.Items.Count),
+        Contracts.ExecutivesNearResponse r => Math.Max(1, r.Items.Count),
+        System.Collections.ICollection c => Math.Max(1, c.Count),
+        _ => 1
+    };
 }

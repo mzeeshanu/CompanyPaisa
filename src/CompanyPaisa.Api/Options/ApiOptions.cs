@@ -18,6 +18,13 @@ public sealed class ApiOptions
 
     public RateLimitOptions RateLimits { get; set; } = new();
 
+    /// <summary>
+    /// Header a CDN in front of the site sets to the visitor's own IP (Cloudflare: "CF-Connecting-IP"). Without it, anonymous
+    /// rate limits would be per CDN edge server — everyone behind one Cloudflare data centre sharing a single limit.
+    /// Empty = use the connection's address.
+    /// </summary>
+    public string? ClientIpHeader { get; set; }
+
     /// <summary>Origins (other websites) allowed to call the API from a browser. The site itself doesn't need an entry.</summary>
     public List<string> CorsAllowedOrigins { get; set; } = [];
 

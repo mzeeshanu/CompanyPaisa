@@ -13,6 +13,9 @@ interface Props {
   selected: string | null;
   loading: boolean;
   onSelect: (personId: string) => void;
+  /** Loads the next page; the list shows how many of the total are loaded. */
+  onMore: () => void;
+  loadingMore: boolean;
 }
 
 const SORTS: { key: ExecutiveSort; label: string }[] = [
@@ -27,7 +30,7 @@ export const initials = (name: string) =>
   name.split(/\s+/).filter(w => /^[A-Za-z]/.test(w)).slice(0, 2).map(w => w[0].toUpperCase()).join('') || '?';
 
 /** "Executives near me": named executive officers of nearby public companies, ranked by pay. */
-export function ExecutivesView({ data, placeName, sort, onSort, search, onSearch, includeFormer, onIncludeFormer, selected, loading, onSelect }: Props) {
+export function ExecutivesView({ data, placeName, sort, onSort, search, onSearch, includeFormer, onIncludeFormer, selected, loading, onSelect, onMore, loadingMore }: Props) {
   const s = data.summary;
   const years = data.items[0]?.windowYears ?? 10;
   const { flipped, choose, order } = useSortFlip(sort, onSort, (e: ExecutiveSummary, k) =>
@@ -93,6 +96,12 @@ export function ExecutivesView({ data, placeName, sort, onSort, search, onSearch
                 <span className="val c-net">{money(e.windowTotalPay, e.company.currency)}<small>{e.companyCount > 1 ? `${e.companyCount} companies` : `${e.windowYears} yrs`}</small></span>
               </button>
             ))}
+            {data.items.length < data.totalCount && (
+              <div className="more-row">
+                <span>Showing {data.items.length.toLocaleString()} of {data.totalCount.toLocaleString()}</span>
+                <button className="linkbtn" onClick={onMore} disabled={loadingMore}>{loadingMore ? 'Loading…' : 'Show more'}</button>
+              </div>
+            )}
           </div>
         )}
       </section>

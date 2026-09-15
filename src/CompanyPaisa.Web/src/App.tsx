@@ -130,6 +130,20 @@ export default function App() {
     return () => ctrl.abort();
   }, [origin, radius, sector, includeFormer, execSearch, execSort, mode]);
 
+  // The next page of executives, added below the ones already shown (same search, next page number).
+  const [loadingMore, setLoadingMore] = useState(false);
+  const loadMoreExecutives = useCallback(() => {
+    if (!origin || !execData || loadingMore) return;
+    setLoadingMore(true);
+    api.executivesNear({
+      latitude: origin.latitude, longitude: origin.longitude, radiusMiles: radius, sector: sector || undefined,
+      includeFormer, search: execSearch.trim() || undefined, sort: execSort, page: execData.page + 1,
+    })
+      .then(next => setExecData(prev => prev && prev.page + 1 === next.page ? { ...next, items: [...prev.items, ...next.items] } : prev))
+      .catch(e => setError(e instanceof ApiError ? e.message : 'Could not load more executives. Please try again.'))
+      .finally(() => setLoadingMore(false));
+  }, [origin, execData, loadingMore, radius, sector, includeFormer, execSearch, execSort]);
+
   const onLocated = (o: Origin) => {
     setOrigin(o); setGateOpen(false); setSelected(null); setSelectedPerson(null);
     if (consent === null) setTimeout(() => setShowConsent(true), 900);
@@ -225,7 +239,7 @@ export default function App() {
           <>
             <ExecutivesView data={execData} placeName={placeName} sort={execSort} onSort={setExecSort}
               search={execSearch} onSearch={setExecSearch} includeFormer={includeFormer} onIncludeFormer={setIncludeFormer}
-              selected={selectedPerson} loading={loading} onSelect={openPerson} />
+              selected={selectedPerson} loading={loading} onSelect={openPerson} onMore={loadMoreExecutives} loadingMore={loadingMore} />
             {footer}
           </>
         )}

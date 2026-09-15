@@ -17,7 +17,7 @@ namespace CompanyPaisa.Core.Features.Executives;
 public sealed record GetExecutivesNearQuery(ExecutivesNearRequest Request) : IRequest<ExecutivesNearResponse>, ICacheableRequest
 {
     public string CacheKey => string.Create(CultureInfo.InvariantCulture,
-        $"execnear|{Request.Near?.Trim().ToUpperInvariant()}|{Request.Latitude:F5}|{Request.Longitude:F5}|{Request.RadiusMiles}|{Request.Sector?.ToUpperInvariant()}|{Request.IncludeFormer}|{Request.Search?.Trim().ToUpperInvariant()}|{Request.Sort}|{Request.Years}|{Request.Page}|{Request.PageSize}");
+        $"execnear|{Request.Near?.Trim().ToUpperInvariant()}|{Request.Latitude:F3}|{Request.Longitude:F3}|{Request.RadiusMiles}|{Request.Sector?.ToUpperInvariant()}|{Request.IncludeFormer}|{Request.Search?.Trim().ToUpperInvariant()}|{Request.Sort}|{Request.Years}|{Request.Page}|{Request.PageSize}");
     public string CacheProfile => "Search";
 }
 

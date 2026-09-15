@@ -136,6 +136,36 @@ public class ApiTests(SampleDataFactory factory) : IClassFixture<SampleDataFacto
         Assert.True(hit is null || hit.State == "TX");
     }
 
+    /// <summary>The website asks for every company in the radius; 200 used to be the most the API would return.</summary>
+    [Fact]
+    public async Task A_search_can_return_more_than_200_companies_in_one_page()
+    {
+        var result = await Client().GetCompaniesNearAsync(new NearbyCompaniesRequest { Near = "84043", RadiusMiles = 50, PageSize = 2000 });
+        Assert.Equal(result.TotalCount, result.Items.Count);
+    }
+
+    [Theory]
+    [InlineData("CF-Connecting-IP", "203.0.113.7", "203.0.113.7")]   // Cloudflare's header: the visitor
+    [InlineData("CF-Connecting-IP", null, "10.0.0.1")]               // no header (direct to the host): the connection
+    [InlineData("CF-Connecting-IP", "not-an-ip", "10.0.0.1")]        // junk is ignored
+    [InlineData(null, "203.0.113.7", "10.0.0.1")]                    // not configured: the header isn't trusted
+    public void Rate_limits_use_the_visitors_ip_behind_a_cdn(string? header, string? value, string expected)
+    {
+        var context = new Microsoft.AspNetCore.Http.DefaultHttpContext();
+        context.Connection.RemoteIpAddress = System.Net.IPAddress.Parse("10.0.0.1");
+        if (value is not null) context.Request.Headers["CF-Connecting-IP"] = value;
+        Assert.Equal(expected, CompanyPaisa.Api.Security.ApiKeyValidator.ClientIp(context, header));
+    }
+
+    [Fact]
+    public void A_cached_search_costs_one_unit_per_row()
+    {
+        var items = Enumerable.Range(0, 37).Select(_ => (CompanySummaryDto)null!).ToList();
+        var response = new NearbyCompaniesResponse(new GeoPointDto(0, 0), null, 10, CompanySort.Revenue, 1, 50, 37, null!, items);
+        Assert.Equal(37, CompanyPaisa.Infrastructure.Messaging.CacheWeight.Of(response));
+        Assert.Equal(1, CompanyPaisa.Infrastructure.Messaging.CacheWeight.Of(new object()));
+    }
+
     [Fact]
     public async Task Health_and_openapi_are_exposed()
     {
