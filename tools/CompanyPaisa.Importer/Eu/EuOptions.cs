@@ -23,7 +23,6 @@ public sealed class EuOptions
 
     [MinLength(1)] public List<EuCountryOptions> Countries { get; set; } = [];
 
-    public string WorkbookPath { get; set; } = "data/companypaisa-eu.xlsx";
     public string ReportPath { get; set; } = "data/import-report-eu.md";
     /// <summary>Postcode table for the API ("FR:75008,Paris,FR,FR,…").</summary>
     public string PostcodeTableOutput { get; set; } = "data/reference/eu-postcodes.csv";

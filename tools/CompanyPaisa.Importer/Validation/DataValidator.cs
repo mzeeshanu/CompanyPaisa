@@ -1,7 +1,7 @@
 using System.Globalization;
 using CompanyPaisa.Contracts;
 using CompanyPaisa.Core.Domain;
-using CompanyPaisa.Data.Excel;
+using CompanyPaisa.Data;
 
 namespace CompanyPaisa.Importer.Validation;
 
@@ -21,7 +21,7 @@ public sealed record ValidationResult(IReadOnlyList<CheckResult> Checks, IReadOn
 }
 
 /// <summary>
-/// Sanity checks over the published data (every workbook merged, as the website sees it): impossible or implausible
+/// Sanity checks over the published data (every market together, as the website sees it): impossible or implausible
 /// numbers, locations outside their country, stale or missing history, pay rows that can't be right.
 /// It never changes data — it reports, so a person can decide whether the importer or the source is at fault.
 /// </summary>
@@ -31,7 +31,7 @@ public static class DataValidator
 
     /// <param name="usdPer">Approximate US dollars per unit of each currency (the API's Currency:UsdPer).</param>
     /// <param name="today">Injected so tests are stable.</param>
-    public static ValidationResult Validate(WorkbookContents data, IReadOnlyDictionary<string, decimal> usdPer, DateOnly today)
+    public static ValidationResult Validate(CompanyData data, IReadOnlyDictionary<string, decimal> usdPer, DateOnly today)
     {
         var checks = new List<CheckResult>();
         var companies = data.Companies.ToDictionary(c => c.CompanyId, StringComparer.OrdinalIgnoreCase);

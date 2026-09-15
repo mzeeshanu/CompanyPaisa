@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\CompanyPaisa.Data.Excel\CompanyPaisa.Data.Excel.csproj" />
+    <ProjectReference Include="..\..\src\CompanyPaisa.Data.Sqlite\CompanyPaisa.Data.Sqlite.csproj" />
   </ItemGroup>
 
   <ItemGroup>

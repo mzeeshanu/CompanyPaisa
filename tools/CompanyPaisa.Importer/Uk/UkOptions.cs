@@ -38,6 +38,5 @@ public sealed class UkOptions
     /// <summary>Named areas for the report and the website; a region with States ["UK"] takes everything else.</summary>
     public List<RegionOptions> Regions { get; set; } = [];
 
-    public string WorkbookPath { get; set; } = "data/companypaisa-uk.xlsx";
     public string ReportPath { get; set; } = "data/import-report-uk.md";
 }

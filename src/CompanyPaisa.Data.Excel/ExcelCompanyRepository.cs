@@ -1,165 +1,37 @@
 using CompanyPaisa.Core.Abstractions;
-using CompanyPaisa.Core.Domain;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace CompanyPaisa.Data.Excel;
 
 /// <summary>
-/// <see cref="ICompanyRepository"/> backed by an Excel workbook. The whole workbook is loaded into memory
-/// (it's small) and swapped atomically when the file changes. A failed reload keeps the last good data.
+/// The data set from Excel workbooks (the sample data, or a hand-edited set). The main workbook plus any additional
+/// ones are read as one data set; saving any of them reloads it.
 /// </summary>
-public sealed class ExcelCompanyRepository : ICompanyRepository, IDisposable
+public sealed class ExcelCompanyRepository(
+    IOptions<ExcelDataSourceOptions> options,
+    IFilePathResolver paths,
+    IClock clock,
+    IDataChangeSignal changeSignal,
+    ILogger<ExcelCompanyRepository> logger)
+    : SnapshotRepository(Files(options.Value, paths), options.Value.ReloadOnChange, options.Value.ReloadDebounceMs, clock, changeSignal, logger)
 {
-    private readonly ExcelDataSourceOptions _options;
-    private readonly string _path;
-    private readonly IReadOnlyList<string> _additionalPaths;
-    private readonly IClock _clock;
-    private readonly IDataChangeSignal _changeSignal;
-    private readonly ILogger<ExcelCompanyRepository> _logger;
-    private readonly Lock _loadLock = new();
-    private readonly FileSystemWatcher? _watcher;
-    private readonly Timer? _debounce;
-    private volatile DataSnapshot? _snapshot;
+    private readonly ExcelDataSourceOptions _options = options.Value;
+    private readonly IReadOnlyList<string> _files = Files(options.Value, paths);
 
-    public ExcelCompanyRepository(
-        IOptions<ExcelDataSourceOptions> options,
-        IFilePathResolver paths,
-        IClock clock,
-        IDataChangeSignal changeSignal,
-        ILogger<ExcelCompanyRepository> logger)
+    protected override string Source => _files[0];
+
+    protected override CompanyData Read(DateTimeOffset loadedAt)
     {
-        _options = options.Value;
-        _path = paths.Resolve(_options.Path);
-        _additionalPaths = _options.AdditionalPaths.Where(p => !string.IsNullOrWhiteSpace(p)).Select(paths.Resolve).ToList();
-        _clock = clock;
-        _changeSignal = changeSignal;
-        _logger = logger;
-
-        var directory = Path.GetDirectoryName(_path);
-        if (_options.ReloadOnChange && directory is not null && Directory.Exists(directory))
+        var parts = new List<CompanyData> { ExcelWorkbookReader.Read(_files[0], _options.Sheets, loadedAt) };
+        foreach (var extra in _files.Skip(1))
         {
-            _debounce = new Timer(_ => Reload(), null, Timeout.Infinite, Timeout.Infinite);
-            // Watch every workbook we load (they normally sit in the same folder).
-            var watched = _additionalPaths.Prepend(_path).Select(Path.GetFullPath).ToHashSet(StringComparer.OrdinalIgnoreCase);
-            _watcher = new FileSystemWatcher(directory, "*.xlsx")
-            {
-                NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.FileName | NotifyFilters.Size,
-                EnableRaisingEvents = true
-            };
-            void Schedule(string fullPath) { if (watched.Contains(fullPath)) _debounce.Change(_options.ReloadDebounceMs, Timeout.Infinite); }
-            _watcher.Changed += (_, e) => Schedule(e.FullPath);
-            _watcher.Created += (_, e) => Schedule(e.FullPath);
-            _watcher.Renamed += (_, e) => Schedule(e.FullPath);
+            if (!File.Exists(extra)) { logger.LogWarning("Additional workbook {Path} not found; skipping it", extra); continue; }
+            parts.Add(ExcelWorkbookReader.Read(extra, _options.Sheets, loadedAt));
         }
+        return CompanyData.Combine(parts);
     }
 
-    private DataSnapshot Data
-    {
-        get
-        {
-            if (_snapshot is { } s) return s;
-            lock (_loadLock)
-            {
-                return _snapshot ??= Load();
-            }
-        }
-    }
-
-    private DataSnapshot Load()
-    {
-        var parts = new List<DataSnapshot> { ExcelWorkbookReader.Read(_path, _options.Sheets, _clock.UtcNow) };
-        foreach (var extra in _additionalPaths)
-        {
-            if (!File.Exists(extra)) { _logger.LogWarning("Additional workbook {Path} not found; skipping it", extra); continue; }
-            parts.Add(ExcelWorkbookReader.Read(extra, _options.Sheets, _clock.UtcNow));
-        }
-        var snapshot = parts.Count == 1 ? parts[0] : DataSnapshot.Merge(parts, _path);
-        _logger.LogInformation("Loaded {Companies} companies, {Locations} locations from {Count} workbook(s) (version {Version}{Sample})",
-            snapshot.Companies.Count, snapshot.Locations.Count, parts.Count, snapshot.Metadata.DataVersion,
-            snapshot.Metadata.IsSampleData ? ", SAMPLE DATA" : "");
-        return snapshot;
-    }
-
-    private void Reload()
-    {
-        try
-        {
-            var fresh = Load();
-            lock (_loadLock) _snapshot = fresh;
-            _changeSignal.Signal();
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Reloading {Path} failed; keeping the previously loaded data", _path);
-        }
-    }
-
-    public Task<IReadOnlyList<Company>> GetCompaniesAsync(CancellationToken ct = default) => Task.FromResult(Data.Companies);
-
-    public Task<Company?> GetCompanyAsync(string companyIdOrTicker, CancellationToken ct = default) =>
-        Task.FromResult(Data.Find(companyIdOrTicker.Trim()));
-
-    public Task<IReadOnlyList<Company>> GetCompaniesAsync(IEnumerable<string> companyIds, CancellationToken ct = default)
-    {
-        var data = Data;
-        IReadOnlyList<Company> list = companyIds.Select(id => data.CompaniesById.GetValueOrDefault(id)).OfType<Company>().ToList();
-        return Task.FromResult(list);
-    }
-
-    public Task<IReadOnlyList<CompanyLocation>> GetLocationsWithinAsync(GeoBoundingBox box, CancellationToken ct = default)
-    {
-        IReadOnlyList<CompanyLocation> list = Data.Locations.Where(l => box.Contains(l.Point)).ToList();
-        return Task.FromResult(list);
-    }
-
-    public Task<IReadOnlyList<CompanyLocation>> GetLocationsAsync(string companyId, CancellationToken ct = default) =>
-        Task.FromResult(Data.LocationsByCompany.GetValueOrDefault(companyId) ?? []);
-
-    public Task<IReadOnlyList<FinancialPeriod>> GetFinancialsAsync(string companyId, CancellationToken ct = default) =>
-        Task.FromResult(Data.FinancialsByCompany.GetValueOrDefault(companyId) ?? []);
-
-    public Task<IReadOnlyDictionary<string, IReadOnlyList<FinancialPeriod>>> GetFinancialsAsync(IEnumerable<string> companyIds, CancellationToken ct = default)
-    {
-        var data = Data;
-        IReadOnlyDictionary<string, IReadOnlyList<FinancialPeriod>> result = companyIds
-            .Distinct(StringComparer.OrdinalIgnoreCase)
-            .ToDictionary(id => id, id => data.FinancialsByCompany.GetValueOrDefault(id) ?? [], StringComparer.OrdinalIgnoreCase);
-        return Task.FromResult(result);
-    }
-
-    public Task<IReadOnlyList<ExecutiveCompensation>> GetExecutiveCompensationAsync(string companyId, CancellationToken ct = default) =>
-        Task.FromResult(Data.ExecutivesByCompany.GetValueOrDefault(companyId) ?? []);
-
-    public Task<IReadOnlyList<ExecutiveCompensation>> GetExecutiveCompensationAsync(IEnumerable<string> companyIds, CancellationToken ct = default)
-    {
-        var data = Data;
-        IReadOnlyList<ExecutiveCompensation> list = companyIds.Distinct(StringComparer.OrdinalIgnoreCase)
-            .SelectMany(id => data.ExecutivesByCompany.GetValueOrDefault(id) ?? []).ToList();
-        return Task.FromResult(list);
-    }
-
-    public Task<IReadOnlyList<ExecutiveCompensation>> GetCompensationForPeopleAsync(IEnumerable<string> personIds, CancellationToken ct = default)
-    {
-        var data = Data;
-        IReadOnlyList<ExecutiveCompensation> list = personIds.Distinct(StringComparer.OrdinalIgnoreCase)
-            .SelectMany(id => data.CompensationByPerson.GetValueOrDefault(id) ?? []).ToList();
-        return Task.FromResult(list);
-    }
-
-    public Task<Person?> GetPersonAsync(string personId, CancellationToken ct = default) =>
-        Task.FromResult(Data.PeopleById.GetValueOrDefault(personId.Trim()));
-
-    public Task<IReadOnlyList<string>> GetSectorsAsync(CancellationToken ct = default) => Task.FromResult(Data.Sectors);
-
-    public Task<DataSetMetadata> GetMetadataAsync(CancellationToken ct = default) => Task.FromResult(Data.Metadata);
-
-    public Task<(int Companies, int Locations)> GetCountsAsync(CancellationToken ct = default) =>
-        Task.FromResult((Data.Companies.Count, Data.Locations.Count));
-
-    public void Dispose()
-    {
-        _watcher?.Dispose();
-        _debounce?.Dispose();
-    }
+    private static IReadOnlyList<string> Files(ExcelDataSourceOptions o, IFilePathResolver paths) =>
+        o.AdditionalPaths.Where(p => !string.IsNullOrWhiteSpace(p)).Select(paths.Resolve).Prepend(paths.Resolve(o.Path)).ToList();
 }

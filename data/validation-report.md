@@ -1,12 +1,11 @@
-# Data validation report — 2026-09-15 07:15 UTC
+# Data validation report — 2026-09-15 20:29 UTC
 
-Checks every published workbook together, as the website sees it: 
-`companypaisa.xlsx`, `companypaisa-uk.xlsx`, `companypaisa-eu.xlsx`.
+Checks everything in `companypaisa.db` together, as the website sees it — markets: sec (sec-2026.09.15), uk (uk-2026.09.14), eu (eu-2026.09.15).
 
 **Errors** are values that can't be right. **Warnings** are unusual values worth a look — many are real (big acquisitions, holding-company gains, mega stock grants). Nothing here changes the data.
 
 - Errors: **0**
-- Warnings: **662**
+- Warnings: **663**
 
 ## Checks
 
@@ -26,7 +25,7 @@ Checks every published workbook together, as the website sees it:
 | Financials | Profit far bigger than revenue | Warning | 78 |
 | Financials | Revenue jumps 10× in a year | Warning | 50 |
 | Financials | Quarters don't add up to the year | Warning | 70 |
-| Financials | Out of date | Warning | 44 |
+| Financials | Out of date | Warning | 45 |
 | Financials | Annual figures missing, quarters only | Warning | 105 |
 | Pay | Negative amount | Error | ✓ 0 |
 | Pay | Year in the future | Error | ✓ 0 |
@@ -47,10 +46,10 @@ Checks every published workbook together, as the website sees it:
 |---|---|
 | US | 3,834 |
 | GB | 328 |
-| FR | 179 |
+| FR | 180 |
 | CA | 146 |
-| IT | 138 |
-| ES | 94 |
+| IT | 139 |
+| ES | 93 |
 | NL | 71 |
 | AU | 16 |
 | ? | 1 |
@@ -63,9 +62,9 @@ Checks every published workbook together, as the website sees it:
 | NYSE | 1,620 |
 | LSE | 328 |
 | OTC | 208 |
-| Euronext Paris | 179 |
-| Borsa Italiana | 138 |
-| Bolsa de Madrid | 94 |
+| Euronext Paris | 180 |
+| Borsa Italiana | 139 |
+| Bolsa de Madrid | 93 |
 | Euronext Amsterdam | 71 |
 | Unlisted | 4 |
 | CBOE | 2 |
@@ -75,7 +74,7 @@ Checks every published workbook together, as the website sees it:
 | | Count |
 |---|---|
 | USD | 3,993 |
-| EUR | 485 |
+| EUR | 486 |
 | GBP | 268 |
 | CAD | 51 |
 | AUD | 5 |
@@ -88,7 +87,7 @@ Checks every published workbook together, as the website sees it:
 
 | | Count |
 |---|---|
-| Other | 773 |
+| Other | 774 |
 | Finance | 715 |
 | Healthcare | 674 |
 | Consumer & retail | 510 |
@@ -120,26 +119,26 @@ Checks every published workbook together, as the website sees it:
 | 10+ | 2,450 |
 | 6–9 | 1,196 |
 | 3–5 | 860 |
-| 1–2 | 196 |
+| 1–2 | 197 |
 | 0 (quarters only) | 105 |
 
 ### Newest annual figures
 
 | | Count |
 |---|---|
-| FY 2025 | 4,013 |
+| FY 2025 | 4,014 |
 | FY 2026 | 374 |
-| FY 2024 | 271 |
+| FY 2024 | 270 |
 | none | 105 |
-| 2023 or older | 44 |
+| 2023 or older | 45 |
 
 ### Rows
 
 | | Count |
 |---|---|
-| Companies | 4,807 |
-| Locations | 4,817 |
-| Annual periods | 36,860 |
+| Companies | 4,808 |
+| Locations | 4,818 |
+| Annual periods | 36,862 |
 | Quarterly periods | 132,475 |
 | Pay rows | 89,740 |
 | People | 23,593 |
@@ -233,7 +232,7 @@ For December year-ends, the four quarters differ from the annual figure by more 
 - BRT (BRT Apartments Corp.) FY 2017: quarters 108.5M vs year 105.8M
 - … and 58 more
 
-### Financials · Out of date (44)
+### Financials · Out of date (45)
 
 Newest annual figures are more than two years old — the company may have stopped reporting, been taken over, or changed filer.
 
@@ -249,7 +248,7 @@ Newest annual figures are more than two years old — the company may have stopp
 - ESOA (Energy Services of America CORP): latest FY 2022
 - GERN (Geron Corp): latest FY 2023
 - GGROU (Golden Growers Cooperative): latest FY 2023
-- … and 32 more
+- … and 33 more
 
 ### Financials · Annual figures missing, quarters only (105)
 

@@ -3,7 +3,6 @@ using System.Text;
 using CompanyPaisa.Contracts;
 using CompanyPaisa.Core.Domain;
 using CompanyPaisa.Core.Services;
-using CompanyPaisa.Data.Excel;
 using CompanyPaisa.Importer.Sec;
 using CompanyPaisa.Importer.Uk;
 using Microsoft.Extensions.Logging;
@@ -12,12 +11,17 @@ using Microsoft.Extensions.Options;
 namespace CompanyPaisa.Importer.Eu;
 
 /// <summary>
-/// Builds the European workbook — financials only, no executives:
+/// Builds the European market of the database — financials only, no executives:
 /// ESEF filers per country (filings.xbrl.org) → shares listed on the home exchange (GLEIF ISINs → OpenFIGI) →
 /// headquarters (GLEIF) → postcode (GeoNames) → ~6 years of IFRS revenue and profit from the reports' xBRL-JSON.
 /// </summary>
-public sealed class EuImportPipeline(IOptions<ImporterOptions> options, RepoPaths paths, ILoggerFactory loggers)
+public sealed class EuImportPipeline(IOptions<ImporterOptions> options, RepoPaths paths, Publishing.DataPublisher publisher, ILoggerFactory loggers)
+    : Publishing.IMarketImporter
 {
+    string Publishing.IMarketImporter.Market => Market;
+    public string Description => "France, the Netherlands, Italy and Spain: ESEF annual reports (financials only)";
+    Task<int> Publishing.IMarketImporter.RunAsync(bool refreshLists, CancellationToken ct) => RunAsync(ct);
+
     private readonly EuOptions _o = options.Value.Eu;
     private readonly ILogger _log = loggers.CreateLogger<EuImportPipeline>();
     private readonly HaversineDistanceCalculator _distance = new();
@@ -89,24 +93,18 @@ public sealed class EuImportPipeline(IOptions<ImporterOptions> options, RepoPath
         UkConstituents.Write(paths.Resolve(_o.ListPath), found.OrderBy(f => f.Country).ThenBy(f => f.Company.Name)
             .Select(f => f.Company with { Sector = f.Country }));
 
-        var workbook = paths.Resolve(_o.WorkbookPath);
-        var staging = workbook + ".new.xlsx";
-        ExcelWorkbookWriter.Write(staging, companies, locations, periods, [], [], new Dictionary<string, string>
-        {
-            ["data_version"] = $"eu-{DateTime.UtcNow:yyyy.MM.dd}",
-            ["as_of_date"] = DateTime.UtcNow.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture),
-            ["is_sample"] = "false",
-            ["source"] = "ESEF annual reports via filings.xbrl.org; tickers via GLEIF ISINs and OpenFIGI; headquarters from GLEIF; postcodes from GeoNames.",
-            ["region"] = string.Join(", ", _o.Countries.Select(c => c.Name))
-        });
-        var (vc, _) = ExcelWorkbookWriter.Verify(staging);
-        File.Move(staging, workbook, overwrite: true);
+        publisher.Publish(Market, companies, locations, periods, [], [],
+            "ESEF annual reports via filings.xbrl.org; tickers via GLEIF ISINs and OpenFIGI; headquarters from GLEIF; postcodes from GeoNames.",
+            string.Join(", ", _o.Countries.Select(c => c.Name)));
         var codes = await postcodes.WriteTableAsync(paths.Resolve(_o.PostcodeTableOutput), ct);
         await WriteReportAsync(companies.Count, periods.Count, codes, included, excluded, warnings, client.NetworkRequests, ct);
-        _log.LogInformation("Done: {Companies} European companies ({Verified} verified in the API loader), {Periods} years of figures → {Path}",
-            companies.Count, vc, periods.Count, workbook);
+        _log.LogInformation("Done: {Companies} European companies, {Periods} years of figures → {Path}",
+            companies.Count, periods.Count, publisher.DatabasePath);
         return 0;
     }
+
+    /// <summary>This importer's partition of the database.</summary>
+    public const string Market = "eu";
 
     private string RegionFor(EuCountryOptions country, GeoPoint point)
     {

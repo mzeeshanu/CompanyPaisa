@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- What every data source shares: the in-memory data set, its integrity rules and the reloading repository. -->
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CompanyPaisa.Core\CompanyPaisa.Core.csproj" />
+  </ItemGroup>
+
+</Project>

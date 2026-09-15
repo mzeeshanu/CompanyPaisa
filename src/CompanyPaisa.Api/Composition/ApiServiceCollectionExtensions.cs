@@ -8,6 +8,7 @@ using CompanyPaisa.Core;
 using CompanyPaisa.Core.Abstractions;
 using CompanyPaisa.Core.Options;
 using CompanyPaisa.Data.Excel;
+using CompanyPaisa.Data.Sqlite;
 using CompanyPaisa.Infrastructure;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Options;
@@ -32,13 +33,14 @@ public static class ApiServiceCollectionExtensions
     public static IServiceCollection AddCompanyPaisaDataSource(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddValidatedOptions<DataSourceOptions>(configuration, DataSourceOptions.SectionName);
-        var provider = configuration.GetSection(DataSourceOptions.SectionName).Get<DataSourceOptions>()?.Provider ?? "Excel";
+        var provider = configuration.GetSection(DataSourceOptions.SectionName).Get<DataSourceOptions>()?.Provider ?? "Sqlite";
 
         return provider.ToLowerInvariant() switch
         {
+            "sqlite" => services.AddSqliteDataSource(configuration),
             "excel" => services.AddExcelDataSource(configuration),
             _ => throw new InvalidOperationException(
-                $"DataSource:Provider '{provider}' isn't supported yet. Supported: Excel.")
+                $"DataSource:Provider '{provider}' isn't supported. Supported: Sqlite, Excel.")
         };
     }
 

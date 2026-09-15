@@ -3,7 +3,6 @@ using System.Text;
 using System.Text.RegularExpressions;
 using CompanyPaisa.Contracts;
 using CompanyPaisa.Core.Domain;
-using CompanyPaisa.Data.Excel;
 using CompanyPaisa.Importer.Compensation;
 using CompanyPaisa.Importer.Financials;
 using CompanyPaisa.Importer.Geo;
@@ -14,9 +13,9 @@ using Microsoft.Extensions.Options;
 namespace CompanyPaisa.Importer;
 
 /// <summary>
-/// Builds the real CompanyPaisa workbook from SEC EDGAR:
-/// discover Utah filers → keep listed companies in the region (+ curated offices) → XBRL financials →
-/// proxy-statement executive pay → write workbook, ZIP table and a review report.
+/// Builds the SEC market of the CompanyPaisa database ("sec": US, Canada, Australia, New Zealand):
+/// every listed filer → keep reporting companies with a covered address (+ curated offices) → XBRL financials →
+/// proxy-statement executive pay (checked against the tagged CEO totals) → publish, ZIP table and a review report.
 /// </summary>
 public sealed partial class ImportPipeline(
     IEdgarService edgar,
@@ -24,10 +23,15 @@ public sealed partial class ImportPipeline(
     ICompensationParser compensation,
     IZipGeocoder geo,
     ISecClient client,
+    Publishing.DataPublisher publisher,
     IOptions<ImporterOptions> options,
     RepoPaths paths,
-    ILogger<ImportPipeline> logger)
+    ILogger<ImportPipeline> logger) : Publishing.IMarketImporter
 {
+    string Publishing.IMarketImporter.Market => Market;
+    public string Description => "SEC filers with a US, Canadian, Australian or New Zealand address: XBRL financials and proxy-statement pay";
+    Task<int> Publishing.IMarketImporter.RunAsync(bool refreshLists, CancellationToken ct) => RunAsync(ct);
+
     private sealed record Candidate(SecCompany Sec, CompanyLocation Location, string Region, bool FromCurated, string? Note);
 
     private sealed class Outcome
@@ -199,32 +203,20 @@ public sealed partial class ImportPipeline(
                 ticker, company.Name, fin.Periods.Count, pay.Select(p => p.Name).Distinct().Count(), proxies);
         }
 
-        // 4. Write everything.
-        // Write next to the real file, verify, then swap in — the running API never sees a half-written or invalid workbook.
-        var workbook = paths.Resolve(o.Output.WorkbookPath);
-        var staging = workbook + ".new.xlsx";
-        ExcelWorkbookWriter.Write(staging, outcome.Companies, outcome.Locations, outcome.Financials, outcome.Pay, outcome.People.Values,
-            new Dictionary<string, string>
-            {
-                ["data_version"] = $"sec-{DateTime.UtcNow:yyyy.MM.dd}",
-                ["as_of_date"] = DateTime.UtcNow.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture),
-                ["is_sample"] = "false",
-                ["source"] = "SEC EDGAR: company submissions, XBRL company facts, DEF 14A summary compensation tables, insider (Form 3/4/5) owner lists. ZIP centroids: US Census Gazetteer. ZIP names: GeoNames (CC-BY 4.0).",
-                ["region"] = string.Join("; ", o.Regions.Select(r => r.Name))
-            });
-        // Read it back exactly as the API will — a workbook the API would reject must fail here, not on the website.
-        var verifyTimer = System.Diagnostics.Stopwatch.StartNew();
-        var (verifiedCompanies, verifiedLocations) = ExcelWorkbookWriter.Verify(staging);
-        logger.LogInformation("Workbook verified with the API loader: {Companies} companies, {Locations} locations, loaded in {Seconds:0.0}s",
-            verifiedCompanies, verifiedLocations, verifyTimer.Elapsed.TotalSeconds);
-        File.Move(staging, workbook, overwrite: true);
+        // 4. Publish: this market's rows in the website's database (checked with the API's rules before it replaces the file).
+        publisher.Publish(Market, outcome.Companies, outcome.Locations, outcome.Financials, outcome.Pay, outcome.People.Values.ToList(),
+            "SEC EDGAR: company submissions, XBRL company facts, DEF 14A summary compensation tables, insider (Form 3/4/5) owner lists. ZIP centroids: US Census Gazetteer. ZIP names: GeoNames (CC-BY 4.0).",
+            string.Join("; ", o.Regions.Select(r => r.Name)));
         var zips = await geo.WriteZipTableAsync(ct);
         await WriteReportAsync(outcome, zips, parsedProxies, ct);
 
         logger.LogInformation("Done: {Companies} companies, {Periods} financial periods, {Pay} pay rows for {People} people → {Path} ({Requests} network requests)",
-            outcome.Companies.Count, outcome.Financials.Count, outcome.Pay.Count, outcome.People.Count, workbook, client.NetworkRequests);
+            outcome.Companies.Count, outcome.Financials.Count, outcome.Pay.Count, outcome.People.Count, publisher.DatabasePath, client.NetworkRequests);
         return 0;
     }
+
+    /// <summary>This importer's partition of the database: SEC filers (US, Canada, Australia, New Zealand).</summary>
+    public const string Market = "sec";
 
     private sealed record PayRow(string Name, string Title, int Year, decimal Salary, decimal Bonus, decimal StockAwards, decimal Other, decimal Total, string Source);
 

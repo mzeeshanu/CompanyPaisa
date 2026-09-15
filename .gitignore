@@ -51,6 +51,7 @@ src/CompanyPaisa.Api/wwwroot/
 data/cache/
 # Importer staging file (written, verified, then swapped in)
 *.new.xlsx
+*.db.new
 # Personal settings (e.g. the SEC contact email)
 appsettings.Local.json
 

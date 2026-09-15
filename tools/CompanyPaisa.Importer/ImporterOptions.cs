@@ -123,6 +123,12 @@ public sealed class GeoImportOptions
 
 public sealed class OutputOptions
 {
-    public string WorkbookPath { get; set; } = "data/companypaisa.xlsx";
+    /// <summary>The website's database; every importer publishes its market into it.</summary>
+    public string DatabasePath { get; set; } = "data/companypaisa.db";
+    /// <summary>Workbooks from before the move to SQLite, read once by --migrate-xlsx (market → path).</summary>
+    public Dictionary<string, string> LegacyWorkbooks { get; set; } = new()
+    {
+        ["sec"] = "data/companypaisa.xlsx", ["uk"] = "data/companypaisa-uk.xlsx", ["eu"] = "data/companypaisa-eu.xlsx"
+    };
     public string ReportPath { get; set; } = "data/import-report.md";
 }

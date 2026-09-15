@@ -59,8 +59,8 @@ public sealed class DataSourceOptions
 {
     public const string SectionName = "DataSource";
 
-    /// <summary>"Excel" today; "SqlServer" / "Postgres" later.</summary>
-    [Required] public string Provider { get; set; } = "Excel";
+    /// <summary>"Sqlite" (the database the importers publish) or "Excel" (the sample or hand-edited workbooks).</summary>
+    [Required] public string Provider { get; set; } = "Sqlite";
     /// <summary>Used by database providers. Keep real values in user-secrets / environment variables.</summary>
     public string? ConnectionString { get; set; }
 }

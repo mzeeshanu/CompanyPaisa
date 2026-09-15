@@ -21,6 +21,7 @@
   <ItemGroup>
     <ProjectReference Include="..\CompanyPaisa.Infrastructure\CompanyPaisa.Infrastructure.csproj" />
     <ProjectReference Include="..\CompanyPaisa.Data.Excel\CompanyPaisa.Data.Excel.csproj" />
+    <ProjectReference Include="..\CompanyPaisa.Data.Sqlite\CompanyPaisa.Data.Sqlite.csproj" />
   </ItemGroup>
 
   <!-- wwwroot holds the built React site and is git-ignored. ASP.NET Core's static-asset manifest can point at it,
@@ -39,9 +40,9 @@
     <Exec WorkingDirectory="$(SpaRoot)" Command="npm install --no-fund --no-audit" />
   </Target>
 
-  <!-- Ship the data files (workbook, ZIP table) with the app, under data/ next to the dll. -->
+  <!-- Ship the data files (the database, the sample workbook, postcode tables) with the app, under data/ next to the dll. -->
   <ItemGroup>
-    <Content Include="..\..\data\**\*.xlsx;..\..\data\**\*.csv" LinkBase="data" CopyToPublishDirectory="PreserveNewest" CopyToOutputDirectory="Never" />
+    <Content Include="..\..\data\*.db;..\..\data\sample\*.xlsx;..\..\data\**\*.csv" LinkBase="data" CopyToPublishDirectory="PreserveNewest" CopyToOutputDirectory="Never" />
   </ItemGroup>
 
   <!-- dotnet publish: build the React site into wwwroot and ship it with the API (one deployment).

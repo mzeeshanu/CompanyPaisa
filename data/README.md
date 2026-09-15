@@ -2,15 +2,14 @@
 
 | Path | What | Real or sample? |
 |---|---|---|
-| `companypaisa.xlsx` | **The live dataset** — public companies in the top 20 US metros plus the Wasatch Front, with ~10 years of financials and executive pay | **Real**, built from SEC EDGAR by `tools/CompanyPaisa.Importer` |
+| `companypaisa.db` | **The live dataset** (SQLite) — every market in one file: SEC filers (US, Canada, Australia, NZ), UK Main Market, France, the Netherlands, Italy, Spain. Each importer run replaces only its own market's rows | **Real**, built by `tools/CompanyPaisa.Importer` (see *Database layout*) |
 | `import-report.md` | What the last import included (per metro), excluded (and why), and rows that need review | Generated |
-| `companypaisa-uk.xlsx` | **UK dataset** — FTSE 350 companies (minus investment trusts): ~6 years of figures and executive directors' single total figure pay. The API merges it with the US workbook | **Real**, built by `--uk` (see below) |
 | `import-report-uk.md` | The UK run's report: included per area, excluded (and why), rows that need review | Generated |
 | `curated/uk-ftse350.csv` | FTSE 100 + 250 members with the LEI each was matched to — edit an LEI to fix a wrong match | From Wikipedia's constituent tables; reviewable |
 | `reference/uk-postcode-districts.csv` | UK postcode districts → place name and coordinates (the postcode search box) | [GeoNames](https://www.geonames.org/) GB postal codes, CC BY 4.0 |
 | `reference/us-zip-centroids.csv` | Every US ZIP → city, state, coordinates (used by the ZIP search box) | Real — US Census Gazetteer 2025 ZCTA centroids; names (and PO-box ZIPs) from [GeoNames](https://www.geonames.org/) US postal codes, CC BY 4.0 |
 | `curated/utah-offices.csv` | Utah sites of companies headquartered elsewhere (Adobe Lehi, eBay Draper, Goldman Sachs SLC…) | Hand-curated — verify and extend |
-| `sample/companypaisa.sample.xlsx` | Synthetic workbook used by the automated tests | **Synthetic figures and names** |
+| `sample/companypaisa.sample.xlsx` | Synthetic workbook used by the automated tests (with `DataSource:Provider` "Excel") | **Synthetic figures and names** |
 | `reference/us-zip-centroids.sample.csv` | Small hand-made ZIP table used by the tests | Approximate |
 | `cache/` (git-ignored) | Downloaded SEC/Census/GeoNames responses (gzip), so re-runs are fast | Re-creatable |
 
@@ -24,7 +23,7 @@ Settings are in `tools/CompanyPaisa.Importer/appsettings.json`: discovery (`AllL
 an example ZIP and anchor circles), exchanges, minimum revenue for OTC companies, years of history, and the SEC contact
 header (put your email in `appsettings.Local.json`, which git ignores). The first nationwide run takes a few hours
 (thousands of filings, throttled under the SEC's 10 requests/second limit; the gzip cache grows to several GB); later
-runs reuse the cache. The running API reloads the workbook automatically when the file changes.
+runs reuse the cache. The running API reloads the database automatically when an import replaces it.
 
 To add a metro: add a `Regions` entry in the importer settings (`Country` "US" or "CA"; a `WholeCountry` region takes everything no metro claims), and a matching
 `Ui:Coverage` entry in `src/CompanyPaisa.Api/appsettings.json` so the website lists it.
@@ -51,10 +50,36 @@ To add a metro: add a `Regions` entry in the importer settings (`Country` "US" o
 **Known gaps** (see `import-report.md`): foreign private issuers (e.g. NICE) don't file DEF 14A, so no executive pay;
 a few small companies use table layouts the parser doesn't recognise yet.
 
+## Markets and adding a country
+
+The importer is a set of **markets**, each a class implementing `IMarketImporter` (`tools/CompanyPaisa.Importer/Publishing/Markets.cs`):
+
+| Market | Class | What it covers |
+|---|---|---|
+| `sec` | `ImportPipeline` | SEC filers with a US, Canadian, Australian or NZ address: XBRL financials, proxy pay (checked against the CEO totals companies tag) |
+| `uk` | `Uk/UkImportPipeline` | UK Main Market: ESEF annual reports, directors' pay |
+| `eu` | `Eu/EuImportPipeline` | France, Netherlands, Italy, Spain: ESEF annual reports (financials only) |
+
+```powershell
+dotnet run --project tools/CompanyPaisa.Importer -- --list-markets
+dotnet run --project tools/CompanyPaisa.Importer -- --market uk            # one market (also: --uk, --eu; no option = sec)
+dotnet run --project tools/CompanyPaisa.Importer -- --all --strict         # every market, then the data-quality checks
+```
+
+Every market ends by calling `DataPublisher.Publish(market, …)`, which replaces only that market's rows in
+`companypaisa.db` and checks the result with the API's own rules first. To add a country:
+
+1. **Another EU country on filings.xbrl.org** (Belgium, Sweden, Denmark…): no code — add an entry to `Importer:Eu:Countries`
+   (ISO code, exchange codes for OpenFIGI, ticker suffix, areas) and matching `Ui:Coverage` entries in the API settings.
+2. **A new source** (e.g. Germany's register, the ASX): a class implementing `IMarketImporter` with a new market id that
+   builds `Company`, `CompanyLocation`, `FinancialPeriod` (and optionally pay) rows and calls `DataPublisher.Publish`;
+   register it in `Program.cs` next to the others. Company ids must be unique across markets (use a ticker suffix like
+   `.DE`) — the database's primary key refuses duplicates. The shared checks (`DataRules`, `--validate`) apply automatically.
+
 ## Monthly refresh (scheduled)
 
-`tools/refresh-data.ps1` runs both importers (US + Canada, then UK with a fresh FTSE list) and, only if both finish and
-verify their workbooks, commits and pushes the data files so Railway redeploys. It refuses to run while there are
+`tools/refresh-data.ps1` runs every market (`--all --refresh-lists --strict`) and, only if they all finish and
+verify the database, commits and pushes the data files so Railway redeploys. It refuses to run while there are
 uncommitted changes outside `data/`, and logs to `%LOCALAPPDATA%\CompanyPaisa\logs`.
 
 ```powershell
@@ -103,7 +128,7 @@ generic `CompanyPaisa` User-Agent — no personal contact details.
 dotnet run --project tools/CompanyPaisa.Importer -- --eu
 ```
 
-France, the Netherlands, Italy and Spain (`Importer:Eu:Countries`), written to `companypaisa-eu.xlsx`. For each country:
+France, the Netherlands, Italy and Spain (`Importer:Eu:Countries`), published as market `eu` in `companypaisa.db`. For each country:
 ESEF filers on filings.xbrl.org → shares on the home exchange (GLEIF ISINs → OpenFIGI; if a bank's share ISIN is lost
 among its bond ISINs, an OpenFIGI name search, exact name match only) → GLEIF headquarters in that country → GeoNames
 postcode (`reference/eu-postcodes.csv`) → IFRS revenue and profit from each report. No executives yet, sector "Other".
@@ -111,9 +136,21 @@ Germany isn't on filings.xbrl.org. To add another country on it, add a `Countrie
 areas) and matching `Ui:Coverage` entries. OpenFIGI name searches are slow without an API key (about 5 a minute), but
 answers are cached in `data/cache/eu/openfigi-*.json`.
 
-## Workbook layout
+## Database layout
 
-Columns are matched by header name (any order, case-insensitive); extra columns are ignored.
+`companypaisa.db` is SQLite (open it with any SQLite browser). Tables: `companies`, `locations`, `financials`,
+`executive_compensation`, `people` — the same columns as the workbook below — plus `filings` (each source URL once; rows
+point at it by `filing_id`, with `https://www.sec.gov/Archives/edgar/data/` stored as `~sec/`) and `meta` (per market:
+`data_version`, `as_of_date`, `source`, `region`). Every row has a `market` column: `sec`, `uk` or `eu`, the importer run
+that wrote it. Publishing a market works on a copy, deletes and re-inserts that market's rows, reads the copy back with the
+API's own rules, and only then replaces the file — a failed import leaves the old file untouched. `PRAGMA user_version` is
+the layout version; the API refuses a file with another one.
+
+Workbooks from before the move to SQLite can be copied in once with `-- --migrate-xlsx`.
+
+## Sample workbook layout
+
+The synthetic test data (and any hand-made data set, with `DataSource:Provider` "Excel") is a workbook. Columns are matched by header name (any order, case-insensitive); extra columns are ignored.
 
 | Sheet | Required columns | Optional columns |
 |---|---|---|

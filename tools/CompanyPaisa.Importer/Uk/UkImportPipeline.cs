@@ -6,7 +6,6 @@ using System.Text.RegularExpressions;
 using CompanyPaisa.Contracts;
 using CompanyPaisa.Core.Domain;
 using CompanyPaisa.Core.Services;
-using CompanyPaisa.Data.Excel;
 using CompanyPaisa.Importer.Sec;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -14,17 +13,21 @@ using Microsoft.Extensions.Options;
 namespace CompanyPaisa.Importer.Uk;
 
 /// <summary>
-/// Builds the UK workbook (FTSE 350, excluding investment trusts):
+/// Builds the UK market of the database (Main Market companies, excluding investment trusts):
 /// constituents → LEI via filings.xbrl.org names → HQ address (GLEIF) → postcode district →
 /// ~6 years of IFRS figures from ESEF xBRL-JSON → directors' single total figure from the latest annual reports.
 /// </summary>
-public sealed partial class UkImportPipeline(IOptions<ImporterOptions> options, RepoPaths paths, ILoggerFactory loggers)
+public sealed partial class UkImportPipeline(IOptions<ImporterOptions> options, RepoPaths paths, Publishing.DataPublisher publisher, ILoggerFactory loggers)
+    : Publishing.IMarketImporter
 {
+    string Publishing.IMarketImporter.Market => Market;
+    public string Description => "UK Main Market companies: ESEF annual reports and directors' pay";
+
     private readonly UkOptions _o = options.Value.Uk;
     private readonly ILogger _log = loggers.CreateLogger<UkImportPipeline>();
     private readonly HaversineDistanceCalculator _distance = new();
 
-    public async Task<int> RunAsync(bool refreshList, CancellationToken ct)
+    public async Task<int> RunAsync(bool refreshLists, CancellationToken ct)
     {
         using var client = new SecClient(new SecOptions
         {
@@ -35,7 +38,7 @@ public sealed partial class UkImportPipeline(IOptions<ImporterOptions> options, 
         // 1. Constituents (reviewable CSV; rebuilt from Wikipedia on request or when missing).
         var listPath = paths.Resolve(_o.ConstituentsPath);
         var constituents = UkConstituents.Read(listPath);
-        if (refreshList || constituents.Count == 0)
+        if (refreshLists || constituents.Count == 0)
         {
             var fresh = await UkConstituents.FetchAsync(client, _o.ConstituentPages, ct);
             var keepLei = constituents.Where(c => c.Lei is not null).ToDictionary(c => c.Ticker, c => c.Lei);
@@ -168,24 +171,17 @@ public sealed partial class UkImportPipeline(IOptions<ImporterOptions> options, 
         // 6. Keep the reviewed list (with the LEIs we matched) for next time.
         UkConstituents.Write(listPath, matched.Where(m => !addedTickers.Contains(m.Ticker)));
 
-        var workbook = paths.Resolve(_o.WorkbookPath);
-        var staging = workbook + ".new.xlsx";
-        ExcelWorkbookWriter.Write(staging, companies, locations, periods, pay, people.Values, new Dictionary<string, string>
-        {
-            ["data_version"] = $"uk-{DateTime.UtcNow:yyyy.MM.dd}",
-            ["as_of_date"] = DateTime.UtcNow.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture),
-            ["is_sample"] = "false",
-            ["source"] = "ESEF annual reports via filings.xbrl.org; headquarters from GLEIF; postcode districts from GeoNames.",
-            ["region"] = "United Kingdom"
-        });
-        var (vc, vl) = ExcelWorkbookWriter.Verify(staging);
-        File.Move(staging, workbook, overwrite: true);
+        publisher.Publish(Market, companies, locations, periods, pay, people.Values.ToList(),
+            "ESEF annual reports via filings.xbrl.org; headquarters from GLEIF; postcode districts from GeoNames.", "United Kingdom");
         var districts = await postcodes.WriteTableAsync(paths.Resolve(_o.PostcodeTableOutput), ct);
         await WriteReportAsync(companies.Count, periods.Count, pay.Count, payRowsVerified, people.Count, reportsRead, districts, included, excluded, warnings, client.NetworkRequests, ct);
-        _log.LogInformation("Done: {Companies} UK companies ({Verified} verified in the API loader), {Periods} years of figures, {Pay} pay rows for {People} directors → {Path}",
-            companies.Count, vc, periods.Count, pay.Count, people.Count, workbook);
+        _log.LogInformation("Done: {Companies} UK companies, {Periods} years of figures, {Pay} pay rows for {People} directors → {Path}",
+            companies.Count, periods.Count, pay.Count, people.Count, publisher.DatabasePath);
         return 0;
     }
+
+    /// <summary>This importer's partition of the database.</summary>
+    public const string Market = "uk";
 
     /// <summary>Bump when the pay parser learns a new layout; reports it previously couldn't read are then re-read.</summary>
     private const string ParserVersion = "v2";

@@ -11,7 +11,7 @@ location and financial data comes from a directory we curate ahead of time.
 
 - Requirements, UI/UX spec, decisions log: [`docs/functional-requirements.md`](docs/functional-requirements.md)
 - Clickable design prototype (sample figures): [`docs/prototype/home-prototype.html`](docs/prototype/home-prototype.html)
-- Data files and workbook layout: [`data/README.md`](data/README.md)
+- Data files and database layout: [`data/README.md`](data/README.md)
 
 ## Status
 
@@ -97,11 +97,13 @@ src/
   CompanyPaisa.Contracts/       request/response types shared by API and client
   CompanyPaisa.Core/            domain models, interfaces, services, use-case handlers, options
   CompanyPaisa.Infrastructure/  IServiceRequestor + pipeline (logging → validation → caching), ZIP lookup, clock
-  CompanyPaisa.Data.Excel/      ICompanyRepository over an Excel workbook (hot reload)
+  CompanyPaisa.Data/            the in-memory data set, its integrity rules, the reloading repository base
+  CompanyPaisa.Data.Sqlite/     ICompanyRepository over the published SQLite database (the live data)
+  CompanyPaisa.Data.Excel/      ICompanyRepository over Excel workbooks (sample data, hand-made sets)
   CompanyPaisa.Api/             minimal-API endpoints, API keys, rate limits, OpenAPI, health, serves the SPA
   CompanyPaisa.Client/          typed C# client for other apps
   CompanyPaisa.Web/             React + TypeScript website (Vite, D3) — calls only the public /api/v1
-tools/CompanyPaisa.Importer/    builds the real dataset from SEC EDGAR (offline; cached, rate-limited)
+tools/CompanyPaisa.Importer/    builds the real data set (SEC EDGAR, UK and EU annual reports) into data/companypaisa.db
 tools/CompanyPaisa.SampleData/  generates the synthetic workbook used by tests
 tests/                          unit tests (Core) + end-to-end tests (Api via the client)
 ```

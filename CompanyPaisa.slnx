@@ -4,7 +4,9 @@
     <Project Path="src/CompanyPaisa.Client/CompanyPaisa.Client.csproj" />
     <Project Path="src/CompanyPaisa.Contracts/CompanyPaisa.Contracts.csproj" />
     <Project Path="src/CompanyPaisa.Core/CompanyPaisa.Core.csproj" />
+    <Project Path="src/CompanyPaisa.Data/CompanyPaisa.Data.csproj" />
     <Project Path="src/CompanyPaisa.Data.Excel/CompanyPaisa.Data.Excel.csproj" />
+    <Project Path="src/CompanyPaisa.Data.Sqlite/CompanyPaisa.Data.Sqlite.csproj" />
     <Project Path="src/CompanyPaisa.Infrastructure/CompanyPaisa.Infrastructure.csproj" />
   </Folder>
   <Folder Name="/tests/">

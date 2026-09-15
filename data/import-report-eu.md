@@ -1,19 +1,19 @@
-# European import report — 2026-09-14 20:46 UTC
+# European import report — 2026-09-15 20:28 UTC
 
 Scope: France, Netherlands, Italy, Spain — companies with shares on the home exchange that file ESEF annual reports. Financials only (no executives). Sources: filings.xbrl.org, GLEIF, OpenFIGI, GeoNames.
 
-- Companies included: **482**
-- Years of figures: 2421
+- Companies included: **483**
+- Years of figures: 2423
 - Postcodes written: 40385
-- Network requests this run: 0
+- Network requests this run: 1149
 
 | Country | Area | Companies |
 |---|---|---|
 | France | Paris | 123 |
-| France | Rest of France | 48 |
+| France | Rest of France | 49 |
 | France | Lyon | 8 |
 | Italy | Rest of Italy | 62 |
-| Italy | Milan | 55 |
+| Italy | Milan | 56 |
 | Italy | Rome | 17 |
 | Italy | Turin | 4 |
 | Netherlands | Amsterdam | 32 |
@@ -22,9 +22,9 @@ Scope: France, Netherlands, Italy, Spain — companies with shares on the home e
 | Netherlands | Eindhoven | 5 |
 | Spain | Madrid | 52 |
 | Spain | Rest of Spain | 29 |
-| Spain | Barcelona | 13 |
+| Spain | Barcelona | 12 |
 
-## Included — France (179)
+## Included — France (180)
 
 | Ticker | Company | City | Latest revenue | Years |
 |---|---|---|---|---|
@@ -85,14 +85,14 @@ Scope: France, Netherlands, Italy, Spain — companies with shares on the home e
 | DG.PA | Vinci | Nanterre | €75.37B | 2021–2025 |
 | DIM.PA | Sartorius Stedim Biotech | Aubagne | €2.97B | 2020–2025 |
 | DPT.PA | St Dupont | Paris | €55.8M | 2023–2026 |
-| DSYNV.PA | Dassault Systemes | Velizy-Villacoublay | €6.24B | 2021–2025 |
+| DSY.PA | Dassault Systemes | Velizy-Villacoublay | €6.24B | 2021–2025 |
 | EAPI.PA | Euroapi | Paris | €848.2M | 2022–2025 |
 | EDEN.PA | Edenred | Issy-Les-Moulineaux | €2.96B | 2019–2025 |
 | EFG.PA | Eagle Football Group | Decines-Charpieu | €162.6M | 2021–2025 |
 | EKI.PA | Ekinops | Lannion | €105.0M | 2021–2025 |
-| EL.PA | Essilorluxottica | Charenton-Le-Pont | €26.51B | 2020–2024 |
 | ELIOR.PA | Elior Group | Courbevoie | €6.15B | 2021–2025 |
 | ELIS.PA | Elis | Puteaux | €4.80B | 2020–2025 |
+| ELNV.PA | Essilorluxottica | Charenton-Le-Pont | €26.51B | 2020–2024 |
 | EMEIS.PA | Emeis | Puteaux | €5.90B | 2020–2025 |
 | EN.PA | Bouygues | Paris | €56.75B | 2020–2024 |
 | ENGI.PA | Engie | Courbevoie | €71.94B | 2020–2025 |
@@ -142,6 +142,7 @@ Scope: France, Netherlands, Italy, Spain — companies with shares on the home e
 | MDM.PA | Maisons Du Monde | Vertou | €973.2M | 2019–2025 |
 | MEDCL.PA | Medincell S.A. | Jacou | €24.3M | 2021–2026 |
 | MF.PA | Wendel | Paris | €7.78B | 2021–2025 |
+| ML.PA | Compagnie Generale Des Etablissements Michelin | Clermont-Ferrand | €25.99B | 2020–2025 |
 | MMB.PA | Lagardere SA | Paris | €8.94B | 2019–2024 |
 | MMT.PA | Metropole Television | Neuilly-Sur-Seine | €1.31B | 2020–2024 |
 | MRN.PA | Mersen | Courbevoie | €1.19B | 2020–2025 |
@@ -284,7 +285,7 @@ Scope: France, Netherlands, Italy, Spain — companies with shares on the home e
 | WHA.AS | Wereldhave N.V. | Amsterdam | €215.9M | 2020–2025 |
 | WKL.AS | Wolters Kluwer N.V. | Alphen aan den Rijn | €6.13B | 2020–2025 |
 
-## Included — Italy (138)
+## Included — Italy (139)
 
 | Ticker | Company | City | Latest revenue | Years |
 |---|---|---|---|---|
@@ -374,6 +375,7 @@ Scope: France, Netherlands, Italy, Spain — companies with shares on the home e
 | LDO.MI | Leonardo - Societa' Per Azioni | Roma | €17.76B | 2020–2024 |
 | LUVE.MI | "Lu-Ve - S.P.A." | Varese | €603.8M | 2022–2025 |
 | MAIRE.MI | Maire S.p.A. | Roma | €7.10B | 2020–2025 |
+| MB.MI | Mediobanca - Banca Di Credito Finanziario S.p.A. | Milan | €1.66B | 2021–2022 |
 | MET.MI | Met.Extra Group S.p.A. | Milano | €39.2M | 2023–2024 |
 | MN.MI | Arnoldo Mondadori Editore S.p.A. | Milano | €931.6M | 2023–2025 |
 | MOL.MI | "Moltiply Group S.P.A.", Ovvero, In Breve, "Mol Group S.P.A." O Anche "Gruppo Mol S.P.A." | Milano | €674.1M | 2020–2025 |
@@ -421,20 +423,19 @@ Scope: France, Netherlands, Italy, Spain — companies with shares on the home e
 | UD.MI | Unidata S.p.A. | Roma | €101.3M | 2022–2024 |
 | UNI.MI | Unipol Assicurazioni S.p.A. | Bologna | €10.07B | 2022–2025 |
 | VLS.MI | Valsoia S.P.A. (In Forma Estesa "Valsoia - Bonta' E Salute - S.P.A." O In Sigla Anche "V.B.S. S.P.A.") | Bologna | €117.9M | 2025–2025 |
-| WBD.MI | Webuild S.p.A. | Rozzano | €12.64B | 2020–2025 |
+| WBDR.MI | Webuild S.p.A. | Rozzano | €12.64B | 2020–2025 |
 | WIIT.MI | Wiit S.p.A. | Milano | €164.0M | 2021–2025 |
 | YACHT.MI | Ferretti S.p.A. | Cattolica | €1.24B | 2022–2024 |
 | ZEST.MI | Zest Societa' Per Azioni | Roma | €11.23B | 2023–2025 |
 | ZV.MI | Zignago Vetro S.P.A. Con La Sigla "Z.V. S.P.A." | Fossalta Di Portogruaro | €444.8M | 2020–2025 |
 
-## Included — Spain (94)
+## Included — Spain (93)
 
 | Ticker | Company | City | Latest revenue | Years |
 |---|---|---|---|---|
 | A3M.MC | Atresmedia Corporacion De Medios De Comunicacion, S.A. | San Sebastián de los Reyes | €919.0M | 2020–2024 |
 | ACS.MC | ACS Actividades De Construccion Y Servicios, S.A. | Madrid | €41.63B | 2020–2024 |
 | ACX.MC | Acerinox SA | Madrid | €5.41B | 2019–2024 |
-| ADX.MC | Audax Renovables S.A. | Badalona | €1.98B | 2019–2024 |
 | AENA.MC | Aena S.M.E. SA | Madrid | €5.76B | 2020–2024 |
 | AI.MC | Airtificial Intelligence Structures SA | Madrid | €110.1M | 2020–2024 |
 | ALB.MC | Corporacion Financiera Alba, S.A. | Madrid | €15.1M | 2020–2024 |
@@ -582,7 +583,7 @@ Scope: France, Netherlands, Italy, Spain — companies with shares on the home e
 
 ## Needs review
 
-- DSYNV.PA: report data for 12/31/2020 is not valid JSON
+- DSY.PA: report data for 12/31/2020 is not valid JSON
 - NK.PA: report data for 12/31/2020 is not valid JSON
 - MMT.PA: report data for 12/31/2020 is not valid JSON
 - THEP.PA: report data for 12/31/2022 is not valid JSON

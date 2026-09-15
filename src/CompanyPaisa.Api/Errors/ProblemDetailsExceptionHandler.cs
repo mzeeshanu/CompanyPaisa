@@ -1,5 +1,5 @@
 using CompanyPaisa.Core;
-using CompanyPaisa.Data.Excel;
+using CompanyPaisa.Data;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 

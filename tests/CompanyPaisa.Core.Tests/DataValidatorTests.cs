@@ -1,6 +1,6 @@
 using CompanyPaisa.Contracts;
 using CompanyPaisa.Core.Domain;
-using CompanyPaisa.Data.Excel;
+using CompanyPaisa.Data;
 using CompanyPaisa.Importer.Validation;
 
 namespace CompanyPaisa.Core.Tests;
@@ -22,12 +22,12 @@ public class DataValidatorTests
     private static ExecutiveCompensation Pay(string id, string name, int year, decimal salary, decimal total) =>
         new() { CompanyId = id, PersonId = name.ToLowerInvariant().Replace(' ', '-'), ExecutiveName = name, Title = "CEO", Year = year, Salary = salary, Other = Math.Max(0, total - salary), Total = total };
 
-    private static WorkbookContents Data(Company[] companies, CompanyLocation[] locations, FinancialPeriod[]? financials = null, ExecutiveCompensation[]? pay = null) =>
+    private static CompanyData Data(Company[] companies, CompanyLocation[] locations, FinancialPeriod[]? financials = null, ExecutiveCompensation[]? pay = null) =>
         new(companies, locations, financials ?? companies.Select(c => Year(c.CompanyId, 2025, 1_000_000m)).ToArray(), pay ?? [],
             (pay ?? []).Select(p => new Person { PersonId = p.PersonId, Name = p.ExecutiveName }).DistinctBy(p => p.PersonId).ToList(),
             new DataSetMetadata("test", Today, false, DateTimeOffset.UtcNow));
 
-    private static int Failures(WorkbookContents data, string check) =>
+    private static int Failures(CompanyData data, string check) =>
         DataValidator.Validate(data, Rates, Today).Checks.Single(c => c.Name == check).Count;
 
     [Fact]

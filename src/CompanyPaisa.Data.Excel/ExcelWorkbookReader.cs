@@ -5,20 +5,14 @@ using CompanyPaisa.Core.Domain;
 
 namespace CompanyPaisa.Data.Excel;
 
-/// <summary>Thrown when the workbook can't be loaded; lists every problem found, with sheet and row.</summary>
-public sealed class DataLoadException(string path, IReadOnlyList<string> problems)
-    : Exception($"Couldn't load '{path}':{Environment.NewLine}  - " + string.Join(Environment.NewLine + "  - ", problems.Take(50)))
-{
-    public IReadOnlyList<string> Problems { get; } = problems;
-}
-
 /// <summary>
 /// Reads the CompanyPaisa workbook. Columns are matched by header name (any order, case-insensitive),
 /// so people can add helper columns in Excel without breaking the import.
 /// </summary>
 internal static class ExcelWorkbookReader
 {
-    public static DataSnapshot Read(string path, ExcelSheetNames sheets, DateTimeOffset loadedAt)
+    /// <summary>The workbook's rows; unreadable cells are reported (with sheet and row) as a <see cref="DataLoadException"/>.</summary>
+    public static CompanyData Read(string path, ExcelSheetNames sheets, DateTimeOffset loadedAt)
     {
         if (!File.Exists(path))
             throw new FileNotFoundException($"Workbook not found at '{path}'. Check DataSource:Excel:Path in appsettings.", path);
@@ -96,36 +90,8 @@ internal static class ExcelWorkbookReader
             SecCik = r.Text("sec_cik")
         }, required: false);
 
-        CheckIntegrity(companies, locations, financials, executives, sheets, problems);
-        foreach (var dup in executives.GroupBy(e => (e.PersonId.ToUpperInvariant(), e.CompanyId.ToUpperInvariant(), e.Year)).Where(g => g.Count() > 1))
-            problems.Add($"{sheets.ExecutiveCompensation}: person '{dup.Key.Item1}' has {dup.Count()} rows for {dup.Key.Item2} in {dup.Key.Year}.");
         if (problems.Count > 0) throw new DataLoadException(path, problems);
-
-        return new DataSnapshot(companies, locations, financials, executives, people, ReadMeta(workbook, sheets.Meta, loadedAt));
-    }
-
-    private static void CheckIntegrity(List<Company> companies, List<CompanyLocation> locations, List<FinancialPeriod> financials,
-        List<ExecutiveCompensation> executives, ExcelSheetNames sheets, List<string> problems)
-    {
-        foreach (var dup in companies.GroupBy(c => c.CompanyId, StringComparer.OrdinalIgnoreCase).Where(g => g.Count() > 1))
-            problems.Add($"{sheets.Companies}: company_id '{dup.Key}' appears {dup.Count()} times.");
-        foreach (var dup in locations.GroupBy(l => l.LocationId, StringComparer.OrdinalIgnoreCase).Where(g => g.Count() > 1))
-            problems.Add($"{sheets.Locations}: location_id '{dup.Key}' appears {dup.Count()} times.");
-
-        var ids = companies.Select(c => c.CompanyId).ToHashSet(StringComparer.OrdinalIgnoreCase);
-        void Orphans(string sheet, IEnumerable<string> refs)
-        {
-            foreach (var id in refs.Where(r => !ids.Contains(r)).Distinct(StringComparer.OrdinalIgnoreCase))
-                problems.Add($"{sheet}: company_id '{id}' is not on the {sheets.Companies} sheet.");
-        }
-        Orphans(sheets.Locations, locations.Select(l => l.CompanyId));
-        Orphans(sheets.Financials, financials.Select(f => f.CompanyId));
-        Orphans(sheets.ExecutiveCompensation, executives.Select(e => e.CompanyId));
-
-        foreach (var f in financials.Where(f => f.PeriodType == PeriodType.Quarterly && f.FiscalQuarter is not (>= 1 and <= 4)))
-            problems.Add($"{sheets.Financials}: {f.CompanyId} {f.FiscalYear} quarterly row needs fiscal_quarter 1-4.");
-        foreach (var l in locations.Where(l => !l.Point.IsValid))
-            problems.Add($"{sheets.Locations}: {l.LocationId} has invalid coordinates.");
+        return new CompanyData(companies, locations, financials, executives, people, ReadMeta(workbook, sheets.Meta, loadedAt));
     }
 
     private static DataSetMetadata ReadMeta(XLWorkbook workbook, string sheetName, DateTimeOffset loadedAt)
