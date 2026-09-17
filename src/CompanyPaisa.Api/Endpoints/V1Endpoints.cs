@@ -92,6 +92,14 @@ public static class V1Endpoints
             .WithSummary("One executive's career and pay history across every company they were a named executive officer at.")
             .Produces<ExecutiveDetailDto>();
 
+        // ----- Search by name -----
+        v1.MapGet("/search", async (string? q, int? limit, IServiceRequestor requestor, IOptionsMonitor<FeatureOptions> features, CancellationToken ct) =>
+                Results.Ok(await requestor.SendAsync(new SearchByNameQuery(q ?? "", limit, features.CurrentValue.IsEnabled("Executives")), ct)))
+            .WithName("SearchByName")
+            .WithSummary("Companies (by name or ticker) and executives (by name) anywhere in the data set, best matches first.")
+            .WithDescription("Examples: ?q=nvidia  ·  ?q=NVDA  ·  ?q=tim cook&limit=3")
+            .Produces<NameSearchResponse>();
+
         // ----- Reference -----
         v1.MapGet("/geo/lookup", async (string q, IServiceRequestor requestor, CancellationToken ct) =>
                 Results.Ok(await requestor.SendAsync(new LookupGeoQuery(q), ct)))

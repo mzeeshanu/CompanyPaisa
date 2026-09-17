@@ -1,6 +1,7 @@
 import { forwardRef } from 'react';
 import type { Mode, Theme, View } from '../lib/prefs';
 import { Link } from '../lib/router';
+import { NameSearch } from './NameSearch';
 
 interface Props {
   placeLabel: string;
@@ -32,7 +33,7 @@ export function ThemeButton({ theme, onTheme }: { theme: Theme; onTheme: (t: The
 }
 
 /** The header on a company or executive page: the name (back to the search) and the theme. */
-export const PageBar = forwardRef<HTMLElement, { theme: Theme; onTheme: (t: Theme) => void; isSample: boolean }>(function PageBar(p, ref) {
+export const PageBar = forwardRef<HTMLElement, { theme: Theme; onTheme: (t: Theme) => void; isSample: boolean; showExecutives: boolean }>(function PageBar(p, ref) {
   return (
     <header className="top" ref={ref}>
       <div className="wrap">
@@ -41,6 +42,7 @@ export const PageBar = forwardRef<HTMLElement, { theme: Theme; onTheme: (t: Them
             <Link className="wordmark" to="/">Company<span>Paisa</span></Link>
             {p.isSample && <span className="sample-badge" title="Figures are synthetic sample data">Sample data</span>}
             <span className="spacer" />
+            <NameSearch showExecutives={p.showExecutives} />
             <ThemeButton theme={p.theme} onTheme={p.onTheme} />
           </div>
         </div>
@@ -59,6 +61,7 @@ export const TopBar = forwardRef<HTMLElement, Props>(function TopBar(p, ref) {
             <div className="where">Near <b>{p.placeLabel}</b> <button className="linkbtn" onClick={p.onChangeLocation}>Change</button></div>
             {p.isSample && <span className="sample-badge" title="Figures are synthetic sample data">Sample data</span>}
             <span className="spacer" />
+            <NameSearch showExecutives={p.showExecutives} />
             {p.showExecutives && (
               <div className="chips" role="group" aria-label="Look up">
                 <button aria-pressed={p.mode === 'companies'} onClick={() => p.onMode('companies')}>Companies</button>

@@ -1,6 +1,6 @@
 import type {
   ClientConfig, CompanyDetail, CompanySort, DataMeta, ExecutiveDetail, ExecutiveSort, ExecutivesNearResponse,
-  ExecutivesResponse, FinancialsResponse, GeoLookup, NearbyResponse, PeriodType, ProblemDetails,
+  ExecutivesResponse, FinancialsResponse, GeoLookup, NameSearchResponse, NearbyResponse, PeriodType, ProblemDetails,
 } from './types';
 
 /** Error carrying the API's problem details; `message` is safe to show to users. */
@@ -45,6 +45,7 @@ export const api = {
   meta: () => get<DataMeta>('/meta'),
   sectors: () => get<string[]>('/sectors'),
   lookup: (q: string) => get<GeoLookup>('/geo/lookup', { q }),
+  searchByName: (q: string, signal?: AbortSignal) => get<NameSearchResponse>('/search', { q, limit: 5 }, signal),
   near: (q: NearbyQuery, signal?: AbortSignal) =>
     get<NearbyResponse>('/companies/near', {
       latitude: q.latitude, longitude: q.longitude, radiusMiles: q.radiusMiles,

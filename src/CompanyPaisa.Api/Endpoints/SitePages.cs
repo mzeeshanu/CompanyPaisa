@@ -1,5 +1,8 @@
+using System.Globalization;
+using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.RegularExpressions;
+using System.Xml;
 using CompanyPaisa.Api.Options;
 using CompanyPaisa.Core.Abstractions;
 using Microsoft.Extensions.Options;
@@ -10,8 +13,9 @@ namespace CompanyPaisa.Api.Endpoints;
 public sealed record PageMeta(string Title, string Description, string CanonicalPath);
 
 /// <summary>
-/// The website's own pages (/company/AAPL, /executive/…). They are the React app like every other address, but the HTML
-/// already carries the company's or person's name, so a shared link previews properly and search engines see a real title.
+/// The website's own pages (/company/AAPL, /executive/…, /near/84043). They are the React app like every other address, but the
+/// HTML already carries the page's name, so a shared link previews properly and search engines see a real title. Also the
+/// sitemap and robots.txt that point search engines at those pages.
 /// Reads the repository directly (not the tracked queries) so the HTML doesn't count as a second company view.
 /// </summary>
 public static partial class SitePages
@@ -55,8 +59,93 @@ public static partial class SitePages
             })
             .ExcludeFromDescription();
 
+        // A search: /near/84043, /near/SW1A1AA, /near/FR-75008, /near/me (the visitor's own location), + /executives.
+        app.MapGet("/near/{place}/{mode:regex(^executives$)?}", async (string place, string? mode, IGeoLocator geo, IndexHtml index, HttpContext http, CancellationToken ct) =>
+            {
+                var executives = mode is not null;
+                var what = executives ? "Executives and their pay" : "Public companies";
+                var path = $"/near/{Uri.EscapeDataString(place)}{(executives ? "/executives" : "")}";
+                PageMeta? meta;
+                if (place.Equals("me", StringComparison.OrdinalIgnoreCase))
+                    meta = new PageMeta($"{what} near you · CompanyPaisa",
+                        "See the public companies near you, how big they are, where they're heading and what their executives are paid.", path);
+                else
+                {
+                    var hit = place.Length <= 20 ? await geo.LookupAsync(place, ct) : null;
+                    var where = hit is null ? null : string.Join(" ", new[] { $"{hit.City}, {hit.State}", hit.PostalCode }.Where(p => !string.IsNullOrWhiteSpace(p)));
+                    meta = where is null ? null : new PageMeta($"{what} near {where} · CompanyPaisa",
+                        executives
+                            ? $"Named executives of public companies near {where}: latest pay, 10-year totals and careers, from company filings."
+                            : $"Public companies near {where}: revenue, growth, profit and executive pay, from company filings.", path);
+                }
+                return Page(index, meta, http);
+            })
+            .ExcludeFromDescription();
+
+        app.MapGet("/robots.txt", (HttpContext http) =>
+                Results.Text($"User-agent: *\nAllow: /\nDisallow: /admin\n\nSitemap: {Origin(http)}/sitemap.xml\n", "text/plain; charset=utf-8"))
+            .ExcludeFromDescription();
+
+        app.MapGet("/sitemap.xml", async (ICompanyRepository repository, IOptionsMonitor<UiOptions> ui, IOptionsMonitor<FeatureOptions> features,
+                HttpContext http, CancellationToken ct) =>
+            {
+                var paths = await SitemapPathsAsync(repository, ui.CurrentValue, features.CurrentValue.IsEnabled("Executives"), ct);
+                var lastModified = (await repository.GetMetadataAsync(ct)).AsOfDate;
+                http.Response.Headers.CacheControl = "public, max-age=86400";
+                return Results.Text(SitemapXml(Origin(http), paths, lastModified), "application/xml; charset=utf-8");
+            })
+            .ExcludeFromDescription();
+
         return app;
     }
+
+    /// <summary>Search engines allow 50,000 addresses in one sitemap file.</summary>
+    public const int MaxSitemapUrls = 50_000;
+
+    /// <summary>The home page, every covered area, every company and every executive.</summary>
+    public static async Task<IReadOnlyList<string>> SitemapPathsAsync(ICompanyRepository repository, UiOptions ui, bool executives, CancellationToken ct)
+    {
+        var companies = await repository.GetCompaniesAsync(ct);
+        var paths = new List<string> { "/" };
+        paths.AddRange(ui.Coverage.Select(a => $"/near/{Uri.EscapeDataString(PlaceToken(a.ExampleZip, a.Country))}").Distinct());
+        paths.AddRange(companies.Select(c => $"/company/{Uri.EscapeDataString(c.Ticker.ToUpperInvariant())}"));
+        if (executives)
+            paths.AddRange((await repository.GetExecutiveCompensationAsync(companies.Select(c => c.CompanyId), ct))
+                .Select(p => p.PersonId).Distinct(StringComparer.OrdinalIgnoreCase).Order(StringComparer.Ordinal)
+                .Select(id => $"/executive/{Uri.EscapeDataString(id)}"));
+        return paths.Take(MaxSitemapUrls).ToList();
+    }
+
+    /// <summary>
+    /// How a postcode appears in a search address (the website builds the same): no spaces, and European, Australian and
+    /// New Zealand codes carry their country ("FR-75008"), because a bare 5-digit code reads as a US ZIP.
+    /// </summary>
+    public static string PlaceToken(string postcode, string country)
+    {
+        var code = postcode.Replace(" ", "").ToUpperInvariant();
+        return country is "FR" or "NL" or "IT" or "ES" or "AU" or "NZ" ? $"{country}-{code}" : code;
+    }
+
+    private static string SitemapXml(string origin, IEnumerable<string> paths, DateOnly? lastModified)
+    {
+        var sb = new StringBuilder();
+        using (var xml = XmlWriter.Create(sb, new XmlWriterSettings { Indent = false, Encoding = Encoding.UTF8 }))
+        {
+            xml.WriteStartDocument();
+            xml.WriteStartElement("urlset", "http://www.sitemaps.org/schemas/sitemap/0.9");
+            foreach (var path in paths)
+            {
+                xml.WriteStartElement("url");
+                xml.WriteElementString("loc", origin + path);
+                if (lastModified is { } d) xml.WriteElementString("lastmod", d.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture));
+                xml.WriteEndElement();
+            }
+            xml.WriteEndElement();
+        }
+        return sb.ToString().Replace("encoding=\"utf-16\"", "encoding=\"utf-8\"");
+    }
+
+    private static string Origin(HttpContext http) => $"{http.Request.Scheme}://{http.Request.Host}";
 
     /// <summary>The app's HTML with this page's details; an unknown company or person still gets the app (it says so) with a 404.</summary>
     private static IResult Page(IndexHtml index, PageMeta? meta, HttpContext http)
@@ -64,8 +153,7 @@ public static partial class SitePages
         var html = index.Read();
         if (html is null) return Results.NotFound();   // no built website (development runs it on the Vite dev server)
         http.Response.Headers.CacheControl = "no-cache";
-        var origin = $"{http.Request.Scheme}://{http.Request.Host}";
-        return Results.Content(meta is null ? html : WithMeta(html, meta, origin), "text/html; charset=utf-8",
+        return Results.Content(meta is null ? html : WithMeta(html, meta, Origin(http)), "text/html; charset=utf-8",
             statusCode: meta is null ? StatusCodes.Status404NotFound : StatusCodes.Status200OK);
     }
 

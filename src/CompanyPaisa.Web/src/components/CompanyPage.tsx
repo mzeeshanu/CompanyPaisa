@@ -3,7 +3,7 @@ import * as d3 from 'd3';
 import { api, ApiError } from '../api/client';
 import type { CompanyDetail, Executive, FinancialPeriod, GeoPoint, Location, PeriodType } from '../api/types';
 import { money, pct, tone, trendClass } from '../lib/format';
-import { Link, personPath } from '../lib/router';
+import { Link, personPath, placeToken } from '../lib/router';
 import { Filing } from './Filing';
 import { milesBetween, PageBack, type Nearby } from './PageShell';
 
@@ -12,8 +12,8 @@ interface Props {
   /** The visitor's search point, when they have one: distances are measured from it. */
   from: Nearby | null;
   showExecutives: boolean;
-  /** Starts a search around one of the company's locations. */
-  onExplore: (point: GeoPoint, label: string) => void;
+  /** Starts a search around one of the company's locations (`place` is its postcode as it appears in the address). */
+  onExplore: (point: GeoPoint, label: string, place: string) => void;
   onLoaded: (about: string) => void;
 }
 
@@ -176,7 +176,11 @@ export function CompanyPage({ ticker, from, showExecutives, onExplore, onLoaded 
                   <small>{[l.street, l.city, l.state, l.postalCode].filter(Boolean).join(', ')}</small>
                 </div>
                 {from && <span className="num">{distance(l)!.toFixed(1)} mi</span>}
-                <button className="linkbtn" onClick={() => onExplore(l.point, `${l.city}, ${l.state}`)}>Companies near here →</button>
+                {l.postalCode && (
+                  <button className="linkbtn" onClick={() => onExplore(l.point, `${l.city}, ${l.state} ${l.postalCode}`, placeToken(l.postalCode, countryOf(l, cur)))}>
+                    Companies near here →
+                  </button>
+                )}
               </li>
             ))}
           </ul>
@@ -198,6 +202,12 @@ export function CompanyPage({ ticker, from, showExecutives, onExplore, onLoaded 
       </p>
     </main>
   );
+}
+
+/** European, Australian and New Zealand locations keep their country in the state field ("FR"); "NL" is also Newfoundland. */
+function countryOf(l: Location, currency: string): string | null {
+  if (l.state === 'NL') return currency === 'EUR' ? 'NL' : null;
+  return ['FR', 'IT', 'ES', 'AU', 'NZ'].includes(l.state) ? l.state : null;
 }
 
 function Kpi({ k, s, v, cls = '' }: { k: string; s: string; v: string; cls?: string }) {

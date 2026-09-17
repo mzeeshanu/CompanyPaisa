@@ -83,6 +83,66 @@ public class SitePagesTests(SitePagesFactory factory) : IClassFixture<SitePagesF
     }
 
     [Fact]
+    public async Task A_search_address_carries_the_place_for_link_previews()
+    {
+        var http = factory.CreateClient();
+
+        var companies = await http.GetStringAsync("/near/84043?radius=25");
+        var executives = await http.GetStringAsync("/near/84043/executives");
+        var me = await http.GetStringAsync("/near/me");
+        var unknown = await http.GetAsync("/near/00000");
+
+        Assert.Contains("<title>Public companies near Lehi, UT 84043", companies);
+        Assert.Contains("<link rel=\"canonical\" href=\"http://localhost/near/84043\" />", companies);
+        Assert.Contains("<title>Executives and their pay near Lehi, UT 84043", executives);
+        Assert.Contains("<title>Public companies near you", me);
+        Assert.Equal(HttpStatusCode.NotFound, unknown.StatusCode);
+    }
+
+    [Fact]
+    public async Task Companies_and_executives_can_be_searched_by_name()
+    {
+        var client = new CompanyPaisaClient(factory.CreateClient());
+        var byTicker = await client.SearchByNameAsync("lfvn");
+        var person = (await client.GetExecutivesNearAsync(new ExecutivesNearRequest { Near = "84043", RadiusMiles = 25 })).Items[0];
+        var byName = await client.SearchByNameAsync(person.Name, limit: 3);
+
+        Assert.Equal("LFVN", byTicker.Companies[0].Ticker);
+        Assert.Equal("Lehi", byTicker.Companies[0].City);
+        Assert.Contains(byName.Executives, e => e.PersonId == person.PersonId);
+        Assert.True(byName.Executives.Count <= 3);
+        Assert.Equal(HttpStatusCode.BadRequest, (await factory.CreateClient().GetAsync("/api/v1/search?q=")).StatusCode);
+    }
+
+    [Fact]
+    public async Task The_sitemap_lists_areas_companies_and_executives()
+    {
+        var http = factory.CreateClient();
+        var sitemap = await http.GetStringAsync("/sitemap.xml");
+        var robots = await http.GetStringAsync("/robots.txt");
+
+        var doc = System.Xml.Linq.XDocument.Parse(sitemap);
+        var locs = doc.Descendants().Where(e => e.Name.LocalName == "loc").Select(e => e.Value).ToList();
+        Assert.Contains("http://localhost/", locs);
+        Assert.Contains("http://localhost/near/84043", locs);
+        Assert.Contains("http://localhost/near/FR-75008", locs);
+        Assert.Contains("http://localhost/company/LFVN", locs);
+        Assert.Contains(locs, l => l.StartsWith("http://localhost/executive/"));
+        Assert.Equal(locs.Count, locs.Distinct().Count());
+        Assert.Contains("Sitemap: http://localhost/sitemap.xml", robots);
+        Assert.Contains("Disallow: /admin", robots);
+    }
+
+    [Theory]
+    [InlineData("84043", "US", "84043")]
+    [InlineData("M5J 2J2", "CA", "M5J2J2")]
+    [InlineData("sw1a 1aa", "UK", "SW1A1AA")]
+    [InlineData("75008", "FR", "FR-75008")]
+    [InlineData("1012 AB", "NL", "NL-1012AB")]
+    public void Places_in_addresses_have_no_spaces_and_keep_their_country(string postcode, string country, string expected) =>
+        Assert.Equal(expected, SitePages.PlaceToken(postcode, country));
+
+    [Fact]
     public void Titles_are_html_encoded()
     {
         var html = SitePages.WithMeta(SitePagesFactory.IndexHtml, new PageMeta("AT&T <Inc>", "\"Quotes\"", "/company/T"), "https://companypaisa.com");

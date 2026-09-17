@@ -197,6 +197,18 @@ public sealed record ExecutiveDetailDto(
 
 public sealed record ExecutivesResponse(string Ticker, IReadOnlyList<ExecutiveDto> Executives);
 
+// ---------- Search by name ----------
+
+/// <summary>A company found by name or ticker; <see cref="TtmRevenue"/> is in <see cref="Currency"/>.</summary>
+public sealed record NameSearchCompanyDto(string Ticker, string Name, string Exchange, string Sector, string? City, string? State,
+    decimal TtmRevenue, string Currency);
+
+/// <summary>A person found by name, with the company and pay of their latest reported year (pay in the company's currency).</summary>
+public sealed record NameSearchExecutiveDto(string PersonId, string Name, string Title, CompanyRefDto Company, int LatestYear, decimal LatestTotalPay);
+
+/// <summary>Companies and executives whose names match, best matches first (bigger companies and higher pay break ties).</summary>
+public sealed record NameSearchResponse(string Query, IReadOnlyList<NameSearchCompanyDto> Companies, IReadOnlyList<NameSearchExecutiveDto> Executives);
+
 /// <summary>Information about the loaded data set.</summary>
 public sealed record DataMetaDto(string DataVersion, DateOnly? AsOfDate, bool IsSampleData, int CompanyCount, int LocationCount, DateTimeOffset LoadedAt);
 

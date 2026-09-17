@@ -3,13 +3,19 @@ import { api, ApiError } from '../api/client';
 import type { Country, CoverageArea } from '../api/types';
 import { track } from '../lib/analytics';
 import { DISCLAIMER } from '../lib/disclaimer';
+import { placeToken } from '../lib/router';
+import { NameSearch } from './NameSearch';
 
-export interface Origin { latitude: number; longitude: number; label: string }
+/** Where a search is centred; `place` is how the address names it ("84043", "FR-75008", or "me" for the visitor's location). */
+export interface Origin { latitude: number; longitude: number; label: string; place: string }
 
 interface Props {
   coverageMiles: number;
   coverage: CoverageArea[];
   onLocated: (origin: Origin) => void;
+  showExecutives: boolean;
+  /** Shown when the card opens, e.g. when a search address couldn't be found. */
+  notice?: string;
 }
 
 const SHOWN_METROS = 6;
@@ -53,9 +59,9 @@ function browserCountry(available: Country[]): Country {
 }
 
 /** First screen: blurred page behind a small card asking for location or a ZIP / postcode (US, Canada, UK, Europe, Australia, NZ). */
-export function LocationGate({ coverageMiles, coverage, onLocated }: Props) {
+export function LocationGate({ coverageMiles, coverage, onLocated, showExecutives, notice }: Props) {
   const [zip, setZip] = useState('');
-  const [error, setError] = useState('');
+  const [error, setError] = useState(notice ?? '');
   const [busy, setBusy] = useState<'geo' | 'zip' | null>(null);
   const [allMetros, setAllMetros] = useState(false);
   const countries = ORDER.filter(c => coverage.some(a => (a.country ?? 'US') === c));
@@ -73,13 +79,13 @@ export function LocationGate({ coverageMiles, coverage, onLocated }: Props) {
   useEffect(() => { const t = setTimeout(() => input.current?.focus(), 300); return () => clearTimeout(t); }, []);
 
   // Make sure there is something to show before closing the gate.
-  async function accept(latitude: number, longitude: number, label: string) {
+  async function accept(latitude: number, longitude: number, label: string, place: string) {
     const probe = await api.near({ latitude, longitude, radiusMiles: coverageMiles, pageSize: 1 });
     if (probe.totalCount === 0) {
       setError(`We don't cover your area yet — there are no companies within ${coverageMiles} miles. Pick one of the areas below.`);
       return;
     }
-    onLocated({ latitude, longitude, label });
+    onLocated({ latitude, longitude, label, place });
   }
 
   function submitZip(e: FormEvent) {
@@ -103,7 +109,7 @@ export function LocationGate({ coverageMiles, coverage, onLocated }: Props) {
     setBusy('zip'); setError('');
     try {
       const hit = await api.lookup(query);
-      await accept(hit.point.latitude, hit.point.longitude, `${hit.city}, ${hit.state} ${hit.postalCode ?? q}`);
+      await accept(hit.point.latitude, hit.point.longitude, `${hit.city}, ${hit.state} ${hit.postalCode ?? q}`, placeToken(q, eu ? from : null));
     } catch (err) {
       setError(err instanceof ApiError && err.status === 404
         ? `We don't recognise ${q}. Try another, or pick an area below.`
@@ -118,7 +124,7 @@ export function LocationGate({ coverageMiles, coverage, onLocated }: Props) {
     setBusy('geo'); setError('');
     navigator.geolocation.getCurrentPosition(
       async p => {
-        try { await accept(p.coords.latitude, p.coords.longitude, 'your location'); }
+        try { await accept(p.coords.latitude, p.coords.longitude, 'your location', 'me'); }
         catch { setError('Something went wrong. Enter a ZIP code instead.'); }
         finally { setBusy(null); }
       },
@@ -157,6 +163,10 @@ export function LocationGate({ coverageMiles, coverage, onLocated }: Props) {
           <button className="ghost" type="submit" disabled={busy !== null}>{busy === 'zip' ? '…' : 'Go'}</button>
         </form>
         <p className="err" role="alert">{error}</p>
+        <div className="gate-find">
+          <p className="fine">Looking for a particular {showExecutives ? 'company or person' : 'company'}?</p>
+          <NameSearch showExecutives={showExecutives} variant="inline" />
+        </div>
         <p className="fine gate-note" role="note">{DISCLAIMER}</p>
         {coverage.length > 0 ? (
           <div className="metros">

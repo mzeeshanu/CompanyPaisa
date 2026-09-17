@@ -20,7 +20,7 @@ import {
   applyTheme, clearPrefs, configurePrefs, readPrefs, readSessionConsent, writePrefs, writeSessionConsent,
   type Consent, type Mode, type Theme, type View,
 } from './lib/prefs';
-import { companyPath, navigate, savedScroll, useRoute } from './lib/router';
+import { companyPath, navigate, replaceAddress, savedScroll, searchPath, useRoute } from './lib/router';
 
 const FALLBACK_CONFIG: ClientConfig = {
   defaultView: 'List', defaultTheme: 'Auto', defaultRadiusMiles: 10, allowedRadiiMiles: [5, 10, 25, 50],
@@ -29,6 +29,8 @@ const FALLBACK_CONFIG: ClientConfig = {
   coverage: [],
 };
 const COVERAGE_MILES = 60;
+const COMPANY_SORTS: CompanySort[] = ['Revenue', 'Growth', 'Profit', 'Distance'];
+const EXEC_SORTS: ExecutiveSort[] = ['Pay', 'TotalPay', 'PayGrowth', 'Distance', 'Name'];
 
 interface Tip { company: CompanySummary; x: number; y: number }
 
@@ -71,6 +73,13 @@ export default function App() {
   const [hovered, setHovered] = useState<string | null>(null);
   const [tip, setTip] = useState<Tip | null>(null);
   const header = useRef<HTMLElement>(null);
+  // A search address (/near/84043?radius=25) is being turned into a search: the location screen waits until it's known.
+  const [resolving, setResolving] = useState(() => route.kind === 'home' && route.search !== null);
+  const [gateNotice, setGateNotice] = useState<string | undefined>();
+  const originNow = useRef(origin);
+  originNow.current = origin;
+  const consentNow = useRef(consent);
+  consentNow.current = consent;
 
   // ---- boot: settings come from the API (appsettings.json), preferences from the consent cookie ----
   useEffect(() => {
@@ -172,10 +181,75 @@ export default function App() {
       .finally(() => setLoadingMore(false));
   }, [origin, execData, loadingMore, radius, sector, includeFormer, execSearch, execSort]);
 
-  const onLocated = (o: Origin) => {
-    setOrigin(o); setGateOpen(false); setLastOpened(null);
-    if (consent === null) setTimeout(() => setShowConsent(true), 900);
-  };
+  const onLocated = useCallback((o: Origin) => {
+    setOrigin(o); setGateOpen(false); setLastOpened(null); setGateNotice(undefined);
+    if (consentNow.current === null) setTimeout(() => setShowConsent(true), 900);
+  }, []);
+
+  // ---- a search address opened directly (shared link, bookmark, reload) ----
+  useEffect(() => {
+    if (!config) return;
+    if (route.kind !== 'home' || !route.search) { setResolving(false); return; }
+    const { place, executives } = route.search;
+    if (originNow.current?.place === place) { setResolving(false); return; }   // already showing it (came back from a page)
+
+    const p = new URLSearchParams(location.search);
+    const r = Number(p.get('radius'));
+    setRadius(config.allowedRadiiMiles.includes(r) ? r : config.defaultRadiusMiles);
+    setSector(p.get('sector') ?? '');
+    setHqOnly(p.get('hq') === '1');
+    const s = p.get('sort')?.toLowerCase();
+    const peopleMode = executives && config.features.Executives !== false;
+    setMode(peopleMode ? 'executives' : 'companies');
+    if (peopleMode) {
+      setExecSort(EXEC_SORTS.find(k => k.toLowerCase() === s) ?? 'Pay');
+      setExecSearch(p.get('q') ?? '');
+      setIncludeFormer(p.get('former') === '1');
+    } else {
+      setSort(COMPANY_SORTS.find(k => k.toLowerCase() === s) ?? config.defaultSort);
+    }
+    track('location_link', place);
+
+    let cancelled = false;
+    const fail = (notice?: string) => { if (cancelled) return; setGateNotice(notice); setGateOpen(true); setResolving(false); };
+    const found = (o: Origin) => { if (cancelled) return; onLocated(o); setResolving(false); };
+    setResolving(true);
+    if (place.toLowerCase() === 'me') {
+      // "Near me": only when the browser already allows location (no surprise prompt); otherwise the visitor chooses.
+      const permission = navigator.permissions?.query({ name: 'geolocation' }) ?? Promise.reject(new Error('no permissions API'));
+      permission.then(status => {
+        if (status.state !== 'granted') return fail();
+        navigator.geolocation.getCurrentPosition(
+          pos => found({ latitude: pos.coords.latitude, longitude: pos.coords.longitude, label: 'your location', place: 'me' }),
+          () => fail(), { timeout: 9000, maximumAge: 600000 });
+      }).catch(() => fail());
+    } else {
+      api.lookup(place)
+        .then(hit => found({ latitude: hit.point.latitude, longitude: hit.point.longitude, label: `${hit.city}, ${hit.state} ${hit.postalCode ?? place}`, place }))
+        .catch(e => fail(e instanceof ApiError && e.status === 404
+          ? `We couldn't find "${place}". Enter a ZIP code or postcode, or pick an area below.`
+          : 'Something went wrong opening that search. Please try again.'));
+    }
+    return () => { cancelled = true; };
+  }, [route, config, onLocated]);
+
+  // ---- keep the address in step with the search on screen, so it can be shared, bookmarked or reloaded ----
+  useEffect(() => {
+    if (!config || !onHome || !origin || resolving) return;
+    const q = new URLSearchParams();
+    if (radius !== config.defaultRadiusMiles) q.set('radius', String(radius));
+    if (sector) q.set('sector', sector);
+    if (mode === 'companies') {
+      if (hqOnly) q.set('hq', '1');
+      if (sort !== config.defaultSort) q.set('sort', sort);
+    } else {
+      if (execSort !== 'Pay') q.set('sort', execSort);
+      if (execSearch.trim()) q.set('q', execSearch.trim());
+      if (includeFormer) q.set('former', '1');
+    }
+    const qs = q.toString();
+    replaceAddress(searchPath(origin.place, mode === 'executives') + (qs ? `?${qs}` : ''));
+  }, [route, config, onHome, origin, resolving, radius, sector, hqOnly, sort, mode, execSort, execSearch, includeFormer]);
 
   const onHover = useCallback((ticker: string | null, el?: HTMLElement) => {
     setHovered(ticker);
@@ -197,14 +271,14 @@ export default function App() {
   }, []);
 
   /** "Companies near here" on a company page: a new search around that location. */
-  const explore = useCallback((point: { latitude: number; longitude: number }, label: string) => {
+  const explore = useCallback((point: { latitude: number; longitude: number }, label: string, place: string) => {
     setMode('companies'); setGateOpen(false); setLastOpened(null);
-    setOrigin({ latitude: point.latitude, longitude: point.longitude, label });
-    navigate('/');
+    setOrigin({ latitude: point.latitude, longitude: point.longitude, label, place });
+    navigate(searchPath(place, false));
   }, []);
 
   const nearby: Nearby | null = useMemo(() => origin
-    ? { point: { latitude: origin.latitude, longitude: origin.longitude }, label: origin.label, mode }
+    ? { point: { latitude: origin.latitude, longitude: origin.longitude }, label: origin.label, place: origin.place, mode }
     : null, [origin, mode]);
   const highlight = { selected: lastOpened, hovered };
   const features = config?.features ?? FALLBACK_CONFIG.features;
@@ -242,7 +316,7 @@ export default function App() {
     </div>
   );
 
-  const gateShown = gateOpen && onHome;
+  const gateShown = gateOpen && onHome && !resolving;
   const showExecutives = features.Executives !== false;
 
   return (
@@ -260,7 +334,7 @@ export default function App() {
             hqOnly={hqOnly} onHqOnly={setHqOnly}
             isSample={meta?.isSampleData ?? false} />
         ) : (
-          <PageBar ref={header} theme={theme} onTheme={setTheme} isSample={meta?.isSampleData ?? false} />
+          <PageBar ref={header} theme={theme} onTheme={setTheme} isSample={meta?.isSampleData ?? false} showExecutives={showExecutives} />
         )}
 
         {route.kind === 'company' && (
@@ -309,7 +383,8 @@ export default function App() {
         </div>
       )}
 
-      {gateShown && <LocationGate coverageMiles={COVERAGE_MILES} coverage={(config ?? FALLBACK_CONFIG).coverage ?? []} onLocated={onLocated} />}
+      {gateShown && <LocationGate coverageMiles={COVERAGE_MILES} coverage={(config ?? FALLBACK_CONFIG).coverage ?? []} onLocated={onLocated}
+        showExecutives={showExecutives} notice={gateNotice} />}
 
       <PrivacyNotice open={showPrivacy} contact={config.privacyContact} onClose={() => setShowPrivacy(false)} />
       <AboutData open={showAbout} contact={config.privacyContact} onClose={() => setShowAbout(false)} />

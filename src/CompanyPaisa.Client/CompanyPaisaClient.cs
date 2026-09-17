@@ -82,6 +82,10 @@ public sealed class CompanyPaisaClient(HttpClient http) : ICompanyPaisaClient
     public Task<ExecutiveDetailDto?> GetExecutiveAsync(string personId, CancellationToken ct = default) =>
         GetOptionalAsync<ExecutiveDetailDto>($"api/v1/executives/{Uri.EscapeDataString(personId)}", ct);
 
+    /// <summary>Companies (by name or ticker) and executives (by name), best matches first.</summary>
+    public Task<NameSearchResponse> SearchByNameAsync(string query, int? limit = null, CancellationToken ct = default) =>
+        GetRequiredAsync<NameSearchResponse>("api/v1/search" + Query(("q", query), ("limit", limit?.ToString(CultureInfo.InvariantCulture))), ct);
+
     public Task<GeoLookupDto?> LookupAsync(string query, CancellationToken ct = default) =>
         GetOptionalAsync<GeoLookupDto>("api/v1/geo/lookup" + Query(("q", query)), ct);
 

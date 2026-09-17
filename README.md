@@ -69,6 +69,7 @@ dotnet test CompanyPaisa.slnx
 | `GET /api/v1/companies/{ticker}/executives?years=5` | Executive pay by year |
 | `GET /api/v1/executives/near?near=84043&sort=TotalPay&years=10` | Executives of nearby companies with 10 years of pay (sort: Pay / TotalPay / PayGrowth / Distance / Name; `includeFormer`, `search`, `sector`) |
 | `GET /api/v1/executives/{personId}` | One person's career and pay across every company they were a named executive at |
+| `GET /api/v1/search?q=nvidia&limit=6` | Companies (name or ticker) and executives (name) anywhere in the data |
 | `GET /api/v1/geo/lookup?q=Lehi, UT` · `GET /api/v1/geo/zip/{zip}` | ZIP / city → coordinates |
 | `GET /api/v1/sectors` · `GET /api/v1/meta` · `GET /api/v1/client-config` | Reference data, data version, website settings |
 

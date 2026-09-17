@@ -1,9 +1,9 @@
 import type { GeoPoint } from '../api/types';
 import type { Mode } from '../lib/prefs';
-import { canGoBack, goBack, Link, previousPath } from '../lib/router';
+import { canGoBack, goBack, isSearchPath, Link, previousPath, searchPath } from '../lib/router';
 
 /** The visitor's current search, when a company or executive page was opened from it. */
-export interface Nearby { point: GeoPoint; label: string; mode: Mode }
+export interface Nearby { point: GeoPoint; label: string; place: string; mode: Mode }
 
 /** Straight-line miles between two points (haversine). */
 export function milesBetween(a: GeoPoint, b: GeoPoint): number {
@@ -14,9 +14,15 @@ export function milesBetween(a: GeoPoint, b: GeoPoint): number {
 
 /** "← Back to companies near Lehi", or a way into the search for someone who arrived from a shared link. */
 export function PageBack({ from }: { from: Nearby | null }) {
+  const what = from ? `${from.mode === 'executives' ? 'executives' : 'companies'} near ${from.label.split(',')[0]}` : null;
   if (canGoBack()) {
-    const to = from && previousPath() === '/' ? `${from.mode === 'executives' ? 'executives' : 'companies'} near ${from.label.split(',')[0]}` : null;
-    return <nav className="page-back"><button className="linkbtn" onClick={goBack}>← Back{to ? ` to ${to}` : ''}</button></nav>;
+    return <nav className="page-back"><button className="linkbtn" onClick={goBack}>← Back{what && isSearchPath(previousPath()) ? ` to ${what}` : ''}</button></nav>;
   }
-  return <nav className="page-back"><Link className="linkbtn" to="/">← {from ? `Companies near ${from.label.split(',')[0]}` : 'Find public companies near you'}</Link></nav>;
+  return (
+    <nav className="page-back">
+      <Link className="linkbtn" to={from ? searchPath(from.place, from.mode === 'executives') : '/'}>
+        ← {what ? what[0].toUpperCase() + what.slice(1) : 'Find public companies near you'}
+      </Link>
+    </nav>
+  );
 }

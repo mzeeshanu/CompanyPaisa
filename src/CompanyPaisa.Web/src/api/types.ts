@@ -126,4 +126,11 @@ export interface ClientConfig {
 export type Country = 'US' | 'CA' | 'UK' | 'FR' | 'NL' | 'IT' | 'ES' | 'AU' | 'NZ';
 export interface CoverageArea { name: string; exampleZip: string; country: Country }
 
+export interface NameSearchCompany {
+  ticker: string; name: string; exchange: string; sector: string; city: string | null; state: string | null;
+  ttmRevenue: number; currency: string;
+}
+export interface NameSearchExecutive { personId: string; name: string; title: string; company: CompanyRef; latestYear: number; latestTotalPay: number }
+export interface NameSearchResponse { query: string; companies: NameSearchCompany[]; executives: NameSearchExecutive[] }
+
 export interface ProblemDetails { title?: string; detail?: string; status?: number; errors?: Record<string, string[]> }
