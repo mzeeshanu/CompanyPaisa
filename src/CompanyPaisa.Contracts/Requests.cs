@@ -34,6 +34,8 @@ public sealed class ExecutivesNearRequest
     public bool IncludeFormer { get; init; }
     /// <summary>Case-insensitive match on name or title, e.g. "chief financial".</summary>
     public string? Search { get; init; }
+    /// <summary>Only people whose title (current nearby role) holds this role, e.g. Ceo; "Former …" titles don't count.</summary>
+    public ExecutiveRole? Role { get; init; }
     public ExecutiveSort? Sort { get; init; }
     /// <summary>History window for totals; defaults to Metrics:HistoryYears (10).</summary>
     public int? Years { get; init; }

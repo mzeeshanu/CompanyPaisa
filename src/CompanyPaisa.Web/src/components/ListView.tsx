@@ -25,6 +25,8 @@ interface Props extends ListEvents {
   highlight: Highlight;
   loading: boolean;
   showExecutives: boolean;
+  /** Narrows the ranked list only, by name or ticker. */
+  find: string; onFind: (s: string) => void;
 }
 
 const SORTS: CompanySort[] = ['Revenue', 'Growth', 'Profit', 'Distance'];
@@ -32,7 +34,7 @@ const SORTS: CompanySort[] = ['Revenue', 'Growth', 'Profit', 'Distance'];
 /** Phones start with one merged box (city boxes take a lot of scrolling there); wider screens start split by city. */
 const PHONE = '(max-width: 720px)';
 
-export function ListView({ data, placeName, sort, onSort, highlight, loading, showExecutives, onHover, onOpened }: Props) {
+export function ListView({ data, placeName, sort, onSort, highlight, loading, showExecutives, onHover, onOpened, find, onFind }: Props) {
   const s = data.summary;
   const [merged, setMerged] = useState(() => typeof window !== 'undefined' && window.matchMedia(PHONE).matches);
   return (
@@ -82,8 +84,10 @@ export function ListView({ data, placeName, sort, onSort, highlight, loading, sh
           <div className="chips" role="group" aria-label="Rank by">
             {SORTS.map(k => <button key={k} aria-pressed={sort === k} onClick={() => onSort(k)}>{k}</button>)}
           </div>
+          <input className="searchbox" type="search" placeholder="Search name or ticker…" aria-label="Search the list by company name or ticker"
+            value={find} onChange={e => onFind(e.target.value)} />
         </div>
-        <RankedRows items={data.items} sort={sort} onSort={onSort} highlight={highlight} onHover={onHover} onOpened={onOpened} />
+        <RankedRows items={data.items} sort={sort} onSort={onSort} highlight={highlight} onHover={onHover} onOpened={onOpened} find={find} onFind={onFind} />
       </section>
     </main>
   );
@@ -190,10 +194,19 @@ function displayName(cities: string[]): string {
   return counts[0][0];
 }
 
-function RankedRows({ items, sort, onSort, highlight, onHover, onOpened }: { items: CompanySummary[]; sort: CompanySort; onSort: (s: CompanySort) => void; highlight: Highlight } & ListEvents) {
+/** "Société Générale" → "societe generale" — for matching what visitors type. */
+const plain = (s: string) => s.normalize('NFD').replace(/\p{M}/gu, '').toLowerCase();
+
+function RankedRows({ items: all, sort, onSort, highlight, onHover, onOpened, find, onFind }:
+  { items: CompanySummary[]; sort: CompanySort; onSort: (s: CompanySort) => void; highlight: Highlight; find: string; onFind: (s: string) => void } & ListEvents) {
+  const q = plain(find.trim());
+  const items = q ? all.filter(c => plain(c.name).includes(q) || c.ticker.toLowerCase().startsWith(q)) : all;
   const { flipped, choose, order } = useSortFlip(sort, onSort, (c: CompanySummary, k) =>
     k === 'Growth' ? c.indicators.revenueGrowthYoY : k === 'Profit' ? c.indicators.ttmNetIncome : k === 'Revenue' ? c.indicators.ttmRevenue : c.distanceMiles);
-  if (items.length === 0) return <div className="empty">Nothing matches. Widen the radius or clear the filters.</div>;
+  if (all.length === 0) return <div className="empty">Nothing matches. Widen the radius or clear the filters.</div>;
+  if (items.length === 0) return (
+    <div className="empty">No company here matches “{find.trim()}”. <button className="linkbtn" onClick={() => onFind('')}>Clear</button></div>
+  );
   const head = { sort, flipped, onSort: choose };
   return (
     <div className="rows">
@@ -219,6 +232,12 @@ function RankedRows({ items, sort, onSort, highlight, onHover, onOpened }: { ite
           <span className={`val c-net${c.indicators.ttmNetIncome < 0 ? ' neg' : ''}`}>{money(c.indicators.ttmNetIncome, c.currency)}<small>{c.indicators.latestQuarterLabel ? '12 mo' : 'year'}</small></span>
         </Link>
       ))}
+      {q && (
+        <div className="more-row">
+          <span>Showing {items.length} of {all.length}</span>
+          <button className="linkbtn" onClick={() => onFind('')}>Clear</button>
+        </div>
+      )}
     </div>
   );
 }

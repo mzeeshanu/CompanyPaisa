@@ -79,7 +79,7 @@ public sealed class CompanyPaisaClient(HttpClient http) : ICompanyPaisaClient
     public Task<ExecutivesNearResponse> GetExecutivesNearAsync(ExecutivesNearRequest r, CancellationToken ct = default) =>
         GetRequiredAsync<ExecutivesNearResponse>("api/v1/executives/near" + Query(
             ("near", r.Near), ("latitude", Num(r.Latitude)), ("longitude", Num(r.Longitude)), ("radiusMiles", Num(r.RadiusMiles)),
-            ("sector", r.Sector), ("includeFormer", r.IncludeFormer ? "true" : null), ("search", r.Search), ("sort", r.Sort?.ToString()),
+            ("sector", r.Sector), ("includeFormer", r.IncludeFormer ? "true" : null), ("search", r.Search), ("role", r.Role?.ToString()), ("sort", r.Sort?.ToString()),
             ("years", r.Years?.ToString(CultureInfo.InvariantCulture)),
             ("page", r.Page?.ToString(CultureInfo.InvariantCulture)), ("pageSize", r.PageSize?.ToString(CultureInfo.InvariantCulture))), ct);
 

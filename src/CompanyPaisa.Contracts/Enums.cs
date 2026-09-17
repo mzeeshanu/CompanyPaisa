@@ -30,6 +30,23 @@ public enum ExecutiveSort
     Name
 }
 
+/// <summary>What an executive does, read from their title; a title can hold several ("President, COO and CFO").</summary>
+public enum ExecutiveRole
+{
+    /// <summary>Chief executive officer.</summary>
+    Ceo,
+    /// <summary>Chief financial officer.</summary>
+    Cfo,
+    /// <summary>Chief operating officer.</summary>
+    Coo,
+    /// <summary>Chief technology, information, digital or data officer.</summary>
+    Technology,
+    /// <summary>General counsel or chief legal officer.</summary>
+    Legal,
+    /// <summary>Anyone whose title names none of the roles above.</summary>
+    Other
+}
+
 /// <summary>Granularity of a financial period.</summary>
 public enum PeriodType
 {

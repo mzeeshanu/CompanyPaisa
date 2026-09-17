@@ -17,13 +17,13 @@ namespace CompanyPaisa.Core.Features.Executives;
 public sealed record GetExecutivesNearQuery(ExecutivesNearRequest Request) : IRequest<ExecutivesNearResponse>, ICacheableRequest, ITrackedRequest<ExecutivesNearResponse>
 {
     public string CacheKey => string.Create(CultureInfo.InvariantCulture,
-        $"execnear|{Request.Near?.Trim().ToUpperInvariant()}|{Request.Latitude:F3}|{Request.Longitude:F3}|{Request.RadiusMiles}|{Request.Sector?.ToUpperInvariant()}|{Request.IncludeFormer}|{Request.Search?.Trim().ToUpperInvariant()}|{Request.Sort}|{Request.Years}|{Request.Page}|{Request.PageSize}");
+        $"execnear|{Request.Near?.Trim().ToUpperInvariant()}|{Request.Latitude:F3}|{Request.Longitude:F3}|{Request.RadiusMiles}|{Request.Sector?.ToUpperInvariant()}|{Request.IncludeFormer}|{Request.Search?.Trim().ToUpperInvariant()}|{Request.Role}|{Request.Sort}|{Request.Years}|{Request.Page}|{Request.PageSize}");
     public string CacheProfile => "Search";
 
     /// <summary>The first page of a search only (later pages are "Show more" on the same search).</summary>
     public AnalyticsAction? Describe(ExecutivesNearResponse response) => (Request.Page ?? 1) != 1 ? null :
         SearchAnalytics.Action("executive_search", response.Origin, response.OriginLabel, response.RadiusMiles, Request.Near, Request.Sector,
-            response.TotalCount, ("search", Request.Search?.Trim()), ("includeFormer", Request.IncludeFormer ? "true" : null));
+            response.TotalCount, ("search", Request.Search?.Trim()), ("role", Request.Role?.ToString()), ("includeFormer", Request.IncludeFormer ? "true" : null));
 }
 
 public sealed class GetExecutivesNearValidator(IOptionsMonitor<SearchOptions> search, IOptionsMonitor<MetricsOptions> metrics)
@@ -95,6 +95,7 @@ public sealed class GetExecutivesNearHandler(
                 !latest.ExecutiveName.Contains(r.Search.Trim(), StringComparison.OrdinalIgnoreCase) &&
                 !shown.Title.Contains(r.Search.Trim(), StringComparison.OrdinalIgnoreCase))
                 continue;
+            if (r.Role is { } role && !ExecutiveRoles.Holds(shown.Title, role)) continue;
 
             // Pay per year (a mid-year move can mean two rows in one year).
             var byYear = ordered.Where(x => x.Year >= fromYear)

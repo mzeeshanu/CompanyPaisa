@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import * as d3 from 'd3';
-import type { ExecutiveSort, ExecutiveSummary, ExecutivesNearResponse, PayPoint } from '../api/types';
+import type { ExecutiveSort, ExecutiveSummary, ExecutivesNearResponse, PayPoint, RoleFilter } from '../api/types';
 import { money, pct, tone, total } from '../lib/format';
 import { Link, personPath } from '../lib/router';
 import { SortHeader, useSortFlip } from './SortHeader';
@@ -10,6 +10,7 @@ interface Props {
   placeName: string;
   sort: ExecutiveSort; onSort: (s: ExecutiveSort) => void;
   search: string; onSearch: (s: string) => void;
+  role: RoleFilter | ''; onRole: (r: RoleFilter | '') => void;
   includeFormer: boolean; onIncludeFormer: (b: boolean) => void;
   selected: string | null;
   loading: boolean;
@@ -19,6 +20,15 @@ interface Props {
   onMore: () => void;
   loadingMore: boolean;
 }
+
+const ROLES: { key: RoleFilter; label: string }[] = [
+  { key: 'Ceo', label: 'CEOs' },
+  { key: 'Cfo', label: 'CFOs' },
+  { key: 'Coo', label: 'COOs' },
+  { key: 'Technology', label: 'CTOs / CIOs' },
+  { key: 'Legal', label: 'General counsel' },
+  { key: 'Other', label: 'Other executives' },
+];
 
 const SORTS: { key: ExecutiveSort; label: string }[] = [
   { key: 'Pay', label: 'Latest pay' },
@@ -32,7 +42,7 @@ export const initials = (name: string) =>
   name.split(/\s+/).filter(w => /^[A-Za-z]/.test(w)).slice(0, 2).map(w => w[0].toUpperCase()).join('') || '?';
 
 /** "Executives near me": named executive officers of nearby public companies, ranked by pay. */
-export function ExecutivesView({ data, placeName, sort, onSort, search, onSearch, includeFormer, onIncludeFormer, selected, loading, onOpened, onMore, loadingMore }: Props) {
+export function ExecutivesView({ data, placeName, sort, onSort, search, onSearch, role, onRole, includeFormer, onIncludeFormer, selected, loading, onOpened, onMore, loadingMore }: Props) {
   const s = data.summary;
   const years = data.items[0]?.windowYears ?? 10;
   const { flipped, choose, order } = useSortFlip(sort, onSort, (e: ExecutiveSummary, k) =>
@@ -72,6 +82,12 @@ export function ExecutivesView({ data, placeName, sort, onSort, search, onSearch
           </div>
           <input className="searchbox" type="search" placeholder="Search name or title…" aria-label="Search executives"
             value={text} onChange={e => setText(e.target.value)} />
+          <div className="sel-wrap">
+            <select aria-label="Role" value={role} onChange={e => onRole(e.target.value as RoleFilter | '')}>
+              <option value="">All roles</option>
+              {ROLES.map(r => <option key={r.key} value={r.key}>{r.label}</option>)}
+            </select>
+          </div>
           <label className="switch"><input type="checkbox" checked={includeFormer} onChange={e => onIncludeFormer(e.target.checked)} /> Include people who moved away</label>
         </div>
 

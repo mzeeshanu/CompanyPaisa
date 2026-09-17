@@ -68,7 +68,7 @@ dotnet test CompanyPaisa.slnx
 | `GET /api/v1/companies/{ticker}/financials?period=Annual&years=10` | Revenue & net income history with YoY growth |
 | `GET /api/v1/companies/{ticker}/executives?years=5` | Executive pay by year |
 | `GET /api/v1/companies/{ticker}/insights` | Facts (sector and city rank, streaks, best year, CEO pay vs results, margin vs sector) and similar companies nearby |
-| `GET /api/v1/executives/near?near=84043&sort=TotalPay&years=10` | Executives of nearby companies with 10 years of pay (sort: Pay / TotalPay / PayGrowth / Distance / Name; `includeFormer`, `search`, `sector`) |
+| `GET /api/v1/executives/near?near=84043&sort=TotalPay&years=10` | Executives of nearby companies with 10 years of pay (sort: Pay / TotalPay / PayGrowth / Distance / Name; `role`: Ceo / Cfo / Coo / Technology / Legal / Other; `includeFormer`, `search`, `sector`) |
 | `GET /api/v1/executives/{personId}` | One person's career and pay across every company they were a named executive at |
 | `GET /api/v1/search?q=nvidia&limit=6` | Companies (name or ticker) and executives (name) anywhere in the data |
 | `GET /api/v1/geo/lookup?q=Lehi, UT` · `GET /api/v1/geo/zip/{zip}` | ZIP / city → coordinates |

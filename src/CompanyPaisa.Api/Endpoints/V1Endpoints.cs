@@ -73,21 +73,21 @@ public static class V1Endpoints
         // ----- Executives (people) -----
         v1.MapGet("/executives/near", async (
                 string? near, double? latitude, double? longitude, double? radiusMiles, string? sector, bool? includeFormer,
-                string? search, string? sort, int? years, int? page, int? pageSize,
+                string? search, string? role, string? sort, int? years, int? page, int? pageSize,
                 IServiceRequestor requestor, IOptionsMonitor<FeatureOptions> features, CancellationToken ct) =>
             {
                 if (!features.CurrentValue.IsEnabled("Executives")) return Results.NotFound();
                 var request = new ExecutivesNearRequest
                 {
                     Near = near, Latitude = latitude, Longitude = longitude, RadiusMiles = radiusMiles, Sector = sector,
-                    IncludeFormer = includeFormer ?? false, Search = search, Sort = ParseEnum<ExecutiveSort>(sort, "sort"),
+                    IncludeFormer = includeFormer ?? false, Search = search, Role = ParseEnum<ExecutiveRole>(role, "role"), Sort = ParseEnum<ExecutiveSort>(sort, "sort"),
                     Years = years, Page = page, PageSize = pageSize
                 };
                 return Results.Ok(await requestor.SendAsync(new GetExecutivesNearQuery(request), ct));
             })
             .WithName("GetExecutivesNear")
             .WithSummary("Named executive officers of public companies near a ZIP code, city or coordinates, with up to 10 years of pay.")
-            .WithDescription("Examples: ?near=84043  ·  ?near=84043&sort=TotalPay&years=10  ·  ?near=84043&includeFormer=true&search=financial")
+            .WithDescription("Examples: ?near=84043  ·  ?near=84043&sort=TotalPay&years=10  ·  ?near=84043&includeFormer=true&search=financial  ·  ?near=94105&role=Ceo")
             .Produces<ExecutivesNearResponse>();
 
         v1.MapGet("/executives/{personId}", async (string personId, IServiceRequestor requestor, IOptionsMonitor<FeatureOptions> features, CancellationToken ct) =>

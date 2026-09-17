@@ -4,6 +4,8 @@
 export type TrendStatus = 'Up' | 'Flat' | 'Down';
 export type CompanySort = 'Revenue' | 'Growth' | 'Profit' | 'Distance';
 export type PeriodType = 'Quarterly' | 'Annual';
+/** What an executive does, read from their title (Other = none of the named roles). */
+export type RoleFilter = 'Ceo' | 'Cfo' | 'Coo' | 'Technology' | 'Legal' | 'Other';
 export type LocationType = 'Headquarters' | 'Campus' | 'Office' | 'Plant';
 
 export interface GeoPoint { latitude: number; longitude: number }

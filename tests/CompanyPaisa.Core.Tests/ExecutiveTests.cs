@@ -49,6 +49,37 @@ public class ExecutiveTests
     }
 
     [Fact]
+    public async Task Role_narrows_the_list_to_people_whose_title_holds_it()
+    {
+        var ceos = await Search(new() { Near = "84043", RadiusMiles = 10, Role = ExecutiveRole.Ceo });
+        var cfos = await Search(new() { Near = "84043", RadiusMiles = 10, Role = ExecutiveRole.Cfo });
+        var others = await Search(new() { Near = "84043", RadiusMiles = 10, Role = ExecutiveRole.Other });
+
+        Assert.Equal(["P2"], ceos.Items.Select(e => e.PersonId));
+        Assert.Equal(1, ceos.TotalCount);
+        Assert.Equal(["P3"], cfos.Items.Select(e => e.PersonId));
+        Assert.Empty(others.Items);
+    }
+
+    [Theory]
+    [InlineData("President and Chief Executive Officer", ExecutiveRole.Ceo, true)]
+    [InlineData("Chairman & CEO", ExecutiveRole.Ceo, true)]
+    [InlineData("Former Chief Executive Officer", ExecutiveRole.Ceo, false)]
+    [InlineData("Executive Vice President and Chief Financial Officer", ExecutiveRole.Cfo, true)]   // "vice" is fine outside the CEO rule
+    [InlineData("Chief Operating Officer and Chief Financial Officer", ExecutiveRole.Coo, true)]
+    [InlineData("Chief Operating Officer and Chief Financial Officer", ExecutiveRole.Cfo, true)]
+    [InlineData("Deputy Chief Financial Officer", ExecutiveRole.Cfo, false)]
+    [InlineData("EVP, CTO", ExecutiveRole.Technology, true)]
+    [InlineData("Chief Information Officer", ExecutiveRole.Technology, true)]
+    [InlineData("Chief Legal Officer and Corporate Secretary", ExecutiveRole.Legal, true)]
+    [InlineData("General Counsel and Secretary", ExecutiveRole.Legal, true)]
+    [InlineData("M.D. Chief Medical Officer", ExecutiveRole.Other, true)]
+    [InlineData("Chief Revenue Officer", ExecutiveRole.Other, true)]
+    [InlineData("Former Chief Financial Officer", ExecutiveRole.Other, false)]   // in neither CFO nor Other
+    public void Titles_hold_roles(string title, ExecutiveRole role, bool expected) =>
+        Assert.Equal(expected, ExecutiveRoles.Holds(title, role));
+
+    [Fact]
     public async Task Include_former_adds_people_who_moved_away()
     {
         var result = await Search(new() { Near = "84043", RadiusMiles = 10, IncludeFormer = true });

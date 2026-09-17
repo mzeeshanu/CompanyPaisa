@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { api, ApiError } from './api/client';
-import type { ClientConfig, CompanySort, CompanySummary, DataMeta, ExecutiveSort, ExecutivesNearResponse, NearbyResponse } from './api/types';
+import type { ClientConfig, CompanySort, CompanySummary, DataMeta, ExecutiveSort, ExecutivesNearResponse, NearbyResponse, RoleFilter } from './api/types';
 import { AboutData } from './components/AboutData';
 import { CompanyPage } from './components/CompanyPage';
 import { ConsentBanner } from './components/ConsentBanner';
@@ -31,6 +31,7 @@ const FALLBACK_CONFIG: ClientConfig = {
 const COVERAGE_MILES = 60;
 const COMPANY_SORTS: CompanySort[] = ['Revenue', 'Growth', 'Profit', 'Distance'];
 const EXEC_SORTS: ExecutiveSort[] = ['Pay', 'TotalPay', 'PayGrowth', 'Distance', 'Name'];
+const EXEC_ROLES: RoleFilter[] = ['Ceo', 'Cfo', 'Coo', 'Technology', 'Legal', 'Other'];
 
 interface Tip { company: CompanySummary; x: number; y: number }
 
@@ -53,6 +54,9 @@ export default function App() {
   const [mode, setMode] = useState<Mode>('companies');
   const [execSort, setExecSort] = useState<ExecutiveSort>('Pay');
   const [execSearch, setExecSearch] = useState('');
+  const [execRole, setExecRole] = useState<RoleFilter | ''>('');
+  // Narrows the ranked company list only (the bubbles and summary keep the whole area).
+  const [companyFind, setCompanyFind] = useState('');
   const [includeFormer, setIncludeFormer] = useState(false);
 
   const [view, setView] = useState<View>('list');
@@ -158,13 +162,13 @@ export default function App() {
     setLoading(true); setError('');
     api.executivesNear({
       latitude: origin.latitude, longitude: origin.longitude, radiusMiles: radius, sector: sector || undefined,
-      includeFormer, search: execSearch.trim() || undefined, sort: execSort,
+      includeFormer, search: execSearch.trim() || undefined, role: execRole || undefined, sort: execSort,
     }, ctrl.signal)
       .then(setExecData)
       .catch(e => { if (e.name !== 'AbortError') setError(e instanceof ApiError ? e.message : 'Could not load executives. Please try again.'); })
       .finally(() => { if (!ctrl.signal.aborted) setLoading(false); });
     return () => ctrl.abort();
-  }, [origin, radius, sector, includeFormer, execSearch, execSort, mode]);
+  }, [origin, radius, sector, includeFormer, execSearch, execRole, execSort, mode]);
 
   // The next page of executives, added below the ones already shown (same search, next page number).
   const [loadingMore, setLoadingMore] = useState(false);
@@ -174,12 +178,12 @@ export default function App() {
     track('executives_more');
     api.executivesNear({
       latitude: origin.latitude, longitude: origin.longitude, radiusMiles: radius, sector: sector || undefined,
-      includeFormer, search: execSearch.trim() || undefined, sort: execSort, page: execData.page + 1,
+      includeFormer, search: execSearch.trim() || undefined, role: execRole || undefined, sort: execSort, page: execData.page + 1,
     })
       .then(next => setExecData(prev => prev && prev.page + 1 === next.page ? { ...next, items: [...prev.items, ...next.items] } : prev))
       .catch(e => setError(e instanceof ApiError ? e.message : 'Could not load more executives. Please try again.'))
       .finally(() => setLoadingMore(false));
-  }, [origin, execData, loadingMore, radius, sector, includeFormer, execSearch, execSort]);
+  }, [origin, execData, loadingMore, radius, sector, includeFormer, execSearch, execRole, execSort]);
 
   const onLocated = useCallback((o: Origin) => {
     setOrigin(o); setGateOpen(false); setLastOpened(null); setGateNotice(undefined);
@@ -204,9 +208,11 @@ export default function App() {
     if (peopleMode) {
       setExecSort(EXEC_SORTS.find(k => k.toLowerCase() === s) ?? 'Pay');
       setExecSearch(p.get('q') ?? '');
+      setExecRole(EXEC_ROLES.find(k => k.toLowerCase() === p.get('role')?.toLowerCase()) ?? '');
       setIncludeFormer(p.get('former') === '1');
     } else {
       setSort(COMPANY_SORTS.find(k => k.toLowerCase() === s) ?? config.defaultSort);
+      setCompanyFind(p.get('q') ?? '');
     }
     track('location_link', place);
 
@@ -242,14 +248,16 @@ export default function App() {
     if (mode === 'companies') {
       if (hqOnly) q.set('hq', '1');
       if (sort !== config.defaultSort) q.set('sort', sort);
+      if (companyFind.trim()) q.set('q', companyFind.trim());
     } else {
       if (execSort !== 'Pay') q.set('sort', execSort);
       if (execSearch.trim()) q.set('q', execSearch.trim());
+      if (execRole) q.set('role', execRole.toLowerCase());
       if (includeFormer) q.set('former', '1');
     }
     const qs = q.toString();
     replaceAddress(searchPath(origin.place, mode === 'executives') + (qs ? `?${qs}` : ''));
-  }, [route, config, onHome, origin, resolving, radius, sector, hqOnly, sort, mode, execSort, execSearch, includeFormer]);
+  }, [route, config, onHome, origin, resolving, radius, sector, hqOnly, sort, mode, execSort, execSearch, execRole, includeFormer, companyFind]);
 
   const onHover = useCallback((ticker: string | null, el?: HTMLElement) => {
     setHovered(ticker);
@@ -356,7 +364,8 @@ export default function App() {
         {onHome && mode === 'companies' && data && view === 'list' && (
           <>
             <ListView data={data} placeName={placeName} sort={sort} onSort={setSort} highlight={highlight} loading={loading}
-              showExecutives={showExecutives} onOpened={noteOpened} onHover={onHover} />
+              showExecutives={showExecutives} onOpened={noteOpened} onHover={onHover}
+              find={companyFind} onFind={setCompanyFind} />
             {footer}
           </>
         )}
@@ -369,7 +378,7 @@ export default function App() {
         {onHome && mode === 'executives' && execData && (
           <>
             <ExecutivesView data={execData} placeName={placeName} sort={execSort} onSort={setExecSort}
-              search={execSearch} onSearch={setExecSearch} includeFormer={includeFormer} onIncludeFormer={setIncludeFormer}
+              search={execSearch} onSearch={setExecSearch} role={execRole} onRole={setExecRole} includeFormer={includeFormer} onIncludeFormer={setIncludeFormer}
               selected={lastOpened} loading={loading} onOpened={noteOpened} onMore={loadMoreExecutives} loadingMore={loadingMore} />
             {footer}
           </>
@@ -383,7 +392,7 @@ export default function App() {
         </div>
       )}
 
-      {gateShown && <LocationGate coverageMiles={COVERAGE_MILES} coverage={(config ?? FALLBACK_CONFIG).coverage ?? []} onLocated={onLocated}
+      {gateShown && <LocationGate coverageMiles={COVERAGE_MILES} coverage={(config ?? FALLBACK_CONFIG).coverage ?? []} onLocated={o => { setCompanyFind(''); onLocated(o); }}
         showExecutives={showExecutives} notice={gateNotice} />}
 
       <PrivacyNotice open={showPrivacy} contact={config.privacyContact} onClose={() => setShowPrivacy(false)} />
