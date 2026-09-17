@@ -168,6 +168,19 @@ select option{background:var(--ground);color:var(--ink)}
 .tip b{display:block;font-weight:800}
 .tip span{font-family:var(--mono);color:var(--dim);font-size:11.5px}
 
+/* quick fact: one line of perspective between the bubbles and the ranked list */
+.fact{border-radius:18px;margin:12px 0 0;padding:12px 14px 12px 16px}
+.fact-line{display:flex;align-items:center;gap:12px}
+.fact-line p{margin:0;flex:1;min-width:0;font-size:15px;line-height:1.45;color:var(--ink);text-wrap:pretty}
+.fact-line b{font-weight:700;color:var(--accent)}
+.fact-ico{flex:none;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--accent-soft);font-size:16px}
+.fact-name{font-size:inherit}
+.fact-btns{flex:none;display:flex;gap:6px}
+.fact-btn{width:30px;height:30px;border-radius:50%;border:1px solid var(--glass-edge);background:transparent;color:var(--dim);font:700 13px var(--body);cursor:pointer;display:grid;place-items:center}
+.fact-btn:hover,.fact-btn[aria-expanded="true"]{color:var(--accent);border-color:var(--accent)}
+.fact-about{margin:10px 0 0 46px;font-size:12.5px;line-height:1.5;color:var(--dim)}
+.fact-about .linkbtn{font-size:inherit}
+@media (max-width:720px){.fact-line{align-items:flex-start}.fact-line p{font-size:14px}.fact-ico{width:28px;height:28px;font-size:14px}.fact-about{margin-left:0}}
 .listcard{border-radius:24px;margin:26px 0 20px;overflow:hidden}
 .toolbar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:14px 18px;border-bottom:1px solid var(--hair)}
 .rows{display:flex;flex-direction:column}

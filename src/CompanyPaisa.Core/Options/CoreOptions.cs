@@ -65,6 +65,28 @@ public sealed class DataSourceOptions
     public string? ConnectionString { get; set; }
 }
 
+/// <summary>appsettings section "Benchmarks" — outside figures the site compares company numbers with.</summary>
+public sealed class BenchmarkOptions
+{
+    public const string SectionName = "Benchmarks";
+
+    /// <summary>Median full-time pay by country code ("US", "UK", "CA", "AU" — the codes the coverage areas use).</summary>
+    public Dictionary<string, MedianPayOptions> MedianPay { get; set; } = new(StringComparer.OrdinalIgnoreCase);
+}
+
+/// <summary>One country's median full-time pay, from its statistics office.</summary>
+public sealed class MedianPayOptions
+{
+    /// <summary>Who the figure describes, e.g. "US full-time worker".</summary>
+    [Required] public string Description { get; set; } = "";
+    [Range(1, 10_000_000)] public decimal AnnualPay { get; set; }
+    [Required] public string Currency { get; set; } = "USD";
+    /// <summary>When it was measured, e.g. "Q2 2026".</summary>
+    [Required] public string Period { get; set; } = "";
+    [Required] public string Source { get; set; } = "";
+    [Required] public string SourceUrl { get; set; } = "";
+}
+
 /// <summary>appsettings section "Geo".</summary>
 public sealed class GeoOptions
 {

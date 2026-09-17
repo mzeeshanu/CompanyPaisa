@@ -2,6 +2,7 @@ import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import * as d3 from 'd3';
 import type { CompanySort, CompanySummary, NearbyResponse } from '../api/types';
 import { bubbleRadius, money, pct, tone, total, trendClass } from '../lib/format';
+import { QuickFact } from './QuickFact';
 import { SortHeader, useSortFlip } from './SortHeader';
 
 export interface Highlight { selected: string | null; hovered: string | null }
@@ -16,6 +17,8 @@ interface Props extends BubbleEvents {
   sort: CompanySort; onSort: (s: CompanySort) => void;
   highlight: Highlight;
   loading: boolean;
+  showExecutives: boolean;
+  onOpenPerson: (personId: string) => void;
 }
 
 const SORTS: CompanySort[] = ['Revenue', 'Growth', 'Profit', 'Distance'];
@@ -23,7 +26,7 @@ const SORTS: CompanySort[] = ['Revenue', 'Growth', 'Profit', 'Distance'];
 /** Phones start with one merged box (city boxes take a lot of scrolling there); wider screens start split by city. */
 const PHONE = '(max-width: 720px)';
 
-export function ListView({ data, placeName, sort, onSort, highlight, loading, onHover, onSelect }: Props) {
+export function ListView({ data, placeName, sort, onSort, highlight, loading, showExecutives, onOpenPerson, onHover, onSelect }: Props) {
   const s = data.summary;
   const [merged, setMerged] = useState(() => typeof window !== 'undefined' && window.matchMedia(PHONE).matches);
   return (
@@ -63,6 +66,7 @@ export function ListView({ data, placeName, sort, onSort, highlight, loading, on
             </div>
           </div>
           <CityClusters items={data.items} merged={merged} allLabel={placeName} highlight={highlight} onHover={onHover} onSelect={onSelect} />
+          <QuickFact summary={s} showExecutives={showExecutives} onOpenPerson={onOpenPerson} />
         </>
       )}
 

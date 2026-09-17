@@ -35,6 +35,22 @@ export interface CompanySummary {
 export interface NearbySummary {
   companyCount: number; combinedTtmRevenue: number; growingCount: number; headquarteredCount: number;
   currency: string; approximate: boolean;
+  /** The best-paid CEO of a company based in the results (latest year), or null. */
+  topPaidCeo?: TopPaidCeo | null;
+}
+
+export interface TopPaidCeo {
+  personId: string; name: string; title: string; ticker: string; companyName: string;
+  year: number; totalPay: number; currency: string;
+  /** "CEO", or "executive director" where the filing doesn't say who the chief executive is (UK annual reports). */
+  role: string;
+  medianWorker: MedianPayComparison | null;
+}
+
+/** A country's median full-time pay and how many hours (of a 24/7 year) the CEO takes to earn it. */
+export interface MedianPayComparison {
+  country: string; description: string; annualPay: number; currency: string; period: string;
+  source: string; sourceUrl: string; hoursToEarn: number; approximate: boolean;
 }
 
 export interface NearbyResponse {

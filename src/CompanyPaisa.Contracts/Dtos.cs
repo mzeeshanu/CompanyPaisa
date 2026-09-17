@@ -54,7 +54,39 @@ public sealed record CompanySummaryDto(
 /// some results were in other currencies and were converted at the configured approximate rates.
 /// </remarks>
 public sealed record NearbySummaryDto(int CompanyCount, decimal CombinedTtmRevenue, int GrowingCount, int HeadquarteredCount,
-    string Currency = "USD", bool Approximate = false);
+    string Currency = "USD", bool Approximate = false, TopPaidCeoDto? TopPaidCeo = null);
+
+/// <summary>
+/// The highest-paid chief executive of a company headquartered in the results (latest reported year), and how long they take
+/// to earn a typical full-time worker's yearly pay in the company's home country. Null when no such pay is reported.
+/// <see cref="Role"/> is "CEO", or "executive director" where the filing doesn't say who the chief executive is (UK annual reports).
+/// </summary>
+public sealed record TopPaidCeoDto(
+    string PersonId,
+    string Name,
+    string Title,
+    string Ticker,
+    string CompanyName,
+    int Year,
+    decimal TotalPay,
+    string Currency,
+    string Role,
+    MedianPayComparisonDto? MedianWorker);
+
+/// <summary>
+/// A country's median full-time pay and how many hours (of a 24/7 calendar year) the CEO takes to earn it.
+/// <see cref="Approximate"/> = the CEO's pay was converted from another currency first.
+/// </summary>
+public sealed record MedianPayComparisonDto(
+    string Country,
+    string Description,
+    decimal AnnualPay,
+    string Currency,
+    string Period,
+    string Source,
+    string SourceUrl,
+    double HoursToEarn,
+    bool Approximate);
 
 /// <summary>Response of the "companies near" search.</summary>
 public sealed record NearbyCompaniesResponse(

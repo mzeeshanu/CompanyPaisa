@@ -29,6 +29,10 @@ public class GetCompaniesNearHandlerTests
         new NearbySearchService(repo, new FakeGeoLocator(("84043", Lehi)), new HaversineDistanceCalculator()),
         new FinancialMetricsService(Opt.Monitor(new MetricsOptions())),
         new CurrencyConverter(Opt.Monitor(new CurrencyOptions())),
+        new TopPaidCeoService(repo, new CurrencyConverter(Opt.Monitor(new CurrencyOptions())), Opt.Monitor(new BenchmarkOptions
+        {
+            MedianPay = { ["US"] = new MedianPayOptions { Description = "US full-time worker", AnnualPay = 65_000, Currency = "USD", Period = "2026", Source = "BLS", SourceUrl = "https://www.bls.gov/" } }
+        })),
         Opt.Monitor(new SearchOptions { AllowedRadiiMiles = [5, 10, 25, 50] }));
 
     private static Task<NearbyCompaniesResponse> Search(NearbyCompaniesRequest r, FakeRepository? repo = null) =>
@@ -78,6 +82,89 @@ public class GetCompaniesNearHandlerTests
     {
         var result = await Search(new() { Near = "84043", RadiusMiles = 10, Sector = "finance" });
         Assert.Equal(["BIG"], result.Items.Select(i => i.Ticker));
+    }
+
+    [Fact]
+    public async Task Top_paid_CEO_is_the_best_paid_chief_executive_of_a_company_based_here()
+    {
+        var repo = Repo()
+            .Pay("P1", "NEAR", "President and Chief Executive Officer", 2024, 2025, 13_000_000)
+            .Pay("P2", "FAST", "Chief Operating Officer", 2025, 2025, 50_000_000)          // not a CEO
+            .Pay("P3", "FAST", "Former Chief Executive Officer", 2025, 2025, 30_000_000)   // left
+            .Pay("P4", "BIG", "CEO", 2025, 2025, 100_000_000);                             // BIG only has an office here
+
+        var ceo = (await Search(new() { Near = "84043", RadiusMiles = 10 }, repo)).Summary.TopPaidCeo;
+
+        Assert.NotNull(ceo);
+        Assert.Equal(("P1", "NEAR", 2025, 13_000_000m), (ceo.PersonId, ceo.Ticker, ceo.Year, ceo.TotalPay));
+        Assert.Equal("CEO", ceo.Role);
+        Assert.NotNull(ceo.MedianWorker);
+        Assert.Equal("US", ceo.MedianWorker.Country);
+        Assert.Equal(TopPaidCeoService.HoursPerYear * 65_000 / 13_000_000, ceo.MedianWorker.HoursToEarn, 2);   // ~43.8 hours
+    }
+
+    [Fact]
+    public async Task Top_paid_CEO_ignores_companies_that_stopped_reporting_pay()
+    {
+        var repo = Repo()
+            .Pay("OLD", "NEAR", "Chief Executive Officer", 2019, 2020, 90_000_000)
+            .Pay("NEW", "FAST", "Chief Executive Officer", 2024, 2025, 2_000_000);
+
+        var ceo = (await Search(new() { Near = "84043", RadiusMiles = 10 }, repo)).Summary.TopPaidCeo;
+
+        Assert.Equal("NEW", ceo?.PersonId);
+    }
+
+    [Fact]
+    public async Task No_top_paid_CEO_when_nobody_reported_is_a_chief_executive()
+    {
+        var repo = Repo().Pay("P1", "NEAR", "Chief Financial Officer", 2025, 2025, 5_000_000);
+        Assert.Null((await Search(new() { Near = "84043", RadiusMiles = 10 }, repo)).Summary.TopPaidCeo);
+    }
+
+    [Fact]
+    public async Task UK_executive_directors_count_when_the_report_names_no_chief_executive()
+    {
+        var repo = Repo()
+            .Pay("UK1", "NEAR", "Executive Director", 2025, 2025, 7_000_000)
+            .Pay("US1", "FAST", "Chief Executive Officer", 2025, 2025, 3_000_000);
+
+        var ceo = (await Search(new() { Near = "84043", RadiusMiles = 10 }, repo)).Summary.TopPaidCeo;
+
+        Assert.Equal(("UK1", "executive director"), (ceo?.PersonId, ceo?.Role));
+    }
+
+    [Fact]
+    public async Task No_top_paid_CEO_without_pay_data()
+    {
+        var result = await Search(new() { Near = "84043", RadiusMiles = 10 });
+        Assert.Null(result.Summary.TopPaidCeo);
+    }
+
+    [Theory]
+    [InlineData("Chief Executive Officer", true)]
+    [InlineData("President & CEO", true)]
+    [InlineData("Group Chief Executive", true)]
+    [InlineData("Co-CEO", true)]
+    [InlineData("Former Chief Executive Officer", false)]
+    [InlineData("Deputy Chief Executive", false)]
+    [InlineData("Executive Vice President and Chief Financial Officer", false)]
+    public void Recognises_chief_executive_titles(string title, bool expected) =>
+        Assert.Equal(expected, TopPaidCeoService.IsChiefExecutive(title));
+
+    [Theory]
+    [InlineData("UT", "USD", "US")]
+    [InlineData("CA", "USD", "US")]    // California
+    [InlineData("ON", "CAD", "CA")]
+    [InlineData("NL", "CAD", "CA")]    // Newfoundland
+    [InlineData("NL", "EUR", "NL")]    // the Netherlands
+    [InlineData("UK", "GBP", "UK")]
+    [InlineData("AU", "AUD", "AU")]
+    public void Works_out_the_country_of_a_location(string state, string currency, string country)
+    {
+        var company = new Company { CompanyId = "X", Name = "X", Ticker = "X", Exchange = "X", Sector = "X", Currency = currency };
+        var location = new CompanyLocation { LocationId = "X", CompanyId = "X", Type = LocationType.Headquarters, Label = "HQ", City = "Town", State = state, Point = new GeoPoint(0, 0) };
+        Assert.Equal(country, TopPaidCeoService.CountryOf(location, company));
     }
 
     [Fact]

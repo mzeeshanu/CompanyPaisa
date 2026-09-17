@@ -209,7 +209,7 @@ export default function App() {
     <>
       <div className="aurora" aria-hidden="true"><i /><i /><i /><i /></div>
       <div className="app" onClick={e => {
-        if ((selected || selectedPerson) && !(e.target as HTMLElement).closest('.bub,.row,.top,.panel')) closePanels();
+        if ((selected || selectedPerson) && !(e.target as HTMLElement).closest('.bub,.row,.top,.panel,.fact-name')) closePanels();
       }}>
         <TopBar ref={header}
           placeLabel={origin?.label ?? 'Lehi, UT 84043'} onChangeLocation={() => { closePanels(); setGateOpen(true); }}
@@ -225,7 +225,8 @@ export default function App() {
 
         {mode === 'companies' && data && view === 'list' && (
           <>
-            <ListView data={data} placeName={placeName} sort={sort} onSort={setSort} highlight={highlight} loading={loading} onHover={onHover} onSelect={openCompany} />
+            <ListView data={data} placeName={placeName} sort={sort} onSort={setSort} highlight={highlight} loading={loading}
+              showExecutives={features.Executives !== false} onOpenPerson={openPerson} onHover={onHover} onSelect={openCompany} />
             {footer}
           </>
         )}

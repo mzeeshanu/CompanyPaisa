@@ -3,10 +3,13 @@ import * as d3 from 'd3';
 
 const SYMBOLS: Record<string, string> = { USD: '$', GBP: '£', EUR: '€', CAD: 'C$', AUD: 'A$', NZD: 'NZ$', HKD: 'HK$' };
 
+/** "$", "£", "C$" — the prefix money() uses. */
+export const currencySymbol = (currency: string) => SYMBOLS[currency] ?? `${currency} `;
+
 /** $21.5B · £540M · $4.6M · €820K — input is whole currency units; ISO currency code, default USD. */
 export function money(amount: number | null | undefined, currency = 'USD'): string {
   if (amount == null) return '—';
-  const sym = SYMBOLS[currency] ?? `${currency} `;
+  const sym = currencySymbol(currency);
   const a = Math.abs(amount);
   let s: string;
   if (a >= 1e12) s = `${sym}${(a / 1e12).toFixed(2)}T`;

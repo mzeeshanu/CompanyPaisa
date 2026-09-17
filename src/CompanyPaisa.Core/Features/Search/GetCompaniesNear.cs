@@ -54,6 +54,7 @@ public sealed class GetCompaniesNearHandler(
     INearbySearchService nearby,
     IFinancialMetricsService metrics,
     ICurrencyConverter fx,
+    ITopPaidCeoService topCeo,
     IOptionsMonitor<SearchOptions> options) : IRequestHandler<GetCompaniesNearQuery, NearbyCompaniesResponse>
 {
     public async Task<NearbyCompaniesResponse> HandleAsync(GetCompaniesNearQuery query, CancellationToken ct)
@@ -86,6 +87,9 @@ public sealed class GetCompaniesNearHandler(
                 hit.NearestLocation.ToDto(), hit.DistanceMiles, indicators.ToDto(), c.Currency);
         }).ToList();
 
+        // For the "quick fact" line: the best-paid CEO among the companies based here (not those with just an office in range).
+        var ceo = await topCeo.FindAsync(companies.Where(c => inRange[c.CompanyId].HasHeadquartersInRange).ToList(), ct);
+
         // A search can mix currencies (London: Shell reports in dollars, Tesco in pounds) — add up in the main one.
         var currency = fx.Dominant(rows.Select(x => x.Currency));
         var summary = new NearbySummaryDto(
@@ -94,7 +98,8 @@ public sealed class GetCompaniesNearHandler(
             rows.Count(x => x.Indicators.Trend == TrendStatus.Up),
             rows.Count(x => x.IsHeadquarteredNearby),
             currency,
-            rows.Any(x => !string.Equals(x.Currency, currency, StringComparison.OrdinalIgnoreCase)));
+            rows.Any(x => !string.Equals(x.Currency, currency, StringComparison.OrdinalIgnoreCase)),
+            ceo);
 
         var items = Sort(rows, sort).Skip((page - 1) * pageSize).Take(pageSize).ToList();
         return new NearbyCompaniesResponse(origin.ToDto(), originLabel, radius, sort, page, pageSize, rows.Count, summary, items);

@@ -19,11 +19,13 @@ public static class DependencyInjection
         services.AddValidatedOptions<MetricsOptions>(configuration, MetricsOptions.SectionName);
         services.AddValidatedOptions<GeoOptions>(configuration, GeoOptions.SectionName);
         services.AddValidatedOptions<CurrencyOptions>(configuration, CurrencyOptions.SectionName);
+        services.AddValidatedOptions<BenchmarkOptions>(configuration, BenchmarkOptions.SectionName);
         services.TryAddSingleton<ICurrencyConverter, CurrencyConverter>();
 
         services.TryAddSingleton<IDistanceCalculator, HaversineDistanceCalculator>();
         services.TryAddSingleton<IFinancialMetricsService, FinancialMetricsService>();
         services.TryAddSingleton<INearbySearchService, NearbySearchService>();
+        services.TryAddSingleton<ITopPaidCeoService, TopPaidCeoService>();
 
         services.AddRequestHandlersFrom(typeof(DependencyInjection).Assembly);
         return services;
