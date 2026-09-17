@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import * as d3 from 'd3';
 import { api, ApiError } from '../api/client';
-import type { CompanyDetail, Executive, FinancialPeriod, GeoPoint, Location, PeriodType } from '../api/types';
+import type { CompanyDetail, CompanyInsights, Executive, FinancialPeriod, GeoPoint, Location, PeriodType } from '../api/types';
 import { money, pct, tone, trendClass } from '../lib/format';
 import { Link, personPath, placeToken } from '../lib/router';
+import { AtAGlance, SimilarCompanies } from './CompanyInsights';
 import { Filing } from './Filing';
 import { milesBetween, PageBack, type Nearby } from './PageShell';
 
@@ -22,6 +23,8 @@ interface Loaded {
   quarterly: FinancialPeriod[];
   annual: FinancialPeriod[];
   executives: Executive[];
+  /** Facts and similar companies; the page still shows without them. */
+  insights: CompanyInsights | null;
 }
 
 /** Locations listed before "Show all". */
@@ -44,9 +47,10 @@ export function CompanyPage({ ticker, from, showExecutives, onExplore, onLoaded 
       api.financials(ticker, 'Quarterly', 4),
       api.financials(ticker, 'Annual'),
       showExecutives ? api.executives(ticker, 5).catch(() => ({ ticker, executives: [] })) : Promise.resolve({ ticker, executives: [] }),
-    ]).then(([detail, q, a, ex]) => {
+      api.insights(ticker).catch(() => null),
+    ]).then(([detail, q, a, ex, insights]) => {
       if (cancelled) return;
-      setData({ detail, quarterly: q.periods.slice(-12), annual: a.periods, executives: ex.executives });
+      setData({ detail, quarterly: q.periods.slice(-12), annual: a.periods, executives: ex.executives, insights });
       document.title = `${detail.name} (${detail.ticker}) — revenue, profit and executive pay · CompanyPaisa`;
       loadedFor.current(`${detail.name} (${detail.ticker})`);
     }).catch(e => {
@@ -130,67 +134,70 @@ export function CompanyPage({ ticker, from, showExecutives, onExplore, onLoaded 
       </section>
 
       <div className={`page-grid${showExecutives ? '' : ' single'}`}>
-        <section className="pane page-card" aria-labelledby="earnings-h">
-          <div className="seg">
-            <h2 className="subh" id="earnings-h">Earnings</h2>
-            {!noQuarters && (
-              <div className="opts">
-                <button aria-pressed={period === 'Quarterly'} onClick={() => setPeriod('Quarterly')}>Quarterly</button>
-                <button aria-pressed={period === 'Annual'} onClick={() => setPeriod('Annual')}>Annual</button>
-              </div>
-            )}
-          </div>
-          <div className="keys"><span><i style={{ background: 'var(--bar-b)' }} />Revenue</span><span><i style={{ background: 'var(--ink)', height: 2 }} />Net income</span></div>
-          <EarningsChart rows={shownPeriod === 'Quarterly' ? d.quarterly : d.annual} quarterly={shownPeriod === 'Quarterly'} currency={cur} />
-          <table>
-            <thead><tr><th>Period</th><th>Revenue</th><th>Net income</th><th>YoY</th></tr></thead>
-            <tbody>
-              {(shownPeriod === 'Quarterly' ? d.quarterly : d.annual).slice(-(shownPeriod === 'Quarterly' ? 4 : 10)).reverse().map(p => (
-                <tr key={p.label}>
-                  <td><Filing href={p.sourceFiling}>{p.label}</Filing></td><td>{money(p.revenue, cur)}</td>
-                  <td className={`chg ${p.netIncome < 0 ? 'down' : ''}`}>{money(p.netIncome, cur)}</td>
-                  <td className={`chg ${tone(p.revenueGrowthYoY)}`}>{pct(p.revenueGrowthYoY)}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          <p className="fine">Tap a period to open the filing it comes from.</p>
-        </section>
+        <div className="page-col">
+          <section className="pane page-card page-earnings" aria-labelledby="earnings-h">
+            <div className="seg">
+              <h2 className="subh" id="earnings-h">Earnings</h2>
+              {!noQuarters && (
+                <div className="opts">
+                  <button aria-pressed={period === 'Quarterly'} onClick={() => setPeriod('Quarterly')}>Quarterly</button>
+                  <button aria-pressed={period === 'Annual'} onClick={() => setPeriod('Annual')}>Annual</button>
+                </div>
+              )}
+            </div>
+            <div className="keys"><span><i style={{ background: 'var(--bar-b)' }} />Revenue</span><span><i style={{ background: 'var(--ink)', height: 2 }} />Net income</span></div>
+            <EarningsChart rows={shownPeriod === 'Quarterly' ? d.quarterly : d.annual} quarterly={shownPeriod === 'Quarterly'} currency={cur} />
+            <table>
+              <thead><tr><th>Period</th><th>Revenue</th><th>Net income</th><th>YoY</th></tr></thead>
+              <tbody>
+                {(shownPeriod === 'Quarterly' ? d.quarterly : d.annual).slice(-(shownPeriod === 'Quarterly' ? 4 : 10)).reverse().map(p => (
+                  <tr key={p.label}>
+                    <td><Filing href={p.sourceFiling}>{p.label}</Filing></td><td>{money(p.revenue, cur)}</td>
+                    <td className={`chg ${p.netIncome < 0 ? 'down' : ''}`}>{money(p.netIncome, cur)}</td>
+                    <td className={`chg ${tone(p.revenueGrowthYoY)}`}>{pct(p.revenueGrowthYoY)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <p className="fine">Tap a period to open the filing it comes from.</p>
+          </section>
+          {d.insights && <AtAGlance insights={d.insights} name={d.detail.name} />}
+          {d.insights && <SimilarCompanies insights={d.insights} />}
+          {locations.length > 0 && (
+            <section className="pane page-card page-locs" aria-labelledby="locations-h">
+              <h2 className="subh" id="locations-h">{locations.length === 1 ? 'Location' : `${locations.length} locations`}</h2>
+              <ul className="page-locations">
+                {shownLocations.map(l => (
+                  <li key={l.locationId}>
+                    <div>
+                      <b>{l.label}</b>{l.type === 'Headquarters' && l.label !== 'Headquarters' && <span className="hq">HQ</span>}
+                      <small>{[l.street, l.city, l.state, l.postalCode].filter(Boolean).join(', ')}</small>
+                    </div>
+                    {from && <span className="num">{distance(l)!.toFixed(1)} mi</span>}
+                    {l.postalCode && (
+                      <button className="linkbtn" onClick={() => onExplore(l.point, `${l.city}, ${l.state} ${l.postalCode}`, placeToken(l.postalCode, countryOf(l, cur)))}>
+                        Companies near here →
+                      </button>
+                    )}
+                  </li>
+                ))}
+              </ul>
+              {locations.length > SHOWN_LOCATIONS && (
+                <button className="linkbtn page-more" onClick={() => setAllLocations(a => !a)}>
+                  {allLocations ? 'Show fewer' : `Show all ${locations.length}`}
+                </button>
+              )}
+            </section>
+          )}
+        </div>
 
         {showExecutives && (
-          <section className="pane page-card" aria-labelledby="execs-h">
+          <section className="pane page-card page-execs" aria-labelledby="execs-h">
             <h2 className="subh" id="execs-h">Executive pay</h2>
             <Executives execs={d.executives} currency={d.detail.payCurrency ?? cur} />
           </section>
         )}
       </div>
-
-      {locations.length > 0 && (
-        <section className="pane page-card" aria-labelledby="locations-h">
-          <h2 className="subh" id="locations-h">{locations.length === 1 ? 'Location' : `${locations.length} locations`}</h2>
-          <ul className="page-locations">
-            {shownLocations.map(l => (
-              <li key={l.locationId}>
-                <div>
-                  <b>{l.label}</b>{l.type === 'Headquarters' && l.label !== 'Headquarters' && <span className="hq">HQ</span>}
-                  <small>{[l.street, l.city, l.state, l.postalCode].filter(Boolean).join(', ')}</small>
-                </div>
-                {from && <span className="num">{distance(l)!.toFixed(1)} mi</span>}
-                {l.postalCode && (
-                  <button className="linkbtn" onClick={() => onExplore(l.point, `${l.city}, ${l.state} ${l.postalCode}`, placeToken(l.postalCode, countryOf(l, cur)))}>
-                    Companies near here →
-                  </button>
-                )}
-              </li>
-            ))}
-          </ul>
-          {locations.length > SHOWN_LOCATIONS && (
-            <button className="linkbtn page-more" onClick={() => setAllLocations(a => !a)}>
-              {allLocations ? 'Show fewer' : `Show all ${locations.length}`}
-            </button>
-          )}
-        </section>
-      )}
 
       <p className="disclaimer page-source">
         {uk

@@ -1,0 +1,150 @@
+import type { ReactNode } from 'react';
+import type { CompanyInsights, Rank } from '../api/types';
+import { currencySymbol, money, pct, tone, trendClass } from '../lib/format';
+import { companyPath, Link, personPath } from '../lib/router';
+import { duration, exact, perUnitOfTime } from './QuickFact';
+
+interface Fact { key: string; icon: string; text: ReactNode }
+
+/** Ranks worth quoting: the top 10, or the top 10% of a big group. */
+const notable = (r: Rank | null, top: number) => !!r && (r.rank <= top || r.rank <= r.count * 0.1);
+
+/** 0.2255 → "23%" · 0.034 → "3.4%" */
+const size = (ratio: number) => `${Math.abs(ratio * 100).toFixed(Math.abs(ratio) < 0.1 ? 1 : 0)}%`;
+
+/** 0.034 of a dollar → "3¢"; pence for pounds; "less than 1¢" rather than "0¢". */
+function perUnit(ratio: number, currency: string) {
+  const n = Math.round(Math.abs(ratio) * 100);
+  const unit = currency === 'GBP' ? 'p' : '¢';
+  return n === 0 ? `less than 1${unit}` : `${n}${unit}`;
+}
+
+/** "At a glance": short facts worked out from the company's own figures; only the ones the data supports appear. */
+export function AtAGlance({ insights: i, name }: { insights: CompanyInsights; name: string }) {
+  const cur = i.currency;
+  const facts: Fact[] = [];
+
+  if (i.payVsResults) {
+    const p = i.payVsResults;
+    facts.push({
+      key: 'pay', icon: '⚖️',
+      text: <>
+        CEO <Link className="linkbtn" to={personPath(p.personId)}>{p.name}</Link>'s pay {p.payChange >= 0 ? 'rose' : 'fell'}{' '}
+        <b className={tone(p.payChange)}>{size(p.payChange)}</b> to {money(p.totalPay, p.currency)} in {p.year}, while revenue for fiscal {p.year}{' '}
+        {p.revenueChange >= 0 ? 'rose' : 'fell'} <b className={tone(p.revenueChange)}>{size(p.revenueChange)}</b>.
+      </>,
+    });
+  }
+  if (notable(i.sectorRank, 10)) {
+    const r = i.sectorRank!;
+    facts.push({
+      key: 'sector', icon: '🏆',
+      text: r.rank === 1
+        ? <>The <b>biggest</b> of the {r.count.toLocaleString()} {r.within} companies we track, by revenue.</>
+        : <><b>#{r.rank}</b> by revenue among the {r.count.toLocaleString()} {r.within} companies we track.</>,
+    });
+  }
+  if (notable(i.cityRank, 5)) {
+    const r = i.cityRank!;
+    facts.push({
+      key: 'city', icon: '🏙️',
+      text: r.rank === 1
+        ? <>The <b>biggest</b> of the {r.count} public companies headquartered in {r.within}.</>
+        : <><b>#{r.rank}</b> biggest of the {r.count} public companies headquartered in {r.within}.</>,
+    });
+  }
+  if (i.revenueStreak) {
+    const s = i.revenueStreak, up = s.direction === 'Up';
+    facts.push({
+      key: 'streak', icon: up ? '📈' : '📉',
+      text: s.unit === 'Quarterly'
+        ? <>Revenue has {up ? 'grown' : 'shrunk'} <b className={up ? 'up' : 'down'}>{s.count} quarters in a row</b>, each against the same quarter a year before.</>
+        : <>Revenue has {up ? 'grown' : 'shrunk'} <b className={up ? 'up' : 'down'}>{s.count} years in a row</b>.</>,
+    });
+  }
+  if (i.records) {
+    const r = i.records;
+    facts.push({
+      key: 'best', icon: '🥇',
+      text: r.bestIsLatest
+        ? <><b>{r.bestYear} was its best year yet</b>, with {money(r.bestRevenue, cur)} in revenue.</>
+        : <>Best year for revenue: <b>{r.bestYear}</b>, with {money(r.bestRevenue, cur)}.</>,
+    });
+    facts.push({
+      key: 'profit', icon: r.profitableYears * 2 >= r.yearsCounted ? '✅' : '⚠️',
+      text: r.profitableYears === 0
+        ? <>Hasn't made a profit in <b>any of the last {r.yearsCounted} years</b>.</>
+        : r.profitableYears === r.yearsCounted
+          ? <>Made a profit in <b>every one of the last {r.yearsCounted} years</b>.</>
+          : <>Made a profit in <b>{r.profitableYears} of the last {r.yearsCounted} years</b>.</>,
+    });
+  }
+  if (i.ceoVsWorker?.medianWorker) {
+    const c = i.ceoVsWorker, m = i.ceoVsWorker.medianWorker;
+    facts.push({
+      key: 'worker', icon: '⏱',
+      text: <>
+        <Link className="linkbtn" to={personPath(c.personId)}>{c.name}</Link> made {money(c.totalPay, c.currency)} in {c.year}: a typical{' '}
+        {m.description}'s yearly pay <b>every {duration(m.hoursToEarn)}</b>.
+      </>,
+    });
+  }
+  if (i.marginVsSector) {
+    const m = i.marginVsSector;
+    const keeps = (r: number) => r >= 0 ? 'keeps' : 'loses';
+    facts.push({
+      key: 'margin', icon: '🧮',
+      text: <>
+        {m.netMargin >= 0
+          ? <>Keeps <b>{perUnit(m.netMargin, cur)}</b> of every {currencySymbol(cur).trim()}1 of revenue as profit</>
+          : <>Loses <b className="down">{perUnit(m.netMargin, cur)}</b> on every {currencySymbol(cur).trim()}1 of revenue</>}; the median {m.sector}{' '}
+        company {keeps(m.sectorMedian)} {perUnit(m.sectorMedian, cur)}.
+      </>,
+    });
+  }
+  if (i.revenuePerEmployee && i.employees) {
+    facts.push({
+      key: 'employee', icon: '👥',
+      text: <><b>{money(i.revenuePerEmployee, cur)}</b> of revenue per employee, across {i.employees.toLocaleString()} people.</>,
+    });
+  } else if (i.revenuePerSecond > 0) {
+    const t = perUnitOfTime(i.revenuePerSecond * 365.25 * 24 * 3600);
+    facts.push({
+      key: 'second', icon: '💵',
+      text: <>Takes in <b>{exact(t.amount, cur)} every {t.unit}</b> in sales, day and night.</>,
+    });
+  }
+
+  if (facts.length === 0) return null;
+  return (
+    <section className="pane page-card glance" aria-labelledby="glance-h">
+      <h2 className="subh" id="glance-h">{name} at a glance</h2>
+      <ul className="glance-list">
+        {facts.map(f => <li key={f.key}><span className="glance-ico" aria-hidden="true">{f.icon}</span><p>{f.text}</p></li>)}
+      </ul>
+      <p className="fine">Worked out from the figures on this page and the other companies we track. Revenue is the latest 12 months unless a year is named.</p>
+    </section>
+  );
+}
+
+/** Companies closest to this one's headquarters: the same sector when there are enough, otherwise any. */
+export function SimilarCompanies({ insights: i }: { insights: CompanyInsights }) {
+  if (i.similar.length === 0) return null;
+  return (
+    <section className="pane page-card" aria-labelledby="similar-h">
+      <h2 className="subh" id="similar-h">{i.similarSameSector ? 'Similar companies nearby' : 'Companies nearby'}</h2>
+      <ul className="similar-list">
+        {i.similar.map(s => (
+          <li key={s.ticker}>
+            <Link className="similar-row" to={companyPath(s.ticker)}>
+              <span className={`mini t-${trendClass(s.trend)}`} aria-hidden="true" />
+              <span className="similar-who"><b>{s.name}</b><small>{s.ticker} · {s.city}, {s.state} · {s.distanceMiles < 1 ? 'same area' : `${s.distanceMiles.toFixed(0)} mi`}</small></span>
+              <span className="similar-num"><span className="num">{money(s.ttmRevenue, s.currency)}</span><span className={`pill ${tone(s.revenueGrowthYoY)}`}>{pct(s.revenueGrowthYoY)}</span></span>
+            </Link>
+          </li>
+        ))}
+      </ul>
+      <p className="fine">{i.similarSameSector ? 'Same sector, closest to its headquarters' : 'Closest to its headquarters'} · revenue for the latest 12 months and growth on the year before.</p>
+    </section>
+  );
+}

@@ -126,6 +126,26 @@ export interface ClientConfig {
 export type Country = 'US' | 'CA' | 'UK' | 'FR' | 'NL' | 'IT' | 'ES' | 'AU' | 'NZ';
 export interface CoverageArea { name: string; exampleZip: string; country: Country }
 
+/** Facts worked out from a company's figures; each is null when the data doesn't support it. */
+export interface CompanyInsights {
+  ticker: string; currency: string;
+  payVsResults: { personId: string; name: string; title: string; year: number; totalPay: number; currency: string; payChange: number; revenueChange: number } | null;
+  sectorRank: Rank | null;
+  cityRank: Rank | null;
+  revenueStreak: { direction: TrendStatus; count: number; unit: PeriodType } | null;
+  records: { bestYear: number; bestRevenue: number; bestIsLatest: boolean; profitableYears: number; yearsCounted: number } | null;
+  ceoVsWorker: TopPaidCeo | null;
+  marginVsSector: { netMargin: number; sectorMedian: number; sectorCount: number; sector: string } | null;
+  revenuePerEmployee: number | null; employees: number | null; revenuePerSecond: number;
+  similarSameSector: boolean;
+  similar: SimilarCompany[];
+}
+export interface Rank { rank: number; count: number; within: string }
+export interface SimilarCompany {
+  ticker: string; name: string; sector: string; city: string; state: string; distanceMiles: number;
+  ttmRevenue: number; revenueGrowthYoY: number | null; trend: TrendStatus; currency: string;
+}
+
 export interface NameSearchCompany {
   ticker: string; name: string; exchange: string; sector: string; city: string | null; state: string | null;
   ttmRevenue: number; currency: string;

@@ -115,6 +115,21 @@ public class SitePagesTests(SitePagesFactory factory) : IClassFixture<SitePagesF
     }
 
     [Fact]
+    public async Task A_company_has_insights_and_similar_companies()
+    {
+        var client = new CompanyPaisaClient(factory.CreateClient());
+
+        var insights = await client.GetCompanyInsightsAsync("lfvn");
+
+        Assert.NotNull(insights);
+        Assert.Equal("LFVN", insights.Ticker);
+        Assert.True(insights.RevenuePerSecond > 0);
+        Assert.NotEmpty(insights.Similar);
+        Assert.DoesNotContain(insights.Similar, s => s.Ticker == "LFVN");
+        Assert.Null(await client.GetCompanyInsightsAsync("NOPE"));
+    }
+
+    [Fact]
     public async Task The_sitemap_lists_areas_companies_and_executives()
     {
         var http = factory.CreateClient();

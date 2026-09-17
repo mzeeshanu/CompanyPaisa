@@ -1,5 +1,5 @@
 import type {
-  ClientConfig, CompanyDetail, CompanySort, DataMeta, ExecutiveDetail, ExecutiveSort, ExecutivesNearResponse,
+  ClientConfig, CompanyDetail, CompanyInsights, CompanySort, DataMeta, ExecutiveDetail, ExecutiveSort, ExecutivesNearResponse,
   ExecutivesResponse, FinancialsResponse, GeoLookup, NameSearchResponse, NearbyResponse, PeriodType, ProblemDetails,
 } from './types';
 
@@ -52,6 +52,7 @@ export const api = {
       sector: q.sector, headquarteredOnly: q.headquarteredOnly || undefined, sort: q.sort, pageSize: q.pageSize ?? ALL_COMPANIES,
     }, signal),
   company: (ticker: string) => get<CompanyDetail>(`/companies/${encodeURIComponent(ticker)}`),
+  insights: (ticker: string) => get<CompanyInsights>(`/companies/${encodeURIComponent(ticker)}/insights`),
   financials: (ticker: string, period: PeriodType, years?: number) =>
     get<FinancialsResponse>(`/companies/${encodeURIComponent(ticker)}/financials`, { period, years }),
   executives: (ticker: string, years = 5) =>

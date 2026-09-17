@@ -27,6 +27,7 @@ public static class DependencyInjection
         services.TryAddSingleton<INearbySearchService, NearbySearchService>();
         services.TryAddSingleton<ITopPaidCeoService, TopPaidCeoService>();
         services.TryAddSingleton<INameSearchIndex, NameSearchIndex>();
+        services.TryAddSingleton<ICompanyStatsIndex, CompanyStatsIndex>();
         // Analytics are off unless the host registers a real tracker (the website does; the last registration wins).
         services.TryAddSingleton<IAnalyticsTracker, NullAnalyticsTracker>();
 

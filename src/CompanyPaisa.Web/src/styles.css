@@ -371,6 +371,23 @@ a.row,a.bub,a.wordmark{color:inherit;text-decoration:none}
 .note.page-note{margin:-6px 0 0}
 .page-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:16px;align-items:start}
 .page-grid.single{grid-template-columns:minmax(0,1fr)}
+.page-col{display:flex;flex-direction:column;gap:16px;min-width:0}
+.glance-list{list-style:none;margin:-2px 0 0;padding:0;display:flex;flex-direction:column}
+.glance-list li{display:grid;grid-template-columns:30px minmax(0,1fr);gap:10px;align-items:start;padding:10px 0;border-bottom:1px solid var(--hair)}
+.glance-list li:last-child{border-bottom:0}
+.glance-list p{margin:0;font-size:13.5px;line-height:1.55;color:var(--dim)}
+.glance-list b{color:var(--ink);font-weight:700}
+.glance-list b.up{color:var(--up)} .glance-list b.down{color:var(--down)}
+.glance-list .linkbtn{font-size:inherit}
+.glance-ico{width:30px;height:30px;border-radius:10px;display:grid;place-items:center;background:var(--field);border:1px solid var(--hair);font-size:15px}
+.similar-list{list-style:none;margin:-4px 0 0;padding:0}
+.similar-row{display:grid;grid-template-columns:14px minmax(0,1fr) auto;gap:12px;align-items:center;padding:10px 8px;margin:0 -8px;border-radius:12px;color:inherit;text-decoration:none}
+.similar-row:hover{background:var(--row-hover)}
+.similar-row .mini{width:14px;height:14px}
+.similar-who{display:flex;flex-direction:column;min-width:0}
+.similar-who b,.similar-who small{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.similar-who small{color:var(--faint);font-size:12px}
+.similar-num{display:flex;align-items:center;gap:10px;font-size:13px}
 .page-card .subh{margin:0}
 .page-card .chart{margin-top:0}
 .page-card table{margin-top:0}
@@ -464,6 +481,9 @@ td.co i{width:8px;height:8px;border-radius:2px;display:inline-block}
 
 @media (max-width:900px){
   .page-grid{grid-template-columns:minmax(0,1fr)}
+  /* One column: executive pay moves up to just after the facts instead of waiting below every card. */
+  .page-col{display:contents}
+  .page-earnings{order:1} .glance{order:2} .page-execs{order:3} .page-col>.page-card:not(.page-earnings):not(.glance){order:4} .page-locs{order:5}
   .xrow{grid-template-columns:22px 26px minmax(150px,1fr) 96px 78px}
   .xrow .c-at,.xrow .c-spark,.xrow .c-net{display:none}
   .row{grid-template-columns:22px 26px minmax(150px,1fr) 96px 78px}

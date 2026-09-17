@@ -72,6 +72,10 @@ public sealed class CompanyPaisaClient(HttpClient http) : ICompanyPaisaClient
         GetOptionalAsync<ExecutivesResponse>($"api/v1/companies/{Uri.EscapeDataString(ticker)}/executives" +
             Query(("years", years?.ToString(CultureInfo.InvariantCulture))), ct);
 
+    /// <summary>Facts worked out from the company's figures and similar companies nearby; null for an unknown ticker.</summary>
+    public Task<CompanyInsightsResponse?> GetCompanyInsightsAsync(string ticker, CancellationToken ct = default) =>
+        GetOptionalAsync<CompanyInsightsResponse>($"api/v1/companies/{Uri.EscapeDataString(ticker)}/insights", ct);
+
     public Task<ExecutivesNearResponse> GetExecutivesNearAsync(ExecutivesNearRequest r, CancellationToken ct = default) =>
         GetRequiredAsync<ExecutivesNearResponse>("api/v1/executives/near" + Query(
             ("near", r.Near), ("latitude", Num(r.Latitude)), ("longitude", Num(r.Longitude)), ("radiusMiles", Num(r.RadiusMiles)),

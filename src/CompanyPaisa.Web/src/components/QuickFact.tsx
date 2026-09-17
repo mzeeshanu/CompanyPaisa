@@ -75,7 +75,7 @@ function ceoFact(s: NearbySummary, onOpened: (personId: string) => void): Fact |
 }
 
 /** A yearly amount per second — or per minute / hour when a second's share is under one unit of currency. */
-function perUnitOfTime(yearly: number): { amount: number; unit: string } {
+export function perUnitOfTime(yearly: number): { amount: number; unit: string } {
   const perSecond = yearly / SECONDS_PER_YEAR;
   if (perSecond >= 1) return { amount: perSecond, unit: 'second' };
   if (perSecond * 60 >= 1) return { amount: perSecond * 60, unit: 'minute' };
@@ -83,13 +83,13 @@ function perUnitOfTime(yearly: number): { amount: number; unit: string } {
 }
 
 /** $76,120 · C$9.51 — full figures read better than "$76K" in a sentence. */
-function exact(amount: number, currency: string): string {
+export function exact(amount: number, currency: string): string {
   const digits = amount >= 100 ? 0 : 2;
   return currencySymbol(currency) + amount.toLocaleString('en-US', { minimumFractionDigits: digits, maximumFractionDigits: digits });
 }
 
 /** 0.63 → "38 minutes" · 5.2 → "5.2 hours" · 75 → "3.1 days" */
-function duration(hours: number): string {
+export function duration(hours: number): string {
   const plural = (n: number, unit: string) => `${n} ${unit}${n === 1 ? '' : 's'}`;
   if (hours < 1 / 60) return plural(Math.max(1, Math.round(hours * 3600)), 'second');
   if (hours < 59.5 / 60) return plural(Math.round(hours * 60), 'minute');

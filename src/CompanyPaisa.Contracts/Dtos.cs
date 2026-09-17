@@ -197,6 +197,48 @@ public sealed record ExecutiveDetailDto(
 
 public sealed record ExecutivesResponse(string Ticker, IReadOnlyList<ExecutiveDto> Executives);
 
+// ---------- Company insights ("at a glance" and similar companies) ----------
+
+/// <summary>The chief executive's pay change against the company's revenue change for the same year.</summary>
+public sealed record PayVsResultsDto(string PersonId, string Name, string Title, int Year, decimal TotalPay, string Currency,
+    decimal PayChange, decimal RevenueChange);
+
+/// <summary>Place by latest-12-month revenue among <see cref="Count"/> companies <see cref="Within"/> (a sector, or "Lehi, UT").</summary>
+public sealed record RankDto(int Rank, int Count, string Within);
+
+/// <summary>Consecutive periods, up to the latest, in which revenue grew (Up) or shrank (Down) against the year before.</summary>
+public sealed record RevenueStreakDto(TrendStatus Direction, int Count, PeriodType Unit);
+
+/// <summary>Best fiscal year for revenue in the history, and how many of those years were profitable.</summary>
+public sealed record RecordsDto(int BestYear, decimal BestRevenue, bool BestIsLatest, int ProfitableYears, int YearsCounted);
+
+/// <summary>Net margin (profit per unit of revenue) against the median of the sector's companies.</summary>
+public sealed record MarginComparisonDto(decimal NetMargin, decimal SectorMedian, int SectorCount, string Sector);
+
+/// <summary>A company near this one's headquarters (distance between headquarters).</summary>
+public sealed record SimilarCompanyDto(string Ticker, string Name, string Sector, string City, string State, double DistanceMiles,
+    decimal TtmRevenue, decimal? RevenueGrowthYoY, TrendStatus Trend, string Currency);
+
+/// <summary>
+/// Facts worked out from the company's figures, each null when the data doesn't support it. Money is in <see cref="Currency"/>
+/// unless the item carries its own.
+/// </summary>
+public sealed record CompanyInsightsResponse(
+    string Ticker,
+    string Currency,
+    PayVsResultsDto? PayVsResults,
+    RankDto? SectorRank,
+    RankDto? CityRank,
+    RevenueStreakDto? RevenueStreak,
+    RecordsDto? Records,
+    TopPaidCeoDto? CeoVsWorker,
+    MarginComparisonDto? MarginVsSector,
+    decimal? RevenuePerEmployee,
+    int? Employees,
+    decimal RevenuePerSecond,
+    bool SimilarSameSector,
+    IReadOnlyList<SimilarCompanyDto> Similar);
+
 // ---------- Search by name ----------
 
 /// <summary>A company found by name or ticker; <see cref="TtmRevenue"/> is in <see cref="Currency"/>.</summary>

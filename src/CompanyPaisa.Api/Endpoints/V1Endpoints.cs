@@ -64,6 +64,12 @@ public static class V1Endpoints
             .WithName("GetExecutives").WithSummary("Executive compensation by year (salary, bonus, stock, other, total).")
             .Produces<ExecutivesResponse>();
 
+        v1.MapGet("/companies/{ticker}/insights", async (string ticker, IServiceRequestor requestor, IOptionsMonitor<FeatureOptions> features, CancellationToken ct) =>
+                Results.Ok(await requestor.SendAsync(new GetCompanyInsightsQuery(ticker, features.CurrentValue.IsEnabled("Executives")), ct)))
+            .WithName("GetCompanyInsights")
+            .WithSummary("Facts worked out from the company's figures (ranks, streaks, records, CEO pay vs results, margin vs sector) and similar companies nearby.")
+            .Produces<CompanyInsightsResponse>();
+
         // ----- Executives (people) -----
         v1.MapGet("/executives/near", async (
                 string? near, double? latitude, double? longitude, double? radiusMiles, string? sector, bool? includeFormer,
