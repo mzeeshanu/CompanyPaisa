@@ -100,6 +100,7 @@ body.locked .app{filter:blur(14px) saturate(1.15);transform:scale(1.03);pointer-
 .where b{color:var(--ink);font-weight:700}
 .linkbtn{background:none;border:0;padding:0;color:var(--accent);cursor:pointer;font-weight:700;font-size:13px}
 .linkbtn:hover{text-decoration:underline;text-underline-offset:3px}
+a.linkbtn:not(.filing):not(:hover){text-decoration:none}
 .spacer{flex:1}
 .lbl{font-size:12.5px;color:var(--dim);font-weight:600}
 .chips{display:flex;gap:4px;padding:4px;border-radius:999px;background:var(--track)}
@@ -334,15 +335,42 @@ select option{background:var(--ground);color:var(--ink)}
 .consent .btns{display:flex;gap:8px}
 .consent .primary,.consent .ghost{height:42px;font-size:13px}
 
-/* ---------- company panel ---------- */
-.panel{position:fixed;top:16px;right:16px;bottom:16px;width:min(460px,calc(100vw - 32px));z-index:10;border-radius:26px;background:var(--glass-strong);transform:translateX(calc(100% + 40px));transition:transform .5s cubic-bezier(.2,.8,.2,1);overflow-y:auto;overscroll-behavior:contain}
-.panel.open{transform:none}
-.p-inner{padding:24px 24px 28px;display:flex;flex-direction:column;gap:20px}
-.close{position:absolute;top:16px;right:16px;border-radius:999px;border-color:var(--hair-2)}
-.p-chips{display:flex;gap:6px;flex-wrap:wrap;padding-right:48px}
+/* ---------- company and executive pages (/company/AAPL, /executive/…) ---------- */
+a.row,a.bub,a.wordmark{color:inherit;text-decoration:none}
+.page{padding-block:6px 24px;display:flex;flex-direction:column;gap:16px}
+.page-back{padding:2px 4px 0}
+.page-back .linkbtn{font-size:13.5px;text-decoration:none}
+.page-card{border-radius:24px;padding:22px 24px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.page-head h1{font:600 34px/1.1 var(--display);letter-spacing:-.03em;margin:2px 0 0;text-wrap:balance}
+.page-head .person-head{margin-top:2px}
+.page-head .person-head h1{margin:0 0 4px}
+.page-facts{display:flex;gap:6px 18px;flex-wrap:wrap;margin:0;color:var(--dim);font-size:13px}
+.page-facts b{color:var(--ink)}
+.page-about{margin:0;color:var(--dim);max-width:80ch}
+.kpis.page-kpis{grid-template-columns:repeat(4,minmax(0,1fr));margin-top:4px}
+.note.page-note{margin:-6px 0 0}
+.page-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:16px;align-items:start}
+.page-grid.single{grid-template-columns:minmax(0,1fr)}
+.page-card .subh{margin:0}
+.page-card .chart{margin-top:0}
+.page-card table{margin-top:0}
+.page-locations{list-style:none;margin:-4px 0 0;padding:0;display:flex;flex-direction:column}
+.page-locations li{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:4px 18px;align-items:center;padding:11px 0;border-bottom:1px solid var(--hair)}
+.page-locations li:last-child{border-bottom:0}
+.page-locations b{font-weight:700}
+.page-locations small{display:block;color:var(--faint);font-size:12px}
+.page-locations .num{color:var(--dim);font-size:12.5px}
+.page-more{align-self:flex-start}
+.page-source{border-top:0;padding:0 4px}
+.page-missing{align-items:flex-start}
+.page-missing h1{font:600 26px var(--display);letter-spacing:-.02em;margin:0}
+.page-missing p{margin:0;color:var(--dim)}
+.page-missing .primary{text-decoration:none;height:44px}
+.page-loading{padding:40px 4px}
+.p-chips{display:flex;gap:6px;flex-wrap:wrap}
 .chip{font:600 11px var(--mono);padding:4px 10px;border-radius:999px;background:var(--field);border:1px solid var(--hair);color:var(--dim)}
 .chip.tk{color:var(--accent-ink);background:var(--accent);border-color:var(--accent)}
-.p-head h2{font:600 27px/1.15 var(--display);letter-spacing:-.03em;margin:12px 0 8px;text-wrap:balance}
+.close{border-radius:999px;border-color:var(--hair-2)}
 .p-loc{margin:0;color:var(--dim);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .p-loc b{color:var(--accent)}
 .kpis{display:grid;grid-template-columns:1fr 1fr;gap:8px}
@@ -415,6 +443,7 @@ td.co i{width:8px;height:8px;border-radius:2px;display:inline-block}
 .ex-name .linkbtn{font-size:12px;font-weight:600}
 
 @media (max-width:900px){
+  .page-grid{grid-template-columns:minmax(0,1fr)}
   .xrow{grid-template-columns:22px 26px minmax(150px,1fr) 96px 78px}
   .xrow .c-at,.xrow .c-spark,.xrow .c-net{display:none}
   .row{grid-template-columns:22px 26px minmax(150px,1fr) 96px 78px}
@@ -447,11 +476,17 @@ td.co i{width:8px;height:8px;border-radius:2px;display:inline-block}
   .m-ctl{top:auto;bottom:12px;right:12px}
   .m-leg,.m-hint{display:none}
   .themebtn span{display:none}
-  .panel{top:auto;left:0;right:0;bottom:0;width:100%;max-height:86vh;border-radius:26px 26px 0 0;transform:translateY(105%)}
+  .page{gap:12px}
+  .page-card{padding:16px;border-radius:20px}
+  .page-head h1{font-size:26px}
+  .kpis.page-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .kpi .v{font-size:19px}
+  .page-locations li{grid-template-columns:minmax(0,1fr) auto}
+  .page-locations li .linkbtn{grid-column:1/-1;justify-self:start}
 }
 @media (prefers-reduced-motion:reduce){
   .aurora i,.you-glow{animation:none}
-  .app,.panel,.gate{transition:none}
+  .app,.gate{transition:none}
 }
 
 /* ---------- private analytics dashboard (/admin) ---------- */

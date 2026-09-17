@@ -2,11 +2,12 @@ import { useEffect, useState, type ReactNode } from 'react';
 import type { NearbySummary } from '../api/types';
 import { track } from '../lib/analytics';
 import { currencySymbol, money } from '../lib/format';
+import { Link, personPath } from '../lib/router';
 
 interface Props {
   summary: NearbySummary;
   showExecutives: boolean;
-  onOpenPerson: (personId: string) => void;
+  onOpened: (personId: string) => void;
 }
 
 interface Fact { icon: string; text: ReactNode; about: ReactNode }
@@ -14,8 +15,8 @@ interface Fact { icon: string; text: ReactNode; about: ReactNode }
 const SECONDS_PER_YEAR = 365.25 * 24 * 3600;
 
 /** One line of perspective between the bubbles and the ranked list; ↻ cycles through the facts that apply to this search. */
-export function QuickFact({ summary, showExecutives, onOpenPerson }: Props) {
-  const facts = [revenueFact(summary), showExecutives ? ceoFact(summary, onOpenPerson) : null].filter((f): f is Fact => f !== null);
+export function QuickFact({ summary, showExecutives, onOpened }: Props) {
+  const facts = [revenueFact(summary), showExecutives ? ceoFact(summary, onOpened) : null].filter((f): f is Fact => f !== null);
   // The same search always opens on the same fact; ↻ moves on from there.
   const [step, setStep] = useState(0);
   const [info, setInfo] = useState(false);
@@ -53,14 +54,14 @@ function revenueFact(s: NearbySummary): Fact | null {
   };
 }
 
-function ceoFact(s: NearbySummary, onOpenPerson: (personId: string) => void): Fact | null {
+function ceoFact(s: NearbySummary, onOpened: (personId: string) => void): Fact | null {
   const ceo = s.topPaidCeo;
   const median = ceo?.medianWorker;
   if (!ceo || !median) return null;
   return {
     icon: '⏱',
     text: <>
-      <button className="linkbtn fact-name" onClick={() => onOpenPerson(ceo.personId)}>{ceo.name}</button> ({ceo.companyName}), the top-paid {ceo.role}{' '}
+      <Link className="linkbtn fact-name" to={personPath(ceo.personId)} onClick={() => onOpened(ceo.personId)}>{ceo.name}</Link> ({ceo.companyName}), the top-paid {ceo.role}{' '}
       based here, made {money(ceo.totalPay, ceo.currency)} in {ceo.year}: a typical {median.description}'s yearly pay{' '}
       <b>every {duration(median.hoursToEarn)}</b>.
     </>,

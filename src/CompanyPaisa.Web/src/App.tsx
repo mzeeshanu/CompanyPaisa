@@ -2,16 +2,17 @@ import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } fr
 import { api, ApiError } from './api/client';
 import type { ClientConfig, CompanySort, CompanySummary, DataMeta, ExecutiveSort, ExecutivesNearResponse, NearbyResponse } from './api/types';
 import { AboutData } from './components/AboutData';
-import { CompanyPanel } from './components/CompanyPanel';
+import { CompanyPage } from './components/CompanyPage';
 import { ConsentBanner } from './components/ConsentBanner';
-import { ExecutivePanel } from './components/ExecutivePanel';
+import { ExecutivePage } from './components/ExecutivePage';
 import { ExecutivesView } from './components/ExecutivesView';
 import { ListView } from './components/ListView';
 import { LocationGate, type Origin } from './components/LocationGate';
 import { MapView } from './components/MapView';
+import type { Nearby } from './components/PageShell';
 import { PrivacyNotice } from './components/PrivacyNotice';
 import { ReportProblem } from './components/ReportProblem';
-import { TopBar } from './components/TopBar';
+import { PageBar, TopBar } from './components/TopBar';
 import { track } from './lib/analytics';
 import { DISCLAIMER } from './lib/disclaimer';
 import { money, pct } from './lib/format';
@@ -19,6 +20,7 @@ import {
   applyTheme, clearPrefs, configurePrefs, readPrefs, readSessionConsent, writePrefs, writeSessionConsent,
   type Consent, type Mode, type Theme, type View,
 } from './lib/prefs';
+import { companyPath, navigate, savedScroll, useRoute } from './lib/router';
 
 const FALLBACK_CONFIG: ClientConfig = {
   defaultView: 'List', defaultTheme: 'Auto', defaultRadiusMiles: 10, allowedRadiiMiles: [5, 10, 25, 50],
@@ -31,6 +33,8 @@ const COVERAGE_MILES = 60;
 interface Tip { company: CompanySummary; x: number; y: number }
 
 export default function App() {
+  const route = useRoute();
+  const onHome = route.kind === 'home';
   const [config, setConfig] = useState<ClientConfig | null>(null);
   const [meta, setMeta] = useState<DataMeta | null>(null);
   const [sectors, setSectors] = useState<string[]>([]);
@@ -61,8 +65,9 @@ export default function App() {
   const [execData, setExecData] = useState<ExecutivesNearResponse | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [selected, setSelected] = useState<string | null>(null);          // company ticker in the panel
-  const [selectedPerson, setSelectedPerson] = useState<string | null>(null);
+  // The company or person the visitor last opened: highlighted in the list when they come back to it.
+  const [lastOpened, setLastOpened] = useState<string | null>(null);
+  const [pageAbout, setPageAbout] = useState('');
   const [hovered, setHovered] = useState<string | null>(null);
   const [tip, setTip] = useState<Tip | null>(null);
   const header = useRef<HTMLElement>(null);
@@ -88,13 +93,33 @@ export default function App() {
       .catch(() => setBootError("We couldn't reach the CompanyPaisa service. Is the API running?"));
   }, []);
 
-  const mapActive = mode === 'companies' && view === 'map';
+  const mapActive = onHome && mode === 'companies' && view === 'map';
   useEffect(() => applyTheme(theme), [theme]);
   useEffect(() => { if (consent === 'yes') writePrefs({ view, theme, map: showBaseMap, mode }); }, [consent, view, theme, showBaseMap, mode]);
   useEffect(() => {
-    document.body.classList.toggle('locked', gateOpen);
+    document.body.classList.toggle('locked', gateOpen && onHome);
     document.body.classList.toggle('view-map', mapActive);
-  }, [gateOpen, mapActive]);
+  }, [gateOpen, onHome, mapActive]);
+
+  // A page starts at the top; coming back to the search returns to where the visitor was in the list.
+  useLayoutEffect(() => {
+    const y = savedScroll();
+    const root = document.documentElement;
+    // The bubble grid sizes itself just after this and the browser's scroll anchoring would shift the page while it does:
+    // turn anchoring off for a moment and place the page again, unless the visitor scrolls somewhere else first.
+    root.style.overflowAnchor = 'none';
+    scrollTo(0, y);
+    let landed = scrollY;
+    const timers = [50, 150, 400, 900].map(ms => setTimeout(() => {
+      if (scrollY !== landed || scrollY === y) return;
+      scrollTo(0, y);
+      landed = scrollY;
+    }, ms));
+    const done = setTimeout(() => { root.style.overflowAnchor = ''; }, 1000);
+    if (onHome) document.title = 'CompanyPaisa';
+    else { setTip(null); setPageAbout(''); }
+    return () => { timers.forEach(clearTimeout); clearTimeout(done); root.style.overflowAnchor = ''; };
+  }, [route, onHome]);
 
   // The Map view sits under the sticky header; keep its offset in sync with the header's height.
   useLayoutEffect(() => {
@@ -103,7 +128,7 @@ export default function App() {
     const ro = new ResizeObserver(() => document.documentElement.style.setProperty('--hdr', `${el.getBoundingClientRect().height}px`));
     ro.observe(el);
     return () => ro.disconnect();
-  }, [config]);
+  }, [config, onHome]);
 
   // ---- company search whenever location or filters change ----
   useEffect(() => {
@@ -148,7 +173,7 @@ export default function App() {
   }, [origin, execData, loadingMore, radius, sector, includeFormer, execSearch, execSort]);
 
   const onLocated = (o: Origin) => {
-    setOrigin(o); setGateOpen(false); setSelected(null); setSelectedPerson(null);
+    setOrigin(o); setGateOpen(false); setLastOpened(null);
     if (consent === null) setTimeout(() => setShowConsent(true), 900);
   };
 
@@ -161,20 +186,27 @@ export default function App() {
     setTip({ company: c, x: Math.min(innerWidth - 260, Math.max(8, r.left + r.width / 2 - 110)), y: Math.max(8, r.top - 58) });
   }, [data]);
 
-  // Only one details panel is open at a time; they link to each other.
-  const openCompany = useCallback((ticker: string) => { setTip(null); setSelectedPerson(null); setSelected(ticker); }, []);
-  const openPerson = useCallback((personId: string) => { setTip(null); setSelected(null); setSelectedPerson(personId); }, []);
-  const closePanels = useCallback(() => { setSelected(null); setSelectedPerson(null); }, []);
+  // Companies and executives open as their own pages (/company/AAPL, /executive/…); the links do the navigating.
+  const noteOpened = useCallback((id: string) => { setTip(null); setHovered(null); setLastOpened(id); }, []);
+  const openCompany = useCallback((ticker: string) => { noteOpened(ticker); navigate(companyPath(ticker)); }, [noteOpened]);
 
   useEffect(() => {
-    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') closePanels(); };
     const onScroll = () => setTip(null);
-    addEventListener('keydown', onKey); addEventListener('scroll', onScroll, { passive: true });
-    return () => { removeEventListener('keydown', onKey); removeEventListener('scroll', onScroll); };
-  }, [closePanels]);
+    addEventListener('scroll', onScroll, { passive: true });
+    return () => removeEventListener('scroll', onScroll);
+  }, []);
 
-  const selectedSummary = useMemo(() => data?.items.find(i => i.ticker === selected) ?? null, [data, selected]);
-  const highlight = { selected, hovered };
+  /** "Companies near here" on a company page: a new search around that location. */
+  const explore = useCallback((point: { latitude: number; longitude: number }, label: string) => {
+    setMode('companies'); setGateOpen(false); setLastOpened(null);
+    setOrigin({ latitude: point.latitude, longitude: point.longitude, label });
+    navigate('/');
+  }, []);
+
+  const nearby: Nearby | null = useMemo(() => origin
+    ? { point: { latitude: origin.latitude, longitude: origin.longitude }, label: origin.label, mode }
+    : null, [origin, mode]);
+  const highlight = { selected: lastOpened, hovered };
   const features = config?.features ?? FALLBACK_CONFIG.features;
   const placeName = origin?.label.split(',')[0] ?? '';
 
@@ -210,70 +242,83 @@ export default function App() {
     </div>
   );
 
+  const gateShown = gateOpen && onHome;
+  const showExecutives = features.Executives !== false;
+
   return (
     <>
       <div className="aurora" aria-hidden="true"><i /><i /><i /><i /></div>
-      <div className="app" onClick={e => {
-        if ((selected || selectedPerson) && !(e.target as HTMLElement).closest('.bub,.row,.top,.panel,.fact-name')) closePanels();
-      }}>
-        <TopBar ref={header}
-          placeLabel={origin?.label ?? 'Lehi, UT 84043'} onChangeLocation={() => { closePanels(); setGateOpen(true); }}
-          mode={mode} onMode={m => { closePanels(); track(m === 'executives' ? 'mode_executives' : 'mode_companies'); setMode(m); }} showExecutives={features.Executives !== false}
-          view={view} onView={v => { track(v === 'map' ? 'view_map' : 'view_list'); setView(v); }} showMapView={features.MapView !== false}
-          theme={theme} onTheme={setTheme}
-          radii={config.allowedRadiiMiles} radius={radius} onRadius={setRadius}
-          sectors={sectors} sector={sector} onSector={setSector}
-          hqOnly={hqOnly} onHqOnly={setHqOnly}
-          isSample={meta?.isSampleData ?? false} />
+      <div className="app">
+        {onHome ? (
+          <TopBar ref={header}
+            placeLabel={origin?.label ?? 'Lehi, UT 84043'} onChangeLocation={() => setGateOpen(true)}
+            mode={mode} onMode={m => { track(m === 'executives' ? 'mode_executives' : 'mode_companies'); setMode(m); }} showExecutives={showExecutives}
+            view={view} onView={v => { track(v === 'map' ? 'view_map' : 'view_list'); setView(v); }} showMapView={features.MapView !== false}
+            theme={theme} onTheme={setTheme}
+            radii={config.allowedRadiiMiles} radius={radius} onRadius={setRadius}
+            sectors={sectors} sector={sector} onSector={setSector}
+            hqOnly={hqOnly} onHqOnly={setHqOnly}
+            isSample={meta?.isSampleData ?? false} />
+        ) : (
+          <PageBar ref={header} theme={theme} onTheme={setTheme} isSample={meta?.isSampleData ?? false} />
+        )}
 
-        {error && <div className="wrap"><p className="banner-error pane">{error}</p></div>}
+        {route.kind === 'company' && (
+          <>
+            <CompanyPage ticker={route.ticker} from={nearby} showExecutives={showExecutives} onExplore={explore} onLoaded={setPageAbout} />
+            {footer}
+          </>
+        )}
 
-        {mode === 'companies' && data && view === 'list' && (
+        {route.kind === 'executive' && (
+          <>
+            <ExecutivePage personId={route.personId} from={nearby} onLoaded={setPageAbout} />
+            {footer}
+          </>
+        )}
+
+        {onHome && error && <div className="wrap"><p className="banner-error pane">{error}</p></div>}
+
+        {onHome && mode === 'companies' && data && view === 'list' && (
           <>
             <ListView data={data} placeName={placeName} sort={sort} onSort={setSort} highlight={highlight} loading={loading}
-              showExecutives={features.Executives !== false} onOpenPerson={openPerson} onHover={onHover} onSelect={openCompany} />
+              showExecutives={showExecutives} onOpened={noteOpened} onHover={onHover} />
             {footer}
           </>
         )}
 
         {mapActive && data && (
           <MapView data={data} highlight={highlight} showBaseMap={showBaseMap} onToggleBaseMap={() => setShowBaseMap(s => !s)}
-            onBackground={closePanels} onHover={onHover} onSelect={openCompany} />
+            onBackground={() => setTip(null)} onHover={onHover} onSelect={openCompany} />
         )}
 
-        {mode === 'executives' && execData && (
+        {onHome && mode === 'executives' && execData && (
           <>
             <ExecutivesView data={execData} placeName={placeName} sort={execSort} onSort={setExecSort}
               search={execSearch} onSearch={setExecSearch} includeFormer={includeFormer} onIncludeFormer={setIncludeFormer}
-              selected={selectedPerson} loading={loading} onSelect={openPerson} onMore={loadMoreExecutives} loadingMore={loadingMore} />
+              selected={lastOpened} loading={loading} onOpened={noteOpened} onMore={loadMoreExecutives} loadingMore={loadingMore} />
             {footer}
           </>
         )}
       </div>
 
-      {tip && (
+      {tip && onHome && (
         <div className="tip pane" style={{ left: tip.x, top: tip.y }}>
           <b>{tip.company.name}</b>
           <span>{money(tip.company.indicators.ttmRevenue, tip.company.currency)} revenue · {pct(tip.company.indicators.revenueGrowthYoY)} · {tip.company.distanceMiles.toFixed(1)} mi</span>
         </div>
       )}
 
-      <CompanyPanel ticker={selected} distanceMiles={selectedSummary?.distanceMiles ?? null}
-        nearestLabel={selectedSummary?.nearestLocation.label ?? null}
-        showExecutives={features.Executives !== false} onClose={closePanels} onOpenPerson={openPerson} />
-
-      <ExecutivePanel personId={selectedPerson} onClose={closePanels} onOpenCompany={openCompany} />
-
-      {gateOpen && <LocationGate coverageMiles={COVERAGE_MILES} coverage={(config ?? FALLBACK_CONFIG).coverage ?? []} onLocated={onLocated} />}
+      {gateShown && <LocationGate coverageMiles={COVERAGE_MILES} coverage={(config ?? FALLBACK_CONFIG).coverage ?? []} onLocated={onLocated} />}
 
       <PrivacyNotice open={showPrivacy} contact={config.privacyContact} onClose={() => setShowPrivacy(false)} />
       <AboutData open={showAbout} contact={config.privacyContact} onClose={() => setShowAbout(false)} />
 
-      {!gateOpen && !showConsent && (
+      {!gateShown && !showConsent && (
         <ReportProblem contact={config.privacyContact}
-          about={selectedSummary ? `${selectedSummary.name} (${selectedSummary.ticker})` : selected ?? (selectedPerson ? `executive ${selectedPerson}` : origin ? `companies near ${origin.label}` : 'CompanyPaisa')} />
+          about={!onHome ? pageAbout || location.pathname : origin ? `companies near ${origin.label}` : 'CompanyPaisa'} />
       )}
-      {showConsent && !gateOpen && (
+      {showConsent && !gateShown && (
         <ConsentBanner
           onAccept={() => { setConsent('yes'); writeSessionConsent('yes'); setShowConsent(false); }}
           onDecline={() => { setConsent('no'); writeSessionConsent('no'); clearPrefs(); setShowConsent(false); }} />

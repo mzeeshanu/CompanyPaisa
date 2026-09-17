@@ -2,6 +2,7 @@ import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import * as d3 from 'd3';
 import type { CompanySort, CompanySummary, NearbyResponse } from '../api/types';
 import { bubbleRadius, money, pct, tone, total, trendClass } from '../lib/format';
+import { companyPath, Link } from '../lib/router';
 import { QuickFact } from './QuickFact';
 import { SortHeader, useSortFlip } from './SortHeader';
 
@@ -11,14 +12,19 @@ export interface BubbleEvents {
   onSelect: (ticker: string) => void;
 }
 
-interface Props extends BubbleEvents {
+/** The list's bubbles and rows are links to each company's page; `onOpened` just notes which one was opened. */
+interface ListEvents {
+  onHover: (ticker: string | null, el?: HTMLElement) => void;
+  onOpened: (ticker: string) => void;
+}
+
+interface Props extends ListEvents {
   data: NearbyResponse;
   placeName: string;
   sort: CompanySort; onSort: (s: CompanySort) => void;
   highlight: Highlight;
   loading: boolean;
   showExecutives: boolean;
-  onOpenPerson: (personId: string) => void;
 }
 
 const SORTS: CompanySort[] = ['Revenue', 'Growth', 'Profit', 'Distance'];
@@ -26,7 +32,7 @@ const SORTS: CompanySort[] = ['Revenue', 'Growth', 'Profit', 'Distance'];
 /** Phones start with one merged box (city boxes take a lot of scrolling there); wider screens start split by city. */
 const PHONE = '(max-width: 720px)';
 
-export function ListView({ data, placeName, sort, onSort, highlight, loading, showExecutives, onOpenPerson, onHover, onSelect }: Props) {
+export function ListView({ data, placeName, sort, onSort, highlight, loading, showExecutives, onHover, onOpened }: Props) {
   const s = data.summary;
   const [merged, setMerged] = useState(() => typeof window !== 'undefined' && window.matchMedia(PHONE).matches);
   return (
@@ -65,8 +71,8 @@ export function ListView({ data, placeName, sort, onSort, highlight, loading, sh
               <span><i className="dot down" />Shrinking or losing money</span>
             </div>
           </div>
-          <CityClusters items={data.items} merged={merged} allLabel={placeName} highlight={highlight} onHover={onHover} onSelect={onSelect} />
-          <QuickFact summary={s} showExecutives={showExecutives} onOpenPerson={onOpenPerson} />
+          <CityClusters items={data.items} merged={merged} allLabel={placeName} highlight={highlight} onHover={onHover} onOpened={onOpened} />
+          <QuickFact summary={s} showExecutives={showExecutives} onOpened={onOpened} />
         </>
       )}
 
@@ -77,15 +83,15 @@ export function ListView({ data, placeName, sort, onSort, highlight, loading, sh
             {SORTS.map(k => <button key={k} aria-pressed={sort === k} onClick={() => onSort(k)}>{k}</button>)}
           </div>
         </div>
-        <RankedRows items={data.items} sort={sort} onSort={onSort} highlight={highlight} onHover={onHover} onSelect={onSelect} />
+        <RankedRows items={data.items} sort={sort} onSort={onSort} highlight={highlight} onHover={onHover} onOpened={onOpened} />
       </section>
     </main>
   );
 }
 
 /** Bubble packs per city, or (merged) one pack of every company labelled with the search place. */
-function CityClusters({ items, merged, allLabel, highlight, onHover, onSelect }:
-  { items: CompanySummary[]; merged: boolean; allLabel: string; highlight: Highlight } & BubbleEvents) {
+function CityClusters({ items, merged, allLabel, highlight, onHover, onOpened }:
+  { items: CompanySummary[]; merged: boolean; allLabel: string; highlight: Highlight } & ListEvents) {
   const groups = useMemo(() => {
     const byCity = merged
       ? [[`Near ${allLabel}`, items] as const]
@@ -144,16 +150,16 @@ function CityClusters({ items, merged, allLabel, highlight, onHover, onSelect }:
             <div className="pack-fit" style={{ width: shown, height: shown }}>
               <div className="pack" style={{ width: g.size, height: g.size, transform: scale < 1 ? `scale(${scale})` : undefined }}>
                 {g.nodes.map(n => (
-                  <button key={n.c.ticker}
+                  <Link key={n.c.ticker} to={companyPath(n.c.ticker)}
                     className={`bub t-${trendClass(n.c.indicators.trend)}${highlight.hovered === n.c.ticker ? ' hl' : ''}${highlight.selected === n.c.ticker ? ' sel' : ''}`}
                     style={{ left: n.x - g.enc.x + g.size / 2 - n.r, top: n.y - g.enc.y + g.size / 2 - n.r, width: n.r * 2, height: n.r * 2 }}
                     aria-label={`${n.c.name}, ${money(n.c.indicators.ttmRevenue, n.c.currency)} revenue`}
                     onMouseEnter={e => onHover(n.c.ticker, e.currentTarget)} onMouseLeave={() => onHover(null)}
                     onFocus={e => onHover(n.c.ticker, e.currentTarget)} onBlur={() => onHover(null)}
-                    onClick={() => onSelect(n.c.ticker)}>
+                    onClick={() => onOpened(n.c.ticker)}>
                     <span className="glass" />
                     <span className="tk" style={{ fontSize: Math.max(8.5, Math.min(16, n.r * 0.38)) }}>{n.c.ticker}</span>
-                  </button>
+                  </Link>
                 ))}
               </div>
             </div>
@@ -184,7 +190,7 @@ function displayName(cities: string[]): string {
   return counts[0][0];
 }
 
-function RankedRows({ items, sort, onSort, highlight, onHover, onSelect }: { items: CompanySummary[]; sort: CompanySort; onSort: (s: CompanySort) => void; highlight: Highlight } & BubbleEvents) {
+function RankedRows({ items, sort, onSort, highlight, onHover, onOpened }: { items: CompanySummary[]; sort: CompanySort; onSort: (s: CompanySort) => void; highlight: Highlight } & ListEvents) {
   const { flipped, choose, order } = useSortFlip(sort, onSort, (c: CompanySummary, k) =>
     k === 'Growth' ? c.indicators.revenueGrowthYoY : k === 'Profit' ? c.indicators.ttmNetIncome : k === 'Revenue' ? c.indicators.ttmRevenue : c.distanceMiles);
   if (items.length === 0) return <div className="empty">Nothing matches. Widen the radius or clear the filters.</div>;
@@ -200,9 +206,9 @@ function RankedRows({ items, sort, onSort, highlight, onHover, onSelect }: { ite
         <SortHeader k="Profit" {...head} className="r c-net">Net income</SortHeader>
       </div>
       {order(items).map((c, i) => (
-        <button key={c.ticker}
+        <Link key={c.ticker} to={companyPath(c.ticker)}
           className={`row${highlight.hovered === c.ticker ? ' hl' : ''}${highlight.selected === c.ticker ? ' sel' : ''}`}
-          onMouseEnter={() => onHover(c.ticker)} onMouseLeave={() => onHover(null)} onClick={() => onSelect(c.ticker)}>
+          onMouseEnter={() => onHover(c.ticker)} onMouseLeave={() => onHover(null)} onClick={() => onOpened(c.ticker)}>
           <span className="rank">{i + 1}</span>
           <span className={`mini c-mini t-${trendClass(c.indicators.trend)}`} />
           <span className="who"><b>{c.name}</b>{c.isHeadquarteredNearby && <span className="hq">HQ</span>}<small>{c.ticker} · {c.sector}</small></span>
@@ -211,7 +217,7 @@ function RankedRows({ items, sort, onSort, highlight, onHover, onSelect }: { ite
           <span className="r"><span className={`pill ${tone(c.indicators.revenueGrowthYoY)}`}>{pct(c.indicators.revenueGrowthYoY)}</span></span>
           <span className="r c-spark spark"><Sparkline points={c.indicators.revenueHistory.map(p => p.revenue)} /></span>
           <span className={`val c-net${c.indicators.ttmNetIncome < 0 ? ' neg' : ''}`}>{money(c.indicators.ttmNetIncome, c.currency)}<small>{c.indicators.latestQuarterLabel ? '12 mo' : 'year'}</small></span>
-        </button>
+        </Link>
       ))}
     </div>
   );

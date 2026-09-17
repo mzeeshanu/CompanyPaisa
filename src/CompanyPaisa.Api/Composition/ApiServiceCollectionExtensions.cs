@@ -29,6 +29,7 @@ public static class ApiServiceCollectionExtensions
         services.AddCompanyPaisaDataSource(configuration);
         services.AddCompanyPaisaApi(configuration);
         services.AddCompanyPaisaWebAnalytics(configuration);
+        services.AddSingleton<IndexHtml>();
         return services;
     }
 

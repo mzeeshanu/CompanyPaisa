@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import * as d3 from 'd3';
 import type { ExecutiveSort, ExecutiveSummary, ExecutivesNearResponse, PayPoint } from '../api/types';
 import { money, pct, tone, total } from '../lib/format';
+import { Link, personPath } from '../lib/router';
 import { SortHeader, useSortFlip } from './SortHeader';
 
 interface Props {
@@ -12,7 +13,8 @@ interface Props {
   includeFormer: boolean; onIncludeFormer: (b: boolean) => void;
   selected: string | null;
   loading: boolean;
-  onSelect: (personId: string) => void;
+  /** Rows are links to each person's page; this just notes which one was opened. */
+  onOpened: (personId: string) => void;
   /** Loads the next page; the list shows how many of the total are loaded. */
   onMore: () => void;
   loadingMore: boolean;
@@ -30,7 +32,7 @@ export const initials = (name: string) =>
   name.split(/\s+/).filter(w => /^[A-Za-z]/.test(w)).slice(0, 2).map(w => w[0].toUpperCase()).join('') || '?';
 
 /** "Executives near me": named executive officers of nearby public companies, ranked by pay. */
-export function ExecutivesView({ data, placeName, sort, onSort, search, onSearch, includeFormer, onIncludeFormer, selected, loading, onSelect, onMore, loadingMore }: Props) {
+export function ExecutivesView({ data, placeName, sort, onSort, search, onSearch, includeFormer, onIncludeFormer, selected, loading, onOpened, onMore, loadingMore }: Props) {
   const s = data.summary;
   const years = data.items[0]?.windowYears ?? 10;
   const { flipped, choose, order } = useSortFlip(sort, onSort, (e: ExecutiveSummary, k) =>
@@ -85,7 +87,7 @@ export function ExecutivesView({ data, placeName, sort, onSort, search, onSearch
               <SortHeader k="TotalPay" {...head} className="r c-net">{`${years}-yr total`}</SortHeader>
             </div>
             {order(data.items).map((e, i) => (
-              <button key={e.personId} className={`row xrow${selected === e.personId ? ' sel' : ''}${e.isCurrent ? '' : ' former'}`} onClick={() => onSelect(e.personId)}>
+              <Link key={e.personId} to={personPath(e.personId)} className={`row xrow${selected === e.personId ? ' sel' : ''}${e.isCurrent ? '' : ' former'}`} onClick={() => onOpened(e.personId)}>
                 <span className="rank">{i + 1}</span>
                 <span className="avatar c-mini" aria-hidden="true">{initials(e.name)}</span>
                 <span className="who"><b>{e.name}</b><small>{e.title}{!e.isCurrent && ' · former'}</small></span>
@@ -94,7 +96,7 @@ export function ExecutivesView({ data, placeName, sort, onSort, search, onSearch
                 <span className="r"><span className={`pill ${tone(e.payGrowthYoY)}`}>{pct(e.payGrowthYoY)}</span></span>
                 <span className="r c-spark spark"><PaySparkline points={e.payHistory} /></span>
                 <span className="val c-net">{money(e.windowTotalPay, e.company.currency)}<small>{e.companyCount > 1 ? `${e.companyCount} companies` : `${e.windowYears} yrs`}</small></span>
-              </button>
+              </Link>
             ))}
             {data.items.length < data.totalCount && (
               <div className="more-row">

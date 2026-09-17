@@ -65,6 +65,7 @@ if (api.EnableOpenApi)
 
 app.MapCompanyPaisaApiV1();
 app.MapCompanyPaisaAnalytics();
+app.MapCompanyPaisaPages();         // /company/{ticker}, /executive/{personId}: the app's HTML with the page's title
 app.MapHealthChecks("/health");
 
 // Client-side routes of the React app (anything that isn't an API, docs, health or a real file).

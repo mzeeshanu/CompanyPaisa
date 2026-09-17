@@ -1,5 +1,5 @@
 /**
- * The site's own analytics: tells our API about page views and a few clicks. Searches and the company / executive panels are
+ * The site's own analytics: tells our API about page views and a few clicks. Searches and the company / executive pages are
  * recorded by the API itself. No cookies, no third parties, and nothing is ever shown as an error to the visitor.
  */
 export type ClientEvent =

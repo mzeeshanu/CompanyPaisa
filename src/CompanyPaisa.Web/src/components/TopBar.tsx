@@ -1,5 +1,6 @@
 import { forwardRef } from 'react';
 import type { Mode, Theme, View } from '../lib/prefs';
+import { Link } from '../lib/router';
 
 interface Props {
   placeLabel: string;
@@ -22,13 +23,39 @@ function ThemeIcon({ theme }: { theme: Theme }) {
   return <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.2" fill="none" stroke="currentColor" strokeWidth="1.5" /><path d="M8 1.8a6.2 6.2 0 0 1 0 12.4z" fill="currentColor" /></svg>;
 }
 
+export function ThemeButton({ theme, onTheme }: { theme: Theme; onTheme: (t: Theme) => void }) {
+  return (
+    <button className="themebtn" onClick={() => onTheme(NEXT_THEME[theme])} aria-label={`Theme: ${THEME_LABEL[theme]}. Click to change.`}>
+      <ThemeIcon theme={theme} /><span>{THEME_LABEL[theme]}</span>
+    </button>
+  );
+}
+
+/** The header on a company or executive page: the name (back to the search) and the theme. */
+export const PageBar = forwardRef<HTMLElement, { theme: Theme; onTheme: (t: Theme) => void; isSample: boolean }>(function PageBar(p, ref) {
+  return (
+    <header className="top" ref={ref}>
+      <div className="wrap">
+        <div className="bar pane">
+          <div className="bar-row">
+            <Link className="wordmark" to="/">Company<span>Paisa</span></Link>
+            {p.isSample && <span className="sample-badge" title="Figures are synthetic sample data">Sample data</span>}
+            <span className="spacer" />
+            <ThemeButton theme={p.theme} onTheme={p.onTheme} />
+          </div>
+        </div>
+      </div>
+    </header>
+  );
+});
+
 export const TopBar = forwardRef<HTMLElement, Props>(function TopBar(p, ref) {
   return (
     <header className="top" ref={ref}>
       <div className="wrap">
         <div className="bar pane">
           <div className="bar-row">
-            <p className="wordmark">Company<span>Paisa</span></p>
+            <Link className="wordmark" to="/">Company<span>Paisa</span></Link>
             <div className="where">Near <b>{p.placeLabel}</b> <button className="linkbtn" onClick={p.onChangeLocation}>Change</button></div>
             {p.isSample && <span className="sample-badge" title="Figures are synthetic sample data">Sample data</span>}
             <span className="spacer" />
@@ -48,9 +75,7 @@ export const TopBar = forwardRef<HTMLElement, Props>(function TopBar(p, ref) {
                 </button>
               </div>
             )}
-            <button className="themebtn" onClick={() => p.onTheme(NEXT_THEME[p.theme])} aria-label={`Theme: ${THEME_LABEL[p.theme]}. Click to change.`}>
-              <ThemeIcon theme={p.theme} /><span>{THEME_LABEL[p.theme]}</span>
-            </button>
+            <ThemeButton theme={p.theme} onTheme={p.onTheme} />
           </div>
           <div className="bar-row">
             <span className="lbl">Within</span>
