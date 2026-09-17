@@ -3,6 +3,7 @@ using System.Text.RegularExpressions;
 using CompanyPaisa.Core.Abstractions;
 using CompanyPaisa.Core.Domain;
 using CompanyPaisa.Core.Options;
+using CompanyPaisa.Core.Services;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
@@ -15,7 +16,7 @@ namespace CompanyPaisa.Infrastructure.Geo;
 public sealed partial class CsvZipGeoLocator(
     IOptions<GeoOptions> options,
     IFilePathResolver paths,
-    ILogger<CsvZipGeoLocator> logger) : IGeoLocator
+    ILogger<CsvZipGeoLocator> logger) : IGeoLocator, IReverseGeoLocator
 {
     private readonly Lazy<ZipIndex> _index = new(() => ZipIndex.Load(
         options.Value.AdditionalTablePaths.Where(p => !string.IsNullOrWhiteSpace(p)).Select(paths.Resolve).Prepend(paths.Resolve(options.Value.ZipTablePath)).ToList(),
@@ -77,6 +78,22 @@ public sealed partial class CsvZipGeoLocator(
         return Task.FromResult(index.ByCity.TryGetValue(q.ToUpperInvariant(), out var list) && list.Count == 1
             ? list[0] with { Query = q }
             : null);
+    }
+
+    public Task<GeoLookupResult?> NearestCityAsync(GeoPoint point, double maxMiles, CancellationToken ct = default)
+    {
+        // A flat-earth comparison is plenty to rank candidates; the winner is then checked with the real distance.
+        var cos = Math.Cos(point.Latitude * Math.PI / 180);
+        GeoLookupResult? best = null;
+        var bestScore = double.MaxValue;
+        foreach (var city in _index.Value.ByCityState.Values)
+        {
+            var dLat = city.Point.Latitude - point.Latitude;
+            var dLng = (city.Point.Longitude - point.Longitude) * cos;
+            var score = dLat * dLat + dLng * dLng;
+            if (score < bestScore) { bestScore = score; best = city; }
+        }
+        return Task.FromResult(best is not null && new HaversineDistanceCalculator().DistanceMiles(point, best.Point) <= maxMiles ? best : null);
     }
 
     [GeneratedRegex(@"^(\d{5})(?:-\d{4})?$")]

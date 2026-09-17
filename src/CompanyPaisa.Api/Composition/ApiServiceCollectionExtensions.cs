@@ -1,5 +1,7 @@
 using System.Text.Json.Serialization;
 using System.Threading.RateLimiting;
+using CompanyPaisa.Analytics;
+using CompanyPaisa.Api.Analytics;
 using CompanyPaisa.Api.Endpoints;
 using CompanyPaisa.Api.Errors;
 using CompanyPaisa.Api.Options;
@@ -26,6 +28,7 @@ public static class ApiServiceCollectionExtensions
         services.AddCompanyPaisaInfrastructure(configuration);
         services.AddCompanyPaisaDataSource(configuration);
         services.AddCompanyPaisaApi(configuration);
+        services.AddCompanyPaisaWebAnalytics(configuration);
         return services;
     }
 
@@ -42,6 +45,21 @@ public static class ApiServiceCollectionExtensions
             _ => throw new InvalidOperationException(
                 $"DataSource:Provider '{provider}' isn't supported. Supported: Sqlite, Excel.")
         };
+    }
+
+    /// <summary>
+    /// The site's own visitor analytics (Analytics:Provider). When a store is configured, the tracker that reads visitor details
+    /// from each request replaces Core's do-nothing one; otherwise nothing is recorded.
+    /// </summary>
+    public static IServiceCollection AddCompanyPaisaWebAnalytics(this IServiceCollection services, IConfiguration configuration)
+    {
+        if (services.AddCompanyPaisaAnalytics(configuration).Enabled)
+        {
+            services.AddHttpContextAccessor();
+            services.AddSingleton<HttpAnalyticsTracker>();
+            services.AddSingleton<IAnalyticsTracker>(sp => sp.GetRequiredService<HttpAnalyticsTracker>());
+        }
+        return services;
     }
 
     private static void AddCompanyPaisaApi(this IServiceCollection services, IConfiguration configuration)

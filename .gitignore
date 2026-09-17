@@ -52,6 +52,8 @@ data/cache/
 # Importer staging file (written, verified, then swapped in)
 *.new.xlsx
 *.db.new
+# Local analytics (development)
+data/analytics/
 # Personal settings (e.g. the SEC contact email)
 appsettings.Local.json
 

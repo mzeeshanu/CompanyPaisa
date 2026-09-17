@@ -16,7 +16,8 @@ public static class DependencyInjection
 {
     /// <summary>
     /// Registers the request pipeline (requestor + behaviors), caching, clock, path resolution and ZIP lookup.
-    /// Behavior order: logging → validation → caching → handler.
+    /// Behavior order: logging → analytics → validation → caching → handler (analytics sits outside the cache, so a cached
+    /// answer still counts as a visit to that company).
     /// </summary>
     public static IServiceCollection AddCompanyPaisaInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
@@ -31,10 +32,13 @@ public static class DependencyInjection
         services.TryAddSingleton<IClock, SystemClock>();
         services.TryAddSingleton<IFilePathResolver, ContentRootPathResolver>();
         services.TryAddSingleton<IDataChangeSignal, DataChangeSignal>();
-        services.TryAddSingleton<IGeoLocator, CsvZipGeoLocator>();
+        services.TryAddSingleton<CsvZipGeoLocator>();
+        services.TryAddSingleton<IGeoLocator>(sp => sp.GetRequiredService<CsvZipGeoLocator>());
+        services.TryAddSingleton<IReverseGeoLocator>(sp => sp.GetRequiredService<CsvZipGeoLocator>());
 
         services.TryAddScoped<IServiceRequestor, ServiceRequestor>();
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
+        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(AnalyticsBehavior<,>));
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(CachingBehavior<,>));
         return services;

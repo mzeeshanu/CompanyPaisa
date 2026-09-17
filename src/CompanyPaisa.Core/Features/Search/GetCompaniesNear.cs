@@ -11,11 +11,41 @@ using Microsoft.Extensions.Options;
 namespace CompanyPaisa.Core.Features.Search;
 
 /// <summary>Public companies with at least one location within a radius of a ZIP/city or coordinates.</summary>
-public sealed record GetCompaniesNearQuery(NearbyCompaniesRequest Request) : IRequest<NearbyCompaniesResponse>, ICacheableRequest
+public sealed record GetCompaniesNearQuery(NearbyCompaniesRequest Request) : IRequest<NearbyCompaniesResponse>, ICacheableRequest, ITrackedRequest<NearbyCompaniesResponse>
 {
     public string CacheKey => string.Create(CultureInfo.InvariantCulture,
         $"near|{Request.Near?.Trim().ToUpperInvariant()}|{Request.Latitude:F3}|{Request.Longitude:F3}|{Request.RadiusMiles}|{Request.Sector?.ToUpperInvariant()}|{Request.HeadquarteredOnly}|{Request.Sort}|{Request.Page}|{Request.PageSize}");
     public string CacheProfile => "Search";
+
+    /// <summary>
+    /// The first page only, and not the website's one-row "is there anything here?" check on the location screen
+    /// (<see cref="NearbyCompaniesRequest.PageSize"/> 1).
+    /// </summary>
+    public AnalyticsAction? Describe(NearbyCompaniesResponse response) => (Request.Page ?? 1) != 1 || Request.PageSize == 1 ? null :
+        SearchAnalytics.Action("search", response.Origin, response.OriginLabel, response.RadiusMiles, Request.Near, Request.Sector,
+            response.TotalCount, ("headquarteredOnly", Request.HeadquarteredOnly ? "true" : null), ("sort", Request.Sort?.ToString()));
+}
+
+/// <summary>How a "near me" search is recorded: where (rounded to ~1 km), how far, which filters, how many results.</summary>
+public static class SearchAnalytics
+{
+    /// <summary>Two decimal places ≈ 1.1 km: enough to tell areas apart, too coarse to pinpoint a home.</summary>
+    public const int CoordinateDecimals = 2;
+
+    public static AnalyticsAction Action(string name, GeoPointDto origin, string? originLabel, double radiusMiles, string? near, string? sector,
+        int results, params (string Key, string? Value)[] extra)
+    {
+        var detail = new Dictionary<string, string?>
+        {
+            ["radiusMiles"] = radiusMiles.ToString(CultureInfo.InvariantCulture),
+            ["results"] = results.ToString(CultureInfo.InvariantCulture),
+            ["near"] = string.IsNullOrWhiteSpace(near) ? null : near.Trim(),
+            ["sector"] = string.IsNullOrWhiteSpace(sector) ? null : sector.Trim(),
+        };
+        foreach (var (key, value) in extra) detail[key] = string.IsNullOrWhiteSpace(value) ? null : value;
+        return new AnalyticsAction(name, null, originLabel, detail,
+            Math.Round(origin.Latitude, CoordinateDecimals), Math.Round(origin.Longitude, CoordinateDecimals));
+    }
 }
 
 public sealed class GetCompaniesNearValidator(IOptionsMonitor<SearchOptions> options) : IRequestValidator<GetCompaniesNearQuery>

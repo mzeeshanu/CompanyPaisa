@@ -1,6 +1,7 @@
 <Solution>
   <Folder Name="/src/">
     <Project Path="src/CompanyPaisa.Api/CompanyPaisa.Api.csproj" />
+    <Project Path="src/CompanyPaisa.Analytics/CompanyPaisa.Analytics.csproj" />
     <Project Path="src/CompanyPaisa.Client/CompanyPaisa.Client.csproj" />
     <Project Path="src/CompanyPaisa.Contracts/CompanyPaisa.Contracts.csproj" />
     <Project Path="src/CompanyPaisa.Core/CompanyPaisa.Core.csproj" />

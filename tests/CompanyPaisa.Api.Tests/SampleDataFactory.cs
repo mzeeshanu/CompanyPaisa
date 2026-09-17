@@ -17,6 +17,7 @@ public sealed class SampleDataFactory : WebApplicationFactory<Program>
         builder.UseSetting("DataSource:Excel:Path", "../../data/sample/companypaisa.sample.xlsx");
         builder.UseSetting("DataSource:Excel:ReloadOnChange", "false");
         builder.UseSetting("Geo:ZipTablePath", "../../data/reference/us-zip-centroids.sample.csv");
+        builder.UseSetting("Analytics:Provider", "None");
     }
 }
 
@@ -42,6 +43,7 @@ public sealed class SqliteSampleDataFactory : WebApplicationFactory<Program>
         builder.UseSetting("DataSource:Sqlite:Path", _database);
         builder.UseSetting("DataSource:Sqlite:ReloadOnChange", "false");
         builder.UseSetting("Geo:ZipTablePath", "../../data/reference/us-zip-centroids.sample.csv");
+        builder.UseSetting("Analytics:Provider", "None");
     }
 
     protected override void Dispose(bool disposing)

@@ -9,10 +9,11 @@ namespace CompanyPaisa.Core.Features.Companies;
 
 // ---------- Company profile ----------
 
-public sealed record GetCompanyQuery(string Ticker) : IRequest<CompanyDetailDto>, ICacheableRequest
+public sealed record GetCompanyQuery(string Ticker) : IRequest<CompanyDetailDto>, ICacheableRequest, ITrackedRequest<CompanyDetailDto>
 {
     public string CacheKey => $"company|{Ticker.ToUpperInvariant()}";
     public string CacheProfile => "Company";
+    public AnalyticsAction Describe(CompanyDetailDto response) => new("company_view", response.Ticker, response.Name);
 }
 
 public sealed class GetCompanyHandler(ICompanyRepository repository, IFinancialMetricsService metrics)

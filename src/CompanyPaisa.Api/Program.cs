@@ -1,3 +1,4 @@
+using CompanyPaisa.Api.Analytics;
 using CompanyPaisa.Api.Composition;
 using CompanyPaisa.Api.Endpoints;
 using CompanyPaisa.Api.Options;
@@ -14,6 +15,10 @@ if (Environment.GetEnvironmentVariable("PORT") is { Length: > 0 } port &&
 }
 
 builder.Services.AddCompanyPaisa(builder.Configuration);
+
+// Cloudflare's visitor location headers can hold non-ASCII place names ("Zürich"); read those as UTF-8.
+builder.WebHost.ConfigureKestrel(k => k.RequestHeaderEncodingSelector = name =>
+    name.StartsWith("cf-", StringComparison.OrdinalIgnoreCase) ? System.Text.Encoding.UTF8 : null);
 
 var hosting = builder.Configuration.GetSection(HostingOptions.SectionName).Get<HostingOptions>() ?? new HostingOptions();
 if (hosting.TrustForwardedHeaders)
@@ -59,6 +64,7 @@ if (api.EnableOpenApi)
 }
 
 app.MapCompanyPaisaApiV1();
+app.MapCompanyPaisaAnalytics();
 app.MapHealthChecks("/health");
 
 // Client-side routes of the React app (anything that isn't an API, docs, health or a real file).

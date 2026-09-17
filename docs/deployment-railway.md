@@ -46,6 +46,46 @@ redeploy (the API reloads the workbook automatically when the file changes):
 Later, a database (Railway Postgres) plugs in through `DataSource__Provider` + `DataSource__ConnectionString`
 once the SQL repository exists.
 
+## Visitor analytics (Postgres)
+
+The site records its own analytics (visits, areas searched, companies and executives opened, a few clicks) into a
+**Railway Postgres** database and shows them on a private page, `/admin`. Until the variables below are set it records
+nothing and the site works as before.
+
+1. **Create the database:** in the project, **+ Create → Database → PostgreSQL**. Railway names the service `Postgres`.
+2. **Connect the website:** website service → **Variables**:
+
+   | Variable | Value | Notes |
+   |---|---|---|
+   | `Analytics__ConnectionString` | `${{Postgres.DATABASE_URL}}` | A reference: Railway fills in the private address and password |
+   | `Analytics__DashboardKey` | a long random string | **Secret.** The key for `/admin`. Make one with the PowerShell line below |
+
+   ```powershell
+   $b = New-Object byte[] 24; [Security.Cryptography.RandomNumberGenerator]::Create().GetBytes($b); -join ($b | ForEach-Object { $_.ToString('x2') })
+   ```
+3. **Deploy.** The log shows `Analytics recording to Postgres`; the tables are created on first start.
+4. **Cities (Cloudflare):** Cloudflare dashboard → companypaisa.com → **Rules → Transform Rules → Managed Transforms** → turn on
+   **Add visitor location headers**. Country works without it; city and region need it. Free.
+5. **Open the dashboard:** `https://companypaisa.com/admin` → paste the key → tick **Don't count this browser** on each of
+   your own phones and computers.
+6. **Usage alert:** Workspace → Usage → add an email alert (e.g. $7) below your usage limit. A hard limit stops the whole site.
+
+**What is stored:** event name, what it was about (ticker, person id, area label), the search point rounded to ~1 km, city /
+region / country from Cloudflare, device / browser / OS family, the referring site's host, and a visitor code that changes
+every day (a hash of IP + browser with a random daily salt that is deleted after two days). No IP addresses, and no cookies
+except the owner's "don't count me" cookie.
+
+**Download / back up:** `/admin` has CSV downloads (each table, and every event for a range). A full copy needs `pg_dump` on
+your PC (`winget install PostgreSQL.PostgreSQL.17`) and the database's **public** URL (Postgres service → Variables →
+`DATABASE_PUBLIC_URL`):
+
+```bash
+pg_dump "<DATABASE_PUBLIC_URL>" --format=custom --file=companypaisa-analytics.dump
+```
+
+**Moving to another host (e.g. Azure Database for PostgreSQL):** `pg_restore --no-owner --dbname "<new url>" companypaisa-analytics.dump`,
+then change `Analytics__ConnectionString`. Nothing in the code changes; `Analytics:Provider` also accepts `Sqlite` (a file) or `None`.
+
 ## Checks after deploying
 
 - `https://<domain>/health` → `Healthy`

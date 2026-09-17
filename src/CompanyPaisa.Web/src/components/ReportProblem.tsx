@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { track } from '../lib/analytics';
 
 interface Props {
   /** Where reports go (Ui:PrivacyContact); the button hides when there's none. */
@@ -50,7 +51,7 @@ export function ReportProblem({ contact, about }: Props) {
         </div>
       )}
       <button className="report-btn pane" aria-expanded={open} aria-label="Report a problem with the data" title="Report a problem"
-        onClick={() => setOpen(o => !o)}>
+        onClick={() => { if (!open) track('report_open'); setOpen(o => !o); }}>
         <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 14.5V2.2M3.5 2.5h8.2l-1.9 3 1.9 3H3.5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" strokeLinecap="round" /></svg>
       </button>
     </div>

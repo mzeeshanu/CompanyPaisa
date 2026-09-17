@@ -1,5 +1,6 @@
 import { useEffect, useState, type ReactNode } from 'react';
 import type { NearbySummary } from '../api/types';
+import { track } from '../lib/analytics';
 import { currencySymbol, money } from '../lib/format';
 
 interface Props {
@@ -29,9 +30,9 @@ export function QuickFact({ summary, showExecutives, onOpenPerson }: Props) {
         <p aria-live="polite">{fact.text}</p>
         <span className="fact-btns">
           <button className="fact-btn" aria-expanded={info} aria-label="Where this number comes from" title="Where this number comes from"
-            onClick={() => setInfo(i => !i)}>i</button>
+            onClick={() => { if (!info) track('fact_info'); setInfo(i => !i); }}>i</button>
           {facts.length > 1 && (
-            <button className="fact-btn" aria-label="Another fact" title="Another fact" onClick={() => setStep(s => s + 1)}>↻</button>
+            <button className="fact-btn" aria-label="Another fact" title="Another fact" onClick={() => { track('fact_next'); setStep(s => s + 1); }}>↻</button>
           )}
         </span>
       </div>

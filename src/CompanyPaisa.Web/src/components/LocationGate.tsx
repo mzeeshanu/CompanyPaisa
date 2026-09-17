@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { api, ApiError } from '../api/client';
 import type { Country, CoverageArea } from '../api/types';
+import { track } from '../lib/analytics';
 import { DISCLAIMER } from '../lib/disclaimer';
 
 export interface Origin { latitude: number; longitude: number; label: string }
@@ -83,6 +84,7 @@ export function LocationGate({ coverageMiles, coverage, onLocated }: Props) {
 
   function submitZip(e: FormEvent) {
     e.preventDefault();
+    track('location_zip');
     return lookupZip(zip.trim(), country);
   }
 
@@ -112,6 +114,7 @@ export function LocationGate({ coverageMiles, coverage, onLocated }: Props) {
   function useMyLocation() {
     // The browser permission prompt only appears after this click (never on page load).
     if (!navigator.geolocation) { setError("This browser can't share location. Enter a ZIP code instead."); return; }
+    track('location_gps');
     setBusy('geo'); setError('');
     navigator.geolocation.getCurrentPosition(
       async p => {
@@ -174,7 +177,7 @@ export function LocationGate({ coverageMiles, coverage, onLocated }: Props) {
             )}
             <div className={`metro-list${allMetros && searchable ? ' all' : ''}`}>
               {metros.map(m => (
-                <button key={m.name} type="button" disabled={busy !== null} onClick={() => { setZip(m.exampleZip); lookupZip(m.exampleZip, m.country ?? 'US'); }}>{m.name}</button>
+                <button key={m.name} type="button" disabled={busy !== null} onClick={() => { track('location_area', m.name); setZip(m.exampleZip); lookupZip(m.exampleZip, m.country ?? 'US'); }}>{m.name}</button>
               ))}
               {inCountry.length > SHOWN_METROS && (
                 <button type="button" className="more" onClick={() => { setAllMetros(a => !a); setFind(''); }}>

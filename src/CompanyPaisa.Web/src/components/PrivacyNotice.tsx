@@ -63,8 +63,15 @@ export function PrivacyNotice({ open, contact, onClose }: Props) {
 
         <h3>Visitors</h3>
         <p>
-          No tracking and no ads. Your location or postcode is used in your browser to search nearby and isn't stored by us. With your
-          consent we keep one small cookie that remembers your view and theme; "Just this visit" stores nothing.
+          No ads, no tracking cookies, and nothing is shared with other companies. With your consent we keep one small cookie that
+          remembers your view and theme; "Just this visit" stores nothing.
+        </p>
+        <p>
+          To see how the site is used, we count visits on our own servers: which areas are searched (the search point rounded to
+          about 1 km, or the postcode typed), which companies and executives are opened, a few clicks, the type of device and browser,
+          the website that linked here, and the approximate city and country our network provider estimates from your connection.
+          We don't store your IP address or anything that identifies you: each visit gets a code that changes every day and can't be
+          traced back to you or linked to another day.
         </p>
       </div>
     </div>

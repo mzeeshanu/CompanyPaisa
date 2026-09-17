@@ -96,10 +96,11 @@ var career = await companyPaisa.GetExecutiveAsync(execs.Items[0].PersonId);
 src/
   CompanyPaisa.Contracts/       request/response types shared by API and client
   CompanyPaisa.Core/            domain models, interfaces, services, use-case handlers, options
-  CompanyPaisa.Infrastructure/  IServiceRequestor + pipeline (logging → validation → caching), ZIP lookup, clock
+  CompanyPaisa.Infrastructure/  IServiceRequestor + pipeline (logging → analytics → validation → caching), ZIP lookup, clock
   CompanyPaisa.Data/            the in-memory data set, its integrity rules, the reloading repository base
   CompanyPaisa.Data.Sqlite/     ICompanyRepository over the published SQLite database (the live data)
   CompanyPaisa.Data.Excel/      ICompanyRepository over Excel workbooks (sample data, hand-made sets)
+  CompanyPaisa.Analytics/       the site's own visitor analytics: queue, background writer, Postgres / SQLite stores
   CompanyPaisa.Api/             minimal-API endpoints, API keys, rate limits, OpenAPI, health, serves the SPA
   CompanyPaisa.Client/          typed C# client for other apps
   CompanyPaisa.Web/             React + TypeScript website (Vite, D3) — calls only the public /api/v1
@@ -110,7 +111,8 @@ tests/                          unit tests (Core) + end-to-end tests (Api via th
 
 - **Endpoints are thin**: `requestor.SendAsync(new GetCompaniesNearQuery(...))`. Each use case is one
   request + one handler; validation, logging and caching are pipeline behaviors.
-- **Storage is swappable**: `DataSource:Provider` picks the `ICompanyRepository` implementation.
+- **Storage is swappable**: `DataSource:Provider` picks the `ICompanyRepository` implementation, and `Analytics:Provider`
+  the analytics store (Postgres, SQLite or none).
 - **Everything tunable is in `appsettings.json`** (radius options, trend thresholds, cache durations,
   rate limits, UI defaults, feature flags), bound to typed options validated at startup.
   Secrets (API keys, connection strings) go in user-secrets or environment variables.

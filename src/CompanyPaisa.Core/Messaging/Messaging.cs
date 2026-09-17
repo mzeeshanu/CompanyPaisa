@@ -38,6 +38,13 @@ public interface IRequestValidator<in TRequest>
 
 public sealed record ValidationError(string Field, string Message);
 
+/// <summary>Opt-in: requests implementing this are recorded by the analytics behavior when they succeed.</summary>
+public interface ITrackedRequest<in TResponse>
+{
+    /// <summary>What to record for this request and its response; null = nothing (e.g. a later page of results).</summary>
+    Abstractions.AnalyticsAction? Describe(TResponse response);
+}
+
 /// <summary>Opt-in: requests implementing this are cached by the caching behavior.</summary>
 public interface ICacheableRequest
 {

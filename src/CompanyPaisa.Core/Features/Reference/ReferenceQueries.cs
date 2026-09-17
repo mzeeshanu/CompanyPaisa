@@ -7,7 +7,12 @@ namespace CompanyPaisa.Core.Features.Reference;
 
 // ---------- ZIP / city lookup ----------
 
-public sealed record LookupGeoQuery(string Query) : IRequest<GeoLookupDto>;
+/// <remarks>Recorded as "place_lookup": the postcode or city typed and where it resolved to (no coordinates finer than the postcode).</remarks>
+public sealed record LookupGeoQuery(string Query) : IRequest<GeoLookupDto>, ITrackedRequest<GeoLookupDto>
+{
+    public AnalyticsAction Describe(GeoLookupDto response) =>
+        new("place_lookup", Query.Trim().ToUpperInvariant(), string.Join(", ", new[] { response.City, response.State }.Where(s => !string.IsNullOrWhiteSpace(s))));
+}
 
 public sealed class LookupGeoValidator : IRequestValidator<LookupGeoQuery>
 {

@@ -12,6 +12,7 @@ import { MapView } from './components/MapView';
 import { PrivacyNotice } from './components/PrivacyNotice';
 import { ReportProblem } from './components/ReportProblem';
 import { TopBar } from './components/TopBar';
+import { track } from './lib/analytics';
 import { DISCLAIMER } from './lib/disclaimer';
 import { money, pct } from './lib/format';
 import {
@@ -68,6 +69,7 @@ export default function App() {
 
   // ---- boot: settings come from the API (appsettings.json), preferences from the consent cookie ----
   useEffect(() => {
+    track('page_view');
     Promise.all([api.clientConfig().catch(() => FALLBACK_CONFIG), api.meta().catch(() => null), api.sectors().catch(() => [])])
       .then(([cfg, m, secs]) => {
         configurePrefs(cfg.consentCookieName, cfg.consentCookieDays);
@@ -135,6 +137,7 @@ export default function App() {
   const loadMoreExecutives = useCallback(() => {
     if (!origin || !execData || loadingMore) return;
     setLoadingMore(true);
+    track('executives_more');
     api.executivesNear({
       latitude: origin.latitude, longitude: origin.longitude, radiusMiles: radius, sector: sector || undefined,
       includeFormer, search: execSearch.trim() || undefined, sort: execSort, page: execData.page + 1,
@@ -178,11 +181,13 @@ export default function App() {
   if (bootError) return <div className="wrap"><p className="banner-error pane">{bootError}</p></div>;
   if (!config) return <div className="aurora" aria-hidden="true"><i /><i /><i /><i /></div>;
 
+  const openAbout = () => { track('about_open'); setShowAbout(true); };
+
   const footer = (
     <div className="wrap foot">
       <p className="disclaimer" role="note">
         <b>Please note:</b> {DISCLAIMER} This is not financial advice — check the company's original filing before relying on any
-        number. <button className="linkbtn" onClick={() => setShowAbout(true)}>About the data</button>
+        number. <button className="linkbtn" onClick={openAbout}>About the data</button>
       </p>
       <span className="sources-line">{meta?.isSampleData
         ? 'Sample data — company names and approximate locations are real; financial figures and executive names are synthetic.'
@@ -194,11 +199,11 @@ export default function App() {
             <a className="linkbtn" href="https://www.census.gov/geographies/reference-files/time-series/geo/gazetteer-files.html" target="_blank" rel="noreferrer">US Census</a>;
             postcode names © <a className="linkbtn" href="https://www.geonames.org/" target="_blank" rel="noreferrer">GeoNames</a> (CC BY 4.0).</>}</span>
       <span>
-        <button className="linkbtn" onClick={() => setShowAbout(true)}>About the data</button>
+        <button className="linkbtn" onClick={openAbout}>About the data</button>
         {' · '}
         <a className="linkbtn" href="/swagger" target="_blank" rel="noreferrer">Public API</a>
         {' · '}
-        <button className="linkbtn" onClick={() => setShowPrivacy(true)}>Privacy</button>
+        <button className="linkbtn" onClick={() => { track('privacy_open'); setShowPrivacy(true); }}>Privacy</button>
         {' · '}
         <button className="linkbtn" onClick={() => setShowConsent(true)}>Cookie settings</button>
       </span>
@@ -213,8 +218,8 @@ export default function App() {
       }}>
         <TopBar ref={header}
           placeLabel={origin?.label ?? 'Lehi, UT 84043'} onChangeLocation={() => { closePanels(); setGateOpen(true); }}
-          mode={mode} onMode={m => { closePanels(); setMode(m); }} showExecutives={features.Executives !== false}
-          view={view} onView={setView} showMapView={features.MapView !== false}
+          mode={mode} onMode={m => { closePanels(); track(m === 'executives' ? 'mode_executives' : 'mode_companies'); setMode(m); }} showExecutives={features.Executives !== false}
+          view={view} onView={v => { track(v === 'map' ? 'view_map' : 'view_list'); setView(v); }} showMapView={features.MapView !== false}
           theme={theme} onTheme={setTheme}
           radii={config.allowedRadiiMiles} radius={radius} onRadius={setRadius}
           sectors={sectors} sector={sector} onSector={setSector}
