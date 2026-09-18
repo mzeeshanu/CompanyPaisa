@@ -4,7 +4,7 @@ import { api, ApiError } from '../api/client';
 import type { CompanyDetail, CompanyInsights, Executive, FinancialPeriod, GeoPoint, Location, PeriodType } from '../api/types';
 import { money, pct, tone, trendClass } from '../lib/format';
 import { Link, personPath, placeToken } from '../lib/router';
-import { AtAGlance, NewLeadership, SimilarCompanies } from './CompanyInsights';
+import { AtAGlance, NewLeadership, PayVsPeersCard, SimilarCompanies } from './CompanyInsights';
 import { Filing } from './Filing';
 import { milesBetween, PageBack, type Nearby } from './PageShell';
 
@@ -164,6 +164,7 @@ export function CompanyPage({ ticker, from, showExecutives, onExplore, onLoaded 
             <p className="fine">Tap a period to open the filing it comes from.</p>
           </section>
           {d.insights && <AtAGlance insights={d.insights} name={d.detail.name} />}
+          {d.insights?.payVsPeers && <PayVsPeersCard pay={d.insights.payVsPeers} name={d.detail.name} revenueCurrency={cur} />}
           {d.insights && <SimilarCompanies insights={d.insights} />}
           {locations.length > 0 && (
             <section className="pane page-card page-locs" aria-labelledby="locations-h">

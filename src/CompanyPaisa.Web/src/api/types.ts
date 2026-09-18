@@ -156,6 +156,15 @@ export interface CompanyInsights {
   similarSameSector: boolean;
   similar: SimilarCompany[];
   newExecutives?: NewExecutive[] | null;
+  payVsPeers?: PayVsPeers | null;
+}
+
+/** How a company's executive pay compares with similar companies (same sector and size). Percentiles = share of peers paid less. */
+export interface PayVsPeers {
+  sector: string; minRevenue: number; maxRevenue: number; peerCount: number; currency: string; approximate: boolean;
+  topRole: string; topPay: number; topPayPeerMedian: number; topPayPercentile: number;
+  otherExecutivesPay: number | null; otherExecutivesPeerMedian: number | null; otherExecutivesPercentile: number | null;
+  nearby: { ticker: string; name: string; role: string; topPay: number; year: number; isThisCompany: boolean }[];
 }
 export interface Rank { rank: number; count: number; within: string }
 export interface SimilarCompany {

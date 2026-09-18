@@ -21,7 +21,8 @@ public sealed class GetCompanyInsightsHandler(
     ICompanyStatsIndex statsIndex,
     IFinancialMetricsService metrics,
     ITopPaidCeoService topCeo,
-    IDistanceCalculator distance) : IRequestHandler<GetCompanyInsightsQuery, CompanyInsightsResponse>
+    IDistanceCalculator distance,
+    ICurrencyConverter fx) : IRequestHandler<GetCompanyInsightsQuery, CompanyInsightsResponse>
 {
     /// <summary>Fewest companies a rank or a sector median is worth quoting against.</summary>
     public const int MinRankCount = 3, MinSectorForMedian = 5;
@@ -71,7 +72,8 @@ public sealed class GetCompanyInsightsHandler(
             company.Employees is > 0 && ind.TtmRevenue > 0 ? Math.Round(ind.TtmRevenue / company.Employees.Value) : null,
             company.Employees is > 0 ? company.Employees : null,
             Math.Round(Math.Max(0, ind.TtmRevenue) / SecondsPerYear, 2),
-            sameSector, similar, newExecutives);
+            sameSector, similar, newExecutives,
+            q.IncludeExecutives ? await PeerPay.CompareAsync(company, set, NoSector, repository, fx, ct) : null);
     }
 
     /// <summary>The CEO's pay change in their latest year next to the revenue change of the fiscal year with the same number.</summary>

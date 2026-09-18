@@ -243,7 +243,35 @@ public sealed record CompanyInsightsResponse(
     bool SimilarSameSector,
     IReadOnlyList<SimilarCompanyDto> Similar,
     // Officers appointed recently, newest first, with the package the company announced.
-    IReadOnlyList<NewExecutiveDto>? NewExecutives = null);
+    IReadOnlyList<NewExecutiveDto>? NewExecutives = null,
+    // How its executive pay compares with similar companies (same sector and size).
+    PayVsPeersDto? PayVsPeers = null);
+
+/// <summary>One company's top executive pay in a peer comparison (in the comparing company's pay currency).</summary>
+public sealed record PeerPayDto(string Ticker, string Name, string Role, decimal TopPay, int Year, bool IsThisCompany);
+
+/// <summary>
+/// How a company's executive pay compares with similar companies: same sector (and market: UK directors' pay is reported
+/// differently), revenue between <see cref="MinRevenue"/> and <see cref="MaxRevenue"/>, pay reported for a recent year.
+/// <see cref="TopRole"/> is "CEO" (or "top-paid executive director" in UK reports). Percentiles are the share of peers paid
+/// less. <see cref="Nearby"/> is this company and the peers closest to it in size, highest pay first. Amounts in
+/// <see cref="Currency"/> (converted at approximate rates when peers report in others: <see cref="Approximate"/>).
+/// </summary>
+public sealed record PayVsPeersDto(
+    string Sector,
+    decimal MinRevenue,
+    decimal MaxRevenue,
+    int PeerCount,
+    string Currency,
+    bool Approximate,
+    string TopRole,
+    decimal TopPay,
+    decimal TopPayPeerMedian,
+    int TopPayPercentile,
+    decimal? OtherExecutivesPay,
+    decimal? OtherExecutivesPeerMedian,
+    int? OtherExecutivesPercentile,
+    IReadOnlyList<PeerPayDto> Nearby);
 
 // ---------- New executives (appointment announcements) ----------
 

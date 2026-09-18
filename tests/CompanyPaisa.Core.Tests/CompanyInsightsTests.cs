@@ -40,7 +40,7 @@ public class CompanyInsightsTests
         {
             MedianPay = { ["US"] = new MedianPayOptions { Description = "US full-time worker", AnnualPay = 65_000, Currency = "USD", Period = "2026", Source = "BLS", SourceUrl = "https://www.bls.gov/" } }
         }));
-        var handler = new GetCompanyInsightsHandler(repo, new CompanyStatsIndex(repo, metrics, fx), metrics, ceo, new HaversineDistanceCalculator());
+        var handler = new GetCompanyInsightsHandler(repo, new CompanyStatsIndex(repo, metrics, fx), metrics, ceo, new HaversineDistanceCalculator(), fx);
         return handler.HandleAsync(new GetCompanyInsightsQuery(ticker, executives), CancellationToken.None);
     }
 
@@ -91,6 +91,29 @@ public class CompanyInsightsTests
         Assert.True(mid.SimilarSameSector);
         Assert.Equal(["BIG", "TINY", "SMALL", "WEE"], mid.Similar.Select(s => s.Ticker));   // Denver is too far; the bank isn't software
         Assert.Equal(0, mid.Similar[0].DistanceMiles);
+    }
+
+    [Fact]
+    public async Task Executive_pay_is_compared_with_similar_companies()
+    {
+        var repo = Repo();
+        // CEOs (and a CFO each) at the other software companies; MID pays its CEO $3M and its CFO $9M in 2025.
+        foreach (var (ticker, ceo) in new[] { ("BIG", 8_000_000m), ("SMALL", 1_000_000m), ("TINY", 500_000m), ("WEE", 400_000m), ("DENV", 12_000_000m) })
+            repo.Pay($"ceo-{ticker}", ticker, "Chief Executive Officer", 2025, 2025, ceo)
+                .Pay($"cfo-{ticker}", ticker, "Chief Financial Officer", 2025, 2025, ceo / 2)
+                .Pay($"coo-{ticker}", ticker, "Chief Operating Officer", 2025, 2025, ceo / 4);
+        repo.Pay("coo-1", "MID", "Chief Operating Officer", 2025, 2025, 1_000_000);
+        repo.Pay("ceo-bank", "BANK", "Chief Executive Officer", 2025, 2025, 99_000_000);   // another sector: not a peer
+
+        var p = Assert.IsType<PayVsPeersDto>((await Insights(repo, "MID")).PayVsPeers);
+
+        Assert.Equal(("CEO", 3_000_000m, 5), (p.TopRole, p.TopPay, p.PeerCount));
+        Assert.Equal(1_000_000m, p.TopPayPeerMedian);                        // 0.4, 0.5, 1, 8, 12 million
+        Assert.Equal(60, p.TopPayPercentile);                                // paid more than 3 of the 5
+        Assert.Equal(5_000_000m, p.OtherExecutivesPay);                      // median of the CFO ($9M) and COO ($1M)
+        Assert.Equal(["DENV", "BIG", "MID", "SMALL", "TINY", "WEE"], p.Nearby.Select(n => n.Ticker));
+        Assert.True(p.Nearby.Single(n => n.Ticker == "MID").IsThisCompany);
+        Assert.Null((await Insights(Repo(), "MID")).PayVsPeers);            // no peers report pay: nothing to compare
     }
 
     [Fact]

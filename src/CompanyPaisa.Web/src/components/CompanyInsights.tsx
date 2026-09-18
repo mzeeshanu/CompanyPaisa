@@ -1,5 +1,5 @@
 import { useState, type ReactNode } from 'react';
-import type { CompanyInsights, NewExecutive, PackageItemKind, Rank } from '../api/types';
+import type { CompanyInsights, NewExecutive, PackageItemKind, PayVsPeers, Rank } from '../api/types';
 import { currencySymbol, money, pct, tone, trendClass } from '../lib/format';
 import { companyPath, Link, personPath } from '../lib/router';
 import { duration, exact, perUnitOfTime } from './QuickFact';
@@ -227,3 +227,67 @@ export function NewLeadership({ people }: { people: NewExecutive[] }) {
     </section>
   );
 }
+
+// ---------- Pay vs similar companies ----------
+
+/** "more than 64%" / "less than 70%" / "about the middle" of similar companies. */
+function standing(percentile: number) {
+  if (percentile >= 55) return <>more than <b className="up">{percentile}%</b> of similar companies</>;
+  if (percentile <= 45) return <>less than <b className="down">{100 - percentile}%</b> of similar companies</>;
+  return <>about the <b>middle</b> of similar companies</>;
+}
+
+const vsMedian = (value: number, median: number) => median > 0 ? value / median - 1 : null;
+
+/** Is this company paying its executives more or less than companies like it (same sector, similar size)? */
+export function PayVsPeersCard({ pay: p, name, revenueCurrency }: { pay: PayVsPeers; name: string; revenueCurrency: string }) {
+  const cur = p.currency;
+  const top = p.topRole === 'CEO' ? 'CEO' : 'top-paid executive director';
+  const max = Math.max(...p.nearby.map(n => n.topPay), 1);
+  const topDiff = vsMedian(p.topPay, p.topPayPeerMedian);
+  const otherDiff = p.otherExecutivesPay != null && p.otherExecutivesPeerMedian ? vsMedian(p.otherExecutivesPay, p.otherExecutivesPeerMedian) : null;
+  return (
+    <section className="pane page-card peer-pay" aria-labelledby="peer-pay-h">
+      <h2 className="subh" id="peer-pay-h">Pay vs similar companies</h2>
+      <p className="peer-lead">Pays its {top} {standing(p.topPayPercentile)}.</p>
+      <div className="peer-tiles">
+        <div className="kpi">
+          <span className="k">{top === 'CEO' ? 'CEO pay' : 'Top executive'}</span>
+          <span className="s">median of similar: {money(p.topPayPeerMedian, cur)}</span>
+          <span className="v">{money(p.topPay, cur)}</span>
+          {topDiff != null && <span className={`chg ${tone(topDiff)}`}>{pct(topDiff)} vs median</span>}
+        </div>
+        {p.otherExecutivesPay != null && p.otherExecutivesPeerMedian != null && (
+          <div className="kpi">
+            <span className="k">Other executives</span>
+            <span className="s">median of similar: {money(p.otherExecutivesPeerMedian, cur)}</span>
+            <span className="v">{money(p.otherExecutivesPay, cur)}</span>
+            {otherDiff != null && <span className={`chg ${tone(otherDiff)}`}>{pct(otherDiff)} vs median</span>}
+            <span className="s peer-standing">{standingShort(p.otherExecutivesPercentile!)}</span>
+          </div>
+        )}
+      </div>
+      <p className="fine peer-list-h">The {p.nearby.length - 1} companies closest in size, by {top === 'CEO' ? 'CEO' : 'top executive'} pay:</p>
+      <ol className="peer-list" aria-label={`${top} pay at ${name} and the similar companies either side`}>
+        {p.nearby.map(n => (
+          <li key={n.ticker} className={n.isThisCompany ? 'me' : undefined}>
+            {n.isThisCompany
+              ? <span className="peer-name"><b>{n.name}</b><small>this company · {n.year}</small></span>
+              : <Link className="peer-name" to={companyPath(n.ticker)}><b>{n.name}</b><small>{n.ticker} · {n.year}</small></Link>}
+            <span className="peer-bar"><i style={{ width: `${(n.topPay / max) * 100}%` }} /></span>
+            <span className="num">{money(n.topPay, cur)}</span>
+          </li>
+        ))}
+      </ol>
+      <p className="fine">
+        Similar = {p.peerCount} {p.sector} companies
+        {p.maxRevenue > 0 ? <> with revenue between {money(p.minRevenue, revenueCurrency)} and {money(p.maxRevenue, revenueCurrency)}</> : ' of every size'},
+        comparing each one's latest reported year: the {top === 'CEO' ? 'CEO' : 'top-paid executive director'}'s total pay, and the median of the other
+        named executives. Pay as reported, with stock at its grant value{p.approximate ? '; other currencies converted at approximate rates' : ''}.
+      </p>
+    </section>
+  );
+}
+
+const standingShort = (percentile: number) =>
+  percentile >= 55 ? `paid more than ${percentile}% of similar` : percentile <= 45 ? `paid less than ${100 - percentile}% of similar` : 'about the middle of similar';

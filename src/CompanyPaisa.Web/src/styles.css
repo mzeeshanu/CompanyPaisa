@@ -588,3 +588,19 @@ td.co i{width:8px;height:8px;border-radius:2px;display:inline-block}
 /* One appointment fills the row; several sit side by side. */
 .new-leadership .new-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,360px),1fr))}
 .new-leadership .fine{max-width:90ch}
+/* ---------- pay vs similar companies ---------- */
+.peer-lead{margin:-4px 0 0;font:600 17px/1.35 var(--display);letter-spacing:-.01em}
+.peer-tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px}
+.peer-tiles .kpi .chg{margin-top:2px}
+.peer-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px}
+.peer-list li{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(60px,1fr) auto;gap:12px;align-items:center;padding:7px 8px;margin:0 -8px;border-radius:10px;font-size:13px}
+.peer-list li.me{background:var(--accent-soft)}
+.peer-name{display:flex;flex-direction:column;min-width:0;color:inherit;text-decoration:none}
+a.peer-name:hover b{text-decoration:underline;text-underline-offset:3px}
+.peer-name b,.peer-name small{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.peer-name small{color:var(--faint);font-size:11.5px}
+.peer-bar{height:8px;border-radius:4px;background:var(--track);overflow:hidden}
+.peer-bar i{display:block;height:100%;border-radius:4px;background:var(--s1)}
+.peer-list li.me .peer-bar i{background:var(--accent)}
+.peer-list .num{font-size:12.5px;text-align:right;min-width:52px}
+.peer-list-h{margin:2px 0 -6px}
