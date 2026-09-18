@@ -1,5 +1,5 @@
-import type { ReactNode } from 'react';
-import type { CompanyInsights, Rank } from '../api/types';
+import { useState, type ReactNode } from 'react';
+import type { CompanyInsights, NewExecutive, PackageItemKind, Rank } from '../api/types';
 import { currencySymbol, money, pct, tone, trendClass } from '../lib/format';
 import { companyPath, Link, personPath } from '../lib/router';
 import { duration, exact, perUnitOfTime } from './QuickFact';
@@ -23,6 +23,21 @@ function perUnit(ratio: number, currency: string) {
 export function AtAGlance({ insights: i, name }: { insights: CompanyInsights; name: string }) {
   const cur = i.currency;
   const facts: Fact[] = [];
+
+  // The newest appointment of the last year, with its announced package.
+  const latest = i.newExecutives?.[0];
+  if (latest && new Date(`${latest.startsOn ?? latest.announcedOn}T00:00:00`) > new Date(Date.now() - 365 * 864e5)) {
+    const when = latest.startsOn ?? latest.announcedOn;
+    const future = new Date(`${when}T00:00:00`) > new Date();
+    facts.push({
+      key: 'new', icon: '🆕',
+      text: <>
+        New {latest.title}{' '}
+        {latest.personId ? <Link className="linkbtn" to={personPath(latest.personId)}>{latest.name}</Link> : <b>{latest.name}</b>}{' '}
+        {future ? 'joins' : 'joined'} on {shortDate(when)} with an announced package of <b>{money(latest.total, latest.currency)}</b>.
+      </>,
+    });
+  }
 
   if (i.payVsResults) {
     const p = i.payVsResults;
@@ -145,6 +160,70 @@ export function SimilarCompanies({ insights: i }: { insights: CompanyInsights })
         ))}
       </ul>
       <p className="fine">{i.similarSameSector ? 'Same sector, closest to its headquarters' : 'Closest to its headquarters'} · revenue for the latest 12 months and growth on the year before.</p>
+    </section>
+  );
+}
+
+// ---------- New leadership: appointments and the packages the company announced ----------
+
+const PACKAGE_COLORS: Record<PackageItemKind, string> = {
+  Salary: 'var(--s1)', Bonus: 'var(--s2)', SignOnCash: 'var(--flat)', OtherCash: 'var(--s4)',
+  Stock: 'var(--s3)', PerformanceStock: 'var(--up)', Options: 'var(--accent)',
+};
+
+/** "16 Apr 2026" */
+export const shortDate = (iso: string) =>
+  new Date(`${iso}T00:00:00`).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+
+/** Same-label items added up ("Stock awards $2.0M + $800K" → one line), biggest first. */
+function packageLines(p: NewExecutive) {
+  const lines = new Map<string, { label: string; kind: PackageItemKind; amount: number; count: number }>();
+  for (const item of p.package) {
+    const line = lines.get(item.label) ?? { label: item.label, kind: item.kind, amount: 0, count: 0 };
+    line.amount += item.amount; line.count++;
+    lines.set(item.label, line);
+  }
+  return [...lines.values()].sort((a, b) => b.amount - a.amount);
+}
+
+/** Officers appointed recently with the package the company announced in its filing (not pay received). */
+export function NewLeadership({ people }: { people: NewExecutive[] }) {
+  const [all, setAll] = useState(false);
+  const shown = all ? people : people.slice(0, 3);
+  return (
+    <section className="pane page-card new-leadership" aria-labelledby="new-h">
+      <h2 className="subh" id="new-h">New leadership</h2>
+      <ul className="new-list">
+        {shown.map(p => {
+          const lines = packageLines(p);
+          const upcoming = p.startsOn && new Date(`${p.startsOn}T00:00:00`) > new Date();
+          return (
+            <li key={`${p.name}-${p.announcedOn}`}>
+              <div className="new-top">
+                <div>
+                  <b className="new-name">{p.personId ? <Link className="linkbtn" to={personPath(p.personId)}>{p.name} →</Link> : p.name}</b>
+                  <small>{p.title}</small>
+                  <small className="new-dates">Announced {shortDate(p.announcedOn)}{p.startsOn && <> · {upcoming ? 'starts' : 'started'} {shortDate(p.startsOn)}</>}</small>
+                </div>
+                <div className="new-total num">{money(p.total, p.currency)}<small>announced package</small></div>
+              </div>
+              <div className="stack">
+                {lines.map(l => <i key={l.label} style={{ width: `${(l.amount / p.total) * 100}%`, background: PACKAGE_COLORS[l.kind] }} title={`${l.label}: ${money(l.amount, p.currency)}`} />)}
+              </div>
+              <ul className="new-parts">
+                {lines.map(l => (
+                  <li key={l.label}><i style={{ background: PACKAGE_COLORS[l.kind] }} />{l.label}{l.count > 1 ? ` (${l.count} grants)` : ''}<span className="num">{money(l.amount, p.currency)}</span></li>
+                ))}
+              </ul>
+              {p.sourceFiling && <a className="linkbtn filing" href={p.sourceFiling} target="_blank" rel="noreferrer">Read the announcement (8-K) ↗</a>}
+            </li>
+          );
+        })}
+      </ul>
+      {people.length > 3 && <button className="linkbtn page-more" onClick={() => setAll(a => !a)}>{all ? 'Show fewer' : `Show all ${people.length}`}</button>}
+      <p className="fine">What the company said it would pay when it announced the appointment, not pay received. Stock is at the value the
+        company stated; bonuses count only where a dollar amount was given, not a percentage target. Read automatically from the
+        filing, so check it before relying on it.</p>
     </section>
   );
 }

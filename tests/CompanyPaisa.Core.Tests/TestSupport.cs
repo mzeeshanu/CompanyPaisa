@@ -12,6 +12,7 @@ internal sealed class FakeRepository : ICompanyRepository
     public List<CompanyLocation> Locations { get; } = [];
     public List<FinancialPeriod> Financials { get; } = [];
     public List<ExecutiveCompensation> Executives { get; } = [];
+    public List<NewExecutive> Appointments { get; } = [];
 
     public FakeRepository Add(string ticker, string sector, LocationType type, double lat, double lng, decimal annualRevenue, decimal growth = 0.05m, decimal margin = 0.1m)
     {
@@ -53,6 +54,8 @@ internal sealed class FakeRepository : ICompanyRepository
     public Task<IReadOnlyList<ExecutiveCompensation>> GetCompensationForPeopleAsync(IEnumerable<string> ids, CancellationToken ct = default) =>
         Task.FromResult<IReadOnlyList<ExecutiveCompensation>>(Executives.Where(e => ids.Contains(e.PersonId)).ToList());
     public Task<Person?> GetPersonAsync(string id, CancellationToken ct = default) => Task.FromResult<Person?>(null);
+    public Task<IReadOnlyList<NewExecutive>> GetNewExecutivesAsync(IEnumerable<string> ids, CancellationToken ct = default) =>
+        Task.FromResult<IReadOnlyList<NewExecutive>>(Appointments.Where(a => ids.Contains(a.CompanyId)).ToList());
 
     /// <summary>Adds one pay row per year for a person at a company.</summary>
     public FakeRepository Pay(string personId, string company, string title, int fromYear, int toYear, decimal total)

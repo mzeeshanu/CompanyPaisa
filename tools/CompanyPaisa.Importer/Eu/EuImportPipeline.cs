@@ -93,7 +93,7 @@ public sealed class EuImportPipeline(IOptions<ImporterOptions> options, RepoPath
         UkConstituents.Write(paths.Resolve(_o.ListPath), found.OrderBy(f => f.Country).ThenBy(f => f.Company.Name)
             .Select(f => f.Company with { Sector = f.Country }));
 
-        publisher.Publish(Market, companies, locations, periods, [], [],
+        publisher.Publish(Market, companies, locations, periods, [], [], [],
             "ESEF annual reports via filings.xbrl.org; tickers via GLEIF ISINs and OpenFIGI; headquarters from GLEIF; postcodes from GeoNames.",
             string.Join(", ", _o.Countries.Select(c => c.Name)));
         var codes = await postcodes.WriteTableAsync(paths.Resolve(_o.PostcodeTableOutput), ct);

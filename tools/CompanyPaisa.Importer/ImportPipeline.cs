@@ -24,6 +24,7 @@ public sealed partial class ImportPipeline(
     IZipGeocoder geo,
     ISecClient client,
     Publishing.DataPublisher publisher,
+    Compensation.NewHireReader newHires,
     IOptions<ImporterOptions> options,
     RepoPaths paths,
     ILogger<ImportPipeline> logger) : Publishing.IMarketImporter
@@ -40,6 +41,7 @@ public sealed partial class ImportPipeline(
         public List<CompanyLocation> Locations { get; } = [];
         public List<FinancialPeriod> Financials { get; } = [];
         public List<ExecutiveCompensation> Pay { get; } = [];
+        public List<NewExecutive> NewExecutives { get; } = [];
         public Dictionary<string, Person> People { get; } = new();
         public List<(string Region, string Line)> Included { get; } = [];
         public int NoTicker { get; set; }
@@ -197,6 +199,9 @@ public sealed partial class ImportPipeline(
                     SourceFiling = row.Source
                 });
             }
+            // Officers appointed recently, with the package the company announced (8-K Item 5.02).
+            outcome.NewExecutives.AddRange(await newHires.ReadAsync(c.Sec, ticker, ids, ct));
+
             outcome.Included.Add((c.Region, string.Create(CultureInfo.InvariantCulture,
                 $"| {ticker} | {company.Name} | {c.Location.City}, {c.Location.State} | {exchange} | {company.Sector} | {Money(fin.LatestAnnualRevenue)} | {pay.Select(p => p.Name).Distinct().Count()} | {(pay.Count > 0 ? $"{pay.Min(p => p.Year)}–{pay.Max(p => p.Year)}" : "—")} |")));
             logger.LogInformation("{Ticker,-6} {Name}: {Periods} periods, {People} executives from {Proxies} proxies",
@@ -205,6 +210,7 @@ public sealed partial class ImportPipeline(
 
         // 4. Publish: this market's rows in the website's database (checked with the API's rules before it replaces the file).
         publisher.Publish(Market, outcome.Companies, outcome.Locations, outcome.Financials, outcome.Pay, outcome.People.Values.ToList(),
+            Compensation.NewHireReader.LinkByUniqueName(outcome.NewExecutives, outcome.People.Keys),
             "SEC EDGAR: company submissions, XBRL company facts, DEF 14A summary compensation tables, insider (Form 3/4/5) owner lists. ZIP centroids: US Census Gazetteer. ZIP names: GeoNames (CC-BY 4.0).",
             string.Join("; ", o.Regions.Select(r => r.Name)));
         var zips = await geo.WriteZipTableAsync(ct);

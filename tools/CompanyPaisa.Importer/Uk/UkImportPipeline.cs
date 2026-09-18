@@ -171,7 +171,7 @@ public sealed partial class UkImportPipeline(IOptions<ImporterOptions> options, 
         // 6. Keep the reviewed list (with the LEIs we matched) for next time.
         UkConstituents.Write(listPath, matched.Where(m => !addedTickers.Contains(m.Ticker)));
 
-        publisher.Publish(Market, companies, locations, periods, pay, people.Values.ToList(),
+        publisher.Publish(Market, companies, locations, periods, pay, people.Values.ToList(), [],
             "ESEF annual reports via filings.xbrl.org; headquarters from GLEIF; postcode districts from GeoNames.", "United Kingdom");
         var districts = await postcodes.WriteTableAsync(paths.Resolve(_o.PostcodeTableOutput), ct);
         await WriteReportAsync(companies.Count, periods.Count, pay.Count, payRowsVerified, people.Count, reportsRead, districts, included, excluded, warnings, client.NetworkRequests, ct);

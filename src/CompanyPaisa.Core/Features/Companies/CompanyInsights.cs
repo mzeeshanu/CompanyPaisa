@@ -1,6 +1,7 @@
 using CompanyPaisa.Contracts;
 using CompanyPaisa.Core.Abstractions;
 using CompanyPaisa.Core.Domain;
+using CompanyPaisa.Core.Features.Executives;
 using CompanyPaisa.Core.Messaging;
 using CompanyPaisa.Core.Services;
 
@@ -50,6 +51,14 @@ public sealed class GetCompanyInsightsHandler(
         TopPaidCeoDto? ceo = q.IncludeExecutives ? await topCeo.FindAsync([company], ct) : null;
         var (similar, sameSector) = Similar(me, set, hasSector);
 
+        // Officers appointed recently, with the package the company announced (newest first).
+        var appointments = q.IncludeExecutives
+            ? (await repository.GetNewExecutivesAsync([company.CompanyId], ct)).OrderByDescending(e => e.AnnouncedOn).ToList()
+            : [];
+        var profiles = await NewExecutives.WithProfilesAsync(repository, appointments, ct);
+        var newExecutives = appointments
+            .Select(e => NewExecutives.ToDto(e, company, e.PersonId is not null && profiles.Contains(e.PersonId))).ToList();
+
         return new CompanyInsightsResponse(
             company.Ticker, company.Currency,
             ceo is null ? null : await PayVsResultsAsync(company, ceo, ct),
@@ -62,7 +71,7 @@ public sealed class GetCompanyInsightsHandler(
             company.Employees is > 0 && ind.TtmRevenue > 0 ? Math.Round(ind.TtmRevenue / company.Employees.Value) : null,
             company.Employees is > 0 ? company.Employees : null,
             Math.Round(Math.Max(0, ind.TtmRevenue) / SecondsPerYear, 2),
-            sameSector, similar);
+            sameSector, similar, newExecutives);
     }
 
     /// <summary>The CEO's pay change in their latest year next to the revenue change of the fiscal year with the same number.</summary>

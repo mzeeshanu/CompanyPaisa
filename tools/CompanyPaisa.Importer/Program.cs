@@ -24,6 +24,7 @@ builder.Services.AddSingleton<IEdgarService, EdgarService>();
 builder.Services.AddSingleton<IFinancialsExtractor, XbrlFinancialsExtractor>();
 builder.Services.AddSingleton<ICompensationParser, SummaryCompensationTableParser>();
 builder.Services.AddSingleton<IZipGeocoder, ZipGeocoder>();
+builder.Services.AddSingleton<NewHireReader>();
 builder.Services.AddSingleton<ImportPipeline>();
 builder.Services.AddSingleton<CompanyPaisa.Importer.Uk.UkImportPipeline>();
 builder.Services.AddSingleton<CompanyPaisa.Importer.Eu.EuImportPipeline>();
@@ -47,6 +48,74 @@ if (args is ["--debug-uk-pay", var reportUrl])
     foreach (var r in parsed.Rows)
         Console.WriteLine($"{r.Name} | {r.Year} | salary {r.Salary:N0} bonus {r.Bonus:N0} long-term {r.LongTerm:N0} other {r.Other:N0} total {r.Total:N0} {parsed.Currency} {(r.Verified ? "✓" : "✗")}");
     foreach (var w in parsed.Warnings) Console.WriteLine("warning: " + w);
+    return 0;
+}
+// Diagnostics for new-hire packages (8-K Item 5.02): -- --debug-new-hires <filing url>
+if (args is ["--debug-new-hires", var hireUrl])
+{
+    var html = await host.Services.GetRequiredService<ISecClient>().GetStringAsync(hireUrl, CachePolicy.Immutable) ?? "";
+    Console.WriteLine(NewHireParser.Item502(NewHireParser.PlainText(html)) ?? "(no Item 5.02)");
+    Console.WriteLine();
+    foreach (var h in NewHireParser.Parse(html))
+        Console.WriteLine($"{h.Name} | {h.Title} | starts {h.StartsOn} | total {h.Total:N0} | " + string.Join("; ", h.Parts.Select(p => $"{p.Label} {p.Amount:N0}")));
+    return 0;
+}
+// Try the new-hire reader on the officer-change 8-Ks of N companies from the database: -- --scan-new-hires <N> [months]
+if (args is ["--scan-new-hires", var count, .. var rest])
+{
+    var edgar = host.Services.GetRequiredService<IEdgarService>();
+    var paths = host.Services.GetRequiredService<RepoPaths>();
+    var months = rest.Length > 0 ? int.Parse(rest[0]) : 18;
+    var since = DateOnly.FromDateTime(DateTime.UtcNow.AddMonths(-months));
+    var data = CompanyPaisa.Data.Sqlite.SqliteDataStore.Read(paths.Resolve("data/companypaisa.db"), DateTimeOffset.UtcNow);
+    // A number = an evenly spread sample of that many US companies (the same each run); otherwise a list of tickers.
+    var all = data.Companies.Where(c => !c.Ticker.Contains('.')).Select(c => c.Ticker).Order(StringComparer.Ordinal).ToList();
+    var tickers = int.TryParse(count, out var n)
+        ? all.Where((_, i) => i % Math.Max(1, all.Count / n) == 0).Take(n).ToList()
+        : count.Split(',').ToList();
+    int filings = 0, withHires = 0;
+    foreach (var ticker in tickers)
+    {
+        if (await edgar.FindCikByTickerAsync(ticker, CancellationToken.None) is not { } cik) continue;
+        var sec = await edgar.GetCompanyAsync(cik, since, CancellationToken.None);
+        foreach (var f in sec?.Filings.Where(f => f.Form == "8-K" && f.Items.Contains("5.02") && f.FilingDate >= since) ?? [])
+        {
+            filings++;
+            var html = await edgar.GetDocumentAsync(f.Url(cik), CancellationToken.None) ?? "";
+            var hires = NewHireParser.Parse(html, f.FilingDate);
+            if (hires.Count > 0) withHires++;
+            foreach (var h in hires)
+                Console.WriteLine($"{ticker} {f.FilingDate} | {h.Name} | {h.Title} | starts {h.StartsOn} | total {h.Total:N0} | " + string.Join("; ", h.Parts.Select(p => $"{p.Label} {p.Amount:N0}")) + $" | {f.Url(cik)}");
+        }
+    }
+    Console.WriteLine($"{tickers.Count} companies, {filings} officer-change 8-Ks, {withHires} with a package read.");
+    return 0;
+}
+// Officer appointments only, for the SEC companies already in the database (quicker than a full import): -- --new-hires
+if (args.Contains("--new-hires"))
+{
+    var edgar = host.Services.GetRequiredService<IEdgarService>();
+    var reader = host.Services.GetRequiredService<NewHireReader>();
+    var path = host.Services.GetRequiredService<RepoPaths>().Resolve(host.Services.GetRequiredService<Microsoft.Extensions.Options.IOptions<ImporterOptions>>().Value.Output.DatabasePath);
+    var data = CompanyPaisa.Data.Sqlite.SqliteDataStore.Read(path, DateTimeOffset.UtcNow);
+    var since = DateOnly.FromDateTime(DateTime.UtcNow).AddMonths(-host.Services.GetRequiredService<Microsoft.Extensions.Options.IOptions<ImporterOptions>>().Value.NewHires.Months);
+    var peopleByCompany = data.Pay.GroupBy(p => p.CompanyId, StringComparer.OrdinalIgnoreCase)
+        .ToDictionary(g => g.Key, g => (IReadOnlyDictionary<string, string>)g.GroupBy(p => ImportPipeline.PersonId(p.ExecutiveName)).ToDictionary(x => x.Key, x => x.First().PersonId), StringComparer.OrdinalIgnoreCase);
+    var found = new List<CompanyPaisa.Core.Domain.NewExecutive>();
+    var secCompanies = data.Companies.Where(c => !c.Ticker.Contains('.')).ToList();
+    var done = 0;
+    foreach (var company in secCompanies)
+    {
+        if (++done % 250 == 0) Console.WriteLine($"{done}/{secCompanies.Count} companies, {found.Count} appointments so far");
+        var cik = company.CompanyId.Length == 10 && long.TryParse(company.CompanyId, out var id) ? id : await edgar.FindCikByTickerAsync(company.Ticker, CancellationToken.None);
+        if (cik is null) continue;
+        var sec = await edgar.GetCompanyAsync(cik.Value, since, CancellationToken.None);
+        if (sec is null) continue;
+        found.AddRange(await reader.ReadAsync(sec, company.CompanyId, peopleByCompany.GetValueOrDefault(company.CompanyId) ?? new Dictionary<string, string>(), CancellationToken.None));
+    }
+    var linked = NewHireReader.LinkByUniqueName(found, data.People.Select(p => p.PersonId));
+    CompanyPaisa.Data.Sqlite.SqliteDataStore.ReplaceNewExecutives(path, ImportPipeline.Market, linked);
+    Console.WriteLine($"{linked.Count} appointments at {linked.Select(x => x.CompanyId).Distinct().Count()} companies ({linked.Count(x => x.PersonId is not null)} linked to a person) → {path}");
     return 0;
 }
 // One-off: copy the pre-SQLite workbooks into the database: -- --migrate-xlsx

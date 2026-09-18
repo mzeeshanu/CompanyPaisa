@@ -49,6 +49,39 @@ public class ExecutiveTests
     }
 
     [Fact]
+    public async Task Recent_appointments_are_tagged_or_listed_with_their_announced_package()
+    {
+        var repo = Repo();
+        var announced = DateOnly.FromDateTime(DateTime.UtcNow).AddMonths(-2);
+        NewExecutive Hire(string? personId, string name, string title, decimal salary, decimal stock, DateOnly? on = null) => new()
+        {
+            CompanyId = "LOCAL", PersonId = personId, Name = name, Title = title, AnnouncedOn = on ?? announced,
+            Package = [new(PackageItemKind.Salary, salary, "Base salary"), new(PackageItemKind.Stock, stock, "Stock awards")]
+        };
+        repo.Appointments.Add(Hire(null, "Nora New", "Chief Financial Officer", 500_000, 2_000_000));                 // no pay reported yet
+        repo.Appointments.Add(Hire("P2", "Person P2", "President and Chief Executive Officer", 900_000, 5_000_000));   // already listed
+        repo.Appointments.Add(Hire(null, "Olga Old", "Chief Operating Officer", 400_000, 1_000_000, announced.AddYears(-2)));   // too long ago
+        var handler = new GetExecutivesNearHandler(repo,
+            new NearbySearchService(repo, new FakeGeoLocator(("84043", Lehi)), new HaversineDistanceCalculator()),
+            new CurrencyConverter(Opt.Monitor(new CurrencyOptions())), Opt.Monitor(new SearchOptions()), Opt.Monitor(new MetricsOptions()));
+
+        var result = await handler.HandleAsync(new GetExecutivesNearQuery(new() { Near = "84043", RadiusMiles = 10 }), CancellationToken.None);
+        var cfos = await handler.HandleAsync(new GetExecutivesNearQuery(new() { Near = "84043", RadiusMiles = 10, Role = ExecutiveRole.Cfo }), CancellationToken.None);
+
+        var nora = Assert.Single(result.Items, e => e.Name == "Nora New");
+        Assert.False(nora.HasProfile);
+        Assert.Equal(2_500_000, nora.NewHire!.Total);
+        Assert.Empty(nora.PayHistory);
+        var p2 = Assert.Single(result.Items, e => e.PersonId == "P2");
+        Assert.Equal("President and Chief Executive Officer", p2.Title);
+        Assert.Equal(4_000_000, p2.LatestTotalPay);                        // still their reported pay
+        Assert.NotNull(p2.NewHire?.PersonId);                              // has a page to link to
+        Assert.DoesNotContain(result.Items, e => e.Name == "Olga Old");
+        Assert.Equal(4_000_000 + 2_000_000, result.Summary.CombinedLatestPay);   // announced packages aren't pay received
+        Assert.Contains(cfos.Items, e => e.Name == "Nora New");
+    }
+
+    [Fact]
     public async Task Role_narrows_the_list_to_people_whose_title_holds_it()
     {
         var ceos = await Search(new() { Near = "84043", RadiusMiles = 10, Role = ExecutiveRole.Ceo });

@@ -5,7 +5,8 @@ namespace CompanyPaisa.Importer.Sec;
 
 public sealed record SecAddress(string Street, string City, string State, string Zip);
 
-public sealed record SecFiling(string Form, DateOnly FilingDate, string AccessionNumber, string PrimaryDocument)
+/// <param name="Items">8-K item numbers, e.g. "5.02,9.01" (empty for other forms).</param>
+public sealed record SecFiling(string Form, DateOnly FilingDate, string AccessionNumber, string PrimaryDocument, string Items = "")
 {
     /// <summary>https://www.sec.gov/Archives/edgar/data/{cik}/{accession-no-dashes}/{document}</summary>
     public string Url(long cik) => $"https://www.sec.gov/Archives/edgar/data/{cik}/{AccessionNumber.Replace("-", "")}/{PrimaryDocument}";
@@ -77,10 +78,11 @@ public static class SubmissionsParser
         var dates = e.GetProperty("filingDate").EnumerateArray().Select(x => x.GetString() ?? "").ToList();
         var acc = e.GetProperty("accessionNumber").EnumerateArray().Select(x => x.GetString() ?? "").ToList();
         var docs = e.GetProperty("primaryDocument").EnumerateArray().Select(x => x.GetString() ?? "").ToList();
+        var items = e.TryGetProperty("items", out var it) ? it.EnumerateArray().Select(x => x.ValueKind == JsonValueKind.String ? x.GetString() ?? "" : "").ToList() : [];
         var list = new List<SecFiling>(forms.Count);
         for (var i = 0; i < forms.Count; i++)
             if (DateOnly.TryParse(dates[i], CultureInfo.InvariantCulture, out var d))
-                list.Add(new SecFiling(forms[i], d, acc[i], docs[i]));
+                list.Add(new SecFiling(forms[i], d, acc[i], docs[i], i < items.Count ? items[i] : ""));
         return list;
     }
 

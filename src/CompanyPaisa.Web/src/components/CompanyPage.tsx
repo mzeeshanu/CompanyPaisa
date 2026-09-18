@@ -4,7 +4,7 @@ import { api, ApiError } from '../api/client';
 import type { CompanyDetail, CompanyInsights, Executive, FinancialPeriod, GeoPoint, Location, PeriodType } from '../api/types';
 import { money, pct, tone, trendClass } from '../lib/format';
 import { Link, personPath, placeToken } from '../lib/router';
-import { AtAGlance, SimilarCompanies } from './CompanyInsights';
+import { AtAGlance, NewLeadership, SimilarCompanies } from './CompanyInsights';
 import { Filing } from './Filing';
 import { milesBetween, PageBack, type Nearby } from './PageShell';
 
@@ -132,6 +132,8 @@ export function CompanyPage({ ticker, from, showExecutives, onExplore, onLoaded 
         </div>
         <p className="note page-note">Company-wide figures, not just one location.</p>
       </section>
+
+      {d.insights?.newExecutives?.length ? <NewLeadership people={d.insights.newExecutives} /> : null}
 
       <div className={`page-grid${showExecutives ? '' : ' single'}`}>
         <div className="page-col">

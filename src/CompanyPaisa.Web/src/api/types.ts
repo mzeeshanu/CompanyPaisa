@@ -90,6 +90,20 @@ export interface ExecutiveSummary {
   nearestLocation: Location; distanceMiles: number; isCurrent: boolean;
   latestYear: number; latestTotalPay: number; payGrowthYoY: number | null;
   windowTotalPay: number; windowYears: number; companyCount: number; payHistory: PayPoint[];
+  /** Appointed recently, with the package the company announced. */
+  newHire?: NewExecutive | null;
+  /** False when known only from the appointment announcement (no pay reported yet, so no person page). */
+  hasProfile?: boolean;
+}
+
+export type PackageItemKind = 'Salary' | 'SignOnCash' | 'Bonus' | 'Stock' | 'PerformanceStock' | 'Options' | 'OtherCash';
+
+/** An officer appointment the company announced (8-K Item 5.02) with the package it stated — not pay received. */
+export interface NewExecutive {
+  personId: string | null; name: string; title: string; company: CompanyRef;
+  announcedOn: string; startsOn: string | null; total: number; currency: string;
+  package: { kind: PackageItemKind; label: string; amount: number }[];
+  sourceFiling: string | null;
 }
 
 export interface ExecutivesNearResponse {
@@ -141,6 +155,7 @@ export interface CompanyInsights {
   revenuePerEmployee: number | null; employees: number | null; revenuePerSecond: number;
   similarSameSector: boolean;
   similar: SimilarCompany[];
+  newExecutives?: NewExecutive[] | null;
 }
 export interface Rank { rank: number; count: number; within: string }
 export interface SimilarCompany {

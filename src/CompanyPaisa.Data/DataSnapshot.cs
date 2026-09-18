@@ -12,6 +12,7 @@ public sealed class DataSnapshot
         Financials = data.Financials;
         Executives = data.Pay;
         People = data.People;
+        NewExecutivesByCompany = Group(data.Appointments, e => e.CompanyId);
         Metadata = data.Metadata;
         CompaniesById = Companies.ToDictionary(c => c.CompanyId, StringComparer.OrdinalIgnoreCase);
         CompaniesByTicker = Companies.GroupBy(c => c.Ticker, StringComparer.OrdinalIgnoreCase)
@@ -38,6 +39,7 @@ public sealed class DataSnapshot
     public IReadOnlyDictionary<string, IReadOnlyList<ExecutiveCompensation>> ExecutivesByCompany { get; }
     public IReadOnlyDictionary<string, IReadOnlyList<ExecutiveCompensation>> CompensationByPerson { get; }
     public IReadOnlyDictionary<string, Person> PeopleById { get; }
+    public IReadOnlyDictionary<string, IReadOnlyList<NewExecutive>> NewExecutivesByCompany { get; }
     public IReadOnlyList<string> Sectors { get; }
 
     public Company? Find(string idOrTicker) =>

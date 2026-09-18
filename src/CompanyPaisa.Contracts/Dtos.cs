@@ -159,7 +159,11 @@ public sealed record ExecutiveSummaryDto(
     decimal WindowTotalPay,
     int WindowYears,
     int CompanyCount,
-    IReadOnlyList<PayPointDto> PayHistory);
+    IReadOnlyList<PayPointDto> PayHistory,
+    // Set when the person was appointed recently and their package was announced.
+    NewExecutiveDto? NewHire = null,
+    // False for someone known only from an appointment announcement: no pay history, so no person page yet.
+    bool HasProfile = true);
 
 /// <remarks>Pay totals are in <see cref="Currency"/>; <see cref="Approximate"/> means some pay was converted from another currency.</remarks>
 public sealed record ExecutivesNearSummaryDto(int ExecutiveCount, int CompanyCount, decimal CombinedLatestPay, decimal? MedianLatestPay, int? LatestYear,
@@ -237,7 +241,30 @@ public sealed record CompanyInsightsResponse(
     int? Employees,
     decimal RevenuePerSecond,
     bool SimilarSameSector,
-    IReadOnlyList<SimilarCompanyDto> Similar);
+    IReadOnlyList<SimilarCompanyDto> Similar,
+    // Officers appointed recently, newest first, with the package the company announced.
+    IReadOnlyList<NewExecutiveDto>? NewExecutives = null);
+
+// ---------- New executives (appointment announcements) ----------
+
+public sealed record PackageItemDto(PackageItemKind Kind, string Label, decimal Amount);
+
+/// <summary>
+/// An officer appointment the company announced (8-K Item 5.02) with the package it stated: salary, sign-on cash, stock
+/// awards… in <see cref="Currency"/>. What was announced, not pay received. <see cref="PersonId"/> is set when the person
+/// already has a page (pay reported at this or another company).
+/// </summary>
+public sealed record NewExecutiveDto(
+    string? PersonId,
+    string Name,
+    string Title,
+    CompanyRefDto Company,
+    DateOnly AnnouncedOn,
+    DateOnly? StartsOn,
+    decimal Total,
+    string Currency,
+    IReadOnlyList<PackageItemDto> Package,
+    string? SourceFiling);
 
 // ---------- Search by name ----------
 

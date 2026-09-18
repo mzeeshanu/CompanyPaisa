@@ -146,6 +146,12 @@ that wrote it. Publishing a market works on a copy, deletes and re-inserts that 
 API's own rules, and only then replaces the file — a failed import leaves the old file untouched. `PRAGMA user_version` is
 the layout version; the API refuses a file with another one.
 
+`new_executives` holds officer appointments read from the last 18 months of each SEC company's 8-K filings (Item 5.02): who
+(`person_id` when they could be linked to someone with reported pay), `title`, `announced_on`, `starts_on`, the filing, and
+the announced package as JSON (`[{"kind":"Salary","amount":850000,"label":"Base salary"}, …]`). It's written with the `sec`
+market, or on its own — without re-running the whole import — with `-- --new-hires`. Try the reader on single filings with
+`-- --debug-new-hires <8-K url>` or on a sample of companies with `-- --scan-new-hires 150` (or a list of tickers).
+
 Workbooks from before the move to SQLite can be copied in once with `-- --migrate-xlsx`.
 
 ## Sample workbook layout

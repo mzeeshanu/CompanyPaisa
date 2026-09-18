@@ -47,6 +47,22 @@ public enum ExecutiveRole
     Other
 }
 
+/// <summary>A piece of a newly appointed executive's announced package.</summary>
+public enum PackageItemKind
+{
+    Salary,
+    /// <summary>Sign-on, make-whole or other one-time cash.</summary>
+    SignOnCash,
+    /// <summary>A bonus stated in dollars (guaranteed or target).</summary>
+    Bonus,
+    /// <summary>Restricted stock, RSUs and other equity with a stated value.</summary>
+    Stock,
+    PerformanceStock,
+    Options,
+    /// <summary>Relocation and other allowances.</summary>
+    OtherCash
+}
+
 /// <summary>Granularity of a financial period.</summary>
 public enum PeriodType
 {

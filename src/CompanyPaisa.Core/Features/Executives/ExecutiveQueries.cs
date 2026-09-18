@@ -46,7 +46,8 @@ public sealed class GetExecutivesNearHandler(
     INearbySearchService nearby,
     ICurrencyConverter fx,
     IOptionsMonitor<SearchOptions> searchOptions,
-    IOptionsMonitor<MetricsOptions> metricsOptions) : IRequestHandler<GetExecutivesNearQuery, ExecutivesNearResponse>
+    IOptionsMonitor<MetricsOptions> metricsOptions,
+    IClock? clock = null) : IRequestHandler<GetExecutivesNearQuery, ExecutivesNearResponse>
 {
     public async Task<ExecutivesNearResponse> HandleAsync(GetExecutivesNearQuery query, CancellationToken ct)
     {
@@ -119,9 +120,12 @@ public sealed class GetExecutivesNearHandler(
                 byYear));
         }
 
+        await AddNewExecutivesAsync(rows, nearbyCompanies, inRange, r, ct);
+
         // Pay can be in different currencies (UK groups pay in pounds, some in dollars) — total it in the main one.
+        // Announced packages (people with no reported pay yet) aren't pay received, so they stay out of the totals.
         var currency = fx.Dominant(rows.Select(x => x.Company.Currency));
-        var latestPays = rows.Where(x => x.IsCurrent).Select(x => fx.Convert(x.LatestTotalPay, x.Company.Currency, currency)).Order().ToList();
+        var latestPays = rows.Where(x => x.IsCurrent && x.PayHistory.Count > 0).Select(x => fx.Convert(x.LatestTotalPay, x.Company.Currency, currency)).Order().ToList();
         var summary = new ExecutivesNearSummaryDto(
             rows.Count,
             rows.Select(x => x.Company.Ticker).Distinct().Count(),
@@ -134,6 +138,47 @@ public sealed class GetExecutivesNearHandler(
         var items = Sort(rows, sort).Skip((page - 1) * pageSize).Take(pageSize).ToList();
         return new ExecutivesNearResponse(origin.ToDto(), originLabel, radius, sort, page, pageSize, rows.Count, summary, items);
     }
+
+    /// <summary>
+    /// Officers appointed in the last year at nearby companies, with the package the company announced: a "New" tag on people
+    /// already listed (shown at their new company), or a row of their own when they have no reported pay yet (the announced
+    /// package stands in for pay and the row says so).
+    /// </summary>
+    private async Task AddNewExecutivesAsync(List<ExecutiveSummaryDto> rows, IReadOnlyDictionary<string, Company> nearbyCompanies,
+        IReadOnlyDictionary<string, NearbyCompanyHit> inRange, ExecutivesNearRequest r, CancellationToken ct)
+    {
+        var now = clock?.UtcNow ?? DateTimeOffset.UtcNow;
+        var appointments = (await repository.GetNewExecutivesAsync(nearbyCompanies.Keys, ct))
+            .Where(e => NewExecutives.IsRecent(e, now)).OrderBy(e => e.AnnouncedOn).ToList();
+        if (appointments.Count == 0) return;
+        var profiles = await NewExecutives.WithProfilesAsync(repository, appointments, ct);
+        var search = r.Search?.Trim();
+
+        foreach (var e in appointments)
+        {
+            var hit = inRange[e.CompanyId];
+            var dto = NewExecutives.ToDto(e, nearbyCompanies[e.CompanyId], e.PersonId is not null && profiles.Contains(e.PersonId));
+            var at = e.PersonId is null ? -1 : rows.FindIndex(x => string.Equals(x.PersonId, e.PersonId, StringComparison.OrdinalIgnoreCase));
+            if (at >= 0)
+            {
+                rows[at] = rows[at] with
+                {
+                    NewHire = dto, Company = dto.Company, Title = e.Title, IsCurrent = true,
+                    NearestLocation = hit.NearestLocation.ToDto(), DistanceMiles = hit.DistanceMiles
+                };
+                continue;
+            }
+            if (!string.IsNullOrWhiteSpace(search) && !e.Name.Contains(search, StringComparison.OrdinalIgnoreCase) && !e.Title.Contains(search, StringComparison.OrdinalIgnoreCase)) continue;
+            if (r.Role is { } role && !ExecutiveRoles.Holds(e.Title, role)) continue;
+            rows.Add(new ExecutiveSummaryDto(
+                dto.PersonId ?? $"new-{e.CompanyId.ToLowerInvariant()}-{Slug(e.Name)}", e.Name, e.Title, dto.Company,
+                hit.NearestLocation.ToDto(), hit.DistanceMiles, true,
+                e.AnnouncedOn.Year, e.Total, null, 0, 0, 1, [], dto, HasProfile: dto.PersonId is not null));
+        }
+    }
+
+    private static string Slug(string name) =>
+        string.Join('-', System.Text.RegularExpressions.Regex.Split(name.ToLowerInvariant(), "[^a-z]+").Where(w => w.Length > 1));
 
     private static decimal? Median(IReadOnlyList<decimal> sorted) => sorted.Count switch
     {

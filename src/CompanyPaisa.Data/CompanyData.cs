@@ -10,8 +10,12 @@ public sealed record CompanyData(
     IReadOnlyList<FinancialPeriod> Financials,
     IReadOnlyList<ExecutiveCompensation> Pay,
     IReadOnlyList<Person> People,
-    DataSetMetadata Metadata)
+    DataSetMetadata Metadata,
+    IReadOnlyList<NewExecutive>? NewExecutives = null)
 {
+    /// <summary>Officer appointments with their announced packages (only the SEC importer produces these).</summary>
+    public IReadOnlyList<NewExecutive> Appointments => NewExecutives ?? [];
+
     /// <summary>
     /// Several parts (markets, workbooks) as one data set. The same person id in two parts is the same person (first record
     /// kept). Metadata: versions joined, the oldest as-of date, sample if any part is.
@@ -31,7 +35,8 @@ public sealed record CompanyData(
             parts.SelectMany(p => p.Financials).ToList(),
             parts.SelectMany(p => p.Pay).ToList(),
             parts.SelectMany(p => p.People).DistinctBy(p => p.PersonId, StringComparer.OrdinalIgnoreCase).ToList(),
-            meta);
+            meta,
+            parts.SelectMany(p => p.Appointments).ToList());
     }
 }
 
@@ -65,6 +70,7 @@ public static class DataRules
         Orphans("Locations", d.Locations.Select(l => l.CompanyId));
         Orphans("Financials", d.Financials.Select(f => f.CompanyId));
         Orphans("ExecutiveCompensation", d.Pay.Select(e => e.CompanyId));
+        Orphans("NewExecutives", d.Appointments.Select(e => e.CompanyId));
 
         foreach (var f in d.Financials.Where(f => f.PeriodType == PeriodType.Quarterly && f.FiscalQuarter is not (>= 1 and <= 4)))
             problems.Add($"Financials: {f.CompanyId} {f.FiscalYear} quarterly row needs fiscal_quarter 1-4.");

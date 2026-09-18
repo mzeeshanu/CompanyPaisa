@@ -142,6 +142,14 @@ public abstract class SnapshotRepository : ICompanyRepository, IDisposable
     public Task<Person?> GetPersonAsync(string personId, CancellationToken ct = default) =>
         Task.FromResult(Data.PeopleById.GetValueOrDefault(personId.Trim()));
 
+    public Task<IReadOnlyList<NewExecutive>> GetNewExecutivesAsync(IEnumerable<string> companyIds, CancellationToken ct = default)
+    {
+        var data = Data;
+        IReadOnlyList<NewExecutive> list = companyIds.Distinct(StringComparer.OrdinalIgnoreCase)
+            .SelectMany(id => data.NewExecutivesByCompany.GetValueOrDefault(id) ?? []).ToList();
+        return Task.FromResult(list);
+    }
+
     public Task<IReadOnlyList<string>> GetSectorsAsync(CancellationToken ct = default) => Task.FromResult(Data.Sectors);
 
     public Task<DataSetMetadata> GetMetadataAsync(CancellationToken ct = default) => Task.FromResult(Data.Metadata);

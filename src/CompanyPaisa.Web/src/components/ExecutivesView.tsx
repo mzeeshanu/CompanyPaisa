@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import * as d3 from 'd3';
 import type { ExecutiveSort, ExecutiveSummary, ExecutivesNearResponse, PayPoint, RoleFilter } from '../api/types';
 import { money, pct, tone, total } from '../lib/format';
-import { Link, personPath } from '../lib/router';
+import { companyPath, Link, personPath } from '../lib/router';
 import { SortHeader, useSortFlip } from './SortHeader';
 
 interface Props {
@@ -103,15 +103,31 @@ export function ExecutivesView({ data, placeName, sort, onSort, search, onSearch
               <SortHeader k="TotalPay" {...head} className="r c-net">{`${years}-yr total`}</SortHeader>
             </div>
             {order(data.items).map((e, i) => (
-              <Link key={e.personId} to={personPath(e.personId)} className={`row xrow${selected === e.personId ? ' sel' : ''}${e.isCurrent ? '' : ' former'}`} onClick={() => onOpened(e.personId)}>
+              <Link key={e.personId} to={e.hasProfile === false ? companyPath(e.company.ticker) : personPath(e.personId)}
+                className={`row xrow${selected === e.personId ? ' sel' : ''}${e.isCurrent ? '' : ' former'}`} onClick={() => onOpened(e.personId)}>
                 <span className="rank">{i + 1}</span>
                 <span className="avatar c-mini" aria-hidden="true">{initials(e.name)}</span>
-                <span className="who"><b>{e.name}</b><small>{e.title}{!e.isCurrent && ' · former'}</small></span>
+                <span className="who">
+                  <b>{e.name}</b>{e.newHire && <span className="new-tag" title={`Appointment announced ${e.newHire.announcedOn}`}>New</span>}
+                  <small>{e.title}{!e.isCurrent && ' · former'}</small>
+                </span>
                 <span className="at c-at">{e.company.name}<small>{e.company.ticker} · {e.nearestLocation.city} · {e.distanceMiles.toFixed(1)} mi</small></span>
-                <span className="val">{money(e.latestTotalPay, e.company.currency)}<small>{e.latestYear}</small></span>
-                <span className="r"><span className={`pill ${tone(e.payGrowthYoY)}`}>{pct(e.payGrowthYoY)}</span></span>
-                <span className="r c-spark spark"><PaySparkline points={e.payHistory} /></span>
-                <span className="val c-net">{money(e.windowTotalPay, e.company.currency)}<small>{e.companyCount > 1 ? `${e.companyCount} companies` : `${e.windowYears} yrs`}</small></span>
+                {e.payHistory.length === 0 && e.newHire ? (
+                  // Known only from the appointment: the announced package, not pay received.
+                  <>
+                    <span className="val">{money(e.newHire.total, e.newHire.currency)}<small>package</small></span>
+                    <span className="r"><span className="pill flat">—</span></span>
+                    <span className="r c-spark spark" />
+                    <span className="val c-net">—<small>{e.hasProfile === false ? 'no pay yet' : 'new role'}</small></span>
+                  </>
+                ) : (
+                  <>
+                    <span className="val">{money(e.latestTotalPay, e.company.currency)}<small>{e.latestYear}</small></span>
+                    <span className="r"><span className={`pill ${tone(e.payGrowthYoY)}`}>{pct(e.payGrowthYoY)}</span></span>
+                    <span className="r c-spark spark"><PaySparkline points={e.payHistory} /></span>
+                    <span className="val c-net">{money(e.windowTotalPay, e.company.currency)}<small>{e.companyCount > 1 ? `${e.companyCount} companies` : `${e.windowYears} yrs`}</small></span>
+                  </>
+                )}
               </Link>
             ))}
             {data.items.length < data.totalCount && (

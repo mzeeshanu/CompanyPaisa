@@ -13,6 +13,7 @@ public sealed class ImporterOptions
     [MinLength(1)] public List<RegionOptions> Regions { get; set; } = [];
     public ListingOptions Listing { get; set; } = new();
     public HistoryOptions History { get; set; } = new();
+    public NewHireOptions NewHires { get; set; } = new();
     public GeoImportOptions Geo { get; set; } = new();
     public OutputOptions Output { get; set; } = new();
     /// <summary>UK market (run with --uk).</summary>
@@ -21,6 +22,13 @@ public sealed class ImporterOptions
     public Eu.EuOptions Eu { get; set; } = new();
     /// <summary>Hand-curated sites of companies headquartered elsewhere (Adobe Lehi, eBay Draper…).</summary>
     public string CuratedOfficesPath { get; set; } = "data/curated/utah-offices.csv";
+}
+
+/// <summary>Officer appointments and their announced packages, from 8-K Item 5.02 filings.</summary>
+public sealed class NewHireOptions
+{
+    /// <summary>How far back to read appointment announcements.</summary>
+    [System.ComponentModel.DataAnnotations.Range(1, 60)] public int Months { get; set; } = 18;
 }
 
 public sealed class SecOptions

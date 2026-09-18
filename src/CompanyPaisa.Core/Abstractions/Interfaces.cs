@@ -27,6 +27,10 @@ public interface ICompanyRepository
     Task<IReadOnlyList<ExecutiveCompensation>> GetCompensationForPeopleAsync(IEnumerable<string> personIds, CancellationToken ct = default);
     Task<Person?> GetPersonAsync(string personId, CancellationToken ct = default);
 
+    /// <summary>Officer appointments these companies announced, with their stated packages (none if the source has no such data).</summary>
+    Task<IReadOnlyList<NewExecutive>> GetNewExecutivesAsync(IEnumerable<string> companyIds, CancellationToken ct = default) =>
+        Task.FromResult<IReadOnlyList<NewExecutive>>([]);
+
     Task<IReadOnlyList<string>> GetSectorsAsync(CancellationToken ct = default);
     Task<DataSetMetadata> GetMetadataAsync(CancellationToken ct = default);
     Task<(int Companies, int Locations)> GetCountsAsync(CancellationToken ct = default);

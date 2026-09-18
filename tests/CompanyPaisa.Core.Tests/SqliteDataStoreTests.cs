@@ -71,6 +71,30 @@ public sealed class SqliteDataStoreTests : IDisposable
     }
 
     [Fact]
+    public void Appointments_round_trip_and_can_be_replaced_on_their_own()
+    {
+        const string filing = "https://www.sec.gov/Archives/edgar/data/849146/000119312526159324/lfvn-20260413.htm";
+        var hire = new NewExecutive
+        {
+            CompanyId = "AAPL", PersonId = "terrence-moorehead-1754431", Name = "Terrence O. Moorehead", Title = "President and Chief Executive Officer",
+            AnnouncedOn = new DateOnly(2026, 4, 16), StartsOn = new DateOnly(2026, 8, 5), SourceFiling = filing,
+            Package = [new(PackageItemKind.Salary, 850_000, "Base salary"), new(PackageItemKind.PerformanceStock, 3_500_000, "Performance stock")]
+        };
+        SqliteDataStore.ReplaceMarket(_db, "sec", Market("AAPL", 100m, "https://www.sec.gov/Archives/edgar/data/1/a/") with { NewExecutives = [hire] }, Meta("sec-1"));
+
+        var read = Assert.Single(SqliteDataStore.Read(_db, DateTimeOffset.UtcNow).Appointments);
+        Assert.Equal((hire.Name, hire.PersonId, hire.StartsOn, filing, 4_350_000m), (read.Name, read.PersonId, read.StartsOn, read.SourceFiling, read.Total));
+        Assert.Equal(PackageItemKind.PerformanceStock, read.Package[1].Kind);
+
+        // The quicker import step swaps the appointments only, leaving companies and pay alone.
+        SqliteDataStore.ReplaceNewExecutives(_db, "sec", [hire with { Name = "Jane Q. Doe", PersonId = null, StartsOn = null }]);
+        var after = SqliteDataStore.Read(_db, DateTimeOffset.UtcNow);
+        Assert.Equal("Jane Q. Doe", Assert.Single(after.Appointments).Name);
+        Assert.Equal(["AAPL"], after.Companies.Select(c => c.CompanyId));
+        Assert.Throws<DataLoadException>(() => SqliteDataStore.ReplaceNewExecutives(_db, "sec", [hire with { CompanyId = "NOPE" }]));
+    }
+
+    [Fact]
     public void Data_the_website_would_reject_is_never_published()
     {
         SqliteDataStore.ReplaceMarket(_db, "sec", Market("AAPL", 100m, "https://www.sec.gov/Archives/edgar/data/1/a/"), Meta("sec-1"));

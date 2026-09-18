@@ -1,4 +1,5 @@
 using System.Globalization;
+using System.Text.Json;
 using CompanyPaisa.Contracts;
 using CompanyPaisa.Core.Domain;
 using Microsoft.Data.Sqlite;
@@ -40,7 +41,15 @@ public static class SqliteDataStore
         CREATE TABLE IF NOT EXISTS people (
             person_id TEXT NOT NULL COLLATE NOCASE, market TEXT NOT NULL, name TEXT NOT NULL, sec_cik TEXT,
             PRIMARY KEY (person_id, market));
+        CREATE TABLE IF NOT EXISTS new_executives (
+            company_id TEXT NOT NULL, market TEXT NOT NULL, person_id TEXT, name TEXT NOT NULL, title TEXT NOT NULL,
+            announced_on TEXT NOT NULL, starts_on TEXT, filing_id INTEGER REFERENCES filings(id), package TEXT NOT NULL);
         """;
+
+    private static readonly JsonSerializerOptions PackageJson = new(JsonSerializerDefaults.Web)
+    {
+        Converters = { new System.Text.Json.Serialization.JsonStringEnumConverter() }
+    };
 
     /// <summary>Common URL starts stored as short tokens (112,000 filing links share a handful of prefixes).</summary>
     private static readonly (string Token, string Prefix)[] UrlPrefixes =
@@ -63,7 +72,7 @@ public static class SqliteDataStore
         return stored;
     }
 
-    private static readonly string[] Tables = ["companies", "locations", "financials", "executive_compensation", "people", "meta"];
+    private static readonly string[] Tables = ["companies", "locations", "financials", "executive_compensation", "people", "new_executives", "meta"];
 
     /// <summary>
     /// Replaces one market's rows. Works on a copy that is read back and checked with the API's own rules before it
@@ -102,14 +111,49 @@ public static class SqliteDataStore
             {
                 foreach (var table in Tables) Execute(db, $"DELETE FROM {table} WHERE market = $m", ("$m", market));
                 Insert(db, market, data, meta);
-                Execute(db, """
-                    DELETE FROM filings WHERE id NOT IN (
-                        SELECT filing_id FROM financials WHERE filing_id IS NOT NULL
-                        UNION SELECT filing_id FROM executive_compensation WHERE filing_id IS NOT NULL)
-                    """);
+                Execute(db, UnusedFilings);
                 tx.Commit();
             }
             Execute(db, "VACUUM");
+        }
+    }
+
+    private const string UnusedFilings = """
+        DELETE FROM filings WHERE id NOT IN (
+            SELECT filing_id FROM financials WHERE filing_id IS NOT NULL
+            UNION SELECT filing_id FROM executive_compensation WHERE filing_id IS NOT NULL
+            UNION SELECT filing_id FROM new_executives WHERE filing_id IS NOT NULL)
+        """;
+
+    /// <summary>
+    /// Replaces one market's officer appointments only, leaving its companies and pay as they are (a separate, quicker
+    /// import step). Same safety as <see cref="ReplaceMarket"/>: written to a copy, checked, then swapped in.
+    /// </summary>
+    public static void ReplaceNewExecutives(string path, string market, IReadOnlyList<NewExecutive> rows)
+    {
+        var staging = path + ".new";
+        if (File.Exists(staging)) File.Delete(staging);
+        File.Copy(path, staging);
+        try
+        {
+            using (var db = Open(staging, readOnly: false))
+            {
+                Execute(db, Schema);
+                using (var tx = db.BeginTransaction())
+                {
+                    Execute(db, "DELETE FROM new_executives WHERE market = $m", ("$m", market));
+                    InsertNewExecutives(db, market, rows, FilingIds(db));
+                    Execute(db, UnusedFilings);
+                    tx.Commit();
+                }
+                Execute(db, "VACUUM");
+            }
+            DataRules.Check(Read(staging, DateTimeOffset.UtcNow), staging);
+            File.Move(staging, path, overwrite: true);
+        }
+        finally
+        {
+            if (File.Exists(staging)) File.Delete(staging);
         }
     }
 
@@ -160,6 +204,19 @@ public static class SqliteDataStore
             Salary = Money(r, 5)!.Value, Bonus = Money(r, 6)!.Value, StockAwards = Money(r, 7)!.Value, Other = Money(r, 8)!.Value,
             Total = Money(r, 9)!.Value, SourceFiling = Filing(r, 10)
         });
+        // Files written before appointments were collected have no such table.
+        var appointments = Convert.ToInt64(Scalar(db, "SELECT count(*) FROM sqlite_master WHERE type = 'table' AND name = 'new_executives'"), CultureInfo.InvariantCulture) == 0
+            ? []
+            : Query(db, """
+                SELECT company_id, person_id, name, title, announced_on, starts_on, filing_id, package FROM new_executives ORDER BY rowid
+                """, r => new NewExecutive
+            {
+                CompanyId = r.GetString(0), PersonId = Text(r, 1), Name = r.GetString(2), Title = r.GetString(3),
+                AnnouncedOn = DateOnly.Parse(r.GetString(4), CultureInfo.InvariantCulture),
+                StartsOn = Text(r, 5) is { } s ? DateOnly.Parse(s, CultureInfo.InvariantCulture) : null,
+                SourceFiling = Filing(r, 6),
+                Package = JsonSerializer.Deserialize<List<PackageItem>>(r.GetString(7), PackageJson) ?? []
+            });
         var people = Query(db, "SELECT person_id, name, sec_cik FROM people ORDER BY rowid",
                 r => new Person { PersonId = r.GetString(0), Name = r.GetString(1), SecCik = Text(r, 2) })
             .DistinctBy(p => p.PersonId, StringComparer.OrdinalIgnoreCase).ToList();
@@ -173,7 +230,7 @@ public static class SqliteDataStore
             meta.Any(m => bool.TryParse(m.GetValueOrDefault("is_sample"), out var s) && s),
             loadedAt);
 
-        return new CompanyData(companies, locations, financials, pay, people, metadata);
+        return new CompanyData(companies, locations, financials, pay, people, metadata, appointments);
     }
 
     /// <summary>The markets in the file and each one's metadata (for reports).</summary>
@@ -190,19 +247,8 @@ public static class SqliteDataStore
         using (var cmd = Command(db, "INSERT INTO meta (market, key, value) VALUES ($market, $0, $1)", market, 2))
             foreach (var (k, v) in meta) Run(cmd, k, v);
 
-        // Filings other markets already use are shared; matched in memory rather than through an index on the URL.
-        var filingIds = Query(db, "SELECT id, url FROM filings", r => (Id: r.GetInt64(0), Url: r.GetString(1)))
-            .GroupBy(x => x.Url, StringComparer.Ordinal).ToDictionary(g => g.Key, g => g.First().Id, StringComparer.Ordinal);
-        using var addFiling = Command(db, "INSERT INTO filings (url) VALUES ($0) RETURNING id", null, 1);
-        object FilingId(string? url)
-        {
-            if (string.IsNullOrEmpty(url)) return DBNull.Value;
-            var stored = Shorten(url);
-            if (filingIds.TryGetValue(stored, out var id)) return id;
-            id = (long)(Run(addFiling, stored) ?? throw new InvalidOperationException("No filing id returned."));
-            filingIds[stored] = id;
-            return id;
-        }
+        var filings = FilingIds(db);
+        object FilingId(string? url) => filings(url);
 
         using (var cmd = Command(db, """
             INSERT INTO companies (company_id, market, name, ticker, exchange, sector, industry, website, employees, market_cap, description,
@@ -236,6 +282,37 @@ public static class SqliteDataStore
 
         using (var cmd = Command(db, "INSERT OR IGNORE INTO people (person_id, market, name, sec_cik) VALUES ($0, $market, $1, $2)", market, 3))
             foreach (var p in data.People) Run(cmd, p.PersonId, p.Name, p.SecCik);
+
+        InsertNewExecutives(db, market, data.Appointments, filings);
+    }
+
+    private static void InsertNewExecutives(SqliteConnection db, string market, IReadOnlyList<NewExecutive> rows, Func<string?, object> filingId)
+    {
+        using var cmd = Command(db, """
+            INSERT INTO new_executives (company_id, market, person_id, name, title, announced_on, starts_on, filing_id, package)
+            VALUES ($0, $market, $1, $2, $3, $4, $5, $6, $7)
+            """, market, 8);
+        foreach (var e in rows)
+            Run(cmd, e.CompanyId, e.PersonId, e.Name, e.Title, e.AnnouncedOn.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture),
+                e.StartsOn?.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture), filingId(e.SourceFiling),
+                JsonSerializer.Serialize(e.Package, PackageJson));
+    }
+
+    /// <summary>Filing ids by URL; filings other markets already use are shared (matched in memory, not through an index).</summary>
+    private static Func<string?, object> FilingIds(SqliteConnection db)
+    {
+        var filingIds = Query(db, "SELECT id, url FROM filings", r => (Id: r.GetInt64(0), Url: r.GetString(1)))
+            .GroupBy(x => x.Url, StringComparer.Ordinal).ToDictionary(g => g.Key, g => g.First().Id, StringComparer.Ordinal);
+        var addFiling = Command(db, "INSERT INTO filings (url) VALUES ($0) RETURNING id", null, 1);
+        return url =>
+        {
+            if (string.IsNullOrEmpty(url)) return DBNull.Value;
+            var stored = Shorten(url);
+            if (filingIds.TryGetValue(stored, out var id)) return id;
+            id = (long)(Run(addFiling, stored) ?? throw new InvalidOperationException("No filing id returned."));
+            filingIds[stored] = id;
+            return id;
+        };
     }
 
     // Pooling off: no connection keeps the file open, so the importer can replace it while the website is running.
