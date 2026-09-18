@@ -580,5 +580,11 @@ td.co i{width:8px;height:8px;border-radius:2px;display:inline-block}
 .new-parts li i{width:9px;height:9px;border-radius:3px;flex:none}
 .new-parts .num{margin-left:auto;color:var(--ink)}
 /* Full width under the company header: people side by side on wide screens. */
-.new-leadership .new-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,360px),1fr))}
+/* Reads as news: a warm tint and a NEWS label, set apart from the data cards around it. */
+.new-leadership{--news:var(--flat);background:linear-gradient(135deg,color-mix(in srgb,var(--news) 16%,var(--glass-strong)),color-mix(in srgb,var(--news) 6%,var(--glass-strong)));border-color:color-mix(in srgb,var(--news) 45%,transparent)}
+.new-leadership .subh{display:flex;align-items:center;gap:8px;color:var(--ink)}
+.news-pill{font:800 9.5px var(--body);letter-spacing:.14em;padding:3px 8px;border-radius:999px;background:var(--news);color:#1a1300}
+.new-leadership .new-list>li{background:color-mix(in srgb,var(--field) 80%,transparent);border-color:color-mix(in srgb,var(--news) 25%,transparent)}
+/* One appointment fills the row; several sit side by side. */
+.new-leadership .new-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,360px),1fr))}
 .new-leadership .fine{max-width:90ch}

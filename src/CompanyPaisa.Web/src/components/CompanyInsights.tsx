@@ -192,7 +192,7 @@ export function NewLeadership({ people }: { people: NewExecutive[] }) {
   const shown = all ? people : people.slice(0, 3);
   return (
     <section className="pane page-card new-leadership" aria-labelledby="new-h">
-      <h2 className="subh" id="new-h">New leadership</h2>
+      <h2 className="subh" id="new-h"><span className="news-pill">News</span>New leadership</h2>
       <ul className="new-list">
         {shown.map(p => {
           const lines = packageLines(p);
