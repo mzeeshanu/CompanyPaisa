@@ -481,9 +481,6 @@ td.co i{width:8px;height:8px;border-radius:2px;display:inline-block}
 
 @media (max-width:900px){
   .page-grid{grid-template-columns:minmax(0,1fr)}
-  /* One column: executive pay moves up to just after the facts instead of waiting below every card. */
-  .page-col{display:contents}
-  .page-earnings{order:1} .glance{order:2} .page-execs{order:3} .page-col>.page-card:not(.page-earnings):not(.glance){order:4} .page-locs{order:5}
   .xrow{grid-template-columns:22px 26px minmax(150px,1fr) 96px 78px}
   .xrow .c-at,.xrow .c-spark,.xrow .c-net{display:none}
   .row{grid-template-columns:22px 26px minmax(150px,1fr) 96px 78px}

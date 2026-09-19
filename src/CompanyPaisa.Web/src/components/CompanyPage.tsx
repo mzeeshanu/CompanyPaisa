@@ -135,7 +135,8 @@ export function CompanyPage({ ticker, from, showExecutives, onExplore, onLoaded 
 
       {d.insights?.newExecutives?.length ? <NewLeadership people={d.insights.newExecutives} /> : null}
 
-      <div className={`page-grid${showExecutives ? '' : ' single'}`}>
+      {/* Left: the numbers (earnings, then executive pay). Right: what they mean (facts, peers, neighbours, locations). */}
+      <div className="page-grid">
         <div className="page-col">
           <section className="pane page-card page-earnings" aria-labelledby="earnings-h">
             <div className="seg">
@@ -163,6 +164,14 @@ export function CompanyPage({ ticker, from, showExecutives, onExplore, onLoaded 
             </table>
             <p className="fine">Tap a period to open the filing it comes from.</p>
           </section>
+          {showExecutives && (
+            <section className="pane page-card page-execs" aria-labelledby="execs-h">
+              <h2 className="subh" id="execs-h">Executive pay</h2>
+              <Executives execs={d.executives} currency={d.detail.payCurrency ?? cur} />
+            </section>
+          )}
+        </div>
+        <div className="page-col">
           {d.insights && <AtAGlance insights={d.insights} name={d.detail.name} />}
           {d.insights?.payVsPeers && <PayVsPeersCard pay={d.insights.payVsPeers} name={d.detail.name} revenueCurrency={cur} />}
           {d.insights && <SimilarCompanies insights={d.insights} />}
@@ -193,13 +202,6 @@ export function CompanyPage({ ticker, from, showExecutives, onExplore, onLoaded 
             </section>
           )}
         </div>
-
-        {showExecutives && (
-          <section className="pane page-card page-execs" aria-labelledby="execs-h">
-            <h2 className="subh" id="execs-h">Executive pay</h2>
-            <Executives execs={d.executives} currency={d.detail.payCurrency ?? cur} />
-          </section>
-        )}
       </div>
 
       <p className="disclaimer page-source">
