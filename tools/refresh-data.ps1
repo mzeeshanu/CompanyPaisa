@@ -42,7 +42,7 @@ function Invoke-Step([string]$name, [string]$exe, [string[]]$arguments) {
 
 $dataFiles = @(
     'data/companypaisa.db',
-    'data/import-report.md', 'data/import-report-uk.md', 'data/import-report-eu.md', 'data/reference/eu-postcodes.csv', 'data/curated/eu-companies.csv', 'data/reference/anz-postcodes.csv',
+    'data/import-report.md', 'data/import-report-uk.md', 'data/import-report-eu.md', 'data/reference/eu-postcodes.csv', 'data/curated/eu-companies.csv', 'data/reference/anz-postcodes.csv', 'data/import-report-pk.md', 'data/reference/pk-postcodes.csv',
     'data/reference/us-zip-centroids.csv', 'data/reference/ca-postal-areas.csv', 'data/reference/uk-postcode-districts.csv',
     'data/curated/uk-ftse350.csv', 'data/curated/uk-main-market.csv', 'data/validation-report.md'
 )

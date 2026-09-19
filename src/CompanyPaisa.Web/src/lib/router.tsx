@@ -15,11 +15,11 @@ export const personPath = (personId: string) => `/executive/${encodeURIComponent
 
 /**
  * A place in a search address: "me" (the visitor's own location, never their coordinates), or a postcode without spaces;
- * European, Australian and New Zealand codes carry their country ("FR-75008"), because a bare 5-digit code reads as a US ZIP.
+ * European, Australian, New Zealand and Pakistani codes carry their country ("FR-75008"), because a bare 5-digit code reads as a US ZIP.
  */
 export function placeToken(postcode: string, country?: string | null): string {
   const code = postcode.replace(/\s+/g, '').toUpperCase();
-  return country && ['FR', 'NL', 'IT', 'ES', 'AU', 'NZ'].includes(country) ? `${country}-${code}` : code;
+  return country && ['FR', 'NL', 'IT', 'ES', 'AU', 'NZ', 'PK'].includes(country) ? `${country}-${code}` : code;
 }
 
 export const searchPath = (place: string, executives: boolean) =>

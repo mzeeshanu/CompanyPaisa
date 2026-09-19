@@ -2,8 +2,10 @@
 
 | Path | What | Real or sample? |
 |---|---|---|
-| `companypaisa.db` | **The live dataset** (SQLite) — every market in one file: SEC filers (US, Canada, Australia, NZ), UK Main Market, France, the Netherlands, Italy, Spain. Each importer run replaces only its own market's rows | **Real**, built by `tools/CompanyPaisa.Importer` (see *Database layout*) |
+| `companypaisa.db` | **The live dataset** (SQLite) — every market in one file: SEC filers (US, Canada, Australia, NZ), UK Main Market, France, the Netherlands, Italy, Spain, Pakistan. Each importer run replaces only its own market's rows | **Real**, built by `tools/CompanyPaisa.Importer` (see *Database layout*) |
 | `import-report.md` | What the last import included (per metro), excluded (and why), and rows that need review | Generated |
+| `import-report-pk.md` | The Pakistan run's report: included per area, excluded (and why), rows that need review | Generated |
+| `reference/pk-postcodes.csv` | Pakistani postcodes → town and coordinates (the Pakistan tab) | [GeoNames](https://www.geonames.org/) PK postal codes and towns, CC BY 4.0 |
 | `import-report-uk.md` | The UK run's report: included per area, excluded (and why), rows that need review | Generated |
 | `curated/uk-ftse350.csv` | FTSE 100 + 250 members with the LEI each was matched to — edit an LEI to fix a wrong match | From Wikipedia's constituent tables; reviewable |
 | `reference/uk-postcode-districts.csv` | UK postcode districts → place name and coordinates (the postcode search box) | [GeoNames](https://www.geonames.org/) GB postal codes, CC BY 4.0 |
@@ -59,10 +61,11 @@ The importer is a set of **markets**, each a class implementing `IMarketImporter
 | `sec` | `ImportPipeline` | SEC filers with a US, Canadian, Australian or NZ address: XBRL financials, proxy pay (checked against the CEO totals companies tag) |
 | `uk` | `Uk/UkImportPipeline` | UK Main Market: ESEF annual reports, directors' pay |
 | `eu` | `Eu/EuImportPipeline` | France, Netherlands, Italy, Spain: ESEF annual reports (financials only) |
+| `pk` | `Pk/PkImportPipeline` | Pakistan Stock Exchange: companies' own annual report PDFs (revenue, profit, chief executive's pay) |
 
 ```powershell
 dotnet run --project tools/CompanyPaisa.Importer -- --list-markets
-dotnet run --project tools/CompanyPaisa.Importer -- --market uk            # one market (also: --uk, --eu; no option = sec)
+dotnet run --project tools/CompanyPaisa.Importer -- --market uk            # one market (also: --uk, --eu, --pk; no option = sec)
 dotnet run --project tools/CompanyPaisa.Importer -- --all --strict         # every market, then the data-quality checks
 ```
 
@@ -136,12 +139,37 @@ Germany isn't on filings.xbrl.org. To add another country on it, add a `Countrie
 areas) and matching `Ui:Coverage` entries. OpenFIGI name searches are slow without an API key (about 5 a minute), but
 answers are cached in `data/cache/eu/openfigi-*.json`.
 
+## The Pakistan dataset
+
+```bash
+dotnet run --project tools/CompanyPaisa.Importer -- --pk
+```
+
+Companies listed on the Pakistan Stock Exchange, published as market `pk` (tickers `LUCK.KA`, currency PKR). Sources are
+free and public only: the exchange's company list and profile pages (dps.psx.com.pk) and the annual report each company
+files with the exchange. The portal's own financial tables are licensed third-party data and are **not** used.
+
+1. **Companies** — `/symbols`, equities only (no ETFs, debt, funds, modarabas, rights or class-B shares).
+2. **Profile** — `/company/{symbol}`: description, CEO, registered address, website, fiscal year end.
+3. **Annual reports** — an announcement search per company; the two latest annual reports are downloaded, turned into
+   text lines with positions (`Pk/PdfLines`, PdfPig) and only those lines are cached (`cache/pk/reports/{id}.lines.gz`).
+   Scanned reports give no text and are left out.
+4. **Figures** (`Pk/AnnualReportReader`) — the statement of profit or loss (the group's when there is one): sales line
+   ("Total income" for banks) and profit after tax for the report's year and the one before, in rupees. The chief
+   executive's pay from the remuneration note, kept only when its items add up to the stated total.
+5. **Place** — the town named in the address (GeoNames towns of 5,000+ people), or the head office printed in the report
+   when that is in another town. `reference/pk-postcodes.csv` gives each postcode its town's position.
+
+Check one report: `-- --debug-pk-report <pdf url | .pdf | cache .lines.gz>`; see its text: `-- --debug-pk-pdf <pdf>`.
+The run's report is `import-report-pk.md`. A first run downloads ~1,300 PDFs (5–25 MB each; the exchange serves each
+at ~400 KB/s) and takes a few hours; later runs only fetch new reports.
+
 ## Database layout
 
 `companypaisa.db` is SQLite (open it with any SQLite browser). Tables: `companies`, `locations`, `financials`,
 `executive_compensation`, `people` — the same columns as the workbook below — plus `filings` (each source URL once; rows
 point at it by `filing_id`, with `https://www.sec.gov/Archives/edgar/data/` stored as `~sec/`) and `meta` (per market:
-`data_version`, `as_of_date`, `source`, `region`). Every row has a `market` column: `sec`, `uk` or `eu`, the importer run
+`data_version`, `as_of_date`, `source`, `region`). Every row has a `market` column: `sec`, `uk`, `eu` or `pk`, the importer run
 that wrote it. Publishing a market works on a copy, deletes and re-inserts that market's rows, reads the copy back with the
 API's own rules, and only then replaces the file — a failed import leaves the old file untouched. `PRAGMA user_version` is
 the layout version; the API refuses a file with another one.

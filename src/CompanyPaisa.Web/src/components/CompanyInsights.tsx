@@ -9,13 +9,16 @@ interface Fact { key: string; icon: string; text: ReactNode }
 /** Ranks worth quoting: the top 10, or the top 10% of a big group. */
 const notable = (r: Rank | null, top: number) => !!r && (r.rank <= top || r.rank <= r.count * 0.1);
 
+/** One unit of the currency: "$1", "£1", "Rs 1". */
+const oneUnit = (currency: string) => currency === 'PKR' ? 'Rs 1' : `${currencySymbol(currency).trim()}1`;
+
 /** 0.2255 → "23%" · 0.034 → "3.4%" */
 const size = (ratio: number) => `${Math.abs(ratio * 100).toFixed(Math.abs(ratio) < 0.1 ? 1 : 0)}%`;
 
-/** 0.034 of a dollar → "3¢"; pence for pounds; "less than 1¢" rather than "0¢". */
+/** 0.034 of a dollar → "3¢"; pence for pounds, paisa for rupees; "less than 1¢" rather than "0¢". */
 function perUnit(ratio: number, currency: string) {
   const n = Math.round(Math.abs(ratio) * 100);
-  const unit = currency === 'GBP' ? 'p' : '¢';
+  const unit = currency === 'GBP' ? 'p' : currency === 'PKR' ? ' paisa' : '¢';
   return n === 0 ? `less than 1${unit}` : `${n}${unit}`;
 }
 
@@ -111,8 +114,8 @@ export function AtAGlance({ insights: i, name }: { insights: CompanyInsights; na
       key: 'margin', icon: '🧮',
       text: <>
         {m.netMargin >= 0
-          ? <>Keeps <b>{perUnit(m.netMargin, cur)}</b> of every {currencySymbol(cur).trim()}1 of revenue as profit</>
-          : <>Loses <b className="down">{perUnit(m.netMargin, cur)}</b> on every {currencySymbol(cur).trim()}1 of revenue</>}; the median {m.sector}{' '}
+          ? <>Keeps <b>{perUnit(m.netMargin, cur)}</b> of every {oneUnit(cur)} of revenue as profit</>
+          : <>Loses <b className="down">{perUnit(m.netMargin, cur)}</b> on every {oneUnit(cur)} of revenue</>}; the median {m.sector}{' '}
         company {keeps(m.sectorMedian)} {perUnit(m.sectorMedian, cur)}.
       </>,
     });

@@ -28,6 +28,7 @@ builder.Services.AddSingleton<NewHireReader>();
 builder.Services.AddSingleton<ImportPipeline>();
 builder.Services.AddSingleton<CompanyPaisa.Importer.Uk.UkImportPipeline>();
 builder.Services.AddSingleton<CompanyPaisa.Importer.Eu.EuImportPipeline>();
+builder.Services.AddSingleton<CompanyPaisa.Importer.Pk.PkImportPipeline>();
 builder.Services.AddSingleton<CompanyPaisa.Importer.Publishing.DataPublisher>();
 builder.Services.AddSingleton<CompanyPaisa.Importer.Publishing.LegacyWorkbookMigration>();
 builder.Services.AddSingleton<CompanyPaisa.Importer.Validation.ValidationRun>();
@@ -35,6 +36,7 @@ builder.Services.AddSingleton<CompanyPaisa.Importer.Validation.ValidationRun>();
 builder.Services.AddSingleton<IMarketImporter>(sp => sp.GetRequiredService<ImportPipeline>());
 builder.Services.AddSingleton<IMarketImporter>(sp => sp.GetRequiredService<CompanyPaisa.Importer.Uk.UkImportPipeline>());
 builder.Services.AddSingleton<IMarketImporter>(sp => sp.GetRequiredService<CompanyPaisa.Importer.Eu.EuImportPipeline>());
+builder.Services.AddSingleton<IMarketImporter>(sp => sp.GetRequiredService<CompanyPaisa.Importer.Pk.PkImportPipeline>());
 builder.Services.AddSingleton<MarketRunner>();
 
 using var host = builder.Build();
@@ -118,6 +120,38 @@ if (args.Contains("--new-hires"))
     Console.WriteLine($"{linked.Count} appointments at {linked.Select(x => x.CompanyId).Distinct().Count()} companies ({linked.Count(x => x.PersonId is not null)} linked to a person) → {path}");
     return 0;
 }
+// Pakistan: the text of a results PDF as the reader sees it: -- --debug-pk-pdf <pdf url>
+if (args is ["--debug-pk-pdf", var pdfUrl])
+{
+    Console.OutputEncoding = System.Text.Encoding.UTF8;
+    using var http = new HttpClient { DefaultRequestHeaders = { { "User-Agent", "CompanyPaisa" } } };
+    var bytes = File.Exists(pdfUrl) ? File.ReadAllBytes(pdfUrl) : await http.GetByteArrayAsync(pdfUrl);
+    foreach (var line in CompanyPaisa.Importer.Pk.PdfLines.Describe(bytes)) Console.WriteLine(line);
+    return 0;
+}
+// Pakistan: what the rules read from annual reports: -- --debug-pk-report <pdf url, .pdf or .txt from --debug-pk-pdf> [more…]
+if (args is ["--debug-pk-report", .. var reports])
+{
+    Console.OutputEncoding = System.Text.Encoding.UTF8;
+    using var http = new HttpClient { DefaultRequestHeaders = { { "User-Agent", "CompanyPaisa" } } };
+    foreach (var source in reports)
+    {
+        IReadOnlyList<CompanyPaisa.Importer.Pk.PdfTextLine> lines = source.EndsWith(".txt", StringComparison.OrdinalIgnoreCase)
+            ? File.ReadAllLines(source).Select(l => CompanyPaisa.Importer.Pk.PdfTextLine.Plain(System.Text.RegularExpressions.Regex.Replace(l, @"^\s*\d+: ", ""))).ToList()
+            : source.EndsWith(".lines.gz", StringComparison.OrdinalIgnoreCase)   // the importer's cache (data/cache/pk/reports)
+            ? new StreamReader(new System.IO.Compression.GZipStream(File.OpenRead(source), System.IO.Compression.CompressionMode.Decompress))
+                .ReadToEnd().Split('\n', StringSplitOptions.RemoveEmptyEntries).Select(l => CompanyPaisa.Importer.Pk.PdfTextLine.Deserialise(l.TrimEnd('\r'))).ToList()
+            : CompanyPaisa.Importer.Pk.PdfLines.Read(File.Exists(source) ? File.ReadAllBytes(source) : await http.GetByteArrayAsync(source));
+        var report = CompanyPaisa.Importer.Pk.AnnualReportReader.Read(lines);
+        Console.WriteLine($"== {Path.GetFileName(source)} ({lines.Count} lines)");
+        foreach (var s in report.Statements)
+            Console.WriteLine($"   {(s.Consolidated ? "group  " : "company")} FY{s.FiscalYear} ends {s.PeriodEnd} | revenue {s.Revenue:N0} ({s.PriorRevenue:N0}) \"{s.RevenueLine}\" | profit {s.NetIncome:N0} ({s.PriorNetIncome:N0}) | eps {s.Eps} ({s.PriorEps}) | line {s.Line}");
+        if (report.CeoPay is { } p) Console.WriteLine($"   CEO FY{p.FiscalYear}: {p.Total:N0} (salary {p.Salary:N0}, bonus {p.Bonus:N0}) line {p.Line}");
+        if (report.HeadOffice is { } office) Console.WriteLine($"   head office: {office}");
+        foreach (var w in report.Warnings) Console.WriteLine("   warning: " + w);
+    }
+    return 0;
+}
 // One-off: copy the pre-SQLite workbooks into the database: -- --migrate-xlsx
 if (args.Contains("--migrate-xlsx"))
     return host.Services.GetRequiredService<CompanyPaisa.Importer.Publishing.LegacyWorkbookMigration>().Run();
@@ -135,7 +169,7 @@ if (args is ["--debug-proxy", var url])
 }
 // Markets (each publishes its own rows into data/companypaisa.db):
 //   -- --list-markets            what's available
-//   -- --market sec [--market uk] one or more by id      (--uk and --eu still work; no arguments = --market sec)
+//   -- --market sec [--market uk] one or more by id      (--uk, --eu and --pk work too; no arguments = --market sec)
 //   -- --all [--strict]           every market, then the data-quality checks (what the monthly job runs)
 //   add --refresh-lists to re-read curated company lists (e.g. the FTSE constituents)
 var runner = host.Services.GetRequiredService<MarketRunner>();
@@ -145,7 +179,7 @@ if (args.Contains("--list-markets"))
     return 0;
 }
 var marketIds = args.Select((a, i) => a == "--market" && i + 1 < args.Length ? args[i + 1] : null).OfType<string>()
-    .Concat(args.Contains("--uk") ? ["uk"] : []).Concat(args.Contains("--eu") ? ["eu"] : []).ToList();
+    .Concat(args.Contains("--uk") ? ["uk"] : []).Concat(args.Contains("--eu") ? ["eu"] : []).Concat(args.Contains("--pk") ? ["pk"] : []).ToList();
 var runAll = args.Contains("--all");
 if (!runAll && marketIds.Count == 0 && args.Any(a => a.StartsWith("--", StringComparison.Ordinal) && a is not ("--refresh-lists" or "--refresh-uk-list" or "--strict")))
 {

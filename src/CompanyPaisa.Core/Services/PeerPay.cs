@@ -6,8 +6,9 @@ namespace CompanyPaisa.Core.Services;
 
 /// <summary>
 /// How a company's executive pay compares with similar companies: the same sector, a similar size and the same kind of filing
-/// (UK annual reports list executive directors' "single total figure", US proxies list named executive officers, so the two
-/// aren't mixed). Compares the top executive (the CEO, or the top-paid executive director) and the typical other executive.
+/// (UK annual reports list executive directors' "single total figure", US proxies list named executive officers, Pakistani
+/// annual reports the chief executive's remuneration — so they aren't mixed). Compares the top executive (the CEO, or
+/// the top-paid executive director) and the typical other executive.
 /// </summary>
 public static class PeerPay
 {
@@ -27,9 +28,9 @@ public static class PeerPay
     {
         if (string.Equals(company.Sector, noSector, StringComparison.OrdinalIgnoreCase)) return null;
         var me = set.ById[company.CompanyId];
-        var uk = IsUk(company);
+        var market = PayMarket(company);
         var sector = set.All.Where(s => string.Equals(s.Company.Sector, company.Sector, StringComparison.OrdinalIgnoreCase)
-            && IsUk(s.Company) == uk && s.TtmRevenueUsd > 0).ToList();
+            && PayMarket(s.Company) == market && s.TtmRevenueUsd > 0).ToList();
 
         var rows = await repository.GetExecutiveCompensationAsync(sector.Select(s => s.Company.CompanyId), ct);
         var pay = rows.GroupBy(r => r.CompanyId, StringComparer.OrdinalIgnoreCase)
@@ -88,7 +89,9 @@ public static class PeerPay
     /// <summary>How far apart two companies' revenues are, as a ratio (so $100M vs $200M is as far as $1B vs $2B).</summary>
     private static double SizeGap(CompanyPay p, CompanyStats me) => Math.Abs(Math.Log((double)(p.Stats.TtmRevenueUsd / me.TtmRevenueUsd)));
 
-    private static bool IsUk(Company c) => c.Ticker.EndsWith(".L", StringComparison.OrdinalIgnoreCase);
+    /// <summary>Which kind of pay disclosure a company files: UK annual reports (".L"), Pakistani annual reports (".KA"), else SEC proxies.</summary>
+    private static string PayMarket(Company c) =>
+        c.Ticker.EndsWith(".L", StringComparison.OrdinalIgnoreCase) ? "uk" : c.Ticker.EndsWith(".KA", StringComparison.OrdinalIgnoreCase) ? "pk" : "sec";
 
     private static decimal Median(IReadOnlyList<decimal> sorted) =>
         sorted.Count % 2 == 1 ? sorted[sorted.Count / 2] : (sorted[sorted.Count / 2 - 1] + sorted[sorted.Count / 2]) / 2;

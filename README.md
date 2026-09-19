@@ -24,6 +24,8 @@ location and financial data comes from a directory we curate ahead of time.
   insider id (`tools/CompanyPaisa.Importer`, see [`data/README.md`](data/README.md))
 - ✅ **US, Canada and UK**: 4,090 listed US companies and Canadian SEC filers (46 areas), plus 328 UK Main Market
   companies; refreshed monthly by a scheduled task (`tools/refresh-data.ps1`)
+- ✅ **Pakistan**: 228 companies listed on the Pakistan Stock Exchange, with revenue, profit and the chief
+  executive's pay read by rules from each company's own annual report
 
 ## Run it
 

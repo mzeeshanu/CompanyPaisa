@@ -88,6 +88,8 @@ export function CompanyPage({ ticker, from, showExecutives, onExplore, onLoaded 
   const uk = d.detail.exchange === 'LSE';
   // European companies (ESEF reports, financials only): tickers end in .PA, .AS, .MI or .MC.
   const europe = /\.(PA|AS|MI|MC)$/.test(d.detail.ticker);
+  // Pakistan Stock Exchange (".KA"): figures read from the company's annual report PDF.
+  const pakistan = d.detail.ticker.endsWith('.KA');
   const locations = [...d.detail.locations].sort((a, b) => from ? distance(a)! - distance(b)! : 0);
   const shownLocations = allLocations ? locations : locations.slice(0, SHOWN_LOCATIONS);
   const website = d.detail.website ? d.detail.website.replace(/^https?:\/\//, '').replace(/\/$/, '') : null;
@@ -209,6 +211,8 @@ export function CompanyPage({ ticker, from, showExecutives, onExplore, onLoaded 
           ? `Source: the company's annual reports (ESEF) and their directors' remuneration reports${d.detail.asOfDate ? `, latest year ending ${d.detail.asOfDate}` : ''}. Pay is each executive director's "single total figure".`
           : europe
             ? `Source: the company's annual reports (ESEF)${d.detail.asOfDate ? `, latest year ending ${d.detail.asOfDate}` : ''}. Executive pay isn't collected for European companies yet.`
+          : pakistan
+            ? `Source: the company's annual reports filed with the Pakistan Stock Exchange${d.detail.asOfDate ? `, latest year ending ${d.detail.asOfDate}` : ''} — revenue and profit from the statement of profit or loss (the group's when it has subsidiaries), and the chief executive's pay from the note on remuneration of the chief executive, directors and executives. Company details from the exchange's company profile.`
             : `Source: the company's SEC filings (10-K, 20-F or 40-F annual reports, 10-Q quarterly reports and DEF 14A proxy statements)${d.detail.asOfDate ? `, as of ${d.detail.asOfDate}` : ''}.`}
         {d.detail.description?.toLowerCase().includes('synthetic') && ' This is sample data — figures are synthetic.'}
       </p>
@@ -216,10 +220,10 @@ export function CompanyPage({ ticker, from, showExecutives, onExplore, onLoaded 
   );
 }
 
-/** European, Australian and New Zealand locations keep their country in the state field ("FR"); "NL" is also Newfoundland. */
+/** European, Australian, New Zealand and Pakistani locations keep their country in the state field ("FR"); "NL" is also Newfoundland. */
 function countryOf(l: Location, currency: string): string | null {
   if (l.state === 'NL') return currency === 'EUR' ? 'NL' : null;
-  return ['FR', 'IT', 'ES', 'AU', 'NZ'].includes(l.state) ? l.state : null;
+  return ['FR', 'IT', 'ES', 'AU', 'NZ', 'PK'].includes(l.state) ? l.state : null;
 }
 
 function Kpi({ k, s, v, cls = '' }: { k: string; s: string; v: string; cls?: string }) {

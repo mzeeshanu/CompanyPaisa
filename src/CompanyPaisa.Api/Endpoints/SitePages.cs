@@ -117,13 +117,13 @@ public static partial class SitePages
     }
 
     /// <summary>
-    /// How a postcode appears in a search address (the website builds the same): no spaces, and European, Australian and
-    /// New Zealand codes carry their country ("FR-75008"), because a bare 5-digit code reads as a US ZIP.
+    /// How a postcode appears in a search address (the website builds the same): no spaces, and European, Australian,
+    /// New Zealand and Pakistani codes carry their country ("FR-75008"), because a bare 5-digit code reads as a US ZIP.
     /// </summary>
     public static string PlaceToken(string postcode, string country)
     {
         var code = postcode.Replace(" ", "").ToUpperInvariant();
-        return country is "FR" or "NL" or "IT" or "ES" or "AU" or "NZ" ? $"{country}-{code}" : code;
+        return country is "FR" or "NL" or "IT" or "ES" or "AU" or "NZ" or "PK" ? $"{country}-{code}" : code;
     }
 
     private static string SitemapXml(string origin, IEnumerable<string> paths, DateOnly? lastModified)

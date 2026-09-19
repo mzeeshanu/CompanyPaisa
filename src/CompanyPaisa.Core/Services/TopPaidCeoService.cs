@@ -93,7 +93,7 @@ public sealed partial class TopPaidCeoService(ICompanyRepository repository, ICu
         "NL" when string.Equals(company.Currency, "EUR", StringComparison.OrdinalIgnoreCase) => "NL",
         var s when CanadianProvinces.Contains(s) => "CA",
         "UK" or "GB" => "UK",
-        "FR" or "IT" or "ES" or "AU" or "NZ" => location.State.ToUpperInvariant(),
+        "FR" or "IT" or "ES" or "AU" or "NZ" or "PK" => location.State.ToUpperInvariant(),
         _ => "US"
     };
 }

@@ -224,7 +224,7 @@ public static class DataValidator
         };
     }
 
-    private static readonly (string Suffix, string Country)[] Suffixes = [(".L", "GB"), (".PA", "FR"), (".AS", "NL"), (".MI", "IT"), (".MC", "ES")];
+    private static readonly (string Suffix, string Country)[] Suffixes = [(".L", "GB"), (".PA", "FR"), (".AS", "NL"), (".MI", "IT"), (".MC", "ES"), (".KA", "PK")];
     private static readonly HashSet<string> CanadianProvinces = ["AB", "BC", "MB", "NB", "NL", "NS", "NT", "NU", "ON", "PE", "QC", "SK", "YT"];
 
     /// <summary>Generous boxes around each country (including Alaska, Hawaii, Puerto Rico, Corsica, the Canaries).</summary>
@@ -232,7 +232,8 @@ public static class DataValidator
     {
         ["US"] = new(17, 72, -180, -64), ["CA"] = new(41, 84, -142, -52), ["GB"] = new(49, 61.5, -9, 2.5),
         ["FR"] = new(41, 51.5, -5.5, 10), ["NL"] = new(50.6, 53.7, 3.2, 7.3), ["IT"] = new(35, 47.2, 6.5, 18.6),
-        ["ES"] = new(27.5, 44, -18.5, 4.5), ["AU"] = new(-44, -9, 112, 154), ["NZ"] = new(-48, -34, 166, 179)
+        ["ES"] = new(27.5, 44, -18.5, 4.5), ["AU"] = new(-44, -9, 112, 154), ["NZ"] = new(-48, -34, 166, 179),
+        ["PK"] = new(23.5, 37.2, 60.8, 77.9)
     };
 
     private static readonly string[] NotPersonWords = ["total", "inc", "llc", "ltd", "plc", "corp", "company", "officers", "directors", "named", "executive", "average", "compensation", "salary"];

@@ -27,8 +27,8 @@ public sealed partial class CsvZipGeoLocator(
         var q = query.Trim();
         var index = _index.Value;
 
-        // Europe, Australia, New Zealand: the website sends the country with the code ("FR-75008", "NL 1012 AB",
-        // "AU-2000"), because a bare 5-digit French, Italian or Spanish postcode looks exactly like a US ZIP.
+        // Europe, Australia, New Zealand, Pakistan: the website sends the country with the code ("FR-75008", "NL 1012 AB",
+        // "AU-2000", "PK-74000"), because a bare 5-digit French, Italian, Spanish or Pakistani postcode looks like a US ZIP.
         var eu = EuropeanPostcodePattern().Match(q.ToUpperInvariant());
         if (eu.Success)
         {
@@ -103,10 +103,10 @@ public sealed partial class CsvZipGeoLocator(
     private static partial Regex CityStatePattern();
 
     /// <summary>
-    /// "FR-75008", "IT 00184", "ES-08002", "NL-1012 AB", "AU-2000", "NZ-1010": country, then the code
+    /// "FR-75008", "IT 00184", "ES-08002", "NL-1012 AB", "AU-2000", "NZ-1010", "PK-74000": country, then the code
     /// (Dutch codes may carry two letters; Dutch, Australian and New Zealand codes are 4 digits).
     /// </summary>
-    [GeneratedRegex(@"^(?<country>FR|NL|IT|ES|AU|NZ)[\s\-:]+(?<digits>\d{4,5})(?:\s*(?<letters>[A-Z]{2}))?$")]
+    [GeneratedRegex(@"^(?<country>FR|NL|IT|ES|AU|NZ|PK)[\s\-:]+(?<digits>\d{4,5})(?:\s*(?<letters>[A-Z]{2}))?$")]
     private static partial Regex EuropeanPostcodePattern();
 
     /// <summary>Canadian postal code: forward sortation area ("M5J") and an optional local delivery unit ("2J2").</summary>

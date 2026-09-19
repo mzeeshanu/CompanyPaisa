@@ -70,6 +70,7 @@ export function ExecutivePage({ personId, from, onLoaded }: Props) {
   const companies = new Set(d.roles.map(r => r.company.ticker)).size;
   const cur = d.currentCompany.currency ?? 'USD';
   const uk = d.roles.every(r => r.company.ticker.endsWith('.L'));
+  const pakistan = d.roles.every(r => r.company.ticker.endsWith('.KA'));
 
   return (
     <main className="wrap page">
@@ -93,10 +94,12 @@ export function ExecutivePage({ personId, from, onLoaded }: Props) {
           <Kpi k="Latest pay" s={`${latest.year} total`} v={money(latestYearTotal, cur)} />
           <Kpi k="Change" s={`vs ${latest.year - 1}`} v={pct(change)} cls={tone(change)} />
           <Kpi k="Total earned" s={`${d.firstYear}–${d.latestYear}`} v={money(d.totalPay, cur)} />
-          <Kpi k="Career" s={uk ? 'as an executive director' : 'as a named executive'} v={`${companies} ${companies === 1 ? 'company' : 'companies'}`} />
+          <Kpi k="Career" s={uk ? 'as an executive director' : pakistan ? 'as chief executive' : 'as a named executive'} v={`${companies} ${companies === 1 ? 'company' : 'companies'}`} />
         </div>
         <p className="note page-note">{uk
           ? "Each year's \"single total figure\" from the company's directors' remuneration report (salary, bonus, long-term share awards as they vest, benefits and pension)."
+          : pakistan
+          ? "The chief executive's total from the remuneration note in the company's annual report (salary, bonus, retirement benefits, housing and other allowances)."
           : "Reported compensation (salary, bonus, stock awards at grant value, other) from each company's proxy filings."}</p>
       </section>
 
@@ -151,6 +154,8 @@ export function ExecutivePage({ personId, from, onLoaded }: Props) {
       <p className="disclaimer page-source">
         {uk
           ? 'Only years this person was an executive director of a FTSE 350 company in our data appear here; UK careers are not yet linked across companies.'
+          : pakistan
+          ? "Only the latest year this person was chief executive of a company listed on the Pakistan Stock Exchange appears here, named as the exchange lists the company's CEO."
           : "Only companies where this person was a named executive officer of a public company appear here. Earlier or private-company roles aren't reported to the SEC."}
       </p>
     </main>

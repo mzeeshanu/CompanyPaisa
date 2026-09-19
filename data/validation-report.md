@@ -1,11 +1,11 @@
-# Data validation report — 2026-09-15 20:29 UTC
+# Data validation report — 2026-09-19 03:45 UTC
 
-Checks everything in `companypaisa.db` together, as the website sees it — markets: sec (sec-2026.09.15), uk (uk-2026.09.14), eu (eu-2026.09.15).
+Checks everything in `companypaisa.db` together, as the website sees it — markets: sec (sec-2026.09.15), uk (uk-2026.09.14), eu (eu-2026.09.15), pk (pk-2026.09.19).
 
 **Errors** are values that can't be right. **Warnings** are unusual values worth a look — many are real (big acquisitions, holding-company gains, mega stock grants). Nothing here changes the data.
 
 - Errors: **0**
-- Warnings: **663**
+- Warnings: **665**
 
 ## Checks
 
@@ -23,7 +23,7 @@ Checks everything in `companypaisa.db` together, as the website sees it — mark
 | Financials | Duplicate period | Error | ✓ 0 |
 | Financials | Implausibly large revenue | Warning | ✓ 0 |
 | Financials | Profit far bigger than revenue | Warning | 78 |
-| Financials | Revenue jumps 10× in a year | Warning | 50 |
+| Financials | Revenue jumps 10× in a year | Warning | 51 |
 | Financials | Quarters don't add up to the year | Warning | 70 |
 | Financials | Out of date | Warning | 45 |
 | Financials | Annual figures missing, quarters only | Warning | 105 |
@@ -35,7 +35,7 @@ Checks everything in `companypaisa.db` together, as the website sees it — mark
 | Pay | Impossibly large total | Error | ✓ 0 |
 | Pay | Very large total | Warning | 66 |
 | Pay | Tiny total | Warning | ✓ 0 |
-| Pay | Name doesn't look like a person | Warning | ✓ 0 |
+| Pay | Name doesn't look like a person | Warning | 1 |
 | Pay | Pieces don't add up to the total | Warning | ✓ 0 |
 
 ## Overview
@@ -46,6 +46,7 @@ Checks everything in `companypaisa.db` together, as the website sees it — mark
 |---|---|
 | US | 3,834 |
 | GB | 328 |
+| PK | 228 |
 | FR | 180 |
 | CA | 146 |
 | IT | 139 |
@@ -61,6 +62,7 @@ Checks everything in `companypaisa.db` together, as the website sees it — mark
 | Nasdaq | 2,163 |
 | NYSE | 1,620 |
 | LSE | 328 |
+| Pakistan Stock Exchange | 228 |
 | OTC | 208 |
 | Euronext Paris | 180 |
 | Borsa Italiana | 139 |
@@ -76,6 +78,7 @@ Checks everything in `companypaisa.db` together, as the website sees it — mark
 | USD | 3,993 |
 | EUR | 486 |
 | GBP | 268 |
+| PKR | 228 |
 | CAD | 51 |
 | AUD | 5 |
 | GEL | 2 |
@@ -87,19 +90,19 @@ Checks everything in `companypaisa.db` together, as the website sees it — mark
 
 | | Count |
 |---|---|
-| Other | 774 |
-| Finance | 715 |
-| Healthcare | 674 |
-| Consumer & retail | 510 |
-| Industrials | 498 |
-| Software & IT | 347 |
-| Energy & utilities | 257 |
-| Real estate | 228 |
+| Other | 783 |
+| Finance | 747 |
+| Healthcare | 682 |
+| Consumer & retail | 598 |
+| Industrials | 517 |
+| Software & IT | 355 |
+| Energy & utilities | 279 |
+| Real estate | 230 |
 | Business services | 213 |
-| Materials | 154 |
+| Materials | 193 |
 | Technology hardware | 144 |
 | Media & telecom | 105 |
-| Transportation | 91 |
+| Transportation | 92 |
 | Semiconductors | 77 |
 | Education | 21 |
 
@@ -108,6 +111,7 @@ Checks everything in `companypaisa.db` together, as the website sees it — mark
 | | Count |
 |---|---|
 | US | 3,417 |
+| PK | 123 |
 | GB | 89 |
 | CA | 29 |
 | AU | 3 |
@@ -118,17 +122,17 @@ Checks everything in `companypaisa.db` together, as the website sees it — mark
 |---|---|
 | 10+ | 2,450 |
 | 6–9 | 1,196 |
-| 3–5 | 860 |
-| 1–2 | 197 |
+| 3–5 | 1,052 |
+| 1–2 | 233 |
 | 0 (quarters only) | 105 |
 
 ### Newest annual figures
 
 | | Count |
 |---|---|
-| FY 2025 | 4,014 |
-| FY 2026 | 374 |
-| FY 2024 | 270 |
+| FY 2025 | 4,211 |
+| FY 2026 | 397 |
+| FY 2024 | 278 |
 | none | 105 |
 | 2023 or older | 45 |
 
@@ -136,12 +140,12 @@ Checks everything in `companypaisa.db` together, as the website sees it — mark
 
 | | Count |
 |---|---|
-| Companies | 4,808 |
-| Locations | 4,818 |
-| Annual periods | 36,862 |
+| Companies | 5,036 |
+| Locations | 5,046 |
+| Annual periods | 37,543 |
 | Quarterly periods | 132,475 |
-| Pay rows | 89,740 |
-| People | 23,593 |
+| Pay rows | 89,863 |
+| People | 23,716 |
 
 ## Details
 
@@ -196,7 +200,7 @@ Net profit more than 3× revenue for a company with ≥ $10M revenue — possibl
 - CPT (Camden Property Trust) FY 2025: revenue 13.0M, net income 384.5M
 - … and 66 more
 
-### Financials · Revenue jumps 10× in a year (50)
+### Financials · Revenue jumps 10× in a year (51)
 
 Year-on-year revenue up or down more than tenfold (both years ≥ $10M) — a real acquisition, or a switch of revenue definition or units.
 
@@ -212,7 +216,7 @@ Year-on-year revenue up or down more than tenfold (both years ≥ $10M) — a re
 - CANG (Cango Inc.): FY 2023 1.70bn → FY 2024 110.2M
 - DNLI (Denali Therapeutics Inc.): FY 2019 26.7M → FY 2020 335.7M
 - DBRG (DigitalBridge Group, Inc.): FY 2018 1.17bn → FY 2019 61.0M
-- … and 38 more
+- … and 39 more
 
 ### Financials · Quarters don't add up to the year (70)
 
@@ -285,4 +289,10 @@ Total above $150M (US-dollar equivalent) in one year — happens (mega stock gra
 - AFRM (Affirm Holdings, Inc.) Max Levchin 2021: 451.2M
 - APO (Apollo Global Management, Inc.) Scott Kleinman 2021: 437.0M
 - … and 54 more
+
+### Pay · Name doesn't look like a person (1)
+
+Digits, company words or table labels where a person's name should be.
+
+- JDMT.KA (Janana De Malucho Textile Mills Limited): "Lt. Gen. (Retd.) Ali Kuli Khan Khattak"
 

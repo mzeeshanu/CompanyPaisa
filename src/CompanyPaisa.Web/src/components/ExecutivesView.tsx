@@ -62,8 +62,8 @@ export function ExecutivesView({ data, placeName, sort, onSort, search, onSearch
             <span className="stat" title={s.approximate ? 'Some pay is in another currency; converted at approximate rates' : undefined}>
               <b>{total(s.combinedLatestPay, s.currency, s.approximate)}</b> combined pay{s.latestYear ? ` in ${s.latestYear}` : ''}</span>
             <span className="stat"><b>{total(s.medianLatestPay, s.currency, s.approximate)}</b> median</span>
-            <span className="stat">{data.items.some(e => e.company.ticker.endsWith('.L'))
-              ? "Pay as reported in company filings · US named executive officers and UK executive directors"
+            <span className="stat">{data.items.some(e => e.company.ticker.endsWith('.L') || e.company.ticker.endsWith('.KA'))
+              ? "Pay as reported in company filings · US named executive officers, UK executive directors and Pakistani chief executives"
               : 'Pay as reported in proxy filings · named executive officers only'}</span>
           </>
         ) : (

@@ -160,6 +160,7 @@ public class GetCompaniesNearHandlerTests
     [InlineData("NL", "EUR", "NL")]    // the Netherlands
     [InlineData("UK", "GBP", "UK")]
     [InlineData("AU", "AUD", "AU")]
+    [InlineData("PK", "PKR", "PK")]
     public void Works_out_the_country_of_a_location(string state, string currency, string country)
     {
         var company = new Company { CompanyId = "X", Name = "X", Ticker = "X", Exchange = "X", Sector = "X", Currency = currency };

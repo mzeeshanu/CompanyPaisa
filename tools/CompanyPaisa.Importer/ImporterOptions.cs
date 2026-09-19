@@ -20,6 +20,8 @@ public sealed class ImporterOptions
     public Uk.UkOptions Uk { get; set; } = new();
     /// <summary>European markets, financials only (run with --eu).</summary>
     public Eu.EuOptions Eu { get; set; } = new();
+    /// <summary>Pakistan Stock Exchange (run with --market pk).</summary>
+    public Pk.PkOptions Pk { get; set; } = new();
     /// <summary>Hand-curated sites of companies headquartered elsewhere (Adobe Lehi, eBay Draper…).</summary>
     public string CuratedOfficesPath { get; set; } = "data/curated/utah-offices.csv";
 }
