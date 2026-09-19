@@ -197,14 +197,24 @@ public sealed class EnrichmentRun(IOptions<ImporterOptions> options, RepoPaths p
             .Select(l => new AddressToPlace(l.LocationId, CountryOf(l, byId.GetValueOrDefault(l.CompanyId)), l.Street, l.City, l.State, l.PostalCode, l.Point))
             .ToList();
         _log.LogInformation("Street positions: {Count} addresses to place ({Us} in the US)", todo.Count, todo.Count(t => t.Country == "US"));
-        var placed = await new StreetGeocoder(http, _log).PlaceAsync(todo, ct);
+        var geocoder = new StreetGeocoder(http, _log);
         var byLocation = locations.ToDictionary(l => l.LocationId, StringComparer.OrdinalIgnoreCase);
-        foreach (var (a, point, source) in placed)
-            points[a.LocationId] = new GeocodedLocation(a.LocationId, EnrichmentTables.AddressOf(byLocation[a.LocationId]), point.Latitude, point.Longitude, source);
-        // Addresses no geocoder could place aren't sent again on the next run.
-        var placedIds = placed.Select(p => p.Address.LocationId).ToHashSet(StringComparer.OrdinalIgnoreCase);
         Directory.CreateDirectory(Path.GetDirectoryName(misses)!);
-        File.AppendAllLines(misses, todo.Where(t => !placedIds.Contains(t.LocationId)).Select(t => EnrichmentTables.AddressOf(byLocation[t.LocationId])));
+        // In chunks (1,000 US addresses a batch, 100 elsewhere), saving after each, so a stopped run keeps what it found.
+        var chunks = todo.Where(t => t.Country == "US").Chunk(1000).Concat(todo.Where(t => t.Country != "US").Chunk(100));
+        var done = 0;
+        foreach (var chunk in chunks)
+        {
+            var placed = await geocoder.PlaceAsync(chunk, ct);
+            foreach (var (a, point, source) in placed)
+                points[a.LocationId] = new GeocodedLocation(a.LocationId, EnrichmentTables.AddressOf(byLocation[a.LocationId]), point.Latitude, point.Longitude, source);
+            // Addresses no geocoder could place aren't sent again on the next run.
+            var placedIds = placed.Select(p => p.Address.LocationId).ToHashSet(StringComparer.OrdinalIgnoreCase);
+            File.AppendAllLines(misses, chunk.Where(t => !placedIds.Contains(t.LocationId)).Select(t => EnrichmentTables.AddressOf(byLocation[t.LocationId])));
+            EnrichmentTables.WritePoints(paths.Resolve(_o.PointsPath), points.Values);
+            done += chunk.Length;
+            _log.LogInformation("Street positions: {Done}/{Total} addresses tried, {Placed} placed in all", done, todo.Count, points.Count);
+        }
     }
 
     private string MissesFile() => Path.Combine(paths.Resolve(_o.CacheDirectory), "geocode-misses.txt");

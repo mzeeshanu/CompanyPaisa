@@ -16,7 +16,7 @@ public sealed record AddressToPlace(string LocationId, string Country, string St
 /// OpenStreetMap's Nominatim, one request a second as its usage policy asks. A result is kept only when it lands within
 /// <see cref="MaxMilesFromPostcode"/> of the postcode's centre, so a wrong match can't move a company across the country.
 /// </summary>
-public sealed class StreetGeocoder(HttpClient http, ILogger logger)
+public sealed partial class StreetGeocoder(HttpClient http, ILogger logger)
 {
     public const double MaxMilesFromPostcode = 25;
     private const string CensusUrl = "https://geocoding.geo.census.gov/geocoder/locations/addressbatch";
@@ -29,7 +29,7 @@ public sealed class StreetGeocoder(HttpClient http, ILogger logger)
         var us = addresses.Where(a => a.Country == "US").ToList();
         for (var i = 0; i < us.Count; i += 1000)
         {
-            found.AddRange(await CensusAsync(us.Skip(i).Take(1000).ToList(), ct));
+            found.AddRange(await CensusWithRetryAsync(us.Skip(i).Take(1000).ToList(), ct));
             logger.LogInformation("US Census geocoder: {Done}/{Total} addresses sent, {Found} placed so far", Math.Min(i + 1000, us.Count), us.Count, found.Count);
         }
         var others = addresses.Where(a => a.Country != "US").ToList();
@@ -41,6 +41,30 @@ public sealed class StreetGeocoder(HttpClient http, ILogger logger)
             await Task.Delay(1100, ct);   // Nominatim: at most one request a second
         }
         return found;
+    }
+
+    /// <summary>
+    /// The batch, then a second try for the ones that didn't match with the suite or floor removed
+    /// ("3300 Triumph Blvd Suite 700" → "3300 Triumph Blvd"), which is all the Census files hold.
+    /// </summary>
+    private async Task<List<(AddressToPlace, GeoPoint, string)>> CensusWithRetryAsync(List<AddressToPlace> batch, CancellationToken ct)
+    {
+        var found = await CensusAsync(batch, ct);
+        var placed = found.Select(f => f.Item1.LocationId).ToHashSet(StringComparer.OrdinalIgnoreCase);
+        var retry = batch.Where(a => !placed.Contains(a.LocationId))
+            .Select(a => (Original: a, Simple: a with { Street = WithoutSuite(a.Street) }))
+            .Where(x => x.Simple.Street.Length > 0 && x.Simple.Street != x.Original.Street).ToList();
+        if (retry.Count == 0) return found;
+        foreach (var (address, point, source) in await CensusAsync(retry.Select(x => x.Simple).ToList(), ct))
+            found.Add((retry.First(x => x.Simple.LocationId == address.LocationId).Original, point, source));
+        return found;
+    }
+
+    /// <summary>"120 Main St Suite 300" → "120 Main St"; "1 Tower Pl Fl 12" → "1 Tower Pl".</summary>
+    internal static string WithoutSuite(string street)
+    {
+        var cut = SuitePattern().Match(street);
+        return (cut.Success ? street[..cut.Index] : street).Trim().TrimEnd(',');
     }
 
     private async Task<List<(AddressToPlace, GeoPoint, string)>> CensusAsync(List<AddressToPlace> batch, CancellationToken ct)
@@ -108,6 +132,9 @@ public sealed class StreetGeocoder(HttpClient http, ILogger logger)
     }
 
     private bool Near(AddressToPlace a, GeoPoint p) => p.IsValid && _distance.DistanceMiles(a.Now, p) <= MaxMilesFromPostcode;
+
+    [System.Text.RegularExpressions.GeneratedRegex(@"[,s](suite|ste.?|floor|fl.?|unit|apt.?|room|rm.?|bldg.?|building|mails*stop|ms|#)s*[w-]*s*$|,s*d+(st|nd|rd|th)s+floors*$", System.Text.RegularExpressions.RegexOptions.IgnoreCase)]
+    private static partial System.Text.RegularExpressions.Regex SuitePattern();
 
     private static string Field(string s) => s.Contains(',') || s.Contains('"') ? $"\"{s.Replace("\"", "\"\"")}\"" : s;
 

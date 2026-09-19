@@ -46,6 +46,7 @@ public sealed partial class CareersFinder(HttpClient http)
     {
         var t = WebUtility.HtmlDecode(TagPattern().Replace(text, " ")).Trim();
         if (t.Length > 60 || NotCareers().IsMatch(t) || NotCareers().IsMatch(url.AbsolutePath)) return 0;
+        if (SingleJob().IsMatch(url.AbsolutePath)) return 0;   // one job posting, not the careers page
         var score = 0;
         if (ExactCareers().IsMatch(t)) score += 10;
         else if (CareersWords().IsMatch(t)) score += 6;
@@ -127,6 +128,7 @@ public sealed partial class CareersFinder(HttpClient http)
     [GeneratedRegex(@"/(careers?|jobs|join-?us|work-?with-?us|vacancies|opportunities)(/|$|\.)", RegexOptions.IgnoreCase)]
     private static partial Regex CareersPath();
     [GeneratedRegex(@"^(careers?|jobs)\.", RegexOptions.IgnoreCase)] private static partial Regex CareersHost();
+    [GeneratedRegex(@"/jobs?/(view/)?\d{5,}", RegexOptions.IgnoreCase)] private static partial Regex SingleJob();
     [GeneratedRegex(@"(myworkdayjobs|greenhouse\.io|lever\.co|smartrecruiters|icims|taleo|successfactors|jobvite|workable|ashbyhq|recruitee|bamboohr|teamtailor|rippling-ats|oraclecloud\.com)", RegexOptions.IgnoreCase)]
     private static partial Regex JobBoards();
     /// <summary>Links that mention jobs but aren't the careers page (a news story, a job scam warning, a "jobs report").</summary>
