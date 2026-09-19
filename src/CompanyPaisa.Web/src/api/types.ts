@@ -66,6 +66,8 @@ export interface CompanyDetail {
   fiscalYearEnd: string | null; asOfDate: string | null; locations: Location[]; indicators: Indicators;
   /** Currency of executive pay (can differ from the accounts' currency). */
   payCurrency?: string | null;
+  /** The company's careers or jobs page, when one was found on its website. */
+  careersUrl?: string | null;
 }
 
 export interface FinancialPeriod {

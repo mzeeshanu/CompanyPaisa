@@ -14,7 +14,8 @@ namespace CompanyPaisa.Data.Sqlite;
 public static class SqliteDataStore
 {
     /// <summary>Bumped whenever the table layout changes; an older file is refused rather than misread.</summary>
-    public const int SchemaVersion = 1;
+    /// <remarks>2: companies.careers_url (a layout-1 file is upgraded in place when an importer writes to it).</remarks>
+    public const int SchemaVersion = 2;
 
     // Amounts are NUMERIC: whole numbers (nearly all of them) are stored as compact integers, fractions (EPS) as REAL.
     // No per-market indexes: replacing a market scans each table once, which takes well under a second.
@@ -24,7 +25,7 @@ public static class SqliteDataStore
         CREATE TABLE IF NOT EXISTS companies (
             company_id TEXT NOT NULL PRIMARY KEY COLLATE NOCASE, market TEXT NOT NULL,
             name TEXT NOT NULL, ticker TEXT NOT NULL, exchange TEXT NOT NULL, sector TEXT NOT NULL, industry TEXT, website TEXT,
-            employees INTEGER, market_cap NUMERIC, description TEXT, currency TEXT NOT NULL, pay_currency TEXT,
+            careers_url TEXT, employees INTEGER, market_cap NUMERIC, description TEXT, currency TEXT NOT NULL, pay_currency TEXT,
             fiscal_year_end TEXT, logo_url TEXT, as_of_date TEXT);
         CREATE TABLE IF NOT EXISTS locations (
             location_id TEXT NOT NULL PRIMARY KEY COLLATE NOCASE, company_id TEXT NOT NULL, market TEXT NOT NULL,
@@ -101,12 +102,7 @@ public static class SqliteDataStore
     {
         using (var db = Open(staging, readOnly: false))
         {
-            var version = Convert.ToInt32(Scalar(db, "PRAGMA user_version"), CultureInfo.InvariantCulture);
-            if (version != 0 && version != SchemaVersion)
-                throw new InvalidOperationException($"'{path}' uses database layout {version}, this code writes {SchemaVersion}. " +
-                                                    "Rebuild it: delete the file and run every importer (or --migrate-xlsx).");
-            Execute(db, Schema);
-            Execute(db, $"PRAGMA user_version = {SchemaVersion}");
+            Prepare(db, path);
             using (var tx = db.BeginTransaction())
             {
                 foreach (var table in Tables) Execute(db, $"DELETE FROM {table} WHERE market = $m", ("$m", market));
@@ -138,12 +134,65 @@ public static class SqliteDataStore
         {
             using (var db = Open(staging, readOnly: false))
             {
-                Execute(db, Schema);
+                Prepare(db, path);
                 using (var tx = db.BeginTransaction())
                 {
                     Execute(db, "DELETE FROM new_executives WHERE market = $m", ("$m", market));
                     InsertNewExecutives(db, market, rows, FilingIds(db));
                     Execute(db, UnusedFilings);
+                    tx.Commit();
+                }
+                Execute(db, "VACUUM");
+            }
+            DataRules.Check(Read(staging, DateTimeOffset.UtcNow), staging);
+            File.Move(staging, path, overwrite: true);
+        }
+        finally
+        {
+            if (File.Exists(staging)) File.Delete(staging);
+        }
+    }
+
+    /// <summary>Creates the tables, or brings an older layout up to date (layout 1 → 2 adds companies.careers_url).</summary>
+    private static void Prepare(SqliteConnection db, string path)
+    {
+        var version = Convert.ToInt32(Scalar(db, "PRAGMA user_version"), CultureInfo.InvariantCulture);
+        if (version is not (0 or 1) && version != SchemaVersion)
+            throw new InvalidOperationException($"'{path}' uses database layout {version}, this code writes {SchemaVersion}. " +
+                                                "Rebuild it: delete the file and run every importer (or --migrate-xlsx).");
+        Execute(db, Schema);
+        if (version == 1) Execute(db, "ALTER TABLE companies ADD COLUMN careers_url TEXT");
+        Execute(db, $"PRAGMA user_version = {SchemaVersion}");
+    }
+
+    /// <summary>Brings an existing file to the current layout in place (adds the columns a newer layout has; data untouched).</summary>
+    public static void Upgrade(string path)
+    {
+        using var db = Open(path, readOnly: false);
+        Prepare(db, path);
+    }
+
+    /// <summary>
+    /// Fills in company websites and careers pages, and moves locations to their geocoded street address, across every
+    /// market (from the enrichment tables in data/reference). Same safety net as publishing: a checked copy replaces the file.
+    /// </summary>
+    public static void ApplyCompanyDetails(string path, IReadOnlyList<(string CompanyId, string? Website, string? CareersUrl)> sites,
+        IReadOnlyList<(string LocationId, double Latitude, double Longitude)> points)
+    {
+        var staging = path + ".new";
+        if (File.Exists(staging)) File.Delete(staging);
+        File.Copy(path, staging);
+        try
+        {
+            using (var db = Open(staging, readOnly: false))
+            {
+                Prepare(db, path);
+                using (var tx = db.BeginTransaction())
+                {
+                    using (var cmd = Command(db, "UPDATE companies SET website = COALESCE(website, $0), careers_url = COALESCE($1, careers_url) WHERE company_id = $2", null, 3))
+                        foreach (var s in sites) Run(cmd, s.Website, s.CareersUrl, s.CompanyId);
+                    using (var cmd = Command(db, "UPDATE locations SET latitude = $0, longitude = $1 WHERE location_id = $2", null, 3))
+                        foreach (var p in points) Run(cmd, p.Latitude, p.Longitude, p.LocationId);
                     tx.Commit();
                 }
                 Execute(db, "VACUUM");
@@ -170,13 +219,13 @@ public static class SqliteDataStore
 
         var companies = Query(db, """
             SELECT company_id, name, ticker, exchange, sector, industry, website, employees, market_cap, description,
-                   currency, pay_currency, fiscal_year_end, logo_url, as_of_date FROM companies ORDER BY rowid
+                   currency, pay_currency, fiscal_year_end, logo_url, as_of_date, careers_url FROM companies ORDER BY rowid
             """, r => new Company
         {
             CompanyId = r.GetString(0), Name = r.GetString(1), Ticker = r.GetString(2), Exchange = r.GetString(3), Sector = r.GetString(4),
             Industry = Text(r, 5), Website = Text(r, 6), Employees = r.IsDBNull(7) ? null : r.GetInt32(7), MarketCap = Money(r, 8),
             Description = Text(r, 9), Currency = r.GetString(10), PayCurrency = Text(r, 11), FiscalYearEnd = Text(r, 12), LogoUrl = Text(r, 13),
-            AsOfDate = Text(r, 14) is { } d ? DateOnly.Parse(d, CultureInfo.InvariantCulture) : null
+            AsOfDate = Text(r, 14) is { } d ? DateOnly.Parse(d, CultureInfo.InvariantCulture) : null, CareersUrl = Text(r, 15)
         });
         var locations = Query(db, """
             SELECT location_id, company_id, type, label, street, city, state, postal_code, latitude, longitude FROM locations ORDER BY rowid
@@ -252,12 +301,12 @@ public static class SqliteDataStore
 
         using (var cmd = Command(db, """
             INSERT INTO companies (company_id, market, name, ticker, exchange, sector, industry, website, employees, market_cap, description,
-                                   currency, pay_currency, fiscal_year_end, logo_url, as_of_date)
-            VALUES ($0, $market, $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
-            """, market, 15))
+                                   currency, pay_currency, fiscal_year_end, logo_url, as_of_date, careers_url)
+            VALUES ($0, $market, $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)
+            """, market, 16))
             foreach (var c in data.Companies)
                 Run(cmd, c.CompanyId, c.Name, c.Ticker, c.Exchange, c.Sector, c.Industry, c.Website, c.Employees, c.MarketCap, c.Description,
-                    c.Currency, c.PayCurrency, c.FiscalYearEnd, c.LogoUrl, c.AsOfDate?.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture));
+                    c.Currency, c.PayCurrency, c.FiscalYearEnd, c.LogoUrl, c.AsOfDate?.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture), c.CareersUrl);
 
         using (var cmd = Command(db, """
             INSERT INTO locations (location_id, company_id, market, type, label, street, city, state, postal_code, latitude, longitude)

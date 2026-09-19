@@ -116,7 +116,8 @@ public sealed record CompanyDetailDto(
     DateOnly? AsOfDate,
     IReadOnlyList<LocationDto> Locations,
     CompanyIndicatorsDto Indicators,
-    string? PayCurrency = null);
+    string? PayCurrency = null,
+    string? CareersUrl = null);
 
 /// <summary>One reporting period.</summary>
 public sealed record FinancialPeriodDto(

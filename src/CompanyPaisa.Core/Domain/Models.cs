@@ -25,6 +25,8 @@ public sealed record Company
     public required string Sector { get; init; }
     public string? Industry { get; init; }
     public string? Website { get; init; }
+    /// <summary>The company's careers or jobs page, found by following the link on its website.</summary>
+    public string? CareersUrl { get; init; }
     public int? Employees { get; init; }
     public decimal? MarketCap { get; init; }
     public string? Description { get; init; }

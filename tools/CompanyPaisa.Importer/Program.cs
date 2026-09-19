@@ -29,6 +29,7 @@ builder.Services.AddSingleton<ImportPipeline>();
 builder.Services.AddSingleton<CompanyPaisa.Importer.Uk.UkImportPipeline>();
 builder.Services.AddSingleton<CompanyPaisa.Importer.Eu.EuImportPipeline>();
 builder.Services.AddSingleton<CompanyPaisa.Importer.Pk.PkImportPipeline>();
+builder.Services.AddSingleton<CompanyPaisa.Importer.Enrichment.EnrichmentRun>();
 builder.Services.AddSingleton<CompanyPaisa.Importer.Publishing.DataPublisher>();
 builder.Services.AddSingleton<CompanyPaisa.Importer.Publishing.LegacyWorkbookMigration>();
 builder.Services.AddSingleton<CompanyPaisa.Importer.Validation.ValidationRun>();
@@ -151,6 +152,13 @@ if (args is ["--debug-pk-report", .. var reports])
         foreach (var w in report.Warnings) Console.WriteLine("   warning: " + w);
     }
     return 0;
+}
+// Websites, careers pages and street positions for every company in the database: -- --enrich [websites] [careers] [geocode]
+if (args is ["--enrich", .. var steps])
+{
+    using var enrichCts = new CancellationTokenSource();
+    Console.CancelKeyPress += (_, e) => { e.Cancel = true; enrichCts.Cancel(); };
+    return await host.Services.GetRequiredService<CompanyPaisa.Importer.Enrichment.EnrichmentRun>().RunAsync(steps, enrichCts.Token);
 }
 // One-off: copy the pre-SQLite workbooks into the database: -- --migrate-xlsx
 if (args.Contains("--migrate-xlsx"))

@@ -4,6 +4,9 @@
 |---|---|---|
 | `companypaisa.db` | **The live dataset** (SQLite) — every market in one file: SEC filers (US, Canada, Australia, NZ), UK Main Market, France, the Netherlands, Italy, Spain, Pakistan. Each importer run replaces only its own market's rows | **Real**, built by `tools/CompanyPaisa.Importer` (see *Database layout*) |
 | `import-report.md` | What the last import included (per metro), excluded (and why), and rows that need review | Generated |
+| `import-report-enrichment.md` | The last `--enrich` run: websites, careers pages and street positions per market | Generated |
+| `reference/company-sites.csv` | Each company's website (and where it came from) and careers page, with the date it was last looked for — edit to correct | Wikidata (CC0), the exchanges, companies' own filings and websites |
+| `reference/geocoded-locations.csv` | Locations placed at their street address (with the address they were placed from) | US Census Bureau geocoder; © OpenStreetMap contributors (ODbL) |
 | `import-report-pk.md` | The Pakistan run's report: included per area, excluded (and why), rows that need review | Generated |
 | `reference/pk-postcodes.csv` | Pakistani postcodes → town and coordinates (the Pakistan tab) | [GeoNames](https://www.geonames.org/) PK postal codes and towns, CC BY 4.0 |
 | `import-report-uk.md` | The UK run's report: included per area, excluded (and why), rows that need review | Generated |
@@ -164,6 +167,21 @@ Check one report: `-- --debug-pk-report <pdf url | .pdf | cache .lines.gz>`; see
 The run's report is `import-report-pk.md`. A first run downloads ~1,300 PDFs (5–25 MB each; the exchange serves each
 at ~400 KB/s) and takes a few hours; later runs only fetch new reports.
 
+## Websites, careers pages and street positions
+
+```bash
+dotnet run --project tools/CompanyPaisa.Importer -- --enrich                 # all three steps
+dotnet run --project tools/CompanyPaisa.Importer -- --enrich careers         # one step: websites, careers or geocode
+```
+
+For every company in the database, whatever its market: its **website** (Wikidata by SEC CIK, LEI or ticker; else the
+domain a US filer names in its own proxy or annual report, only when it looks like the company's name), its **careers
+page** (the link on its home page, honouring robots.txt; rechecked every 90 days) and the exact position of its **street
+address** (US Census Bureau geocoder in the US, OpenStreetMap elsewhere at one request a second; kept only within 25
+miles of the postcode). Results go to `reference/company-sites.csv` and `reference/geocoded-locations.csv`, which every
+market import applies when it publishes, so a monthly refresh keeps them. Addresses no geocoder could place are listed in
+`cache/enrich/geocode-misses.txt` and not retried.
+
 ## Database layout
 
 `companypaisa.db` is SQLite (open it with any SQLite browser). Tables: `companies`, `locations`, `financials`,
@@ -172,7 +190,8 @@ point at it by `filing_id`, with `https://www.sec.gov/Archives/edgar/data/` stor
 `data_version`, `as_of_date`, `source`, `region`). Every row has a `market` column: `sec`, `uk`, `eu` or `pk`, the importer run
 that wrote it. Publishing a market works on a copy, deletes and re-inserts that market's rows, reads the copy back with the
 API's own rules, and only then replaces the file — a failed import leaves the old file untouched. `PRAGMA user_version` is
-the layout version; the API refuses a file with another one.
+the layout version (2 since `companies.careers_url`; an importer upgrades a layout-1 file in place); the API refuses a
+file with another one.
 
 `new_executives` holds officer appointments read from the last 18 months of each SEC company's 8-K filings (Item 5.02): who
 (`person_id` when they could be linked to someone with reported pay), `title`, `announced_on`, `starts_on`, the filing, and

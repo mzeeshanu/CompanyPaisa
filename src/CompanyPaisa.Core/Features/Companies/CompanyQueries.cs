@@ -28,7 +28,7 @@ public sealed class GetCompanyHandler(ICompanyRepository repository, IFinancialM
         return new CompanyDetailDto(c.Ticker, c.Name, c.Exchange, c.Sector, c.Industry, c.Website, c.Employees, c.MarketCap,
             c.Description, c.Currency, c.FiscalYearEnd, c.AsOfDate,
             locations.OrderBy(l => l.IsHeadquarters ? 0 : 1).ThenBy(l => l.City).Select(l => l.ToDto()).ToList(),
-            indicators.ToDto(), c.PayCurrency ?? c.Currency);
+            indicators.ToDto(), c.PayCurrency ?? c.Currency, c.CareersUrl);
     }
 
     internal static NotFoundException CompanyNotFound(string ticker) => new($"No company with ticker '{ticker}'.");

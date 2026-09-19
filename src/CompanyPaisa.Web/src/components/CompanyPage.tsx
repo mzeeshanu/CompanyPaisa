@@ -109,10 +109,11 @@ export function CompanyPage({ ticker, from, showExecutives, onExplore, onLoaded 
           {hq && <>Headquarters: {hq.city}, {hq.state}</>}
           {nearest && from && <> · nearest location <b className="num">{distance(nearest)!.toFixed(1)} mi</b> from {from.label}</>}
         </p>
-        {(website || d.detail.employees) && (
+        {(website || d.detail.employees || d.detail.careersUrl) && (
           <p className="page-facts">
             {d.detail.employees ? <span><b className="num">{d.detail.employees.toLocaleString()}</b> employees</span> : null}
             {website && <a className="linkbtn" href={d.detail.website!} target="_blank" rel="noreferrer">{website} ↗</a>}
+            {d.detail.careersUrl && <a className="linkbtn" href={d.detail.careersUrl} target="_blank" rel="noreferrer">Careers ↗</a>}
           </p>
         )}
         {d.detail.description && !d.detail.description.toLowerCase().includes('synthetic') && <p className="page-about">{d.detail.description}</p>}
