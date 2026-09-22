@@ -65,6 +65,16 @@ public class SitePagesTests(SitePagesFactory factory) : IClassFixture<SitePagesF
     }
 
     [Fact]
+    public async Task A_company_with_no_salaries_has_no_salaries_page()
+    {
+        // The sample data has no job salaries: the page says so with a 404 rather than an empty page.
+        var res = await factory.CreateClient().GetAsync("/company/LFVN/salaries");
+
+        Assert.Equal(HttpStatusCode.NotFound, res.StatusCode);
+        Assert.DoesNotContain("/company/LFVN/salaries", await factory.CreateClient().GetStringAsync("/sitemap.xml"));
+    }
+
+    [Fact]
     public async Task The_home_page_links_every_area_and_the_largest_companies()
     {
         var html = await factory.CreateClient().GetStringAsync("/");

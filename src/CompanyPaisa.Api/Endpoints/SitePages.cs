@@ -48,6 +48,27 @@ public static partial class SitePages
             })
             .ExcludeFromDescription();
 
+        // What a company pays, on its own page: what people search for ("Apple software engineer salary").
+        app.MapGet("/company/{ticker}/salaries", async (string ticker, ICompanyRepository repository, PageRenderer pages, IndexHtml index,
+                HttpContext http, CancellationToken ct) =>
+            {
+                var company = await repository.GetCompanyAsync(ticker, ct);
+                var salaries = company is null ? [] : await repository.GetJobSalariesAsync(company.CompanyId, ct);
+                PageMeta? meta = null;
+                PageContent? content = null;
+                if (company is not null && salaries.Count > 0)
+                {
+                    content = await pages.SalariesAsync(company, ct);
+                    var titles = salaries.Count(j => j.City is null);
+                    meta = new PageMeta(
+                        $"{company.Name} ({company.Ticker}) salaries by job title · CompanyPaisa",
+                        $"What {company.Name} pays: {titles:N0} job titles with their typical yearly salary and range, by city, from the company's US job ads and work-visa wage filings.",
+                        $"/company/{Uri.EscapeDataString(company.Ticker.ToUpperInvariant())}/salaries");
+                }
+                return Page(index, meta, http, content);
+            })
+            .ExcludeFromDescription();
+
         app.MapGet("/executive/{personId}", async (string personId, ICompanyRepository repository, IOptionsMonitor<FeatureOptions> features,
                 PageRenderer pages, IndexHtml index, HttpContext http, CancellationToken ct) =>
             {
@@ -123,7 +144,12 @@ public static partial class SitePages
         var companies = await repository.GetCompaniesAsync(ct);
         var paths = new List<string> { "/" };
         paths.AddRange(ui.Coverage.Select(a => $"/near/{Uri.EscapeDataString(PlaceToken(a.ExampleZip, a.Country))}").Distinct());
-        paths.AddRange(companies.Select(c => $"/company/{Uri.EscapeDataString(c.Ticker.ToUpperInvariant())}"));
+        foreach (var c in companies)
+        {
+            var path = $"/company/{Uri.EscapeDataString(c.Ticker.ToUpperInvariant())}";
+            paths.Add(path);
+            if ((await repository.GetJobSalariesAsync(c.CompanyId, ct)).Count > 0) paths.Add(path + "/salaries");
+        }
         if (executives)
             paths.AddRange((await repository.GetExecutiveCompensationAsync(companies.Select(c => c.CompanyId), ct))
                 .Select(p => p.PersonId).Distinct(StringComparer.OrdinalIgnoreCase).Order(StringComparer.Ordinal)

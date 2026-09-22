@@ -3,6 +3,7 @@ import { api, ApiError } from './api/client';
 import type { ClientConfig, CompanySort, CompanySummary, DataMeta, ExecutiveSort, ExecutivesNearResponse, NearbyResponse, RoleFilter } from './api/types';
 import { AboutData } from './components/AboutData';
 import { CompanyPage } from './components/CompanyPage';
+import { SalariesPage } from './components/WorkforcePay';
 import { ConsentBanner } from './components/ConsentBanner';
 import { ExecutivePage } from './components/ExecutivePage';
 import { ExecutivesView } from './components/ExecutivesView';
@@ -347,7 +348,9 @@ export default function App() {
 
         {route.kind === 'company' && (
           <>
-            <CompanyPage ticker={route.ticker} from={nearby} showExecutives={showExecutives} onExplore={explore} onLoaded={setPageAbout} />
+            {route.salaries
+              ? <SalariesPage ticker={route.ticker} from={nearby} onLoaded={setPageAbout} />
+              : <CompanyPage ticker={route.ticker} from={nearby} showExecutives={showExecutives} onExplore={explore} onLoaded={setPageAbout} />}
             {footer}
           </>
         )}

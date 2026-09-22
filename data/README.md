@@ -6,6 +6,8 @@
 | `import-report.md` | What the last import included (per metro), excluded (and why), and rows that need review | Generated |
 | `import-report-enrichment.md` | The last `--enrich` run: websites, careers pages and street positions per market | Generated |
 | `import-report-salaries.md` | The last `--salaries` run: filings read and matched, the companies with most filings, and the biggest unmatched employers | Generated |
+| `import-report-postings.md` | The last `--postings` run: job boards found, ads read and the companies with the most | Generated |
+| `reference/job-boards.csv` | Each US company's job board (Greenhouse, Lever, Ashby, SmartRecruiters, Workday), or that none was found — edit to correct | Found from careers pages |
 | `reference/employer-aliases.csv` | Employers in the H-1B filings that are a listed company under another name ("Google LLC" → GOOGL) — add a line to match more | Hand-curated |
 | `reference/company-sites.csv` | Each company's website (and where it came from) and careers page, with the date it was last looked for — edit to correct | Wikidata (CC0), the exchanges, companies' own filings and websites |
 | `reference/geocoded-locations.csv` | Locations placed at their street address (with the address they were placed from) | US Census Bureau geocoder; © OpenStreetMap contributors (ODbL) |
@@ -203,6 +205,22 @@ The **CEO pay ratio** comes with the `sec` market import: each proxy statement i
 (median employee pay, CEO pay, "N to 1"), kept only when the amounts divide to the stated ratio and the CEO figure is
 near a total in the proxy's own pay table.
 
+## Salaries from job ads
+
+```bash
+dotnet run --project tools/CompanyPaisa.Importer -- --postings            # find boards, read ads, summarise
+dotnet run --project tools/CompanyPaisa.Importer -- --postings summary    # summarise the ads already seen
+```
+
+US pay-transparency laws make employers put a pay range in the job ad, and hiring systems publish each company's
+openings. This finds every US-listed company's board on **Greenhouse, Lever, Ashby, SmartRecruiters or Workday** (from its
+careers link or page, honouring robots.txt, or by its short name when the board clearly belongs to it) into
+`reference/job-boards.csv`, then reads the US ads and the pay range in each. Ads are remembered in
+`cache/postings/postings.db` (this computer only), so each ad's page is read once and every monthly run adds to a rolling
+12 months. The summary per company, job title and city goes into `job_salaries` with `source = 'postings'`: the number of
+ads, the typical bottom, middle and top of the advertised range, the lowest and highest, and a link to a current ad.
+Unlike the visa filings, these cover hourly and front-line jobs too.
+
 ## Database layout
 
 `companypaisa.db` is SQLite (open it with any SQLite browser). Tables: `companies`, `locations`, `financials`,
@@ -211,13 +229,15 @@ point at it by `filing_id`, with `https://www.sec.gov/Archives/edgar/data/` stor
 `data_version`, `as_of_date`, `source`, `region`). Every row has a `market` column: `sec`, `uk`, `eu` or `pk`, the importer run
 that wrote it. Publishing a market works on a copy, deletes and re-inserts that market's rows, reads the copy back with the
 API's own rules, and only then replaces the file — a failed import leaves the old file untouched. `PRAGMA user_version` is
-the layout version (3 since `worker_pay`, `job_salaries` and `extras`; 2 added `companies.careers_url`; an importer
+the layout version (4 since `job_salaries.source` and `.url`; 3 added `worker_pay`, `job_salaries` and `extras`; 2 added
+`companies.careers_url`; an importer
 upgrades an older file in place); the API refuses a
 file with another one.
 
 `worker_pay` holds each company's disclosed pay ratio by year (`median_pay`, `ceo_pay`, `ratio`, the proxy as `filing_id`;
-market-owned). `job_salaries` holds salaries by job title (`title`, `occupation`, `city`/`state`/`latitude`/`longitude` for
-work-place rows, empty for the company-wide row; `filings`, `low`, `median`, `high`, `min`, `max`); it isn't market-owned
+market-owned). `job_salaries` holds salaries by job title from two sources (`source`: `h1b` for the work-visa filings, `postings` for the
+companies' job ads, which also carry a current ad's `url`): `title`, `occupation`, `city`/`state`/`latitude`/`longitude` for
+work-place rows, empty for the company-wide row; `filings` (filings or ads), `low`, `median`, `high`, `min`, `max`. It isn't market-owned
 — `--salaries` replaces it whole, and a company that leaves its market takes its rows with it. `extras` holds the salary
 source and date range (`job_salaries.from`, `.to`, `.source`).
 

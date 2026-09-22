@@ -39,8 +39,9 @@ public interface ICompanyRepository
     Task<IReadOnlyList<JobSalary>> GetJobSalariesAsync(string companyId, CancellationToken ct = default) =>
         Task.FromResult<IReadOnlyList<JobSalary>>([]);
 
-    /// <summary>Where the job salaries come from, or null when there are none.</summary>
-    Task<JobSalarySource?> GetJobSalarySourceAsync(CancellationToken ct = default) => Task.FromResult<JobSalarySource?>(null);
+    /// <summary>Where each kind of job salaries comes from (visa filings, job ads); empty when there are none.</summary>
+    Task<IReadOnlyList<JobSalarySource>> GetJobSalarySourcesAsync(CancellationToken ct = default) =>
+        Task.FromResult<IReadOnlyList<JobSalarySource>>([]);
 
     Task<IReadOnlyList<string>> GetSectorsAsync(CancellationToken ct = default);
     Task<DataSetMetadata> GetMetadataAsync(CancellationToken ct = default);

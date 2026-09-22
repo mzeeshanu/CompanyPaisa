@@ -3,7 +3,7 @@ import { api } from '../api/client';
 import type { NameSearchResponse } from '../api/types';
 import { track } from '../lib/analytics';
 import { money } from '../lib/format';
-import { companyPath, Link, navigate, personPath } from '../lib/router';
+import { companyPath, Link, navigate, personPath, salariesPath } from '../lib/router';
 
 interface Props {
   showExecutives: boolean;
@@ -12,6 +12,10 @@ interface Props {
 }
 
 interface Option { key: string; path: string }
+
+/** Words that mean "show me what they pay", not part of a company's name ("apple salaries", "nvidia pay"). */
+const PAY_WORDS = /\b(salary|salaries|pay|wage|wages|compensation)\b/i;
+const ALL_PAY_WORDS = new RegExp(PAY_WORDS.source, 'gi');
 
 /** Find any company (name or ticker) or executive (name) and open their page, wherever they are. */
 export function NameSearch({ showExecutives, variant = 'bar' }: Props) {
@@ -22,16 +26,20 @@ export function NameSearch({ showExecutives, variant = 'bar' }: Props) {
   const box = useRef<HTMLDivElement>(null);
   const listId = useId();
 
+  // "apple salaries", "nvidia pay": the words say what they want, the rest is the company to look for.
+  const wantsPay = PAY_WORDS.test(text);
+  const query = wantsPay ? text.replace(ALL_PAY_WORDS, ' ').trim() : text.trim();
+
   // Ask as the visitor types (after a short pause), cancelling the previous question.
   useEffect(() => {
-    const q = text.trim();
+    const q = query;
     if (q.length < 2) { setResult(null); return; }
     const ctrl = new AbortController();
     const t = setTimeout(() => {
       api.searchByName(q, ctrl.signal).then(r => { setResult(r); setActive(0); }).catch(() => {});
     }, 180);
     return () => { clearTimeout(t); ctrl.abort(); };
-  }, [text]);
+  }, [query]);
 
   useEffect(() => {
     if (!open) return;
@@ -43,10 +51,10 @@ export function NameSearch({ showExecutives, variant = 'bar' }: Props) {
   const companies = result?.companies ?? [];
   const executives = showExecutives ? result?.executives ?? [] : [];
   const options: Option[] = [
-    ...companies.map(c => ({ key: `c:${c.ticker}`, path: companyPath(c.ticker) })),
+    ...companies.map(c => ({ key: `c:${c.ticker}`, path: wantsPay ? salariesPath(c.ticker) : companyPath(c.ticker) })),
     ...executives.map(e => ({ key: `p:${e.personId}`, path: personPath(e.personId) })),
   ];
-  const shown = open && text.trim().length >= 2 && result !== null;
+  const shown = open && query.length >= 2 && result !== null;
 
   const picked = () => { track('name_search', text.trim()); setOpen(false); setText(''); setResult(null); };
 
@@ -79,8 +87,8 @@ export function NameSearch({ showExecutives, variant = 'bar' }: Props) {
           {options.length === 0 && <p className="ns-empty">No company{showExecutives ? ' or executive' : ''} matches “{text.trim()}”.</p>}
           {companies.length > 0 && <p className="ns-h">Companies</p>}
           {companies.map((c, i) => (
-            <Link to={companyPath(c.ticker)} key={c.ticker} {...optionProps(i)}>
-              <span className="ns-main"><b>{c.name}</b><small>{c.ticker}{c.city ? ` · ${c.city}, ${c.state}` : ''}</small></span>
+            <Link to={wantsPay ? salariesPath(c.ticker) : companyPath(c.ticker)} key={c.ticker} {...optionProps(i)}>
+              <span className="ns-main"><b>{c.name}</b><small>{wantsPay ? 'salaries · ' : ''}{c.ticker}{c.city ? ` · ${c.city}, ${c.state}` : ''}</small></span>
               {c.ttmRevenue > 0 && <span className="ns-side num">{money(c.ttmRevenue, c.currency)}</span>}
             </Link>
           ))}

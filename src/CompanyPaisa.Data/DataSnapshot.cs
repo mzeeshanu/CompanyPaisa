@@ -15,7 +15,7 @@ public sealed class DataSnapshot
         NewExecutivesByCompany = Group(data.Appointments, e => e.CompanyId);
         WorkerPayByCompany = Group(data.WorkerPays, w => w.CompanyId);
         JobSalariesByCompany = Group(data.JobSalaries, j => j.CompanyId);
-        SalarySource = data.SalarySource;
+        SalarySources = data.SalarySources;
         Metadata = data.Metadata;
         CompaniesById = Companies.ToDictionary(c => c.CompanyId, StringComparer.OrdinalIgnoreCase);
         CompaniesByTicker = Companies.GroupBy(c => c.Ticker, StringComparer.OrdinalIgnoreCase)
@@ -45,7 +45,7 @@ public sealed class DataSnapshot
     public IReadOnlyDictionary<string, IReadOnlyList<NewExecutive>> NewExecutivesByCompany { get; }
     public IReadOnlyDictionary<string, IReadOnlyList<WorkerPay>> WorkerPayByCompany { get; }
     public IReadOnlyDictionary<string, IReadOnlyList<JobSalary>> JobSalariesByCompany { get; }
-    public JobSalarySource? SalarySource { get; }
+    public IReadOnlyList<JobSalarySource> SalarySources { get; }
     public IReadOnlyList<string> Sectors { get; }
 
     public Company? Find(string idOrTicker) =>

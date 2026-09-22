@@ -58,6 +58,10 @@ public sealed class SqliteDataStoreTests : IDisposable
             new JobSalary { CompanyId = "AAPL", Title = "Software Engineer", City = "Cupertino", State = "CA", Point = new GeoPoint(37.32, -122.03), Filings = 30, Min = 130_000m, Low = 160_000m, Median = 180_000m, High = 205_000m, Max = 260_000m },
             new JobSalary { CompanyId = "GONE", Title = "Analyst", Filings = 3, Min = 1, Low = 1, Median = 1, High = 1, Max = 1 }   // not a company here: dropped
         ], new JobSalarySource(new DateOnly(2024, 10, 1), new DateOnly(2026, 6, 30), "US Department of Labor"));
+        SqliteDataStore.ReplaceJobSalaries(_db,
+        [
+            new JobSalary { CompanyId = "AAPL", Source = JobSalary.JobAds, Title = "Retail Specialist", Url = "https://jobs.apple.com/1", Filings = 12, Min = 38_000m, Low = 40_000m, Median = 45_000m, High = 50_000m, Max = 55_000m }
+        ], new JobSalarySource(new DateOnly(2026, 3, 1), new DateOnly(2026, 9, 22), "Job ads", JobSalary.JobAds));
 
         // Another import of the market keeps the salaries (they aren't a market's rows) and replaces the ratio.
         SqliteDataStore.ReplaceMarket(_db, "sec", sec, Meta("sec-2"));
@@ -65,9 +69,11 @@ public sealed class SqliteDataStoreTests : IDisposable
 
         var ratio = Assert.Single(data.WorkerPays);
         Assert.Equal((114_738m, 74_294_811m, 647.5m, proxy), (ratio.MedianEmployeePay, ratio.CeoPay, ratio.Ratio, ratio.SourceFiling));
-        Assert.Equal(2, data.JobSalaries.Count);
+        Assert.Equal(3, data.JobSalaries.Count);
+        Assert.Equal("https://jobs.apple.com/1", data.JobSalaries.Single(j => j.Source == JobSalary.JobAds).Url);
         Assert.Equal(new GeoPoint(37.32, -122.03), data.JobSalaries.Single(j => j.City == "Cupertino").Point);
-        Assert.Equal(new DateOnly(2026, 6, 30), data.SalarySource!.To);
+        Assert.Equal(new DateOnly(2026, 6, 30), data.SalarySources.Single(s => s.Kind == JobSalary.VisaFilings).To);
+        Assert.Equal(new DateOnly(2026, 9, 22), data.SalarySources.Single(s => s.Kind == JobSalary.JobAds).To);
 
         // A company leaving the market takes its salaries with it.
         SqliteDataStore.ReplaceMarket(_db, "sec", Market("MSFT", 100m, proxy), Meta("sec-3"));

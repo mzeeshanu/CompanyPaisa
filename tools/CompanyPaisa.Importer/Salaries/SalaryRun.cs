@@ -128,7 +128,7 @@ public sealed partial class SalaryRun(IOptions<ImporterOptions> options, RepoPat
         var used = filings.Values.Where(f => f.Decided != DateOnly.MinValue).ToList();
         var source = new JobSalarySource(used.Min(f => f.Decided), used.Max(f => f.Decided),
             "US Department of Labor, H-1B labor condition applications (disclosure data)");
-        SqliteDataStore.ReplaceJobSalaries(dbPath, rows, source);
+        SqliteDataStore.ReplaceJobSalaries(dbPath, rows, source);   // Kind: visa filings
 
         report.Filings = filings.Count;
         report.Unmatched = unmatched;

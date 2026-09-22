@@ -7,11 +7,13 @@ import { useEffect, useState, type AnchorHTMLAttributes, type MouseEvent } from 
  */
 export type Route =
   | { kind: 'home'; search: { place: string; executives: boolean } | null }
-  | { kind: 'company'; ticker: string }
+  | { kind: 'company'; ticker: string; salaries: boolean }
   | { kind: 'executive'; personId: string };
 
 export const companyPath = (ticker: string) => `/company/${encodeURIComponent(ticker.toUpperCase())}`;
 export const personPath = (personId: string) => `/executive/${encodeURIComponent(personId)}`;
+/** What a company pays, by job title: its own page, so it can be shared and found. */
+export const salariesPath = (ticker: string) => `${companyPath(ticker)}/salaries`;
 
 /**
  * A place in a search address: "me" (the visitor's own location, never their coordinates), or a postcode without spaces;
@@ -28,10 +30,10 @@ export const searchPath = (place: string, executives: boolean) =>
 export function parseRoute(path: string): Route {
   const near = /^\/near\/([^/]+)(\/executives)?\/?$/.exec(path);
   if (near) return { kind: 'home', search: { place: decodeURIComponent(near[1]), executives: !!near[2] } };
-  const m = /^\/(company|executive)\/([^/]+)\/?$/.exec(path);
+  const m = /^\/(company|executive)\/([^/]+)(\/salaries)?\/?$/.exec(path);
   if (!m) return { kind: 'home', search: null };
   const id = decodeURIComponent(m[2]);
-  return m[1] === 'company' ? { kind: 'company', ticker: id.toUpperCase() } : { kind: 'executive', personId: id };
+  return m[1] === 'company' ? { kind: 'company', ticker: id.toUpperCase(), salaries: !!m[3] } : { kind: 'executive', personId: id };
 }
 
 /** How many pages deep into the site this tab is (0 = the page it was opened on), so "Back" knows whether it can go back. */

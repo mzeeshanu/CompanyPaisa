@@ -31,6 +31,7 @@ builder.Services.AddSingleton<CompanyPaisa.Importer.Eu.EuImportPipeline>();
 builder.Services.AddSingleton<CompanyPaisa.Importer.Pk.PkImportPipeline>();
 builder.Services.AddSingleton<CompanyPaisa.Importer.Enrichment.EnrichmentRun>();
 builder.Services.AddSingleton<CompanyPaisa.Importer.Salaries.SalaryRun>();
+builder.Services.AddSingleton<CompanyPaisa.Importer.Postings.PostingRun>();
 builder.Services.AddSingleton<CompanyPaisa.Importer.Publishing.DataPublisher>();
 builder.Services.AddSingleton<CompanyPaisa.Importer.Publishing.LegacyWorkbookMigration>();
 builder.Services.AddSingleton<CompanyPaisa.Importer.Validation.ValidationRun>();
@@ -160,6 +161,13 @@ if (args is ["--enrich", .. var steps])
     using var enrichCts = new CancellationTokenSource();
     Console.CancelKeyPress += (_, e) => { e.Cancel = true; enrichCts.Cancel(); };
     return await host.Services.GetRequiredService<CompanyPaisa.Importer.Enrichment.EnrichmentRun>().RunAsync(steps, enrichCts.Token);
+}
+// Salaries by job title from the pay ranges in companies' job ads: -- --postings [find] [fetch]
+if (args is ["--postings", .. var postingSteps])
+{
+    using var postingCts = new CancellationTokenSource();
+    Console.CancelKeyPress += (_, e) => { e.Cancel = true; postingCts.Cancel(); };
+    return await host.Services.GetRequiredService<CompanyPaisa.Importer.Postings.PostingRun>().RunAsync(postingSteps, postingCts.Token);
 }
 // Salaries by job title from the Department of Labor's H-1B wage filings: -- --salaries
 if (args.Contains("--salaries"))

@@ -15,6 +15,7 @@ public static partial class JobTitles
         var t = title.ToLowerInvariant().Replace('–', '-').Replace('—', '-');
         t = Parenthesised().Replace(t, " ");                 // "(JR12345)", "(Level 3)"
         t = TrailingCode().Replace(t, "");                   // "- 12345", "#JC-60"
+        t = TrailingPlace().Replace(t, "");                  // "- McLean, VA", ", Remote"
         t = Regex.Replace(t, @"[/,&]", " ");
         t = Regex.Replace(t, @"[^a-z0-9\s\-\.]", " ");
         var words = t.Split([' ', '.', '-'], StringSplitOptions.RemoveEmptyEntries).Select(w => Abbreviations.GetValueOrDefault(w, w));
@@ -36,11 +37,15 @@ public static partial class JobTitles
     {
         var t = Regex.Replace(title, @"\s*\([^)]*\d[^)]*\)", " ");
         t = TrailingCodeAnyCase().Replace(t.Trim(), "");
+        t = TrailingPlace().Replace(t, "");
         t = Regex.Replace(t, @"\s+", " ").Trim().TrimEnd('-', ',', '#', ' ');
         return t.Length > 0 ? t : title.Trim();
     }
 
     [GeneratedRegex(@"\s*(?:-|#|–)\s*[a-z]{0,4}[-#]?\d[\w-]*\s*$", RegexOptions.IgnoreCase)] private static partial Regex TrailingCodeAnyCase();
+    // "Developer Intern - McLean, VA", "Analyst, Remote", "Engineer (Hybrid)"
+    [GeneratedRegex(@"(?:\s+[-–|]\s+[a-z .']+,\s*[a-z]{2}|\s*[,(\-–]\s*(?:remote|hybrid|onsite|on-site)\)?)\s*$", RegexOptions.IgnoreCase)]
+    private static partial Regex TrailingPlace();
 
     private static readonly Dictionary<string, string> Abbreviations = new(StringComparer.Ordinal)
     {

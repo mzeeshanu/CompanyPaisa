@@ -156,7 +156,7 @@ public abstract class SnapshotRepository : ICompanyRepository, IDisposable
     public Task<IReadOnlyList<JobSalary>> GetJobSalariesAsync(string companyId, CancellationToken ct = default) =>
         Task.FromResult(Data.JobSalariesByCompany.GetValueOrDefault(companyId) ?? []);
 
-    public Task<JobSalarySource?> GetJobSalarySourceAsync(CancellationToken ct = default) => Task.FromResult(Data.SalarySource);
+    public Task<IReadOnlyList<JobSalarySource>> GetJobSalarySourcesAsync(CancellationToken ct = default) => Task.FromResult(Data.SalarySources);
 
     public Task<IReadOnlyList<string>> GetSectorsAsync(CancellationToken ct = default) => Task.FromResult(Data.Sectors);
 

@@ -1,5 +1,6 @@
 using CompanyPaisa.Contracts;
 using CompanyPaisa.Core.Abstractions;
+using CompanyPaisa.Core.Domain;
 using CompanyPaisa.Core.Mapping;
 using CompanyPaisa.Core.Messaging;
 using CompanyPaisa.Core.Options;
@@ -52,16 +53,24 @@ public sealed class GetJobSalariesHandler(ICompanyRepository repository) : IRequ
     {
         var c = await repository.GetCompanyAsync(q.Ticker, ct) ?? throw GetCompanyHandler.CompanyNotFound(q.Ticker);
         var rows = await repository.GetJobSalariesAsync(c.CompanyId, ct);
-        var source = rows.Count > 0 ? await repository.GetJobSalarySourceAsync(ct) : null;
-        var places = rows.Where(r => r.City is not null).ToLookup(r => r.Title, StringComparer.Ordinal);
-        var titles = rows.Where(r => r.City is null).OrderByDescending(r => r.Filings).ThenBy(r => r.Title, StringComparer.OrdinalIgnoreCase)
-            .Select(t => new JobSalaryDto(t.Title, t.Occupation, t.Filings, t.Low, t.Median, t.High, t.Min, t.Max,
-                places[t.Title].OrderByDescending(p => p.Filings)
-                    .Select(p => new JobSalaryPlaceDto(p.City!, p.State ?? "", p.Filings, p.Low, p.Median, p.High, p.Point?.Latitude, p.Point?.Longitude))
-                    .ToList()))
-            .ToList();
-        // H-1B filings are US jobs, paid in US dollars.
-        return new JobSalariesResponse(c.Ticker, "USD", source?.From, source?.To, source?.Source, titles);
+        var sources = rows.Count > 0 ? await repository.GetJobSalarySourcesAsync(ct) : [];
+        var sets = new List<JobSalarySetDto>();
+        // Job ads first: they cover every kind of job the company is hiring for.
+        foreach (var source in sources.OrderBy(s => s.Kind == JobSalary.JobAds ? 0 : 1))
+        {
+            var mine = rows.Where(r => r.Source == source.Kind).ToList();
+            if (mine.Count == 0) continue;
+            var places = mine.Where(r => r.City is not null).ToLookup(r => r.Title, StringComparer.Ordinal);
+            var titles = mine.Where(r => r.City is null).OrderByDescending(r => r.Filings).ThenBy(r => r.Title, StringComparer.OrdinalIgnoreCase)
+                .Select(t => new JobSalaryDto(t.Title, t.Occupation, t.Filings, t.Low, t.Median, t.High, t.Min, t.Max,
+                    places[t.Title].OrderByDescending(p => p.Filings)
+                        .Select(p => new JobSalaryPlaceDto(p.City!, p.State ?? "", p.Filings, p.Low, p.Median, p.High, p.Point?.Latitude, p.Point?.Longitude))
+                        .ToList(), t.Url))
+                .ToList();
+            sets.Add(new JobSalarySetDto(source.Kind, source.From, source.To, source.Source, titles));
+        }
+        // Both sources are US jobs, paid in US dollars.
+        return new JobSalariesResponse(c.Ticker, "USD", sets);
     }
 }
 

@@ -14,7 +14,7 @@ public sealed record CompanyData(
     IReadOnlyList<NewExecutive>? NewExecutives = null,
     IReadOnlyList<WorkerPay>? WorkerPayRows = null,
     IReadOnlyList<JobSalary>? JobSalaryRows = null,
-    JobSalarySource? SalarySource = null)
+    IReadOnlyList<JobSalarySource>? SalarySourceRows = null)
 {
     /// <summary>Officer appointments with their announced packages (only the SEC importer produces these).</summary>
     public IReadOnlyList<NewExecutive> Appointments => NewExecutives ?? [];
@@ -24,6 +24,9 @@ public sealed record CompanyData(
 
     /// <summary>Salaries by job title from H-1B wage filings.</summary>
     public IReadOnlyList<JobSalary> JobSalaries => JobSalaryRows ?? [];
+
+    /// <summary>Where each kind of job salaries comes from.</summary>
+    public IReadOnlyList<JobSalarySource> SalarySources => SalarySourceRows ?? [];
 
     /// <summary>
     /// Several parts (markets, workbooks) as one data set. The same person id in two parts is the same person (first record
@@ -48,7 +51,7 @@ public sealed record CompanyData(
             parts.SelectMany(p => p.Appointments).ToList(),
             parts.SelectMany(p => p.WorkerPays).ToList(),
             parts.SelectMany(p => p.JobSalaries).ToList(),
-            parts.Select(p => p.SalarySource).FirstOrDefault(s => s is not null));
+            parts.SelectMany(p => p.SalarySources).DistinctBy(s => s.Kind).ToList());
     }
 }
 

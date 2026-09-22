@@ -95,14 +95,18 @@ public sealed class PageRenderer(
                              $"the company's median employee earned (as the company disclosed it in its proxy statement).").Close("p");
         }
 
-        if (jobs.Count > 0 && await repository.GetJobSalarySourceAsync(ct) is { } source)
+        foreach (var source in (jobs.Count > 0 ? await repository.GetJobSalarySourcesAsync(ct) : []).OrderBy(s => s.Kind == JobSalary.JobAds ? 0 : 1))
         {
-            h.Open("h2").Text("Salaries by job title").Close("h2");
-            h.Open("p").Text($"What {c.Name} offered in its US work-visa (H-1B) wage filings, {source.From:MMM yyyy} to {source.To:MMM yyyy}. " +
-                             "Median yearly salary, and the middle half of the offers.").Close("p");
-            h.Table(["Job title", "Filings", "Median", "Middle half"],
-                jobs.Take(25).Select(j => new[] { j.Title, j.Filings.ToString("N0", CultureInfo.InvariantCulture), Money(j.Median, "USD"), $"{Money(j.Low, "USD")} – {Money(j.High, "USD")}" }));
-            if (jobs.Count > 25) h.Open("p").Text($"And {jobs.Count - 25:N0} more job titles.").Close("p");
+            var mine = jobs.Where(j => j.Source == source.Kind).ToList();
+            if (mine.Count == 0) continue;
+            var ads = source.Kind == JobSalary.JobAds;
+            h.Open("h2").Text(ads ? "Salaries in its job ads" : "Salaries in its work-visa filings").Close("h2");
+            h.Open("p").Text(ads
+                ? $"The pay ranges {c.Name} advertised in its US job ads, {source.From:MMM yyyy} to {source.To:MMM yyyy}: the typical range for each job title."
+                : $"What {c.Name} offered in its US work-visa (H-1B) wage filings, {source.From:MMM yyyy} to {source.To:MMM yyyy}. Median yearly salary, and the middle half of the offers.").Close("p");
+            h.Table(["Job title", ads ? "Ads" : "Filings", ads ? "Middle" : "Median", ads ? "Typical range" : "Middle half"],
+                mine.Take(25).Select(j => new[] { j.Title, j.Filings.ToString("N0", CultureInfo.InvariantCulture), Money(j.Median, "USD"), $"{Money(j.Low, "USD")} – {Money(j.High, "USD")}" }));
+            if (mine.Count > 25) h.Open("p").Text($"And {mine.Count - 25:N0} more job titles.").Close("p");
         }
 
         if (locations.Count > 1)
@@ -125,6 +129,39 @@ public sealed class PageRenderer(
             }
         };
         return new PageContent(h.ToString(), data);
+    }
+
+    // ---- Salaries ------------------------------------------------------------------------------------------------
+
+    /// <summary>A company's salaries on their own page: every job title from each source, with its places.</summary>
+    public async Task<PageContent> SalariesAsync(Company c, CancellationToken ct)
+    {
+        var rows = await repository.GetJobSalariesAsync(c.CompanyId, ct);
+        var sources = await repository.GetJobSalarySourcesAsync(ct);
+        var h = new Html();
+        h.Open("h1").Text($"Salaries at {c.Name} ({c.Ticker})").Close("h1");
+        h.Open("p").Text("What the company pays by job title, from its own US job ads and its work-visa wage filings. ")
+            .Link(CompanyPath(c), $"{c.Name}'s revenue, profit and executive pay").Close("p");
+
+        foreach (var source in sources.OrderBy(s => s.Kind == JobSalary.JobAds ? 0 : 1))
+        {
+            var titles = rows.Where(r => r.Source == source.Kind && r.City is null).OrderByDescending(r => r.Filings).ToList();
+            if (titles.Count == 0) continue;
+            var ads = source.Kind == JobSalary.JobAds;
+            var places = rows.Where(r => r.Source == source.Kind && r.City is not null).ToLookup(r => r.Title, StringComparer.Ordinal);
+            h.Open("h2").Text(ads ? $"In {c.Name}'s job ads ({source.From:MMM yyyy} – {source.To:MMM yyyy})" : $"In its work-visa filings ({source.From:MMM yyyy} – {source.To:MMM yyyy})").Close("h2");
+            h.Open("p").Text(ads
+                ? "US pay-transparency laws require a pay range in the ad. Below: how many ads, the typical middle of the range, and the typical bottom to top."
+                : "The salary the company committed to pay. Below: how many filings, the median, and the middle half of the offers.").Close("p");
+            h.Table(["Job title", ads ? "Ads" : "Filings", ads ? "Middle" : "Median", ads ? "Typical range" : "Middle half", "Where"],
+                titles.Select(t => new[]
+                {
+                    t.Title, t.Filings.ToString("N0", CultureInfo.InvariantCulture), Money(t.Median, "USD"), $"{Money(t.Low, "USD")} – {Money(t.High, "USD")}",
+                    string.Join(", ", places[t.Title].OrderByDescending(p => p.Filings).Take(4).Select(p => $"{p.City}, {p.State} {Money(p.Median, "USD")}"))
+                }));
+        }
+        h.Open("p").Text("Figures are from the company's own job ads and filings. ").Link("/", "Find public companies near you").Close("p");
+        return new PageContent(h.ToString());
     }
 
     // ---- Executive -----------------------------------------------------------------------------------------------

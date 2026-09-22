@@ -3,7 +3,7 @@ import * as d3 from 'd3';
 import { api, ApiError } from '../api/client';
 import type { CompanyDetail, CompanyInsights, Executive, FinancialPeriod, GeoPoint, Location, PeriodType } from '../api/types';
 import { money, pct, tone, trendClass } from '../lib/format';
-import { Link, personPath, placeToken } from '../lib/router';
+import { Link, personPath, placeToken, salariesPath } from '../lib/router';
 import { AtAGlance, NewLeadership, PayVsPeersCard, SimilarCompanies } from './CompanyInsights';
 import { Filing } from './Filing';
 import { JobSalaries, PayRatioCard } from './WorkforcePay';
@@ -115,6 +115,12 @@ export function CompanyPage({ ticker, from, showExecutives, onExplore, onLoaded 
             {d.detail.employees ? <span><b className="num">{d.detail.employees.toLocaleString()}</b> employees</span> : null}
             {website && <a className="linkbtn" href={d.detail.website!} target="_blank" rel="noreferrer">{website} ↗</a>}
             {d.detail.careersUrl && <a className="linkbtn" href={d.detail.careersUrl} target="_blank" rel="noreferrer">Careers ↗</a>}
+            {/* Straight to what the company pays: the first thing a job seeker is after. */}
+            {d.detail.salaryTitles ? (
+              <Link className="linkbtn salaries-link" to={salariesPath(d.detail.ticker)}>
+                Salaries <b className="num">{d.detail.salaryTitles.toLocaleString()}</b> jobs →
+              </Link>
+            ) : null}
           </p>
         )}
         {d.detail.description && !d.detail.description.toLowerCase().includes('synthetic') && <p className="page-about">{d.detail.description}</p>}

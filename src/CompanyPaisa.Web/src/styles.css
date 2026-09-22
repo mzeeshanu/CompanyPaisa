@@ -645,3 +645,10 @@ a.peer-name:hover b{text-decoration:underline;text-underline-offset:3px}
 .ssr th,.ssr td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--hair)}
 .ssr a{color:var(--accent)}
 .ssr ul,.ssr ol{padding-left:20px}
+.job-sources{align-self:flex-start;display:flex;gap:4px}
+.job-sources button{height:30px;padding:0 14px;border-radius:999px;border:1px solid var(--hair-2);background:transparent;cursor:pointer;font:600 12px var(--body);color:var(--dim)}
+.job-sources button[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--ground)}
+.job-sources button[aria-pressed="true"] small{color:var(--ground);opacity:.7}
+.job-sources small{margin-left:6px;color:var(--faint)}
+.job-ad{display:inline-block;margin:0 14px 12px}
+.salaries-link b{margin:0 2px}

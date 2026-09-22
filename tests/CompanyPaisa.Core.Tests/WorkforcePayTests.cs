@@ -67,7 +67,10 @@ public class WorkforcePayTests
         Assert.Equal("Software Engineer II", JobTitles.Display(["SOFTWARE ENGINEER II"]));
         // The employer's internal codes aren't part of the title.
         Assert.Equal("Software Engineer III", JobTitles.Display(["Software Engineer III (20831.45)", "Software Engineer III (20831.45)", "Software Engineer III"]));
-        Assert.Equal("Data Scientist", JobTitles.Display(["Data Scientist - JR60123"]));    }
+        Assert.Equal("Data Scientist", JobTitles.Display(["Data Scientist - JR60123"]));
+        // Nor is the place the ad is for.
+        Assert.Equal("Software Developer Intern", JobTitles.Display(["Software Developer Intern - McLean, VA"]));
+        Assert.Equal(JobTitles.Key("Data Analyst"), JobTitles.Key("Data Analyst, Remote"));    }
 
     [Theory]
     [InlineData("The Goldman Sachs Group, Inc.", "goldman sachs")]

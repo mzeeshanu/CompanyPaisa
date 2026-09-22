@@ -1,4 +1,4 @@
-# Data validation report — 2026-09-22 10:30 UTC
+# Data validation report — 2026-09-22 17:35 UTC
 
 Checks everything in `companypaisa.db` together, as the website sees it — markets: uk (uk-2026.09.14), eu (eu-2026.09.15), pk (pk-2026.09.19), sec (sec-2026.09.22).
 

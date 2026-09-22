@@ -15,10 +15,10 @@ public static class SqliteDataStore
 {
     /// <summary>Bumped whenever the table layout changes; an older file is refused rather than misread.</summary>
     /// <remarks>
-    /// 2: companies.careers_url. 3: worker_pay (median employee and CEO pay ratio), job_salaries and extras. An older file
-    /// is upgraded in place when an importer writes to it.
+    /// 2: companies.careers_url. 3: worker_pay (median employee and CEO pay ratio), job_salaries and extras. 4:
+    /// job_salaries.source (visa filings or job ads) and .url. An older file is upgraded in place when an importer writes to it.
     /// </remarks>
-    public const int SchemaVersion = 3;
+    public const int SchemaVersion = 4;
 
     // Amounts are NUMERIC: whole numbers (nearly all of them) are stored as compact integers, fractions (EPS) as REAL.
     // No per-market indexes: replacing a market scans each table once, which takes well under a second.
@@ -53,7 +53,8 @@ public static class SqliteDataStore
             ratio NUMERIC NOT NULL, filing_id INTEGER REFERENCES filings(id));
         CREATE TABLE IF NOT EXISTS job_salaries (
             company_id TEXT NOT NULL, title TEXT NOT NULL, occupation TEXT, city TEXT, state TEXT, latitude REAL, longitude REAL,
-            filings INTEGER NOT NULL, low NUMERIC NOT NULL, median NUMERIC NOT NULL, high NUMERIC NOT NULL, min NUMERIC NOT NULL, max NUMERIC NOT NULL);
+            filings INTEGER NOT NULL, low NUMERIC NOT NULL, median NUMERIC NOT NULL, high NUMERIC NOT NULL, min NUMERIC NOT NULL, max NUMERIC NOT NULL,
+            source TEXT NOT NULL DEFAULT 'h1b', url TEXT);
         CREATE TABLE IF NOT EXISTS extras (key TEXT NOT NULL PRIMARY KEY, value TEXT NOT NULL);
         """;
 
@@ -138,8 +139,8 @@ public static class SqliteDataStore
         """;
 
     /// <summary>
-    /// Replaces every job salary (they come from one national source, not from a market's import), keeping only rows for
-    /// companies in the file. Same safety as <see cref="ReplaceMarket"/>: written to a copy, checked, then swapped in.
+    /// Replaces one source's job salaries (visa filings or job ads; they come from national sources, not from a market's
+    /// import), keeping only rows for companies in the file. Same safety as <see cref="ReplaceMarket"/>: written to a copy, checked, then swapped in.
     /// </summary>
     public static void ReplaceJobSalaries(string path, IReadOnlyList<JobSalary> rows, JobSalarySource source)
     {
@@ -153,21 +154,22 @@ public static class SqliteDataStore
                 Prepare(db, path);
                 using (var tx = db.BeginTransaction())
                 {
-                    Execute(db, "DELETE FROM job_salaries");
+                    Execute(db, "DELETE FROM job_salaries WHERE source = $s", ("$s", source.Kind));
                     using (var cmd = Command(db, """
-                        INSERT INTO job_salaries (company_id, title, occupation, city, state, latitude, longitude, filings, low, median, high, min, max)
-                        VALUES ($0, $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
-                        """, null, 13))
+                        INSERT INTO job_salaries (company_id, title, occupation, city, state, latitude, longitude, filings, low, median, high, min, max, source, url)
+                        VALUES ($0, $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
+                        """, null, 15))
                         foreach (var j in rows)
                             Run(cmd, j.CompanyId, j.Title, j.Occupation, j.City, j.State, j.Point?.Latitude, j.Point?.Longitude,
-                                j.Filings, j.Low, j.Median, j.High, j.Min, j.Max);
+                                j.Filings, j.Low, j.Median, j.High, j.Min, j.Max, source.Kind, j.Url);
                     Execute(db, OrphanSalaries);
-                    Execute(db, "DELETE FROM extras WHERE key LIKE 'job_salaries.%'");
+                    Execute(db, "DELETE FROM extras WHERE key LIKE $k", ("$k", $"job_salaries.{source.Kind}.%"));
+                    if (source.Kind == JobSalary.VisaFilings) Execute(db, "DELETE FROM extras WHERE key IN ('job_salaries.from', 'job_salaries.to', 'job_salaries.source')");
                     using (var cmd = Command(db, "INSERT INTO extras (key, value) VALUES ($0, $1)", null, 2))
                     {
-                        Run(cmd, "job_salaries.from", source.From.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture));
-                        Run(cmd, "job_salaries.to", source.To.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture));
-                        Run(cmd, "job_salaries.source", source.Source);
+                        Run(cmd, $"job_salaries.{source.Kind}.from", source.From.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture));
+                        Run(cmd, $"job_salaries.{source.Kind}.to", source.To.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture));
+                        Run(cmd, $"job_salaries.{source.Kind}.source", source.Source);
                     }
                     tx.Commit();
                 }
@@ -221,11 +223,16 @@ public static class SqliteDataStore
     private static void Prepare(SqliteConnection db, string path)
     {
         var version = Convert.ToInt32(Scalar(db, "PRAGMA user_version"), CultureInfo.InvariantCulture);
-        if (version is not (0 or 1 or 2) && version != SchemaVersion)
+        if (version is not (0 or 1 or 2 or 3) && version != SchemaVersion)
             throw new InvalidOperationException($"'{path}' uses database layout {version}, this code writes {SchemaVersion}. " +
                                                 "Rebuild it: delete the file and run every importer (or --migrate-xlsx).");
         Execute(db, Schema);
         if (version == 1) Execute(db, "ALTER TABLE companies ADD COLUMN careers_url TEXT");
+        if (version == 3)
+        {
+            Execute(db, "ALTER TABLE job_salaries ADD COLUMN source TEXT NOT NULL DEFAULT 'h1b'");
+            Execute(db, "ALTER TABLE job_salaries ADD COLUMN url TEXT");
+        }
         Execute(db, $"PRAGMA user_version = {SchemaVersion}");
     }
 
@@ -336,21 +343,17 @@ public static class SqliteDataStore
             Ratio = Money(r, 4)!.Value, SourceFiling = Filing(r, 5)
         });
         var jobSalaries = Query(db, """
-            SELECT company_id, title, occupation, city, state, latitude, longitude, filings, low, median, high, min, max FROM job_salaries ORDER BY rowid
+            SELECT company_id, title, occupation, city, state, latitude, longitude, filings, low, median, high, min, max, source, url FROM job_salaries ORDER BY rowid
             """, r => new JobSalary
         {
             CompanyId = r.GetString(0), Title = r.GetString(1), Occupation = Text(r, 2), City = Text(r, 3), State = Text(r, 4),
             Point = r.IsDBNull(5) || r.IsDBNull(6) ? null : new GeoPoint(r.GetDouble(5), r.GetDouble(6)),
             Filings = r.GetInt32(7), Low = Money(r, 8)!.Value, Median = Money(r, 9)!.Value, High = Money(r, 10)!.Value,
-            Min = Money(r, 11)!.Value, Max = Money(r, 12)!.Value
+            Min = Money(r, 11)!.Value, Max = Money(r, 12)!.Value, Source = r.GetString(13), Url = Text(r, 14)
         });
         var extras = Query(db, "SELECT key, value FROM extras", r => (Key: r.GetString(0), Value: r.GetString(1)))
             .ToDictionary(x => x.Key, x => x.Value, StringComparer.Ordinal);
-        JobSalarySource? salarySource = jobSalaries.Count > 0 &&
-                                        DateOnly.TryParse(extras.GetValueOrDefault("job_salaries.from"), CultureInfo.InvariantCulture, out var from) &&
-                                        DateOnly.TryParse(extras.GetValueOrDefault("job_salaries.to"), CultureInfo.InvariantCulture, out var to)
-            ? new JobSalarySource(from, to, extras.GetValueOrDefault("job_salaries.source", ""))
-            : null;
+        var salarySources = jobSalaries.Select(j => j.Source).Distinct().Select(kind => SalarySource(extras, kind)).OfType<JobSalarySource>().ToList();
         var people = Query(db, "SELECT person_id, name, sec_cik FROM people ORDER BY rowid",
                 r => new Person { PersonId = r.GetString(0), Name = r.GetString(1), SecCik = Text(r, 2) })
             .DistinctBy(p => p.PersonId, StringComparer.OrdinalIgnoreCase).ToList();
@@ -364,7 +367,17 @@ public static class SqliteDataStore
             meta.Any(m => bool.TryParse(m.GetValueOrDefault("is_sample"), out var s) && s),
             loadedAt);
 
-        return new CompanyData(companies, locations, financials, pay, people, metadata, appointments, workerPay, jobSalaries, salarySource);
+        return new CompanyData(companies, locations, financials, pay, people, metadata, appointments, workerPay, jobSalaries, salarySources);
+    }
+
+    /// <summary>A source's date range from the extras table (layout 3 stored the visa filings' without the kind).</summary>
+    private static JobSalarySource? SalarySource(Dictionary<string, string> extras, string kind)
+    {
+        string? Get(string key) => extras.GetValueOrDefault($"job_salaries.{kind}.{key}") ??
+                                   (kind == JobSalary.VisaFilings ? extras.GetValueOrDefault($"job_salaries.{key}") : null);
+        return DateOnly.TryParse(Get("from"), CultureInfo.InvariantCulture, out var from) && DateOnly.TryParse(Get("to"), CultureInfo.InvariantCulture, out var to)
+            ? new JobSalarySource(from, to, Get("source") ?? "", kind)
+            : null;
     }
 
     /// <summary>The markets in the file and each one's metadata (for reports).</summary>

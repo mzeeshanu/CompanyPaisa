@@ -78,9 +78,14 @@ export interface CompanyDetail {
 export interface WorkerPay { year: number; medianEmployeePay: number; ceoPay: number; ratio: number; currency: string; sourceFiling: string | null }
 
 export interface JobSalaryPlace { city: string; state: string; filings: number; low: number; median: number; high: number; latitude: number | null; longitude: number | null }
-/** Yearly salary offered for one job title: low = 25th percentile, high = 75th. */
-export interface JobSalary { title: string; occupation: string | null; filings: number; low: number; median: number; high: number; min: number; max: number; places: JobSalaryPlace[] }
-export interface JobSalariesResponse { ticker: string; currency: string; from: string | null; to: string | null; source: string | null; titles: JobSalary[] }
+/**
+ * Yearly salary for one job title. Visa filings: low = 25th percentile, high = 75th of the salaries offered. Job ads: the
+ * typical bottom and top of the advertised range; `url` is a current ad. `filings` counts filings or ads.
+ */
+export interface JobSalary { title: string; occupation: string | null; filings: number; low: number; median: number; high: number; min: number; max: number; places: JobSalaryPlace[]; url?: string | null }
+/** One source: 'postings' (pay ranges in the company's job ads) or 'h1b' (its work-visa wage filings). */
+export interface JobSalarySet { kind: 'postings' | 'h1b'; from: string; to: string; source: string; titles: JobSalary[] }
+export interface JobSalariesResponse { ticker: string; currency: string; sources: JobSalarySet[] }
 
 export interface FinancialPeriod {
   label: string; fiscalYear: number; fiscalQuarter: number | null; periodType: PeriodType;
