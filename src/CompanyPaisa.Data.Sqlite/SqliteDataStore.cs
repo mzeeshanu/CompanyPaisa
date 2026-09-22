@@ -14,8 +14,11 @@ namespace CompanyPaisa.Data.Sqlite;
 public static class SqliteDataStore
 {
     /// <summary>Bumped whenever the table layout changes; an older file is refused rather than misread.</summary>
-    /// <remarks>2: companies.careers_url (a layout-1 file is upgraded in place when an importer writes to it).</remarks>
-    public const int SchemaVersion = 2;
+    /// <remarks>
+    /// 2: companies.careers_url. 3: worker_pay (median employee and CEO pay ratio), job_salaries and extras. An older file
+    /// is upgraded in place when an importer writes to it.
+    /// </remarks>
+    public const int SchemaVersion = 3;
 
     // Amounts are NUMERIC: whole numbers (nearly all of them) are stored as compact integers, fractions (EPS) as REAL.
     // No per-market indexes: replacing a market scans each table once, which takes well under a second.
@@ -45,6 +48,13 @@ public static class SqliteDataStore
         CREATE TABLE IF NOT EXISTS new_executives (
             company_id TEXT NOT NULL, market TEXT NOT NULL, person_id TEXT, name TEXT NOT NULL, title TEXT NOT NULL,
             announced_on TEXT NOT NULL, starts_on TEXT, filing_id INTEGER REFERENCES filings(id), package TEXT NOT NULL);
+        CREATE TABLE IF NOT EXISTS worker_pay (
+            company_id TEXT NOT NULL, market TEXT NOT NULL, year INTEGER NOT NULL, median_pay NUMERIC NOT NULL, ceo_pay NUMERIC NOT NULL,
+            ratio NUMERIC NOT NULL, filing_id INTEGER REFERENCES filings(id));
+        CREATE TABLE IF NOT EXISTS job_salaries (
+            company_id TEXT NOT NULL, title TEXT NOT NULL, occupation TEXT, city TEXT, state TEXT, latitude REAL, longitude REAL,
+            filings INTEGER NOT NULL, low NUMERIC NOT NULL, median NUMERIC NOT NULL, high NUMERIC NOT NULL, min NUMERIC NOT NULL, max NUMERIC NOT NULL);
+        CREATE TABLE IF NOT EXISTS extras (key TEXT NOT NULL PRIMARY KEY, value TEXT NOT NULL);
         """;
 
     private static readonly JsonSerializerOptions PackageJson = new(JsonSerializerDefaults.Web)
@@ -73,7 +83,11 @@ public static class SqliteDataStore
         return stored;
     }
 
-    private static readonly string[] Tables = ["companies", "locations", "financials", "executive_compensation", "people", "new_executives", "meta"];
+    /// <summary>The tables whose rows belong to a market. job_salaries doesn't: the --salaries step replaces it whole.</summary>
+    private static readonly string[] Tables = ["companies", "locations", "financials", "executive_compensation", "people", "new_executives", "worker_pay", "meta"];
+
+    /// <summary>A company a market no longer lists takes its job salaries with it.</summary>
+    private const string OrphanSalaries = "DELETE FROM job_salaries WHERE company_id COLLATE NOCASE NOT IN (SELECT company_id FROM companies)";
 
     /// <summary>
     /// Replaces one market's rows. Works on a copy that is read back and checked with the API's own rules before it
@@ -107,6 +121,7 @@ public static class SqliteDataStore
             {
                 foreach (var table in Tables) Execute(db, $"DELETE FROM {table} WHERE market = $m", ("$m", market));
                 Insert(db, market, data, meta);
+                Execute(db, OrphanSalaries);
                 Execute(db, UnusedFilings);
                 tx.Commit();
             }
@@ -118,8 +133,54 @@ public static class SqliteDataStore
         DELETE FROM filings WHERE id NOT IN (
             SELECT filing_id FROM financials WHERE filing_id IS NOT NULL
             UNION SELECT filing_id FROM executive_compensation WHERE filing_id IS NOT NULL
-            UNION SELECT filing_id FROM new_executives WHERE filing_id IS NOT NULL)
+            UNION SELECT filing_id FROM new_executives WHERE filing_id IS NOT NULL
+            UNION SELECT filing_id FROM worker_pay WHERE filing_id IS NOT NULL)
         """;
+
+    /// <summary>
+    /// Replaces every job salary (they come from one national source, not from a market's import), keeping only rows for
+    /// companies in the file. Same safety as <see cref="ReplaceMarket"/>: written to a copy, checked, then swapped in.
+    /// </summary>
+    public static void ReplaceJobSalaries(string path, IReadOnlyList<JobSalary> rows, JobSalarySource source)
+    {
+        var staging = path + ".new";
+        if (File.Exists(staging)) File.Delete(staging);
+        File.Copy(path, staging);
+        try
+        {
+            using (var db = Open(staging, readOnly: false))
+            {
+                Prepare(db, path);
+                using (var tx = db.BeginTransaction())
+                {
+                    Execute(db, "DELETE FROM job_salaries");
+                    using (var cmd = Command(db, """
+                        INSERT INTO job_salaries (company_id, title, occupation, city, state, latitude, longitude, filings, low, median, high, min, max)
+                        VALUES ($0, $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
+                        """, null, 13))
+                        foreach (var j in rows)
+                            Run(cmd, j.CompanyId, j.Title, j.Occupation, j.City, j.State, j.Point?.Latitude, j.Point?.Longitude,
+                                j.Filings, j.Low, j.Median, j.High, j.Min, j.Max);
+                    Execute(db, OrphanSalaries);
+                    Execute(db, "DELETE FROM extras WHERE key LIKE 'job_salaries.%'");
+                    using (var cmd = Command(db, "INSERT INTO extras (key, value) VALUES ($0, $1)", null, 2))
+                    {
+                        Run(cmd, "job_salaries.from", source.From.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture));
+                        Run(cmd, "job_salaries.to", source.To.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture));
+                        Run(cmd, "job_salaries.source", source.Source);
+                    }
+                    tx.Commit();
+                }
+                Execute(db, "VACUUM");
+            }
+            DataRules.Check(Read(staging, DateTimeOffset.UtcNow), staging);
+            File.Move(staging, path, overwrite: true);
+        }
+        finally
+        {
+            if (File.Exists(staging)) File.Delete(staging);
+        }
+    }
 
     /// <summary>
     /// Replaces one market's officer appointments only, leaving its companies and pay as they are (a separate, quicker
@@ -153,11 +214,14 @@ public static class SqliteDataStore
         }
     }
 
-    /// <summary>Creates the tables, or brings an older layout up to date (layout 1 → 2 adds companies.careers_url).</summary>
+    /// <summary>
+    /// Creates the tables, or brings an older layout up to date (layout 1 → 2 adds companies.careers_url; 2 → 3 only adds
+    /// tables, which the CREATE IF NOT EXISTS schema does).
+    /// </summary>
     private static void Prepare(SqliteConnection db, string path)
     {
         var version = Convert.ToInt32(Scalar(db, "PRAGMA user_version"), CultureInfo.InvariantCulture);
-        if (version is not (0 or 1) && version != SchemaVersion)
+        if (version is not (0 or 1 or 2) && version != SchemaVersion)
             throw new InvalidOperationException($"'{path}' uses database layout {version}, this code writes {SchemaVersion}. " +
                                                 "Rebuild it: delete the file and run every importer (or --migrate-xlsx).");
         Execute(db, Schema);
@@ -266,6 +330,27 @@ public static class SqliteDataStore
                 SourceFiling = Filing(r, 6),
                 Package = JsonSerializer.Deserialize<List<PackageItem>>(r.GetString(7), PackageJson) ?? []
             });
+        var workerPay = Query(db, "SELECT company_id, year, median_pay, ceo_pay, ratio, filing_id FROM worker_pay ORDER BY rowid", r => new WorkerPay
+        {
+            CompanyId = r.GetString(0), Year = r.GetInt32(1), MedianEmployeePay = Money(r, 2)!.Value, CeoPay = Money(r, 3)!.Value,
+            Ratio = Money(r, 4)!.Value, SourceFiling = Filing(r, 5)
+        });
+        var jobSalaries = Query(db, """
+            SELECT company_id, title, occupation, city, state, latitude, longitude, filings, low, median, high, min, max FROM job_salaries ORDER BY rowid
+            """, r => new JobSalary
+        {
+            CompanyId = r.GetString(0), Title = r.GetString(1), Occupation = Text(r, 2), City = Text(r, 3), State = Text(r, 4),
+            Point = r.IsDBNull(5) || r.IsDBNull(6) ? null : new GeoPoint(r.GetDouble(5), r.GetDouble(6)),
+            Filings = r.GetInt32(7), Low = Money(r, 8)!.Value, Median = Money(r, 9)!.Value, High = Money(r, 10)!.Value,
+            Min = Money(r, 11)!.Value, Max = Money(r, 12)!.Value
+        });
+        var extras = Query(db, "SELECT key, value FROM extras", r => (Key: r.GetString(0), Value: r.GetString(1)))
+            .ToDictionary(x => x.Key, x => x.Value, StringComparer.Ordinal);
+        JobSalarySource? salarySource = jobSalaries.Count > 0 &&
+                                        DateOnly.TryParse(extras.GetValueOrDefault("job_salaries.from"), CultureInfo.InvariantCulture, out var from) &&
+                                        DateOnly.TryParse(extras.GetValueOrDefault("job_salaries.to"), CultureInfo.InvariantCulture, out var to)
+            ? new JobSalarySource(from, to, extras.GetValueOrDefault("job_salaries.source", ""))
+            : null;
         var people = Query(db, "SELECT person_id, name, sec_cik FROM people ORDER BY rowid",
                 r => new Person { PersonId = r.GetString(0), Name = r.GetString(1), SecCik = Text(r, 2) })
             .DistinctBy(p => p.PersonId, StringComparer.OrdinalIgnoreCase).ToList();
@@ -279,7 +364,7 @@ public static class SqliteDataStore
             meta.Any(m => bool.TryParse(m.GetValueOrDefault("is_sample"), out var s) && s),
             loadedAt);
 
-        return new CompanyData(companies, locations, financials, pay, people, metadata, appointments);
+        return new CompanyData(companies, locations, financials, pay, people, metadata, appointments, workerPay, jobSalaries, salarySource);
     }
 
     /// <summary>The markets in the file and each one's metadata (for reports).</summary>
@@ -333,6 +418,12 @@ public static class SqliteDataStore
             foreach (var p in data.People) Run(cmd, p.PersonId, p.Name, p.SecCik);
 
         InsertNewExecutives(db, market, data.Appointments, filings);
+
+        using (var cmd = Command(db, """
+            INSERT INTO worker_pay (company_id, market, year, median_pay, ceo_pay, ratio, filing_id) VALUES ($0, $market, $1, $2, $3, $4, $5)
+            """, market, 6))
+            foreach (var w in data.WorkerPays)
+                Run(cmd, w.CompanyId, w.Year, w.MedianEmployeePay, w.CeoPay, w.Ratio, FilingId(w.SourceFiling));
     }
 
     private static void InsertNewExecutives(SqliteConnection db, string market, IReadOnlyList<NewExecutive> rows, Func<string?, object> filingId)

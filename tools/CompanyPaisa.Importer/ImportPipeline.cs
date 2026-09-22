@@ -42,6 +42,7 @@ public sealed partial class ImportPipeline(
         public List<FinancialPeriod> Financials { get; } = [];
         public List<ExecutiveCompensation> Pay { get; } = [];
         public List<NewExecutive> NewExecutives { get; } = [];
+        public List<WorkerPay> WorkerPay { get; } = [];
         public Dictionary<string, Person> People { get; } = new();
         public List<(string Region, string Line)> Included { get; } = [];
         public int NoTicker { get; set; }
@@ -160,6 +161,10 @@ public sealed partial class ImportPipeline(
             outcome.PayCorrected += payResult.Corrected;
             outcome.PayDropped += payResult.Dropped;
             outcome.PayUnmatched += payResult.Unmatched;
+            outcome.WorkerPay.AddRange(payResult.Ratios.Select(r => new WorkerPay
+            {
+                CompanyId = ticker, Year = r.Year, MedianEmployeePay = r.Ratio.MedianEmployeePay, CeoPay = r.Ratio.CeoPay, Ratio = r.Ratio.Ratio, SourceFiling = r.Source
+            }));
 
             var company = new Company
             {
@@ -212,7 +217,7 @@ public sealed partial class ImportPipeline(
         publisher.Publish(Market, outcome.Companies, outcome.Locations, outcome.Financials, outcome.Pay, outcome.People.Values.ToList(),
             Compensation.NewHireReader.LinkByUniqueName(outcome.NewExecutives, outcome.People.Keys),
             "SEC EDGAR: company submissions, XBRL company facts, DEF 14A summary compensation tables, insider (Form 3/4/5) owner lists. ZIP centroids: US Census Gazetteer. ZIP names: GeoNames (CC-BY 4.0).",
-            string.Join("; ", o.Regions.Select(r => r.Name)));
+            string.Join("; ", o.Regions.Select(r => r.Name)), outcome.WorkerPay);
         var zips = await geo.WriteZipTableAsync(ct);
         await WriteReportAsync(outcome, zips, parsedProxies, ct);
 
@@ -227,7 +232,8 @@ public sealed partial class ImportPipeline(
     private sealed record PayRow(string Name, string Title, int Year, decimal Salary, decimal Bonus, decimal StockAwards, decimal Other, decimal Total, string Source);
 
     /// <summary>Pay rows for one company, and how they fared against the CEO totals the proxies tag (pay versus performance).</summary>
-    private sealed record PayResult(List<PayRow> Rows, int Proxies, List<string> Warnings, int Verified, int Corrected, int Dropped, int Unmatched);
+    private sealed record PayResult(List<PayRow> Rows, int Proxies, List<string> Warnings, int Verified, int Corrected, int Dropped, int Unmatched,
+        List<(int Year, Compensation.PayRatio Ratio, string Source)> Ratios);
 
     private async Task<PayResult> ReadExecutivePayAsync(SecCompany sec, string ticker, int fromYear, CancellationToken ct)
     {
@@ -237,6 +243,7 @@ public sealed partial class ImportPipeline(
         var proxies = sec.Filings.Where(f => f.Form == "DEF 14A").OrderByDescending(f => f.FilingDate).ToList();
         var read = 0;
         var covered = new HashSet<int>();
+        var ratios = new List<(int Year, Compensation.PayRatio Ratio, string Source)>();
 
         foreach (var proxy in proxies)
         {
@@ -252,6 +259,7 @@ public sealed partial class ImportPipeline(
             // The CEO totals the company tagged; the newest proxy wins for any year two proxies both cover.
             foreach (var f in PayVersusPerformance.Read(html)) pvp.TryAdd((f.PeriodEnd, f.Name), f);
             var result = compensation.Parse(html);
+            ReadPayRatio(html, proxy, result.Rows, sec.Cik, ratios);
             if (result.Rows.Count == 0) { warnings.Add($"proxy {proxy.FilingDate}: no compensation table recognised"); continue; }
             warnings.AddRange(result.Warnings.Take(3).Select(w => $"proxy {proxy.FilingDate}: {w}"));
 
@@ -283,7 +291,23 @@ public sealed partial class ImportPipeline(
             }
         }
         var (verified, corrected, dropped, unmatched) = CheckAgainstPayVersusPerformance(rows, pvp.Values, warnings);
-        return new PayResult(rows.Values.OrderBy(r => r.Name).ThenBy(r => r.Year).ToList(), read, warnings, verified, corrected, dropped, unmatched);
+        return new PayResult(rows.Values.OrderBy(r => r.Name).ThenBy(r => r.Year).ToList(), read, warnings, verified, corrected, dropped, unmatched,
+            ratios.OrderBy(r => r.Year).ToList());
+    }
+
+    /// <summary>
+    /// The proxy's CEO pay ratio, for the latest year its pay table covers (the year before it was filed when the table
+    /// wasn't read). Proxies are read newest first, so a year already found isn't replaced by an older proxy's.
+    /// </summary>
+    private static void ReadPayRatio(string html, SecFiling proxy, IReadOnlyList<CompRow> table, long cik,
+        List<(int Year, Compensation.PayRatio Ratio, string Source)> ratios)
+    {
+        var plausible = table.Where(r => r.Year <= proxy.FilingDate.Year && r.Year >= proxy.FilingDate.Year - 2).ToList();
+        var year = plausible.Count > 0 ? plausible.Max(r => r.Year) : proxy.FilingDate.Year - 1;
+        if (ratios.Any(r => r.Year == year)) return;
+        var ceo = plausible.Where(r => r.Year == year && Core.Services.ExecutiveRoles.Holds(r.Title, ExecutiveRole.Ceo)).Select(r => r.Total).ToList();
+        var totals = ceo.Count > 0 ? ceo : plausible.Where(r => r.Year == year).Select(r => r.Total).ToList();
+        if (Compensation.PayRatioReader.Read(html, totals) is { } ratio) ratios.Add((year, ratio, proxy.Url(cik)));
     }
 
     /// <summary>

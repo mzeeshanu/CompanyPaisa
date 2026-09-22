@@ -11,10 +11,19 @@ public sealed record CompanyData(
     IReadOnlyList<ExecutiveCompensation> Pay,
     IReadOnlyList<Person> People,
     DataSetMetadata Metadata,
-    IReadOnlyList<NewExecutive>? NewExecutives = null)
+    IReadOnlyList<NewExecutive>? NewExecutives = null,
+    IReadOnlyList<WorkerPay>? WorkerPayRows = null,
+    IReadOnlyList<JobSalary>? JobSalaryRows = null,
+    JobSalarySource? SalarySource = null)
 {
     /// <summary>Officer appointments with their announced packages (only the SEC importer produces these).</summary>
     public IReadOnlyList<NewExecutive> Appointments => NewExecutives ?? [];
+
+    /// <summary>Median-employee pay and CEO pay ratios the companies disclosed.</summary>
+    public IReadOnlyList<WorkerPay> WorkerPays => WorkerPayRows ?? [];
+
+    /// <summary>Salaries by job title from H-1B wage filings.</summary>
+    public IReadOnlyList<JobSalary> JobSalaries => JobSalaryRows ?? [];
 
     /// <summary>
     /// Several parts (markets, workbooks) as one data set. The same person id in two parts is the same person (first record
@@ -36,7 +45,10 @@ public sealed record CompanyData(
             parts.SelectMany(p => p.Pay).ToList(),
             parts.SelectMany(p => p.People).DistinctBy(p => p.PersonId, StringComparer.OrdinalIgnoreCase).ToList(),
             meta,
-            parts.SelectMany(p => p.Appointments).ToList());
+            parts.SelectMany(p => p.Appointments).ToList(),
+            parts.SelectMany(p => p.WorkerPays).ToList(),
+            parts.SelectMany(p => p.JobSalaries).ToList(),
+            parts.Select(p => p.SalarySource).FirstOrDefault(s => s is not null));
     }
 }
 
@@ -71,6 +83,14 @@ public static class DataRules
         Orphans("Financials", d.Financials.Select(f => f.CompanyId));
         Orphans("ExecutiveCompensation", d.Pay.Select(e => e.CompanyId));
         Orphans("NewExecutives", d.Appointments.Select(e => e.CompanyId));
+        Orphans("WorkerPay", d.WorkerPays.Select(w => w.CompanyId));
+        Orphans("JobSalaries", d.JobSalaries.Select(j => j.CompanyId));
+        foreach (var dup in d.WorkerPays.GroupBy(w => (Company: w.CompanyId.ToUpperInvariant(), w.Year)).Where(g => g.Count() > 1))
+            problems.Add($"WorkerPay: {dup.Key.Company} has {dup.Count()} rows for {dup.Key.Year}.");
+        foreach (var w in d.WorkerPays.Where(w => w.MedianEmployeePay <= 0 || w.CeoPay <= 0 || w.Ratio <= 0))
+            problems.Add($"WorkerPay: {w.CompanyId} {w.Year} needs positive amounts and a positive ratio.");
+        foreach (var j in d.JobSalaries.Where(j => j.Filings < 1 || j.Min > j.Low || j.Low > j.Median || j.Median > j.High || j.High > j.Max))
+            problems.Add($"JobSalaries: {j.CompanyId} '{j.Title}' needs min ≤ low ≤ median ≤ high ≤ max.");
 
         foreach (var f in d.Financials.Where(f => f.PeriodType == PeriodType.Quarterly && f.FiscalQuarter is not (>= 1 and <= 4)))
             problems.Add($"Financials: {f.CompanyId} {f.FiscalYear} quarterly row needs fiscal_quarter 1-4.");

@@ -57,7 +57,40 @@ public class SitePagesTests(SitePagesFactory factory) : IClassFixture<SitePagesF
         Assert.Contains("<link rel=\"canonical\" href=\"http://localhost/company/LFVN\" />", html);
         Assert.Contains("<meta property=\"og:title\" content=\"LifeVantage", html);
         Assert.Single(html.Split("name=\"description\"").Skip(1));   // replaced, not added twice
-        Assert.Contains("<div id=\"root\"></div>", html);
+        // The facts are in the HTML itself, inside the app's root (the app replaces them when it starts).
+        Assert.Contains("<div id=\"root\"><main class=\"ssr\"><h1>LifeVantage", html);
+        Assert.Contains("<h2>Revenue and profit by year</h2>", html);
+        Assert.Contains("<a href=\"/executive/", html);
+        Assert.Contains("<script type=\"application/ld+json\">{\"@context\":\"https://schema.org\",\"@type\":\"Corporation\"", html);
+    }
+
+    [Fact]
+    public async Task The_home_page_links_every_area_and_the_largest_companies()
+    {
+        var html = await factory.CreateClient().GetStringAsync("/");
+
+        Assert.Contains("<h1>Public companies near you", html);
+        Assert.Contains("<a href=\"/near/84043\">", html);
+        Assert.Contains("<a href=\"/company/", html);
+        Assert.Contains("<link rel=\"canonical\" href=\"http://localhost/\" />", html);
+    }
+
+    [Fact]
+    public async Task A_search_page_lists_the_companies_near_the_place()
+    {
+        var html = await factory.CreateClient().GetStringAsync("/near/84043");
+
+        Assert.Contains("<h1>Public companies near Lehi, UT 84043</h1>", html);
+        Assert.Contains("<a href=\"/company/LFVN\">", html);
+    }
+
+    [Fact]
+    public async Task Page_text_is_encoded()
+    {
+        var html = SitePages.WithContent(SitePagesFactory.IndexHtml, new PageContent("<h1>A</h1>", new Dictionary<string, object?> { ["name"] = "</script><b>" }));
+
+        Assert.Contains("<div id=\"root\"><main class=\"ssr\"><h1>A</h1></main></div>", html);
+        Assert.DoesNotContain("</script><b>", html);
     }
 
     [Fact]

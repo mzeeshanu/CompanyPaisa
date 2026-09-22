@@ -30,6 +30,7 @@ builder.Services.AddSingleton<CompanyPaisa.Importer.Uk.UkImportPipeline>();
 builder.Services.AddSingleton<CompanyPaisa.Importer.Eu.EuImportPipeline>();
 builder.Services.AddSingleton<CompanyPaisa.Importer.Pk.PkImportPipeline>();
 builder.Services.AddSingleton<CompanyPaisa.Importer.Enrichment.EnrichmentRun>();
+builder.Services.AddSingleton<CompanyPaisa.Importer.Salaries.SalaryRun>();
 builder.Services.AddSingleton<CompanyPaisa.Importer.Publishing.DataPublisher>();
 builder.Services.AddSingleton<CompanyPaisa.Importer.Publishing.LegacyWorkbookMigration>();
 builder.Services.AddSingleton<CompanyPaisa.Importer.Validation.ValidationRun>();
@@ -159,6 +160,13 @@ if (args is ["--enrich", .. var steps])
     using var enrichCts = new CancellationTokenSource();
     Console.CancelKeyPress += (_, e) => { e.Cancel = true; enrichCts.Cancel(); };
     return await host.Services.GetRequiredService<CompanyPaisa.Importer.Enrichment.EnrichmentRun>().RunAsync(steps, enrichCts.Token);
+}
+// Salaries by job title from the Department of Labor's H-1B wage filings: -- --salaries
+if (args.Contains("--salaries"))
+{
+    using var salaryCts = new CancellationTokenSource();
+    Console.CancelKeyPress += (_, e) => { e.Cancel = true; salaryCts.Cancel(); };
+    return await host.Services.GetRequiredService<CompanyPaisa.Importer.Salaries.SalaryRun>().RunAsync(salaryCts.Token);
 }
 // One-off: copy the pre-SQLite workbooks into the database: -- --migrate-xlsx
 if (args.Contains("--migrate-xlsx"))

@@ -24,6 +24,8 @@ public sealed class ImporterOptions
     public Pk.PkOptions Pk { get; set; } = new();
     /// <summary>Websites, careers pages and street positions for every market (run with --enrich).</summary>
     public Enrichment.EnrichmentOptions Enrichment { get; set; } = new();
+    /// <summary>Salaries by job title from H-1B wage filings (run with --salaries).</summary>
+    public Salaries.SalaryOptions Salaries { get; set; } = new();
     /// <summary>Hand-curated sites of companies headquartered elsewhere (Adobe Lehi, eBay Draper…).</summary>
     public string CuratedOfficesPath { get; set; } = "data/curated/utah-offices.csv";
 }

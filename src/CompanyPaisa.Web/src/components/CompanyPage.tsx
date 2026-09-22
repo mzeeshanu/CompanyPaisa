@@ -6,6 +6,7 @@ import { money, pct, tone, trendClass } from '../lib/format';
 import { Link, personPath, placeToken } from '../lib/router';
 import { AtAGlance, NewLeadership, PayVsPeersCard, SimilarCompanies } from './CompanyInsights';
 import { Filing } from './Filing';
+import { JobSalaries, PayRatioCard } from './WorkforcePay';
 import { milesBetween, PageBack, type Nearby } from './PageShell';
 
 interface Props {
@@ -173,6 +174,8 @@ export function CompanyPage({ ticker, from, showExecutives, onExplore, onLoaded 
               <Executives execs={d.executives} currency={d.detail.payCurrency ?? cur} />
             </section>
           )}
+          {d.detail.workerPay?.length ? <PayRatioCard pay={d.detail.workerPay} /> : null}
+          {d.detail.salaryTitles ? <JobSalaries ticker={d.detail.ticker} name={d.detail.name} from={from} /> : null}
         </div>
         <div className="page-col">
           {d.insights && <AtAGlance insights={d.insights} name={d.detail.name} />}

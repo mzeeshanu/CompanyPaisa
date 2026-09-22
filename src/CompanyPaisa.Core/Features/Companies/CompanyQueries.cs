@@ -24,14 +24,45 @@ public sealed class GetCompanyHandler(ICompanyRepository repository, IFinancialM
         var c = await repository.GetCompanyAsync(query.Ticker, ct) ?? throw CompanyNotFound(query.Ticker);
         var locations = await repository.GetLocationsAsync(c.CompanyId, ct);
         var indicators = metrics.Compute(await repository.GetFinancialsAsync(c.CompanyId, ct));
+        // Pay ratios come from US proxy statements, which state pay in US dollars.
+        var workerPay = (await repository.GetWorkerPayAsync(c.CompanyId, ct)).OrderBy(w => w.Year)
+            .Select(w => new WorkerPayDto(w.Year, w.MedianEmployeePay, w.CeoPay, w.Ratio, "USD", w.SourceFiling)).ToList();
+        var salaryTitles = (await repository.GetJobSalariesAsync(c.CompanyId, ct)).Count(j => j.City is null);
 
         return new CompanyDetailDto(c.Ticker, c.Name, c.Exchange, c.Sector, c.Industry, c.Website, c.Employees, c.MarketCap,
             c.Description, c.Currency, c.FiscalYearEnd, c.AsOfDate,
             locations.OrderBy(l => l.IsHeadquarters ? 0 : 1).ThenBy(l => l.City).Select(l => l.ToDto()).ToList(),
-            indicators.ToDto(), c.PayCurrency ?? c.Currency, c.CareersUrl);
+            indicators.ToDto(), c.PayCurrency ?? c.Currency, c.CareersUrl, workerPay, salaryTitles);
     }
 
     internal static NotFoundException CompanyNotFound(string ticker) => new($"No company with ticker '{ticker}'.");
+}
+
+// ---------- Job salaries ----------
+
+public sealed record GetJobSalariesQuery(string Ticker) : IRequest<JobSalariesResponse>, ICacheableRequest
+{
+    public string CacheKey => $"salaries|{Ticker.ToUpperInvariant()}";
+    public string CacheProfile => "Company";
+}
+
+public sealed class GetJobSalariesHandler(ICompanyRepository repository) : IRequestHandler<GetJobSalariesQuery, JobSalariesResponse>
+{
+    public async Task<JobSalariesResponse> HandleAsync(GetJobSalariesQuery q, CancellationToken ct)
+    {
+        var c = await repository.GetCompanyAsync(q.Ticker, ct) ?? throw GetCompanyHandler.CompanyNotFound(q.Ticker);
+        var rows = await repository.GetJobSalariesAsync(c.CompanyId, ct);
+        var source = rows.Count > 0 ? await repository.GetJobSalarySourceAsync(ct) : null;
+        var places = rows.Where(r => r.City is not null).ToLookup(r => r.Title, StringComparer.Ordinal);
+        var titles = rows.Where(r => r.City is null).OrderByDescending(r => r.Filings).ThenBy(r => r.Title, StringComparer.OrdinalIgnoreCase)
+            .Select(t => new JobSalaryDto(t.Title, t.Occupation, t.Filings, t.Low, t.Median, t.High, t.Min, t.Max,
+                places[t.Title].OrderByDescending(p => p.Filings)
+                    .Select(p => new JobSalaryPlaceDto(p.City!, p.State ?? "", p.Filings, p.Low, p.Median, p.High, p.Point?.Latitude, p.Point?.Longitude))
+                    .ToList()))
+            .ToList();
+        // H-1B filings are US jobs, paid in US dollars.
+        return new JobSalariesResponse(c.Ticker, "USD", source?.From, source?.To, source?.Source, titles);
+    }
 }
 
 // ---------- Financial history ----------

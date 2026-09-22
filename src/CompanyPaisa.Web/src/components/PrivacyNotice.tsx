@@ -64,7 +64,8 @@ export function PrivacyNotice({ open, contact, onClose }: Props) {
         <h3>Visitors</h3>
         <p>
           No ads, no tracking cookies, and nothing is shared with other companies. With your consent we keep one small cookie that
-          remembers your view and theme; "Just this visit" stores nothing.
+          remembers your view and theme; "Just this visit" stores nothing. Every page also sets a short-lived security cookie that
+          lets it load data from our servers (so other sites and bots can't); it holds only its expiry time, nothing about you.
         </p>
         <p>
           To see how the site is used, we count visits on our own servers: which areas are searched (the search point rounded to

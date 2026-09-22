@@ -2,6 +2,7 @@ using CompanyPaisa.Api.Analytics;
 using CompanyPaisa.Api.Composition;
 using CompanyPaisa.Api.Endpoints;
 using CompanyPaisa.Api.Options;
+using CompanyPaisa.Api.Security;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Options;
 
@@ -45,8 +46,10 @@ if (!app.Environment.IsDevelopment())
     if (hosting.UseHttpsRedirection) app.UseHttpsRedirection();
 }
 
-// The React build is copied into wwwroot at publish time; serve it when present.
-app.UseDefaultFiles();
+// Every page the site serves hands out the website's pass to the API (see SiteSessions).
+app.UseSiteSessions();
+// The React build is copied into wwwroot at publish time; serve it when present. The home page isn't a static file:
+// MapCompanyPaisaPages serves it with its content.
 app.UseStaticFiles();
 
 app.UseCors(ApiServiceCollectionExtensions.CorsPolicy);
@@ -65,7 +68,8 @@ if (api.EnableOpenApi)
 
 app.MapCompanyPaisaApiV1();
 app.MapCompanyPaisaAnalytics();
-app.MapCompanyPaisaPages();         // /company/{ticker}, /executive/{personId}: the app's HTML with the page's title
+app.MapCompanyPaisaPages();         // /, /company/{ticker}, /executive/{personId}, /near/…: the app's HTML with the page's title and content
+app.MapSiteSession();               // /api/session: a fresh pass for a page left open
 app.MapHealthChecks("/health");
 
 // Client-side routes of the React app (anything that isn't an API, docs, health or a real file).

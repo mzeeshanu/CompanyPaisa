@@ -31,6 +31,17 @@ public interface ICompanyRepository
     Task<IReadOnlyList<NewExecutive>> GetNewExecutivesAsync(IEnumerable<string> companyIds, CancellationToken ct = default) =>
         Task.FromResult<IReadOnlyList<NewExecutive>>([]);
 
+    /// <summary>The company's disclosed median-employee pay and CEO pay ratio, by year (none if the source has no such data).</summary>
+    Task<IReadOnlyList<WorkerPay>> GetWorkerPayAsync(string companyId, CancellationToken ct = default) =>
+        Task.FromResult<IReadOnlyList<WorkerPay>>([]);
+
+    /// <summary>Salaries by job title from the company's H-1B wage filings (company-wide rows and per-place rows).</summary>
+    Task<IReadOnlyList<JobSalary>> GetJobSalariesAsync(string companyId, CancellationToken ct = default) =>
+        Task.FromResult<IReadOnlyList<JobSalary>>([]);
+
+    /// <summary>Where the job salaries come from, or null when there are none.</summary>
+    Task<JobSalarySource?> GetJobSalarySourceAsync(CancellationToken ct = default) => Task.FromResult<JobSalarySource?>(null);
+
     Task<IReadOnlyList<string>> GetSectorsAsync(CancellationToken ct = default);
     Task<DataSetMetadata> GetMetadataAsync(CancellationToken ct = default);
     Task<(int Companies, int Locations)> GetCountsAsync(CancellationToken ct = default);

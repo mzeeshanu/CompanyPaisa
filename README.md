@@ -26,6 +26,10 @@ location and financial data comes from a directory we curate ahead of time.
   companies; refreshed monthly by a scheduled task (`tools/refresh-data.ps1`)
 - ✅ **Pakistan**: 228 companies listed on the Pakistan Stock Exchange, with revenue, profit and the chief
   executive's pay read by rules from each company's own annual report
+- ✅ **Workers' pay**: the CEO pay ratio (median employee vs CEO) for 2,253 US companies from their proxy statements, and salaries by job title for
+  678 US companies from 286,961 H-1B wage filings (`--salaries`)
+- ✅ **Search engines**: every company, executive and search page is rendered on the server with its content; the API is
+  closed to anyone without a key or the site's own pass
 
 ## Run it
 
@@ -69,6 +73,7 @@ dotnet test CompanyPaisa.slnx
 | `GET /api/v1/companies/{ticker}` | Profile, locations, headline indicators |
 | `GET /api/v1/companies/{ticker}/financials?period=Annual&years=10` | Revenue & net income history with YoY growth |
 | `GET /api/v1/companies/{ticker}/executives?years=5` | Executive pay by year |
+| `GET /api/v1/companies/{ticker}/salaries` | Salaries offered by job title, company-wide and per work place (US H-1B wage filings) |
 | `GET /api/v1/companies/{ticker}/insights` | Facts (sector and city rank, streaks, best year, CEO pay vs results, margin vs sector), similar companies nearby, recently appointed officers with their announced packages, and executive pay against similar companies |
 | `GET /api/v1/executives/near?near=84043&sort=TotalPay&years=10` | Executives of nearby companies with 10 years of pay (sort: Pay / TotalPay / PayGrowth / Distance / Name; `role`: Ceo / Cfo / Coo / Technology / Legal / Other; `includeFormer`, `search`, `sector`) |
 | `GET /api/v1/executives/{personId}` | One person's career and pay across every company they were a named executive at |
@@ -77,8 +82,9 @@ dotnet test CompanyPaisa.slnx
 | `GET /api/v1/sectors` · `GET /api/v1/meta` · `GET /api/v1/client-config` | Reference data, data version, website settings |
 
 Errors are RFC 7807 problem details (400 with per-field messages, 404, 401, 429).
-Send an API key in the `X-Api-Key` header for the higher rate limit; anonymous calls
-are allowed at a lower limit (`Api:AllowAnonymous`).
+Other apps need an API key in the `X-Api-Key` header (keys are set as host variables, see
+[`docs/deployment-railway.md`](docs/deployment-railway.md)). The website itself calls the API with a pass its pages hand out;
+scripts and other websites without a key are refused (`Api:AllowAnonymous` is on only in development).
 
 ### Using it from another .NET app
 

@@ -68,7 +68,19 @@ export interface CompanyDetail {
   payCurrency?: string | null;
   /** The company's careers or jobs page, when one was found on its website. */
   careersUrl?: string | null;
+  /** Median employee vs CEO pay by year, as disclosed in the proxy statement (US companies). */
+  workerPay?: WorkerPay[] | null;
+  /** How many job titles have salaries (from H-1B wage filings); 0 = none. */
+  salaryTitles?: number;
 }
+
+/** The CEO was paid `ratio` times what the median employee was. */
+export interface WorkerPay { year: number; medianEmployeePay: number; ceoPay: number; ratio: number; currency: string; sourceFiling: string | null }
+
+export interface JobSalaryPlace { city: string; state: string; filings: number; low: number; median: number; high: number; latitude: number | null; longitude: number | null }
+/** Yearly salary offered for one job title: low = 25th percentile, high = 75th. */
+export interface JobSalary { title: string; occupation: string | null; filings: number; low: number; median: number; high: number; min: number; max: number; places: JobSalaryPlace[] }
+export interface JobSalariesResponse { ticker: string; currency: string; from: string | null; to: string | null; source: string | null; titles: JobSalary[] }
 
 export interface FinancialPeriod {
   label: string; fiscalYear: number; fiscalQuarter: number | null; periodType: PeriodType;

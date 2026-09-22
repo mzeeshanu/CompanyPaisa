@@ -55,18 +55,35 @@ public sealed class ApiKeyValidator(IOptionsMonitor<ApiOptions> options) : IApiK
         CryptographicOperations.FixedTimeEquals(Encoding.UTF8.GetBytes(a), Encoding.UTF8.GetBytes(b));
 }
 
-/// <summary>Rejects bad keys, and missing keys when anonymous access is turned off.</summary>
-public sealed class ApiKeyEndpointFilter(IApiKeyValidator validator, IOptionsMonitor<ApiOptions> options) : IEndpointFilter
+/// <summary>
+/// Who may call the API: an app with a valid key; otherwise only the website's own pages (their <see cref="SiteSessions"/>
+/// pass), and never a script or scraper without a key. With Api:AllowAnonymous on (development), anyone.
+/// </summary>
+public sealed class ApiKeyEndpointFilter(IApiKeyValidator validator, SiteSessions sessions, IOptionsMonitor<ApiOptions> options) : IEndpointFilter
 {
+    /// <summary>Problem "code" the website reacts to by fetching a new pass and trying once more.</summary>
+    public const string SessionRequired = "site_session_required";
+
     public async ValueTask<object?> InvokeAsync(EndpointFilterInvocationContext context, EndpointFilterDelegate next)
     {
-        var caller = validator.Identify(context.HttpContext);
+        var o = options.CurrentValue;
+        var http = context.HttpContext;
+        var caller = validator.Identify(http);
         if (caller.KeyPresented && !caller.KeyValid)
             return Results.Problem(statusCode: StatusCodes.Status401Unauthorized, title: "Invalid API key",
-                detail: $"The key in the '{options.CurrentValue.ApiKeyHeader}' header isn't recognised.");
-        if (!caller.KeyPresented && !options.CurrentValue.AllowAnonymous)
+                detail: $"The key in the '{o.ApiKeyHeader}' header isn't recognised.");
+        if (caller.IsKeyed || o.AllowAnonymous) return await next(context);
+
+        if (BotRules.IsBlocked(http, o))
+            return Results.Problem(statusCode: StatusCodes.Status403Forbidden, title: "API key required",
+                detail: $"Apps and scripts need an API key: send it in the '{o.ApiKeyHeader}' header.");
+
+        var (valid, ageing) = sessions.Check(http);
+        if (!valid || !SiteSessions.FromOwnPage(http))
             return Results.Problem(statusCode: StatusCodes.Status401Unauthorized, title: "API key required",
-                detail: $"Send your key in the '{options.CurrentValue.ApiKeyHeader}' header.");
+                detail: $"Send your key in the '{o.ApiKeyHeader}' header.",
+                extensions: new Dictionary<string, object?> { ["code"] = SessionRequired });
+        if (ageing) sessions.Issue(http);
         return await next(context);
     }
 }

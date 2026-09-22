@@ -44,6 +44,7 @@ $dataFiles = @(
     'data/companypaisa.db',
     'data/import-report.md', 'data/import-report-uk.md', 'data/import-report-eu.md', 'data/reference/eu-postcodes.csv', 'data/curated/eu-companies.csv', 'data/reference/anz-postcodes.csv', 'data/import-report-pk.md', 'data/reference/pk-postcodes.csv',
     'data/reference/company-sites.csv', 'data/reference/geocoded-locations.csv', 'data/import-report-enrichment.md',
+    'data/reference/employer-aliases.csv', 'data/import-report-salaries.md',
     'data/reference/us-zip-centroids.csv', 'data/reference/ca-postal-areas.csv', 'data/reference/uk-postcode-districts.csv',
     'data/curated/uk-ftse350.csv', 'data/curated/uk-main-market.csv', 'data/validation-report.md'
 )
@@ -64,6 +65,8 @@ try {
     Invoke-Step 'Import every market, then validate' 'dotnet' @('run', '--project', 'tools/CompanyPaisa.Importer', '-c', 'Release', '--', '--all', '--refresh-lists', '--strict')
     # Websites, careers pages and street positions for companies that are new or due a recheck (the rest are kept).
     Invoke-Step 'Websites, careers pages, street positions' 'dotnet' @('run', '--project', 'tools/CompanyPaisa.Importer', '-c', 'Release', '--', '--enrich')
+    # Salaries by job title from the Department of Labor's H-1B wage filings (a new quarter's file is downloaded once).
+    Invoke-Step 'Salaries by job title' 'dotnet' @('run', '--project', 'tools/CompanyPaisa.Importer', '-c', 'Release', '--', '--salaries')
 
     $existing = $dataFiles | Where-Object { Test-Path (Join-Path $repo $_) }
     Invoke-Step 'git add' 'git' (@('add', '--') + $existing)

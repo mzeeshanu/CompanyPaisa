@@ -44,6 +44,37 @@ public sealed class SqliteDataStoreTests : IDisposable
     }
 
     [Fact]
+    public void Keeps_pay_ratios_with_their_market_and_job_salaries_across_imports()
+    {
+        const string proxy = "https://www.sec.gov/Archives/edgar/data/320193/000130817926000008/aapl4359751-def14a.htm";
+        var sec = Market("AAPL", 100m, proxy) with
+        {
+            WorkerPayRows = [new WorkerPay { CompanyId = "AAPL", Year = 2025, MedianEmployeePay = 114_738m, CeoPay = 74_294_811m, Ratio = 647.5m, SourceFiling = proxy }]
+        };
+        SqliteDataStore.ReplaceMarket(_db, "sec", sec, Meta("sec-1"));
+        SqliteDataStore.ReplaceJobSalaries(_db,
+        [
+            new JobSalary { CompanyId = "AAPL", Title = "Software Engineer", Occupation = "Software Developers", Filings = 40, Min = 120_000m, Low = 150_000m, Median = 175_000m, High = 200_000m, Max = 260_000m },
+            new JobSalary { CompanyId = "AAPL", Title = "Software Engineer", City = "Cupertino", State = "CA", Point = new GeoPoint(37.32, -122.03), Filings = 30, Min = 130_000m, Low = 160_000m, Median = 180_000m, High = 205_000m, Max = 260_000m },
+            new JobSalary { CompanyId = "GONE", Title = "Analyst", Filings = 3, Min = 1, Low = 1, Median = 1, High = 1, Max = 1 }   // not a company here: dropped
+        ], new JobSalarySource(new DateOnly(2024, 10, 1), new DateOnly(2026, 6, 30), "US Department of Labor"));
+
+        // Another import of the market keeps the salaries (they aren't a market's rows) and replaces the ratio.
+        SqliteDataStore.ReplaceMarket(_db, "sec", sec, Meta("sec-2"));
+        var data = SqliteDataStore.Read(_db, DateTimeOffset.UtcNow);
+
+        var ratio = Assert.Single(data.WorkerPays);
+        Assert.Equal((114_738m, 74_294_811m, 647.5m, proxy), (ratio.MedianEmployeePay, ratio.CeoPay, ratio.Ratio, ratio.SourceFiling));
+        Assert.Equal(2, data.JobSalaries.Count);
+        Assert.Equal(new GeoPoint(37.32, -122.03), data.JobSalaries.Single(j => j.City == "Cupertino").Point);
+        Assert.Equal(new DateOnly(2026, 6, 30), data.SalarySource!.To);
+
+        // A company leaving the market takes its salaries with it.
+        SqliteDataStore.ReplaceMarket(_db, "sec", Market("MSFT", 100m, proxy), Meta("sec-3"));
+        Assert.Empty(SqliteDataStore.Read(_db, DateTimeOffset.UtcNow).JobSalaries);
+    }
+
+    [Fact]
     public void Replacing_one_market_leaves_the_others_alone()
     {
         SqliteDataStore.ReplaceMarket(_db, "sec", Market("AAPL", 100m, "https://www.sec.gov/Archives/edgar/data/1/a/"), Meta("sec-1"));

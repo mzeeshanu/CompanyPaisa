@@ -22,12 +22,21 @@ public static partial class SitePages
 {
     public static IEndpointRouteBuilder MapCompanyPaisaPages(this IEndpointRouteBuilder app)
     {
-        app.MapGet("/company/{ticker}", async (string ticker, ICompanyRepository repository, IndexHtml index, HttpContext http, CancellationToken ct) =>
+        // The home page (served here rather than as a static file, so it carries its content too).
+        app.MapGet("/", async (PageRenderer pages, IndexHtml index, HttpContext http, CancellationToken ct) =>
+                Page(index, new PageMeta("CompanyPaisa — public companies near you: revenue, profit and executive pay",
+                    "See the public companies near you, how big they are, where they're heading, what their executives are paid and what their jobs pay.", "/"),
+                    http, await pages.HomeAsync(ct)))
+            .ExcludeFromDescription();
+
+        app.MapGet("/company/{ticker}", async (string ticker, ICompanyRepository repository, PageRenderer pages, IndexHtml index, HttpContext http, CancellationToken ct) =>
             {
                 var company = await repository.GetCompanyAsync(ticker, ct);
                 PageMeta? meta = null;
+                PageContent? content = null;
                 if (company is not null)
                 {
+                    content = await pages.CompanyAsync(company, ct);
                     var hq = (await repository.GetLocationsAsync(company.CompanyId, ct)).FirstOrDefault(l => l.IsHeadquarters);
                     var where = hq is null ? "" : $", headquartered in {hq.City}, {hq.State}";
                     meta = new PageMeta(
@@ -35,17 +44,19 @@ public static partial class SitePages
                         $"{company.Name} ({company.Ticker}), {company.Sector}{where}: revenue, net income and executive pay over the years, from the company's filings.",
                         $"/company/{Uri.EscapeDataString(company.Ticker.ToUpperInvariant())}");
                 }
-                return Page(index, meta, http);
+                return Page(index, meta, http, content);
             })
             .ExcludeFromDescription();
 
         app.MapGet("/executive/{personId}", async (string personId, ICompanyRepository repository, IOptionsMonitor<FeatureOptions> features,
-                IndexHtml index, HttpContext http, CancellationToken ct) =>
+                PageRenderer pages, IndexHtml index, HttpContext http, CancellationToken ct) =>
             {
                 var person = features.CurrentValue.IsEnabled("Executives") ? await repository.GetPersonAsync(personId, ct) : null;
                 PageMeta? meta = null;
+                PageContent? content = null;
                 if (person is not null)
                 {
+                    content = await pages.ExecutiveAsync(person, ct);
                     var latest = (await repository.GetCompensationForPeopleAsync([person.PersonId], ct))
                         .OrderByDescending(c => c.Year).FirstOrDefault();
                     var company = latest is null ? null : (await repository.GetCompaniesAsync([latest.CompanyId], ct)).FirstOrDefault();
@@ -55,17 +66,19 @@ public static partial class SitePages
                         $"{person.Name}{role}: salary, bonus, stock awards and total pay by year, from company filings.",
                         $"/executive/{Uri.EscapeDataString(person.PersonId)}");
                 }
-                return Page(index, meta, http);
+                return Page(index, meta, http, content);
             })
             .ExcludeFromDescription();
 
         // A search: /near/84043, /near/SW1A1AA, /near/FR-75008, /near/me (the visitor's own location), + /executives.
-        app.MapGet("/near/{place}/{mode:regex(^executives$)?}", async (string place, string? mode, IGeoLocator geo, IndexHtml index, HttpContext http, CancellationToken ct) =>
+        app.MapGet("/near/{place}/{mode:regex(^executives$)?}", async (string place, string? mode, IGeoLocator geo, PageRenderer pages, IndexHtml index,
+                HttpContext http, CancellationToken ct) =>
             {
                 var executives = mode is not null;
                 var what = executives ? "Executives and their pay" : "Public companies";
                 var path = $"/near/{Uri.EscapeDataString(place)}{(executives ? "/executives" : "")}";
                 PageMeta? meta;
+                PageContent? content = null;
                 if (place.Equals("me", StringComparison.OrdinalIgnoreCase))
                     meta = new PageMeta($"{what} near you · CompanyPaisa",
                         "See the public companies near you, how big they are, where they're heading and what their executives are paid.", path);
@@ -77,13 +90,15 @@ public static partial class SitePages
                         executives
                             ? $"Named executives of public companies near {where}: latest pay, 10-year totals and careers, from company filings."
                             : $"Public companies near {where}: revenue, growth, profit and executive pay, from company filings.", path);
+                    if (hit is not null && where is not null) content = await pages.NearAsync(hit.Point, where, executives, ct);
                 }
-                return Page(index, meta, http);
+                return Page(index, meta, http, content);
             })
             .ExcludeFromDescription();
 
+        // The API isn't for crawlers: every page already carries its content.
         app.MapGet("/robots.txt", (HttpContext http) =>
-                Results.Text($"User-agent: *\nAllow: /\nDisallow: /admin\n\nSitemap: {Origin(http)}/sitemap.xml\n", "text/plain; charset=utf-8"))
+                Results.Text($"User-agent: *\nAllow: /\nDisallow: /admin\nDisallow: /api/\n\nSitemap: {Origin(http)}/sitemap.xml\n", "text/plain; charset=utf-8"))
             .ExcludeFromDescription();
 
         app.MapGet("/sitemap.xml", async (ICompanyRepository repository, IOptionsMonitor<UiOptions> ui, IOptionsMonitor<FeatureOptions> features,
@@ -147,15 +162,44 @@ public static partial class SitePages
 
     private static string Origin(HttpContext http) => $"{http.Request.Scheme}://{http.Request.Host}";
 
-    /// <summary>The app's HTML with this page's details; an unknown company or person still gets the app (it says so) with a 404.</summary>
-    private static IResult Page(IndexHtml index, PageMeta? meta, HttpContext http)
+    /// <summary>The pages this class renders on the server (for the hourly page limit).</summary>
+    public static bool IsRenderedPage(string path) =>
+        path == "/" || path.StartsWith("/company/", StringComparison.OrdinalIgnoreCase) ||
+        path.StartsWith("/executive/", StringComparison.OrdinalIgnoreCase) || path.StartsWith("/near/", StringComparison.OrdinalIgnoreCase);
+
+    /// <summary>
+    /// The app's HTML with this page's details and content; an unknown company or person still gets the app (it says so)
+    /// with a 404.
+    /// </summary>
+    private static IResult Page(IndexHtml index, PageMeta? meta, HttpContext http, PageContent? content = null)
     {
         var html = index.Read();
         if (html is null) return Results.NotFound();   // no built website (development runs it on the Vite dev server)
         http.Response.Headers.CacheControl = "no-cache";
-        return Results.Content(meta is null ? html : WithMeta(html, meta, Origin(http)), "text/html; charset=utf-8",
-            statusCode: meta is null ? StatusCodes.Status404NotFound : StatusCodes.Status200OK);
+        if (meta is not null) html = WithMeta(html, meta, Origin(http));
+        if (content is not null) html = WithContent(html, content);
+        return Results.Content(html, "text/html; charset=utf-8", statusCode: meta is null ? StatusCodes.Status404NotFound : StatusCodes.Status200OK);
     }
+
+    /// <summary>
+    /// Puts the page's content inside the app's root element (the app replaces it when it starts) and its schema.org
+    /// data in the head.
+    /// </summary>
+    public static string WithContent(string html, PageContent content)
+    {
+        var root = RootElement().Match(html);
+        if (root.Success)
+            html = html.Remove(root.Index, root.Length).Insert(root.Index, $"{root.Groups["open"].Value}<main class=\"ssr\">{content.Body}</main></div>");
+        if (content.StructuredData is { } data)
+        {
+            var at = html.IndexOf("</head>", StringComparison.OrdinalIgnoreCase);
+            if (at >= 0) html = html.Insert(at, "    " + PageRenderer.JsonLd(data) + "\n");
+        }
+        return html;
+    }
+
+    [GeneratedRegex(@"(?<open><div\s+id=""root""[^>]*>)\s*</div>", RegexOptions.IgnoreCase)]
+    private static partial Regex RootElement();
 
     /// <summary>Replaces the title and description and adds the canonical address and Open Graph tags.</summary>
     public static string WithMeta(string html, PageMeta meta, string origin)

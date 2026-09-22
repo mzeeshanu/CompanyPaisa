@@ -120,6 +120,47 @@ public sealed record ExecutiveCompensation
     public string? SourceFiling { get; init; }
 }
 
+/// <summary>
+/// What the company's median employee was paid next to its CEO, as the company itself disclosed it (the US "pay ratio"
+/// in the proxy statement). <see cref="Ratio"/> is the stated "N to 1".
+/// </summary>
+public sealed record WorkerPay
+{
+    public required string CompanyId { get; init; }
+    /// <summary>The fiscal year the figures are for.</summary>
+    public required int Year { get; init; }
+    public required decimal MedianEmployeePay { get; init; }
+    public required decimal CeoPay { get; init; }
+    public required decimal Ratio { get; init; }
+    public string? SourceFiling { get; init; }
+}
+
+/// <summary>
+/// The salaries a company offered for one job title in its H-1B wage filings (US Department of Labor): company-wide when
+/// <see cref="City"/> is null, else at one work place. Only titles with enough filings to not single anyone out are kept.
+/// </summary>
+public sealed record JobSalary
+{
+    public required string CompanyId { get; init; }
+    public required string Title { get; init; }
+    /// <summary>The government's occupation name for the job ("Software Developers").</summary>
+    public string? Occupation { get; init; }
+    public string? City { get; init; }
+    public string? State { get; init; }
+    /// <summary>The work place's ZIP code centre (place rows only).</summary>
+    public GeoPoint? Point { get; init; }
+    public required int Filings { get; init; }
+    /// <summary>25th percentile, median and 75th percentile of the yearly salary offered.</summary>
+    public required decimal Low { get; init; }
+    public required decimal Median { get; init; }
+    public required decimal High { get; init; }
+    public required decimal Min { get; init; }
+    public required decimal Max { get; init; }
+}
+
+/// <summary>Where the job salaries come from and the dates of the filings they were worked out from.</summary>
+public sealed record JobSalarySource(DateOnly From, DateOnly To, string Source);
+
 /// <summary>Describes the loaded data set (the "_meta" sheet).</summary>
 public sealed record DataSetMetadata(string DataVersion, DateOnly? AsOfDate, bool IsSampleData, DateTimeOffset LoadedAt);
 

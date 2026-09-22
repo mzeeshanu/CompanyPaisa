@@ -12,6 +12,7 @@ using CompanyPaisa.Core.Options;
 using CompanyPaisa.Data.Excel;
 using CompanyPaisa.Data.Sqlite;
 using CompanyPaisa.Infrastructure;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Options;
 
@@ -30,6 +31,7 @@ public static class ApiServiceCollectionExtensions
         services.AddCompanyPaisaApi(configuration);
         services.AddCompanyPaisaWebAnalytics(configuration);
         services.AddSingleton<IndexHtml>();
+        services.AddScoped<PageRenderer>();
         return services;
     }
 
@@ -71,6 +73,8 @@ public static class ApiServiceCollectionExtensions
 
         services.AddSingleton<IApiKeyValidator, ApiKeyValidator>();
         services.AddScoped<ApiKeyEndpointFilter>();
+        services.TryAddSingleton(TimeProvider.System);
+        services.AddSingleton<SiteSessions>();
 
         services.ConfigureHttpJsonOptions(o =>
         {
@@ -85,6 +89,30 @@ public static class ApiServiceCollectionExtensions
         services.AddRateLimiter(o =>
         {
             o.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+            // Hourly caps per visitor IP on top of the per-minute one: API calls without a key, and server-rendered pages.
+            o.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(context =>
+            {
+                var path = context.Request.Path.Value ?? "";
+                var limits = context.RequestServices.GetRequiredService<IOptionsMonitor<ApiOptions>>().CurrentValue.RateLimits;
+                int? perHour = null;
+                string? partition = null;
+                if (path.StartsWith("/api/", StringComparison.OrdinalIgnoreCase))
+                {
+                    var caller = context.RequestServices.GetRequiredService<IApiKeyValidator>().Identify(context);
+                    if (!caller.IsKeyed) (perHour, partition) = (limits.AnonymousPerHour, "api-hour:" + caller.PartitionKey);
+                }
+                else if (SitePages.IsRenderedPage(path))
+                {
+                    var header = context.RequestServices.GetRequiredService<IOptionsMonitor<ApiOptions>>().CurrentValue.ClientIpHeader;
+                    (perHour, partition) = (limits.PagesPerHour, "pages-hour:" + ApiKeyValidator.ClientIp(context, header));
+                }
+                return perHour is { } permits
+                    ? RateLimitPartition.GetFixedWindowLimiter(partition!, _ => new FixedWindowRateLimiterOptions
+                    {
+                        PermitLimit = permits, Window = TimeSpan.FromHours(1), QueueLimit = 0
+                    })
+                    : RateLimitPartition.GetNoLimiter("unlimited");
+            });
             o.AddPolicy(V1Endpoints.RateLimitPolicy, context =>
             {
                 var caller = context.RequestServices.GetRequiredService<IApiKeyValidator>().Identify(context);

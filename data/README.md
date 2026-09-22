@@ -5,6 +5,8 @@
 | `companypaisa.db` | **The live dataset** (SQLite) — every market in one file: SEC filers (US, Canada, Australia, NZ), UK Main Market, France, the Netherlands, Italy, Spain, Pakistan. Each importer run replaces only its own market's rows | **Real**, built by `tools/CompanyPaisa.Importer` (see *Database layout*) |
 | `import-report.md` | What the last import included (per metro), excluded (and why), and rows that need review | Generated |
 | `import-report-enrichment.md` | The last `--enrich` run: websites, careers pages and street positions per market | Generated |
+| `import-report-salaries.md` | The last `--salaries` run: filings read and matched, the companies with most filings, and the biggest unmatched employers | Generated |
+| `reference/employer-aliases.csv` | Employers in the H-1B filings that are a listed company under another name ("Google LLC" → GOOGL) — add a line to match more | Hand-curated |
 | `reference/company-sites.csv` | Each company's website (and where it came from) and careers page, with the date it was last looked for — edit to correct | Wikidata (CC0), the exchanges, companies' own filings and websites |
 | `reference/geocoded-locations.csv` | Locations placed at their street address (with the address they were placed from) | US Census Bureau geocoder; © OpenStreetMap contributors (ODbL) |
 | `import-report-pk.md` | The Pakistan run's report: included per area, excluded (and why), rows that need review | Generated |
@@ -182,6 +184,25 @@ miles of the postcode). Results go to `reference/company-sites.csv` and `referen
 market import applies when it publishes, so a monthly refresh keeps them. Addresses no geocoder could place are listed in
 `cache/enrich/geocode-misses.txt` and not retried.
 
+## Salaries by job title and the CEO pay ratio
+
+```bash
+dotnet run --project tools/CompanyPaisa.Importer -- --salaries
+```
+
+Reads the US Department of Labor's H-1B labor condition application disclosure files (the latest two federal fiscal
+years; each quarterly .xlsx is 80–250 MB, downloaded once into `cache/lca`). Every certified, full-time filing names the
+employer and its tax id (EIN), the job title, the work place and the yearly salary committed. Filings are matched to the
+US-listed companies in the database by EIN (from each company's SEC record), then by name (exact, or a subsidiary whose
+name starts with the company's), then by `reference/employer-aliases.csv`. Job titles are grouped (abbreviations spelled
+out, requisition codes dropped, levels kept apart) and summarised company-wide and per work place: 25th percentile, median,
+75th percentile, lowest and highest. A title or place needs at least 3 filings. The results replace the `job_salaries`
+table; the report lists the employers with the most unmatched filings, for new aliases.
+
+The **CEO pay ratio** comes with the `sec` market import: each proxy statement it reads is searched for the disclosure
+(median employee pay, CEO pay, "N to 1"), kept only when the amounts divide to the stated ratio and the CEO figure is
+near a total in the proxy's own pay table.
+
 ## Database layout
 
 `companypaisa.db` is SQLite (open it with any SQLite browser). Tables: `companies`, `locations`, `financials`,
@@ -190,8 +211,15 @@ point at it by `filing_id`, with `https://www.sec.gov/Archives/edgar/data/` stor
 `data_version`, `as_of_date`, `source`, `region`). Every row has a `market` column: `sec`, `uk`, `eu` or `pk`, the importer run
 that wrote it. Publishing a market works on a copy, deletes and re-inserts that market's rows, reads the copy back with the
 API's own rules, and only then replaces the file — a failed import leaves the old file untouched. `PRAGMA user_version` is
-the layout version (2 since `companies.careers_url`; an importer upgrades a layout-1 file in place); the API refuses a
+the layout version (3 since `worker_pay`, `job_salaries` and `extras`; 2 added `companies.careers_url`; an importer
+upgrades an older file in place); the API refuses a
 file with another one.
+
+`worker_pay` holds each company's disclosed pay ratio by year (`median_pay`, `ceo_pay`, `ratio`, the proxy as `filing_id`;
+market-owned). `job_salaries` holds salaries by job title (`title`, `occupation`, `city`/`state`/`latitude`/`longitude` for
+work-place rows, empty for the company-wide row; `filings`, `low`, `median`, `high`, `min`, `max`); it isn't market-owned
+— `--salaries` replaces it whole, and a company that leaves its market takes its rows with it. `extras` holds the salary
+source and date range (`job_salaries.from`, `.to`, `.source`).
 
 `new_executives` holds officer appointments read from the last 18 months of each SEC company's 8-K filings (Item 5.02): who
 (`person_id` when they could be linked to someone with reported pay), `title`, `announced_on`, `starts_on`, the filing, and

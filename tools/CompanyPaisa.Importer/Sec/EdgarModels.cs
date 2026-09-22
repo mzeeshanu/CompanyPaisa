@@ -13,6 +13,7 @@ public sealed record SecFiling(string Form, DateOnly FilingDate, string Accessio
 }
 
 /// <summary>What EDGAR's submissions API says about a filer.</summary>
+/// <param name="Ein">The employer identification number (9 digits), which other government data (H-1B wage filings) is keyed by.</param>
 public sealed record SecCompany(
     long Cik,
     string Name,
@@ -23,7 +24,8 @@ public sealed record SecCompany(
     string? FiscalYearEnd,
     string? Website,
     SecAddress? BusinessAddress,
-    IReadOnlyList<SecFiling> Filings)
+    IReadOnlyList<SecFiling> Filings,
+    string? Ein = null)
 {
     public string Cik10 => Cik.ToString("D10", CultureInfo.InvariantCulture);
     public string? PrimaryTicker => Tickers.FirstOrDefault();
@@ -61,7 +63,8 @@ public static class SubmissionsParser
             Str(root, "fiscalYearEnd"),
             Str(root, "website"),
             address,
-            recent);
+            recent,
+            Str(root, "ein") is { Length: 9 } ein && ein.All(char.IsDigit) ? ein : null);
         return (company, older);
     }
 

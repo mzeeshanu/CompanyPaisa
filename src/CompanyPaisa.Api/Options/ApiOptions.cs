@@ -8,10 +8,27 @@ public sealed class ApiOptions
 {
     public const string SectionName = "Api";
 
-    /// <summary>When true, callers without a key are allowed (at the anonymous rate limit). The website relies on this.</summary>
-    public bool AllowAnonymous { get; set; } = true;
+    /// <summary>
+    /// When true, callers without a key are allowed (at the anonymous rate limit) — for development, where the React dev
+    /// server serves the pages. Off, only the website's own pages (their site pass) and apps with a key get in.
+    /// </summary>
+    public bool AllowAnonymous { get; set; }
 
     [Required] public string ApiKeyHeader { get; set; } = "X-Api-Key";
+
+    /// <summary>The website's own pass to the API (see SiteSessions).</summary>
+    public SiteSessionOptions SiteSession { get; set; } = new();
+
+    /// <summary>
+    /// User-Agent fragments of scripts and scrapers; without an API key they get 403 (and no User-Agent at all is treated
+    /// the same). Browsers and search-engine crawlers don't call the API.
+    /// </summary>
+    public List<string> BlockedUserAgents { get; set; } =
+    [
+        "curl", "wget", "python-requests", "python-urllib", "python-httpx", "aiohttp", "httpx", "go-http-client", "java/", "okhttp",
+        "libwww-perl", "scrapy", "node-fetch", "undici", "axios", "headlesschrome", "phantomjs", "puppeteer", "playwright", "selenium",
+        "httpclient", "postmanruntime", "insomnia", "powershell", "winhttp", "gptbot", "claudebot", "ccbot", "bytespider", "petalbot"
+    ];
 
     /// <summary>Keys for external apps. Put real keys in user-secrets / environment variables, never in appsettings.json.</summary>
     public List<ApiClientKey> Keys { get; set; } = [];
@@ -43,6 +60,22 @@ public sealed class RateLimitOptions
 {
     [Range(1, 1_000_000)] public int AnonymousPerMinute { get; set; } = 120;
     [Range(1, 1_000_000)] public int KeyedPerMinute { get; set; } = 1200;
+    /// <summary>
+    /// API calls one visitor's IP address may make in an hour without a key: plenty for a person (a company page is four
+    /// calls), slow going for someone copying all 5,000 companies.
+    /// </summary>
+    [Range(1, 10_000_000)] public int AnonymousPerHour { get; set; } = 2000;
+    /// <summary>Server-rendered pages (company, executive, search) one IP address may fetch in an hour.</summary>
+    [Range(1, 10_000_000)] public int PagesPerHour { get; set; } = 1200;
+}
+
+public sealed class SiteSessionOptions
+{
+    /// <summary>Signs the website's passes (32+ characters). Set it in the host's secrets so passes survive a restart.</summary>
+    public string? Secret { get; set; }
+    [Required] public string CookieName { get; set; } = "cp_site";
+    /// <summary>How long a pass lasts; it is renewed while the site is in use.</summary>
+    [Range(1, 168)] public int Hours { get; set; } = 12;
 }
 
 /// <summary>appsettings section "Hosting" — how the app sits behind a platform like Railway.</summary>

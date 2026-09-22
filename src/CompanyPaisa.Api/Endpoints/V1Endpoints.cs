@@ -64,6 +64,13 @@ public static class V1Endpoints
             .WithName("GetExecutives").WithSummary("Executive compensation by year (salary, bonus, stock, other, total).")
             .Produces<ExecutivesResponse>();
 
+        v1.MapGet("/companies/{ticker}/salaries", async (string ticker, IServiceRequestor requestor, CancellationToken ct) =>
+                Results.Ok(await requestor.SendAsync(new GetJobSalariesQuery(ticker), ct)))
+            .WithName("GetJobSalaries")
+            .WithSummary("Yearly salaries the company offered by job title, company-wide and per work place, from its US H-1B wage filings.")
+            .WithDescription("Titles with at least three filings; the 25th percentile, median and 75th percentile of the salary offered.")
+            .Produces<JobSalariesResponse>();
+
         v1.MapGet("/companies/{ticker}/insights", async (string ticker, IServiceRequestor requestor, IOptionsMonitor<FeatureOptions> features, CancellationToken ct) =>
                 Results.Ok(await requestor.SendAsync(new GetCompanyInsightsQuery(ticker, features.CurrentValue.IsEnabled("Executives")), ct)))
             .WithName("GetCompanyInsights")

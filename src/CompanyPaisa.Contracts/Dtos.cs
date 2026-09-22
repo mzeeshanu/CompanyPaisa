@@ -117,7 +117,25 @@ public sealed record CompanyDetailDto(
     IReadOnlyList<LocationDto> Locations,
     CompanyIndicatorsDto Indicators,
     string? PayCurrency = null,
-    string? CareersUrl = null);
+    string? CareersUrl = null,
+    IReadOnlyList<WorkerPayDto>? WorkerPay = null,
+    int SalaryTitles = 0);
+
+/// <summary>
+/// The company's median employee next to its CEO, as disclosed in its proxy statement (US pay ratio). <see cref="Ratio"/>:
+/// the CEO was paid this many times the median employee.
+/// </summary>
+public sealed record WorkerPayDto(int Year, decimal MedianEmployeePay, decimal CeoPay, decimal Ratio, string Currency, string? SourceFiling);
+
+/// <summary>Salaries a company offered by job title (its H-1B wage filings), with where the filings came from.</summary>
+public sealed record JobSalariesResponse(string Ticker, string Currency, DateOnly? From, DateOnly? To, string? Source, IReadOnlyList<JobSalaryDto> Titles);
+
+/// <summary>One job title: how many filings, and the yearly salary offered (25th percentile, median, 75th, lowest, highest).</summary>
+public sealed record JobSalaryDto(string Title, string? Occupation, int Filings, decimal Low, decimal Median, decimal High, decimal Min, decimal Max,
+    IReadOnlyList<JobSalaryPlaceDto> Places);
+
+/// <summary>The same job title at one work place (only places with enough filings of their own).</summary>
+public sealed record JobSalaryPlaceDto(string City, string State, int Filings, decimal Low, decimal Median, decimal High, double? Latitude, double? Longitude);
 
 /// <summary>One reporting period.</summary>
 public sealed record FinancialPeriodDto(

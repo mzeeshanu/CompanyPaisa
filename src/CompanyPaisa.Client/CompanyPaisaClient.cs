@@ -76,6 +76,10 @@ public sealed class CompanyPaisaClient(HttpClient http) : ICompanyPaisaClient
     public Task<CompanyInsightsResponse?> GetCompanyInsightsAsync(string ticker, CancellationToken ct = default) =>
         GetOptionalAsync<CompanyInsightsResponse>($"api/v1/companies/{Uri.EscapeDataString(ticker)}/insights", ct);
 
+    /// <summary>Salaries the company offered by job title (its US H-1B wage filings); null for an unknown ticker.</summary>
+    public Task<JobSalariesResponse?> GetJobSalariesAsync(string ticker, CancellationToken ct = default) =>
+        GetOptionalAsync<JobSalariesResponse>($"api/v1/companies/{Uri.EscapeDataString(ticker)}/salaries", ct);
+
     public Task<ExecutivesNearResponse> GetExecutivesNearAsync(ExecutivesNearRequest r, CancellationToken ct = default) =>
         GetRequiredAsync<ExecutivesNearResponse>("api/v1/executives/near" + Query(
             ("near", r.Near), ("latitude", Num(r.Latitude)), ("longitude", Num(r.Longitude)), ("radiusMiles", Num(r.RadiusMiles)),

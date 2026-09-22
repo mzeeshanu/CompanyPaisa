@@ -1,11 +1,11 @@
-# Data validation report — 2026-09-19 22:06 UTC
+# Data validation report — 2026-09-22 10:30 UTC
 
-Checks everything in `companypaisa.db` together, as the website sees it — markets: sec (sec-2026.09.15), uk (uk-2026.09.14), eu (eu-2026.09.15), pk (pk-2026.09.19).
+Checks everything in `companypaisa.db` together, as the website sees it — markets: uk (uk-2026.09.14), eu (eu-2026.09.15), pk (pk-2026.09.19), sec (sec-2026.09.22).
 
 **Errors** are values that can't be right. **Warnings** are unusual values worth a look — many are real (big acquisitions, holding-company gains, mega stock grants). Nothing here changes the data.
 
 - Errors: **0**
-- Warnings: **665**
+- Warnings: **662**
 
 ## Checks
 
@@ -26,14 +26,14 @@ Checks everything in `companypaisa.db` together, as the website sees it — mark
 | Financials | Revenue jumps 10× in a year | Warning | 51 |
 | Financials | Quarters don't add up to the year | Warning | 70 |
 | Financials | Out of date | Warning | 45 |
-| Financials | Annual figures missing, quarters only | Warning | 105 |
+| Financials | Annual figures missing, quarters only | Warning | 103 |
 | Pay | Negative amount | Error | ✓ 0 |
 | Pay | Year in the future | Error | ✓ 0 |
 | Pay | Person record missing | Error | ✓ 0 |
 | Pay | Same person, company and year twice | Error | ✓ 0 |
 | Pay | Salary bigger than total | Warning | ✓ 0 |
 | Pay | Impossibly large total | Error | ✓ 0 |
-| Pay | Very large total | Warning | 66 |
+| Pay | Very large total | Warning | 65 |
 | Pay | Tiny total | Warning | ✓ 0 |
 | Pay | Name doesn't look like a person | Warning | 1 |
 | Pay | Pieces don't add up to the total | Warning | ✓ 0 |
@@ -44,43 +44,43 @@ Checks everything in `companypaisa.db` together, as the website sees it — mark
 
 | | Count |
 |---|---|
-| US | 3,834 |
+| US | 3,832 |
 | GB | 328 |
 | PK | 228 |
 | FR | 180 |
-| CA | 146 |
+| CA | 144 |
 | IT | 139 |
 | ES | 93 |
 | NL | 71 |
-| AU | 16 |
+| AU | 17 |
 | ? | 1 |
 
 ### Companies by exchange
 
 | | Count |
 |---|---|
-| Nasdaq | 2,163 |
+| Nasdaq | 2,160 |
 | NYSE | 1,620 |
 | LSE | 328 |
 | Pakistan Stock Exchange | 228 |
-| OTC | 208 |
+| OTC | 209 |
 | Euronext Paris | 180 |
 | Borsa Italiana | 139 |
 | Bolsa de Madrid | 93 |
 | Euronext Amsterdam | 71 |
-| Unlisted | 4 |
+| Unlisted | 3 |
 | CBOE | 2 |
 
 ### Companies by reporting currency
 
 | | Count |
 |---|---|
-| USD | 3,993 |
+| USD | 3,990 |
 | EUR | 486 |
 | GBP | 268 |
 | PKR | 228 |
-| CAD | 51 |
-| AUD | 5 |
+| CAD | 50 |
+| AUD | 6 |
 | GEL | 2 |
 | CNY | 1 |
 | HKD | 1 |
@@ -93,14 +93,14 @@ Checks everything in `companypaisa.db` together, as the website sees it — mark
 | Other | 783 |
 | Finance | 747 |
 | Healthcare | 682 |
-| Consumer & retail | 598 |
-| Industrials | 517 |
-| Software & IT | 355 |
+| Consumer & retail | 597 |
+| Industrials | 516 |
+| Software & IT | 354 |
 | Energy & utilities | 279 |
 | Real estate | 230 |
 | Business services | 213 |
-| Materials | 193 |
-| Technology hardware | 144 |
+| Materials | 192 |
+| Technology hardware | 145 |
 | Media & telecom | 105 |
 | Transportation | 92 |
 | Semiconductors | 77 |
@@ -110,7 +110,7 @@ Checks everything in `companypaisa.db` together, as the website sees it — mark
 
 | | Count |
 |---|---|
-| US | 3,417 |
+| US | 3,416 |
 | PK | 123 |
 | GB | 89 |
 | CA | 29 |
@@ -120,32 +120,32 @@ Checks everything in `companypaisa.db` together, as the website sees it — mark
 
 | | Count |
 |---|---|
-| 10+ | 2,450 |
-| 6–9 | 1,196 |
-| 3–5 | 1,052 |
-| 1–2 | 233 |
-| 0 (quarters only) | 105 |
+| 10+ | 2,451 |
+| 6–9 | 1,194 |
+| 3–5 | 1,053 |
+| 1–2 | 232 |
+| 0 (quarters only) | 103 |
 
 ### Newest annual figures
 
 | | Count |
 |---|---|
-| FY 2025 | 4,211 |
-| FY 2026 | 397 |
-| FY 2024 | 278 |
-| none | 105 |
+| FY 2025 | 4,197 |
+| FY 2026 | 412 |
+| FY 2024 | 276 |
+| none | 103 |
 | 2023 or older | 45 |
 
 ### Rows
 
 | | Count |
 |---|---|
-| Companies | 5,036 |
-| Locations | 5,046 |
+| Companies | 5,033 |
+| Locations | 5,043 |
 | Annual periods | 37,543 |
-| Quarterly periods | 132,475 |
-| Pay rows | 89,863 |
-| People | 23,716 |
+| Quarterly periods | 132,444 |
+| Pay rows | 89,806 |
+| People | 23,704 |
 
 ## Details
 
@@ -159,10 +159,10 @@ Expected for hand-added offices of companies based abroad (e.g. NICE in Utah); a
 
 Usually two share classes or a parent and its subsidiary listed separately — one company shown twice.
 
-- DPZ, DOM.L — Dominos Pizza Inc
+- DOM.L, DPZ — Domino's Pizza
+- ITP.PA, IPAR — Interparfums
+- IRE.MI, IREN — Iren S.p.A.
 - FMCB, FMAO — Farmers & Merchants Bancorp
-- IPAR, ITP.PA — Interparfums Inc
-- IREN, IRE.MI — IREN Ltd
 
 ### Financials · Negative revenue (244)
 
@@ -186,36 +186,36 @@ Reported revenue below zero. Real for mortgage REITs and energy producers, whose
 
 Net profit more than 3× revenue for a company with ≥ $10M revenue — possible for holding companies and one-off gains, often a revenue sub-line.
 
-- ACTG (Acacia Research Corp) FY 2020: revenue 29.8M, net income 109.2M
-- AGIO (Agios Pharmaceuticals, Inc.) FY 2024: revenue 36.5M, net income 674.0M
-- ARL (American Realty Investors Inc) FY 2022: revenue 37.5M, net income 373.3M
-- AMSC (American Superconductor Corp /De/) FY 2024: revenue 145.6M, net income 6.03bn
-- AIV (Apartment Investment & Management Co) FY 2025: revenue 138.5M, net income 547.2M
-- APYX (Apyx Medical Corp) FY 2018: revenue 16.7M, net income 62.7M
-- ACGP (Associated Capital Group, Inc.) FY 2024: revenue 13.2M, net income 44.3M
-- AZTA (Azenta, Inc.) FY 2022: revenue 555.5M, net income 2.13bn
-- BDTX (Black Diamond Therapeutics, Inc.) FY 2025: revenue 70.0M, net income 22.37bn
-- CPT (Camden Property Trust) FY 2020: revenue 10.8M, net income 123.9M
-- CPT (Camden Property Trust) FY 2021: revenue 10.5M, net income 303.9M
-- CPT (Camden Property Trust) FY 2025: revenue 13.0M, net income 384.5M
+- CNE.L (Capricorn Energy plc) FY 2021: revenue 57.1M, net income 894.5M
+- CREI.L (Custodian Property Income REIT plc) FY 2022: revenue 39.9M, net income 122.3M
+- NOG.L (Nostrum Oil & Gas plc) FY 2023: revenue 119.6M, net income 831.7M
+- STJ.L (St. James's Place) FY 2025: revenue 24.2M, net income 531.1M
+- STJ.L (St. James's Place) FY 2024: revenue 25.2M, net income 398.4M
+- STJ.L (St. James's Place) FY 2022: revenue 26.5M, net income 406.8M
+- ALTA.PA (Altarea) FY 2022: revenue 54.4M, net income 326.8M
+- ALTA.PA (Altarea) FY 2021: revenue 46.9M, net income 211.6M
+- ALTA.PA (Altarea) FY 2019: revenue 41.2M, net income 233.7M
+- AREIT.PA (Altareit) FY 2022: revenue 24.4M, net income 74.4M
+- AREIT.PA (Altareit) FY 2021: revenue 21.9M, net income 72.2M
+- AREIT.PA (Altareit) FY 2020: revenue 16.3M, net income 69.4M
 - … and 66 more
 
 ### Financials · Revenue jumps 10× in a year (51)
 
 Year-on-year revenue up or down more than tenfold (both years ≥ $10M) — a real acquisition, or a switch of revenue definition or units.
 
+- CSN.L (Chesnara): FY 2021 1.51bn → FY 2022 33.9M
+- ENOG.L (Energean): FY 2020 28.0M → FY 2021 497.0M
+- LGEN.L (Legal & General): FY 2021 45.45bn → FY 2022 1.70bn
+- RF.PA (Eurazeo): FY 2022 4.64bn → FY 2023 343.7M
+- EZE.MC (Grupo Ezentis SA): FY 2021 216.3M → FY 2022 21.6M
+- EMCO.KA (Emco Industries Limited): FY 2024 4.19bn → FY 2025 283.61bn
 - ABCL (AbCellera Biologics Inc.): FY 2019 11.6M → FY 2020 233.2M
 - ABCL (AbCellera Biologics Inc.): FY 2022 485.4M → FY 2023 38.0M
 - ACTG (Acacia Research Corp): FY 2018 131.5M → FY 2019 11.2M
 - AHR (American Healthcare REIT, Inc.): FY 2018 84.5M → FY 2019 1.10bn
 - AMLX (Amylyx Pharmaceuticals, Inc.): FY 2022 22.2M → FY 2023 380.8M
 - ARCT (Arcturus Therapeutics Holdings Inc.): FY 2021 12.4M → FY 2022 206.0M
-- AD (Array Digital Infrastructure, Inc.): FY 2024 3.67bn → FY 2025 163.0M
-- ARWR (Arrowhead Pharmaceuticals, Inc.): FY 2018 16.1M → FY 2019 168.8M
-- AAWH (Ascend Wellness Holdings, Inc.): FY 2019 12.0M → FY 2020 143.7M
-- CANG (Cango Inc.): FY 2023 1.70bn → FY 2024 110.2M
-- DNLI (Denali Therapeutics Inc.): FY 2019 26.7M → FY 2020 335.7M
-- DBRG (DigitalBridge Group, Inc.): FY 2018 1.17bn → FY 2019 61.0M
 - … and 39 more
 
 ### Financials · Quarters don't add up to the year (70)
@@ -240,21 +240,21 @@ For December year-ends, the four quarters differ from the annual figure by more 
 
 Newest annual figures are more than two years old — the company may have stopped reporting, been taken over, or changed filer.
 
-- AKTX (Akari Therapeutics Plc): latest FY 2023
-- AQB (Aquabounty Technologies Inc): latest FY 2023
-- ASUR (Asure Software Inc): latest FY 2023
-- BESS (Bimergen Energy Corp): latest FY 2023
-- BXMT (Blackstone Mortgage Trust, Inc.): latest FY 2023
-- CTXR (Citius Pharmaceuticals, Inc.): latest FY 2022
-- CIA (Citizens, Inc.): latest FY 2022
-- COCP (Cocrystal Pharma, Inc.): latest FY 2020
-- DCOY (Decoy Therapeutics Inc.): latest FY 2022
-- ESOA (Energy Services of America CORP): latest FY 2022
-- GERN (Geron Corp): latest FY 2023
-- GGROU (Golden Growers Cooperative): latest FY 2023
+- CNA.L (Centrica): latest FY 2023
+- UKW.L (Greencoat UK Wind): latest FY 2021
+- HEMO.L (Hemogenyx Pharmaceuticals plc): latest FY 2022
+- ICON.L (Iconic Labs plc): latest FY 2022
+- POLN.L (Pollen Street Group): latest FY 2023
+- COIL.L (Roquefort Therapeutics PLC): latest FY 2023
+- SVNS.L (Solvonis Therapeutics plc): latest FY 2023
+- ULVR.L (Unilever): latest FY 2021
+- ALTOU.PA (Touax SCA - Sgtr - Cite - Sgt - Cmte - Taf - Slm Touage Investissements Reunies): latest FY 2020
+- ERC.AS (ER Capital N.V.): latest FY 2022
+- EXO.AS (Exor N.V.): latest FY 2023
+- BEVER.AS (N.V. Bever Holding): latest FY 2023
 - … and 33 more
 
-### Financials · Annual figures missing, quarters only (105)
+### Financials · Annual figures missing, quarters only (103)
 
 Shown with quarterly figures only; the headline 'annual revenue' comes from the last four quarters.
 
@@ -270,16 +270,15 @@ Shown with quarterly figures only; the headline 'annual revenue' comes from the 
 - APC (ARKO Petroleum Corp.)
 - ARXS (Arxis, Inc.)
 - RNA (Atrium Therapeutics, Inc.)
-- … and 93 more
+- … and 91 more
 
-### Pay · Very large total (66)
+### Pay · Very large total (65)
 
 Total above $150M (US-dollar equivalent) in one year — happens (mega stock grants), but check it's not a unit error.
 
 - TSLA (Tesla, Inc.) Elon Musk 2018: 2.28bn
 - PLTR (Palantir Technologies Inc.) Alexander Karp 2020: 1.10bn
 - FIG (Figma, Inc.) Dylan Field 2025: 864.4M
-- TTD (Trade Desk, Inc.) Jeff T. Green 2021: 835.0M
 - WELL (Welltower Inc.) Shankh Mitra 2025: 821.1M
 - HOOD (Robinhood Markets, Inc.) Vladimir Tenev 2021: 796.1M
 - OPEN (Opendoor Technologies Inc.) Kaz Nejatian 2025: 741.1M
@@ -288,7 +287,8 @@ Total above $150M (US-dollar equivalent) in one year — happens (mega stock gra
 - LCID (Lucid Group, Inc.) Peter Rawlinson 2021: 565.6M
 - AFRM (Affirm Holdings, Inc.) Max Levchin 2021: 451.2M
 - APO (Apollo Global Management, Inc.) Scott Kleinman 2021: 437.0M
-- … and 54 more
+- RIVN (Rivian Automotive, Inc. / DE) Robert J. Scaringe 2021: 422.1M
+- … and 53 more
 
 ### Pay · Name doesn't look like a person (1)
 

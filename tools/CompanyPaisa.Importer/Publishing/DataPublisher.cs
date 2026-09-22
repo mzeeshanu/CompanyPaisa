@@ -22,7 +22,7 @@ public sealed class DataPublisher(IOptions<ImporterOptions> options, RepoPaths p
     /// <param name="region">The areas covered, for the metadata.</param>
     public void Publish(string market, IReadOnlyList<Company> companies, IReadOnlyList<CompanyLocation> locations,
         IReadOnlyList<FinancialPeriod> financials, IReadOnlyList<ExecutiveCompensation> pay, IReadOnlyList<Person> people,
-        IReadOnlyList<NewExecutive> newExecutives, string source, string region)
+        IReadOnlyList<NewExecutive> newExecutives, string source, string region, IReadOnlyList<WorkerPay>? workerPay = null)
     {
         var now = DateTime.UtcNow;
         var meta = new Dictionary<string, string>
@@ -39,7 +39,7 @@ public sealed class DataPublisher(IOptions<ImporterOptions> options, RepoPaths p
             Enrichment.EnrichmentTables.ReadSites(paths.Resolve(enrichment.SitesPath)),
             Enrichment.EnrichmentTables.ReadPoints(paths.Resolve(enrichment.PointsPath)));
         var data = new CompanyData(companies, locations, financials, pay, people,
-            new DataSetMetadata(meta["data_version"], DateOnly.FromDateTime(now), false, now), newExecutives);
+            new DataSetMetadata(meta["data_version"], DateOnly.FromDateTime(now), false, now), newExecutives, workerPay);
 
         var watch = System.Diagnostics.Stopwatch.StartNew();
         SqliteDataStore.ReplaceMarket(DatabasePath, market, data, meta);

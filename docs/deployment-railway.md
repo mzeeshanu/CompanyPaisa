@@ -86,11 +86,40 @@ pg_dump "<DATABASE_PUBLIC_URL>" --format=custom --file=companypaisa-analytics.du
 **Moving to another host (e.g. Azure Database for PostgreSQL):** `pg_restore --no-owner --dbname "<new url>" companypaisa-analytics.dump`,
 then change `Analytics__ConnectionString`. Nothing in the code changes; `Analytics:Provider` also accepts `Sqlite` (a file) or `None`.
 
+## Who can use the API
+
+The API isn't open to the public. A call gets in when it carries either:
+
+- **An API key** (`X-Api-Key` header), for other apps. Keys live in Railway variables, one pair per app:
+  `Api__Keys__0__Name` = `partner-name`, `Api__Keys__0__Key` = a long random string (the PowerShell line above makes one).
+  Set `Api__Keys__0__Enabled` = `false` to switch a key off without deleting it.
+- **The website's pass**, a cookie every page of the site hands out (HttpOnly, sent only to `/api`, signed by the server,
+  holding nothing but its expiry — no visitor id). Calls from another website's pages, and from scripts and scrapers
+  (curl, python-requests, headless Chrome… — `Api:BlockedUserAgents`), are refused.
+
+One Railway variable to set, so passes survive a redeploy (otherwise open pages quietly fetch a new one):
+
+| Variable | Value |
+|---|---|
+| `Api__SiteSession__Secret` | a long random string (the PowerShell line above). **Secret.** |
+
+Limits per visitor IP without a key: 120 API calls a minute and 2,000 an hour; 1,200 server-rendered pages an hour
+(`Api:RateLimits`). With a key: 1,200 a minute.
+
+**Cloudflare (dashboard, free plan)** — the bot defences in front of the app:
+
+1. **Security → Bots → Bot Fight Mode: On.** Challenges known bad bots before they reach Railway.
+2. **Security → Bots → Block AI bots: On** if you don't want AI crawlers copying the pages (your call: it also keeps
+   the site out of some AI answers).
+3. **Security → WAF → Rate limiting rules → Create rule**: *URI Path starts with `/api/`*, *same IP*, *more than 100
+   requests in 10 seconds* → *Block for 10 seconds*. Catches floods before they cost anything.
+
 ## Checks after deploying
 
 - `https://<domain>/health` → `Healthy`
 - `https://<domain>/` → the website; enter 84043
-- `https://<domain>/api/v1/companies/near?near=84043` → JSON
+- `https://<domain>/company/AAPL` → view the page source: the figures are in the HTML (what search engines read)
+- `https://<domain>/api/v1/companies/near?near=84043` in a new private window → `401 API key required` (the API is closed)
 - `https://<domain>/swagger` → API docs (if enabled)
 
 ## Local rehearsal (without Docker)

@@ -40,6 +40,7 @@ public static class AnalyticsEndpoints
                     tracker.Track(new AnalyticsAction(body.Name, body.Subject), ExternalReferrer(body.Referrer, context), PathOnly(body.Path));
                 return Results.NoContent();
             })
+            .AddEndpointFilter<Security.ApiKeyEndpointFilter>()
             .RequireRateLimiting(V1Endpoints.RateLimitPolicy)
             .ExcludeFromDescription();
 
