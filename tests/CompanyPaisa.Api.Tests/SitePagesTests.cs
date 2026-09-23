@@ -56,6 +56,8 @@ public class SitePagesTests(SitePagesFactory factory) : IClassFixture<SitePagesF
         Assert.Contains("<title>LifeVantage", html);
         Assert.Contains("<link rel=\"canonical\" href=\"http://localhost/company/LFVN\" />", html);
         Assert.Contains("<meta property=\"og:title\" content=\"LifeVantage", html);
+        Assert.Contains("<meta property=\"og:image\" content=\"http://localhost/og-image.png\" />", html);
+        Assert.Contains("<meta name=\"twitter:card\" content=\"summary_large_image\" />", html);
         Assert.Single(html.Split("name=\"description\"").Skip(1));   // replaced, not added twice
         // The facts are in the HTML itself, inside the app's root (the app replaces them when it starts).
         Assert.Contains("<div id=\"root\"><main class=\"ssr\"><h1>LifeVantage", html);

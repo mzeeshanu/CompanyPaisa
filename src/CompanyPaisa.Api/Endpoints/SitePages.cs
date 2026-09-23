@@ -255,7 +255,11 @@ public static partial class SitePages
                 <meta property="og:title" content="{title}" />
                 <meta property="og:description" content="{description}" />
                 <meta property="og:url" content="{url}" />
-                <meta name="twitter:card" content="summary" />
+                <meta property="og:image" content="{enc.Encode(origin + ShareImage)}" />
+                <meta property="og:image:width" content="1200" />
+                <meta property="og:image:height" content="630" />
+                <meta property="og:image:alt" content="CompanyPaisa: public companies near you. Revenue, profit, executive pay and salaries." />
+                <meta name="twitter:card" content="summary_large_image" />
 
             """;
         if (!meta.Index) head += NoIndex;
@@ -263,7 +267,10 @@ public static partial class SitePages
         return InHead(html, head);
     }
 
-    private const string NoIndex = "    <meta name=\"robots\" content=\"noindex\" />\n";
+    /// <summary>The picture link previews show (1200×630, in the website's public folder).</summary>
+    public const string ShareImage = "/og-image.png";
+
+    private const string NoIndex ="    <meta name=\"robots\" content=\"noindex\" />\n";
 
     private static string InHead(string html, string tags)
     {
