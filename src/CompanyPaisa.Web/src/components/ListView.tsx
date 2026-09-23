@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import * as d3 from 'd3';
 import type { CompanySort, CompanySummary, NearbyResponse } from '../api/types';
 import { bubbleRadius, money, pct, tone, total, trendClass } from '../lib/format';
@@ -102,6 +102,17 @@ function BubbleField({ items, highlight, onHover, onOpened }: { items: CompanySu
   const [enlarged, setEnlarged] = useState(false);
   const field = useMemo(() => width > 0 ? spread(shown, width, enlarged ? Infinity : maxHeight(width)) : null, [shown, width, enlarged]);
 
+  // New results pop in, biggest first. Only once per search: not when coming back from a company page (same
+  // results), switching city or resizing. Runs before the first paint so the bubbles never flash in first.
+  const [pop, setPop] = useState(false);
+  useLayoutEffect(() => {
+    if (!field || poppedFor === items) return;
+    poppedFor = items;
+    setPop(true);
+    setTimeout(() => setPop(false), popSpread(field.nodes.length) + POP_MS + 100);
+  }, [items, field]);
+  const popDelay = (i: number, n: number) => pop ? { animationDelay: `${Math.round(i / Math.max(1, n - 1) * popSpread(n))}ms` } : undefined;
+
   return (
     <section className="field pane" aria-label="Companies by revenue">
       <div className="field-h">
@@ -123,11 +134,11 @@ function BubbleField({ items, highlight, onHover, onOpened }: { items: CompanySu
           </button>
         )}
       </div>
-      <div className="field-box" ref={box} style={{ height: field?.height ?? 160 }}>
-        {field?.nodes.map(n => (
+      <div className={`field-box${pop ? ' pop' : ''}`} ref={box} style={{ height: field?.height ?? 160 }}>
+        {field?.nodes.map((n, i, all) => (
           <Link key={n.c.ticker} to={companyPath(n.c.ticker)}
             className={`bub t-${trendClass(n.c.indicators.trend)}${n.r < 8 ? ' dot-sm' : ''}${highlight.hovered === n.c.ticker ? ' hl' : ''}${highlight.selected === n.c.ticker ? ' sel' : ''}`}
-            style={{ left: n.x - n.r, top: n.y - n.r, width: n.r * 2, height: n.r * 2 }}
+            style={{ left: n.x - n.r, top: n.y - n.r, width: n.r * 2, height: n.r * 2, ...popDelay(i, all.length) }}
             aria-label={`${n.c.name}, ${money(n.c.indicators.ttmRevenue, n.c.currency)} revenue`}
             onMouseEnter={e => onHover(n.c.ticker, e.currentTarget)} onMouseLeave={() => onHover(null)}
             onFocus={e => onHover(n.c.ticker, e.currentTarget)} onBlur={() => onHover(null)}
@@ -142,6 +153,12 @@ function BubbleField({ items, highlight, onHover, onOpened }: { items: CompanySu
 }
 
 interface Placed { c: CompanySummary; r: number; x: number; y: number }
+
+/** The results the pop-in last played for (kept outside the component, which unmounts while a company page is open). */
+let poppedFor: CompanySummary[] | null = null;
+/** One bubble's pop (matches .field-box.pop in styles.css), and how long the last one waits: longer for a crowd. */
+const POP_MS = 520;
+const popSpread = (n: number) => Math.min(650, 200 + n * 6);
 
 /** Space between bubbles, and how much of a box circles fill when they're packed loosely. */
 const BUBBLE_GAP = 3;

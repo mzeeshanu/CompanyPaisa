@@ -173,6 +173,9 @@ select option{background:var(--ground);color:var(--ink)}
 .bub.dot-sm .glass{box-shadow:inset 0 -2px 4px var(--tint-soft),0 2px 5px var(--tint-shadow)}
 .field-box{position:relative;margin-top:6px;transition:height .35s cubic-bezier(.2,.8,.2,1)}
 .field-box .bub{transition:left .45s cubic-bezier(.2,.8,.2,1),top .45s cubic-bezier(.2,.8,.2,1),width .45s,height .45s}
+/* New results: each bubble grows from nothing with a small overshoot, biggest first (delays set in ListView). */
+.field-box.pop .bub{animation:bub-pop 520ms cubic-bezier(.2,1.5,.35,1) both}
+@keyframes bub-pop{0%{transform:scale(0);opacity:0}60%{opacity:1}100%{transform:scale(1);opacity:1}}
 
 /* glass bubble — shared by both views */
 .t-up{--tint:var(--tu);--tint-soft:var(--tus);--tint-shadow:var(--tush)}
@@ -510,6 +513,7 @@ td.co i{width:8px;height:8px;border-radius:2px;display:inline-block}
 @media (max-width:380px){.filters-btn svg{display:none}}
 @media (prefers-reduced-motion:reduce){
   .aurora i{animation:none}
+  .field-box.pop .bub{animation:none}
   .app,.gate{transition:none}
 }
 
