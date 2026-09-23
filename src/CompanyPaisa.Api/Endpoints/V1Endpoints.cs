@@ -136,7 +136,7 @@ public static class V1Endpoints
 
         v1.MapGet("/client-config", (IOptionsMonitor<UiOptions> ui, IOptionsMonitor<SearchOptions> search, IOptionsMonitor<FeatureOptions> features) =>
                 Results.Ok(ui.CurrentValue.ToClientConfig(search.CurrentValue, features.CurrentValue)))
-            .WithName("GetClientConfig").WithSummary("Website settings from appsettings.json (default view, radius options, features…).")
+            .WithName("GetClientConfig").WithSummary("Website settings from appsettings.json (theme, radius options, features…).")
             .Produces<ClientConfigDto>();
 
         return app;

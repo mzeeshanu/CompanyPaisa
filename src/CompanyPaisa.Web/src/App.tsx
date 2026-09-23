@@ -9,7 +9,6 @@ import { ExecutivePage } from './components/ExecutivePage';
 import { ExecutivesView } from './components/ExecutivesView';
 import { ListView } from './components/ListView';
 import { LocationGate, type Origin } from './components/LocationGate';
-import { MapView } from './components/MapView';
 import type { Nearby } from './components/PageShell';
 import { PrivacyNotice } from './components/PrivacyNotice';
 import { ReportProblem } from './components/ReportProblem';
@@ -19,14 +18,13 @@ import { DISCLAIMER } from './lib/disclaimer';
 import { money, pct } from './lib/format';
 import {
   applyTheme, clearPrefs, configurePrefs, readPrefs, readSessionConsent, writePrefs, writeSessionConsent,
-  type Consent, type Mode, type Theme, type View,
+  type Consent, type Mode, type Theme,
 } from './lib/prefs';
-import { companyPath, navigate, replaceAddress, savedScroll, searchPath, useRoute } from './lib/router';
+import { navigate, replaceAddress, savedScroll, searchPath, useRoute } from './lib/router';
 
 const FALLBACK_CONFIG: ClientConfig = {
-  defaultView: 'List', defaultTheme: 'Auto', defaultRadiusMiles: 10, allowedRadiiMiles: [5, 10, 25, 50],
-  defaultSort: 'Revenue', showBaseMapByDefault: true, mapTilesUrl: null,
-  consentCookieName: 'cp_prefs', consentCookieDays: 365, features: { MapView: true, ListView: true, Executives: true },
+  defaultTheme: 'Auto', defaultRadiusMiles: 10, allowedRadiiMiles: [5, 10, 25, 50], defaultSort: 'Revenue',
+  consentCookieName: 'cp_prefs', consentCookieDays: 365, features: { Executives: true },
   coverage: [],
 };
 const COVERAGE_MILES = 60;
@@ -60,9 +58,7 @@ export default function App() {
   const [companyFind, setCompanyFind] = useState('');
   const [includeFormer, setIncludeFormer] = useState(false);
 
-  const [view, setView] = useState<View>('list');
   const [theme, setTheme] = useState<Theme>('auto');
-  const [showBaseMap, setShowBaseMap] = useState(true);
   const [consent, setConsent] = useState<Consent>(null);
   const [showConsent, setShowConsent] = useState(false);
   const [showPrivacy, setShowPrivacy] = useState(false);
@@ -77,7 +73,6 @@ export default function App() {
   const [pageAbout, setPageAbout] = useState('');
   const [hovered, setHovered] = useState<string | null>(null);
   const [tip, setTip] = useState<Tip | null>(null);
-  const header = useRef<HTMLElement>(null);
   // A search address (/near/84043?radius=25) is being turned into a search: the location screen waits until it's known.
   const [resolving, setResolving] = useState(() => route.kind === 'home' && route.search !== null);
   const [gateNotice, setGateNotice] = useState<string | undefined>();
@@ -98,22 +93,18 @@ export default function App() {
         setSectors(secs);
         setRadius(cfg.defaultRadiusMiles);
         setSort(cfg.defaultSort);
-        setView(saved?.view ?? (cfg.defaultView === 'Map' && cfg.features.MapView !== false ? 'map' : 'list'));
         setMode(saved?.mode === 'executives' && cfg.features.Executives !== false ? 'executives' : 'companies');
         setTheme(saved?.theme ?? (cfg.defaultTheme.toLowerCase() as Theme));
-        setShowBaseMap(saved?.map ?? cfg.showBaseMapByDefault);
         setConsent(saved ? 'yes' : readSessionConsent());
       })
       .catch(() => setBootError("We couldn't reach the CompanyPaisa service. Is the API running?"));
   }, []);
 
-  const mapActive = onHome && mode === 'companies' && view === 'map';
   useEffect(() => applyTheme(theme), [theme]);
-  useEffect(() => { if (consent === 'yes') writePrefs({ view, theme, map: showBaseMap, mode }); }, [consent, view, theme, showBaseMap, mode]);
+  useEffect(() => { if (consent === 'yes') writePrefs({ theme, mode }); }, [consent, theme, mode]);
   useEffect(() => {
     document.body.classList.toggle('locked', gateOpen && onHome);
-    document.body.classList.toggle('view-map', mapActive);
-  }, [gateOpen, onHome, mapActive]);
+  }, [gateOpen, onHome]);
 
   // A page starts at the top; coming back to the search returns to where the visitor was in the list.
   useLayoutEffect(() => {
@@ -134,15 +125,6 @@ export default function App() {
     else { setTip(null); setPageAbout(''); }
     return () => { timers.forEach(clearTimeout); clearTimeout(done); root.style.overflowAnchor = ''; };
   }, [route, onHome]);
-
-  // The Map view sits under the sticky header; keep its offset in sync with the header's height.
-  useLayoutEffect(() => {
-    const el = header.current;
-    if (!el) return;
-    const ro = new ResizeObserver(() => document.documentElement.style.setProperty('--hdr', `${el.getBoundingClientRect().height}px`));
-    ro.observe(el);
-    return () => ro.disconnect();
-  }, [config, onHome]);
 
   // ---- company search whenever location or filters change ----
   useEffect(() => {
@@ -271,7 +253,6 @@ export default function App() {
 
   // Companies and executives open as their own pages (/company/AAPL, /executive/…); the links do the navigating.
   const noteOpened = useCallback((id: string) => { setTip(null); setHovered(null); setLastOpened(id); }, []);
-  const openCompany = useCallback((ticker: string) => { noteOpened(ticker); navigate(companyPath(ticker)); }, [noteOpened]);
 
   useEffect(() => {
     const onScroll = () => setTip(null);
@@ -333,17 +314,16 @@ export default function App() {
       <div className="aurora" aria-hidden="true"><i /><i /><i /><i /></div>
       <div className="app">
         {onHome ? (
-          <TopBar ref={header}
+          <TopBar
             placeLabel={origin?.label ?? 'Lehi, UT 84043'} onChangeLocation={() => setGateOpen(true)}
             mode={mode} onMode={m => { track(m === 'executives' ? 'mode_executives' : 'mode_companies'); setMode(m); }} showExecutives={showExecutives}
-            view={view} onView={v => { track(v === 'map' ? 'view_map' : 'view_list'); setView(v); }} showMapView={features.MapView !== false}
             theme={theme} onTheme={setTheme}
             radii={config.allowedRadiiMiles} radius={radius} onRadius={setRadius}
             sectors={sectors} sector={sector} onSector={setSector}
             hqOnly={hqOnly} onHqOnly={setHqOnly}
             isSample={meta?.isSampleData ?? false} />
         ) : (
-          <PageBar ref={header} theme={theme} onTheme={setTheme} isSample={meta?.isSampleData ?? false} showExecutives={showExecutives} />
+          <PageBar theme={theme} onTheme={setTheme} isSample={meta?.isSampleData ?? false} showExecutives={showExecutives} />
         )}
 
         {route.kind === 'company' && (
@@ -364,18 +344,13 @@ export default function App() {
 
         {onHome && error && <div className="wrap"><p className="banner-error pane">{error}</p></div>}
 
-        {onHome && mode === 'companies' && data && view === 'list' && (
+        {onHome && mode === 'companies' && data && (
           <>
             <ListView data={data} placeName={placeName} sort={sort} onSort={setSort} highlight={highlight} loading={loading}
               showExecutives={showExecutives} onOpened={noteOpened} onHover={onHover}
               find={companyFind} onFind={setCompanyFind} />
             {footer}
           </>
-        )}
-
-        {mapActive && data && (
-          <MapView data={data} highlight={highlight} showBaseMap={showBaseMap} onToggleBaseMap={() => setShowBaseMap(s => !s)}
-            onBackground={() => setTip(null)} onHover={onHover} onSelect={openCompany} />
         )}
 
         {onHome && mode === 'executives' && execData && (

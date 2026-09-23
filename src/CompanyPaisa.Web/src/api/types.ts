@@ -149,9 +149,8 @@ export interface ExecutiveDetail {
 export interface DataMeta { dataVersion: string; asOfDate: string | null; isSampleData: boolean; companyCount: number; locationCount: number; loadedAt: string }
 
 export interface ClientConfig {
-  defaultView: 'List' | 'Map'; defaultTheme: 'Auto' | 'Light' | 'Dark';
+  defaultTheme: 'Auto' | 'Light' | 'Dark';
   defaultRadiusMiles: number; allowedRadiiMiles: number[]; defaultSort: CompanySort;
-  showBaseMapByDefault: boolean; mapTilesUrl: string | null;
   consentCookieName: string; consentCookieDays: number; features: Record<string, boolean>;
   coverage: CoverageArea[];
   /** Email address or URL for corrections and data-protection requests; null until the site owner sets one. */

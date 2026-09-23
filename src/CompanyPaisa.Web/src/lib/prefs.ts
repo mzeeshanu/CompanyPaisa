@@ -1,11 +1,10 @@
-// Visitor preferences (view, theme, map layer). Saved to a first-party cookie ONLY after consent.
+// Visitor preferences (theme, companies or executives). Saved to a first-party cookie ONLY after consent.
 
-export type View = 'list' | 'map';
 export type Mode = 'companies' | 'executives';
 export type Theme = 'auto' | 'light' | 'dark';
 export type Consent = 'yes' | 'no' | null;
 
-export interface Prefs { view: View; theme: Theme; map: boolean; mode: Mode }
+export interface Prefs { theme: Theme; mode: Mode }
 
 const CONSENT_KEY = 'cp_consent';
 let cookieName = 'cp_prefs';

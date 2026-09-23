@@ -23,7 +23,7 @@ public static class AnalyticsEndpoints
     /// <summary>Events the website may send. Searches and company / executive views are recorded by the API itself.</summary>
     public static readonly HashSet<string> ClientEvents = new(StringComparer.Ordinal)
     {
-        "page_view", "location_gps", "location_zip", "location_area", "location_link", "name_search", "view_map", "view_list", "mode_companies", "mode_executives",
+        "page_view", "location_gps", "location_zip", "location_area", "location_link", "name_search", "mode_companies", "mode_executives",
         "fact_next", "fact_info", "executives_more", "about_open", "privacy_open", "report_open"
     };
 

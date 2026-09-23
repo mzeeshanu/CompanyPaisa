@@ -98,9 +98,7 @@ public sealed class UiOptions
 {
     public const string SectionName = "Ui";
 
-    [RegularExpression("^(List|Map)$")] public string DefaultView { get; set; } = "List";
     [RegularExpression("^(Auto|Light|Dark)$")] public string DefaultTheme { get; set; } = "Auto";
-    public MapUiOptions Map { get; set; } = new();
     public ConsentUiOptions Consent { get; set; } = new();
     /// <summary>Metros the data set covers, shown on the location screen. Keep in step with the importer's "Regions".</summary>
     public List<CoverageAreaOptions> Coverage { get; set; } = [];
@@ -119,20 +117,13 @@ public sealed class CoverageAreaOptions
     [RegularExpression("^(US|CA|UK|FR|NL|IT|ES|AU|NZ|PK)$")] public string Country { get; set; } = "US";
 }
 
-public sealed class MapUiOptions
-{
-    public bool ShowBaseMapByDefault { get; set; } = true;
-    /// <summary>Self-hosted .pmtiles file (Phase 4). Null = use the simplified built-in map.</summary>
-    public string? TilesUrl { get; set; }
-}
-
 public sealed class ConsentUiOptions
 {
     [Required] public string CookieName { get; set; } = "cp_prefs";
     [Range(1, 730)] public int CookieDays { get; set; } = 365;
 }
 
-/// <summary>appsettings section "Features" — on/off switches, e.g. { "MapView": true, "Executives": true }.</summary>
+/// <summary>appsettings section "Features" — on/off switches, e.g. { "Executives": true }.</summary>
 public sealed class FeatureOptions : Dictionary<string, bool>
 {
     public const string SectionName = "Features";
@@ -143,8 +134,8 @@ public sealed class FeatureOptions : Dictionary<string, bool>
 internal static class UiOptionsExtensions
 {
     public static ClientConfigDto ToClientConfig(this UiOptions ui, Core.Options.SearchOptions search, FeatureOptions features) => new(
-        ui.DefaultView, ui.DefaultTheme, search.DefaultRadiusMiles, search.AllowedRadiiMiles, search.DefaultSort,
-        ui.Map.ShowBaseMapByDefault, ui.Map.TilesUrl, ui.Consent.CookieName, ui.Consent.CookieDays,
+        ui.DefaultTheme, search.DefaultRadiusMiles, search.AllowedRadiiMiles, search.DefaultSort,
+        ui.Consent.CookieName, ui.Consent.CookieDays,
         new Dictionary<string, bool>(features, StringComparer.OrdinalIgnoreCase),
         ui.Coverage.Select(c => new CoverageAreaDto(c.Name, c.ExampleZip, c.Country)).ToList(),
         string.IsNullOrWhiteSpace(ui.PrivacyContact) ? null : ui.PrivacyContact.Trim());

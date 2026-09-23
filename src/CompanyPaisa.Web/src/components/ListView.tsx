@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import * as d3 from 'd3';
 import type { CompanySort, CompanySummary, NearbyResponse } from '../api/types';
 import { bubbleRadius, money, pct, tone, total, trendClass } from '../lib/format';
@@ -31,12 +31,8 @@ interface Props extends ListEvents {
 
 const SORTS: CompanySort[] = ['Revenue', 'Growth', 'Profit', 'Distance'];
 
-/** Phones start with one merged box (city boxes take a lot of scrolling there); wider screens start split by city. */
-const PHONE = '(max-width: 720px)';
-
 export function ListView({ data, placeName, sort, onSort, highlight, loading, showExecutives, onHover, onOpened, find, onFind }: Props) {
   const s = data.summary;
-  const [merged, setMerged] = useState(() => typeof window !== 'undefined' && window.matchMedia(PHONE).matches);
   return (
     <main className={`wrap${loading ? ' loading' : ''}`}>
       <section className="summary" aria-live="polite">
@@ -58,22 +54,7 @@ export function ListView({ data, placeName, sort, onSort, highlight, loading, sh
 
       {data.items.length > 0 && (
         <>
-          <div className="sec-h">
-            <div className="sec-title">
-              <h2>{merged ? 'All nearby companies' : 'By city · nearest first'}</h2>
-              <div className="chips group-toggle" role="group" aria-label="Group bubbles">
-                <button aria-pressed={!merged} onClick={() => setMerged(false)}>By city</button>
-                <button aria-pressed={merged} onClick={() => setMerged(true)}>All in one</button>
-              </div>
-            </div>
-            <div className="legend-row">
-              <span>Bubble size = annual revenue</span>
-              <span><i className="dot up" />Growing</span>
-              <span><i className="dot flat" />Flat</span>
-              <span><i className="dot down" />Shrinking or losing money</span>
-            </div>
-          </div>
-          <CityClusters items={data.items} merged={merged} allLabel={placeName} highlight={highlight} onHover={onHover} onOpened={onOpened} />
+          <BubbleField items={data.items} highlight={highlight} onHover={onHover} onOpened={onOpened} />
           <QuickFact summary={s} showExecutives={showExecutives} onOpened={onOpened} />
         </>
       )}
@@ -93,29 +74,20 @@ export function ListView({ data, placeName, sort, onSort, highlight, loading, sh
   );
 }
 
-/** Bubble packs per city, or (merged) one pack of every company labelled with the search place. */
-function CityClusters({ items, merged, allLabel, highlight, onHover, onOpened }:
-  { items: CompanySummary[]; merged: boolean; allLabel: string; highlight: Highlight } & ListEvents) {
-  const groups = useMemo(() => {
-    const byCity = merged
-      ? [[`Near ${allLabel}`, items] as const]
-      : d3.groups(items, c => cityKey(c.nearestLocation.city)).map(([, list]) => [displayName(list.map(c => c.nearestLocation.city)), list] as const);
-    return byCity
-      .map(([city, list]) => {
-        const nodes = list.map(c => ({ c, r: bubbleRadius(c.indicators.ttmRevenue), x: 0, y: 0 })).sort((a, b) => b.r - a.r);
-        d3.packSiblings(nodes);
-        const enc = d3.packEnclose(nodes)!;
-        return { city, nodes, enc, size: Math.ceil(enc.r * 2 + 12), nearest: d3.min(list, c => c.distanceMiles)! };
-      })
-      .sort((a, b) => a.nearest - b.nearest);
-  }, [items, merged, allLabel]);
+/**
+ * Every company's bubble in one wide box, spread left to right so it takes the page's width rather than its height.
+ * The dropdown narrows the box to one city (nearest first) without splitting it into separate cards.
+ */
+function BubbleField({ items, highlight, onHover, onOpened }: { items: CompanySummary[]; highlight: Highlight } & ListEvents) {
+  const cities = useMemo(() => d3.groups(items, c => cityKey(c.nearestLocation.city))
+    .map(([key, list]) => ({ key, name: displayName(list.map(c => c.nearestLocation.city)), count: list.length, nearest: d3.min(list, c => c.distanceMiles)! }))
+    .sort((a, b) => a.nearest - b.nearest), [items]);
+  const [city, setCity] = useState('');
+  const picked = cities.find(c => c.key === city);
+  const shown = useMemo(() => picked ? items.filter(c => cityKey(c.nearestLocation.city) === picked.key) : items, [items, picked]);
 
-  // Masonry: cards snap to whole columns (so every row ends flush at both edges) and to 1px rows sized from each card's
-  // measured height; "dense" placement drops small cities into the holes beside big ones. A big pack shrinks to fit.
   const box = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState(0);
-  const cards = useRef(new Map<string, HTMLDivElement>());
-  const [heights, setHeights] = useState<Record<string, number>>({});
   useEffect(() => {
     const el = box.current;
     if (!el) return;
@@ -123,63 +95,129 @@ function CityClusters({ items, merged, allLabel, highlight, onHover, onOpened }:
     measure();
     const ro = new ResizeObserver(measure);
     ro.observe(el);
-    window.addEventListener('resize', measure);   // rotation / window resizes, in case the observer misses them
-    return () => { ro.disconnect(); window.removeEventListener('resize', measure); };
+    return () => ro.disconnect();
   }, []);
-
-  const cols = width < 600 ? 1 : Math.max(1, Math.floor((width + GAP) / (COL_MIN + GAP)));
-  const colWidth = cols > 0 && width > 0 ? (width - GAP * (cols - 1)) / cols : 0;
-  const layout = groups.map(g => {
-    const span = width === 0 ? cols : Math.min(cols, Math.ceil((Math.max(CARD_MIN, g.size + CITY_PADDING) + GAP) / (colWidth + GAP)));
-    const cardWidth = span * colWidth + (span - 1) * GAP;
-    const scale = width === 0 ? 1 : Math.min(1, (cardWidth - CITY_PADDING) / g.size);
-    return { g, span, scale };
-  });
-
-  useLayoutEffect(() => {
-    const next: Record<string, number> = {};
-    cards.current.forEach((el, city) => { next[city] = Math.ceil(el.getBoundingClientRect().height); });
-    setHeights(prev => Object.keys(next).length === Object.keys(prev).length && Object.entries(next).every(([k, v]) => prev[k] === v) ? prev : next);
-  });
+  // A big area (300+ companies) fits the box by making every bubble smaller, small companies becoming dots: the box
+  // stays wide and short but still shows how many there are and how they compare. "Enlarge" lets it grow instead.
+  const [enlarged, setEnlarged] = useState(false);
+  const field = useMemo(() => width > 0 ? spread(shown, width, enlarged ? Infinity : maxHeight(width)) : null, [shown, width, enlarged]);
 
   return (
-    <div className="clusters" ref={box} style={{ gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))` }}>
-      {layout.map(({ g, span, scale }) => {
-        const shown = g.size * scale;
-        return (
-          <div className="city pane" key={g.city}
-            ref={el => { if (el) cards.current.set(g.city, el); else cards.current.delete(g.city); }}
-            style={{ gridColumn: `span ${span}`, gridRowEnd: `span ${(heights[g.city] ?? shown + 70) + GAP}` }}>
-            <div className="city-h"><b>{g.city}</b><span>{g.nodes.length} · {g.nearest.toFixed(1)} mi</span></div>
-            <div className="pack-fit" style={{ width: shown, height: shown }}>
-              <div className="pack" style={{ width: g.size, height: g.size, transform: scale < 1 ? `scale(${scale})` : undefined }}>
-                {g.nodes.map(n => (
-                  <Link key={n.c.ticker} to={companyPath(n.c.ticker)}
-                    className={`bub t-${trendClass(n.c.indicators.trend)}${highlight.hovered === n.c.ticker ? ' hl' : ''}${highlight.selected === n.c.ticker ? ' sel' : ''}`}
-                    style={{ left: n.x - g.enc.x + g.size / 2 - n.r, top: n.y - g.enc.y + g.size / 2 - n.r, width: n.r * 2, height: n.r * 2 }}
-                    aria-label={`${n.c.name}, ${money(n.c.indicators.ttmRevenue, n.c.currency)} revenue`}
-                    onMouseEnter={e => onHover(n.c.ticker, e.currentTarget)} onMouseLeave={() => onHover(null)}
-                    onFocus={e => onHover(n.c.ticker, e.currentTarget)} onBlur={() => onHover(null)}
-                    onClick={() => onOpened(n.c.ticker)}>
-                    <span className="glass" />
-                    <span className="tk" style={{ fontSize: Math.max(8.5, Math.min(16, n.r * 0.38)) }}>{n.c.ticker}</span>
-                  </Link>
-                ))}
-              </div>
-            </div>
-          </div>
-        );
-      })}
-    </div>
+    <section className="field pane" aria-label="Companies by revenue">
+      <div className="field-h">
+        <div className="sel-wrap field-city">
+          <select aria-label="Show companies in" value={picked ? picked.key : ''} onChange={e => setCity(e.target.value)}>
+            <option value="">All cities · {items.length}</option>
+            {cities.map(c => <option key={c.key} value={c.key}>{c.name} · {c.count} · {c.nearest.toFixed(1)} mi</option>)}
+          </select>
+        </div>
+        <div className="legend-row">
+          <span>Size = annual revenue</span>
+          <span><i className="dot up" />Growing</span>
+          <span><i className="dot flat" />Flat</span>
+          <span><i className="dot down" />Shrinking or losing money</span>
+        </div>
+        {(field?.shrunk || enlarged) && (
+          <button className="field-size" onClick={() => setEnlarged(e => !e)} aria-pressed={enlarged}>
+            {enlarged ? 'Fit to box' : 'Enlarge'}
+          </button>
+        )}
+      </div>
+      <div className="field-box" ref={box} style={{ height: field?.height ?? 160 }}>
+        {field?.nodes.map(n => (
+          <Link key={n.c.ticker} to={companyPath(n.c.ticker)}
+            className={`bub t-${trendClass(n.c.indicators.trend)}${n.r < 8 ? ' dot-sm' : ''}${highlight.hovered === n.c.ticker ? ' hl' : ''}${highlight.selected === n.c.ticker ? ' sel' : ''}`}
+            style={{ left: n.x - n.r, top: n.y - n.r, width: n.r * 2, height: n.r * 2 }}
+            aria-label={`${n.c.name}, ${money(n.c.indicators.ttmRevenue, n.c.currency)} revenue`}
+            onMouseEnter={e => onHover(n.c.ticker, e.currentTarget)} onMouseLeave={() => onHover(null)}
+            onFocus={e => onHover(n.c.ticker, e.currentTarget)} onBlur={() => onHover(null)}
+            onClick={() => onOpened(n.c.ticker)}>
+            <span className="glass" />
+            {n.r >= 12 && <span className="tk" style={{ fontSize: Math.max(8, Math.min(16, n.r * 0.38)) }}>{n.c.ticker}</span>}
+          </Link>
+        ))}
+      </div>
+    </section>
   );
 }
 
-/** Left + right padding and border of a city card (.city in styles.css). */
-const CITY_PADDING = 34;
-/** Grid column minimum, gap between cards (matches .clusters in styles.css) and the narrowest card (fits a city name and count). */
-const COL_MIN = 100;
-const GAP = 14;
-const CARD_MIN = 200;
+interface Placed { c: CompanySummary; r: number; x: number; y: number }
+
+/** Space between bubbles, and how much of a box circles fill when they're packed loosely. */
+const BUBBLE_GAP = 3;
+const FILL = 0.7;
+/** A wide box: aim for about this width to height, so a handful of companies stays together instead of scattering. */
+const ASPECT = 5;
+/** The box width bubbles are sized for, and the smallest a bubble gets when they shrink. */
+const FULL_WIDTH = 1000;
+const MIN_R = 10;
+/** When the box is fitted to its height, the smallest companies are dots this big (still hoverable / tappable). */
+const MIN_DOT = 3.5;
+
+/** How tall the box may get before bubbles shrink to fit: wide and short on a desktop, about square on a phone. */
+const maxHeight = (width: number) => width < 600 ? Math.max(300, width * 1.05) : Math.min(560, Math.max(340, width * 0.45));
+
+/**
+ * Lays the bubbles out in a band as wide as the box (or narrower when there are only a few), biggest first near the
+ * middle, none overlapping. A short force simulation, run to the end before anything is drawn, so it doesn't wobble.
+ */
+function spread(items: CompanySummary[], width: number, maxH: number): { nodes: Placed[]; height: number; shrunk: boolean } {
+  const nodes: Placed[] = items
+    .map(c => ({ c, r: bubbleRadius(c.indicators.ttmRevenue), x: 0, y: 0 }))
+    .sort((a, b) => b.r - a.r || a.c.ticker.localeCompare(b.c.ticker));
+  if (nodes.length === 0) return { nodes, height: 0, shrunk: false };
+  // Sizes are set for a desktop page. A narrower box shrinks every bubble alike (small ones stay tappable), and the
+  // very biggest companies (Apple, Walmart) never get wider than the box.
+  const scale = Math.min(Math.max(0.5, width / FULL_WIDTH), 1, (width - BUBBLE_GAP * 2) / (nodes[0].r * 2));
+  if (scale < 1) nodes.forEach(n => { n.r = Math.max(MIN_R, n.r * scale); });
+  let gap = BUBBLE_GAP;
+  const areaOf = () => d3.sum(nodes, n => Math.PI * (n.r + gap) ** 2) / FILL;
+  let area = areaOf();
+
+  // Too many to fit the box's height: shrink every bubble by the same factor (a few passes, since dots stop shrinking).
+  let shrunk = false;
+  const base = nodes.map(n => n.r);
+  let k = 1;
+  for (let pass = 0; pass < 4 && area / width > maxH; pass++) {
+    k *= Math.sqrt((maxH * width) / area);
+    shrunk = true;
+    gap = Math.max(1, BUBBLE_GAP * k);
+    nodes.forEach((n, i) => { n.r = Math.max(MIN_DOT, base[i] * k); });
+    area = areaOf();
+  }
+  const tallest = nodes[0].r * 2 + BUBBLE_GAP * 2;
+  const bandW = Math.min(width, Math.max(tallest, Math.sqrt(area * ASPECT)));
+  const bandH = Math.max(tallest, area / bandW);
+  const cx = width / 2, cy = bandH / 2;
+
+  // Start on a sunflower spiral stretched to the band, biggest in the middle.
+  const golden = Math.PI * (3 - Math.sqrt(5));
+  nodes.forEach((n, i) => {
+    const t = Math.sqrt((i + 0.5) / nodes.length);
+    n.x = cx + Math.cos(i * golden) * t * (bandW / 2 - n.r);
+    n.y = cy + Math.sin(i * golden) * t * (bandH / 2 - n.r);
+  });
+  const left = cx - bandW / 2;
+  const sim = d3.forceSimulation(nodes)
+    .force('x', d3.forceX<Placed>(cx).strength(0.006))
+    .force('y', d3.forceY<Placed>(cy).strength(0.05))
+    .force('collide', d3.forceCollide<Placed>(n => n.r + gap).strength(1).iterations(3))
+    .stop();
+  const ticks = nodes.length > 600 ? 120 : 260;
+  for (let i = 0; i < ticks; i++) {
+    sim.tick();
+    for (const n of nodes) {
+      n.x = Math.max(left + n.r, Math.min(left + bandW - n.r, n.x));
+      n.y = Math.max(n.r, Math.min(bandH - n.r, n.y));
+    }
+  }
+
+  // Trim the band to what the bubbles use, with room for the hover ring.
+  const pad = 10;
+  const top = d3.min(nodes, n => n.y - n.r)!, bottom = d3.max(nodes, n => n.y + n.r)!;
+  nodes.forEach(n => { n.y += pad - top; });
+  return { nodes, height: Math.ceil(bottom - top + pad * 2), shrunk };
+}
 
 /** "Issy-Les-Moulineaux", "Issy les Moulineaux" and "Paris 12" / "Paris" are the same place. */
 function cityKey(city: string): string {

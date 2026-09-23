@@ -340,13 +340,10 @@ public sealed record DataMetaDto(string DataVersion, DateOnly? AsOfDate, bool Is
 
 /// <summary>Settings the website needs, driven by appsettings.json.</summary>
 public sealed record ClientConfigDto(
-    string DefaultView,
     string DefaultTheme,
     double DefaultRadiusMiles,
     IReadOnlyList<double> AllowedRadiiMiles,
     CompanySort DefaultSort,
-    bool ShowBaseMapByDefault,
-    string? MapTilesUrl,
     string ConsentCookieName,
     int ConsentCookieDays,
     IReadOnlyDictionary<string, bool> Features,
