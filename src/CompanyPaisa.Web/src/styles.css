@@ -554,13 +554,16 @@ td.co i{width:8px;height:8px;border-radius:2px;display:inline-block}
 .admin-chart rect{fill:var(--accent);opacity:.85}
 .admin-chart rect:hover{opacity:1}
 .admin-axis{display:flex;justify-content:space-between;color:var(--faint);font:500 11px var(--mono);margin-top:4px}
-.admin-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:14px;margin-top:14px;align-items:start}
+.admin-group{margin-top:26px}
+.admin-group>h2{font:600 13px var(--body);letter-spacing:.04em;color:var(--dim);margin:0 0 10px 4px}
+.admin-masonry{display:flex;gap:14px;align-items:flex-start}
+.admin-masonry>div{flex:1;min-width:0;display:flex;flex-direction:column;gap:14px}
 .admin-card table{width:100%;border-collapse:collapse;margin-top:10px;font-size:13px}
 .admin-card th{text-align:left;font:600 11px var(--body);letter-spacing:.08em;text-transform:uppercase;color:var(--faint);padding:0 0 6px}
 .admin-card td{padding:6px 0;border-top:1px solid var(--hair);vertical-align:top;overflow-wrap:anywhere}
 .admin-card td small{color:var(--faint);font:500 11px var(--mono)}
 .admin-card .r{text-align:right;padding-left:12px;white-space:nowrap;font-family:var(--mono)}
-@media (max-width:720px){.admin{padding-inline:16px}.admin-grid{grid-template-columns:1fr}.admin-tile b{font-size:22px}}
+@media (max-width:720px){.admin{padding-inline:16px}.admin-tile b{font-size:22px}}
 /* ---------- new leadership (appointments and announced packages) ---------- */
 .new-tag{display:inline-block;margin-left:6px;padding:1px 7px;border-radius:999px;background:color-mix(in srgb,var(--up) 18%,transparent);color:var(--up);font:700 9.5px var(--body);letter-spacing:.1em;text-transform:uppercase;vertical-align:2px}
 .new-list{list-style:none;margin:-2px 0 0;padding:0;display:flex;flex-direction:column;gap:10px}

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState, type FormEvent } from 'react';
+import { Children, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type FormEvent, type ReactNode } from 'react';
 
 // ---------- API shapes (mirror src/CompanyPaisa.Analytics/AnalyticsModels.cs) ----------
 
@@ -111,20 +111,24 @@ export default function AdminApp() {
               <DailyChart days={r.days} from={r.from} to={r.to} />
             </section>
 
-            <section className="admin-grid">
+            <Group title="What people looked for">
               <Table title="Areas searched" rows={data!.areas} note="Searches, named after the nearest town" />
+              <Table title="Postcodes & cities typed" rows={r.places} />
               <Table title="Companies opened" rows={r.companies} labelFirst />
               <Table title="Executives opened" rows={r.executives} labelFirst />
-              <Table title="Postcodes & cities typed" rows={r.places} />
+              <Table title="Clicks & events" rows={r.actions.map(a => ({ ...a, key: ACTIONS[a.key] ?? a.key }))} />
+            </Group>
+            <Group title="Where visitors are and how they got here">
               <Table title="Countries" rows={r.countries.map(c => ({ ...c, key: countryName(c.key) }))} />
               <Table title="Cities" rows={r.cities} note="From Cloudflare's estimate of each visitor's location" />
+              <Table title="Came from" rows={r.referrers} note="Other websites that linked here" />
+              <Table title="Where requests came from" rows={r.sources.map(s => ({ ...s, key: SOURCES[s.key] ?? s.key }))} />
+            </Group>
+            <Group title="Devices">
               <Table title="Devices" rows={r.devices} />
               <Table title="Browsers" rows={r.browsers} />
               <Table title="Operating systems" rows={r.operatingSystems} />
-              <Table title="Came from" rows={r.referrers} note="Other websites that linked here" />
-              <Table title="Clicks & events" rows={r.actions.map(a => ({ ...a, key: ACTIONS[a.key] ?? a.key }))} />
-              <Table title="Where requests came from" rows={r.sources.map(s => ({ ...s, key: SOURCES[s.key] ?? s.key }))} />
-            </section>
+            </Group>
           </div>
         )}
         {!r && loading && <p className="admin-sub">Loading…</p>}
@@ -192,6 +196,57 @@ function DailyChart({ days, from, to }: { days: Day[]; from: string; to: string 
       </svg>
       <div className="admin-axis"><span>{from}</span><span>peak {max.toLocaleString('en-US')} a day</span><span>{to}</span></div>
     </div>
+  );
+}
+
+const COL_MIN = 340, COL_GAP = 14;
+
+/**
+ * Related cards under one heading, packed into columns with no holes: each card goes, in order,
+ * into whichever column is shortest so far (measured, and redone whenever a card or the page resizes).
+ */
+function Group({ title, children }: { title: string; children: ReactNode }) {
+  const items = Children.toArray(children);
+  const ref = useRef<HTMLDivElement>(null);
+  const [cols, setCols] = useState(1);
+  const [heights, setHeights] = useState<number[]>([]);
+
+  const columns = useMemo(() => {
+    const out: number[][] = Array.from({ length: cols }, () => []);
+    const filled: number[] = new Array(cols).fill(0);
+    for (let i = 0; i < items.length; i++) {
+      const c = filled.indexOf(Math.min(...filled));
+      out[c].push(i);
+      filled[c] += (heights[i] ?? 0) + COL_GAP;
+    }
+    return out;
+  }, [cols, heights, items.length]);
+
+  useLayoutEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const measure = () => {
+      setCols(Math.max(1, Math.floor((el.clientWidth + COL_GAP) / (COL_MIN + COL_GAP))));
+      const hs: number[] = [];
+      el.querySelectorAll<HTMLElement>('[data-card]').forEach(n => { hs[Number(n.dataset.card)] = n.offsetHeight; });
+      setHeights(prev => prev.length === hs.length && prev.every((h, i) => h === hs[i]) ? prev : hs);
+    };
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    el.querySelectorAll('[data-card]').forEach(n => ro.observe(n));
+    return () => ro.disconnect();
+  }, [columns]);
+
+  return (
+    <section className="admin-group">
+      <h2>{title}</h2>
+      <div className="admin-masonry" ref={ref}>
+        {columns.map((col, c) => (
+          <div key={c}>{col.map(i => <div key={i} data-card={i}>{items[i]}</div>)}</div>
+        ))}
+      </div>
+    </section>
   );
 }
 
