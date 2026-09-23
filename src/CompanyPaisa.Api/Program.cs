@@ -53,6 +53,8 @@ app.UseSiteSessions();
 app.UseStaticFiles();
 
 app.UseCors(ApiServiceCollectionExtensions.CorsPolicy);
+app.UseNoIndexForNonPages();
+app.UseSearchCrawlers();            // before the rate limiter, which leaves verified crawlers alone
 app.UseRateLimiter();
 
 if (api.EnableOpenApi)

@@ -9,8 +9,12 @@ using Microsoft.Extensions.Options;
 
 namespace CompanyPaisa.Api.Endpoints;
 
-/// <summary>A page's title and summary, written into index.html for search engines and link previews.</summary>
-public sealed record PageMeta(string Title, string Description, string CanonicalPath);
+/// <summary>
+/// A page's title and summary, written into index.html for search engines and link previews. <paramref name="Trail"/>: the
+/// pages above it (name, path), for the breadcrumb search results show. <paramref name="Index"/> false: not for search results.
+/// </summary>
+public sealed record PageMeta(string Title, string Description, string CanonicalPath,
+    IReadOnlyList<(string Name, string Path)>? Trail = null, bool Index = true);
 
 /// <summary>
 /// The website's own pages (/company/AAPL, /executive/…, /near/84043). They are the React app like every other address, but the
@@ -42,7 +46,7 @@ public static partial class SitePages
                     meta = new PageMeta(
                         $"{company.Name} ({company.Ticker}) — revenue, profit and executive pay · CompanyPaisa",
                         $"{company.Name} ({company.Ticker}), {company.Sector}{where}: revenue, net income and executive pay over the years, from the company's filings.",
-                        $"/company/{Uri.EscapeDataString(company.Ticker.ToUpperInvariant())}");
+                        CompanyPath(company.Ticker), [(company.Name, CompanyPath(company.Ticker))]);
                 }
                 return Page(index, meta, http, content);
             })
@@ -63,7 +67,7 @@ public static partial class SitePages
                     meta = new PageMeta(
                         $"{company.Name} ({company.Ticker}) salaries by job title · CompanyPaisa",
                         $"What {company.Name} pays: {titles:N0} job titles with their typical yearly salary and range, by city, from the company's US job ads and work-visa wage filings.",
-                        $"/company/{Uri.EscapeDataString(company.Ticker.ToUpperInvariant())}/salaries");
+                        CompanyPath(company.Ticker) + "/salaries", [(company.Name, CompanyPath(company.Ticker)), ("Salaries", CompanyPath(company.Ticker) + "/salaries")]);
                 }
                 return Page(index, meta, http, content);
             })
@@ -82,10 +86,11 @@ public static partial class SitePages
                         .OrderByDescending(c => c.Year).FirstOrDefault();
                     var company = latest is null ? null : (await repository.GetCompaniesAsync([latest.CompanyId], ct)).FirstOrDefault();
                     var role = latest is null || company is null ? "" : $", {latest.Title} at {company.Name}";
+                    var path = $"/executive/{Uri.EscapeDataString(person.PersonId)}";
                     meta = new PageMeta(
                         $"{person.Name}{(company is null ? "" : $" ({company.Name})")} — pay history · CompanyPaisa",
                         $"{person.Name}{role}: salary, bonus, stock awards and total pay by year, from company filings.",
-                        $"/executive/{Uri.EscapeDataString(person.PersonId)}");
+                        path, company is null ? [(person.Name, path)] : [(company.Name, CompanyPath(company.Ticker)), (person.Name, path)]);
                 }
                 return Page(index, meta, http, content);
             })
@@ -100,9 +105,10 @@ public static partial class SitePages
                 var path = $"/near/{Uri.EscapeDataString(place)}{(executives ? "/executives" : "")}";
                 PageMeta? meta;
                 PageContent? content = null;
+                // Different for every visitor, and empty until the app knows where they are: not for search results.
                 if (place.Equals("me", StringComparison.OrdinalIgnoreCase))
                     meta = new PageMeta($"{what} near you · CompanyPaisa",
-                        "See the public companies near you, how big they are, where they're heading and what their executives are paid.", path);
+                        "See the public companies near you, how big they are, where they're heading and what their executives are paid.", path, Index: false);
                 else
                 {
                     var hit = place.Length <= 20 ? await geo.LookupAsync(place, ct) : null;
@@ -110,16 +116,20 @@ public static partial class SitePages
                     meta = where is null ? null : new PageMeta($"{what} near {where} · CompanyPaisa",
                         executives
                             ? $"Named executives of public companies near {where}: latest pay, 10-year totals and careers, from company filings."
-                            : $"Public companies near {where}: revenue, growth, profit and executive pay, from company filings.", path);
+                            : $"Public companies near {where}: revenue, growth, profit and executive pay, from company filings.", path,
+                        executives
+                            ? [($"Near {where}", $"/near/{Uri.EscapeDataString(place)}"), ("Executives", path)]
+                            : [($"Near {where}", path)]);
                     if (hit is not null && where is not null) content = await pages.NearAsync(hit.Point, where, executives, ct);
                 }
                 return Page(index, meta, http, content);
             })
             .ExcludeFromDescription();
 
-        // The API isn't for crawlers: every page already carries its content.
+        // The API stays open to crawlers: search engines index a page as the app draws it, and the app draws it from the API.
+        // Its answers carry X-Robots-Tag: noindex instead, so they don't show up in search results themselves.
         app.MapGet("/robots.txt", (HttpContext http) =>
-                Results.Text($"User-agent: *\nAllow: /\nDisallow: /admin\nDisallow: /api/\n\nSitemap: {Origin(http)}/sitemap.xml\n", "text/plain; charset=utf-8"))
+                Results.Text($"User-agent: *\nAllow: /\nDisallow: /admin\n\nSitemap: {Origin(http)}/sitemap.xml\n", "text/plain; charset=utf-8"))
             .ExcludeFromDescription();
 
         app.MapGet("/sitemap.xml", async (ICompanyRepository repository, IOptionsMonitor<UiOptions> ui, IOptionsMonitor<FeatureOptions> features,
@@ -202,7 +212,7 @@ public static partial class SitePages
         var html = index.Read();
         if (html is null) return Results.NotFound();   // no built website (development runs it on the Vite dev server)
         http.Response.Headers.CacheControl = "no-cache";
-        if (meta is not null) html = WithMeta(html, meta, Origin(http));
+        html = meta is null ? InHead(html, NoIndex) : WithMeta(html, meta, Origin(http));
         if (content is not null) html = WithContent(html, content);
         return Results.Content(html, "text/html; charset=utf-8", statusCode: meta is null ? StatusCodes.Status404NotFound : StatusCodes.Status200OK);
     }
@@ -227,7 +237,10 @@ public static partial class SitePages
     [GeneratedRegex(@"(?<open><div\s+id=""root""[^>]*>)\s*</div>", RegexOptions.IgnoreCase)]
     private static partial Regex RootElement();
 
-    /// <summary>Replaces the title and description and adds the canonical address and Open Graph tags.</summary>
+    /// <summary>
+    /// Replaces the title and description and adds the canonical address, Open Graph tags and the breadcrumb trail (or
+    /// keeps the page out of search results).
+    /// </summary>
     public static string WithMeta(string html, PageMeta meta, string origin)
     {
         var enc = HtmlEncoder.Default;
@@ -245,9 +258,30 @@ public static partial class SitePages
                 <meta name="twitter:card" content="summary" />
 
             """;
-        var at = html.IndexOf("</head>", StringComparison.OrdinalIgnoreCase);
-        return at < 0 ? html : html.Insert(at, head);
+        if (!meta.Index) head += NoIndex;
+        if (meta.Index && meta.Trail is { Count: > 0 } trail) head += "    " + PageRenderer.JsonLd(Breadcrumbs(origin, trail)) + "\n";
+        return InHead(html, head);
     }
+
+    private const string NoIndex = "    <meta name=\"robots\" content=\"noindex\" />\n";
+
+    private static string InHead(string html, string tags)
+    {
+        var at = html.IndexOf("</head>", StringComparison.OrdinalIgnoreCase);
+        return at < 0 ? html : html.Insert(at, tags);
+    }
+
+    /// <summary>schema.org BreadcrumbList: the home page, then the trail.</summary>
+    private static Dictionary<string, object?> Breadcrumbs(string origin, IEnumerable<(string Name, string Path)> trail) => new()
+    {
+        ["@context"] = "https://schema.org", ["@type"] = "BreadcrumbList",
+        ["itemListElement"] = trail.Prepend((Name: "CompanyPaisa", Path: "/")).Select((step, i) => new Dictionary<string, object?>
+        {
+            ["@type"] = "ListItem", ["position"] = i + 1, ["name"] = step.Name, ["item"] = origin + step.Path
+        }).ToList()
+    };
+
+    private static string CompanyPath(string ticker) => $"/company/{Uri.EscapeDataString(ticker.ToUpperInvariant())}";
 
     [GeneratedRegex(@"<title>.*?</title>", RegexOptions.IgnoreCase | RegexOptions.Singleline)]
     private static partial Regex TitleTag();

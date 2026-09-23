@@ -21,7 +21,7 @@ public sealed class ApiOptions
 
     /// <summary>
     /// User-Agent fragments of scripts and scrapers; without an API key they get 403 (and no User-Agent at all is treated
-    /// the same). Browsers and search-engine crawlers don't call the API.
+    /// the same). Keep search engines' crawlers off it: they call the API when they render the pages.
     /// </summary>
     public List<string> BlockedUserAgents { get; set; } =
     [

@@ -62,6 +62,7 @@ public class SitePagesTests(SitePagesFactory factory) : IClassFixture<SitePagesF
         Assert.Contains("<h2>Revenue and profit by year</h2>", html);
         Assert.Contains("<a href=\"/executive/", html);
         Assert.Contains("<script type=\"application/ld+json\">{\"@context\":\"https://schema.org\",\"@type\":\"Corporation\"", html);
+        Assert.Contains("{\"@type\":\"ListItem\",\"position\":2,\"name\":\"LifeVantage", html);
     }
 
     [Fact]
@@ -122,7 +123,9 @@ public class SitePagesTests(SitePagesFactory factory) : IClassFixture<SitePagesF
         var res = await factory.CreateClient().GetAsync("/company/NOPE");
 
         Assert.Equal(HttpStatusCode.NotFound, res.StatusCode);
-        Assert.Contains("<title>CompanyPaisa</title>", await res.Content.ReadAsStringAsync());
+        var html = await res.Content.ReadAsStringAsync();
+        Assert.Contains("<title>CompanyPaisa</title>", html);
+        Assert.Contains("<meta name=\"robots\" content=\"noindex\" />", html);
     }
 
     [Fact]
@@ -139,6 +142,10 @@ public class SitePagesTests(SitePagesFactory factory) : IClassFixture<SitePagesF
         Assert.Contains("<link rel=\"canonical\" href=\"http://localhost/near/84043\" />", companies);
         Assert.Contains("<title>Executives and their pay near Lehi, UT 84043", executives);
         Assert.Contains("<title>Public companies near you", me);
+        Assert.Contains("<meta name=\"robots\" content=\"noindex\" />", me);                  // different for every visitor
+        Assert.DoesNotContain("noindex", companies);
+        Assert.Contains("\"@type\":\"BreadcrumbList\"", executives);
+        Assert.Contains("\"name\":\"Near Lehi, UT 84043\",\"item\":\"http://localhost/near/84043\"", executives);
         Assert.Equal(HttpStatusCode.NotFound, unknown.StatusCode);
     }
 

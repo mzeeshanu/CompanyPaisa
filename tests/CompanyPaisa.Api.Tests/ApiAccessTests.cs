@@ -2,6 +2,8 @@ using System.Net;
 using System.Text.Json.Nodes;
 using CompanyPaisa.Api.Security;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Mvc.Testing;
 
 namespace CompanyPaisa.Api.Tests;
@@ -132,10 +134,25 @@ public class ApiAccessTests(LockedApiFactory factory) : IClassFixture<LockedApiF
     }
 
     [Fact]
-    public async Task Crawlers_are_told_to_keep_out_of_the_API()
+    public async Task Crawlers_may_use_the_API_to_render_pages_but_not_list_it_in_results()
     {
         var robots = await factory.CreateClient().GetStringAsync("/robots.txt");
+        var api = await factory.CreateClient().SendAsync(Get("/api/v1/companies/LFVN"));
 
-        Assert.Contains("Disallow: /api/", robots);
+        Assert.DoesNotContain("Disallow: /api", robots);
+        Assert.Equal("noindex", api.Headers.GetValues("X-Robots-Tag").Single());
+    }
+
+    [Fact]
+    public async Task Someone_merely_calling_themselves_Googlebot_isnt_believed()
+    {
+        // The test server's address has no Google DNS name, so the claim isn't believed.
+        var context = new DefaultHttpContext { RequestServices = factory.Services };
+        context.Request.Headers.UserAgent = "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)";
+        context.Connection.RemoteIpAddress = IPAddress.Loopback;
+
+        await factory.Services.GetRequiredService<SearchCrawlers>().CheckAsync(context);
+
+        Assert.False(SearchCrawlers.IsVerified(context));
     }
 }

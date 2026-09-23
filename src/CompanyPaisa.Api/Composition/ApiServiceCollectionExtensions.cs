@@ -75,6 +75,8 @@ public static class ApiServiceCollectionExtensions
         services.AddScoped<ApiKeyEndpointFilter>();
         services.TryAddSingleton(TimeProvider.System);
         services.AddSingleton<SiteSessions>();
+        services.AddMemoryCache();
+        services.AddSingleton<SearchCrawlers>();
 
         services.ConfigureHttpJsonOptions(o =>
         {
@@ -90,8 +92,10 @@ public static class ApiServiceCollectionExtensions
         {
             o.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
             // Hourly caps per visitor IP on top of the per-minute one: API calls without a key, and server-rendered pages.
+            // Search engines' crawlers (checked by their DNS) aren't capped: they read every page.
             o.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(context =>
             {
+                if (SearchCrawlers.IsVerified(context)) return RateLimitPartition.GetNoLimiter("unlimited");
                 var path = context.Request.Path.Value ?? "";
                 var limits = context.RequestServices.GetRequiredService<IOptionsMonitor<ApiOptions>>().CurrentValue.RateLimits;
                 int? perHour = null;
@@ -117,9 +121,11 @@ public static class ApiServiceCollectionExtensions
             {
                 var caller = context.RequestServices.GetRequiredService<IApiKeyValidator>().Identify(context);
                 var limits = context.RequestServices.GetRequiredService<IOptionsMonitor<ApiOptions>>().CurrentValue.RateLimits;
-                return RateLimitPartition.GetFixedWindowLimiter(caller.PartitionKey, _ => new FixedWindowRateLimiterOptions
+                // A crawler rendering pages makes a page's worth of API calls for each one: give it an app's allowance.
+                var crawler = !caller.IsKeyed && SearchCrawlers.IsVerified(context);
+                return RateLimitPartition.GetFixedWindowLimiter(crawler ? "crawler:" + caller.PartitionKey : caller.PartitionKey, _ => new FixedWindowRateLimiterOptions
                 {
-                    PermitLimit = caller.IsKeyed ? limits.KeyedPerMinute : limits.AnonymousPerMinute,
+                    PermitLimit = caller.IsKeyed || crawler ? limits.KeyedPerMinute : limits.AnonymousPerMinute,
                     Window = TimeSpan.FromMinutes(1),
                     QueueLimit = 0
                 });
