@@ -1,4 +1,5 @@
 import { Children, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type FormEvent, type ReactNode } from 'react';
+import { companyPath, personPath } from '../lib/router';
 
 // ---------- API shapes (mirror src/CompanyPaisa.Analytics/AnalyticsModels.cs) ----------
 
@@ -12,6 +13,12 @@ interface Report {
   devices: Count[]; browsers: Count[]; operatingSystems: Count[]; referrers: Count[]; actions: Count[]; sources: Count[];
 }
 interface Dashboard { status: Status; report: Report | null; areas: Count[] }
+interface Step { at: string; name: string; subject: string | null; label: string | null; detail: string | null; path: string | null }
+interface Visit {
+  start: string; end: string; country: string | null; region: string | null; city: string | null; device: string; browser: string; os: string;
+  referrer: string | null; source: string; events: number; searches: number; companyViews: number; executiveViews: number; steps: Step[];
+}
+interface Visits { total: number; visits: Visit[] }
 
 const BASE = '/api/admin/analytics';
 const KEY_STORE = 'cp_admin_key';
@@ -37,6 +44,7 @@ export default function AdminApp() {
   const [key, setKey] = useState(readKey);
   const [days, setDays] = useState<number>(30);
   const [data, setData] = useState<Dashboard | null>(null);
+  const [visits, setVisits] = useState<Visits | null>(null);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [excluded, setExcluded] = useState<boolean | null>(null);
@@ -46,8 +54,9 @@ export default function AdminApp() {
   const load = useCallback(async (k: string, d: number) => {
     setLoading(true); setError('');
     try {
-      const res = await call(`/report?days=${d}`, k);
+      const [res, v] = await Promise.all([call(`/report?days=${d}`, k), call(`/visits?days=${d}`, k)]);
       setData(await res.json());
+      setVisits(await v.json());
       const owner = await call('/owner', k);
       setExcluded((await owner.json()).excluded);
       saveKey(k);
@@ -129,6 +138,7 @@ export default function AdminApp() {
               <Table title="Browsers" rows={r.browsers} />
               <Table title="Operating systems" rows={r.operatingSystems} />
             </Group>
+            {visits && <VisitList data={visits} />}
           </div>
         )}
         {!r && loading && <p className="admin-sub">Loading…</p>}
@@ -274,6 +284,107 @@ function Table({ title, rows, note, labelFirst }: { title: string; rows: Count[]
       )}
     </section>
   );
+}
+
+const VISITS_PAGE = 25;
+
+/** Each visit on one line (newest first); open one to see everything the visitor did, in order. */
+function VisitList({ data }: { data: Visits }) {
+  const [websiteOnly, setWebsiteOnly] = useState(true);
+  const [shown, setShown] = useState(VISITS_PAGE);
+  const list = websiteOnly ? data.visits.filter(v => v.source === 'website') : data.visits;
+  return (
+    <section className="admin-group">
+      <div className="admin-visits-h">
+        <h2>Visits</h2>
+        <label className="admin-owner">
+          <input type="checkbox" className="switch-box" checked={websiteOnly} onChange={e => setWebsiteOnly(e.target.checked)} />
+          Website only (hide public API use)
+        </label>
+      </div>
+      <div className="pane admin-card">
+        <p className="admin-note">
+          One visitor's actions with no break longer than 30 minutes. A visitor can only be followed within one day (UTC).
+          {data.total > data.visits.length && ` Showing the newest ${data.visits.length.toLocaleString('en-US')} of ${data.total.toLocaleString('en-US')}.`}
+        </p>
+        {list.length === 0 ? <p className="admin-note">Nothing yet.</p> : (
+          <ul className="admin-visits">
+            {list.slice(0, shown).map(v => <VisitRow key={`${v.start}|${v.end}|${v.device}|${v.browser}|${v.os}|${v.city}`} v={v} />)}
+          </ul>
+        )}
+        {list.length > shown && <button className="linkbtn admin-more" onClick={() => setShown(s => s + VISITS_PAGE)}>Show {Math.min(VISITS_PAGE, list.length - shown)} more</button>}
+      </div>
+    </section>
+  );
+}
+
+function VisitRow({ v }: { v: Visit }) {
+  const place = [v.city, v.region, v.country && countryName(v.country)].filter(Boolean).join(', ') || 'Unknown place';
+  const minutes = Math.round((Date.parse(v.end) - Date.parse(v.start)) / 60_000);
+  const did = [
+    v.searches && plural(v.searches, 'search', 'searches'),
+    v.companyViews && plural(v.companyViews, 'company', 'companies'),
+    v.executiveViews && plural(v.executiveViews, 'executive', 'executives'),
+  ].filter(Boolean).join(' · ') || plural(v.events, 'event', 'events');
+  return (
+    <li>
+      <details>
+        <summary>
+          <span className="admin-visit-when">{when(v.start)}</span>
+          <span className="admin-visit-who">
+            <b>{place}</b>
+            <small>{v.device} · {v.browser} · {v.os}{v.referrer && <> · from {v.referrer}</>}{v.source !== 'website' && <> · {SOURCES[v.source] ?? v.source}</>}</small>
+          </span>
+          <span className="admin-visit-did">{did}<small>{minutes < 1 ? 'under a minute' : `${minutes} min`}</small></span>
+        </summary>
+        <ol className="admin-timeline">
+          {v.steps.map((s, i) => (
+            <li key={i}>
+              <time>{new Date(s.at).toISOString().slice(11, 19)}</time>
+              <span>{describe(s)}</span>
+            </li>
+          ))}
+          {v.events > v.steps.length && <li><time /><span className="admin-note">…and {v.events - v.steps.length} more</span></li>}
+        </ol>
+      </details>
+    </li>
+  );
+}
+
+/** A step in plain words, with the company or executive linked to its page on the site. */
+function describe(s: Step): ReactNode {
+  const d = parseDetail(s.detail);
+  const near = s.label ?? d.near ?? 'a spot on the map';
+  const within = [d.results && `${d.results} results`, d.radiusMiles && `within ${d.radiusMiles} mi`, d.sector].filter(Boolean).join(', ');
+  switch (s.name) {
+    case 'page_view': return <>Opened <code>{s.path ?? '/'}</code></>;
+    case 'search': return <>Searched companies near <b>{near}</b>{within && <small> {within}</small>}</>;
+    case 'executive_search': return <>Searched executives near <b>{near}</b>{within && <small> {within}</small>}</>;
+    case 'place_lookup': return <>Typed <b>{s.subject}</b>{s.label && <small> {s.label}</small>}</>;
+    case 'company_view': return s.subject
+      ? <>Opened company <a href={companyPath(s.subject)} target="_blank" rel="noreferrer">{s.label ?? s.subject}</a> <small>{s.subject}</small></>
+      : <>Opened a company</>;
+    case 'executive_view': return s.subject
+      ? <>Opened executive <a href={personPath(s.subject)} target="_blank" rel="noreferrer">{s.label ?? s.subject}</a></>
+      : <>Opened an executive</>;
+    case 'name_search': return <>Searched by name{s.subject && <> for <b>{s.subject}</b></>}</>;
+    case 'location_area': return <>Picked the area <b>{s.subject}</b></>;
+    case 'location_link': return <>Arrived on a link for <b>{s.subject}</b></>;
+    default: return <>{ACTIONS[s.name] ?? s.name}{s.subject && <small> {s.subject}</small>}</>;
+  }
+}
+
+function parseDetail(detail: string | null): Record<string, string | undefined> {
+  if (!detail) return {};
+  try { return JSON.parse(detail); } catch { return {}; }
+}
+
+const plural = (n: number, one: string, many: string) => `${n} ${n === 1 ? one : many}`;
+
+/** "Sep 22, 14:05 UTC": the dashboard works in UTC days throughout. */
+function when(iso: string): string {
+  const d = new Date(iso);
+  return `${d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', timeZone: 'UTC' })}, ${d.toISOString().slice(11, 16)}`;
 }
 
 const ACTIONS: Record<string, string> = {

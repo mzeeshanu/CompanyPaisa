@@ -94,6 +94,28 @@ public class AnalyticsApiTests(AnalyticsFactory factory) : IClassFixture<Analyti
     }
 
     [Fact]
+    public async Task A_visitors_events_come_back_as_one_visit_in_order()
+    {
+        var visitor = Visitor(Browser.Replace("18_5", "17_1"));   // a browser no other test uses, so this visitor is on their own
+        (await visitor.PostAsJsonAsync("/api/v1/events", new ClientEventRequest("page_view", Path: "/"))).EnsureSuccessStatusCode();
+        (await visitor.GetAsync("/api/v1/companies/near?latitude=40.3916&longitude=-111.8508&radiusMiles=10")).EnsureSuccessStatusCode();
+        (await visitor.GetAsync("/api/v1/companies/zion")).EnsureSuccessStatusCode();
+
+        Visit? visit = null;
+        for (var i = 0; i < 100 && visit is null; i++)
+        {
+            var data = await Admin().GetFromJsonAsync<VisitsResponse>("/api/admin/analytics/visits?days=7");
+            visit = data!.Visits.FirstOrDefault(v => v.Steps.Any(s => s.Subject == "ZION") && v.Browser == "Safari" && v.Os == "iOS" && v.Events == 3);
+            if (visit is null) await Task.Delay(50);
+        }
+
+        Assert.NotNull(visit);
+        Assert.Equal(["page_view", "search", "company_view"], visit.Steps.Select(s => s.Name));
+        Assert.Equal("Lehi", visit.City);
+        Assert.Equal((1, 1), (visit.Searches, visit.CompanyViews));
+    }
+
+    [Fact]
     public async Task Bots_and_the_owners_browser_are_not_counted()
     {
         (await Visitor("Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)").GetAsync("/api/v1/companies/nus")).EnsureSuccessStatusCode();

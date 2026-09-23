@@ -59,6 +59,13 @@ public static class AnalyticsEndpoints
             return Results.Ok(new AnalyticsDashboardResponse(status, report, await AreasAsync(report.SearchPoints, places, ct)));
         });
 
+        admin.MapGet("/visits", async (int? days, AnalyticsStatus status, IServiceProvider services, CancellationToken ct) =>
+        {
+            if (!status.Enabled || services.GetService<IAnalyticsReader>() is not { } reader) return Results.Ok(new VisitsResponse(0, []));
+            var (from, to) = Range(days);
+            return Results.Ok(await AnalyticsVisits.BuildAsync(reader.GetEventsAsync(from, to, ct), limit: 200, ct));
+        });
+
         admin.MapGet("/events.csv", async (int? days, AnalyticsStatus status, IServiceProvider services, HttpContext context, CancellationToken ct) =>
         {
             if (!status.Enabled || services.GetService<IAnalyticsReader>() is not { } reader) return Results.NotFound();
