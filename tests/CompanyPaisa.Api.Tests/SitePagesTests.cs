@@ -74,7 +74,7 @@ public class SitePagesTests(SitePagesFactory factory) : IClassFixture<SitePagesF
         var res = await factory.CreateClient().GetAsync("/company/LFVN/salaries");
 
         Assert.Equal(HttpStatusCode.NotFound, res.StatusCode);
-        Assert.DoesNotContain("/company/LFVN/salaries", await factory.CreateClient().GetStringAsync("/sitemap.xml"));
+        Assert.DoesNotContain("http://localhost/company/LFVN/salaries", await SitemapAddressesAsync(factory.CreateClient()));
     }
 
     [Fact]
@@ -185,20 +185,40 @@ public class SitePagesTests(SitePagesFactory factory) : IClassFixture<SitePagesF
     public async Task The_sitemap_lists_areas_companies_and_executives()
     {
         var http = factory.CreateClient();
-        var sitemap = await http.GetStringAsync("/sitemap.xml");
+        var index = System.Xml.Linq.XDocument.Parse(await http.GetStringAsync("/sitemap.xml"));
         var robots = await http.GetStringAsync("/robots.txt");
 
-        var doc = System.Xml.Linq.XDocument.Parse(sitemap);
-        var locs = doc.Descendants().Where(e => e.Name.LocalName == "loc").Select(e => e.Value).ToList();
+        Assert.Equal("sitemapindex", index.Root!.Name.LocalName);
+        Assert.Equal("http://localhost/sitemap-1.xml", Locs(index).First());
+        var locs = await SitemapAddressesAsync(http);
         Assert.Contains("http://localhost/", locs);
         Assert.Contains("http://localhost/near/84043", locs);
         Assert.Contains("http://localhost/near/FR-75008", locs);
         Assert.Contains("http://localhost/company/LFVN", locs);
         Assert.Contains(locs, l => l.StartsWith("http://localhost/executive/"));
         Assert.Equal(locs.Count, locs.Distinct().Count());
+        Assert.Equal(HttpStatusCode.NotFound, (await http.GetAsync($"/sitemap-{Locs(index).Count + 1}.xml")).StatusCode);
         Assert.Contains("Sitemap: http://localhost/sitemap.xml", robots);
         Assert.Contains("Disallow: /admin", robots);
     }
+
+    /// <summary>Every address in the sitemap: the index, then each file it lists.</summary>
+    private static async Task<List<string>> SitemapAddressesAsync(HttpClient http)
+    {
+        var all = new List<string>();
+        foreach (var file in Locs(System.Xml.Linq.XDocument.Parse(await http.GetStringAsync("/sitemap.xml"))))
+        {
+            var doc = System.Xml.Linq.XDocument.Parse(await http.GetStringAsync(new Uri(file).PathAndQuery));
+            Assert.Equal("urlset", doc.Root!.Name.LocalName);
+            var locs = Locs(doc);
+            Assert.InRange(locs.Count, 1, SitePages.SitemapFileSize);
+            all.AddRange(locs);
+        }
+        return all;
+    }
+
+    private static List<string> Locs(System.Xml.Linq.XDocument doc) =>
+        doc.Descendants().Where(e => e.Name.LocalName == "loc").Select(e => e.Value).ToList();
 
     [Theory]
     [InlineData("84043", "US", "84043")]

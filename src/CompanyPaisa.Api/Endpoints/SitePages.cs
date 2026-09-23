@@ -132,21 +132,39 @@ public static partial class SitePages
                 Results.Text($"User-agent: *\nAllow: /\nDisallow: /admin\n\nSitemap: {Origin(http)}/sitemap.xml\n", "text/plain; charset=utf-8"))
             .ExcludeFromDescription();
 
+        // The sitemap is an index of numbered files (/sitemap-1.xml, /sitemap-2.xml…), so it never outgrows the 50,000
+        // addresses search engines read from one file.
         app.MapGet("/sitemap.xml", async (ICompanyRepository repository, IOptionsMonitor<UiOptions> ui, IOptionsMonitor<FeatureOptions> features,
                 HttpContext http, CancellationToken ct) =>
             {
                 var paths = await SitemapPathsAsync(repository, ui.CurrentValue, features.CurrentValue.IsEnabled("Executives"), ct);
                 var lastModified = (await repository.GetMetadataAsync(ct)).AsOfDate;
+                var files = (paths.Count + SitemapFileSize - 1) / SitemapFileSize;
                 http.Response.Headers.CacheControl = "public, max-age=86400";
-                return Results.Text(SitemapXml(Origin(http), paths, lastModified), "application/xml; charset=utf-8");
+                return Results.Text(SitemapIndexXml(Origin(http), files, lastModified), "application/xml; charset=utf-8");
+            })
+            .ExcludeFromDescription();
+
+        app.MapGet("/sitemap-{file:int:min(1)}.xml", async (int file, ICompanyRepository repository, IOptionsMonitor<UiOptions> ui,
+                IOptionsMonitor<FeatureOptions> features, HttpContext http, CancellationToken ct) =>
+            {
+                var paths = await SitemapPathsAsync(repository, ui.CurrentValue, features.CurrentValue.IsEnabled("Executives"), ct);
+                var page = paths.Skip((file - 1) * SitemapFileSize).Take(SitemapFileSize).ToList();
+                if (page.Count == 0) return Results.NotFound();
+                var lastModified = (await repository.GetMetadataAsync(ct)).AsOfDate;
+                http.Response.Headers.CacheControl = "public, max-age=86400";
+                return Results.Text(SitemapXml(Origin(http), page, lastModified), "application/xml; charset=utf-8");
             })
             .ExcludeFromDescription();
 
         return app;
     }
 
-    /// <summary>Search engines allow 50,000 addresses in one sitemap file.</summary>
-    public const int MaxSitemapUrls = 50_000;
+    /// <summary>
+    /// Addresses per sitemap file. Search engines allow 50,000; smaller files are quicker to build and to fetch, and Search
+    /// Console reports each one separately.
+    /// </summary>
+    public const int SitemapFileSize = 10_000;
 
     /// <summary>The home page, every covered area, every company and every executive.</summary>
     public static async Task<IReadOnlyList<string>> SitemapPathsAsync(ICompanyRepository repository, UiOptions ui, bool executives, CancellationToken ct)
@@ -164,7 +182,7 @@ public static partial class SitePages
             paths.AddRange((await repository.GetExecutiveCompensationAsync(companies.Select(c => c.CompanyId), ct))
                 .Select(p => p.PersonId).Distinct(StringComparer.OrdinalIgnoreCase).Order(StringComparer.Ordinal)
                 .Select(id => $"/executive/{Uri.EscapeDataString(id)}"));
-        return paths.Take(MaxSitemapUrls).ToList();
+        return paths;
     }
 
     /// <summary>
@@ -188,6 +206,25 @@ public static partial class SitePages
             {
                 xml.WriteStartElement("url");
                 xml.WriteElementString("loc", origin + path);
+                if (lastModified is { } d) xml.WriteElementString("lastmod", d.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture));
+                xml.WriteEndElement();
+            }
+            xml.WriteEndElement();
+        }
+        return sb.ToString().Replace("encoding=\"utf-16\"", "encoding=\"utf-8\"");
+    }
+
+    private static string SitemapIndexXml(string origin, int files, DateOnly? lastModified)
+    {
+        var sb = new StringBuilder();
+        using (var xml = XmlWriter.Create(sb, new XmlWriterSettings { Indent = false, Encoding = Encoding.UTF8 }))
+        {
+            xml.WriteStartDocument();
+            xml.WriteStartElement("sitemapindex", "http://www.sitemaps.org/schemas/sitemap/0.9");
+            for (var file = 1; file <= files; file++)
+            {
+                xml.WriteStartElement("sitemap");
+                xml.WriteElementString("loc", $"{origin}/sitemap-{file}.xml");
                 if (lastModified is { } d) xml.WriteElementString("lastmod", d.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture));
                 xml.WriteEndElement();
             }
