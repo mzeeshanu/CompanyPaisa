@@ -42,14 +42,20 @@ function renewSession(): Promise<boolean> {
   return renewing;
 }
 
-/** Every company in the radius (the bubbles and the ranked list need them all; the API allows up to 2,000). */
-export const ALL_COMPANIES = 2000;
+/** Rows of the ranked company list fetched at a time ("Show more" asks for the next page). */
+export const LIST_PAGE = 100;
 /** Executives load a page at a time — a big city has thousands. */
 export const EXECUTIVES_PAGE = 200;
 
 export interface NearbyQuery {
   latitude: number; longitude: number; radiusMiles: number;
+  /** A country or state code ("US", "US-TX"): every company there, instead of the radius. */
+  region?: string;
   sector?: string; headquarteredOnly?: boolean; sort?: CompanySort; pageSize?: number;
+  /** The list's page, its opposite order, and a name / ticker search (narrows the list only). */
+  page?: number; reverse?: boolean; search?: string;
+  /** Also every company in the area as a bubble: once per search, not for each page. */
+  includeBubbles?: boolean;
 }
 
 export const api = {
@@ -60,8 +66,9 @@ export const api = {
   searchByName: (q: string, signal?: AbortSignal) => get<NameSearchResponse>('/search', { q, limit: 5 }, signal),
   near: (q: NearbyQuery, signal?: AbortSignal) =>
     get<NearbyResponse>('/companies/near', {
-      latitude: q.latitude, longitude: q.longitude, radiusMiles: q.radiusMiles,
-      sector: q.sector, headquarteredOnly: q.headquarteredOnly || undefined, sort: q.sort, pageSize: q.pageSize ?? ALL_COMPANIES,
+      latitude: q.latitude, longitude: q.longitude, radiusMiles: q.radiusMiles, region: q.region,
+      sector: q.sector, headquarteredOnly: q.headquarteredOnly || undefined, sort: q.sort, reverse: q.reverse || undefined,
+      search: q.search || undefined, includeBubbles: q.includeBubbles || undefined, page: q.page, pageSize: q.pageSize ?? LIST_PAGE,
     }, signal),
   company: (ticker: string) => get<CompanyDetail>(`/companies/${encodeURIComponent(ticker)}`),
   insights: (ticker: string) => get<CompanyInsights>(`/companies/${encodeURIComponent(ticker)}/insights`),
@@ -72,13 +79,13 @@ export const api = {
     get<ExecutivesResponse>(`/companies/${encodeURIComponent(ticker)}/executives`, { years }),
   executivesNear: (q: ExecutivesNearQuery, signal?: AbortSignal) =>
     get<ExecutivesNearResponse>('/executives/near', {
-      latitude: q.latitude, longitude: q.longitude, radiusMiles: q.radiusMiles, sector: q.sector,
+      latitude: q.latitude, longitude: q.longitude, radiusMiles: q.radiusMiles, region: q.region, sector: q.sector,
       includeFormer: q.includeFormer || undefined, search: q.search, role: q.role, sort: q.sort, years: q.years, page: q.page, pageSize: q.pageSize ?? EXECUTIVES_PAGE,
     }, signal),
   executive: (personId: string) => get<ExecutiveDetail>(`/executives/${encodeURIComponent(personId)}`),
 };
 
 export interface ExecutivesNearQuery {
-  latitude: number; longitude: number; radiusMiles: number;
+  latitude: number; longitude: number; radiusMiles: number; region?: string;
   sector?: string; includeFormer?: boolean; search?: string; role?: RoleFilter; sort?: ExecutiveSort; years?: number; page?: number; pageSize?: number;
 }

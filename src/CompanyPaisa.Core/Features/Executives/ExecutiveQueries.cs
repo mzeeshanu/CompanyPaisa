@@ -13,17 +13,17 @@ namespace CompanyPaisa.Core.Features.Executives;
 
 // ---------- Executives near me ----------
 
-/// <summary>Named executive officers of public companies with a location within the radius, with their pay history.</summary>
+/// <summary>Named executive officers of public companies with a location within the radius (or in a country / state), with their pay history.</summary>
 public sealed record GetExecutivesNearQuery(ExecutivesNearRequest Request) : IRequest<ExecutivesNearResponse>, ICacheableRequest, ITrackedRequest<ExecutivesNearResponse>
 {
     public string CacheKey => string.Create(CultureInfo.InvariantCulture,
-        $"execnear|{Request.Near?.Trim().ToUpperInvariant()}|{Request.Latitude:F3}|{Request.Longitude:F3}|{Request.RadiusMiles}|{Request.Sector?.ToUpperInvariant()}|{Request.IncludeFormer}|{Request.Search?.Trim().ToUpperInvariant()}|{Request.Role}|{Request.Sort}|{Request.Years}|{Request.Page}|{Request.PageSize}");
+        $"execnear|{Request.Near?.Trim().ToUpperInvariant()}|{Request.Region?.Trim().ToUpperInvariant()}|{Request.Latitude:F3}|{Request.Longitude:F3}|{Request.RadiusMiles}|{Request.Sector?.ToUpperInvariant()}|{Request.IncludeFormer}|{Request.Search?.Trim().ToUpperInvariant()}|{Request.Role}|{Request.Sort}|{Request.Years}|{Request.Page}|{Request.PageSize}");
     public string CacheProfile => "Search";
 
     /// <summary>The first page of a search only (later pages are "Show more" on the same search).</summary>
     public AnalyticsAction? Describe(ExecutivesNearResponse response) => (Request.Page ?? 1) != 1 ? null :
         SearchAnalytics.Action("executive_search", response.Origin, response.OriginLabel, response.RadiusMiles, Request.Near, Request.Sector,
-            response.TotalCount, ("search", Request.Search?.Trim()), ("role", Request.Role?.ToString()), ("includeFormer", Request.IncludeFormer ? "true" : null));
+            response.TotalCount, ("search", Request.Search?.Trim()), ("role", Request.Role?.ToString()), ("includeFormer", Request.IncludeFormer ? "true" : null), ("region", response.Region?.Code));
 }
 
 public sealed class GetExecutivesNearValidator(IOptionsMonitor<SearchOptions> search, IOptionsMonitor<MetricsOptions> metrics)
@@ -32,7 +32,7 @@ public sealed class GetExecutivesNearValidator(IOptionsMonitor<SearchOptions> se
     public IEnumerable<ValidationError> Validate(GetExecutivesNearQuery query)
     {
         var r = query.Request;
-        foreach (var e in NearbyValidation.Validate(r.Near, r.Latitude, r.Longitude, r.RadiusMiles, r.Page, r.PageSize, search.CurrentValue))
+        foreach (var e in NearbyValidation.Validate(r.Near, r.Region, r.Latitude, r.Longitude, r.RadiusMiles, r.Page, r.PageSize, search.CurrentValue))
             yield return e;
         if (r.Years is { } y && (y < 1 || y > metrics.CurrentValue.HistoryYears))
             yield return new("years", $"Years must be between 1 and {metrics.CurrentValue.HistoryYears}.");
@@ -53,15 +53,14 @@ public sealed class GetExecutivesNearHandler(
     {
         var r = query.Request;
         var o = searchOptions.CurrentValue;
-        var (origin, originLabel) = await nearby.ResolveOriginAsync(r.Near, r.Latitude, r.Longitude, ct);
-        var radius = r.RadiusMiles ?? o.DefaultRadiusMiles;
+        var area = await nearby.FindAreaAsync(r.Near, r.Region, r.Latitude, r.Longitude, r.RadiusMiles ?? o.DefaultRadiusMiles, ct);
         var sort = r.Sort ?? ExecutiveSort.Pay;
         var page = r.Page ?? 1;
         var pageSize = r.PageSize ?? o.DefaultPageSize;
         var windowYears = r.Years ?? metricsOptions.CurrentValue.HistoryYears;
 
-        // 1. Nearby companies (optionally one sector).
-        var inRange = await nearby.FindCompaniesAsync(origin, radius, ct);
+        // 1. Nearby companies, or those in the country / state (optionally one sector).
+        var inRange = area.Hits;
         var nearbyCompanies = (await repository.GetCompaniesAsync(inRange.Keys, ct))
             .Where(c => string.IsNullOrWhiteSpace(r.Sector) || string.Equals(c.Sector, r.Sector.Trim(), StringComparison.OrdinalIgnoreCase))
             .ToDictionary(c => c.CompanyId, StringComparer.OrdinalIgnoreCase);
@@ -136,7 +135,8 @@ public sealed class GetExecutivesNearHandler(
             rows.Any(x => !string.Equals(x.Company.Currency, currency, StringComparison.OrdinalIgnoreCase)));
 
         var items = Sort(rows, sort).Skip((page - 1) * pageSize).Take(pageSize).ToList();
-        return new ExecutivesNearResponse(origin.ToDto(), originLabel, radius, sort, page, pageSize, rows.Count, summary, items);
+        return new ExecutivesNearResponse(area.Origin.ToDto(), area.Label, area.RadiusMiles, sort, page, pageSize, rows.Count, summary, items,
+            area.Region?.ToDto());
     }
 
     /// <summary>

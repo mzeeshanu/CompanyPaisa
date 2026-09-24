@@ -1,4 +1,5 @@
 using CompanyPaisa.Contracts;
+using CompanyPaisa.Core.Abstractions;
 using CompanyPaisa.Core.Messaging;
 using CompanyPaisa.Core.Services;
 
@@ -27,8 +28,26 @@ public sealed class SearchByNameValidator : IRequestValidator<SearchByNameQuery>
     }
 }
 
-public sealed class SearchByNameHandler(INameSearchIndex index) : IRequestHandler<SearchByNameQuery, NameSearchResponse>
+/// <summary>
+/// Names from the index, plus the place the text names ("Utah", "USA", "Dallas"), so the site's one search box can open a
+/// search there as well as a company or person. Postcodes aren't offered here (they go in the location box).
+/// </summary>
+public sealed class SearchByNameHandler(INameSearchIndex index, IGeoLocator geo) : IRequestHandler<SearchByNameQuery, NameSearchResponse>
 {
-    public Task<NameSearchResponse> HandleAsync(SearchByNameQuery q, CancellationToken ct) =>
-        index.SearchAsync(q.Query, q.Limit ?? SearchByNameQuery.DefaultLimit, q.IncludeExecutives, ct);
+    public async Task<NameSearchResponse> HandleAsync(SearchByNameQuery q, CancellationToken ct)
+    {
+        var found = await index.SearchAsync(q.Query, q.Limit ?? SearchByNameQuery.DefaultLimit, q.IncludeExecutives, ct);
+        return found with { Places = await PlacesAsync(q.Query.Trim(), ct) };
+    }
+
+    private async Task<IReadOnlyList<NameSearchPlaceDto>> PlacesAsync(string text, CancellationToken ct)
+    {
+        if (Regions.Find(text) is { } region) return [new(region.Name, region.Slug, region.ToDto())];
+        if (text.Any(char.IsDigit)) return [];
+        var places = new List<NameSearchPlaceDto>();
+        if (await geo.LookupAsync(text, ct) is { City.Length: > 0 } city) places.Add(new($"{city.City}, {city.State}", $"{city.City}, {city.State}", null));
+        // "Washington" and "New York" are first the cities, but offer the state too.
+        if (Regions.StateAlsoNamed(text) is { } state) places.Add(new($"{state.Name} state", state.Slug, state.ToDto()));
+        return places;
+    }
 }

@@ -8,6 +8,13 @@ public enum TrendStatus
     Down
 }
 
+/// <summary>What a region search covers: a whole country, or one US state / Canadian province.</summary>
+public enum RegionKind
+{
+    Country,
+    State
+}
+
 /// <summary>How results are ranked.</summary>
 public enum CompanySort
 {

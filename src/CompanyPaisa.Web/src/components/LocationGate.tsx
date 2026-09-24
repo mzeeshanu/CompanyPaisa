@@ -1,13 +1,16 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { api, ApiError } from '../api/client';
-import type { Country, CoverageArea } from '../api/types';
+import type { Country, CoverageArea, Region } from '../api/types';
 import { track } from '../lib/analytics';
 import { DISCLAIMER } from '../lib/disclaimer';
 import { placeToken } from '../lib/router';
 import { NameSearch } from './NameSearch';
 
-/** Where a search is centred; `place` is how the address names it ("84043", "FR-75008", or "me" for the visitor's location). */
-export interface Origin { latitude: number; longitude: number; label: string; place: string }
+/**
+ * Where a search is centred; `place` is how the address names it ("84043", "FR-75008", "dallas", "texas", or "me" for the
+ * visitor's location). With `region` the search is every company in that country or state, not a radius.
+ */
+export interface Origin { latitude: number; longitude: number; label: string; place: string; region?: Region }
 
 interface Props {
   coverageMiles: number;
@@ -80,58 +83,72 @@ export function LocationGate({ coverageMiles, coverage, onLocated, showExecutive
   useEffect(() => { const t = setTimeout(() => input.current?.focus(), 300); return () => clearTimeout(t); }, []);
 
   // Make sure there is something to show before closing the gate.
-  async function accept(latitude: number, longitude: number, label: string, place: string) {
-    const probe = await api.near({ latitude, longitude, radiusMiles: coverageMiles, pageSize: 1 });
+  async function accept(o: Origin) {
+    const probe = await api.near({ latitude: o.latitude, longitude: o.longitude, radiusMiles: coverageMiles, region: o.region?.code, pageSize: 1 });
     if (probe.totalCount === 0) {
-      setError(`We don't cover your area yet — there are no companies within ${coverageMiles} miles. Pick one of the areas below.`);
+      setError(o.region
+        ? `We don't have any public companies in ${o.region.inSentence} yet. Try another place, or pick an area below.`
+        : `We don't cover your area yet — there are no companies within ${coverageMiles} miles. Pick one of the areas below.`);
       return;
     }
-    onLocated({ latitude, longitude, label, place });
+    onLocated(o);
   }
 
   function submitZip(e: FormEvent) {
     e.preventDefault();
     track('location_zip');
-    return lookupZip(zip.trim(), country);
+    return lookupPlace(zip, country);
   }
 
-  /** On a European, Australian, NZ or Pakistani tab the code goes to the API with its country ("FR-75008"): a bare 75008 would be a US ZIP. */
-  async function lookupZip(q: string, from: Country) {
-    q = q.toUpperCase();
+  /**
+   * A postcode (anything with a digit), or a place name: a city ("Dallas", "Portland, OR") centres the search there; a
+   * country, state or province ("Texas", "Canada", "UK") shows every company in it. On a European, Australian, NZ or
+   * Pakistani tab a postcode goes to the API with its country ("FR-75008"): a bare 75008 would be a US ZIP.
+   */
+  async function lookupPlace(typed: string, from: Country) {
+    const text = typed.trim().replace(/\s+/g, ' ');
+    if (!text) { setError('Enter a ZIP code, a city, a state or a country.'); return; }
+    const postcode = /\d/.test(text);
+    const code = text.toUpperCase();
     const eu = EU_POSTCODE[from];
-    let query = q;
-    if (eu) {
-      if (!eu.test(q)) { setError(`Enter a ${COUNTRY_NAMES[from]} postcode (e.g. ${EU_EXAMPLES[from]}).`); return; }
-      query = `${from}-${q}`;
-    } else if (!US_ZIP.test(q) && !UK_POSTCODE.test(q) && !CA_POSTCODE.test(q)) {
-      setError('Enter a 5-digit US ZIP code, a Canadian postal code (e.g. M5J 2J2) or a UK postcode (e.g. SW1A 1AA).');
-      return;
+    let query = text;
+    if (postcode) {
+      if (eu) {
+        if (!eu.test(code)) { setError(`Enter a ${COUNTRY_NAMES[from]} postcode (e.g. ${EU_EXAMPLES[from]}), or a city or country.`); return; }
+        query = `${from}-${code}`;
+      } else if (!US_ZIP.test(code) && !UK_POSTCODE.test(code) && !CA_POSTCODE.test(code)) {
+        setError('Enter a 5-digit US ZIP code, a Canadian postal code (e.g. M5J 2J2), a UK postcode (e.g. SW1A 1AA), or a place name.');
+        return;
+      } else query = code;
     }
     setBusy('zip'); setError('');
     try {
       const hit = await api.lookup(query);
-      await accept(hit.point.latitude, hit.point.longitude, `${hit.city}, ${hit.state} ${hit.postalCode ?? q}`, placeToken(q, eu ? from : null));
+      const point = { latitude: hit.point.latitude, longitude: hit.point.longitude };
+      if (hit.region) await accept({ ...point, label: hit.region.name, place: hit.region.slug, region: hit.region });
+      else if (postcode) await accept({ ...point, label: `${hit.city}, ${hit.state} ${hit.postalCode ?? code}`, place: placeToken(code, eu ? from : null) });
+      else await accept({ ...point, label: `${hit.city}, ${hit.state}`, place: `${hit.city}, ${hit.state}` });
     } catch (err) {
       setError(err instanceof ApiError && err.status === 404
-        ? `We don't recognise ${q}. Try another, or pick an area below.`
+        ? `We don't recognise "${text}". Try a ZIP code, a city, a state or a country, or pick an area below.`
         : 'Something went wrong looking that up. Please try again.');
     } finally { setBusy(null); }
   }
 
   function useMyLocation() {
     // The browser permission prompt only appears after this click (never on page load).
-    if (!navigator.geolocation) { setError("This browser can't share location. Enter a ZIP code instead."); return; }
+    if (!navigator.geolocation) { setError("This browser can't share location. Type a ZIP code or a place instead."); return; }
     track('location_gps');
     setBusy('geo'); setError('');
     navigator.geolocation.getCurrentPosition(
       async p => {
-        try { await accept(p.coords.latitude, p.coords.longitude, 'your location', 'me'); }
-        catch { setError('Something went wrong. Enter a ZIP code instead.'); }
+        try { await accept({ latitude: p.coords.latitude, longitude: p.coords.longitude, label: 'your location', place: 'me' }); }
+        catch { setError('Something went wrong. Type a ZIP code or a place instead.'); }
         finally { setBusy(null); }
       },
       err => {
         setBusy(null);
-        setError(err.code === 1 ? 'Location access was blocked. Enter a ZIP code instead.' : "We couldn't find your location. Enter a ZIP code instead.");
+        setError(err.code === 1 ? 'Location access was blocked. Type a ZIP code or a place instead.' : "We couldn't find your location. Type a ZIP code or a place instead.");
       },
       { timeout: 9000, maximumAge: 600000 });
   }
@@ -158,9 +175,10 @@ export function LocationGate({ coverageMiles, coverage, onLocated, showExecutive
         </button>
         <div className="or">OR</div>
         <form className="zip" onSubmit={submitZip}>
-          <input ref={input} maxLength={8} placeholder={EU_EXAMPLES[country] ? `${SHORT_NAMES[country]} postcode` : countries.length > 1 ? 'ZIP / postcode' : 'ZIP'} aria-label="ZIP code or postcode"
-            autoComplete="postal-code" autoCapitalize="characters" spellCheck={false}
-            value={zip} onChange={e => { setZip(e.target.value.replace(/[^A-Za-z0-9 ]/g, '').toUpperCase()); setError(''); }} />
+          <input ref={input} maxLength={60} aria-label="ZIP code or postcode, city, state or country"
+            placeholder={EU_EXAMPLES[country] ? `${SHORT_NAMES[country]} postcode, city or country` : countries.length > 1 ? 'ZIP / postcode, city, state or country' : 'ZIP, city, state or country'}
+            autoComplete="off" spellCheck={false}
+            value={zip} onChange={e => { setZip(e.target.value.replace(/[^\p{L}\p{N} ,.'-]/gu, '')); setError(''); }} />
           <button className="ghost" type="submit" disabled={busy !== null}>{busy === 'zip' ? '…' : 'Go'}</button>
         </form>
         <p className="err" role="alert">{error}</p>
@@ -188,7 +206,7 @@ export function LocationGate({ coverageMiles, coverage, onLocated, showExecutive
             )}
             <div className={`metro-list${allMetros && searchable ? ' all' : ''}`}>
               {metros.map(m => (
-                <button key={m.name} type="button" disabled={busy !== null} onClick={() => { track('location_area', m.name); setZip(m.exampleZip); lookupZip(m.exampleZip, m.country ?? 'US'); }}>{m.name}</button>
+                <button key={m.name} type="button" disabled={busy !== null} onClick={() => { track('location_area', m.name); setZip(m.exampleZip); lookupPlace(m.exampleZip, m.country ?? 'US'); }}>{m.name}</button>
               ))}
               {inCountry.length > SHOWN_METROS && (
                 <button type="button" className="more" onClick={() => { setAllMetros(a => !a); setFind(''); }}>

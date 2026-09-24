@@ -5,6 +5,8 @@ using System.Text.RegularExpressions;
 using System.Xml;
 using CompanyPaisa.Api.Options;
 using CompanyPaisa.Core.Abstractions;
+using CompanyPaisa.Core.Domain;
+using CompanyPaisa.Core.Services;
 using Microsoft.Extensions.Options;
 
 namespace CompanyPaisa.Api.Endpoints;
@@ -109,6 +111,19 @@ public static partial class SitePages
                 if (place.Equals("me", StringComparison.OrdinalIgnoreCase))
                     meta = new PageMeta($"{what} near you · CompanyPaisa",
                         "See the public companies near you, how big they are, where they're heading and what their executives are paid.", path, Index: false);
+                else if (Regions.Find(place) is { } region)
+                {
+                    // A whole country or state: /near/texas, /near/united-kingdom, /near/US-TX.
+                    var where = region.InSentence;
+                    meta = new PageMeta($"{what} in {where} · CompanyPaisa",
+                        executives
+                            ? $"Named executives of public companies in {where}: latest pay, 10-year totals and careers, from company filings."
+                            : $"Every public company in {where}: revenue, growth, profit and executive pay, from company filings.", path,
+                        executives
+                            ? [($"In {where}", $"/near/{Uri.EscapeDataString(place)}"), ("Executives", path)]
+                            : [($"In {where}", path)]);
+                    content = await pages.NearAsync(default, where, executives, ct, region);
+                }
                 else
                 {
                     var hit = place.Length <= 20 ? await geo.LookupAsync(place, ct) : null;
@@ -166,12 +181,15 @@ public static partial class SitePages
     /// </summary>
     public const int SitemapFileSize = 10_000;
 
-    /// <summary>The home page, every covered area, every company and every executive.</summary>
+    /// <summary>The home page, every covered area, every country and state with companies, every company and every executive.</summary>
     public static async Task<IReadOnlyList<string>> SitemapPathsAsync(ICompanyRepository repository, UiOptions ui, bool executives, CancellationToken ct)
     {
         var companies = await repository.GetCompaniesAsync(ct);
         var paths = new List<string> { "/" };
         paths.AddRange(ui.Coverage.Select(a => $"/near/{Uri.EscapeDataString(PlaceToken(a.ExampleZip, a.Country))}").Distinct());
+        // Every country, state and province that has a company: /near/texas, /near/united-kingdom.
+        var locations = await repository.GetLocationsWithinAsync(new GeoBoundingBox(-90, 90, -180, 180), ct);
+        paths.AddRange(Regions.All.Where(r => locations.Any(r.Contains)).Select(r => $"/near/{r.Slug}"));
         foreach (var c in companies)
         {
             var path = $"/company/{Uri.EscapeDataString(c.Ticker.ToUpperInvariant())}";

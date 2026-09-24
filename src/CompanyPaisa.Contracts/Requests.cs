@@ -12,9 +12,20 @@ public sealed class NearbyCompaniesRequest
     public double? Latitude { get; init; }
     public double? Longitude { get; init; }
     public double? RadiusMiles { get; init; }
+    /// <summary>
+    /// A whole country or state instead of a radius: a code ("US", "US-TX", "CA-ON", "UK") or a name ("Texas"). A <see cref="Near"/>
+    /// that names a region ("near=Texas") does the same. Distances are then 0 and <see cref="RadiusMiles"/> is ignored.
+    /// </summary>
+    public string? Region { get; init; }
     public string? Sector { get; init; }
     public bool HeadquarteredOnly { get; init; }
     public CompanySort? Sort { get; init; }
+    /// <summary>The sort's opposite order (smallest first; farthest first for distance). Companies with no value stay at the end.</summary>
+    public bool Reverse { get; init; }
+    /// <summary>Narrows <c>Items</c> to names containing this text or tickers starting with it; the summary and bubbles still cover the whole area.</summary>
+    public string? Search { get; init; }
+    /// <summary>Also return every company in the area as a small <see cref="CompanyBubbleDto"/> (for drawing them all at once).</summary>
+    public bool IncludeBubbles { get; init; }
     public int? Page { get; init; }
     public int? PageSize { get; init; }
 }
@@ -29,6 +40,11 @@ public sealed class ExecutivesNearRequest
     public double? Latitude { get; init; }
     public double? Longitude { get; init; }
     public double? RadiusMiles { get; init; }
+    /// <summary>
+    /// A whole country or state instead of a radius: a code ("US", "US-TX", "CA-ON", "UK") or a name ("Texas"). A <see cref="Near"/>
+    /// that names a region ("near=Texas") does the same. Distances are then 0 and <see cref="RadiusMiles"/> is ignored.
+    /// </summary>
+    public string? Region { get; init; }
     public string? Sector { get; init; }
     /// <summary>Also include people who used to be executives at a nearby company but have since moved elsewhere.</summary>
     public bool IncludeFormer { get; init; }

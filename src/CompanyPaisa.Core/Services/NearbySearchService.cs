@@ -23,6 +23,41 @@ public sealed class NearbySearchService(ICompanyRepository repository, IGeoLocat
         return (hit.Point, label);
     }
 
+    /// <summary>Every location on Earth: region searches scan them all (about 5,000, all in memory).</summary>
+    private static readonly GeoBoundingBox World = new(-90, 90, -180, 180);
+
+    public async Task<IReadOnlyDictionary<string, NearbyCompanyHit>> FindCompaniesInRegionAsync(Region region, CancellationToken ct = default)
+    {
+        var inRegion = (await repository.GetLocationsWithinAsync(World, ct)).Where(region.Contains);
+        return inRegion
+            .GroupBy(l => l.CompanyId, StringComparer.OrdinalIgnoreCase)
+            .ToDictionary(g => g.Key, g =>
+            {
+                var shown = g.OrderByDescending(l => l.IsHeadquarters).ThenBy(l => l.Label, StringComparer.Ordinal).First();
+                return new NearbyCompanyHit(g.Key, shown, 0, g.Any(l => l.IsHeadquarters));
+            }, StringComparer.OrdinalIgnoreCase);
+    }
+
+    public async Task<SearchArea> FindAreaAsync(string? near, string? region, double? latitude, double? longitude, double radiusMiles, CancellationToken ct = default)
+    {
+        var area = Regions.FromCode(region) ?? Regions.Find(region) ?? (latitude is null && longitude is null ? Regions.Find(near) : null);
+        if (area is not null)
+        {
+            var hits = await FindCompaniesInRegionAsync(area, ct);
+            return new SearchArea(Centre(hits.Values.Select(h => h.NearestLocation.Point)), area.Name, 0, area, hits);
+        }
+        var (origin, label) = await ResolveOriginAsync(near, latitude, longitude, ct);
+        return new SearchArea(origin, label, radiusMiles, null, await FindCompaniesAsync(origin, radiusMiles, ct));
+    }
+
+    /// <summary>The middle of a region's companies (for the search's origin and the analytics); 0,0 when it has none.</summary>
+    public static GeoPoint Centre(IEnumerable<GeoPoint> points)
+    {
+        var list = points.ToList();
+        return list.Count == 0 ? new GeoPoint(0, 0)
+            : new GeoPoint(Math.Round(list.Average(p => p.Latitude), CoordinateDecimals), Math.Round(list.Average(p => p.Longitude), CoordinateDecimals));
+    }
+
     public async Task<IReadOnlyDictionary<string, NearbyCompanyHit>> FindCompaniesAsync(GeoPoint origin, double radiusMiles, CancellationToken ct = default)
     {
         // Cheap rectangle pre-filter, then exact distance; keep each company's nearest qualifying location.

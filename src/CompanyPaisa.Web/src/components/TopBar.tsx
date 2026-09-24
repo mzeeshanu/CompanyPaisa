@@ -9,6 +9,8 @@ interface Props {
   mode: Mode; onMode: (m: Mode) => void; showExecutives: boolean;
   theme: Theme; onTheme: (t: Theme) => void;
   radii: number[]; radius: number; onRadius: (r: number) => void;
+  /** A whole country or state is being shown ("Texas"): no radius to pick. */
+  region?: string;
   sectors: string[]; sector: string; onSector: (s: string) => void;
   hqOnly: boolean; onHqOnly: (b: boolean) => void;
   isSample: boolean;
@@ -92,14 +94,18 @@ export function TopBar(p: Props) {
               )}
               <button className="filters-btn" aria-expanded={filtersOpen} aria-controls="bar-filters" onClick={() => setFiltersOpen(o => !o)}>
                 <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 4h12M4.5 8h7M7 12h2" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" /></svg>
-                {p.radius} mi{extra > 0 && <span className="filters-count">+{extra}</span>}
+                {p.region ? 'Filters' : `${p.radius} mi`}{extra > 0 && <span className="filters-count">+{extra}</span>}
               </button>
               <div className={`bar-filters${filtersOpen ? ' open' : ''}`} id="bar-filters">
-                <div className="sel-wrap">
-                  <select aria-label="Search radius" value={p.radius} onChange={e => p.onRadius(Number(e.target.value))}>
-                    {p.radii.map(r => <option key={r} value={r}>Within {r} mi</option>)}
-                  </select>
-                </div>
+                {p.region
+                  ? <span className="region-chip" title={`Every public company in ${p.region}. Change the place to search around a ZIP code or city.`}>All of {p.region}</span>
+                  : (
+                    <div className="sel-wrap">
+                      <select aria-label="Search radius" value={p.radius} onChange={e => p.onRadius(Number(e.target.value))}>
+                        {p.radii.map(r => <option key={r} value={r}>Within {r} mi</option>)}
+                      </select>
+                    </div>
+                  )}
                 <div className="sel-wrap">
                   <select aria-label="Sector" value={p.sector} onChange={e => p.onSector(e.target.value)}>
                     <option value="">All sectors</option>

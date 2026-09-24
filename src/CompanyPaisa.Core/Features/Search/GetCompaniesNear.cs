@@ -10,11 +10,11 @@ using Microsoft.Extensions.Options;
 
 namespace CompanyPaisa.Core.Features.Search;
 
-/// <summary>Public companies with at least one location within a radius of a ZIP/city or coordinates.</summary>
+/// <summary>Public companies with at least one location within a radius of a ZIP/city or coordinates, or in a whole country or state.</summary>
 public sealed record GetCompaniesNearQuery(NearbyCompaniesRequest Request) : IRequest<NearbyCompaniesResponse>, ICacheableRequest, ITrackedRequest<NearbyCompaniesResponse>
 {
     public string CacheKey => string.Create(CultureInfo.InvariantCulture,
-        $"near|{Request.Near?.Trim().ToUpperInvariant()}|{Request.Latitude:F3}|{Request.Longitude:F3}|{Request.RadiusMiles}|{Request.Sector?.ToUpperInvariant()}|{Request.HeadquarteredOnly}|{Request.Sort}|{Request.Page}|{Request.PageSize}");
+        $"near|{Request.Near?.Trim().ToUpperInvariant()}|{Request.Region?.Trim().ToUpperInvariant()}|{Request.Latitude:F3}|{Request.Longitude:F3}|{Request.RadiusMiles}|{Request.Sector?.ToUpperInvariant()}|{Request.HeadquarteredOnly}|{Request.Sort}|{Request.Reverse}|{Request.Search?.Trim().ToUpperInvariant()}|{Request.IncludeBubbles}|{Request.Page}|{Request.PageSize}");
     public string CacheProfile => "Search";
 
     /// <summary>
@@ -23,7 +23,8 @@ public sealed record GetCompaniesNearQuery(NearbyCompaniesRequest Request) : IRe
     /// </summary>
     public AnalyticsAction? Describe(NearbyCompaniesResponse response) => (Request.Page ?? 1) != 1 || Request.PageSize == 1 ? null :
         SearchAnalytics.Action("search", response.Origin, response.OriginLabel, response.RadiusMiles, Request.Near, Request.Sector,
-            response.TotalCount, ("headquarteredOnly", Request.HeadquarteredOnly ? "true" : null), ("sort", Request.Sort?.ToString()));
+            response.TotalCount, ("headquarteredOnly", Request.HeadquarteredOnly ? "true" : null), ("sort", Request.Sort?.ToString()),
+            ("region", response.Region?.Code));
 }
 
 /// <summary>How a "near me" search is recorded: where (rounded to ~1 km), how far, which filters, how many results.</summary>
@@ -53,19 +54,22 @@ public sealed class GetCompaniesNearValidator(IOptionsMonitor<SearchOptions> opt
     public IEnumerable<ValidationError> Validate(GetCompaniesNearQuery query)
     {
         var r = query.Request;
-        return NearbyValidation.Validate(r.Near, r.Latitude, r.Longitude, r.RadiusMiles, r.Page, r.PageSize, options.CurrentValue);
+        var errors = NearbyValidation.Validate(r.Near, r.Region, r.Latitude, r.Longitude, r.RadiusMiles, r.Page, r.PageSize, options.CurrentValue);
+        return r.Search is { Length: > 100 } ? errors.Append(new("search", "Search text is too long.")) : errors;
     }
 }
 
 /// <summary>Location / radius / paging rules shared by every "near me" search.</summary>
 public static class NearbyValidation
 {
-    public static IEnumerable<ValidationError> Validate(string? near, double? latitude, double? longitude, double? radiusMiles,
+    public static IEnumerable<ValidationError> Validate(string? near, string? region, double? latitude, double? longitude, double? radiusMiles,
         int? page, int? pageSize, SearchOptions o)
     {
         var hasCoords = latitude is not null || longitude is not null;
-        if (string.IsNullOrWhiteSpace(near) && !hasCoords)
-            yield return new("near", "Provide a ZIP code or city in 'near', or 'latitude' and 'longitude'.");
+        if (!string.IsNullOrWhiteSpace(region) && Regions.FromCode(region) is null && Regions.Find(region) is null)
+            yield return new("region", "Unknown region. Use a country or state code (US, UK, US-TX, CA-ON) or its name.");
+        if (string.IsNullOrWhiteSpace(near) && string.IsNullOrWhiteSpace(region) && !hasCoords)
+            yield return new("near", "Provide a ZIP code or city in 'near', a country or state in 'region', or 'latitude' and 'longitude'.");
         if (hasCoords && (latitude is null || longitude is null))
             yield return new("latitude", "Provide both 'latitude' and 'longitude'.");
         if (latitude is not null && longitude is not null && !new GeoPoint(latitude.Value, longitude.Value).IsValid)
@@ -92,14 +96,13 @@ public sealed class GetCompaniesNearHandler(
         var r = query.Request;
         var o = options.CurrentValue;
 
-        var (origin, originLabel) = await nearby.ResolveOriginAsync(r.Near, r.Latitude, r.Longitude, ct);
-        var radius = r.RadiusMiles ?? o.DefaultRadiusMiles;
         var sort = r.Sort ?? o.DefaultSort;
         var page = r.Page ?? 1;
         var pageSize = r.PageSize ?? o.DefaultPageSize;
 
-        // 1. Companies with a location in range, each with its nearest qualifying location.
-        var inRange = await nearby.FindCompaniesAsync(origin, radius, ct);
+        // 1. Companies with a location in range (or in the country / state), each with its nearest qualifying location.
+        var area = await nearby.FindAreaAsync(r.Near, r.Region, r.Latitude, r.Longitude, r.RadiusMiles ?? o.DefaultRadiusMiles, ct);
+        var inRange = area.Hits;
 
         // 2. Company-level filters.
         var companies = (await repository.GetCompaniesAsync(inRange.Keys, ct))
@@ -131,15 +134,47 @@ public sealed class GetCompaniesNearHandler(
             rows.Any(x => !string.Equals(x.Currency, currency, StringComparison.OrdinalIgnoreCase)),
             ceo);
 
-        var items = Sort(rows, sort).Skip((page - 1) * pageSize).Take(pageSize).ToList();
-        return new NearbyCompaniesResponse(origin.ToDto(), originLabel, radius, sort, page, pageSize, rows.Count, summary, items);
+        // Every company as a bubble (when asked), then the list: narrowed by the search, sorted, one page of it.
+        var bubbles = r.IncludeBubbles
+            ? rows.Select(x => new CompanyBubbleDto(x.Ticker, x.Name, x.Indicators.TtmRevenue, x.Indicators.RevenueGrowthYoY, x.Indicators.Trend,
+                x.NearestLocation.City, x.NearestLocation.State, x.DistanceMiles, x.IsHeadquarteredNearby, x.Currency)).ToList()
+            : null;
+        var listed = Matching(rows, r.Search).ToList();
+        var items = Sort(listed, sort, r.Reverse).Skip((page - 1) * pageSize).Take(pageSize).ToList();
+        return new NearbyCompaniesResponse(area.Origin.ToDto(), area.Label, area.RadiusMiles, sort, page, pageSize, listed.Count, summary, items,
+            area.Region?.ToDto(), bubbles);
     }
 
-    private IEnumerable<CompanySummaryDto> Sort(IEnumerable<CompanySummaryDto> rows, CompanySort sort) => sort switch
+    /// <summary>Names containing the text (ignoring case and accents: "societe" finds Société Générale) or tickers starting with it.</summary>
+    private static IEnumerable<CompanySummaryDto> Matching(IEnumerable<CompanySummaryDto> rows, string? search)
     {
-        CompanySort.Growth => rows.OrderByDescending(x => x.Indicators.RevenueGrowthYoY ?? decimal.MinValue),
-        CompanySort.Profit => rows.OrderByDescending(x => fx.ToUsd(x.Indicators.TtmNetIncome, x.Currency)),
-        CompanySort.Distance => rows.OrderBy(x => x.DistanceMiles),
-        _ => rows.OrderByDescending(x => fx.ToUsd(x.Indicators.TtmRevenue, x.Currency))
-    };
+        var q = Plain(search?.Trim() ?? "");
+        return q.Length == 0 ? rows
+            : rows.Where(x => Plain(x.Name).Contains(q, StringComparison.Ordinal) || x.Ticker.StartsWith(q, StringComparison.OrdinalIgnoreCase));
+    }
+
+    private static string Plain(string s) =>
+        new string(s.Normalize(System.Text.NormalizationForm.FormD)
+            .Where(ch => CharUnicodeInfo.GetUnicodeCategory(ch) != UnicodeCategory.NonSpacingMark).ToArray()).ToLowerInvariant();
+
+    /// <summary>
+    /// Biggest first (nearest first for distance), or the opposite when reversed; companies with no growth figure stay last
+    /// either way. Ties go by ticker so pages never overlap.
+    /// </summary>
+    private IEnumerable<CompanySummaryDto> Sort(IEnumerable<CompanySummaryDto> rows, CompanySort sort, bool reverse)
+    {
+        var ordered = sort switch
+        {
+            CompanySort.Growth => reverse
+                ? rows.OrderBy(x => x.Indicators.RevenueGrowthYoY is null).ThenBy(x => x.Indicators.RevenueGrowthYoY)
+                : rows.OrderByDescending(x => x.Indicators.RevenueGrowthYoY ?? decimal.MinValue),
+            CompanySort.Profit => Direction(rows, x => fx.ToUsd(x.Indicators.TtmNetIncome, x.Currency), !reverse),
+            CompanySort.Distance => Direction(rows, x => (decimal)x.DistanceMiles, reverse),
+            _ => Direction(rows, x => fx.ToUsd(x.Indicators.TtmRevenue, x.Currency), !reverse)
+        };
+        return ordered.ThenBy(x => x.Ticker, StringComparer.Ordinal);
+    }
+
+    private static IOrderedEnumerable<CompanySummaryDto> Direction(IEnumerable<CompanySummaryDto> rows, Func<CompanySummaryDto, decimal> key, bool descending) =>
+        descending ? rows.OrderByDescending(key) : rows.OrderBy(key);
 }

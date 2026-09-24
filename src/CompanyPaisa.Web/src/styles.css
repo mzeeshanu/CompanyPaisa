@@ -92,6 +92,7 @@ body.locked .app{filter:blur(14px) saturate(1.15);transform:scale(1.03);pointer-
 .filters-btn{display:none;height:34px;padding:0 12px;border-radius:999px;border:1px solid var(--hair-2);background:var(--field);cursor:pointer;align-items:center;gap:6px;font-weight:600;font-size:12.5px}
 .filters-btn svg{width:15px;height:15px;color:var(--dim)}
 .filters-btn[aria-expanded="true"]{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.region-chip{height:34px;display:inline-flex;align-items:center;padding:0 14px;border-radius:999px;background:var(--accent-soft);color:var(--accent);font-weight:700;font-size:12.5px;white-space:nowrap}
 .filters-count{font:700 10.5px var(--body);color:var(--accent-ink);background:var(--accent);border-radius:999px;padding:1px 6px}
 .bar-row.bar-page{padding:10px 10px 10px 20px;flex-wrap:nowrap}
 .bar-page .namesearch{flex:0 1 420px;margin-left:auto}

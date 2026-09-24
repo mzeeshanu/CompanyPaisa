@@ -74,10 +74,11 @@ public sealed partial class CsvZipGeoLocator(
             if (index.ByCityState.TryGetValue(key, out var cs)) return Task.FromResult<GeoLookupResult?>(cs with { Query = q });
         }
 
-        // City alone: only answer when the name is unambiguous.
-        return Task.FromResult(index.ByCity.TryGetValue(q.ToUpperInvariant(), out var list) && list.Count == 1
-            ? list[0] with { Query = q }
-            : null);
+        // City alone: the biggest place with that name ("Dallas" → Dallas, TX; "Portland" → Portland, OR).
+        if (index.ByCity.TryGetValue(q.ToUpperInvariant(), out var list)) return Task.FromResult<GeoLookupResult?>(list[0] with { Query = q });
+
+        // A city followed by its country: "Dallas, USA", "Toronto Canada" — look up the city part.
+        return Regions.SplitCountry(q) is var (city, _) ? LookupAsync(city, ct).ContinueWith(t => t.Result is { } hit ? hit with { Query = q } : null, ct) : Task.FromResult<GeoLookupResult?>(null);
     }
 
     public Task<GeoLookupResult?> NearestCityAsync(GeoPoint point, double maxMiles, CancellationToken ct = default)
@@ -143,8 +144,9 @@ public sealed partial class CsvZipGeoLocator(
                 LoadTable(path, index, cityPoints);
             }
 
-            // A city is the average of its ZIP centroids.
-            foreach (var (key, pts) in cityPoints)
+            // A city is the average of its ZIP centroids. Cities sharing a name are listed biggest first (most ZIP codes),
+            // so "Dallas" alone is Dallas, Texas rather than Dallas, Georgia.
+            foreach (var (key, pts) in cityPoints.OrderByDescending(c => c.Value.Count))
             {
                 var p = new GeoPoint(pts.Average(x => x.Point.Latitude), pts.Average(x => x.Point.Longitude));
                 var result = new GeoLookupResult(key, pts[0].City, pts[0].State, null, p);

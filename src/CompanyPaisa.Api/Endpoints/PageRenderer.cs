@@ -203,10 +203,13 @@ public sealed class PageRenderer(
 
     // ---- Search (near a place) -----------------------------------------------------------------------------------
 
-    public async Task<PageContent> NearAsync(GeoPoint origin, string where, bool executives, CancellationToken ct)
+    /// <summary>A search page: near a point (the default radius), or every company in a whole country or state.</summary>
+    public async Task<PageContent> NearAsync(GeoPoint origin, string where, bool executives, CancellationToken ct, Region? region = null)
     {
         var radius = search.CurrentValue.DefaultRadiusMiles;
-        var hits = await nearby.FindCompaniesAsync(origin, radius, ct);
+        var hits = region is null ? await nearby.FindCompaniesAsync(origin, radius, ct) : await nearby.FindCompaniesInRegionAsync(region, ct);
+        var nearWhere = region is null ? $"near {where}" : $"in {where}";
+        var within = region is null ? $"within {radius:0} miles" : $"in {where}";
         var companies = await repository.GetCompaniesAsync(hits.Keys, ct);
         var financials = await repository.GetFinancialsAsync(hits.Keys, ct);
         var ranked = companies
@@ -216,12 +219,12 @@ public sealed class PageRenderer(
         var h = new Html();
         if (executives && Executives)
         {
-            h.Open("h1").Text($"Executives of public companies near {where}").Close("h1");
+            h.Open("h1").Text($"Executives of public companies {nearWhere}").Close("h1");
             var pay = await repository.GetExecutiveCompensationAsync(hits.Keys, ct);
             var byCompany = companies.ToDictionary(c => c.CompanyId, StringComparer.OrdinalIgnoreCase);
             var latest = pay.GroupBy(p => p.PersonId).Select(g => g.MaxBy(p => p.Year)!)
                 .OrderByDescending(p => currency.ToUsd(p.Total, byCompany[p.CompanyId].PayCurrency ?? byCompany[p.CompanyId].Currency)).Take(100).ToList();
-            h.Open("p").Text($"The best-paid named executives of the {companies.Count:N0} public companies within {radius:0} miles, by their latest reported pay.").Close("p");
+            h.Open("p").Text($"The best-paid named executives of the {companies.Count:N0} public companies {within}, by their latest reported pay.").Close("p");
             h.Open("table").Open("thead").Open("tr").Cell("th", "Executive").Cell("th", "Company").Cell("th", "Role").Cell("th", "Total pay").Close("tr").Close("thead").Open("tbody");
             foreach (var p in latest)
             {
@@ -234,13 +237,14 @@ public sealed class PageRenderer(
         }
         else
         {
-            h.Open("h1").Text($"Public companies near {where}").Close("h1");
-            h.Open("p").Text($"{companies.Count:N0} public companies have an office within {radius:0} miles. The largest by revenue:").Close("p");
+            h.Open("h1").Text($"Public companies {nearWhere}").Close("h1");
+            h.Open("p").Text($"{companies.Count:N0} public companies have an office {within}. The largest by revenue:").Close("p");
             h.Open("table").Open("thead").Open("tr").Cell("th", "Company").Cell("th", "Where").Cell("th", "Sector").Cell("th", "Revenue (12 months)").Close("tr").Close("thead").Open("tbody");
             foreach (var x in ranked.Take(100))
             {
                 h.Open("tr").Open("td").Link(CompanyPath(x.Company), $"{x.Company.Name} ({x.Company.Ticker})").Close("td")
-                    .Cell("td", $"{x.Hit.NearestLocation.City}, {x.Hit.NearestLocation.State} ({x.Hit.DistanceMiles:0.#} mi)")
+                    .Cell("td", region is null ? $"{x.Hit.NearestLocation.City}, {x.Hit.NearestLocation.State} ({x.Hit.DistanceMiles:0.#} mi)"
+                        : $"{x.Hit.NearestLocation.City}, {x.Hit.NearestLocation.State}")
                     .Cell("td", x.Company.Sector).Cell("td", x.Indicators.TtmRevenue == 0 ? "—" : Money(x.Indicators.TtmRevenue, x.Company.Currency)).Close("tr");
             }
             h.Close("tbody").Close("table");

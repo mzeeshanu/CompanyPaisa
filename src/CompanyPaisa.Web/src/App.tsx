@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { api, ApiError } from './api/client';
-import type { ClientConfig, CompanySort, CompanySummary, DataMeta, ExecutiveSort, ExecutivesNearResponse, NearbyResponse, RoleFilter } from './api/types';
+import type { ClientConfig, CompanyBubble, CompanySort, DataMeta, ExecutiveSort, ExecutivesNearResponse, NearbyResponse, RoleFilter } from './api/types';
 import { AboutData } from './components/AboutData';
 import { CompanyPage } from './components/CompanyPage';
 import { SalariesPage } from './components/WorkforcePay';
@@ -32,7 +32,7 @@ const COMPANY_SORTS: CompanySort[] = ['Revenue', 'Growth', 'Profit', 'Distance']
 const EXEC_SORTS: ExecutiveSort[] = ['Pay', 'TotalPay', 'PayGrowth', 'Distance', 'Name'];
 const EXEC_ROLES: RoleFilter[] = ['Ceo', 'Cfo', 'Coo', 'Technology', 'Legal', 'Other'];
 
-interface Tip { company: CompanySummary; x: number; y: number }
+interface Tip { company: CompanyBubble; x: number; y: number }
 
 export default function App() {
   const route = useRoute();
@@ -127,16 +127,47 @@ export default function App() {
   }, [route, onHome]);
 
   // ---- company search whenever location or filters change ----
+  // The bubbles (every company, a few fields each) come once per area and filters; the ranked list comes 100 rows at a
+  // time, sorted, reversed and searched by the API, so a whole country doesn't arrive as one 4 MB answer.
+  const [reverse, setReverse] = useState(false);
+  useEffect(() => setReverse(false), [sort]);
+  // The list's name search, asked for a moment after typing stops.
+  const [findQuery, setFindQuery] = useState('');
+  useEffect(() => { const t = setTimeout(() => setFindQuery(companyFind.trim()), 250); return () => clearTimeout(t); }, [companyFind]);
+  const bubblesFor = useRef('');
+  const companyQuery = (o: Origin) => ({
+    latitude: o.latitude, longitude: o.longitude, radiusMiles: radius, region: o.region?.code, sector: sector || undefined, headquarteredOnly: hqOnly,
+    sort: o.region && sort === 'Distance' ? 'Revenue' as const : sort, reverse, search: findQuery,
+  });
   useEffect(() => {
     if (!origin || mode !== 'companies') return;
+    const area = JSON.stringify([origin.latitude, origin.longitude, origin.region?.code, radius, sector, hqOnly]);
+    const includeBubbles = bubblesFor.current !== area;
     const ctrl = new AbortController();
     setLoading(true); setError('');
-    api.near({ latitude: origin.latitude, longitude: origin.longitude, radiusMiles: radius, sector: sector || undefined, headquarteredOnly: hqOnly, sort }, ctrl.signal)
-      .then(setData)
+    api.near({ ...companyQuery(origin), includeBubbles }, ctrl.signal)
+      .then(res => {
+        if (includeBubbles) bubblesFor.current = area;
+        // A new sort, order or search keeps the bubbles (and their pop-in) it already has.
+        setData(prev => includeBubbles || !prev ? res : { ...res, bubbles: prev.bubbles });
+      })
       .catch(e => { if (e.name !== 'AbortError') setError(e instanceof ApiError ? e.message : 'Could not load companies. Please try again.'); })
       .finally(() => { if (!ctrl.signal.aborted) setLoading(false); });
     return () => ctrl.abort();
-  }, [origin, radius, sector, hqOnly, sort, mode]);
+    // companyQuery reads the same state listed here.
+  }, [origin, radius, sector, hqOnly, sort, reverse, findQuery, mode]);
+
+  // The next 100 rows of the ranked list, added below the ones already shown.
+  const [loadingMoreCompanies, setLoadingMoreCompanies] = useState(false);
+  const loadMoreCompanies = () => {
+    if (!origin || !data || loadingMoreCompanies) return;
+    setLoadingMoreCompanies(true);
+    track('companies_more');
+    api.near({ ...companyQuery(origin), page: data.page + 1 })
+      .then(next => setData(prev => prev && prev.page + 1 === next.page ? { ...next, bubbles: prev.bubbles, items: [...prev.items, ...next.items] } : prev))
+      .catch(e => setError(e instanceof ApiError ? e.message : 'Could not load more companies. Please try again.'))
+      .finally(() => setLoadingMoreCompanies(false));
+  };
 
   // ---- executive search ----
   useEffect(() => {
@@ -144,8 +175,8 @@ export default function App() {
     const ctrl = new AbortController();
     setLoading(true); setError('');
     api.executivesNear({
-      latitude: origin.latitude, longitude: origin.longitude, radiusMiles: radius, sector: sector || undefined,
-      includeFormer, search: execSearch.trim() || undefined, role: execRole || undefined, sort: execSort,
+      latitude: origin.latitude, longitude: origin.longitude, radiusMiles: radius, region: origin.region?.code, sector: sector || undefined,
+      includeFormer, search: execSearch.trim() || undefined, role: execRole || undefined, sort: origin.region && execSort === 'Distance' ? 'Pay' : execSort,
     }, ctrl.signal)
       .then(setExecData)
       .catch(e => { if (e.name !== 'AbortError') setError(e instanceof ApiError ? e.message : 'Could not load executives. Please try again.'); })
@@ -160,8 +191,8 @@ export default function App() {
     setLoadingMore(true);
     track('executives_more');
     api.executivesNear({
-      latitude: origin.latitude, longitude: origin.longitude, radiusMiles: radius, sector: sector || undefined,
-      includeFormer, search: execSearch.trim() || undefined, role: execRole || undefined, sort: execSort, page: execData.page + 1,
+      latitude: origin.latitude, longitude: origin.longitude, radiusMiles: radius, region: origin.region?.code, sector: sector || undefined,
+      includeFormer, search: execSearch.trim() || undefined, role: execRole || undefined, sort: origin.region && execSort === 'Distance' ? 'Pay' : execSort, page: execData.page + 1,
     })
       .then(next => setExecData(prev => prev && prev.page + 1 === next.page ? { ...next, items: [...prev.items, ...next.items] } : prev))
       .catch(e => setError(e instanceof ApiError ? e.message : 'Could not load more executives. Please try again.'))
@@ -214,9 +245,14 @@ export default function App() {
       }).catch(() => fail());
     } else {
       api.lookup(place)
-        .then(hit => found({ latitude: hit.point.latitude, longitude: hit.point.longitude, label: `${hit.city}, ${hit.state} ${hit.postalCode ?? place}`, place }))
+        .then(hit => {
+          const point = { latitude: hit.point.latitude, longitude: hit.point.longitude };
+          // A country or state (/near/texas), a city (/near/Dallas, TX) or a postcode (/near/84043).
+          if (hit.region) found({ ...point, label: hit.region.name, place, region: hit.region });
+          else found({ ...point, label: `${hit.city}, ${hit.state}${hit.postalCode ? ` ${hit.postalCode}` : /\d/.test(place) ? ` ${place}` : ''}`, place });
+        })
         .catch(e => fail(e instanceof ApiError && e.status === 404
-          ? `We couldn't find "${place}". Enter a ZIP code or postcode, or pick an area below.`
+          ? `We couldn't find "${place}". Enter a ZIP code, a city, a state or a country, or pick an area below.`
           : 'Something went wrong opening that search. Please try again.'));
     }
     return () => { cancelled = true; };
@@ -226,7 +262,7 @@ export default function App() {
   useEffect(() => {
     if (!config || !onHome || !origin || resolving) return;
     const q = new URLSearchParams();
-    if (radius !== config.defaultRadiusMiles) q.set('radius', String(radius));
+    if (radius !== config.defaultRadiusMiles && !origin.region) q.set('radius', String(radius));
     if (sector) q.set('sector', sector);
     if (mode === 'companies') {
       if (hqOnly) q.set('hq', '1');
@@ -245,7 +281,7 @@ export default function App() {
   const onHover = useCallback((ticker: string | null, el?: HTMLElement) => {
     setHovered(ticker);
     if (!ticker || !el) { setTip(null); return; }
-    const c = data?.items.find(i => i.ticker === ticker);
+    const c = data?.bubbles?.find(i => i.ticker === ticker);
     if (!c) return;
     const r = el.getBoundingClientRect();
     setTip({ company: c, x: Math.min(innerWidth - 260, Math.max(8, r.left + r.width / 2 - 110)), y: Math.max(8, r.top - 58) });
@@ -268,7 +304,7 @@ export default function App() {
   }, []);
 
   const nearby: Nearby | null = useMemo(() => origin
-    ? { point: { latitude: origin.latitude, longitude: origin.longitude }, label: origin.label, place: origin.place, mode }
+    ? { point: { latitude: origin.latitude, longitude: origin.longitude }, label: origin.label, place: origin.place, mode, region: !!origin.region }
     : null, [origin, mode]);
   const highlight = { selected: lastOpened, hovered };
   const features = config?.features ?? FALLBACK_CONFIG.features;
@@ -318,7 +354,7 @@ export default function App() {
             placeLabel={origin?.label ?? 'Lehi, UT 84043'} onChangeLocation={() => setGateOpen(true)}
             mode={mode} onMode={m => { track(m === 'executives' ? 'mode_executives' : 'mode_companies'); setMode(m); }} showExecutives={showExecutives}
             theme={theme} onTheme={setTheme}
-            radii={config.allowedRadiiMiles} radius={radius} onRadius={setRadius}
+            radii={config.allowedRadiiMiles} radius={radius} onRadius={setRadius} region={origin?.region?.inSentence}
             sectors={sectors} sector={sector} onSector={setSector}
             hqOnly={hqOnly} onHqOnly={setHqOnly}
             isSample={meta?.isSampleData ?? false} />
@@ -346,7 +382,8 @@ export default function App() {
 
         {onHome && mode === 'companies' && data && (
           <>
-            <ListView data={data} placeName={placeName} sort={sort} onSort={setSort} highlight={highlight} loading={loading}
+            <ListView data={data} placeName={placeName} sort={sort} onSort={setSort} reverse={reverse} onReverse={() => setReverse(r => !r)}
+              onMore={loadMoreCompanies} loadingMore={loadingMoreCompanies} highlight={highlight} loading={loading}
               showExecutives={showExecutives} onOpened={noteOpened} onHover={onHover}
               find={companyFind} onFind={setCompanyFind} />
             {footer}
@@ -366,7 +403,7 @@ export default function App() {
       {tip && onHome && (
         <div className="tip pane" style={{ left: tip.x, top: tip.y }}>
           <b>{tip.company.name}</b>
-          <span>{money(tip.company.indicators.ttmRevenue, tip.company.currency)} revenue · {pct(tip.company.indicators.revenueGrowthYoY)} · {tip.company.distanceMiles.toFixed(1)} mi</span>
+          <span>{money(tip.company.ttmRevenue, tip.company.currency)} revenue · {pct(tip.company.revenueGrowthYoY)}{data?.region ? ` · ${tip.company.city}` : ` · ${tip.company.distanceMiles.toFixed(1)} mi`}</span>
         </div>
       )}
 

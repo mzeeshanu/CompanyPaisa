@@ -2,6 +2,7 @@ using CompanyPaisa.Contracts;
 using CompanyPaisa.Core.Abstractions;
 using CompanyPaisa.Core.Mapping;
 using CompanyPaisa.Core.Messaging;
+using CompanyPaisa.Core.Services;
 
 namespace CompanyPaisa.Core.Features.Reference;
 
@@ -19,15 +20,27 @@ public sealed class LookupGeoValidator : IRequestValidator<LookupGeoQuery>
     public IEnumerable<ValidationError> Validate(LookupGeoQuery q)
     {
         if (string.IsNullOrWhiteSpace(q.Query) || q.Query.Length > 100)
-            yield return new("query", "Enter a US ZIP code, a UK postcode or 'City, ST'.");
+            yield return new("query", "Enter a ZIP code or postcode, a city, or a country, state or province.");
     }
 }
 
-public sealed class LookupGeoHandler(IGeoLocator geoLocator) : IRequestHandler<LookupGeoQuery, GeoLookupDto>
+/// <summary>
+/// A country, state or province name ("Texas", "UK", "Ontario") resolves to that <see cref="Region"/>, centred on its companies;
+/// anything else (ZIP, postcode, city) to a point from the local postcode tables.
+/// </summary>
+public sealed class LookupGeoHandler(IGeoLocator geoLocator, INearbySearchService nearby) : IRequestHandler<LookupGeoQuery, GeoLookupDto>
 {
-    public async Task<GeoLookupDto> HandleAsync(LookupGeoQuery q, CancellationToken ct) =>
-        (await geoLocator.LookupAsync(q.Query, ct))?.ToDto()
-        ?? throw new NotFoundException($"We couldn't find '{q.Query}'. Try a 5-digit US ZIP code, a Canadian or UK postcode, or 'City, ST'.");
+    public async Task<GeoLookupDto> HandleAsync(LookupGeoQuery q, CancellationToken ct)
+    {
+        if (Regions.Find(q.Query) is { } region)
+        {
+            var hits = await nearby.FindCompaniesInRegionAsync(region, ct);
+            var centre = NearbySearchService.Centre(hits.Values.Select(h => h.NearestLocation.Point));
+            return new GeoLookupDto(q.Query.Trim(), "", region.Name, null, centre.ToDto(), region.ToDto());
+        }
+        return (await geoLocator.LookupAsync(q.Query, ct))?.ToDto()
+            ?? throw new NotFoundException($"We couldn't find '{q.Query}'. Try a ZIP code or postcode, a city ('Dallas' or 'Portland, OR'), or a country, state or province.");
+    }
 }
 
 // ---------- Sectors ----------

@@ -80,8 +80,10 @@ export function CompanyPage({ ticker, from, showExecutives, onExplore, onLoaded 
   const ind = d.detail.indicators;
   const cur = d.detail.currency;
   const hq = d.detail.locations.find(l => l.type === 'Headquarters') ?? d.detail.locations[0];
-  const distance = (l: Location) => from ? milesBetween(from.point, l.point) : null;
-  const nearest = from && d.detail.locations.length > 0 ? d3.least(d.detail.locations, l => distance(l)!)! : null;
+  // Distances from the visitor's search point; a whole-country or state search has none.
+  const near = from && !from.region ? from : null;
+  const distance = (l: Location) => near ? milesBetween(near.point, l.point) : null;
+  const nearest = near && d.detail.locations.length > 0 ? d3.least(d.detail.locations, l => distance(l)!)! : null;
   // UK companies report yearly only (no quarterly tagged data): show the latest year and the Annual view.
   const noQuarters = d.quarterly.length === 0;
   const lastYear = d.annual[d.annual.length - 1];
@@ -91,7 +93,7 @@ export function CompanyPage({ ticker, from, showExecutives, onExplore, onLoaded 
   const europe = /\.(PA|AS|MI|MC)$/.test(d.detail.ticker);
   // Pakistan Stock Exchange (".KA"): figures read from the company's annual report PDF.
   const pakistan = d.detail.ticker.endsWith('.KA');
-  const locations = [...d.detail.locations].sort((a, b) => from ? distance(a)! - distance(b)! : 0);
+  const locations = [...d.detail.locations].sort((a, b) => near ? distance(a)! - distance(b)! : 0);
   const shownLocations = allLocations ? locations : locations.slice(0, SHOWN_LOCATIONS);
   const website = d.detail.website ? d.detail.website.replace(/^https?:\/\//, '').replace(/\/$/, '') : null;
 
@@ -108,7 +110,7 @@ export function CompanyPage({ ticker, from, showExecutives, onExplore, onLoaded 
         <p className="p-loc">
           <i className={`dot ${trendClass(ind.trend)}`} />
           {hq && <>Headquarters: {hq.city}, {hq.state}</>}
-          {nearest && from && <> · nearest location <b className="num">{distance(nearest)!.toFixed(1)} mi</b> from {from.label}</>}
+          {nearest && near && <> · nearest location <b className="num">{distance(nearest)!.toFixed(1)} mi</b> from {near.label}</>}
         </p>
         {(website || d.detail.employees || d.detail.careersUrl) && (
           <p className="page-facts">
@@ -197,7 +199,7 @@ export function CompanyPage({ ticker, from, showExecutives, onExplore, onLoaded 
                       <b>{l.label}</b>{l.type === 'Headquarters' && l.label !== 'Headquarters' && <span className="hq">HQ</span>}
                       <small>{[l.street, l.city, l.state, l.postalCode].filter(Boolean).join(', ')}</small>
                     </div>
-                    {from && <span className="num">{distance(l)!.toFixed(1)} mi</span>}
+                    {near && <span className="num">{distance(l)!.toFixed(1)} mi</span>}
                     {l.postalCode && (
                       <button className="linkbtn" onClick={() => onExplore(l.point, `${l.city}, ${l.state} ${l.postalCode}`, placeToken(l.postalCode, countryOf(l, cur)))}>
                         Companies near here →

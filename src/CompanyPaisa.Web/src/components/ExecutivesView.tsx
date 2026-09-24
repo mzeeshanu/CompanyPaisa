@@ -45,6 +45,10 @@ export const initials = (name: string) =>
 export function ExecutivesView({ data, placeName, sort, onSort, search, onSearch, role, onRole, includeFormer, onIncludeFormer, selected, loading, onOpened, onMore, loadingMore }: Props) {
   const s = data.summary;
   const years = data.items[0]?.windowYears ?? 10;
+  // A whole country or state: no distances to rank by or show.
+  const region = data.region ?? null;
+  const where = region ? `in ${region.inSentence}` : `within ${data.radiusMiles} miles of ${placeName}`;
+  const sorts = region ? SORTS.filter(k => k.key !== 'Distance') : SORTS;
   const { flipped, choose, order } = useSortFlip(sort, onSort, (e: ExecutiveSummary, k) =>
     k === 'PayGrowth' ? e.payGrowthYoY : k === 'Pay' ? e.latestTotalPay : k === 'TotalPay' ? e.windowTotalPay : k === 'Name' ? e.name : e.distanceMiles);
   const head = { sort, flipped, onSort: choose };
@@ -58,7 +62,7 @@ export function ExecutivesView({ data, placeName, sort, onSort, search, onSearch
       <section className="summary" aria-live="polite">
         {s.executiveCount > 0 ? (
           <>
-            <h1><em>{s.executiveCount} {s.executiveCount === 1 ? 'executive' : 'executives'}</em> at {s.companyCount} public {s.companyCount === 1 ? 'company' : 'companies'} within {data.radiusMiles} miles of {placeName}</h1>
+            <h1><em>{s.executiveCount} {s.executiveCount === 1 ? 'executive' : 'executives'}</em> at {s.companyCount} public {s.companyCount === 1 ? 'company' : 'companies'} {where}</h1>
             <span className="stat" title={s.approximate ? 'Some pay is in another currency; converted at approximate rates' : undefined}>
               <b>{total(s.combinedLatestPay, s.currency, s.approximate)}</b> combined pay{s.latestYear ? ` in ${s.latestYear}` : ''}</span>
             <span className="stat"><b>{total(s.medianLatestPay, s.currency, s.approximate)}</b> median</span>
@@ -68,8 +72,8 @@ export function ExecutivesView({ data, placeName, sort, onSort, search, onSearch
           </>
         ) : (
           <>
-            <h1>No executives found within {data.radiusMiles} miles</h1>
-            <span className="stat">Try a wider radius, another sector, or clear the search.</span>
+            <h1>No executives found {region ? `in ${region.inSentence}` : `within ${data.radiusMiles} miles`}</h1>
+            <span className="stat">{region ? 'Try another sector, or clear the search.' : 'Try a wider radius, another sector, or clear the search.'}</span>
           </>
         )}
       </section>
@@ -78,7 +82,7 @@ export function ExecutivesView({ data, placeName, sort, onSort, search, onSearch
         <div className="toolbar">
           <span className="lbl">Rank by</span>
           <div className="chips" role="group" aria-label="Rank by">
-            {SORTS.map(k => <button key={k.key} aria-pressed={sort === k.key} onClick={() => onSort(k.key)}>{k.label}</button>)}
+            {sorts.map(k => <button key={k.key} aria-pressed={sort === k.key} onClick={() => onSort(k.key)}>{k.label}</button>)}
           </div>
           <input className="searchbox" type="search" placeholder="Search name or title…" aria-label="Search executives"
             value={text} onChange={e => setText(e.target.value)} />
@@ -96,7 +100,7 @@ export function ExecutivesView({ data, placeName, sort, onSort, search, onSearch
             <div className="row xrow head">
               <span>#</span><span className="c-mini" />
               <SortHeader k="Name" {...head}>Executive</SortHeader>
-              <SortHeader k="Distance" {...head} className="c-at">Company · distance</SortHeader>
+              {region ? <span className="c-at">Company</span> : <SortHeader k="Distance" {...head} className="c-at">Company · distance</SortHeader>}
               <SortHeader k="Pay" {...head} className="r">Latest pay</SortHeader>
               <SortHeader k="PayGrowth" {...head} className="r">Change</SortHeader>
               <span className="r c-spark">Pay history</span>
@@ -111,7 +115,7 @@ export function ExecutivesView({ data, placeName, sort, onSort, search, onSearch
                   <b>{e.name}</b>{e.newHire && <span className="new-tag" title={`Appointment announced ${e.newHire.announcedOn}`}>New</span>}
                   <small>{e.title}{!e.isCurrent && ' · former'}</small>
                 </span>
-                <span className="at c-at">{e.company.name}<small>{e.company.ticker} · {e.nearestLocation.city} · {e.distanceMiles.toFixed(1)} mi</small></span>
+                <span className="at c-at">{e.company.name}<small>{e.company.ticker} · {e.nearestLocation.city}{region ? `, ${e.nearestLocation.state}` : ` · ${e.distanceMiles.toFixed(1)} mi`}</small></span>
                 {e.payHistory.length === 0 && e.newHire ? (
                   // Known only from the appointment: the announced package, not pay received.
                   <>

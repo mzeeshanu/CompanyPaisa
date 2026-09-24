@@ -10,7 +10,11 @@ export type LocationType = 'Headquarters' | 'Campus' | 'Office' | 'Plant';
 
 export interface GeoPoint { latitude: number; longitude: number }
 
-export interface GeoLookup { query: string; city: string; state: string; postalCode: string | null; point: GeoPoint }
+/** A ZIP / postcode / city resolved to a point, or (with `region`) a country, state or province name. */
+export interface GeoLookup { query: string; city: string; state: string; postalCode: string | null; point: GeoPoint; region?: Region | null }
+
+/** A whole country ("US", "UK") or a US state / Canadian province ("US-TX", "CA-ON"), searched as one area. */
+export interface Region { code: string; name: string; kind: 'Country' | 'State'; country: string; slug: string; inSentence: string }
 
 export interface Location {
   locationId: string; type: LocationType; label: string; street: string;
@@ -58,6 +62,15 @@ export interface MedianPayComparison {
 export interface NearbyResponse {
   origin: GeoPoint; originLabel: string | null; radiusMiles: number; sort: CompanySort;
   page: number; pageSize: number; totalCount: number; summary: NearbySummary; items: CompanySummary[];
+  /** Set for a whole-country or state search (then every distance is 0). */
+  region?: Region | null;
+  /** Every company in the area, just enough to draw its bubble (when asked for; `items` is one page of the list). */
+  bubbles?: CompanyBubble[] | null;
+}
+
+export interface CompanyBubble {
+  ticker: string; name: string; ttmRevenue: number; revenueGrowthYoY: number | null; trend: TrendStatus;
+  city: string; state: string; distanceMiles: number; isHeadquarteredNearby: boolean; currency: string;
 }
 
 export interface CompanyDetail {
@@ -133,6 +146,7 @@ export interface ExecutivesNearResponse {
     currency: string; approximate: boolean;
   };
   items: ExecutiveSummary[];
+  region?: Region | null;
 }
 
 export interface ExecutiveRole { company: CompanyRef; title: string; fromYear: number; toYear: number; totalPay: number }
@@ -195,6 +209,9 @@ export interface NameSearchCompany {
   ttmRevenue: number; currency: string;
 }
 export interface NameSearchExecutive { personId: string; name: string; title: string; company: CompanyRef; latestYear: number; latestTotalPay: number }
-export interface NameSearchResponse { query: string; companies: NameSearchCompany[]; executives: NameSearchExecutive[] }
+export interface NameSearchResponse { query: string; companies: NameSearchCompany[]; executives: NameSearchExecutive[]; places?: NameSearchPlace[] | null }
+
+/** A place the search text names: a country / state / province (`region` set) or a city; `place` goes in the search address. */
+export interface NameSearchPlace { label: string; place: string; region: Region | null }
 
 export interface ProblemDetails { title?: string; detail?: string; status?: number; errors?: Record<string, string[]> }

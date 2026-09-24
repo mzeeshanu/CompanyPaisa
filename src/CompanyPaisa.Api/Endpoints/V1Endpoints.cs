@@ -28,21 +28,22 @@ public static class V1Endpoints
 
         // ----- Search -----
         v1.MapGet("/companies/near", async (
-                string? near, double? latitude, double? longitude, double? radiusMiles, string? sector,
-                bool? headquarteredOnly, string? sort, int? page, int? pageSize,
+                string? near, double? latitude, double? longitude, double? radiusMiles, string? region, string? sector,
+                bool? headquarteredOnly, string? sort, bool? reverse, string? search, bool? includeBubbles, int? page, int? pageSize,
                 IServiceRequestor requestor, CancellationToken ct) =>
             {
                 var request = new NearbyCompaniesRequest
                 {
-                    Near = near, Latitude = latitude, Longitude = longitude, RadiusMiles = radiusMiles, Sector = sector,
+                    Near = near, Latitude = latitude, Longitude = longitude, RadiusMiles = radiusMiles, Region = region, Sector = sector,
                     HeadquarteredOnly = headquarteredOnly ?? false, Sort = ParseEnum<CompanySort>(sort, "sort"),
+                    Reverse = reverse ?? false, Search = search, IncludeBubbles = includeBubbles ?? false,
                     Page = page, PageSize = pageSize
                 };
                 return Results.Ok(await requestor.SendAsync(new GetCompaniesNearQuery(request), ct));
             })
             .WithName("GetCompaniesNear")
-            .WithSummary("Public companies with a location within a radius of a ZIP code, city or coordinates.")
-            .WithDescription("Examples: ?near=84043  ·  ?near=Lehi, UT&radiusMiles=25  ·  ?latitude=40.39&longitude=-111.85&sort=growth")
+            .WithSummary("Public companies with a location within a radius of a ZIP code, city or coordinates, or in a whole country or state.")
+            .WithDescription("Examples: ?near=84043  ·  ?near=Lehi, UT&radiusMiles=25  ·  ?latitude=40.39&longitude=-111.85&sort=growth  ·  ?region=US-TX  ·  ?near=United Kingdom")
             .Produces<NearbyCompaniesResponse>();
 
         // ----- Companies -----
@@ -79,14 +80,14 @@ public static class V1Endpoints
 
         // ----- Executives (people) -----
         v1.MapGet("/executives/near", async (
-                string? near, double? latitude, double? longitude, double? radiusMiles, string? sector, bool? includeFormer,
+                string? near, double? latitude, double? longitude, double? radiusMiles, string? region, string? sector, bool? includeFormer,
                 string? search, string? role, string? sort, int? years, int? page, int? pageSize,
                 IServiceRequestor requestor, IOptionsMonitor<FeatureOptions> features, CancellationToken ct) =>
             {
                 if (!features.CurrentValue.IsEnabled("Executives")) return Results.NotFound();
                 var request = new ExecutivesNearRequest
                 {
-                    Near = near, Latitude = latitude, Longitude = longitude, RadiusMiles = radiusMiles, Sector = sector,
+                    Near = near, Latitude = latitude, Longitude = longitude, RadiusMiles = radiusMiles, Region = region, Sector = sector,
                     IncludeFormer = includeFormer ?? false, Search = search, Role = ParseEnum<ExecutiveRole>(role, "role"), Sort = ParseEnum<ExecutiveSort>(sort, "sort"),
                     Years = years, Page = page, PageSize = pageSize
                 };
@@ -116,7 +117,7 @@ public static class V1Endpoints
         // ----- Reference -----
         v1.MapGet("/geo/lookup", async (string q, IServiceRequestor requestor, CancellationToken ct) =>
                 Results.Ok(await requestor.SendAsync(new LookupGeoQuery(q), ct)))
-            .WithName("LookupGeo").WithSummary("Resolve a US ZIP code, Canadian or UK postcode, or 'City, ST' to coordinates.")
+            .WithName("LookupGeo").WithSummary("Resolve a ZIP code, postcode or city to coordinates, or a country / state / province name to a region.")
             .Produces<GeoLookupDto>();
 
         v1.MapGet("/geo/zip/{zip}", async (string zip, IServiceRequestor requestor, CancellationToken ct) =>

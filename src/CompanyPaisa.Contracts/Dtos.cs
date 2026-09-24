@@ -5,8 +5,18 @@ namespace CompanyPaisa.Contracts;
 /// <summary>A point on the map.</summary>
 public sealed record GeoPointDto(double Latitude, double Longitude);
 
-/// <summary>Result of resolving a ZIP code or city to coordinates.</summary>
-public sealed record GeoLookupDto(string Query, string City, string State, string? PostalCode, GeoPointDto Point);
+/// <summary>
+/// Result of resolving a ZIP code, postcode or city to coordinates, or a country / state / province name to a
+/// <see cref="Region"/> (then <see cref="Point"/> is the middle of its companies and City is empty).
+/// </summary>
+public sealed record GeoLookupDto(string Query, string City, string State, string? PostalCode, GeoPointDto Point, RegionDto? Region = null);
+
+/// <summary>
+/// A whole country ("US", "UK") or a US state / Canadian province ("US-TX", "CA-ON"), searched as one area.
+/// <see cref="Slug"/> is how the website's address names it ("texas", "united-kingdom"); <see cref="InSentence"/> is the name
+/// as it reads after "in" ("the United States", "Texas").
+/// </summary>
+public sealed record RegionDto(string Code, string Name, RegionKind Kind, string Country, string Slug, string InSentence);
 
 /// <summary>A physical site of a company.</summary>
 public sealed record LocationDto(
@@ -98,7 +108,25 @@ public sealed record NearbyCompaniesResponse(
     int PageSize,
     int TotalCount,
     NearbySummaryDto Summary,
-    IReadOnlyList<CompanySummaryDto> Items);
+    IReadOnlyList<CompanySummaryDto> Items,
+    RegionDto? Region = null,
+    IReadOnlyList<CompanyBubbleDto>? Bubbles = null);
+
+/// <summary>
+/// Just enough about one company to draw its bubble: every company in the area comes back this way (when asked for) while
+/// <see cref="NearbyCompaniesResponse.Items"/> carries full details a page at a time. <see cref="TtmRevenue"/> is in <see cref="Currency"/>.
+/// </summary>
+public sealed record CompanyBubbleDto(
+    string Ticker,
+    string Name,
+    decimal TtmRevenue,
+    decimal? RevenueGrowthYoY,
+    TrendStatus Trend,
+    string City,
+    string State,
+    double DistanceMiles,
+    bool IsHeadquarteredNearby,
+    string Currency = "USD");
 
 /// <summary>Full company profile.</summary>
 public sealed record CompanyDetailDto(
@@ -207,7 +235,8 @@ public sealed record ExecutivesNearResponse(
     int PageSize,
     int TotalCount,
     ExecutivesNearSummaryDto Summary,
-    IReadOnlyList<ExecutiveSummaryDto> Items);
+    IReadOnlyList<ExecutiveSummaryDto> Items,
+    RegionDto? Region = null);
 
 /// <summary>A stretch of a career at one company.</summary>
 public sealed record ExecutiveRoleDto(CompanyRefDto Company, string Title, int FromYear, int ToYear, decimal TotalPay);
@@ -332,8 +361,15 @@ public sealed record NameSearchCompanyDto(string Ticker, string Name, string Exc
 /// <summary>A person found by name, with the company and pay of their latest reported year (pay in the company's currency).</summary>
 public sealed record NameSearchExecutiveDto(string PersonId, string Name, string Title, CompanyRefDto Company, int LatestYear, decimal LatestTotalPay);
 
-/// <summary>Companies and executives whose names match, best matches first (bigger companies and higher pay break ties).</summary>
-public sealed record NameSearchResponse(string Query, IReadOnlyList<NameSearchCompanyDto> Companies, IReadOnlyList<NameSearchExecutiveDto> Executives);
+/// <summary>
+/// Companies and executives whose names match, best matches first (bigger companies and higher pay break ties), and the
+/// place the text names, if any: a country, state or province (<see cref="NameSearchPlaceDto.Region"/> set) or a city.
+/// </summary>
+public sealed record NameSearchResponse(string Query, IReadOnlyList<NameSearchCompanyDto> Companies, IReadOnlyList<NameSearchExecutiveDto> Executives,
+    IReadOnlyList<NameSearchPlaceDto>? Places = null);
+
+/// <summary>A place the search text names: <see cref="Place"/> is how the website's search address names it ("utah", "Dallas, TX").</summary>
+public sealed record NameSearchPlaceDto(string Label, string Place, RegionDto? Region);
 
 /// <summary>Information about the loaded data set.</summary>
 public sealed record DataMetaDto(string DataVersion, DateOnly? AsOfDate, bool IsSampleData, int CompanyCount, int LocationCount, DateTimeOffset LoadedAt);

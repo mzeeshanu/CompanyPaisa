@@ -7,7 +7,7 @@ export type ClientEvent =
   | 'location_gps' | 'location_zip' | 'location_area' | 'location_link'
   | 'name_search'
   | 'mode_companies' | 'mode_executives'
-  | 'fact_next' | 'fact_info' | 'executives_more'
+  | 'fact_next' | 'fact_info' | 'executives_more' | 'companies_more'
   | 'about_open' | 'privacy_open' | 'report_open';
 
 const ENDPOINT = '/api/v1/events';

@@ -392,7 +392,7 @@ const ACTIONS: Record<string, string> = {
   executive_view: 'Executive opened', place_lookup: 'Postcode / city typed', location_gps: 'Used "my location"',
   location_zip: 'Typed a ZIP / postcode', location_area: 'Picked an area button', view_map: 'Switched to Map', view_list: 'Switched to List',
   mode_companies: 'Switched to Companies', mode_executives: 'Switched to Executives', fact_next: 'Next quick fact (↻)',
-  fact_info: 'Quick fact source (i)', executives_more: 'Show more executives', about_open: 'Opened "About the data"',
+  fact_info: 'Quick fact source (i)', executives_more: 'Show more executives', companies_more: 'Show more companies', about_open: 'Opened "About the data"',
   privacy_open: 'Opened privacy notice', report_open: 'Opened "Report a problem"',
 };
 const SOURCES: Record<string, string> = { website: 'The website', api: 'Public API (no key)', 'api-key': 'Public API (with a key)' };

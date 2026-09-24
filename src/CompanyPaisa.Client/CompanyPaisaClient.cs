@@ -54,12 +54,17 @@ public sealed class CompanyPaisaClient(HttpClient http) : ICompanyPaisaClient
 
     public Task<NearbyCompaniesResponse> GetCompaniesNearAsync(NearbyCompaniesRequest r, CancellationToken ct = default) =>
         GetRequiredAsync<NearbyCompaniesResponse>("api/v1/companies/near" + Query(
-            ("near", r.Near), ("latitude", Num(r.Latitude)), ("longitude", Num(r.Longitude)), ("radiusMiles", Num(r.RadiusMiles)),
+            ("near", r.Near), ("latitude", Num(r.Latitude)), ("longitude", Num(r.Longitude)), ("radiusMiles", Num(r.RadiusMiles)), ("region", r.Region),
             ("sector", r.Sector), ("headquarteredOnly", r.HeadquarteredOnly ? "true" : null), ("sort", r.Sort?.ToString()),
+            ("reverse", r.Reverse ? "true" : null), ("search", r.Search), ("includeBubbles", r.IncludeBubbles ? "true" : null),
             ("page", r.Page?.ToString(CultureInfo.InvariantCulture)), ("pageSize", r.PageSize?.ToString(CultureInfo.InvariantCulture))), ct);
 
     public Task<NearbyCompaniesResponse> GetCompaniesNearZipAsync(string zip, double? radiusMiles = null, CancellationToken ct = default) =>
         GetCompaniesNearAsync(new NearbyCompaniesRequest { Near = zip, RadiusMiles = radiusMiles }, ct);
+
+    /// <summary>Every company in a country or state: a code ("US", "US-TX", "CA-ON", "UK") or a name ("Texas").</summary>
+    public Task<NearbyCompaniesResponse> GetCompaniesInRegionAsync(string region, CancellationToken ct = default) =>
+        GetCompaniesNearAsync(new NearbyCompaniesRequest { Region = region, PageSize = 5000 }, ct);
 
     public Task<CompanyDetailDto?> GetCompanyAsync(string ticker, CancellationToken ct = default) =>
         GetOptionalAsync<CompanyDetailDto>($"api/v1/companies/{Uri.EscapeDataString(ticker)}", ct);
@@ -82,7 +87,7 @@ public sealed class CompanyPaisaClient(HttpClient http) : ICompanyPaisaClient
 
     public Task<ExecutivesNearResponse> GetExecutivesNearAsync(ExecutivesNearRequest r, CancellationToken ct = default) =>
         GetRequiredAsync<ExecutivesNearResponse>("api/v1/executives/near" + Query(
-            ("near", r.Near), ("latitude", Num(r.Latitude)), ("longitude", Num(r.Longitude)), ("radiusMiles", Num(r.RadiusMiles)),
+            ("near", r.Near), ("latitude", Num(r.Latitude)), ("longitude", Num(r.Longitude)), ("radiusMiles", Num(r.RadiusMiles)), ("region", r.Region),
             ("sector", r.Sector), ("includeFormer", r.IncludeFormer ? "true" : null), ("search", r.Search), ("role", r.Role?.ToString()), ("sort", r.Sort?.ToString()),
             ("years", r.Years?.ToString(CultureInfo.InvariantCulture)),
             ("page", r.Page?.ToString(CultureInfo.InvariantCulture)), ("pageSize", r.PageSize?.ToString(CultureInfo.InvariantCulture))), ct);
