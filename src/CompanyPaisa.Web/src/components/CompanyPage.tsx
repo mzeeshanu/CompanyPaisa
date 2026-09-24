@@ -187,7 +187,7 @@ export function CompanyPage({ ticker, from, showExecutives, onExplore, onLoaded 
           {d.detail.salaryTitles ? <JobSalaries ticker={d.detail.ticker} name={d.detail.name} from={from} /> : null}
         </div>
         <div className="page-col">
-          {d.detail.priceSymbol && <SharePrice symbol={d.detail.priceSymbol} name={d.detail.name} />}
+          {d.detail.priceSymbol && <SharePrice symbol={d.detail.priceSymbol} name={d.detail.name} exchange={d.detail.exchange} />}
           {d.insights && <AtAGlance insights={d.insights} name={d.detail.name} />}
           {d.insights?.payVsPeers && <PayVsPeersCard pay={d.insights.payVsPeers} name={d.detail.name} revenueCurrency={cur} />}
           {d.insights && <SimilarCompanies insights={d.insights} />}

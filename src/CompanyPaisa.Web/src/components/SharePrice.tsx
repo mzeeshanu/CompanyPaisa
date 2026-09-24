@@ -1,6 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 
 const DARK_QUERY = '(prefers-color-scheme: dark)';
+/** Height of the widget in pixels; the card keeps this space so nothing jumps when it loads. */
+const WIDGET_HEIGHT = 300;
+/** Full names for the exchanges we store short; the rest ("NYSE American", "Euronext Paris"…) read fine as they are. */
+const EXCHANGE_NAMES: Record<string, string> = { Nasdaq: 'Nasdaq Stock Market', NYSE: 'New York Stock Exchange' };
 
 /** True when the page is drawn dark: the visitor's theme choice (data-mode on <html>), else the system setting. */
 function useDarkMode(): boolean {
@@ -35,11 +39,11 @@ function widget(kind: string, settings: object): HTMLElement {
 }
 
 /**
- * Share price and a long-term chart from TradingView's free widgets (delayed prices, loaded in the visitor's browser; we
+ * Share price and a long-term chart from TradingView's free widget (delayed prices, loaded in the visitor's browser; we
  * store none). Only for companies whose exchange allows its prices in the widgets — the server leaves `symbol` out otherwise.
  * The widgets load when the card is about to scroll into view, so they don't slow the page.
  */
-export function SharePrice({ symbol, name }: { symbol: string; name: string }) {
+export function SharePrice({ symbol, name, exchange }: { symbol: string; name: string; exchange: string }) {
   const card = useRef<HTMLElement>(null);
   const box = useRef<HTMLDivElement>(null);
   const [near, setNear] = useState(false);
@@ -59,21 +63,22 @@ export function SharePrice({ symbol, name }: { symbol: string; name: string }) {
     const el = box.current;
     if (!near || !el) return;
     const colorTheme = dark ? 'dark' : 'light';
-    el.replaceChildren(
-      widget('symbol-info', { symbol, width: '100%', locale: 'en', colorTheme, isTransparent: true }),
-      widget('symbol-overview', {
-        symbols: [[name, `${symbol}|1D`]], chartOnly: true, width: '100%', height: 300, locale: 'en', colorTheme, isTransparent: true,
-        autosize: false, chartType: 'area', showVolume: false, hideDateRanges: false, scalePosition: 'right', scaleMode: 'Normal',
-        changeMode: 'price-and-percent', dateRanges: ['12m|1D', '60m|1W', 'all|1M'],
-      }),
-    );
+    // One compact widget: price and change on the day above the chart. (It shows its own company name; a label we pass is ignored.)
+    el.replaceChildren(widget('symbol-overview', {
+      symbols: [[name, `${symbol}|1D`]], chartOnly: false, width: '100%', height: WIDGET_HEIGHT, locale: 'en', colorTheme, isTransparent: true,
+      autosize: false, chartType: 'area', showVolume: false, hideDateRanges: false, scalePosition: 'right', scaleMode: 'Normal',
+      changeMode: 'price-and-percent', dateRanges: ['12m|1D', '60m|1W', 'all|1M'],
+    }));
     return () => el.replaceChildren();
   }, [near, dark, symbol, name]);
 
   return (
     <section ref={card} className="pane page-card price-card" aria-labelledby="price-h">
-      <h2 className="subh" id="price-h">Share price</h2>
-      <div ref={box} className="price-widgets" />
+      <div className="seg">
+        <h2 className="subh" id="price-h">Share price</h2>
+        <span className="price-exchange"><b className="num">{symbol.slice(symbol.indexOf(':') + 1)}</b> · {EXCHANGE_NAMES[exchange] ?? exchange}</span>
+      </div>
+      <div ref={box} className="price-widgets" style={{ minHeight: WIDGET_HEIGHT }} />
       <p className="fine">
         Delayed prices and chart by{' '}
         <a className="linkbtn" href={`https://www.tradingview.com/symbols/${symbol.replace(':', '-')}/`} target="_blank" rel="noopener nofollow">TradingView</a>.
