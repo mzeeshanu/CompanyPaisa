@@ -68,6 +68,10 @@ export function PrivacyNotice({ open, contact, onClose }: Props) {
           lets it load data from our servers (so other sites and bots can't); it holds only its expiry time, nothing about you.
         </p>
         <p>
+          The one exception is share prices: when a company page shows one, your browser loads it straight from TradingView, which
+          sees your IP address, the page address and the company shown. TradingView's price widgets set no cookies and show no ads.
+        </p>
+        <p>
           To see how the site is used, we count visits on our own servers: which areas are searched (the search point rounded to
           about 1 km, or the postcode typed), which companies and executives are opened, a few clicks, the type of device and browser,
           the website that linked here, and the approximate city and country our network provider estimates from your connection.

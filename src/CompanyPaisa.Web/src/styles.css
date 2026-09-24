@@ -358,6 +358,10 @@ a.row,a.bub,a.wordmark{color:inherit;text-decoration:none}
 .page-card .subh{margin:0}
 .page-card .chart{margin-top:0}
 .page-card table{margin-top:0}
+.price-widgets{min-height:480px;display:flex;flex-direction:column;gap:4px}
+.price-widgets .tradingview-widget-container{width:100%}
+/* The widgets' pages declare no colour scheme; under a dark page the browser would paint them white, not transparent. */
+.price-widgets iframe{color-scheme:light}
 .page-locations{list-style:none;margin:-4px 0 0;padding:0;display:flex;flex-direction:column}
 .page-locations li{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:4px 18px;align-items:center;padding:11px 0;border-bottom:1px solid var(--hair)}
 .page-locations li:last-child{border-bottom:0}
@@ -447,7 +451,10 @@ td.co i{width:8px;height:8px;border-radius:2px;display:inline-block}
 .ex-name .linkbtn{font-size:12px;font-weight:600}
 
 @media (max-width:900px){
-  .page-grid{grid-template-columns:minmax(0,1fr)}
+  /* One column: both columns' cards form one list, so the share price can go first (above Earnings). */
+  .page-grid{display:flex;flex-direction:column}
+  .page-col{display:contents}
+  .price-card{order:-1}
   .xrow{grid-template-columns:22px 26px minmax(150px,1fr) 96px 78px}
   .xrow .c-at,.xrow .c-spark,.xrow .c-net{display:none}
   .row{grid-template-columns:22px 26px minmax(150px,1fr) 96px 78px}

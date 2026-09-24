@@ -6,6 +6,7 @@ import { money, pct, tone, trendClass } from '../lib/format';
 import { Link, personPath, placeToken, salariesPath } from '../lib/router';
 import { AtAGlance, NewLeadership, PayVsPeersCard, SimilarCompanies } from './CompanyInsights';
 import { Filing } from './Filing';
+import { SharePrice } from './SharePrice';
 import { JobSalaries, PayRatioCard } from './WorkforcePay';
 import { milesBetween, PageBack, type Nearby } from './PageShell';
 
@@ -147,7 +148,7 @@ export function CompanyPage({ ticker, from, showExecutives, onExplore, onLoaded 
 
       {d.insights?.newExecutives?.length ? <NewLeadership people={d.insights.newExecutives} /> : null}
 
-      {/* Left: the numbers (earnings, then executive pay). Right: what they mean (facts, peers, neighbours, locations). */}
+      {/* Left: the numbers (earnings, then executive pay). Right: the share price, then what they mean (facts, peers, neighbours, locations). */}
       <div className="page-grid">
         <div className="page-col">
           <section className="pane page-card page-earnings" aria-labelledby="earnings-h">
@@ -186,6 +187,7 @@ export function CompanyPage({ ticker, from, showExecutives, onExplore, onLoaded 
           {d.detail.salaryTitles ? <JobSalaries ticker={d.detail.ticker} name={d.detail.name} from={from} /> : null}
         </div>
         <div className="page-col">
+          {d.detail.priceSymbol && <SharePrice symbol={d.detail.priceSymbol} name={d.detail.name} />}
           {d.insights && <AtAGlance insights={d.insights} name={d.detail.name} />}
           {d.insights?.payVsPeers && <PayVsPeersCard pay={d.insights.payVsPeers} name={d.detail.name} revenueCurrency={cur} />}
           {d.insights && <SimilarCompanies insights={d.insights} />}

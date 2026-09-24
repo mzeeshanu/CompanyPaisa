@@ -147,7 +147,8 @@ public sealed record CompanyDetailDto(
     string? PayCurrency = null,
     string? CareersUrl = null,
     IReadOnlyList<WorkerPayDto>? WorkerPay = null,
-    int SalaryTitles = 0);
+    int SalaryTitles = 0,
+    string? PriceSymbol = null);
 
 /// <summary>
 /// The company's median employee next to its CEO, as disclosed in its proxy statement (US pay ratio). <see cref="Ratio"/>:

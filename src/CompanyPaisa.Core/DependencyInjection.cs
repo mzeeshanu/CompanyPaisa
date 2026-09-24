@@ -20,6 +20,7 @@ public static class DependencyInjection
         services.AddValidatedOptions<GeoOptions>(configuration, GeoOptions.SectionName);
         services.AddValidatedOptions<CurrencyOptions>(configuration, CurrencyOptions.SectionName);
         services.AddValidatedOptions<BenchmarkOptions>(configuration, BenchmarkOptions.SectionName);
+        services.AddValidatedOptions<PriceWidgetOptions>(configuration, PriceWidgetOptions.SectionName);
         services.TryAddSingleton<ICurrencyConverter, CurrencyConverter>();
 
         services.TryAddSingleton<IDistanceCalculator, HaversineDistanceCalculator>();

@@ -101,3 +101,16 @@ public sealed class GeoOptions
     /// </summary>
     public List<string> AdditionalTablePaths { get; set; } = [];
 }
+
+/// <summary>
+/// appsettings section "PriceWidget" — which companies get TradingView's free share-price widgets. Some exchanges (LSE,
+/// PSX) only allow their prices on TradingView's own site, so a company gets the widgets only when its exchange is listed.
+/// </summary>
+public sealed class PriceWidgetOptions
+{
+    public const string SectionName = "PriceWidget";
+
+    public bool Enabled { get; set; } = true;
+    /// <summary>Our exchange name (as the importers store it) → TradingView's exchange prefix, e.g. "Borsa Italiana" → "MIL".</summary>
+    public Dictionary<string, string> Exchanges { get; set; } = new(StringComparer.OrdinalIgnoreCase);
+}

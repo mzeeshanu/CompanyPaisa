@@ -129,6 +129,7 @@ public sealed partial class ImportPipeline(
         }
 
         // 3. Financials, listing rules and executive pay per company.
+        var listings = await ListingExchanges.LoadAsync(o.Listing.OtherListedUrl, logger, ct);
         var parsedProxies = 0;
         var done = 0;
         foreach (var c in candidates.Values.OrderBy(c => c.Sec.Name))
@@ -168,7 +169,7 @@ public sealed partial class ImportPipeline(
 
             var company = new Company
             {
-                CompanyId = ticker, Ticker = ticker, Name = Text.TitleCase(c.Sec.Name), Exchange = exchange,
+                CompanyId = ticker, Ticker = ticker, Name = Text.TitleCase(c.Sec.Name), Exchange = ListingExchanges.Refine(ticker, exchange, listings),
                 Sector = SectorClassifier.FromSic(c.Sec.Sic), Industry = Text.TitleCase(c.Sec.SicDescription),
                 Website = string.IsNullOrWhiteSpace(c.Sec.Website) ? null : c.Sec.Website,
                 FiscalYearEnd = c.Sec.FiscalYearEnd is { Length: 4 } fye ? $"{fye[..2]}-{fye[2..]}" : null,

@@ -155,7 +155,7 @@ if (args is ["--debug-pk-report", .. var reports])
     }
     return 0;
 }
-// Websites, careers pages and street positions for every company in the database: -- --enrich [websites] [careers] [geocode]
+// Websites, careers pages, street positions and exact US exchanges for every company in the database: -- --enrich [websites] [careers] [geocode] [exchanges]
 if (args is ["--enrich", .. var steps])
 {
     using var enrichCts = new CancellationTokenSource();

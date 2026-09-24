@@ -28,7 +28,7 @@ public sealed class EnrichmentOptions
 /// --enrich: fills in what the markets' own sources don't give — each company's website and careers page, and the exact
 /// position of its street address — for every company in the database, whatever its market. Results go into two
 /// reviewable tables in data/reference (so a monthly refresh keeps them) and are applied to the database straight away.
-/// Steps: websites, careers, geocode (all by default).
+/// Steps: websites, careers, geocode, exchanges (all by default).
 /// </summary>
 public sealed class EnrichmentRun(IOptions<ImporterOptions> options, RepoPaths paths, IEdgarService edgar, ILoggerFactory loggers)
 {
@@ -57,13 +57,15 @@ public sealed class EnrichmentRun(IOptions<ImporterOptions> options, RepoPaths p
         EnrichmentTables.WriteSites(paths.Resolve(_o.SitesPath), sites.Values);
         if (Step("geocode")) await GeocodeAsync(http, data.Companies, data.Locations, points, ct);
         EnrichmentTables.WritePoints(paths.Resolve(_o.PointsPath), points.Values);
+        var exchanges = Step("exchanges") ? await ExchangesAsync(data.Companies, notes, ct) : [];
 
         // Straight into the database, for every market (imports apply the same tables when they publish).
         var byLocation = data.Locations.ToDictionary(l => l.LocationId, StringComparer.OrdinalIgnoreCase);
         SqliteDataStore.ApplyCompanyDetails(dbPath,
             sites.Values.Where(s => s.Website is not null || s.CareersUrl is not null).Select(s => (s.CompanyId, s.Website, s.CareersUrl)).ToList(),
             points.Values.Where(p => byLocation.TryGetValue(p.LocationId, out var l) && EnrichmentTables.AddressOf(l) == p.Address)
-                .Select(p => (p.LocationId, p.Latitude, p.Longitude)).ToList());
+                .Select(p => (p.LocationId, p.Latitude, p.Longitude)).ToList(),
+            exchanges);
         await WriteReportAsync(data.Companies, data.Locations, sites, points, notes, ct);
         _log.LogInformation("Done: {Websites} websites, {Careers} careers pages, {Points} street positions → {Path}",
             sites.Values.Count(s => s.Website is not null), sites.Values.Count(s => s.CareersUrl is not null), points.Count, dbPath);
@@ -181,6 +183,21 @@ public sealed class EnrichmentRun(IOptions<ImporterOptions> options, RepoPaths p
             foreach (var (id, s) in results) merged[id] = s;
             EnrichmentTables.WriteSites(paths.Resolve(_o.SitesPath), merged.Values);
         }
+    }
+
+    // ---- Listing exchanges -----------------------------------------------------------------------------------------
+
+    /// <summary>US companies the SEC files under "NYSE" or "CBOE" that are really on NYSE American, NYSE Arca or Cboe.</summary>
+    private async Task<List<(string CompanyId, string Exchange)>> ExchangesAsync(IReadOnlyList<Company> companies, List<string> notes, CancellationToken ct)
+    {
+        var listings = await ListingExchanges.LoadAsync(options.Value.Listing.OtherListedUrl, _log, ct);
+        var changes = companies.Where(c => MarketOf(c) == "sec")
+            .Select(c => (c.CompanyId, Exchange: ListingExchanges.Refine(c.Ticker, c.Exchange, listings), Was: c.Exchange))
+            .Where(x => x.Exchange != x.Was).ToList();
+        foreach (var g in changes.GroupBy(x => x.Exchange).OrderBy(g => g.Key))
+            notes.Add($"Exchange: {g.Count()} companies moved to {g.Key} ({string.Join(", ", g.Take(8).Select(x => x.CompanyId))}{(g.Count() > 8 ? ", …" : "")}).");
+        _log.LogInformation("Listing exchanges: {Count} companies get a more exact exchange", changes.Count);
+        return changes.Select(x => (x.CompanyId, x.Exchange)).ToList();
     }
 
     // ---- Street positions ------------------------------------------------------------------------------------------

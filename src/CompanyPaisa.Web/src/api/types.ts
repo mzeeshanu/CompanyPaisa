@@ -85,6 +85,8 @@ export interface CompanyDetail {
   workerPay?: WorkerPay[] | null;
   /** How many job titles have salaries (from H-1B wage filings); 0 = none. */
   salaryTitles?: number;
+  /** TradingView symbol for the share-price widgets ("NASDAQ:AAPL"); null when its exchange doesn't allow them. */
+  priceSymbol?: string | null;
 }
 
 /** The CEO was paid `ratio` times what the median employee was. */

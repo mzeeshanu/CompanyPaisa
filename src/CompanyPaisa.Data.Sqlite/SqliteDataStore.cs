@@ -248,7 +248,8 @@ public static class SqliteDataStore
     /// market (from the enrichment tables in data/reference). Same safety net as publishing: a checked copy replaces the file.
     /// </summary>
     public static void ApplyCompanyDetails(string path, IReadOnlyList<(string CompanyId, string? Website, string? CareersUrl)> sites,
-        IReadOnlyList<(string LocationId, double Latitude, double Longitude)> points)
+        IReadOnlyList<(string LocationId, double Latitude, double Longitude)> points,
+        IReadOnlyList<(string CompanyId, string Exchange)>? exchanges = null)
     {
         var staging = path + ".new";
         if (File.Exists(staging)) File.Delete(staging);
@@ -264,6 +265,8 @@ public static class SqliteDataStore
                         foreach (var s in sites) Run(cmd, s.Website, s.CareersUrl, s.CompanyId);
                     using (var cmd = Command(db, "UPDATE locations SET latitude = $0, longitude = $1 WHERE location_id = $2", null, 3))
                         foreach (var p in points) Run(cmd, p.Latitude, p.Longitude, p.LocationId);
+                    using (var cmd = Command(db, "UPDATE companies SET exchange = $0 WHERE company_id = $1", null, 2))
+                        foreach (var e in exchanges ?? []) Run(cmd, e.Exchange, e.CompanyId);
                     tx.Commit();
                 }
                 Execute(db, "VACUUM");
