@@ -80,7 +80,7 @@ public static class V1Endpoints
 
         // ----- Executives (people) -----
         v1.MapGet("/executives/near", async (
-                string? near, double? latitude, double? longitude, double? radiusMiles, string? region, string? sector, bool? includeFormer,
+                string? near, double? latitude, double? longitude, double? radiusMiles, string? region, string? sector, bool? headquarteredOnly, bool? includeFormer,
                 string? search, string? role, string? sort, int? years, int? page, int? pageSize,
                 IServiceRequestor requestor, IOptionsMonitor<FeatureOptions> features, CancellationToken ct) =>
             {
@@ -88,7 +88,7 @@ public static class V1Endpoints
                 var request = new ExecutivesNearRequest
                 {
                     Near = near, Latitude = latitude, Longitude = longitude, RadiusMiles = radiusMiles, Region = region, Sector = sector,
-                    IncludeFormer = includeFormer ?? false, Search = search, Role = ParseEnum<ExecutiveRole>(role, "role"), Sort = ParseEnum<ExecutiveSort>(sort, "sort"),
+                    HeadquarteredOnly = headquarteredOnly ?? false, IncludeFormer = includeFormer ?? false, Search = search, Role = ParseEnum<ExecutiveRole>(role, "role"), Sort = ParseEnum<ExecutiveSort>(sort, "sort"),
                     Years = years, Page = page, PageSize = pageSize
                 };
                 return Results.Ok(await requestor.SendAsync(new GetExecutivesNearQuery(request), ct));

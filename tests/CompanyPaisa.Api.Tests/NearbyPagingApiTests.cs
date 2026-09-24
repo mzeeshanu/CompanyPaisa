@@ -68,3 +68,21 @@ public class NearbyPagingApiTests(SampleDataFactory factory) : IClassFixture<Sam
         Assert.Equal(whole.Bubbles!.Count, found.Bubbles!.Count);
     }
 }
+
+/// <summary>The website's executives list: only the people at companies headquartered in the area.</summary>
+public class ExecutivesHeadquartersApiTests(SampleDataFactory factory) : IClassFixture<SampleDataFactory>
+{
+    [Fact]
+    public async Task Headquartered_only_keeps_the_executives_of_companies_based_in_the_area()
+    {
+        var client = new CompanyPaisaClient(factory.CreateClient());
+        var based = await client.GetCompaniesNearAsync(new NearbyCompaniesRequest { Near = "84043", RadiusMiles = 25, HeadquarteredOnly = true, PageSize = 5000 });
+        var all = await client.GetExecutivesNearAsync(new ExecutivesNearRequest { Near = "84043", RadiusMiles = 25, PageSize = 200 });
+        var hq = await client.GetExecutivesNearAsync(new ExecutivesNearRequest { Near = "84043", RadiusMiles = 25, HeadquarteredOnly = true, PageSize = 200 });
+
+        var basedHere = based.Items.Select(c => c.Ticker).ToHashSet();
+        Assert.NotEmpty(hq.Items);
+        Assert.All(hq.Items, e => Assert.Contains(e.Company.Ticker, basedHere));
+        Assert.True(hq.TotalCount <= all.TotalCount);
+    }
+}

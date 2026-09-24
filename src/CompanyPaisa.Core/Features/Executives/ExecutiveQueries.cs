@@ -17,13 +17,13 @@ namespace CompanyPaisa.Core.Features.Executives;
 public sealed record GetExecutivesNearQuery(ExecutivesNearRequest Request) : IRequest<ExecutivesNearResponse>, ICacheableRequest, ITrackedRequest<ExecutivesNearResponse>
 {
     public string CacheKey => string.Create(CultureInfo.InvariantCulture,
-        $"execnear|{Request.Near?.Trim().ToUpperInvariant()}|{Request.Region?.Trim().ToUpperInvariant()}|{Request.Latitude:F3}|{Request.Longitude:F3}|{Request.RadiusMiles}|{Request.Sector?.ToUpperInvariant()}|{Request.IncludeFormer}|{Request.Search?.Trim().ToUpperInvariant()}|{Request.Role}|{Request.Sort}|{Request.Years}|{Request.Page}|{Request.PageSize}");
+        $"execnear|{Request.Near?.Trim().ToUpperInvariant()}|{Request.Region?.Trim().ToUpperInvariant()}|{Request.Latitude:F3}|{Request.Longitude:F3}|{Request.RadiusMiles}|{Request.Sector?.ToUpperInvariant()}|{Request.HeadquarteredOnly}|{Request.IncludeFormer}|{Request.Search?.Trim().ToUpperInvariant()}|{Request.Role}|{Request.Sort}|{Request.Years}|{Request.Page}|{Request.PageSize}");
     public string CacheProfile => "Search";
 
     /// <summary>The first page of a search only (later pages are "Show more" on the same search).</summary>
     public AnalyticsAction? Describe(ExecutivesNearResponse response) => (Request.Page ?? 1) != 1 ? null :
         SearchAnalytics.Action("executive_search", response.Origin, response.OriginLabel, response.RadiusMiles, Request.Near, Request.Sector,
-            response.TotalCount, ("search", Request.Search?.Trim()), ("role", Request.Role?.ToString()), ("includeFormer", Request.IncludeFormer ? "true" : null), ("region", response.Region?.Code));
+            response.TotalCount, ("search", Request.Search?.Trim()), ("role", Request.Role?.ToString()), ("includeFormer", Request.IncludeFormer ? "true" : null), ("headquarteredOnly", Request.HeadquarteredOnly ? "true" : null), ("region", response.Region?.Code));
 }
 
 public sealed class GetExecutivesNearValidator(IOptionsMonitor<SearchOptions> search, IOptionsMonitor<MetricsOptions> metrics)
@@ -59,10 +59,11 @@ public sealed class GetExecutivesNearHandler(
         var pageSize = r.PageSize ?? o.DefaultPageSize;
         var windowYears = r.Years ?? metricsOptions.CurrentValue.HistoryYears;
 
-        // 1. Nearby companies, or those in the country / state (optionally one sector).
+        // 1. Nearby companies, or those in the country / state (optionally one sector; optionally only those based here).
         var inRange = area.Hits;
         var nearbyCompanies = (await repository.GetCompaniesAsync(inRange.Keys, ct))
             .Where(c => string.IsNullOrWhiteSpace(r.Sector) || string.Equals(c.Sector, r.Sector.Trim(), StringComparison.OrdinalIgnoreCase))
+            .Where(c => !r.HeadquarteredOnly || inRange[c.CompanyId].HasHeadquartersInRange)
             .ToDictionary(c => c.CompanyId, StringComparer.OrdinalIgnoreCase);
 
         // 2. Everyone who has been a named executive at one of them, then their full history anywhere.

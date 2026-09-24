@@ -46,6 +46,8 @@ public sealed class ExecutivesNearRequest
     /// </summary>
     public string? Region { get; init; }
     public string? Sector { get; init; }
+    /// <summary>Only executives of companies headquartered in the area (not those with just an office there).</summary>
+    public bool HeadquarteredOnly { get; init; }
     /// <summary>Also include people who used to be executives at a nearby company but have since moved elsewhere.</summary>
     public bool IncludeFormer { get; init; }
     /// <summary>Case-insensitive match on name or title, e.g. "chief financial".</summary>

@@ -47,7 +47,8 @@ export function ExecutivesView({ data, placeName, sort, onSort, search, onSearch
   const years = data.items[0]?.windowYears ?? 10;
   // A whole country or state: no distances to rank by or show.
   const region = data.region ?? null;
-  const where = region ? `in ${region.inSentence}` : `within ${data.radiusMiles} miles of ${placeName}`;
+  // Only companies based in the area: say so ("headquartered within 25 miles of Lehi").
+  const where = region ? `headquartered in ${region.inSentence}` : `headquartered within ${data.radiusMiles} miles of ${placeName}`;
   const sorts = region ? SORTS.filter(k => k.key !== 'Distance') : SORTS;
   const { flipped, choose, order } = useSortFlip(sort, onSort, (e: ExecutiveSummary, k) =>
     k === 'PayGrowth' ? e.payGrowthYoY : k === 'Pay' ? e.latestTotalPay : k === 'TotalPay' ? e.windowTotalPay : k === 'Name' ? e.name : e.distanceMiles);

@@ -23,7 +23,7 @@ import {
 import { navigate, replaceAddress, savedScroll, searchPath, useRoute } from './lib/router';
 
 const FALLBACK_CONFIG: ClientConfig = {
-  defaultTheme: 'Auto', defaultRadiusMiles: 10, allowedRadiiMiles: [5, 10, 25, 50], defaultSort: 'Revenue',
+  defaultTheme: 'Auto', defaultRadiusMiles: 25, allowedRadiiMiles: [5, 10, 25, 50], defaultSort: 'Revenue',
   consentCookieName: 'cp_prefs', consentCookieDays: 365, features: { Executives: true },
   coverage: [],
 };
@@ -44,9 +44,10 @@ export default function App() {
 
   const [origin, setOrigin] = useState<Origin | null>(null);
   const [gateOpen, setGateOpen] = useState(true);
-  const [radius, setRadius] = useState(10);
+  const [radius, setRadius] = useState(25);
   const [sector, setSector] = useState('');
-  const [hqOnly, setHqOnly] = useState(false);
+  // Companies headquartered in the area, unless the visitor switches it off (then the address says hq=0).
+  const [hqOnly, setHqOnly] = useState(true);
   const [sort, setSort] = useState<CompanySort>('Revenue');
 
   // What we're looking up: companies (List/Map) or executives.
@@ -176,7 +177,8 @@ export default function App() {
     setLoading(true); setError('');
     api.executivesNear({
       latitude: origin.latitude, longitude: origin.longitude, radiusMiles: radius, region: origin.region?.code, sector: sector || undefined,
-      includeFormer, search: execSearch.trim() || undefined, role: execRole || undefined, sort: origin.region && execSort === 'Distance' ? 'Pay' : execSort,
+      // Executives of the companies based in the area, not every company with an office there.
+      headquarteredOnly: true, includeFormer, search: execSearch.trim() || undefined, role: execRole || undefined, sort: origin.region && execSort === 'Distance' ? 'Pay' : execSort,
     }, ctrl.signal)
       .then(setExecData)
       .catch(e => { if (e.name !== 'AbortError') setError(e instanceof ApiError ? e.message : 'Could not load executives. Please try again.'); })
@@ -192,7 +194,8 @@ export default function App() {
     track('executives_more');
     api.executivesNear({
       latitude: origin.latitude, longitude: origin.longitude, radiusMiles: radius, region: origin.region?.code, sector: sector || undefined,
-      includeFormer, search: execSearch.trim() || undefined, role: execRole || undefined, sort: origin.region && execSort === 'Distance' ? 'Pay' : execSort, page: execData.page + 1,
+      // Executives of the companies based in the area, not every company with an office there.
+      headquarteredOnly: true, includeFormer, search: execSearch.trim() || undefined, role: execRole || undefined, sort: origin.region && execSort === 'Distance' ? 'Pay' : execSort, page: execData.page + 1,
     })
       .then(next => setExecData(prev => prev && prev.page + 1 === next.page ? { ...next, items: [...prev.items, ...next.items] } : prev))
       .catch(e => setError(e instanceof ApiError ? e.message : 'Could not load more executives. Please try again.'))
@@ -215,7 +218,7 @@ export default function App() {
     const r = Number(p.get('radius'));
     setRadius(config.allowedRadiiMiles.includes(r) ? r : config.defaultRadiusMiles);
     setSector(p.get('sector') ?? '');
-    setHqOnly(p.get('hq') === '1');
+    setHqOnly(p.get('hq') !== '0');
     const s = p.get('sort')?.toLowerCase();
     const peopleMode = executives && config.features.Executives !== false;
     setMode(peopleMode ? 'executives' : 'companies');
@@ -265,7 +268,7 @@ export default function App() {
     if (radius !== config.defaultRadiusMiles && !origin.region) q.set('radius', String(radius));
     if (sector) q.set('sector', sector);
     if (mode === 'companies') {
-      if (hqOnly) q.set('hq', '1');
+      if (!hqOnly) q.set('hq', '0');
       if (sort !== config.defaultSort) q.set('sort', sort);
       if (companyFind.trim()) q.set('q', companyFind.trim());
     } else {

@@ -80,12 +80,12 @@ export const api = {
   executivesNear: (q: ExecutivesNearQuery, signal?: AbortSignal) =>
     get<ExecutivesNearResponse>('/executives/near', {
       latitude: q.latitude, longitude: q.longitude, radiusMiles: q.radiusMiles, region: q.region, sector: q.sector,
-      includeFormer: q.includeFormer || undefined, search: q.search, role: q.role, sort: q.sort, years: q.years, page: q.page, pageSize: q.pageSize ?? EXECUTIVES_PAGE,
+      headquarteredOnly: q.headquarteredOnly || undefined, includeFormer: q.includeFormer || undefined, search: q.search, role: q.role, sort: q.sort, years: q.years, page: q.page, pageSize: q.pageSize ?? EXECUTIVES_PAGE,
     }, signal),
   executive: (personId: string) => get<ExecutiveDetail>(`/executives/${encodeURIComponent(personId)}`),
 };
 
 export interface ExecutivesNearQuery {
   latitude: number; longitude: number; radiusMiles: number; region?: string;
-  sector?: string; includeFormer?: boolean; search?: string; role?: RoleFilter; sort?: ExecutiveSort; years?: number; page?: number; pageSize?: number;
+  sector?: string; headquarteredOnly?: boolean; includeFormer?: boolean; search?: string; role?: RoleFilter; sort?: ExecutiveSort; years?: number; page?: number; pageSize?: number;
 }
