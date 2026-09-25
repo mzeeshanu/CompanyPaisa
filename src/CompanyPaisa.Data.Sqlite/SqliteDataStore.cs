@@ -2,6 +2,7 @@ using System.Globalization;
 using System.Text.Json;
 using CompanyPaisa.Contracts;
 using CompanyPaisa.Core.Domain;
+using CompanyPaisa.Core.Services;
 using Microsoft.Data.Sqlite;
 
 namespace CompanyPaisa.Data.Sqlite;
@@ -323,7 +324,8 @@ public static class SqliteDataStore
             FROM executive_compensation ORDER BY rowid
             """, r => new ExecutiveCompensation
         {
-            CompanyId = r.GetString(0), PersonId = r.GetString(1), ExecutiveName = r.GetString(2), Title = r.GetString(3), Year = r.GetInt32(4),
+            // Titles are tidied as they load, so footnote text a past import let into them doesn't reach the site.
+            CompanyId = r.GetString(0), PersonId = r.GetString(1), ExecutiveName = r.GetString(2), Title = ExecutiveTitles.Clean(r.GetString(3)), Year = r.GetInt32(4),
             Salary = Money(r, 5)!.Value, Bonus = Money(r, 6)!.Value, StockAwards = Money(r, 7)!.Value, Other = Money(r, 8)!.Value,
             Total = Money(r, 9)!.Value, SourceFiling = Filing(r, 10)
         });
@@ -334,7 +336,7 @@ public static class SqliteDataStore
                 SELECT company_id, person_id, name, title, announced_on, starts_on, filing_id, package FROM new_executives ORDER BY rowid
                 """, r => new NewExecutive
             {
-                CompanyId = r.GetString(0), PersonId = Text(r, 1), Name = r.GetString(2), Title = r.GetString(3),
+                CompanyId = r.GetString(0), PersonId = Text(r, 1), Name = r.GetString(2), Title = ExecutiveTitles.Clean(r.GetString(3)),
                 AnnouncedOn = DateOnly.Parse(r.GetString(4), CultureInfo.InvariantCulture),
                 StartsOn = Text(r, 5) is { } s ? DateOnly.Parse(s, CultureInfo.InvariantCulture) : null,
                 SourceFiling = Filing(r, 6),

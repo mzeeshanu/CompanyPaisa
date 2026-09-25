@@ -2,6 +2,7 @@ using System.Globalization;
 using ClosedXML.Excel;
 using CompanyPaisa.Contracts;
 using CompanyPaisa.Core.Domain;
+using CompanyPaisa.Core.Services;
 
 namespace CompanyPaisa.Data.Excel;
 
@@ -73,7 +74,7 @@ internal static class ExcelWorkbookReader
             // person_id links one person across companies; older workbooks only had a per-company exec_id.
             PersonId = r.Text("person_id") ?? r.Required("exec_id"),
             ExecutiveName = r.Required("exec_name"),
-            Title = r.Required("title"),
+            Title = ExecutiveTitles.Clean(r.Required("title")),
             Year = r.Int("year") ?? throw r.Problem("year", "is required"),
             Salary = r.Decimal("salary") ?? 0,
             Bonus = r.Decimal("bonus") ?? 0,

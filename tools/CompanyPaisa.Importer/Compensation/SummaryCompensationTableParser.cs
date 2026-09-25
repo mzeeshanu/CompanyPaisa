@@ -1,5 +1,6 @@
 using System.Globalization;
 using System.Text.RegularExpressions;
+using CompanyPaisa.Core.Services;
 
 namespace CompanyPaisa.Importer.Compensation;
 
@@ -250,7 +251,8 @@ public sealed partial class SummaryCompensationTableParser : ICompensationParser
         t = Spaces().Replace(t, " ").Trim(' ', ',', '-', ';', '–', '(');
         if (!t.Any(char.IsLower)) t = Geo.Text.TitleCase(t)              // "CHAIR OF THE BOARD AND CEO" → "Chair Of The Board And CEO"
             .Replace(" Of ", " of ").Replace(" And ", " and ").Replace(" The ", " the ");
-        return t.Length == 0 ? "Named Executive Officer" : t;
+        // Footnote sentences that ran into the title cell, and a next person's "Name , 57" (shared with the data store).
+        return ExecutiveTitles.Clean(t);
     }
 
     internal static bool IsPlausibleName(string name)
