@@ -122,7 +122,8 @@ export default function App() {
       landed = scrollY;
     }, ms));
     const done = setTimeout(() => { root.style.overflowAnchor = ''; }, 1000);
-    if (onHome) document.title = 'CompanyPaisa';
+    // The same title the server writes for the home page (search engines read the page after the app has run).
+    if (onHome) document.title = 'CompanyPaisa — public companies near you: revenue, profit and executive pay';
     else { setTip(null); setPageAbout(''); }
     return () => { timers.forEach(clearTimeout); clearTimeout(done); root.style.overflowAnchor = ''; };
   }, [route, onHome]);

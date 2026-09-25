@@ -3,6 +3,7 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using CompanyPaisa.Api.Options;
+using CompanyPaisa.Contracts;
 using CompanyPaisa.Core.Abstractions;
 using CompanyPaisa.Core.Domain;
 using CompanyPaisa.Core.Options;
@@ -57,6 +58,7 @@ public sealed class PageRenderer(
             if (c.CareersUrl is not null) h.Link(c.CareersUrl, "Careers", external: true);
             h.Close("p");
         }
+        if (jobs.Count > 0) h.Open("p").Link($"{CompanyPath(c)}/salaries", $"Salaries at {c.Name}: {jobs.Count:N0} job titles").Close("p");
 
         if (indicators.AnnualHistory.Count > 0 || indicators.TtmRevenue != 0)
         {
@@ -106,7 +108,7 @@ public sealed class PageRenderer(
                 : $"What {c.Name} offered in its US work-visa (H-1B) wage filings, {source.From:MMM yyyy} to {source.To:MMM yyyy}. Median yearly salary, and the middle half of the offers.").Close("p");
             h.Table(["Job title", ads ? "Ads" : "Filings", ads ? "Middle" : "Median", ads ? "Typical range" : "Middle half"],
                 mine.Take(25).Select(j => new[] { j.Title, j.Filings.ToString("N0", CultureInfo.InvariantCulture), Money(j.Median, "USD"), $"{Money(j.Low, "USD")} – {Money(j.High, "USD")}" }));
-            if (mine.Count > 25) h.Open("p").Text($"And {mine.Count - 25:N0} more job titles.").Close("p");
+            if (mine.Count > 25) h.Open("p").Link($"{CompanyPath(c)}/salaries", $"And {mine.Count - 25:N0} more job titles").Close("p");
         }
 
         if (locations.Count > 1)
@@ -114,6 +116,15 @@ public sealed class PageRenderer(
             h.Open("h2").Text("Locations").Close("h2").Open("ul");
             foreach (var l in locations.OrderBy(l => l.IsHeadquarters ? 0 : 1).ThenBy(l => l.City)) h.Item($"{l.Label}: {Address(l)}");
             h.Close("ul");
+        }
+        // Its state (or province) and country, so the area pages are reached from the companies in them.
+        var areas = hq is null ? [] : Regions.All.Where(r => r.Contains(hq)).OrderBy(r => r.Kind == RegionKind.State ? 0 : 1).ToList();
+        if (areas.Count > 0)
+        {
+            h.Open("p").Text("More public companies: ");
+            for (var i = 0; i < areas.Count; i++)
+                (i > 0 ? h.Text(" · ") : h).Link($"/near/{Uri.EscapeDataString(areas[i].Slug)}", $"in {areas[i].InSentence}");
+            h.Close("p");
         }
         h.Open("p").Text("Figures are from the company's own filings. ").Link("/", "Find public companies near you").Close("p");
 
@@ -249,13 +260,31 @@ public sealed class PageRenderer(
             }
             h.Close("tbody").Close("table");
         }
+
+        // A country links to its states and provinces; a state to its country.
+        if (region?.Kind == RegionKind.Country)
+        {
+            var places = hits.Values.Select(x => x.NearestLocation).ToList();
+            var states = Regions.All.Where(r => r.Kind == RegionKind.State && r.Country == region.Code && places.Any(r.Contains)).OrderBy(r => r.Name).ToList();
+            if (states.Count > 0)
+            {
+                h.Open("h2").Text(region.Code == "CA" ? "By province" : "By state").Close("h2").Open("ul");
+                foreach (var s in states) h.Open("li").Link(RegionPath(s, executives), $"{(executives ? "Executives" : "Public companies")} in {s.InSentence}").Close("li");
+                h.Close("ul");
+            }
+        }
+        else if (region?.Kind == RegionKind.State && Regions.FromCode(region.Country) is { } country)
+            h.Open("p").Link(RegionPath(country, executives), $"{(executives ? "Executives" : "Public companies")} in all of {country.InSentence}").Close("p");
         h.Open("p").Link("/", "Search another place").Close("p");
         return new PageContent(h.ToString());
     }
 
+    private static string RegionPath(Region r, bool executives = false) => $"/near/{Uri.EscapeDataString(r.Slug)}{(executives ? "/executives" : "")}";
+
     // ---- Home ----------------------------------------------------------------------------------------------------
 
-    public async Task<PageContent> HomeAsync(CancellationToken ct)
+    /// <summary>The home page; <paramref name="origin"/> is the site's address, for its schema.org WebSite entry.</summary>
+    public async Task<PageContent> HomeAsync(string origin, CancellationToken ct)
     {
         var companies = await repository.GetCompaniesAsync(ct);
         var financials = await repository.GetFinancialsAsync(companies.Select(c => c.CompanyId), ct);
@@ -271,6 +300,20 @@ public sealed class PageRenderer(
         foreach (var area in ui.CurrentValue.Coverage.DistinctBy(a => a.Name))
             h.Open("li").Link($"/near/{Uri.EscapeDataString(SitePages.PlaceToken(area.ExampleZip, area.Country))}", area.Name).Close("li");
         h.Close("ul");
+
+        // Every country, state and province with a company in it (the places the data stores, checked once each).
+        var stored = (await repository.GetLocationsWithinAsync(new GeoBoundingBox(-90, 90, -180, 180), ct))
+            .DistinctBy(l => (Regions.CountryOf(l), l.State?.ToUpperInvariant())).ToList();
+        var regions = Regions.All.Where(r => stored.Any(r.Contains)).ToList();
+        h.Open("h2").Text("Browse by country").Close("h2").Open("ul");
+        foreach (var r in regions.Where(r => r.Kind == RegionKind.Country).OrderBy(r => r.Name))
+            h.Open("li").Link(RegionPath(r), r.Name).Close("li");
+        h.Close("ul");
+        h.Open("h2").Text("Browse by state and province").Close("h2").Open("ul");
+        foreach (var r in regions.Where(r => r.Kind == RegionKind.State).OrderBy(r => r.Country == "US" ? 0 : 1).ThenBy(r => r.Name))
+            h.Open("li").Link(RegionPath(r), r.Name).Close("li");
+        h.Close("ul");
+
         h.Open("h2").Text("The largest companies").Close("h2").Open("ol");
         foreach (var (c, revenue) in largest)
             h.Open("li").Link(CompanyPath(c), $"{c.Name} ({c.Ticker})").Text($" — {Money(revenue, c.Currency)} revenue").Close("li");
@@ -278,7 +321,7 @@ public sealed class PageRenderer(
 
         var data = new Dictionary<string, object?>
         {
-            ["@context"] = "https://schema.org", ["@type"] = "WebSite", ["name"] = "CompanyPaisa",
+            ["@context"] = "https://schema.org", ["@type"] = "WebSite", ["name"] = "CompanyPaisa", ["url"] = origin + "/",
             ["description"] = "Public companies near you: revenue, profit, executive pay and salaries by job title."
         };
         return new PageContent(h.ToString(), data);

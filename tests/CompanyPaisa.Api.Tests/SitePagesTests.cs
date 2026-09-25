@@ -86,6 +86,9 @@ public class SitePagesTests(SitePagesFactory factory) : IClassFixture<SitePagesF
         Assert.Contains("<a href=\"/near/84043\">", html);
         Assert.Contains("<a href=\"/company/", html);
         Assert.Contains("<link rel=\"canonical\" href=\"http://localhost/\" />", html);
+        Assert.Contains("\"@type\":\"WebSite\",\"name\":\"CompanyPaisa\",\"url\":\"http://localhost/\"", html);   // the site name in results
+        Assert.Contains("<a href=\"/near/united-states\">United States</a>", html);                        // every country and state with companies
+        Assert.Contains("<a href=\"/near/utah\">Utah</a>", html);
     }
 
     [Fact]
@@ -236,5 +239,80 @@ public class SitePagesTests(SitePagesFactory factory) : IClassFixture<SitePagesF
 
         Assert.Contains("<title>AT&amp;T &lt;Inc&gt;</title>", html);
         Assert.Contains("content=\"&quot;Quotes&quot;\"", html);
+    }
+
+    [Fact]
+    public async Task A_company_page_links_its_salaries_and_its_state_and_country()
+    {
+        var html = await factory.CreateClient().GetStringAsync("/company/LFVN");
+
+        Assert.Contains("<a href=\"/near/utah\">in Utah</a>", html);
+        Assert.Contains("<a href=\"/near/united-states\">in the United States</a>", html);
+    }
+
+    [Theory]
+    [InlineData("/near/Utah", "/near/utah")]
+    [InlineData("/near/US-UT/executives", "/near/utah/executives")]
+    [InlineData("/near/ut", "/near/utah")]
+    [InlineData("/near/84043-1234?radius=25", "/near/84043?radius=25")]
+    public async Task Each_place_has_one_address(string asked, string moved)
+    {
+        var http = factory.CreateClient(new WebApplicationFactoryClientOptions { AllowAutoRedirect = false });
+        var res = await http.GetAsync(asked);
+
+        Assert.Equal(HttpStatusCode.MovedPermanently, res.StatusCode);
+        Assert.Equal(moved, res.Headers.Location?.OriginalString);
+        Assert.Equal(HttpStatusCode.OK, (await http.GetAsync(moved)).StatusCode);   // and the address it moves to is the page itself
+    }
+}
+
+/// <summary>The site with its public address set, reached on another host (the platform's own address) and on its own.</summary>
+public sealed class PublicHostFactory : WebApplicationFactory<Program>
+{
+    private readonly string _webRoot = Directory.CreateTempSubdirectory("companypaisa-web-").FullName;
+
+    public PublicHostFactory() => File.WriteAllText(Path.Combine(_webRoot, "index.html"), SitePagesFactory.IndexHtml);
+
+    protected override void ConfigureWebHost(IWebHostBuilder builder)
+    {
+        builder.UseSetting("DataSource:Provider", "Excel");
+        builder.UseSetting("DataSource:Excel:Path", "../../data/sample/companypaisa.sample.xlsx");
+        builder.UseSetting("DataSource:Excel:ReloadOnChange", "false");
+        builder.UseSetting("Geo:ZipTablePath", "../../data/reference/us-zip-centroids.sample.csv");
+        builder.UseSetting("Analytics:Provider", "None");
+        builder.UseSetting("Hosting:PublicOrigin", "https://companypaisa.com");
+        builder.UseWebRoot(_webRoot);
+    }
+
+    protected override void Dispose(bool disposing)
+    {
+        base.Dispose(disposing);
+        try { Directory.Delete(_webRoot, recursive: true); } catch (IOException) { }
+    }
+}
+
+public class PublicHostTests(PublicHostFactory factory) : IClassFixture<PublicHostFactory>
+{
+    [Fact]
+    public async Task Another_host_moves_to_the_public_address_except_the_health_check()
+    {
+        var http = factory.CreateClient(new WebApplicationFactoryClientOptions { AllowAutoRedirect = false });
+
+        var page = await http.GetAsync("/company/LFVN?x=1");
+        Assert.Equal(HttpStatusCode.MovedPermanently, page.StatusCode);
+        Assert.Equal("https://companypaisa.com/company/LFVN?x=1", page.Headers.Location?.OriginalString);
+        Assert.Equal(HttpStatusCode.OK, (await http.GetAsync("/health")).StatusCode);
+    }
+
+    [Fact]
+    public async Task On_the_public_address_pages_name_it_as_canonical()
+    {
+        var http = factory.CreateClient(new WebApplicationFactoryClientOptions { BaseAddress = new Uri("https://companypaisa.com"), AllowAutoRedirect = false });
+        var res = await http.GetAsync("/company/LFVN");
+        var sitemap = await http.GetStringAsync("/sitemap.xml");
+
+        Assert.Equal(HttpStatusCode.OK, res.StatusCode);
+        Assert.Contains("<link rel=\"canonical\" href=\"https://companypaisa.com/company/LFVN\" />", await res.Content.ReadAsStringAsync());
+        Assert.Contains("<loc>https://companypaisa.com/sitemap-1.xml</loc>", sitemap);
     }
 }

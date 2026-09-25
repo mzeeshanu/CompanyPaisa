@@ -32,7 +32,7 @@ public static partial class SitePages
         app.MapGet("/", async (PageRenderer pages, IndexHtml index, HttpContext http, CancellationToken ct) =>
                 Page(index, new PageMeta("CompanyPaisa — public companies near you: revenue, profit and executive pay",
                     "See the public companies near you, how big they are, where they're heading, what their executives are paid and what their jobs pay.", "/"),
-                    http, await pages.HomeAsync(ct)))
+                    http, await pages.HomeAsync(Origin(http), ct)))
             .ExcludeFromDescription();
 
         app.MapGet("/company/{ticker}", async (string ticker, ICompanyRepository repository, PageRenderer pages, IndexHtml index, HttpContext http, CancellationToken ct) =>
@@ -104,7 +104,11 @@ public static partial class SitePages
             {
                 var executives = mode is not null;
                 var what = executives ? "Executives and their pay" : "Public companies";
-                var path = $"/near/{Uri.EscapeDataString(place)}{(executives ? "/executives" : "")}";
+                string PathFor(string p) => $"/near/{Uri.EscapeDataString(p)}{(executives ? "/executives" : "")}";
+                // One address per place: /near/Texas, /near/US-TX and /near/tx all move (301) to /near/texas, and
+                // /near/sw1a%201aa to /near/SW1A1AA, so search engines don't see the same page under several addresses.
+                IResult MovedTo(string p) => Results.Redirect(PathFor(p) + http.Request.QueryString, permanent: true);
+                var path = PathFor(place);
                 PageMeta? meta;
                 PageContent? content = null;
                 // Different for every visitor, and empty until the app knows where they are: not for search results.
@@ -113,6 +117,7 @@ public static partial class SitePages
                         "See the public companies near you, how big they are, where they're heading and what their executives are paid.", path, Index: false);
                 else if (Regions.Find(place) is { } region)
                 {
+                    if (place != region.Slug) return MovedTo(region.Slug);
                     // A whole country or state: /near/texas, /near/united-kingdom, /near/US-TX.
                     var where = region.InSentence;
                     meta = new PageMeta($"{what} in {where} · CompanyPaisa",
@@ -127,6 +132,7 @@ public static partial class SitePages
                 else
                 {
                     var hit = place.Length <= 20 ? await geo.LookupAsync(place, ct) : null;
+                    if (hit is not null && await CanonicalPlaceAsync(place, hit, geo, ct) is var tidy && tidy != place) return MovedTo(tidy);
                     var where = hit is null ? null : string.Join(" ", new[] { $"{hit.City}, {hit.State}", hit.PostalCode }.Where(p => !string.IsNullOrWhiteSpace(p)));
                     meta = where is null ? null : new PageMeta($"{what} near {where} · CompanyPaisa",
                         executives
@@ -213,6 +219,30 @@ public static partial class SitePages
         return country is "FR" or "NL" or "IT" or "ES" or "AU" or "NZ" or "PK" ? $"{country}-{code}" : code;
     }
 
+    /// <summary>
+    /// The one way a postcode appears in a search address: its tidy code with no spaces, in capitals, keeping its country
+    /// ("sw1a 1aa" → "SW1A1AA", "fr-75008" → "FR-75008", "84043-1234" → "84043") — but only when that finds the same place.
+    /// A city name ("Lehi, UT") stays as typed.
+    /// </summary>
+    private static async Task<string> CanonicalPlaceAsync(string place, GeoLookupResult hit, IGeoLocator geo, CancellationToken ct)
+    {
+        if (!place.Any(char.IsDigit)) return place;
+        var country = CountryPrefix().Match(place.ToUpperInvariant());
+        var prefix = country.Success ? country.Groups["country"].Value + "-" : "";
+        string[] candidates = string.IsNullOrWhiteSpace(hit.PostalCode)
+            ? [place.Replace(" ", "").ToUpperInvariant()]
+            : [prefix + hit.PostalCode.Replace(" ", "").ToUpperInvariant(), place.Replace(" ", "").ToUpperInvariant()];
+        foreach (var candidate in candidates)
+        {
+            if (candidate == place) return place;
+            if (await geo.LookupAsync(candidate, ct) is { } again && again.Point == hit.Point && again.PostalCode == hit.PostalCode) return candidate;
+        }
+        return place;
+    }
+
+    [GeneratedRegex(@"^(?<country>FR|NL|IT|ES|AU|NZ|PK)[\s\-:]+\d")]
+    private static partial Regex CountryPrefix();
+
     private static string SitemapXml(string origin, IEnumerable<string> paths, DateOnly? lastModified)
     {
         var sb = new StringBuilder();
@@ -251,7 +281,29 @@ public static partial class SitePages
         return sb.ToString().Replace("encoding=\"utf-16\"", "encoding=\"utf-8\"");
     }
 
-    private static string Origin(HttpContext http) => $"{http.Request.Scheme}://{http.Request.Host}";
+    /// <summary>The site's address in canonical links and the sitemap: Hosting:PublicOrigin, or the host the request came in on.</summary>
+    private static string Origin(HttpContext http) =>
+        http.RequestServices.GetRequiredService<IOptionsMonitor<HostingOptions>>().CurrentValue.PublicOrigin is { Length: > 0 } origin
+            ? origin
+            : $"{http.Request.Scheme}://{http.Request.Host}";
+
+    /// <summary>
+    /// Sends a request on any host but Hosting:PublicOrigin's (the platform's *.up.railway.app address, www.) to the same
+    /// path there with a 301, so search engines see one copy of the site. The health check stays reachable on any host.
+    /// </summary>
+    public static IApplicationBuilder UsePublicHost(this IApplicationBuilder app) => app.Use(async (context, next) =>
+    {
+        var hosting = context.RequestServices.GetRequiredService<IOptionsMonitor<HostingOptions>>().CurrentValue;
+        var request = context.Request;
+        if (hosting.PublicHost is { } host && !string.Equals(request.Host.Value, host, StringComparison.OrdinalIgnoreCase) &&
+            !request.Path.StartsWithSegments("/health") && (HttpMethods.IsGet(request.Method) || HttpMethods.IsHead(request.Method)))
+        {
+            context.Response.StatusCode = StatusCodes.Status301MovedPermanently;
+            context.Response.Headers.Location = hosting.PublicOrigin + request.PathBase + request.Path + request.QueryString;
+            return;
+        }
+        await next(context);
+    });
 
     /// <summary>The pages this class renders on the server (for the hourly page limit).</summary>
     public static bool IsRenderedPage(string path) =>

@@ -37,6 +37,7 @@ var app = builder.Build();
 var api = app.Services.GetRequiredService<IOptions<ApiOptions>>().Value;
 
 if (hosting.TrustForwardedHeaders) app.UseForwardedHeaders();   // must run first
+app.UsePublicHost();                // one address for search engines: other hosts redirect to Hosting:PublicOrigin
 app.UseExceptionHandler();
 app.UseStatusCodePages();
 if (!app.Environment.IsDevelopment())

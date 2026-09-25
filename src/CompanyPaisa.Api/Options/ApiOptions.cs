@@ -91,6 +91,16 @@ public sealed class HostingOptions
 
     /// <summary>Redirect http → https outside Development.</summary>
     public bool UseHttpsRedirection { get; set; } = true;
+
+    /// <summary>
+    /// The site's one public address ("https://companypaisa.com"). When set, pages name it as their canonical address, the
+    /// sitemap lists it, and a request that arrives on any other host (the platform's own *.up.railway.app address, www.)
+    /// is sent there with a 301, so search engines index one copy of the site. Empty = whatever host the request used.
+    /// </summary>
+    [RegularExpression(@"^(https?://[^/\s]+)?$")] public string? PublicOrigin { get; set; }
+
+    /// <summary><see cref="PublicOrigin"/>'s host, or null when it isn't set.</summary>
+    public string? PublicHost => string.IsNullOrEmpty(PublicOrigin) ? null : new Uri(PublicOrigin).Authority;
 }
 
 /// <summary>appsettings section "Ui" — defaults sent to the website via /api/v1/client-config.</summary>

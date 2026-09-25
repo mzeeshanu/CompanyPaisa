@@ -69,6 +69,7 @@ public static class ApiServiceCollectionExtensions
     {
         services.AddValidatedOptions<ApiOptions>(configuration, ApiOptions.SectionName);
         services.AddValidatedOptions<UiOptions>(configuration, UiOptions.SectionName);
+        services.AddValidatedOptions<HostingOptions>(configuration, HostingOptions.SectionName);
         services.AddOptions<FeatureOptions>().Bind(configuration.GetSection(FeatureOptions.SectionName));
 
         services.AddSingleton<IApiKeyValidator, ApiKeyValidator>();

@@ -31,6 +31,11 @@ React website in `wwwroot`. Railway builds it from the repo's `Dockerfile` (sele
    Any other appsettings value can be overridden the same way (e.g. `Search__DefaultRadiusMiles=25`).
 4. **Networking → Generate Domain** (gets `*.up.railway.app`), then **Custom Domain → companypaisa.com**
    and add the DNS record Railway shows. Railway provides the HTTPS certificate.
+   Search engines should see one copy of the site: `appsettings.Production.json` sets `Hosting:PublicOrigin` to
+   `https://companypaisa.com`, so every page names that address as its canonical one and any request on another host
+   (the `*.up.railway.app` address, `www.`) is sent there with a 301 — only `/health` still answers on every host, for
+   Railway's health check. If the domain changes, set `Hosting__PublicOrigin` in the Railway variables (or empty it to
+   turn the redirect off); with a wrong value the whole site redirects away.
 
 ## Updating data
 
