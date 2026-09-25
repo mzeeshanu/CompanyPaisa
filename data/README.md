@@ -2,7 +2,7 @@
 
 | Path | What | Real or sample? |
 |---|---|---|
-| `companypaisa.db` | **The live dataset** (SQLite) — every market in one file: SEC filers (US, Canada, Australia, NZ), UK Main Market, France, the Netherlands, Italy, Spain, Pakistan. Each importer run replaces only its own market's rows | **Real**, built by `tools/CompanyPaisa.Importer` (see *Database layout*) |
+| `companypaisa.db` | **The live dataset** (SQLite) — every market in one file: SEC filers (US, Canada, Australia, NZ), UK Main Market, France, the Netherlands, Italy, Spain, Pakistan, ASX and NZX companies. Each importer run replaces only its own market's rows | **Real**, built by `tools/CompanyPaisa.Importer` (see *Database layout*) |
 | `import-report.md` | What the last import included (per metro), excluded (and why), and rows that need review | Generated |
 | `import-report-enrichment.md` | The last `--enrich` run: websites, careers pages and street positions per market | Generated |
 | `import-report-salaries.md` | The last `--salaries` run: filings read and matched, the companies with most filings, and the biggest unmatched employers | Generated |
@@ -12,6 +12,8 @@
 | `reference/company-sites.csv` | Each company's website (and where it came from) and careers page, with the date it was last looked for — edit to correct | Wikidata (CC0), the exchanges, companies' own filings and websites |
 | `reference/geocoded-locations.csv` | Locations placed at their street address (with the address they were placed from) | US Census Bureau geocoder; © OpenStreetMap contributors (ODbL) |
 | `import-report-pk.md` | The Pakistan run's report: included per area, excluded (and why), rows that need review | Generated |
+| `import-report-anz.md` | The Australia / New Zealand run's report: included per area (with each figure's report), excluded (and why), rows that need review | Generated |
+| `curated/anz-companies.csv` | ASX and NZX companies to look for, with website, LEI and Wikidata id — edit a website to fix it | Wikidata (CC0) and Wikipedia's ASX 200 / NZX tables (CC BY-SA) |
 | `reference/pk-postcodes.csv` | Pakistani postcodes → town and coordinates (the Pakistan tab) | [GeoNames](https://www.geonames.org/) PK postal codes and towns, CC BY 4.0 |
 | `import-report-uk.md` | The UK run's report: included per area, excluded (and why), rows that need review | Generated |
 | `curated/uk-ftse350.csv` | FTSE 100 + 250 members with the LEI each was matched to — edit an LEI to fix a wrong match | From Wikipedia's constituent tables; reviewable |
@@ -69,10 +71,11 @@ The importer is a set of **markets**, each a class implementing `IMarketImporter
 | `uk` | `Uk/UkImportPipeline` | UK Main Market: ESEF annual reports, directors' pay |
 | `eu` | `Eu/EuImportPipeline` | France, Netherlands, Italy, Spain: ESEF annual reports (financials only) |
 | `pk` | `Pk/PkImportPipeline` | Pakistan Stock Exchange: companies' own annual report PDFs (revenue, profit, chief executive's pay) |
+| `anz` | `Anz/AnzImportPipeline` | ASX and NZX: annual reports found on companies' own websites (revenue, profit) |
 
 ```powershell
 dotnet run --project tools/CompanyPaisa.Importer -- --list-markets
-dotnet run --project tools/CompanyPaisa.Importer -- --market uk            # one market (also: --uk, --eu, --pk; no option = sec)
+dotnet run --project tools/CompanyPaisa.Importer -- --market uk            # one market (also: --uk, --eu, --pk, --anz; no option = sec)
 dotnet run --project tools/CompanyPaisa.Importer -- --all --strict         # every market, then the data-quality checks
 ```
 
@@ -171,6 +174,40 @@ Check one report: `-- --debug-pk-report <pdf url | .pdf | cache .lines.gz>`; see
 The run's report is `import-report-pk.md`. A first run downloads ~1,300 PDFs (5–25 MB each; the exchange serves each
 at ~400 KB/s) and takes a few hours; later runs only fetch new reports.
 
+## The Australia / New Zealand dataset (financials only)
+
+```bash
+dotnet run --project tools/CompanyPaisa.Importer -- --anz                    # uses data/curated/anz-companies.csv
+dotnet run --project tools/CompanyPaisa.Importer -- --anz --refresh-lists    # re-reads Wikidata and Wikipedia first
+```
+
+Companies listed on the ASX and NZX, published as market `anz` (tickers `BXB.AX`, `AIR.NZ`). The exchanges' own websites
+are **not used**: the ASX's terms forbid scrapers and any commercial use of its announcements, and the NZX's allow the site
+only to be viewed. Everything comes from free sources instead:
+
+1. **Companies** — every company Wikidata (CC0) records as listed on the ASX or NZX (not delisted or dissolved, with a
+   website), plus the S&P/ASX 200 and NZX tables on Wikipedia (CC BY-SA), which add the ASX 200's GICS sectors. A company
+   on both exchanges is kept once, at its home exchange. The list is kept for review in `curated/anz-companies.csv` — fix a
+   wrong or missing website there.
+2. **Annual report** — found on the company's own website (`Anz/ReportFinder`): the home page → "Investors" / "Reports" pages
+   (and the usual `/investors` addresses) → the PDF links named "Annual Report", "Appendix 4E" or "Full year results",
+   newest year first. It reads at most 25 pages per site, honours robots.txt, identifies itself, and never follows links
+   to asx.com.au or nzx.com. The links found are remembered for 30 days (`cache/anz/sites`).
+3. **Figures** (`Anz/ResultsReader`) — the statement of profit or loss (also called "Income Statement" or "Statement of
+   Financial Performance"): its "2026  2025" header, its unit ("$m", "US$'000", "$") and currency (many miners report
+   in US dollars), revenue (or, under a "Revenue and other income" heading, only the revenue lines) and the profit
+   attributable to shareholders, for the year and the year before. Failing that, the Appendix 4E "Results for
+   announcement to the market" (this year only). The two latest reports are read. Only each report's text is cached
+   (`cache/anz/reports`), not the PDF.
+4. **Place** — the headquarters in the LEI registry (GLEIF), else the "Principal place of business" / "Registered office"
+   in the report's corporate directory (never the share registry's), else Wikidata's headquarters city; then the GeoNames
+   postcode. Companies headquartered elsewhere, and those already shown from their US filings, are left out.
+
+Check one report: `-- --debug-anz-report <pdf url | .pdf | cache .lines.gz>`; see what the finder finds on a website:
+`-- --debug-anz-find <website>` (set `ANZ_TRACE=1` to list the pages it reads). The run's report is
+`import-report-anz.md`. Companies whose website hides its reports behind scripts, blocks the importer or links only to the
+ASX are left out. Executive pay (the remuneration report every ASX company publishes) isn't read yet.
+
 ## Websites, careers pages and street positions
 
 ```bash
@@ -226,7 +263,7 @@ Unlike the visa filings, these cover hourly and front-line jobs too.
 `companypaisa.db` is SQLite (open it with any SQLite browser). Tables: `companies`, `locations`, `financials`,
 `executive_compensation`, `people` — the same columns as the workbook below — plus `filings` (each source URL once; rows
 point at it by `filing_id`, with `https://www.sec.gov/Archives/edgar/data/` stored as `~sec/`) and `meta` (per market:
-`data_version`, `as_of_date`, `source`, `region`). Every row has a `market` column: `sec`, `uk`, `eu` or `pk`, the importer run
+`data_version`, `as_of_date`, `source`, `region`). Every row has a `market` column: `sec`, `uk`, `eu`, `pk` or `anz`, the importer run
 that wrote it. Publishing a market works on a copy, deletes and re-inserts that market's rows, reads the copy back with the
 API's own rules, and only then replaces the file — a failed import leaves the old file untouched. `PRAGMA user_version` is
 the layout version (4 since `job_salaries.source` and `.url`; 3 added `worker_pay`, `job_salaries` and `extras`; 2 added

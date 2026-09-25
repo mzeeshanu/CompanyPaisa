@@ -22,6 +22,8 @@ public sealed class ImporterOptions
     public Eu.EuOptions Eu { get; set; } = new();
     /// <summary>Pakistan Stock Exchange (run with --market pk).</summary>
     public Pk.PkOptions Pk { get; set; } = new();
+    /// <summary>ASX and NZX, from companies' own annual reports (run with --market anz).</summary>
+    public Anz.AnzOptions Anz { get; set; } = new();
     /// <summary>Websites, careers pages and street positions for every market (run with --enrich).</summary>
     public Enrichment.EnrichmentOptions Enrichment { get; set; } = new();
     /// <summary>Salaries by job title from H-1B wage filings (run with --salaries).</summary>

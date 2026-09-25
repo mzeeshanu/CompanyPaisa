@@ -74,6 +74,12 @@ public sealed partial class EuPostcodes
     public (string Place, GeoPoint Point)? Locate(string country, string postcode) =>
         Normalise(country, postcode) is { } code && _codes.TryGetValue(Key(country, code), out var c) ? (c.Place, c.Point) : null;
 
+    /// <summary>The country's postcode whose centre is nearest a point (a headquarters known only by its coordinates).</summary>
+    public (string Code, string Place, GeoPoint Point)? Nearest(string country, GeoPoint point) =>
+        _codes.Values.Where(c => c.Country.Equals(country, StringComparison.OrdinalIgnoreCase))
+            .Select(c => (c.Code, c.Place, c.Point, Miles: Distance.DistanceMiles(point, c.Point)))
+            .Where(c => c.Miles <= 15).OrderBy(c => c.Miles).Select(c => ((string, string, GeoPoint)?)(c.Code, c.Place, c.Point)).FirstOrDefault();
+
     private static string Key(string country, string code) => $"{country.ToUpperInvariant()}:{code}";
 
     /// <summary>zip,city,state,country,latitude,longitude — the API keys these rows by country ("FR:75008").</summary>

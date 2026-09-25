@@ -265,7 +265,7 @@ public sealed class PageRenderer(
 
         var h = new Html();
         h.Open("h1").Text("Public companies near you: revenue, profit and executive pay").Close("h1");
-        h.Open("p").Text($"CompanyPaisa maps {companies.Count:N0} public companies in the US, Canada, the UK, Europe and Pakistan: how big they are, " +
+        h.Open("p").Text($"CompanyPaisa maps {companies.Count:N0} public companies in the US, Canada, the UK, Europe, Australia, New Zealand and Pakistan: how big they are, " +
                          "whether they're growing, what their executives are paid and what their jobs pay — all from the companies' own filings.").Close("p");
         h.Open("h2").Text("Browse by area").Close("h2").Open("ul");
         foreach (var area in ui.CurrentValue.Coverage.DistinctBy(a => a.Name))

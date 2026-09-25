@@ -29,6 +29,7 @@ builder.Services.AddSingleton<ImportPipeline>();
 builder.Services.AddSingleton<CompanyPaisa.Importer.Uk.UkImportPipeline>();
 builder.Services.AddSingleton<CompanyPaisa.Importer.Eu.EuImportPipeline>();
 builder.Services.AddSingleton<CompanyPaisa.Importer.Pk.PkImportPipeline>();
+builder.Services.AddSingleton<CompanyPaisa.Importer.Anz.AnzImportPipeline>();
 builder.Services.AddSingleton<CompanyPaisa.Importer.Enrichment.EnrichmentRun>();
 builder.Services.AddSingleton<CompanyPaisa.Importer.Salaries.SalaryRun>();
 builder.Services.AddSingleton<CompanyPaisa.Importer.Postings.PostingRun>();
@@ -40,6 +41,7 @@ builder.Services.AddSingleton<IMarketImporter>(sp => sp.GetRequiredService<Impor
 builder.Services.AddSingleton<IMarketImporter>(sp => sp.GetRequiredService<CompanyPaisa.Importer.Uk.UkImportPipeline>());
 builder.Services.AddSingleton<IMarketImporter>(sp => sp.GetRequiredService<CompanyPaisa.Importer.Eu.EuImportPipeline>());
 builder.Services.AddSingleton<IMarketImporter>(sp => sp.GetRequiredService<CompanyPaisa.Importer.Pk.PkImportPipeline>());
+builder.Services.AddSingleton<IMarketImporter>(sp => sp.GetRequiredService<CompanyPaisa.Importer.Anz.AnzImportPipeline>());
 builder.Services.AddSingleton<MarketRunner>();
 
 using var host = builder.Build();
@@ -155,6 +157,39 @@ if (args is ["--debug-pk-report", .. var reports])
     }
     return 0;
 }
+// Australia / New Zealand: the report links found on company websites: -- --debug-anz-find <website> [more…]
+if (args is ["--debug-anz-find", .. var sites])
+{
+    Console.OutputEncoding = System.Text.Encoding.UTF8;
+    using var http = new HttpClient(new HttpClientHandler { AutomaticDecompression = System.Net.DecompressionMethods.All }) { Timeout = TimeSpan.FromSeconds(30) };
+    var finder = new CompanyPaisa.Importer.Anz.ReportFinder(http, trace: Environment.GetEnvironmentVariable("ANZ_TRACE") is null ? null : Console.WriteLine);
+    foreach (var site in sites)
+    {
+        var watch = System.Diagnostics.Stopwatch.StartNew();
+        var links = await finder.FindAsync(site, CancellationToken.None);
+        Console.WriteLine($"== {site}: {links.Count} report links ({watch.Elapsed.TotalSeconds:0}s)");
+        foreach (var l in links.Take(5)) Console.WriteLine($"   {l.Year} [{l.Score}] {l.Text} → {l.Url}");
+    }
+    return 0;
+}
+// Australia / New Zealand: what the rules read from reports: -- --debug-anz-report <pdf url | .pdf | .lines.gz> [more…]
+if (args is ["--debug-anz-report", .. var anzReports])
+{
+    Console.OutputEncoding = System.Text.Encoding.UTF8;
+    using var http = new HttpClient { DefaultRequestHeaders = { { "User-Agent", CompanyPaisa.Importer.Anz.ReportFinder.UserAgent } }, Timeout = TimeSpan.FromMinutes(3) };
+    foreach (var source in anzReports)
+    {
+        IReadOnlyList<CompanyPaisa.Importer.Pk.PdfTextLine> lines = source.EndsWith(".lines.gz", StringComparison.OrdinalIgnoreCase)
+            ? new StreamReader(new System.IO.Compression.GZipStream(File.OpenRead(source), System.IO.Compression.CompressionMode.Decompress))
+                .ReadToEnd().Split('\n', StringSplitOptions.RemoveEmptyEntries).Select(l => CompanyPaisa.Importer.Pk.PdfTextLine.Deserialise(l.TrimEnd('\r'))).ToList()
+            : CompanyPaisa.Importer.Pk.PdfLines.Read(File.Exists(source) ? File.ReadAllBytes(source) : await http.GetByteArrayAsync(source));
+        var r = CompanyPaisa.Importer.Anz.ResultsReader.Read(lines, "AUD");
+        Console.WriteLine(r is null
+            ? $"== {Path.GetFileName(source)} ({lines.Count} lines): nothing read"
+            : $"== {Path.GetFileName(source)}: FY{r.FiscalYear} ends {r.PeriodEnd} {r.Currency} | revenue {r.Revenue:N0} ({r.PriorRevenue:N0}) \"{r.RevenueLine}\" | profit {r.NetIncome:N0} ({r.PriorNetIncome:N0}) | {r.Source} line {r.Line}");
+    }
+    return 0;
+}
 // Websites, careers pages, street positions and exact US exchanges for every company in the database: -- --enrich [websites] [careers] [geocode] [exchanges]
 if (args is ["--enrich", .. var steps])
 {
@@ -193,7 +228,7 @@ if (args is ["--debug-proxy", var url])
 }
 // Markets (each publishes its own rows into data/companypaisa.db):
 //   -- --list-markets            what's available
-//   -- --market sec [--market uk] one or more by id      (--uk, --eu and --pk work too; no arguments = --market sec)
+//   -- --market sec [--market uk] one or more by id      (--uk, --eu, --pk and --anz work too; no arguments = --market sec)
 //   -- --all [--strict]           every market, then the data-quality checks (what the monthly job runs)
 //   add --refresh-lists to re-read curated company lists (e.g. the FTSE constituents)
 var runner = host.Services.GetRequiredService<MarketRunner>();
@@ -203,7 +238,7 @@ if (args.Contains("--list-markets"))
     return 0;
 }
 var marketIds = args.Select((a, i) => a == "--market" && i + 1 < args.Length ? args[i + 1] : null).OfType<string>()
-    .Concat(args.Contains("--uk") ? ["uk"] : []).Concat(args.Contains("--eu") ? ["eu"] : []).Concat(args.Contains("--pk") ? ["pk"] : []).ToList();
+    .Concat(args.Contains("--uk") ? ["uk"] : []).Concat(args.Contains("--eu") ? ["eu"] : []).Concat(args.Contains("--pk") ? ["pk"] : []).Concat(args.Contains("--anz") ? ["anz"] : []).ToList();
 var runAll = args.Contains("--all");
 if (!runAll && marketIds.Count == 0 && args.Any(a => a.StartsWith("--", StringComparison.Ordinal) && a is not ("--refresh-lists" or "--refresh-uk-list" or "--strict")))
 {

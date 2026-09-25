@@ -94,6 +94,8 @@ export function CompanyPage({ ticker, from, showExecutives, onExplore, onLoaded 
   const europe = /\.(PA|AS|MI|MC)$/.test(d.detail.ticker);
   // Pakistan Stock Exchange (".KA"): figures read from the company's annual report PDF.
   const pakistan = d.detail.ticker.endsWith('.KA');
+  // ASX (".AX") and NZX (".NZ"): figures read from the annual report on the company's own website.
+  const anz = /\.(AX|NZ)$/.test(d.detail.ticker);
   const locations = [...d.detail.locations].sort((a, b) => near ? distance(a)! - distance(b)! : 0);
   const shownLocations = allLocations ? locations : locations.slice(0, SHOWN_LOCATIONS);
   const website = d.detail.website ? d.detail.website.replace(/^https?:\/\//, '').replace(/\/$/, '') : null;
@@ -227,6 +229,8 @@ export function CompanyPage({ ticker, from, showExecutives, onExplore, onLoaded 
             ? `Source: the company's annual reports (ESEF)${d.detail.asOfDate ? `, latest year ending ${d.detail.asOfDate}` : ''}. Executive pay isn't collected for European companies yet.`
           : pakistan
             ? `Source: the company's annual reports filed with the Pakistan Stock Exchange${d.detail.asOfDate ? `, latest year ending ${d.detail.asOfDate}` : ''} — revenue and profit from the statement of profit or loss (the group's when it has subsidiaries), and the chief executive's pay from the note on remuneration of the chief executive, directors and executives. Company details from the exchange's company profile.`
+          : anz
+            ? `Source: the company's annual report, from its own website${d.detail.asOfDate ? `, latest year ending ${d.detail.asOfDate}` : ''} — revenue and profit attributable to shareholders from the statement of profit or loss (or the Appendix 4E results summary). Executive pay isn't collected for Australian and New Zealand companies yet.`
             : `Source: the company's SEC filings (10-K, 20-F or 40-F annual reports, 10-Q quarterly reports and DEF 14A proxy statements)${d.detail.asOfDate ? `, as of ${d.detail.asOfDate}` : ''}.`}
         {d.detail.description?.toLowerCase().includes('synthetic') && ' This is sample data — figures are synthetic.'}
       </p>
