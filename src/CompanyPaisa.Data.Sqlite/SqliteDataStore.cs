@@ -324,8 +324,9 @@ public static class SqliteDataStore
             FROM executive_compensation ORDER BY rowid
             """, r => new ExecutiveCompensation
         {
-            // Titles are tidied as they load, so footnote text a past import let into them doesn't reach the site.
-            CompanyId = r.GetString(0), PersonId = r.GetString(1), ExecutiveName = r.GetString(2), Title = ExecutiveTitles.Clean(r.GetString(3)), Year = r.GetInt32(4),
+            // Titles are tidied by ExecutivePayCleanup below (as they load, so footnote text a past import let in doesn't reach
+            // the site); it needs them raw first, to spot a neighbour's name that ran into the cell.
+            CompanyId = r.GetString(0), PersonId = r.GetString(1), ExecutiveName = r.GetString(2), Title = r.GetString(3), Year = r.GetInt32(4),
             Salary = Money(r, 5)!.Value, Bonus = Money(r, 6)!.Value, StockAwards = Money(r, 7)!.Value, Other = Money(r, 8)!.Value,
             Total = Money(r, 9)!.Value, SourceFiling = Filing(r, 10)
         });
@@ -362,6 +363,13 @@ public static class SqliteDataStore
         var people = Query(db, "SELECT person_id, name, sec_cik FROM people ORDER BY rowid",
                 r => new Person { PersonId = r.GetString(0), Name = r.GetString(1), SecCik = Text(r, 2) })
             .DistinctBy(p => p.PersonId, StringComparer.OrdinalIgnoreCase).ToList();
+        // Names tidied, table labels dropped and one executive under two spellings merged as they load, so what a past
+        // import let in doesn't reach the site. Announced appointments follow a merged person.
+        var cleaned = ExecutivePayCleanup.Apply(pay, people);
+        pay = cleaned.Pay.ToList();
+        people = cleaned.People.ToList();
+        if (cleaned.Merged.Count > 0)
+            appointments = appointments.Select(a => a.PersonId is { } id && cleaned.Merged.TryGetValue((a.CompanyId, id), out var to) ? a with { PersonId = to } : a).ToList();
 
         // One row per market and key; the data set's version lists every market's.
         var meta = Query(db, "SELECT market, key, value FROM meta ORDER BY market", r => (Market: r.GetString(0), Key: r.GetString(1), Value: r.GetString(2)))

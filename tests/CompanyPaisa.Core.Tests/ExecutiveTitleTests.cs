@@ -29,6 +29,15 @@ public class ExecutiveTitleTests
     [InlineData("Former President, Product, Technology, and Operations ........................", "Former President, Product, Technology, and Operations")]
     [InlineData("Former President, Global Spine Former Officers:", "Former President, Global Spine")]
     [InlineData("Chief Operating Officer    975,586", "Chief Operating Officer")]
+    [InlineData("Chief Executive Officer $- - $962 - Heather Dixon Chief Financial Officer", "Chief Executive Officer")]
+    [InlineData(". Chief Operating Officer", "Chief Operating Officer")]
+    [InlineData("-Executive Vice President and Chief Marketing Officer", "Executive Vice President and Chief Marketing Officer")]
+    [InlineData("age President of Wealth Management", "President of Wealth Management")]
+    [InlineData("former Chief Innovation Officer", "Former Chief Innovation Officer")]
+    [InlineData("Former Co-CEO)", "Former Co-CEO")]
+    [InlineData("Chief Financial Officer ...", "Chief Financial Officer")]
+    [InlineData("Ph.D. Chief Scientific Officer", "Chief Scientific Officer")]
+    [InlineData("M.D. Chief Medical Officer", "Chief Medical Officer")]
     public void Footnotes_other_people_and_amounts_are_cut_from_the_title(string raw, string shown) =>
         Assert.Equal(shown, ExecutiveTitles.Clean(raw));
 

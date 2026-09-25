@@ -19,6 +19,8 @@ public static partial class ExecutiveTitles
     public static string Clean(string? title)
     {
         var t = Spaces().Replace(title ?? "", " ").Trim();
+        // Punctuation or the "age" column left in front: ". Chief Operating Officer", "-Executive Vice President", "age 59".
+        t = LeadingDebris().Replace(t, "");
         // The person's own name (or a year) in front of the title: "James L. Dolan Executive Chairman…" → "Executive Chairman…".
         t = LeadingName().Replace(t, "");
         if (FootnoteAtStart().IsMatch(t)) return Fallback;
@@ -31,6 +33,10 @@ public static partial class ExecutiveTitles
             t = cut == nextPerson && !before.Contains(' ') && t[(m.Index + m.Length)..].Trim() is { Length: > 3 } after ? after : before;
         }
         t = SectionLabel().Replace(t.TrimEnd(' ', ',', ';', ':', '-', '–', '—', '('), "").TrimEnd(' ', ',', ';', ':', '-', '–', '—', '(');
+        // A closing bracket whose opening one went with the name: "Former Co-CEO)".
+        if (t.EndsWith(')') && !t.Contains('(')) t = t.TrimEnd(')').TrimEnd();
+        // "former Chief Innovation Officer": titles start with a capital.
+        if (t.Length > 0 && char.IsLower(t[0])) t = char.ToUpperInvariant(t[0]) + t[1..];
         if (t.Length > MaxLength)
         {
             var cut = t.LastIndexOf(' ', MaxLength);
@@ -69,7 +75,9 @@ public static partial class ExecutiveTitles
     /// Pay amounts from the row that leaked in (" 108,150 — 2,000,011", " (111,306)", " — — —"), dot leaders (" ......") and a
     /// footnote number left at the end ("Former Chief Revenue Officer 1").
     /// </summary>
-    [GeneratedRegex(@"\s*\.{4,}|\s+(?:\(?\d{1,3}(?:,\d{3})+\)?(?!\w)|[—–](?=\s*(?:[—–]|\d|$))|\d{1,2}$)")] private static partial Regex Amounts();
+    [GeneratedRegex(@"\s*\.{4,}|\s+\.{2,}$|\s+(?:\(?\d{1,3}(?:,\d{3})+\)?(?!\w)|[—–](?=\s*(?:[—–]|\d|$))|\d{1,2}$|\$\s?[\d—–-])")] private static partial Regex Amounts();
+    /// <summary>". ", ", ", "-" or the age column ("age 59", "age ") before the title.</summary>
+    [GeneratedRegex(@"^(?:[.,;:\-–—]+\s*|age\s+(?:\d{2}\b\s*)?|(?:Ph\.?\s?D\.?|M\.?\s?D\.?|J\.?\s?D\.?|CPA|Esq\.?)(?:,\s*|\s+)(?=\p{Lu}))+", RegexOptions.IgnoreCase)] private static partial Regex LeadingDebris();
     /// <summary>A table's section heading left at the end: "… Former Officers", "… Former Employees:".</summary>
     [GeneratedRegex(@"\s+(?:Former|Current|Other)\s+(?:Officers|Employees|Executives|Executive\s+Officers|NEOs)\s*$")] private static partial Regex SectionLabel();
     /// <summary>Any run of spaces, including the non-breaking, thin and zero-width ones filings use for layout.</summary>

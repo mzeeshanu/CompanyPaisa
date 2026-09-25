@@ -57,6 +57,11 @@ To add a metro: add a `Regions` entry in the importer settings (`Country` "US" o
 6. **People** — each proxy name is matched to the company's SEC insider list (everyone who filed Forms 3/4/5, with
    their own CIK), so `person_id` = `steven-fife-<CIK>` is the same person at every company, and two different
    "John Smith"s never merge. Names that can't be matched get a company-scoped id (`john-smith-<ticker>`).
+7. **Cleanup as it loads** — the website (and `--validate`) reads pay through `ExecutivePayCleanup` and `ExecutiveTitles`
+   (`src/CompanyPaisa.Core/Services`), so what the database holds raw is tidied on the way in: table debris cut from names
+   and titles, table labels read as names dropped, one executive under two spellings merged (similar names paid exactly
+   the same, never two SEC insiders), and a row dropped when its title names the person whose identical package it is (a
+   neighbour's name ran into the cell). The rows in `companypaisa.db` are left as the filings gave them.
 
 **Known gaps** (see `import-report.md`): foreign private issuers (e.g. NICE) don't file DEF 14A, so no executive pay;
 a few small companies use table layouts the parser doesn't recognise yet.

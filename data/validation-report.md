@@ -1,11 +1,11 @@
-# Data validation report — 2026-09-22 17:35 UTC
+# Data validation report — 2026-09-25 03:49 UTC
 
-Checks everything in `companypaisa.db` together, as the website sees it — markets: uk (uk-2026.09.14), eu (eu-2026.09.15), pk (pk-2026.09.19), sec (sec-2026.09.22).
+Checks everything in `companypaisa.db` together, as the website sees it — markets: uk (uk-2026.09.14), eu (eu-2026.09.15), pk (pk-2026.09.19), sec (sec-2026.09.22), anz (anz-2026.09.24).
 
 **Errors** are values that can't be right. **Warnings** are unusual values worth a look — many are real (big acquisitions, holding-company gains, mega stock grants). Nothing here changes the data.
 
 - Errors: **0**
-- Warnings: **662**
+- Warnings: **663**
 
 ## Checks
 
@@ -33,9 +33,9 @@ Checks everything in `companypaisa.db` together, as the website sees it — mark
 | Pay | Same person, company and year twice | Error | ✓ 0 |
 | Pay | Salary bigger than total | Warning | ✓ 0 |
 | Pay | Impossibly large total | Error | ✓ 0 |
-| Pay | Very large total | Warning | 65 |
+| Pay | Very large total | Warning | 64 |
 | Pay | Tiny total | Warning | ✓ 0 |
-| Pay | Name doesn't look like a person | Warning | 1 |
+| Pay | Name doesn't look like a person | Warning | 3 |
 | Pay | Pieces don't add up to the total | Warning | ✓ 0 |
 
 ## Overview
@@ -51,8 +51,9 @@ Checks everything in `companypaisa.db` together, as the website sees it — mark
 | CA | 144 |
 | IT | 139 |
 | ES | 93 |
+| AU | 90 |
 | NL | 71 |
-| AU | 17 |
+| NZ | 11 |
 | ? | 1 |
 
 ### Companies by exchange
@@ -60,27 +61,32 @@ Checks everything in `companypaisa.db` together, as the website sees it — mark
 | | Count |
 |---|---|
 | Nasdaq | 2,160 |
-| NYSE | 1,620 |
+| NYSE | 1,446 |
 | LSE | 328 |
 | Pakistan Stock Exchange | 228 |
 | OTC | 209 |
 | Euronext Paris | 180 |
+| NYSE American | 158 |
 | Borsa Italiana | 139 |
 | Bolsa de Madrid | 93 |
+| ASX | 73 |
 | Euronext Amsterdam | 71 |
+| NYSE Arca | 16 |
+| NZX | 11 |
 | Unlisted | 3 |
-| CBOE | 2 |
+| Cboe | 2 |
 
 ### Companies by reporting currency
 
 | | Count |
 |---|---|
-| USD | 3,990 |
+| USD | 3,996 |
 | EUR | 486 |
 | GBP | 268 |
 | PKR | 228 |
+| AUD | 73 |
 | CAD | 50 |
-| AUD | 6 |
+| NZD | 11 |
 | GEL | 2 |
 | CNY | 1 |
 | HKD | 1 |
@@ -90,19 +96,19 @@ Checks everything in `companypaisa.db` together, as the website sees it — mark
 
 | | Count |
 |---|---|
-| Other | 783 |
-| Finance | 747 |
-| Healthcare | 682 |
-| Consumer & retail | 597 |
-| Industrials | 516 |
-| Software & IT | 354 |
-| Energy & utilities | 279 |
-| Real estate | 230 |
+| Other | 816 |
+| Finance | 755 |
+| Healthcare | 687 |
+| Consumer & retail | 605 |
+| Industrials | 525 |
+| Software & IT | 358 |
+| Energy & utilities | 284 |
+| Real estate | 231 |
 | Business services | 213 |
-| Materials | 192 |
+| Materials | 200 |
 | Technology hardware | 145 |
-| Media & telecom | 105 |
-| Transportation | 92 |
+| Media & telecom | 107 |
+| Transportation | 93 |
 | Semiconductors | 77 |
 | Education | 21 |
 
@@ -122,17 +128,17 @@ Checks everything in `companypaisa.db` together, as the website sees it — mark
 |---|---|
 | 10+ | 2,451 |
 | 6–9 | 1,194 |
-| 3–5 | 1,053 |
-| 1–2 | 232 |
+| 3–5 | 1,106 |
+| 1–2 | 263 |
 | 0 (quarters only) | 103 |
 
 ### Newest annual figures
 
 | | Count |
 |---|---|
-| FY 2025 | 4,197 |
-| FY 2026 | 412 |
-| FY 2024 | 276 |
+| FY 2025 | 4,223 |
+| FY 2026 | 466 |
+| FY 2024 | 280 |
 | none | 103 |
 | 2023 or older | 45 |
 
@@ -140,12 +146,12 @@ Checks everything in `companypaisa.db` together, as the website sees it — mark
 
 | | Count |
 |---|---|
-| Companies | 5,033 |
-| Locations | 5,043 |
-| Annual periods | 37,543 |
+| Companies | 5,117 |
+| Locations | 5,127 |
+| Annual periods | 37,761 |
 | Quarterly periods | 132,444 |
-| Pay rows | 89,806 |
-| People | 23,704 |
+| Pay rows | 88,731 |
+| People | 23,224 |
 
 ## Details
 
@@ -272,7 +278,7 @@ Shown with quarterly figures only; the headline 'annual revenue' comes from the 
 - RNA (Atrium Therapeutics, Inc.)
 - … and 91 more
 
-### Pay · Very large total (65)
+### Pay · Very large total (64)
 
 Total above $150M (US-dollar equivalent) in one year — happens (mega stock grants), but check it's not a unit error.
 
@@ -288,11 +294,13 @@ Total above $150M (US-dollar equivalent) in one year — happens (mega stock gra
 - AFRM (Affirm Holdings, Inc.) Max Levchin 2021: 451.2M
 - APO (Apollo Global Management, Inc.) Scott Kleinman 2021: 437.0M
 - RIVN (Rivian Automotive, Inc. / DE) Robert J. Scaringe 2021: 422.1M
-- … and 53 more
+- … and 52 more
 
-### Pay · Name doesn't look like a person (1)
+### Pay · Name doesn't look like a person (3)
 
 Digits, company words or table labels where a person's name should be.
 
 - JDMT.KA (Janana De Malucho Textile Mills Limited): "Lt. Gen. (Retd.) Ali Kuli Khan Khattak"
+- JACK (Jack In The Box Inc): "Martin"
+- JACK (Jack In The Box Inc): "Tuckerr"
 
