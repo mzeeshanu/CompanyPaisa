@@ -4,7 +4,7 @@ const DARK_QUERY = '(prefers-color-scheme: dark)';
 /** Height of the widget in pixels; the card keeps this space so nothing jumps when it loads. */
 const WIDGET_HEIGHT = 300;
 /** Full names for the exchanges we store short; the rest ("NYSE American", "Euronext Paris"…) read fine as they are. */
-const EXCHANGE_NAMES: Record<string, string> = { Nasdaq: 'Nasdaq Stock Market', NYSE: 'New York Stock Exchange' };
+const EXCHANGE_NAMES: Record<string, string> = { Nasdaq: 'Nasdaq Stock Market', NYSE: 'New York Stock Exchange', ASX: 'Australian Securities Exchange' };
 
 /** True when the page is drawn dark: the visitor's theme choice (data-mode on <html>), else the system setting. */
 function useDarkMode(): boolean {
