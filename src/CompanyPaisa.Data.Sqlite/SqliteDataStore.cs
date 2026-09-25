@@ -365,6 +365,9 @@ public static class SqliteDataStore
             .DistinctBy(p => p.PersonId, StringComparer.OrdinalIgnoreCase).ToList();
         // Names tidied, table labels dropped and one executive under two spellings merged as they load, so what a past
         // import let in doesn't reach the site. Announced appointments follow a merged person.
+        // Figures a filing tagged in the wrong unit (1,000× off what the company's own quarters or neighbouring years say),
+        // and fourth quarters worked out from them, corrected as they load.
+        financials = FinancialsCleanup.Apply(financials).Financials.ToList();
         var cleaned = ExecutivePayCleanup.Apply(pay, people);
         pay = cleaned.Pay.ToList();
         people = cleaned.People.ToList();

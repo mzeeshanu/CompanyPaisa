@@ -55,10 +55,15 @@ public static class EsefFinancials
         }
 
         var years = new List<EsefYear>();
-        // The reported year and its comparative: annual-length periods ending ~0 and ~1 year before the report date.
+        // The report's own year: the latest year-long period it tags, up to the date the index gives. The index sometimes
+        // gives the filing date instead of the year end (Unilever's reports since 2022 are listed at 9 February), and a
+        // year ending six weeks earlier would otherwise not be found.
+        var anchor = facts.Where(f => (f.End.DayNumber - f.Start.DayNumber) is >= 340 and <= 380 && f.End <= reportPeriodEnd.AddDays(10))
+            .Select(f => f.End).DefaultIfEmpty(reportPeriodEnd).Max();
+        // The reported year and its comparative: annual-length periods ending ~0 and ~1 year before the report's year end.
         foreach (var yearsBack in new[] { 0, 1 })
         {
-            var target = reportPeriodEnd.AddYears(-yearsBack);
+            var target = anchor.AddYears(-yearsBack);
             var inYear = facts.Where(f => Math.Abs(f.End.DayNumber - target.DayNumber) <= 10 && (f.End.DayNumber - f.Start.DayNumber) is >= 340 and <= 380).ToList();
             // Plain "Revenue" when tagged; otherwise the largest candidate — banks tag a fee-income sub-line
             // (HSBC's $3bn) alongside interest income, and the sub-line badly understates the business.

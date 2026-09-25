@@ -105,6 +105,25 @@ public class UkImporterTests
         Assert.Contains(years, y => y.FiscalYear == 2025 && y.Revenue == 69_916_000_000m);
     }
 
+    /// <summary>Unilever since 2022: the index lists the report at its filing date (9 February), not its year end.</summary>
+    [Fact]
+    public void Finds_the_year_when_the_index_gives_the_filing_date()
+    {
+        const string json = """
+            { "facts": {
+              "f1": { "value": "60073000000", "dimensions": { "concept": "ifrs-full:Revenue", "entity": "lei:X", "period": "2022-01-01T00:00:00/2023-01-01T00:00:00", "unit": "iso4217:EUR" } },
+              "f2": { "value": "52444000000", "dimensions": { "concept": "ifrs-full:Revenue", "entity": "lei:X", "period": "2021-01-01T00:00:00/2022-01-01T00:00:00", "unit": "iso4217:EUR" } },
+              "f3": { "value": "7642000000", "dimensions": { "concept": "ifrs-full:ProfitLossAttributableToOwnersOfParent", "entity": "lei:X", "period": "2022-01-01T00:00:00/2023-01-01T00:00:00", "unit": "iso4217:EUR" } },
+              "f4": { "value": "6049000000", "dimensions": { "concept": "ifrs-full:ProfitLossAttributableToOwnersOfParent", "entity": "lei:X", "period": "2021-01-01T00:00:00/2022-01-01T00:00:00", "unit": "iso4217:EUR" } }
+            } }
+            """;
+
+        var years = EsefFinancials.Extract(json, new DateOnly(2023, 2, 9));
+
+        Assert.Equal([2022, 2021], years.Select(y => y.FiscalYear));
+        Assert.Equal(60_073_000_000m, years[0].Revenue);
+    }
+
     [Theory]
     [InlineData("Ken Murphy", true)]
     [InlineData("Dame Emma Walmsley", true)]

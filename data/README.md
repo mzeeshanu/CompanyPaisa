@@ -49,7 +49,9 @@ To add a metro: add a `Regions` entry in the importer settings (`Country` "US" o
    same ZIP share a point.
 4. **Financials** — SEC XBRL "company facts" (US GAAP, or IFRS for Canadian 40-F filers, in the reported currency):
    revenue and net income per SEC calendar frame (annual + quarterly);
-   a missing fiscal Q4 is derived as annual minus the other three quarters. Every period links to its filing.
+   a missing fiscal Q4 is derived as annual minus the other three quarters. Every period links to its filing. Facts from
+   proxy statements are never used (their pay-versus-performance tables tag net income, often without the "in thousands"
+   scale, and the SEC's frame can point at them): the same period's figure from the 10-K/10-Q is taken instead.
 5. **Executive pay** — the Summary Compensation Table in each DEF 14A proxy statement (newest first, older ones only for
    missing years). Salary, bonus, stock + option awards, other (non-equity incentive, pension, all other) and total.
    The **total** is always the filed figure; if the parsed pieces don't add up, the difference is shown as "other" and
@@ -61,7 +63,9 @@ To add a metro: add a `Regions` entry in the importer settings (`Country` "US" o
    (`src/CompanyPaisa.Core/Services`), so what the database holds raw is tidied on the way in: table debris cut from names
    and titles, table labels read as names dropped, one executive under two spellings merged (similar names paid exactly
    the same, never two SEC insiders), and a row dropped when its title names the person whose identical package it is (a
-   neighbour's name ran into the cell). The rows in `companypaisa.db` are left as the filings gave them.
+   neighbour's name ran into the cell). Financial figures go through `FinancialsCleanup`: a year 1,000× off what its own
+   quarters (or both neighbouring years) say is rescaled, and fourth quarters worked out from it are redone. The rows in
+   `companypaisa.db` are left as the filings gave them.
 
 **Known gaps** (see `import-report.md`): foreign private issuers (e.g. NICE) don't file DEF 14A, so no executive pay;
 a few small companies use table layouts the parser doesn't recognise yet.

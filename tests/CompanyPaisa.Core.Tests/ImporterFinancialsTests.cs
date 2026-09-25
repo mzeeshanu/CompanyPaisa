@@ -47,6 +47,28 @@ public class XbrlFinancialsExtractorTests
         Assert.Equal(8_880_000_000m, Assert.Single(result.Periods).Revenue);
     }
 
+    /// <summary>
+    /// Con Edison 2023: the SEC's CY2023 frame points at the proxy statement's pay-versus-performance net income, tagged
+    /// $2,519,000 (thousands without the scale); the 10-K states the same year as $2,519,000,000.
+    /// </summary>
+    [Fact]
+    public void Takes_figures_from_reports_not_from_proxy_statements()
+    {
+        var json = """
+            { "facts": { "us-gaap": {
+                "Revenues": { "units": { "USD": [ { "start": "2023-01-01", "end": "2023-12-31", "val": 14663000000, "frame": "CY2023", "accn": "0001047862-24-000010", "form": "10-K", "filed": "2024-02-15" } ] } },
+                "NetIncomeLoss": { "units": { "USD": [
+                  { "start": "2023-01-01", "end": "2023-12-31", "val": 2519000000, "accn": "0001047862-24-000010", "form": "10-K", "filed": "2024-02-15" },
+                  { "start": "2023-01-01", "end": "2023-12-31", "val": 2519000, "frame": "CY2023", "accn": "0001047862-26-000078", "form": "DEF 14A", "filed": "2026-04-08" } ] } }
+            } } }
+            """;
+
+        var result = new XbrlFinancialsExtractor().Extract("ED", 1047862, json, years: 10);
+
+        var year = Assert.Single(result.Periods);
+        Assert.Equal(2_519_000_000m, year.NetIncome);
+    }
+
     /// <summary>Acadia Healthcare 2018: "Revenues" held a $1.9bn sub-line while contract revenue had the $3.0bn total.</summary>
     [Fact]
     public void Takes_the_largest_revenue_line_for_each_period()

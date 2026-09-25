@@ -222,17 +222,38 @@ public sealed partial class XbrlFinancialsExtractor : IFinancialsExtractor
         return counts.ContainsKey("USD") || counts.Count == 0 ? "USD" : counts.MaxBy(kv => kv.Value).Key;
     }
 
+    /// <summary>
+    /// A concept's facts in one currency, each with the SEC's calendar frame ("CY2023", "CY2023Q2"). Facts from proxy
+    /// statements are never used: their pay-versus-performance tables tag the year's net income too, often without the
+    /// "in thousands" scale — Con Edison's 2023 proxy gave its $2.5 billion profit as $2,519,000 — and the SEC's frame then
+    /// points at that proxy fact. The frame goes to the same period's figure from a report (10-K, 10-Q, 20-F, 40-F…).
+    /// </summary>
     internal static IEnumerable<Fact> Facts(JsonElement gaap, string concept, string currency = "USD")
     {
         if (!gaap.TryGetProperty(concept, out var c) || !c.TryGetProperty("units", out var units) || !units.TryGetProperty(currency, out var usd))
             yield break;
+        var all = new List<(Fact Fact, string Form, string Filed)>();
         foreach (var f in usd.EnumerateArray())
         {
             if (!f.TryGetProperty("end", out var endEl) || !DateOnly.TryParse(endEl.GetString(), CultureInfo.InvariantCulture, out var end)) continue;
             DateOnly? start = f.TryGetProperty("start", out var s) && DateOnly.TryParse(s.GetString(), CultureInfo.InvariantCulture, out var sd) ? sd : null;
             var frame = f.TryGetProperty("frame", out var fr) ? fr.GetString() : null;
-            yield return new Fact(start, end, f.GetProperty("val").GetDecimal(), frame, f.TryGetProperty("accn", out var acc) ? acc.GetString() ?? "" : "");
+            var form = f.TryGetProperty("form", out var fo) ? fo.GetString() ?? "" : "";
+            var filed = f.TryGetProperty("filed", out var fi) ? fi.GetString() ?? "" : "";
+            all.Add((new Fact(start, end, f.GetProperty("val").GetDecimal(), frame, f.TryGetProperty("accn", out var acc) ? acc.GetString() ?? "" : ""), form, filed));
         }
+        foreach (var (fact, form, _) in all)
+        {
+            if (!IsProxy(form)) { yield return fact; continue; }
+            if (fact.Frame is null) continue;
+            // The frame moves to the newest report that states the same period.
+            var report = all.Where(x => !IsProxy(x.Form) && x.Fact.Start == fact.Start && x.Fact.End == fact.End)
+                .OrderByDescending(x => x.Filed, StringComparer.Ordinal).Select(x => x.Fact).FirstOrDefault();
+            if (report is not null) yield return report with { Frame = fact.Frame };
+        }
+
+        static bool IsProxy(string form) => form.StartsWith("DEF 14", StringComparison.Ordinal) || form.StartsWith("DEFA14", StringComparison.Ordinal)
+                                            || form.StartsWith("PRE 14", StringComparison.Ordinal) || form.StartsWith("DEFM14", StringComparison.Ordinal);
     }
 
     private static string? FilingUrl(long cik, string accession) =>
