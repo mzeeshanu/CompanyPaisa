@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import * as d3 from 'd3';
+import * as d3 from '../lib/d3';
 import type { ExecutiveSort, ExecutiveSummary, ExecutivesNearResponse, PayPoint, RoleFilter } from '../api/types';
 import { money, pct, tone, total } from '../lib/format';
 import { companyPath, Link, personPath } from '../lib/router';

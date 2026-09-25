@@ -1,11 +1,12 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import * as d3 from 'd3';
+import * as d3 from '../lib/d3';
 import { api } from '../api/client';
 import type { CompanyDetail, JobSalariesResponse, JobSalary, JobSalarySet, WorkerPay } from '../api/types';
 import { money } from '../lib/format';
 import { Filing } from './Filing';
 import { companyPath, Link } from '../lib/router';
 import { milesBetween, PageBack, type Nearby } from './PageShell';
+import { titled } from '../lib/title';
 
 /** How long the CEO takes to earn the median employee's year: "9 days", "14 hours". */
 function catchUp(ratio: number): string {
@@ -84,7 +85,7 @@ export function SalariesPage({ ticker, from, onLoaded }: { ticker: string; from:
     api.company(ticker).then(c => {
       if (cancelled) return;
       setCompany(c);
-      document.title = `${c.name} (${c.ticker}) salaries by job title · CompanyPaisa`;
+      document.title = titled(`${c.name} (${c.ticker}) salaries by job title`);
       loaded.current(`salaries at ${c.name}`);
     }, () => { if (!cancelled) setMissing(true); });
     return () => { cancelled = true; };

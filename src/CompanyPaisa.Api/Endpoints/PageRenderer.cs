@@ -144,11 +144,16 @@ public sealed class PageRenderer(
 
     // ---- Salaries ------------------------------------------------------------------------------------------------
 
-    /// <summary>A company's salaries on their own page: every job title from each source, with its places.</summary>
-    public async Task<PageContent> SalariesAsync(Company c, CancellationToken ct)
+    /// <summary>
+    /// A company's salaries on their own page: every job title from each source, with its places. Described as a schema.org
+    /// Dataset (Google shows those in Dataset Search; it no longer shows "estimated salary" results, and JobPosting is only
+    /// for the job ad itself). <paramref name="origin"/> is the site's address, for the Dataset's own URL.
+    /// </summary>
+    public async Task<PageContent> SalariesAsync(Company c, string origin, CancellationToken ct)
     {
         var rows = await repository.GetJobSalariesAsync(c.CompanyId, ct);
         var sources = await repository.GetJobSalarySourcesAsync(ct);
+        var used = sources.Where(s => rows.Any(r => r.Source == s.Kind)).ToList();
         var h = new Html();
         h.Open("h1").Text($"Salaries at {c.Name} ({c.Ticker})").Close("h1");
         h.Open("p").Text("What the company pays by job title, from its own US job ads and its work-visa wage filings. ")
@@ -172,7 +177,25 @@ public sealed class PageRenderer(
                 }));
         }
         h.Open("p").Text("Figures are from the company's own job ads and filings. ").Link("/", "Find public companies near you").Close("p");
-        return new PageContent(h.ToString());
+
+        var titleCount = rows.Count(r => r.City is null);
+        var data = used.Count == 0 ? null : new Dictionary<string, object?>
+        {
+            ["@context"] = "https://schema.org", ["@type"] = "Dataset",
+            ["name"] = $"{c.Name} ({c.Ticker}) salaries by job title",
+            ["description"] = $"Yearly salaries {c.Name} offers for {titleCount:N0} US job titles: the number of " +
+                              string.Join(" and ", used.Select(s => s.Kind == JobSalary.JobAds ? "job ads" : "work-visa (H-1B) wage filings")) +
+                              ", the typical salary and its range for each title, and the cities it hires in.",
+            ["url"] = $"{origin}{CompanyPath(c)}/salaries",
+            ["isAccessibleForFree"] = true,
+            ["creator"] = new Dictionary<string, object?> { ["@type"] = "Organization", ["name"] = "CompanyPaisa", ["url"] = origin + "/" },
+            ["about"] = new Dictionary<string, object?> { ["@type"] = "Corporation", ["name"] = c.Name, ["url"] = c.Website },
+            ["spatialCoverage"] = "United States",
+            ["temporalCoverage"] = $"{used.Min(s => s.From):yyyy-MM}/{used.Max(s => s.To):yyyy-MM}",
+            ["variableMeasured"] = new[] { "Job title", "Number of job ads or filings", "Median yearly salary (USD)", "Salary range (USD)", "City" },
+            ["isBasedOn"] = used.Select(s => s.Source).Where(s => s.Length > 0).Distinct().ToArray(),
+        };
+        return new PageContent(h.ToString(), data);
     }
 
     // ---- Executive -----------------------------------------------------------------------------------------------

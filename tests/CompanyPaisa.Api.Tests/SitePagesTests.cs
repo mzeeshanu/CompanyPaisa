@@ -78,11 +78,21 @@ public class SitePagesTests(SitePagesFactory factory) : IClassFixture<SitePagesF
     }
 
     [Fact]
+    public void Titles_keep_the_site_name_only_when_it_fits()
+    {
+        Assert.Equal("Apple (AAPL) salaries by job title · CompanyPaisa", SitePages.Titled("Apple (AAPL) salaries by job title"));
+        var long_ = "International Flavors & Fragrances Inc. (IFF): revenue, profit and executive pay";
+        Assert.Equal(long_, SitePages.Titled(long_));   // the name would only be cut off
+        Assert.True(SitePages.HomeTitle.Length <= SitePages.MaxTitleLength);
+    }
+
+    [Fact]
     public async Task The_home_page_links_every_area_and_the_largest_companies()
     {
         var html = await factory.CreateClient().GetStringAsync("/");
 
         Assert.Contains("<h1>Public companies near you", html);
+        Assert.Contains($"<title>{System.Text.Encodings.Web.HtmlEncoder.Default.Encode(SitePages.HomeTitle)}</title>", html);
         Assert.Contains("<a href=\"/near/84043\">", html);
         Assert.Contains("<a href=\"/company/", html);
         Assert.Contains("<link rel=\"canonical\" href=\"http://localhost/\" />", html);

@@ -1,11 +1,8 @@
-import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { lazy, Suspense, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { api, ApiError } from './api/client';
 import type { ClientConfig, CompanyBubble, CompanySort, DataMeta, ExecutiveSort, ExecutivesNearResponse, NearbyResponse, RoleFilter } from './api/types';
 import { AboutData } from './components/AboutData';
-import { CompanyPage } from './components/CompanyPage';
-import { SalariesPage } from './components/WorkforcePay';
 import { ConsentBanner } from './components/ConsentBanner';
-import { ExecutivePage } from './components/ExecutivePage';
 import { ExecutivesView } from './components/ExecutivesView';
 import { ListView } from './components/ListView';
 import { LocationGate, type Origin } from './components/LocationGate';
@@ -21,6 +18,14 @@ import {
   type Consent, type Mode, type Theme,
 } from './lib/prefs';
 import { navigate, replaceAddress, savedScroll, searchPath, useRoute } from './lib/router';
+import { HOME_TITLE } from './lib/title';
+
+// The company, salaries and executive pages (and their charts) are fetched when one is first opened, so a visitor who lands
+// on a search or the home page doesn't download them.
+const CompanyPage = lazy(() => import('./components/CompanyPage').then(m => ({ default: m.CompanyPage })));
+const SalariesPage = lazy(() => import('./components/WorkforcePay').then(m => ({ default: m.SalariesPage })));
+const ExecutivePage = lazy(() => import('./components/ExecutivePage').then(m => ({ default: m.ExecutivePage })));
+const pageLoading = <main className="wrap page"><p className="fine page-loading">Loading…</p></main>;
 
 const FALLBACK_CONFIG: ClientConfig = {
   defaultTheme: 'Auto', defaultRadiusMiles: 25, allowedRadiiMiles: [5, 10, 25, 50], defaultSort: 'Revenue',
@@ -123,7 +128,7 @@ export default function App() {
     }, ms));
     const done = setTimeout(() => { root.style.overflowAnchor = ''; }, 1000);
     // The same title the server writes for the home page (search engines read the page after the app has run).
-    if (onHome) document.title = 'CompanyPaisa — public companies near you: revenue, profit and executive pay';
+    if (onHome) document.title = HOME_TITLE;
     else { setTip(null); setPageAbout(''); }
     return () => { timers.forEach(clearTimeout); clearTimeout(done); root.style.overflowAnchor = ''; };
   }, [route, onHome]);
@@ -368,16 +373,18 @@ export default function App() {
 
         {route.kind === 'company' && (
           <>
-            {route.salaries
-              ? <SalariesPage ticker={route.ticker} from={nearby} onLoaded={setPageAbout} />
-              : <CompanyPage ticker={route.ticker} from={nearby} showExecutives={showExecutives} onExplore={explore} onLoaded={setPageAbout} />}
+            <Suspense fallback={pageLoading}>
+              {route.salaries
+                ? <SalariesPage ticker={route.ticker} from={nearby} onLoaded={setPageAbout} />
+                : <CompanyPage ticker={route.ticker} from={nearby} showExecutives={showExecutives} onExplore={explore} onLoaded={setPageAbout} />}
+            </Suspense>
             {footer}
           </>
         )}
 
         {route.kind === 'executive' && (
           <>
-            <ExecutivePage personId={route.personId} from={nearby} onLoaded={setPageAbout} />
+            <Suspense fallback={pageLoading}><ExecutivePage personId={route.personId} from={nearby} onLoaded={setPageAbout} /></Suspense>
             {footer}
           </>
         )}

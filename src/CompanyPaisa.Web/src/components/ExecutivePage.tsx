@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import * as d3 from 'd3';
+import * as d3 from '../lib/d3';
 import { api, ApiError } from '../api/client';
 import type { ExecutiveDetail } from '../api/types';
 import { money, pct, tone } from '../lib/format';
@@ -7,6 +7,7 @@ import { companyPath, Link } from '../lib/router';
 import { initials } from './ExecutivesView';
 import { Filing } from './Filing';
 import { PageBack, type Nearby } from './PageShell';
+import { titled } from '../lib/title';
 
 interface Props {
   personId: string;
@@ -31,7 +32,7 @@ export function ExecutivePage({ personId, from, onLoaded }: Props) {
       .then(p => {
         if (cancelled) return;
         setData(p);
-        document.title = `${p.name}, ${p.currentTitle} at ${p.currentCompany.name} — pay history · CompanyPaisa`;
+        document.title = titled(`${p.name} (${p.currentCompany.name}): pay history`);
         loadedFor.current(`${p.name} (executive)`);
       })
       .catch(e => {

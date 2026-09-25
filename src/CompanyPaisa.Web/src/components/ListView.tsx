@@ -1,5 +1,5 @@
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
-import * as d3 from 'd3';
+import * as d3 from '../lib/d3';
 import type { CompanyBubble, CompanySort, NearbyResponse, Region } from '../api/types';
 import { bubbleRadius, money, pct, tone, total, trendClass } from '../lib/format';
 import { hasStates, stateName } from '../lib/regions';

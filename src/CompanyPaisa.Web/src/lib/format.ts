@@ -1,5 +1,5 @@
 import type { TrendStatus } from '../api/types';
-import * as d3 from 'd3';
+import * as d3 from './d3';
 
 const SYMBOLS: Record<string, string> = { USD: '$', GBP: '£', EUR: '€', CAD: 'C$', AUD: 'A$', NZD: 'NZ$', PKR: 'Rs ', HKD: 'HK$' };
 

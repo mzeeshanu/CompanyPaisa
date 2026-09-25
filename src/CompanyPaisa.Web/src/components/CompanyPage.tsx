@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import * as d3 from 'd3';
+import * as d3 from '../lib/d3';
 import { api, ApiError } from '../api/client';
 import type { CompanyDetail, CompanyInsights, Executive, FinancialPeriod, GeoPoint, Location, PeriodType } from '../api/types';
 import { money, pct, tone, trendClass } from '../lib/format';
@@ -9,6 +9,7 @@ import { Filing } from './Filing';
 import { SharePrice } from './SharePrice';
 import { JobSalaries, PayRatioCard } from './WorkforcePay';
 import { milesBetween, PageBack, type Nearby } from './PageShell';
+import { titled } from '../lib/title';
 
 interface Props {
   ticker: string;
@@ -53,7 +54,7 @@ export function CompanyPage({ ticker, from, showExecutives, onExplore, onLoaded 
     ]).then(([detail, q, a, ex, insights]) => {
       if (cancelled) return;
       setData({ detail, quarterly: q.periods.slice(-12), annual: a.periods, executives: ex.executives, insights });
-      document.title = `${detail.name} (${detail.ticker}) — revenue, profit and executive pay · CompanyPaisa`;
+      document.title = titled(`${detail.name} (${detail.ticker}): revenue, profit and executive pay`);
       loadedFor.current(`${detail.name} (${detail.ticker})`);
     }).catch(e => {
       if (cancelled) return;

@@ -7,6 +7,7 @@ using CompanyPaisa.Api.Options;
 using CompanyPaisa.Core.Abstractions;
 using CompanyPaisa.Core.Domain;
 using CompanyPaisa.Core.Services;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
 
 namespace CompanyPaisa.Api.Endpoints;
@@ -30,7 +31,7 @@ public static partial class SitePages
     {
         // The home page (served here rather than as a static file, so it carries its content too).
         app.MapGet("/", async (PageRenderer pages, IndexHtml index, HttpContext http, CancellationToken ct) =>
-                Page(index, new PageMeta("CompanyPaisa — public companies near you: revenue, profit and executive pay",
+                Page(index, new PageMeta(HomeTitle,
                     "See the public companies near you, how big they are, where they're heading, what their executives are paid and what their jobs pay.", "/"),
                     http, await pages.HomeAsync(Origin(http), ct)))
             .ExcludeFromDescription();
@@ -46,7 +47,7 @@ public static partial class SitePages
                     var hq = (await repository.GetLocationsAsync(company.CompanyId, ct)).FirstOrDefault(l => l.IsHeadquarters);
                     var where = hq is null ? "" : $", headquartered in {hq.City}, {hq.State}";
                     meta = new PageMeta(
-                        $"{company.Name} ({company.Ticker}) — revenue, profit and executive pay · CompanyPaisa",
+                        Titled($"{company.Name} ({company.Ticker}): revenue, profit and executive pay"),
                         $"{company.Name} ({company.Ticker}), {company.Sector}{where}: revenue, net income and executive pay over the years, from the company's filings.",
                         CompanyPath(company.Ticker), [(company.Name, CompanyPath(company.Ticker))]);
                 }
@@ -64,10 +65,10 @@ public static partial class SitePages
                 PageContent? content = null;
                 if (company is not null && salaries.Count > 0)
                 {
-                    content = await pages.SalariesAsync(company, ct);
+                    content = await pages.SalariesAsync(company, Origin(http), ct);
                     var titles = salaries.Count(j => j.City is null);
                     meta = new PageMeta(
-                        $"{company.Name} ({company.Ticker}) salaries by job title · CompanyPaisa",
+                        Titled($"{company.Name} ({company.Ticker}) salaries by job title"),
                         $"What {company.Name} pays: {titles:N0} job titles with their typical yearly salary and range, by city, from the company's US job ads and work-visa wage filings.",
                         CompanyPath(company.Ticker) + "/salaries", [(company.Name, CompanyPath(company.Ticker)), ("Salaries", CompanyPath(company.Ticker) + "/salaries")]);
                 }
@@ -90,7 +91,7 @@ public static partial class SitePages
                     var role = latest is null || company is null ? "" : $", {latest.Title} at {company.Name}";
                     var path = $"/executive/{Uri.EscapeDataString(person.PersonId)}";
                     meta = new PageMeta(
-                        $"{person.Name}{(company is null ? "" : $" ({company.Name})")} — pay history · CompanyPaisa",
+                        Titled($"{person.Name}{(company is null ? "" : $" ({company.Name})")}: pay history"),
                         $"{person.Name}{role}: salary, bonus, stock awards and total pay by year, from company filings.",
                         path, company is null ? [(person.Name, path)] : [(company.Name, CompanyPath(company.Ticker)), (person.Name, path)]);
                 }
@@ -113,14 +114,14 @@ public static partial class SitePages
                 PageContent? content = null;
                 // Different for every visitor, and empty until the app knows where they are: not for search results.
                 if (place.Equals("me", StringComparison.OrdinalIgnoreCase))
-                    meta = new PageMeta($"{what} near you · CompanyPaisa",
+                    meta = new PageMeta(Titled($"{what} near you"),
                         "See the public companies near you, how big they are, where they're heading and what their executives are paid.", path, Index: false);
                 else if (Regions.Find(place) is { } region)
                 {
                     if (place != region.Slug) return MovedTo(region.Slug);
                     // A whole country or state: /near/texas, /near/united-kingdom, /near/US-TX.
                     var where = region.InSentence;
-                    meta = new PageMeta($"{what} in {where} · CompanyPaisa",
+                    meta = new PageMeta(Titled($"{what} in {where}"),
                         executives
                             ? $"Named executives of public companies in {where}: latest pay, 10-year totals and careers, from company filings."
                             : $"Every public company in {where}: revenue, growth, profit and executive pay, from company filings.", path,
@@ -134,7 +135,7 @@ public static partial class SitePages
                     var hit = place.Length <= 20 ? await geo.LookupAsync(place, ct) : null;
                     if (hit is not null && await CanonicalPlaceAsync(place, hit, geo, ct) is var tidy && tidy != place) return MovedTo(tidy);
                     var where = hit is null ? null : string.Join(" ", new[] { $"{hit.City}, {hit.State}", hit.PostalCode }.Where(p => !string.IsNullOrWhiteSpace(p)));
-                    meta = where is null ? null : new PageMeta($"{what} near {where} · CompanyPaisa",
+                    meta = where is null ? null : new PageMeta(Titled($"{what} near {where}"),
                         executives
                             ? $"Named executives of public companies near {where}: latest pay, 10-year totals and careers, from company filings."
                             : $"Public companies near {where}: revenue, growth, profit and executive pay, from company filings.", path,
@@ -158,7 +159,7 @@ public static partial class SitePages
         app.MapGet("/sitemap.xml", async (ICompanyRepository repository, IOptionsMonitor<UiOptions> ui, IOptionsMonitor<FeatureOptions> features,
                 HttpContext http, CancellationToken ct) =>
             {
-                var paths = await SitemapPathsAsync(repository, ui.CurrentValue, features.CurrentValue.IsEnabled("Executives"), ct);
+                var paths = await CachedSitemapPathsAsync(http, repository, ui.CurrentValue, features.CurrentValue.IsEnabled("Executives"), ct);
                 var lastModified = (await repository.GetMetadataAsync(ct)).AsOfDate;
                 var files = (paths.Count + SitemapFileSize - 1) / SitemapFileSize;
                 http.Response.Headers.CacheControl = "public, max-age=86400";
@@ -169,7 +170,7 @@ public static partial class SitePages
         app.MapGet("/sitemap-{file:int:min(1)}.xml", async (int file, ICompanyRepository repository, IOptionsMonitor<UiOptions> ui,
                 IOptionsMonitor<FeatureOptions> features, HttpContext http, CancellationToken ct) =>
             {
-                var paths = await SitemapPathsAsync(repository, ui.CurrentValue, features.CurrentValue.IsEnabled("Executives"), ct);
+                var paths = await CachedSitemapPathsAsync(http, repository, ui.CurrentValue, features.CurrentValue.IsEnabled("Executives"), ct);
                 var page = paths.Skip((file - 1) * SitemapFileSize).Take(SitemapFileSize).ToList();
                 if (page.Count == 0) return Results.NotFound();
                 var lastModified = (await repository.GetMetadataAsync(ct)).AsOfDate;
@@ -186,6 +187,23 @@ public static partial class SitePages
     /// Console reports each one separately.
     /// </summary>
     public const int SitemapFileSize = 10_000;
+
+    /// <summary>
+    /// The sitemap's addresses, built once per loaded data set (and at most an hour old) rather than for the index and again
+    /// for every numbered file: building them looks up every company's salaries.
+    /// </summary>
+    private static async Task<IReadOnlyList<string>> CachedSitemapPathsAsync(HttpContext http, ICompanyRepository repository, UiOptions ui,
+        bool executives, CancellationToken ct)
+    {
+        var meta = await repository.GetMetadataAsync(ct);
+        var cache = http.RequestServices.GetRequiredService<IMemoryCache>();
+        return (await cache.GetOrCreateAsync($"sitemap:{meta.DataVersion}:{meta.LoadedAt.UtcTicks}:{executives}", entry =>
+        {
+            entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(1);
+            entry.Size = 1;   // the shared cache has a size limit
+            return SitemapPathsAsync(repository, ui, executives, ct);
+        }))!;
+    }
 
     /// <summary>The home page, every covered area, every country and state with companies, every company and every executive.</summary>
     public static async Task<IReadOnlyList<string>> SitemapPathsAsync(ICompanyRepository repository, UiOptions ui, bool executives, CancellationToken ct)
@@ -373,6 +391,19 @@ public static partial class SitePages
         if (meta.Index && meta.Trail is { Count: > 0 } trail) head += "    " + PageRenderer.JsonLd(Breadcrumbs(origin, trail)) + "\n";
         return InHead(html, head);
     }
+
+    /// <summary>The home page's title (the website sets the same one when it comes back to the home page).</summary>
+    public const string HomeTitle = "CompanyPaisa — public companies near you and what they pay";
+
+    /// <summary>
+    /// A page's title: its own words first, then " · CompanyPaisa" when that still fits in the ~65 characters search results
+    /// show (beyond that the name would only be cut off, and Google shows the site's name above the result anyway).
+    /// The website's titled() in lib/title.ts does the same.
+    /// </summary>
+    public static string Titled(string words) => words.Length + Brand.Length <= MaxTitleLength ? words + Brand : words;
+
+    private const string Brand = " · CompanyPaisa";
+    public const int MaxTitleLength = 65;
 
     /// <summary>The picture link previews show (1200×630, in the website's public folder).</summary>
     public const string ShareImage = "/og-image.png";
