@@ -124,6 +124,26 @@ public class UkImporterTests
         Assert.Equal(60_073_000_000m, years[0].Revenue);
     }
 
+    /// <summary>Centrica since 2024: revenue tagged only in its own income-statement columns; the statutory one counts.</summary>
+    [Fact]
+    public void Reads_the_statutory_column_when_a_line_has_no_plain_figure()
+    {
+        const string json = """
+            { "facts": {
+              "f1": { "value": "22365000000", "dimensions": { "concept": "ifrs-full:Revenue", "entity": "lei:X", "period": "2025-01-01T00:00:00/2026-01-01T00:00:00", "cna:GroupIncomeStatementAxis": "cna:BusinessPerformanceMember", "unit": "iso4217:GBP" } },
+              "f2": { "value": "-2873000000", "dimensions": { "concept": "ifrs-full:Revenue", "entity": "lei:X", "period": "2025-01-01T00:00:00/2026-01-01T00:00:00", "cna:GroupIncomeStatementAxis": "cna:ExceptionalItemsAndCertainReMeasurementsMember", "unit": "iso4217:GBP" } },
+              "f3": { "value": "19492000000", "dimensions": { "concept": "ifrs-full:Revenue", "entity": "lei:X", "period": "2025-01-01T00:00:00/2026-01-01T00:00:00", "cna:GroupIncomeStatementAxis": "cna:ResultsForTheYearMember", "unit": "iso4217:GBP" } },
+              "f4": { "value": "900000000", "dimensions": { "concept": "ifrs-full:ProfitLossAttributableToOwnersOfParent", "entity": "lei:X", "period": "2025-01-01T00:00:00/2026-01-01T00:00:00", "unit": "iso4217:GBP" } },
+              "f5": { "value": "5000000000", "dimensions": { "concept": "ifrs-full:Revenue", "entity": "lei:X", "period": "2025-01-01T00:00:00/2026-01-01T00:00:00", "ifrs-full:SegmentsAxis": "cna:RetailMember", "unit": "iso4217:GBP" } }
+            } }
+            """;
+
+        var year = Assert.Single(EsefFinancials.Extract(json, new DateOnly(2025, 12, 31)));
+
+        Assert.Equal(19_492_000_000m, year.Revenue);
+        Assert.Equal(900_000_000m, year.NetIncome);
+    }
+
     [Theory]
     [InlineData("Ken Murphy", true)]
     [InlineData("Dame Emma Walmsley", true)]

@@ -1,28 +1,28 @@
-# European import report — 2026-09-15 20:28 UTC
+# European import report — 2026-09-25 14:52 UTC
 
 Scope: France, Netherlands, Italy, Spain — companies with shares on the home exchange that file ESEF annual reports. Financials only (no executives). Sources: filings.xbrl.org, GLEIF, OpenFIGI, GeoNames.
 
-- Companies included: **483**
-- Years of figures: 2423
+- Companies included: **484**
+- Years of figures: 2438
 - Postcodes written: 40385
-- Network requests this run: 1149
+- Network requests this run: 0
 
 | Country | Area | Companies |
 |---|---|---|
 | France | Paris | 123 |
 | France | Rest of France | 49 |
 | France | Lyon | 8 |
-| Italy | Rest of Italy | 62 |
-| Italy | Milan | 56 |
+| Italy | Rest of Italy | 63 |
+| Italy | Milan | 55 |
 | Italy | Rome | 17 |
 | Italy | Turin | 4 |
 | Netherlands | Amsterdam | 32 |
-| Netherlands | Rest of Netherlands | 23 |
+| Netherlands | Rest of Netherlands | 22 |
 | Netherlands | Rotterdam–The Hague | 11 |
 | Netherlands | Eindhoven | 5 |
-| Spain | Madrid | 52 |
+| Spain | Madrid | 53 |
 | Spain | Rest of Spain | 29 |
-| Spain | Barcelona | 12 |
+| Spain | Barcelona | 13 |
 
 ## Included — France (180)
 
@@ -48,7 +48,7 @@ Scope: France, Netherlands, Italy, Spain — companies with shares on the home e
 | ALTOU.PA | Touax SCA - Sgtr - Cite - Sgt - Cmte - Taf - Slm Touage Investissements Reunies | Puteaux | €161.1M | 2019–2020 |
 | AMUN.PA | Amundi | Paris | €166.6M | 2020–2025 |
 | ANTIN.PA | Antin Infrastructure Partners | Paris | €292.5M | 2020–2025 |
-| ARAMI.PA | Aramis Group | Arcueil | €2.38B | 2022–2025 |
+| ARAMI.PA | Aramis Group | Arcueil | €2.38B | 2021–2025 |
 | AREIT.PA | Altareit | Paris | €32.9M | 2019–2024 |
 | ASY.PA | Assystem | Courbevoie | €656.6M | 2020–2025 |
 | ATE.PA | Alten | Boulogne-Billancourt | €4.10B | 2020–2025 |
@@ -69,7 +69,6 @@ Scope: France, Netherlands, Italy, Spain — companies with shares on the home e
 | BVI.PA | Bureau Veritas | Courbevoie | €6.47B | 2019–2025 |
 | CA.PA | Carrefour | Massy | €84.03B | 2020–2025 |
 | CAP.PA | Capgemini | Paris | €22.10B | 2020–2024 |
-| CARM.PA | Carmila | Paris | €40.2M | 2022–2024 |
 | CBSM.PA | Soc Centrale Bois Scieries Manche | Paris | €23.3M | 2021–2025 |
 | CDA.PA | Compagnie Des Alpes | Paris | €1.40B | 2020–2025 |
 | CEN.PA | Groupe Crit | Paris | €3.37B | 2019–2025 |
@@ -90,9 +89,9 @@ Scope: France, Netherlands, Italy, Spain — companies with shares on the home e
 | EDEN.PA | Edenred | Issy-Les-Moulineaux | €2.96B | 2019–2025 |
 | EFG.PA | Eagle Football Group | Decines-Charpieu | €162.6M | 2021–2025 |
 | EKI.PA | Ekinops | Lannion | €105.0M | 2021–2025 |
+| EL.PA | Essilorluxottica | Charenton-Le-Pont | €26.51B | 2020–2024 |
 | ELIOR.PA | Elior Group | Courbevoie | €6.15B | 2021–2025 |
 | ELIS.PA | Elis | Puteaux | €4.80B | 2020–2025 |
-| ELNV.PA | Essilorluxottica | Charenton-Le-Pont | €26.51B | 2020–2024 |
 | EMEIS.PA | Emeis | Puteaux | €5.90B | 2020–2025 |
 | EN.PA | Bouygues | Paris | €56.75B | 2020–2024 |
 | ENGI.PA | Engie | Courbevoie | €71.94B | 2020–2025 |
@@ -147,7 +146,7 @@ Scope: France, Netherlands, Italy, Spain — companies with shares on the home e
 | MMT.PA | Metropole Television | Neuilly-Sur-Seine | €1.31B | 2020–2024 |
 | MRN.PA | Mersen | Courbevoie | €1.19B | 2020–2025 |
 | MTU.PA | Manitou Bf | Ancenis-Saint-Gereon | €2.56B | 2019–2025 |
-| NACON.PA | Nacon | Fretin | €167.9M | 2022–2025 |
+| NACON.PA | Nacon | Fretin | €167.9M | 2021–2025 |
 | NANO.PA | Nanobiotix | Paris | €29.6M | 2020–2025 |
 | NEX.PA | Nexans | Puteaux | €7.81B | 2020–2025 |
 | NK.PA | Imerys | Paris | €3.38B | 2021–2025 |
@@ -165,16 +164,16 @@ Scope: France, Netherlands, Italy, Spain — companies with shares on the home e
 | PUB.PA | Publicis Groupe SA | Paris | €16.03B | 2021–2024 |
 | QDT.PA | Quadient S.A. | Bagneux | €1.04B | 2023–2026 |
 | RBO.PA | Roche Bobois | Paris | €402.5M | 2020–2025 |
-| RCO.PA | Remy Cointreau | Cognac | €935.3M | 2021–2026 |
+| RCO.PA | Remy Cointreau | Cognac | €935.3M | 2020–2026 |
 | RF.PA | Eurazeo | Paris | €419.2M | 2020–2025 |
-| RI.PA | Pernod Ricard | Paris | €10.96B | 2021–2025 |
+| RI.PA | Pernod Ricard | Paris | €10.96B | 2020–2025 |
 | RMS.PA | Hermes International | Paris | €16.00B | 2019–2025 |
 | RNO.PA | Renault | Boulogne-Billancourt | €57.92B | 2020–2025 |
 | RUI.PA | Rubis | Paris | €6.53B | 2020–2025 |
 | SAF.PA | Safran | Paris | €31.66B | 2019–2025 |
 | SAMS.PA | Samse | Grenoble | €1.93B | 2020–2024 |
 | SAN.PA | Sanofi | Paris | €43.63B | 2019–2025 |
-| SCHP.PA | Seche Environnement | Change | €1.26B | 2020–2025 |
+| SCHP.PA | Seche Environnement | Laval | €1.26B | 2020–2025 |
 | SCR.PA | SCOR SE | Paris | €16.13B | 2022–2024 |
 | SGO.PA | Compagnie De Saint-Gobain | Courbevoie | €46.48B | 2020–2025 |
 | SIGHT.PA | Gensight Biologics | Paris 12 | €1.5M | 2020–2024 |
@@ -202,6 +201,7 @@ Scope: France, Netherlands, Italy, Spain — companies with shares on the home e
 | VIV.PA | Vivendi SE | Paris | €307.0M | 2024–2025 |
 | VK.PA | Vallourec | Meudon | €4.03B | 2023–2024 |
 | VLA.PA | Valneva | Lyon | €174.7M | 2020–2025 |
+| VLTSA.PA | Voltalia | Paris | €587.9M | 2023–2025 |
 | VMX.PA | Verimatrix | Meyreuil | $46.5M | 2019–2025 |
 | VRLA.PA | Verallia | Courbevoie | €3.46B | 2020–2024 |
 | VU.PA | Vusiongroup | Nanterre | €1.47B | 2021–2025 |
@@ -209,7 +209,7 @@ Scope: France, Netherlands, Italy, Spain — companies with shares on the home e
 | WAVE.PA | Wavestone | Puteaux | €954.3M | 2021–2026 |
 | WLN.PA | Worldline | Puteaux | €4.03B | 2020–2025 |
 
-## Included — Netherlands (71)
+## Included — Netherlands (70)
 
 | Ticker | Company | City | Latest revenue | Years |
 |---|---|---|---|---|
@@ -280,7 +280,6 @@ Scope: France, Netherlands, Italy, Spain — companies with shares on the home e
 | TRIO.AS | Triodos Bank N.V. | Driebergen-Rijsenburg | €536.7M | 2024–2025 |
 | TWEKA.AS | TKH Group N.V. | Haaksbergen | €1.76B | 2020–2025 |
 | UMG.AS | Universal Music Group N.V. | Hilversum | €12.51B | 2024–2025 |
-| VLK.AS | Van Lanschot Kempen N.V. | 'S-Hertogenbosch | €370.8M | 2021–2025 |
 | VPK.AS | Koninklijke Vopak N.V. | Rotterdam | €1.30B | 2024–2025 |
 | WHA.AS | Wereldhave N.V. | Amsterdam | €215.9M | 2020–2025 |
 | WKL.AS | Wolters Kluwer N.V. | Alphen aan den Rijn | €6.13B | 2020–2025 |
@@ -303,11 +302,11 @@ Scope: France, Netherlands, Italy, Spain — companies with shares on the home e
 | B.MI | Bastogi S.p.A. | Milano | €60.4M | 2021–2025 |
 | BAN.MI | Basic Net S.p.A. | Torino | €348.3M | 2021–2025 |
 | BC.MI | Brunello Cucinelli S.p.A. | Corciano | €188K | 2020–2025 |
-| BDB.MI | Banco Di Desio E Della Brianza Societa' Per Azioni | Desio | €449.4M | 2023–2025 |
 | BEC.MI | B&C Speakers S.p.A. | Bagno A Ripoli | €99.1M | 2023–2025 |
 | BFF.MI | Bff Bank S.p.A. | Milano | €459.8M | 2021–2025 |
 | BFG.MI | B.F. S.p.A. | Jolanda Di Savoia | €1.63B | 2020–2025 |
 | BMED.MI | Banca Mediolanum S.p.A. | Basiglio | €1.15B | 2020–2025 |
+| BMPS.MI | Banca Monte Dei Paschi Di Siena S.p.A. | Siena | €4.01B | 2020–2025 |
 | BO.MI | Borgosesia S.p.A. | Milano | €632K | 2020–2024 |
 | BPE.MI | Bper Banca S.p.A. | Modena | €4.73B | 2020–2024 |
 | BRE.MI | Brembo N.V. | Bergamo | €3.70B | 2020–2025 |
@@ -371,11 +370,11 @@ Scope: France, Netherlands, Italy, Spain — companies with shares on the home e
 | ITM.MI | Italmobiliare Societa' Per Azioni O In Forma Abbreviata Italmobiliare S.p.A. | Milano | €773.4M | 2020–2025 |
 | ITW.MI | Itway S.p.A. | Milano | €56.7M | 2020–2024 |
 | IWB.MI | Italian Wine Brands S.P.A. O In Forma Abbreviata Iwb S.p.A. | Milano | €401.9M | 2020–2024 |
-| KME.MI | Kme Group S.p.A. | Milano | €1.57B | 2022–2024 |
+| KMER.MI | Kme Group S.p.A. | Milano | €1.57B | 2022–2024 |
 | LDO.MI | Leonardo - Societa' Per Azioni | Roma | €17.76B | 2020–2024 |
 | LUVE.MI | "Lu-Ve - S.P.A." | Varese | €603.8M | 2022–2025 |
 | MAIRE.MI | Maire S.p.A. | Roma | €7.10B | 2020–2025 |
-| MB.MI | Mediobanca - Banca Di Credito Finanziario S.p.A. | Milan | €1.66B | 2021–2022 |
+| MB.MI | Mediobanca - Banca Di Credito Finanziario S.p.A. | Milan | €3.28B | 2021–2025 |
 | MET.MI | Met.Extra Group S.p.A. | Milano | €39.2M | 2023–2024 |
 | MN.MI | Arnoldo Mondadori Editore S.p.A. | Milano | €931.6M | 2023–2025 |
 | MOL.MI | "Moltiply Group S.P.A.", Ovvero, In Breve, "Mol Group S.P.A." O Anche "Gruppo Mol S.P.A." | Milano | €674.1M | 2020–2025 |
@@ -423,19 +422,20 @@ Scope: France, Netherlands, Italy, Spain — companies with shares on the home e
 | UD.MI | Unidata S.p.A. | Roma | €101.3M | 2022–2024 |
 | UNI.MI | Unipol Assicurazioni S.p.A. | Bologna | €10.07B | 2022–2025 |
 | VLS.MI | Valsoia S.P.A. (In Forma Estesa "Valsoia - Bonta' E Salute - S.P.A." O In Sigla Anche "V.B.S. S.P.A.") | Bologna | €117.9M | 2025–2025 |
-| WBDR.MI | Webuild S.p.A. | Rozzano | €12.64B | 2020–2025 |
+| WBD.MI | Webuild S.p.A. | Rozzano | €12.64B | 2020–2025 |
 | WIIT.MI | Wiit S.p.A. | Milano | €164.0M | 2021–2025 |
 | YACHT.MI | Ferretti S.p.A. | Cattolica | €1.24B | 2022–2024 |
 | ZEST.MI | Zest Societa' Per Azioni | Roma | €11.23B | 2023–2025 |
 | ZV.MI | Zignago Vetro S.P.A. Con La Sigla "Z.V. S.P.A." | Fossalta Di Portogruaro | €444.8M | 2020–2025 |
 
-## Included — Spain (93)
+## Included — Spain (95)
 
 | Ticker | Company | City | Latest revenue | Years |
 |---|---|---|---|---|
 | A3M.MC | Atresmedia Corporacion De Medios De Comunicacion, S.A. | San Sebastián de los Reyes | €919.0M | 2020–2024 |
 | ACS.MC | ACS Actividades De Construccion Y Servicios, S.A. | Madrid | €41.63B | 2020–2024 |
 | ACX.MC | Acerinox SA | Madrid | €5.41B | 2019–2024 |
+| ADX.MC | Audax Renovables S.A. | Badalona | €1.98B | 2019–2024 |
 | AENA.MC | Aena S.M.E. SA | Madrid | €5.76B | 2020–2024 |
 | AI.MC | Airtificial Intelligence Structures SA | Madrid | €110.1M | 2020–2024 |
 | ALB.MC | Corporacion Financiera Alba, S.A. | Madrid | €15.1M | 2020–2024 |
@@ -446,6 +446,7 @@ Scope: France, Netherlands, Italy, Spain — companies with shares on the home e
 | ANE.MC | Corporacion Acciona Energias Renovables SA | Madrid | €3.05B | 2020–2024 |
 | ATRY.MC | Atrys Health, S.A. | Madrid | €201.6M | 2020–2023 |
 | AZK.MC | Azkoyen SA | Peralta/Azkoien | €199.0M | 2020–2024 |
+| BKT.MC | Bankinter Sociedad Anonima | Madrid | €4.40B | 2019–2024 |
 | CABK.MC | Caixabank SA | Valencia | €20.90B | 2019–2024 |
 | CASH.MC | Prosegur Cash, S.A. | Madrid | €2.09B | 2020–2024 |
 | CBAV.MC | Clinica Baviera SA | Madrid | €262.6M | 2019–2024 |

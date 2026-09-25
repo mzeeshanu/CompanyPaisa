@@ -14,7 +14,7 @@ public sealed record EsefYear(int FiscalYear, DateOnly PeriodEnd, decimal Revenu
         RevenueCandidates.TryGetValue(concept, out var v) ? this with { Revenue = v, RevenueConcept = concept } : this;
 }
 
-public static class EsefFinancials
+public static partial class EsefFinancials
 {
     /// <summary>Revenue concepts in order of preference. Banks and insurers rarely tag plain "Revenue".</summary>
     internal static readonly string[] RevenueConcepts =
@@ -28,7 +28,7 @@ public static class EsefFinancials
     private const string OperatingConcept = "ifrs-full:ProfitLossFromOperatingActivities";
     private const string EpsConcept = "ifrs-full:BasicEarningsLossPerShare";
 
-    private sealed record Fact(string Concept, DateOnly Start, DateOnly End, string Unit, decimal Value);
+    private sealed record Fact(string Concept, DateOnly Start, DateOnly End, string Unit, decimal Value, bool Statutory = false);
 
     public static List<EsefYear> Extract(string json, DateOnly reportPeriodEnd)
     {
@@ -39,8 +39,13 @@ public static class EsefFinancials
         foreach (var f in allFacts.EnumerateObject().Select(p => p.Value))
         {
             if (!f.TryGetProperty("dimensions", out var dims) || !dims.TryGetProperty("concept", out _)) continue;
-            // Company-level figures only: any extra axis (segment, restatement member…) means a breakdown.
-            if (dims.EnumerateObject().Any(d => d.Name is not ("concept" or "entity" or "period" or "unit" or "language"))) continue;
+            // Company-level figures only: any extra axis (segment, restatement member…) means a breakdown — except a company's
+            // own income-statement columns whose member is the statutory total (Centrica since 2024 tags revenue only as
+            // "Business performance", "Exceptional items" and "ResultsForTheYear"); a plain figure still wins over it.
+            var extra = dims.EnumerateObject().Where(d => d.Name is not ("concept" or "entity" or "period" or "unit" or "language")).ToList();
+            var statutory = extra.Count == 1 && !extra[0].Name.StartsWith("ifrs-full:", StringComparison.Ordinal) &&
+                            StatutoryMember().IsMatch(extra[0].Value.GetString() ?? "");
+            if (extra.Count > 0 && !statutory) continue;
             var concept = dims.GetProperty("concept").GetString() ?? "";
             if (!RevenueConcepts.Contains(concept) && !NetIncomeConcepts.Contains(concept) && concept != OperatingConcept && concept != EpsConcept) continue;
             if (!dims.TryGetProperty("period", out var p) || p.GetString() is not { } period || !period.Contains('/')) continue;
@@ -51,8 +56,12 @@ public static class EsefFinancials
                 !decimal.TryParse(v.ValueKind == JsonValueKind.String ? v.GetString() : v.GetRawText(), NumberStyles.Float, CultureInfo.InvariantCulture, out var value)) continue;
             // xBRL-JSON periods end at midnight of the next day.
             facts.Add(new Fact(concept, DateOnly.FromDateTime(start), DateOnly.FromDateTime(endExclusive).AddDays(-1),
-                dims.TryGetProperty("unit", out var u) ? u.GetString() ?? "" : "", value));
+                dims.TryGetProperty("unit", out var u) ? u.GetString() ?? "" : "", value, statutory));
         }
+
+        // A statutory-column figure only where the report has no plain one for the same line and period.
+        var plain = facts.Where(f => !f.Statutory).Select(f => (f.Concept, f.Start, f.End, f.Unit)).ToHashSet();
+        facts = facts.Where(f => !f.Statutory || !plain.Contains((f.Concept, f.Start, f.End, f.Unit))).ToList();
 
         var years = new List<EsefYear>();
         // The report's own year: the latest year-long period it tags, up to the date the index gives. The index sometimes
@@ -84,6 +93,10 @@ public static class EsefFinancials
     }
 
     /// <summary>A 52/53-week year ending in the first days of January belongs to the year before.</summary>
+    /// <summary>A company's own income-statement column that is the statutory total ("cna:ResultsForTheYearMember").</summary>
+    [System.Text.RegularExpressions.GeneratedRegex(@":(ResultsForThe(Year|Period)|Statutory|StatutoryResults|Reported|ReportedResults|Total|TotalResults|IFRS)Member$", System.Text.RegularExpressions.RegexOptions.IgnoreCase)]
+    private static partial System.Text.RegularExpressions.Regex StatutoryMember();
+
     internal static int FiscalYearOf(DateOnly end) => end is { Month: 1, Day: <= 7 } ? end.Year - 1 : end.Year;
 
     public static FinancialPeriod ToPeriod(string companyId, EsefYear y, string source) => new()
