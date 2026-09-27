@@ -1,6 +1,7 @@
 using System.Net;
 using System.Net.Http.Json;
 using CompanyPaisa.Api.Analytics;
+using CompanyPaisa.Api.Endpoints;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Data.Sqlite;
@@ -144,6 +145,25 @@ public class AnalyticsApiTests(AnalyticsFactory factory) : IClassFixture<Analyti
         Assert.Equal(HttpStatusCode.Unauthorized, (await factory.CreateClient().GetAsync("/api/admin/analytics/report")).StatusCode);
         Assert.Equal(HttpStatusCode.Unauthorized, (await Admin("wrong-key-wrong-key").GetAsync("/api/admin/analytics/report")).StatusCode);
         Assert.Equal(HttpStatusCode.OK, (await Admin().GetAsync("/api/admin/analytics/report")).StatusCode);
+    }
+
+    /// <summary>The memory report sits behind the same key, and counts the rows the data set is holding.</summary>
+    [Fact]
+    public async Task The_memory_report_needs_the_key_and_reports_the_heap_and_the_rows()
+    {
+        Assert.Equal(HttpStatusCode.Unauthorized, (await factory.CreateClient().GetAsync("/health/memory")).StatusCode);
+        Assert.Equal(HttpStatusCode.Unauthorized, (await Admin("wrong-key-wrong-key").GetAsync("/health/memory")).StatusCode);
+
+        // Ask for a company first, so the data set is loaded and has rows to report.
+        await Visitor().GetAsync("/api/v1/companies/lfvn");
+        var report = await Admin().GetFromJsonAsync<MemoryReportResponse>("/health/memory");
+
+        Assert.NotNull(report);
+        Assert.True(report!.ManagedBytes > 0, "the heap should not be empty");
+        Assert.True(report.WorkingSetBytes >= report.ManagedBytes, "the process is at least its managed heap");
+        Assert.False(report.Gc.ServerMode, "the site is built for Workstation GC");
+        Assert.Contains(report.Rows, r => r.Kind == "companies" && r.Rows > 0);
+        Assert.Contains(report.Rows, r => r.Kind == "executive_pay" && r.Rows > 0);
     }
 
     private async Task<List<string>> EventsCsv()

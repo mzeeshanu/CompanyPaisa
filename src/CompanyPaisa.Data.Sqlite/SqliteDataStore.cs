@@ -289,6 +289,7 @@ public static class SqliteDataStore
         var version = Convert.ToInt32(Scalar(db, "PRAGMA user_version"), CultureInfo.InvariantCulture);
         if (version != SchemaVersion)
             throw new DataLoadException(path, [$"Database layout {version}; this version of the site reads layout {SchemaVersion}. Re-run the importers."]);
+        var pool = new StringPool();
         var filings = Query(db, "SELECT id, url FROM filings", r => (Id: r.GetInt64(0), Url: Expand(r.GetString(1)))).ToDictionary(x => x.Id, x => x.Url);
         string? Filing(SqliteDataReader r, int i) => r.IsDBNull(i) ? null : filings.GetValueOrDefault(r.GetInt64(i));
 
@@ -297,17 +298,17 @@ public static class SqliteDataStore
                    currency, pay_currency, fiscal_year_end, logo_url, as_of_date, careers_url FROM companies ORDER BY rowid
             """, r => new Company
         {
-            CompanyId = r.GetString(0), Name = r.GetString(1), Ticker = r.GetString(2), Exchange = r.GetString(3), Sector = r.GetString(4),
-            Industry = Text(r, 5), Website = Text(r, 6), Employees = r.IsDBNull(7) ? null : r.GetInt32(7), MarketCap = Money(r, 8),
-            Description = Text(r, 9), Currency = r.GetString(10), PayCurrency = Text(r, 11), FiscalYearEnd = Text(r, 12), LogoUrl = Text(r, 13),
+            CompanyId = r.GetString(0), Name = r.GetString(1), Ticker = r.GetString(2), Exchange = pool.Of(r.GetString(3)), Sector = pool.Of(r.GetString(4)),
+            Industry = pool.OrNull(Text(r, 5)), Website = Text(r, 6), Employees = r.IsDBNull(7) ? null : r.GetInt32(7), MarketCap = Money(r, 8),
+            Description = Text(r, 9), Currency = pool.Of(r.GetString(10)), PayCurrency = pool.OrNull(Text(r, 11)), FiscalYearEnd = pool.OrNull(Text(r, 12)), LogoUrl = Text(r, 13),
             AsOfDate = Text(r, 14) is { } d ? DateOnly.Parse(d, CultureInfo.InvariantCulture) : null, CareersUrl = Text(r, 15)
         });
         var locations = Query(db, """
             SELECT location_id, company_id, type, label, street, city, state, postal_code, latitude, longitude FROM locations ORDER BY rowid
             """, r => new CompanyLocation
         {
-            LocationId = r.GetString(0), CompanyId = r.GetString(1), Type = Enum.Parse<LocationType>(r.GetString(2)), Label = r.GetString(3),
-            Street = r.GetString(4), City = r.GetString(5), State = r.GetString(6), PostalCode = r.GetString(7),
+            LocationId = r.GetString(0), CompanyId = pool.Of(r.GetString(1)), Type = Enum.Parse<LocationType>(r.GetString(2)), Label = pool.Of(r.GetString(3)),
+            Street = r.GetString(4), City = pool.Of(r.GetString(5)), State = pool.Of(r.GetString(6)), PostalCode = r.GetString(7),
             Point = new GeoPoint(r.GetDouble(8), r.GetDouble(9))
         });
         var financials = Query(db, """
@@ -315,7 +316,7 @@ public static class SqliteDataStore
             FROM financials ORDER BY rowid
             """, r => new FinancialPeriod
         {
-            CompanyId = r.GetString(0), PeriodType = Enum.Parse<PeriodType>(r.GetString(1)), FiscalYear = r.GetInt32(2),
+            CompanyId = pool.Of(r.GetString(0)), PeriodType = Enum.Parse<PeriodType>(r.GetString(1)), FiscalYear = r.GetInt32(2),
             FiscalQuarter = r.IsDBNull(3) ? null : r.GetInt32(3), Revenue = Money(r, 4)!.Value, NetIncome = Money(r, 5)!.Value,
             OperatingIncome = Money(r, 6), Eps = Money(r, 7), SourceFiling = Filing(r, 8)
         });
@@ -326,7 +327,7 @@ public static class SqliteDataStore
         {
             // Titles are tidied by ExecutivePayCleanup below (as they load, so footnote text a past import let in doesn't reach
             // the site); it needs them raw first, to spot a neighbour's name that ran into the cell.
-            CompanyId = r.GetString(0), PersonId = r.GetString(1), ExecutiveName = r.GetString(2), Title = r.GetString(3), Year = r.GetInt32(4),
+            CompanyId = pool.Of(r.GetString(0)), PersonId = pool.Of(r.GetString(1)), ExecutiveName = pool.Of(r.GetString(2)), Title = pool.Of(r.GetString(3)), Year = r.GetInt32(4),
             Salary = Money(r, 5)!.Value, Bonus = Money(r, 6)!.Value, StockAwards = Money(r, 7)!.Value, Other = Money(r, 8)!.Value,
             Total = Money(r, 9)!.Value, SourceFiling = Filing(r, 10)
         });
@@ -337,7 +338,7 @@ public static class SqliteDataStore
                 SELECT company_id, person_id, name, title, announced_on, starts_on, filing_id, package FROM new_executives ORDER BY rowid
                 """, r => new NewExecutive
             {
-                CompanyId = r.GetString(0), PersonId = Text(r, 1), Name = r.GetString(2), Title = ExecutiveTitles.Clean(r.GetString(3)),
+                CompanyId = pool.Of(r.GetString(0)), PersonId = pool.OrNull(Text(r, 1)), Name = pool.Of(r.GetString(2)), Title = pool.Of(ExecutiveTitles.Clean(r.GetString(3))),
                 AnnouncedOn = DateOnly.Parse(r.GetString(4), CultureInfo.InvariantCulture),
                 StartsOn = Text(r, 5) is { } s ? DateOnly.Parse(s, CultureInfo.InvariantCulture) : null,
                 SourceFiling = Filing(r, 6),
@@ -345,23 +346,23 @@ public static class SqliteDataStore
             });
         var workerPay = Query(db, "SELECT company_id, year, median_pay, ceo_pay, ratio, filing_id FROM worker_pay ORDER BY rowid", r => new WorkerPay
         {
-            CompanyId = r.GetString(0), Year = r.GetInt32(1), MedianEmployeePay = Money(r, 2)!.Value, CeoPay = Money(r, 3)!.Value,
+            CompanyId = pool.Of(r.GetString(0)), Year = r.GetInt32(1), MedianEmployeePay = Money(r, 2)!.Value, CeoPay = Money(r, 3)!.Value,
             Ratio = Money(r, 4)!.Value, SourceFiling = Filing(r, 5)
         });
         var jobSalaries = Query(db, """
             SELECT company_id, title, occupation, city, state, latitude, longitude, filings, low, median, high, min, max, source, url FROM job_salaries ORDER BY rowid
             """, r => new JobSalary
         {
-            CompanyId = r.GetString(0), Title = r.GetString(1), Occupation = Text(r, 2), City = Text(r, 3), State = Text(r, 4),
+            CompanyId = pool.Of(r.GetString(0)), Title = pool.Of(r.GetString(1)), Occupation = pool.OrNull(Text(r, 2)), City = pool.OrNull(Text(r, 3)), State = pool.OrNull(Text(r, 4)),
             Point = r.IsDBNull(5) || r.IsDBNull(6) ? null : new GeoPoint(r.GetDouble(5), r.GetDouble(6)),
             Filings = r.GetInt32(7), Low = Money(r, 8)!.Value, Median = Money(r, 9)!.Value, High = Money(r, 10)!.Value,
-            Min = Money(r, 11)!.Value, Max = Money(r, 12)!.Value, Source = r.GetString(13), Url = Text(r, 14)
+            Min = Money(r, 11)!.Value, Max = Money(r, 12)!.Value, Source = pool.Of(r.GetString(13)), Url = Text(r, 14)
         });
         var extras = Query(db, "SELECT key, value FROM extras", r => (Key: r.GetString(0), Value: r.GetString(1)))
             .ToDictionary(x => x.Key, x => x.Value, StringComparer.Ordinal);
         var salarySources = jobSalaries.Select(j => j.Source).Distinct().Select(kind => SalarySource(extras, kind)).OfType<JobSalarySource>().ToList();
         var people = Query(db, "SELECT person_id, name, sec_cik FROM people ORDER BY rowid",
-                r => new Person { PersonId = r.GetString(0), Name = r.GetString(1), SecCik = Text(r, 2) })
+                r => new Person { PersonId = pool.Of(r.GetString(0)), Name = pool.Of(r.GetString(1)), SecCik = Text(r, 2) })
             .DistinctBy(p => p.PersonId, StringComparer.OrdinalIgnoreCase).ToList();
         // Names tidied, table labels dropped and one executive under two spellings merged as they load, so what a past
         // import let in doesn't reach the site. Announced appointments follow a merged person.
@@ -371,6 +372,9 @@ public static class SqliteDataStore
         var cleaned = ExecutivePayCleanup.Apply(pay, people);
         pay = cleaned.Pay.ToList();
         people = cleaned.People.ToList();
+        // The cleanup passes build fresh name strings per row; share them again so one tidy spelling is one instance.
+        pay = [.. pay.Select(p => p with { CompanyId = pool.Of(p.CompanyId), PersonId = pool.Of(p.PersonId), ExecutiveName = pool.Of(p.ExecutiveName), Title = pool.Of(p.Title) })];
+        people = [.. people.Select(p => p with { PersonId = pool.Of(p.PersonId), Name = pool.Of(p.Name) })];
         if (cleaned.Merged.Count > 0)
             appointments = appointments.Select(a => a.PersonId is { } id && cleaned.Merged.TryGetValue((a.CompanyId, id), out var to) ? a with { PersonId = to } : a).ToList();
 

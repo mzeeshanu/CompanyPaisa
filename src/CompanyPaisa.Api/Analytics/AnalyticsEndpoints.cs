@@ -106,7 +106,7 @@ public static class AnalyticsEndpoints
     }
 
     /// <summary>404 while no dashboard key is configured (the dashboard doesn't exist), 401 for a wrong key.</summary>
-    private static async ValueTask<object?> RequireDashboardKey(EndpointFilterInvocationContext context, EndpointFilterDelegate next)
+    public static async ValueTask<object?> RequireDashboardKey(EndpointFilterInvocationContext context, EndpointFilterDelegate next)
     {
         var key = context.HttpContext.RequestServices.GetRequiredService<IOptionsMonitor<AnalyticsOptions>>().CurrentValue.DashboardKey;
         if (string.IsNullOrWhiteSpace(key)) return Results.NotFound();

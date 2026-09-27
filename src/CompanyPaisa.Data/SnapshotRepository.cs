@@ -9,7 +9,7 @@ namespace CompanyPaisa.Data;
 /// its files (<see cref="Read"/>); this class checks the rows (<see cref="DataRules"/>), loads lazily, watches the files
 /// and swaps in a fresh snapshot when they change. A failed reload keeps the last good data.
 /// </summary>
-public abstract class SnapshotRepository : ICompanyRepository, IDisposable
+public abstract class SnapshotRepository : ICompanyRepository, IDataRowCounts, IDisposable
 {
     private readonly IClock _clock;
     private readonly IDataChangeSignal _changeSignal;
@@ -106,28 +106,28 @@ public abstract class SnapshotRepository : ICompanyRepository, IDisposable
     }
 
     public Task<IReadOnlyList<CompanyLocation>> GetLocationsAsync(string companyId, CancellationToken ct = default) =>
-        Task.FromResult(Data.LocationsByCompany.GetValueOrDefault(companyId) ?? []);
+        Task.FromResult(Data.LocationsByCompany[companyId]);
 
     public Task<IReadOnlyList<FinancialPeriod>> GetFinancialsAsync(string companyId, CancellationToken ct = default) =>
-        Task.FromResult(Data.FinancialsByCompany.GetValueOrDefault(companyId) ?? []);
+        Task.FromResult(Data.FinancialsByCompany[companyId]);
 
     public Task<IReadOnlyDictionary<string, IReadOnlyList<FinancialPeriod>>> GetFinancialsAsync(IEnumerable<string> companyIds, CancellationToken ct = default)
     {
         var data = Data;
         IReadOnlyDictionary<string, IReadOnlyList<FinancialPeriod>> result = companyIds
             .Distinct(StringComparer.OrdinalIgnoreCase)
-            .ToDictionary(id => id, id => data.FinancialsByCompany.GetValueOrDefault(id) ?? [], StringComparer.OrdinalIgnoreCase);
+            .ToDictionary(id => id, id => data.FinancialsByCompany[id], StringComparer.OrdinalIgnoreCase);
         return Task.FromResult(result);
     }
 
     public Task<IReadOnlyList<ExecutiveCompensation>> GetExecutiveCompensationAsync(string companyId, CancellationToken ct = default) =>
-        Task.FromResult(Data.ExecutivesByCompany.GetValueOrDefault(companyId) ?? []);
+        Task.FromResult(Data.ExecutivesByCompany[companyId]);
 
     public Task<IReadOnlyList<ExecutiveCompensation>> GetExecutiveCompensationAsync(IEnumerable<string> companyIds, CancellationToken ct = default)
     {
         var data = Data;
         IReadOnlyList<ExecutiveCompensation> list = companyIds.Distinct(StringComparer.OrdinalIgnoreCase)
-            .SelectMany(id => data.ExecutivesByCompany.GetValueOrDefault(id) ?? []).ToList();
+            .SelectMany(id => data.ExecutivesByCompany[id]).ToList();
         return Task.FromResult(list);
     }
 
@@ -135,7 +135,7 @@ public abstract class SnapshotRepository : ICompanyRepository, IDisposable
     {
         var data = Data;
         IReadOnlyList<ExecutiveCompensation> list = personIds.Distinct(StringComparer.OrdinalIgnoreCase)
-            .SelectMany(id => data.CompensationByPerson.GetValueOrDefault(id) ?? []).ToList();
+            .SelectMany(id => data.CompensationByPerson[id]).ToList();
         return Task.FromResult(list);
     }
 
@@ -146,15 +146,15 @@ public abstract class SnapshotRepository : ICompanyRepository, IDisposable
     {
         var data = Data;
         IReadOnlyList<NewExecutive> list = companyIds.Distinct(StringComparer.OrdinalIgnoreCase)
-            .SelectMany(id => data.NewExecutivesByCompany.GetValueOrDefault(id) ?? []).ToList();
+            .SelectMany(id => data.NewExecutivesByCompany[id]).ToList();
         return Task.FromResult(list);
     }
 
     public Task<IReadOnlyList<WorkerPay>> GetWorkerPayAsync(string companyId, CancellationToken ct = default) =>
-        Task.FromResult(Data.WorkerPayByCompany.GetValueOrDefault(companyId) ?? []);
+        Task.FromResult(Data.WorkerPayByCompany[companyId]);
 
     public Task<IReadOnlyList<JobSalary>> GetJobSalariesAsync(string companyId, CancellationToken ct = default) =>
-        Task.FromResult(Data.JobSalariesByCompany.GetValueOrDefault(companyId) ?? []);
+        Task.FromResult(Data.JobSalariesByCompany[companyId]);
 
     public Task<IReadOnlyList<JobSalarySource>> GetJobSalarySourcesAsync(CancellationToken ct = default) => Task.FromResult(Data.SalarySources);
 
@@ -164,6 +164,21 @@ public abstract class SnapshotRepository : ICompanyRepository, IDisposable
 
     public Task<(int Companies, int Locations)> GetCountsAsync(CancellationToken ct = default) =>
         Task.FromResult((Data.Companies.Count, Data.Locations.Count));
+
+    /// <summary>Row counts of the loaded snapshot; empty while nothing is loaded, so the report never triggers a load.</summary>
+    public IReadOnlyList<DataRowCount> RowCounts() =>
+        _snapshot is not { } s
+            ? []
+            : [
+                new DataRowCount("companies", s.Companies.Count),
+                new DataRowCount("locations", s.Locations.Count),
+                new DataRowCount("financials", s.FinancialsByCompany.Count),
+                new DataRowCount("executive_pay", s.ExecutivesByCompany.Count),
+                new DataRowCount("people", s.PeopleById.Count),
+                new DataRowCount("job_salaries", s.JobSalariesByCompany.Count),
+                new DataRowCount("worker_pay", s.WorkerPayByCompany.Count),
+                new DataRowCount("new_executives", s.NewExecutivesByCompany.Count)
+            ];
 
     public void Dispose()
     {

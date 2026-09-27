@@ -197,11 +197,14 @@ public static partial class SitePages
     {
         var meta = await repository.GetMetadataAsync(ct);
         var cache = http.RequestServices.GetRequiredService<IMemoryCache>();
-        return (await cache.GetOrCreateAsync($"sitemap:{meta.DataVersion}:{meta.LoadedAt.UtcTicks}:{executives}", entry =>
+        return (await cache.GetOrCreateAsync($"sitemap:{meta.DataVersion}:{meta.LoadedAt.UtcTicks}:{executives}", async entry =>
         {
             entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(1);
-            entry.Size = 1;   // the shared cache has a size limit
-            return SitemapPathsAsync(repository, ui, executives, ct);
+            var paths = await SitemapPathsAsync(repository, ui, executives, ct);
+            // One row per address, as the shared cache counts them: this is one entry holding tens of thousands of
+            // strings, so charging it 1 let it sit outside the size limit entirely.
+            entry.Size = paths.Count;
+            return paths;
         }))!;
     }
 

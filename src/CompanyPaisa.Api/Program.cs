@@ -74,6 +74,7 @@ app.MapCompanyPaisaAnalytics();
 app.MapCompanyPaisaPages();         // /, /company/{ticker}, /executive/{personId}, /near/…: the app's HTML with the page's title and content
 app.MapSiteSession();               // /api/session: a fresh pass for a page left open
 app.MapHealthChecks("/health");
+app.MapMemoryReport();              // /health/memory: what the process is holding, behind the dashboard key
 
 // Client-side routes of the React app (anything that isn't an API, docs, health or a real file).
 app.MapFallbackToFile("{*path:regex(^(?!api/|openapi/|swagger|health|assets/).*$)}", "index.html");
