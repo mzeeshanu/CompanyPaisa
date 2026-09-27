@@ -68,6 +68,14 @@ internal sealed class FakeRepository : ICompanyRepository
             });
         return this;
     }
+    // No test needs workforce or job-title pay: say so explicitly rather than inheriting a silent empty default.
+    public Task<IReadOnlyList<WorkerPay>> GetWorkerPayAsync(string id, CancellationToken ct = default) =>
+        Task.FromResult<IReadOnlyList<WorkerPay>>([]);
+    public Task<IReadOnlyList<JobSalary>> GetJobSalariesAsync(string id, CancellationToken ct = default) =>
+        Task.FromResult<IReadOnlyList<JobSalary>>([]);
+    public Task<IReadOnlyList<JobSalarySource>> GetJobSalarySourcesAsync(CancellationToken ct = default) =>
+        Task.FromResult<IReadOnlyList<JobSalarySource>>([]);
+
     public Task<IReadOnlyList<string>> GetSectorsAsync(CancellationToken ct = default) =>
         Task.FromResult<IReadOnlyList<string>>(Companies.Select(c => c.Sector).Distinct().ToList());
     public Task<DataSetMetadata> GetMetadataAsync(CancellationToken ct = default) =>

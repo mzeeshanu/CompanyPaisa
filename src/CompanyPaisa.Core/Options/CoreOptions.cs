@@ -54,13 +54,22 @@ public sealed class MetricsOptions : IValidatableObject
     }
 }
 
+/// <summary>The storage implementations that can back <c>ICompanyRepository</c>.</summary>
+public enum DataSourceProvider
+{
+    /// <summary>The SQLite database the importers publish (every market in one file).</summary>
+    Sqlite,
+    /// <summary>Excel workbooks — the sample data, or a hand-edited set.</summary>
+    Excel
+}
+
 /// <summary>appsettings section "DataSource" — which storage implementation backs <c>ICompanyRepository</c>.</summary>
 public sealed class DataSourceOptions
 {
     public const string SectionName = "DataSource";
 
-    /// <summary>"Sqlite" (the database the importers publish) or "Excel" (the sample or hand-edited workbooks).</summary>
-    [Required] public string Provider { get; set; } = "Sqlite";
+    /// <summary>Which implementation to use. An unknown name fails at startup rather than falling back.</summary>
+    public DataSourceProvider Provider { get; set; } = DataSourceProvider.Sqlite;
     /// <summary>Used by database providers. Keep real values in user-secrets / environment variables.</summary>
     public string? ConnectionString { get; set; }
 }
