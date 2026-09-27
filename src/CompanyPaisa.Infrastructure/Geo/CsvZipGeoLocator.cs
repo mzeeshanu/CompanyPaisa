@@ -75,7 +75,7 @@ public sealed partial class CsvZipGeoLocator(
         }
 
         // City alone: the biggest place with that name ("Dallas" → Dallas, TX; "Portland" → Portland, OR).
-        if (index.ByCity.TryGetValue(q.ToUpperInvariant(), out var list)) return Task.FromResult<GeoLookupResult?>(list[0] with { Query = q });
+        if (index.ByCity.TryGetValue(q.ToUpperInvariant(), out var biggest)) return Task.FromResult<GeoLookupResult?>(biggest with { Query = q });
 
         // A city followed by its country: "Dallas, USA", "Toronto Canada" — look up the city part.
         return Regions.SplitCountry(q) is var (city, _) ? LookupAsync(city, ct).ContinueWith(t => t.Result is { } hit ? hit with { Query = q } : null, ct) : Task.FromResult<GeoLookupResult?>(null);
@@ -127,9 +127,27 @@ public sealed partial class CsvZipGeoLocator(
     {
         public Dictionary<string, GeoLookupResult> ByZip { get; } = new();
         public Dictionary<string, GeoLookupResult> ByCityState { get; } = new();
-        public Dictionary<string, List<GeoLookupResult>> ByCity { get; } = new();
+
+        /// <summary>
+        /// The biggest place with each name ("DALLAS" → Dallas, Texas rather than Dallas, Georgia). Only the biggest was
+        /// ever read, so one entry is kept instead of a list per name — tens of thousands of list objects saved.
+        /// </summary>
+        public Dictionary<string, GeoLookupResult> ByCity { get; } = new();
 
         public static string CityKey(string city, string state) => $"{city.Trim().ToUpperInvariant()}|{state.Trim().ToUpperInvariant()}";
+
+        /// <summary>
+        /// A city's running total while its table loads: the sum of its postcodes' coordinates and how many there were, so
+        /// the average needs no list of every point (the tables hold ~150,000 of them between them).
+        /// </summary>
+        private struct CityTotal
+        {
+            public double LatitudeSum;
+            public double LongitudeSum;
+            public int Count;
+            public string City;
+            public string State;
+        }
 
         public static ZipIndex Load(IReadOnlyList<string> paths, ILogger logger)
         {
@@ -137,40 +155,45 @@ public sealed partial class CsvZipGeoLocator(
                 throw new FileNotFoundException($"ZIP table not found at '{paths[0]}'. Check Geo:ZipTablePath in appsettings.", paths[0]);
 
             var index = new ZipIndex();
-            var cityPoints = new Dictionary<string, List<(GeoPoint Point, string City, string State)>>();
+            var totals = new Dictionary<string, CityTotal>();
+            // City and state names repeat across every postcode of a place; one shared instance each keeps the tables small.
+            var pool = new Dictionary<string, string>(StringComparer.Ordinal);
             foreach (var path in paths)
             {
                 if (!File.Exists(path)) { logger.LogWarning("Additional postcode table {Path} not found; skipping it", path); continue; }
-                LoadTable(path, index, cityPoints);
+                LoadTable(path, index, totals, pool);
             }
 
-            // A city is the average of its ZIP centroids. Cities sharing a name are listed biggest first (most ZIP codes),
-            // so "Dallas" alone is Dallas, Texas rather than Dallas, Georgia.
-            foreach (var (key, pts) in cityPoints.OrderByDescending(c => c.Value.Count))
+            // A city is the average of its postcode centres. Names shared by several places are taken biggest first (most
+            // postcodes), so "Dallas" alone is Dallas, Texas rather than Dallas, Georgia.
+            foreach (var (key, t) in totals.OrderByDescending(c => c.Value.Count))
             {
-                var p = new GeoPoint(pts.Average(x => x.Point.Latitude), pts.Average(x => x.Point.Longitude));
-                var result = new GeoLookupResult(key, pts[0].City, pts[0].State, null, p);
+                var result = new GeoLookupResult(key, t.City, t.State, null,
+                    new GeoPoint(t.LatitudeSum / t.Count, t.LongitudeSum / t.Count));
                 index.ByCityState[key] = result;
-                var cityOnly = pts[0].City.ToUpperInvariant();
-                if (!index.ByCity.TryGetValue(cityOnly, out var list)) index.ByCity[cityOnly] = list = [];
-                list.Add(result);
+                index.ByCity.TryAdd(t.City.ToUpperInvariant(), result);
             }
 
             logger.LogInformation("Loaded {Zips} ZIP codes / postcode districts and {Cities} cities from {Count} table(s)", index.ByZip.Count, index.ByCityState.Count, paths.Count);
             return index;
         }
 
-        private static void LoadTable(string path, ZipIndex index, Dictionary<string, List<(GeoPoint Point, string City, string State)>> cityPoints)
+        private static void LoadTable(string path, ZipIndex index, Dictionary<string, CityTotal> totals, Dictionary<string, string> pool)
         {
-            var lines = File.ReadLines(path).Where(l => !string.IsNullOrWhiteSpace(l)).ToList();
-            var header = SplitCsv(lines[0]).Select(h => h.Trim().ToLowerInvariant()).ToList();
+            // Read the file a line at a time: holding all ~40,000 lines of a table as strings first cost more than the
+            // index it builds.
+            using var reader = new StreamReader(path);
+            var headerLine = NextLine(reader) ?? throw new FormatException($"ZIP table '{path}' is empty.");
+            var header = SplitCsv(headerLine).Select(h => h.Trim().ToLowerInvariant()).ToList();
             int Col(string name) => header.IndexOf(name) is var i and >= 0 ? i
                 : throw new FormatException($"ZIP table '{path}' is missing the '{name}' column.");
             int cZip = Col("zip"), cCity = Col("city"), cState = Col("state"), cLat = Col("latitude"), cLng = Col("longitude");
             // Optional "country" column (European tables): rows are keyed "FR:75008" so they never collide with US ZIPs.
             var cCountry = header.IndexOf("country");
 
-            foreach (var line in lines.Skip(1))
+            string Shared(string value) => pool.TryGetValue(value, out var s) ? s : pool[value] = value;
+
+            while (NextLine(reader) is { } line)
             {
                 var f = SplitCsv(line);
                 if (!double.TryParse(f[cLat], NumberStyles.Float, CultureInfo.InvariantCulture, out var lat) ||
@@ -180,16 +203,28 @@ public sealed partial class CsvZipGeoLocator(
                 // US ZIPs lose leading zeros in spreadsheets; UK districts ("SW1A") are kept as they are.
                 var raw = f[cZip].Trim().ToUpperInvariant();
                 var zip = raw.All(char.IsDigit) ? raw.PadLeft(5, '0') : raw;
-                var state = f[cState].Trim().ToUpperInvariant();
+                var city = Shared(f[cCity].Trim());
+                var state = Shared(f[cState].Trim().ToUpperInvariant());
                 var country = cCountry >= 0 ? f[cCountry].Trim().ToUpperInvariant() : "";
                 var zipKey = country.Length > 0 ? $"{country}:{raw}" : Provinces.Contains(state) ? CanadaKey(zip) : zip;
                 var shown = country.Length > 0 ? raw : zip;   // Dutch "1012" must not become "01012"
-                index.ByZip[zipKey] = new GeoLookupResult(shown, f[cCity].Trim(), state, shown, point);
+                index.ByZip[zipKey] = new GeoLookupResult(shown, city, state, shown, point);
 
                 var key = CityKey(f[cCity], f[cState]);
-                if (!cityPoints.TryGetValue(key, out var pts)) cityPoints[key] = pts = [];
-                pts.Add((point, f[cCity].Trim(), f[cState].Trim().ToUpperInvariant()));
+                ref var total = ref System.Runtime.InteropServices.CollectionsMarshal.GetValueRefOrAddDefault(totals, key, out var existed);
+                if (!existed) { total.City = city; total.State = state; }
+                total.LatitudeSum += lat;
+                total.LongitudeSum += lng;
+                total.Count++;
             }
+        }
+
+        /// <summary>The next line with something on it, or null at the end of the file.</summary>
+        private static string? NextLine(StreamReader reader)
+        {
+            while (reader.ReadLine() is { } line)
+                if (!string.IsNullOrWhiteSpace(line)) return line;
+            return null;
         }
 
         /// <summary>Minimal CSV splitter that understands double-quoted fields.</summary>

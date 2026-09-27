@@ -5,6 +5,15 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
 
+    <!-- Memory. The site runs in one small container and is read-mostly, so it wants a small heap far more than it wants
+         the throughput of many heaps. Server GC (the Web SDK's default) gives every CPU core its own heap and is slow to
+         hand memory back; Workstation GC keeps one. Background collection stays on, so gen2 still doesn't block a request.
+         The heap limit is left alone on purpose: in a container .NET already reads the cgroup limit and caps itself. -->
+    <ServerGarbageCollection>false</ServerGarbageCollection>
+    <ConcurrentGarbageCollection>true</ConcurrentGarbageCollection>
+    <RetainVMGarbageCollection>false</RetainVMGarbageCollection>
+    <TieredPGO>true</TieredPGO>
+
     <!-- React front end (src/CompanyPaisa.Web). In Visual Studio / dotnet run, the SPA proxy starts the
          Vite dev server and sends the browser to it; Vite forwards /api calls back to this API. -->
     <SpaRoot>..\CompanyPaisa.Web\</SpaRoot>
