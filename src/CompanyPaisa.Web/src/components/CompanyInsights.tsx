@@ -15,10 +15,13 @@ const oneUnit = (currency: string) => currency === 'PKR' ? 'Rs 1' : `${currencyS
 /** 0.2255 → "23%" · 0.034 → "3.4%" */
 const size = (ratio: number) => `${Math.abs(ratio * 100).toFixed(Math.abs(ratio) < 0.1 ? 1 : 0)}%`;
 
-/** 0.034 of a dollar → "3¢"; pence for pounds, paisa for rupees; "less than 1¢" rather than "0¢". */
+/** Hundredths of each currency: pence, paisa, öre, øre, grosze; cents otherwise. */
+const HUNDREDTHS: Record<string, string> = { GBP: 'p', PKR: ' paisa', SEK: ' öre', DKK: ' øre', NOK: ' øre', PLN: ' grosze' };
+
+/** 0.034 of a dollar → "3¢"; pence for pounds, paisa for rupees, öre for kronor; "less than 1¢" rather than "0¢". */
 function perUnit(ratio: number, currency: string) {
   const n = Math.round(Math.abs(ratio) * 100);
-  const unit = currency === 'GBP' ? 'p' : currency === 'PKR' ? ' paisa' : '¢';
+  const unit = HUNDREDTHS[currency] ?? '¢';
   return n === 0 ? `less than 1${unit}` : `${n}${unit}`;
 }
 
@@ -37,7 +40,10 @@ export function AtAGlance({ insights: i, name }: { insights: CompanyInsights; na
       text: <>
         New {latest.title}{' '}
         {latest.personId ? <Link className="linkbtn" to={personPath(latest.personId)}>{latest.name}</Link> : <b>{latest.name}</b>}{' '}
-        {future ? 'joins' : 'joined'} on {shortDate(when)} with an announced package of <b>{money(latest.total, latest.currency)}</b>.
+        {future ? 'joins' : 'joined'} on {shortDate(when)} with an announced package of <b>{money(latest.total, latest.currency)}</b>
+        {packageSplit(latest).performance > 0
+          ? <>, of which {money(packageSplit(latest).performance, latest.currency)} depends on performance targets.</>
+          : '.'}
       </>,
     });
   }
@@ -178,15 +184,44 @@ const PACKAGE_COLORS: Record<PackageItemKind, string> = {
 export const shortDate = (iso: string) =>
   new Date(`${iso}T00:00:00`).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
 
-/** Same-label items added up ("Stock awards $2.0M + $800K" → one line), biggest first. */
-function packageLines(p: NewExecutive) {
-  const lines = new Map<string, { label: string; kind: PackageItemKind; amount: number; count: number }>();
+type PackageGroup = 'cash' | 'equity' | 'performance';
+interface PackageLine { label: string; kind: PackageItemKind; amount: number; count: number; group: PackageGroup }
+
+/** The three ways a package is paid, in the order they're shown: fixed cash, stock over time, pay that depends on targets. */
+const GROUPS: { key: PackageGroup; title: string; note: string }[] = [
+  { key: 'cash', title: 'Guaranteed cash', note: 'salary and one-time payments' },
+  { key: 'equity', title: 'Stock that vests over time', note: 'worth what the shares are worth when they vest' },
+  { key: 'performance', title: 'Depends on performance', note: 'targets — paid only as far as the goals are met' },
+];
+
+/**
+ * Which way an item is paid. Bonuses and performance shares depend on goals being met. Salary, sign-on and relocation cash
+ * are fixed; stock awards and options vest over time — a "target" stock award is a target grant value, not a performance
+ * condition, so it stays with the stock.
+ */
+function groupOf(kind: PackageItemKind, _label: string): PackageGroup {
+  if (kind === 'Bonus' || kind === 'PerformanceStock') return 'performance';
+  if (kind === 'Stock' || kind === 'Options') return 'equity';
+  return 'cash';
+}
+
+/** Same-label items added up ("Stock awards $2.0M + $800K" → one line); grouped, biggest first within each group. */
+function packageLines(p: NewExecutive): PackageLine[] {
+  const lines = new Map<string, PackageLine>();
   for (const item of p.package) {
-    const line = lines.get(item.label) ?? { label: item.label, kind: item.kind, amount: 0, count: 0 };
+    const line = lines.get(item.label) ?? { label: item.label, kind: item.kind, amount: 0, count: 0, group: groupOf(item.kind, item.label) };
     line.amount += item.amount; line.count++;
     lines.set(item.label, line);
   }
-  return [...lines.values()].sort((a, b) => b.amount - a.amount);
+  const order = GROUPS.map(g => g.key);
+  return [...lines.values()].sort((a, b) => order.indexOf(a.group) - order.indexOf(b.group) || b.amount - a.amount);
+}
+
+/** How much of a package is in each group. */
+export function packageSplit(p: NewExecutive): Record<PackageGroup, number> {
+  const split = { cash: 0, equity: 0, performance: 0 };
+  for (const item of p.package) split[groupOf(item.kind, item.label)] += item.amount;
+  return split;
 }
 
 /** Officers appointed recently with the package the company announced in its filing (not pay received). */
@@ -199,6 +234,7 @@ export function NewLeadership({ people }: { people: NewExecutive[] }) {
       <ul className="new-list">
         {shown.map(p => {
           const lines = packageLines(p);
+          const split = packageSplit(p);
           const upcoming = p.startsOn && new Date(`${p.startsOn}T00:00:00`) > new Date();
           return (
             <li key={`${p.name}-${p.announcedOn}`}>
@@ -208,25 +244,34 @@ export function NewLeadership({ people }: { people: NewExecutive[] }) {
                   <small>{p.title}</small>
                   <small className="new-dates">Announced {shortDate(p.announcedOn)}{p.startsOn && <> · {upcoming ? 'starts' : 'started'} {shortDate(p.startsOn)}</>}</small>
                 </div>
-                <div className="new-total num">{money(p.total, p.currency)}<small>announced package</small></div>
+                <div className="new-total num">
+                  {money(p.total, p.currency)}<small>announced package</small>
+                  {split.performance > 0 && <small className="new-at-risk">of which {money(split.performance, p.currency)} depends on performance</small>}
+                </div>
               </div>
               <div className="stack">
                 {lines.map(l => <i key={l.label} style={{ width: `${(l.amount / p.total) * 100}%`, background: PACKAGE_COLORS[l.kind] }} title={`${l.label}: ${money(l.amount, p.currency)}`} />)}
               </div>
-              <ul className="new-parts">
-                {lines.map(l => (
-                  <li key={l.label}><i style={{ background: PACKAGE_COLORS[l.kind] }} />{l.label}{l.count > 1 ? ` (${l.count} grants)` : ''}<span className="num">{money(l.amount, p.currency)}</span></li>
-                ))}
-              </ul>
+              {GROUPS.filter(g => split[g.key] > 0).map(g => (
+                <div key={g.key} className={`new-group ${g.key}`}>
+                  <div className="new-group-head"><b>{g.title}</b><small>{g.note}</small><span className="num">{money(split[g.key], p.currency)}</span></div>
+                  <ul className="new-parts">
+                    {lines.filter(l => l.group === g.key).map(l => (
+                      <li key={l.label}><i style={{ background: PACKAGE_COLORS[l.kind] }} />{l.label}{l.count > 1 ? ` (${l.count} grants)` : ''}<span className="num">{money(l.amount, p.currency)}</span></li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
               {p.sourceFiling && <a className="linkbtn filing" href={p.sourceFiling} target="_blank" rel="noreferrer">Read the announcement (8-K) ↗</a>}
             </li>
           );
         })}
       </ul>
       {people.length > 3 && <button className="linkbtn page-more" onClick={() => setAll(a => !a)}>{all ? 'Show fewer' : `Show all ${people.length}`}</button>}
-      <p className="fine">What the company said it would pay when it announced the appointment, not pay received. Stock is at the value the
-        company stated; bonuses count only where a dollar amount was given, not a percentage target. Read automatically from the
-        filing, so check it before relying on it.</p>
+      <p className="fine">What the company said it would pay when it announced the appointment, not pay received. Bonuses and
+        performance shares are targets: the executive gets them only as far as the goals are met, and can get more or less. A bonus
+        stated as a share of salary ("75% of base salary") is shown as that share of the salary. Stock is at the value the company
+        stated. Read automatically from the filing, so check it before relying on it.</p>
     </section>
   );
 }

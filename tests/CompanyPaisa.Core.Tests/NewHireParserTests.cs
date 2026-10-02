@@ -36,6 +36,30 @@ public class NewHireParserTests
     }
 
     [Fact]
+    public void A_target_bonus_given_as_a_share_of_salary_becomes_a_target_amount()
+    {
+        var h = Single("""
+            The Company appointed Jane Q. Rivera as Chief Financial Officer, effective May 1, 2026. Ms. Rivera will receive an annual base
+            salary of $600,000 and will be eligible for a target annual bonus of 75% of her base salary. She will also receive a sign-on
+            cash payment of $250,000.
+            """);
+
+        var bonus = Assert.Single(h.Parts, p => p.Kind == PackagePartKind.Bonus);
+        Assert.Equal(450_000, bonus.Amount);
+        Assert.Equal("Target bonus (75% of salary)", bonus.Label);
+    }
+
+    [Theory]
+    [InlineData("eligible for a target annual bonus of 100% of base salary", 100)]
+    [InlineData("an annual incentive opportunity with a target equal to 60% of his annual base salary", 60)]
+    [InlineData("annual cash bonus opportunity of up to 100% of his salary", null)]          // a cap, not a target
+    [InlineData("a target bonus of between 50% and 100% of base salary", null)]               // a range
+    [InlineData("a target long-term incentive award of 300% of base salary", null)]           // equity, not bonus
+    [InlineData("an annual bonus of 50% of base salary", null)]                               // no target stated
+    public void Reads_only_a_stated_bonus_target(string sentence, int? percent) =>
+        Assert.Equal(percent, NewHireParser.BonusTargetPercent(sentence) is { } p ? (int)p : null);
+
+    [Fact]
     public void Other_peoples_terms_severance_monthly_fees_and_caps_are_left_out()
     {
         var h = Single("""

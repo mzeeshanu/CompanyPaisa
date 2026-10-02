@@ -49,6 +49,7 @@ public static partial class NewHireParser
 
         // 2. Walk the sentences, following whose terms they describe: the person named most recently ("he", "his" continue it).
         var parts = hires.ToDictionary(h => h.Surname, _ => new List<PackagePart>());
+        var bonusTargets = new Dictionary<string, decimal>();
         var starts = new Dictionary<string, DateOnly?>();
         string? subject = null;
         for (var i = 0; i < sentences.Count; i++)
@@ -69,7 +70,14 @@ public static partial class NewHireParser
             foreach (var part in WithoutTotals(Amounts(s, filed).ToList()))
                 if (!list.Any(p => p.Kind == part.Kind && (p.Amount == part.Amount || part.Kind == PackagePartKind.Salary)))
                     list.Add(part);
+            if (BonusTargetPercent(s) is { } pct) bonusTargets.TryAdd(subject, pct);
         }
+
+        // 3. A target bonus given as a share of salary ("a target annual bonus of 100% of base salary") is worth that share
+        //    of the salary — a target, paid only as far as the goals are met, so it's labelled as one.
+        foreach (var (surname, pct) in bonusTargets)
+            if (parts[surname].FirstOrDefault(p => p.Kind == PackagePartKind.Salary) is { } salary && !parts[surname].Any(p => p.Kind == PackagePartKind.Bonus))
+                parts[surname].Add(new PackagePart(PackagePartKind.Bonus, Math.Round(salary.Amount * pct / 100), $"Target bonus ({pct:0.##}% of salary)"));
 
         return hires
             .Select(h => (h, parts: Sane(parts[h.Surname])))
@@ -187,6 +195,28 @@ public static partial class NewHireParser
                 yield return new PackagePart(kind.Kind, amount, kind.Label + (Target().IsMatch(before[Math.Max(0, before.Length - 60)..]) && kind.Kind is not PackagePartKind.Salary ? " (target)" : ""));
         }
     }
+
+    /// <summary>
+    /// "eligible for a target annual bonus of 100% of base salary", "annual incentive opportunity with a target equal to 75% of
+    /// his base salary": the target as a percentage. Not a maximum ("up to 150%", "maximum"), not a range ("50% to 100%"),
+    /// not an equity target ("target long-term incentive award of 300%").
+    /// </summary>
+    internal static decimal? BonusTargetPercent(string sentence)
+    {
+        var m = BonusPercent().Match(sentence);
+        if (!m.Success) return null;
+        var context = sentence[Math.Max(0, m.Index - 120)..Math.Min(sentence.Length, m.Index + m.Length + 20)];
+        if (!Target().IsMatch(context) || MaximumOrRange().IsMatch(context) || EquityTarget().IsMatch(context)) return null;
+        var pct = decimal.Parse(m.Groups["pct"].Value, System.Globalization.CultureInfo.InvariantCulture);
+        return pct is >= 5 and <= 500 ? pct : null;
+    }
+
+    [GeneratedRegex(@"(?:bonus|incentive|\bSTI\b|\bAIP\b)[^.;]{0,140}?(?<pct>\d{1,3}(?:\.\d{1,2})?)\s*%\s+of\s+(?:(?:his|her|their|the\s+executive['’]s|such|annual(?:ized)?)\s+){0,2}(?:annual(?:ized)?\s+)?(?:base\s+)?salary", RegexOptions.IgnoreCase)]
+    private static partial Regex BonusPercent();
+    [GeneratedRegex(@"\bup\s+to\b|\bmaximum\b|\d\s*%\s*(?:to|and|-|–)\s*\d{1,3}\s*%|\bbetween\b", RegexOptions.IgnoreCase)]
+    private static partial Regex MaximumOrRange();
+    [GeneratedRegex(@"long[- ]term|\bLTI\b|equity|restricted\s+stock|\bRSUs?\b|\bPSUs?\b", RegexOptions.IgnoreCase)]
+    private static partial Regex EquityTarget();
 
     /// <summary>Only the clause the amount is in: the text after the last ";" or list marker like "(ii)" before it.</summary>
     private static string Clause(string before)
