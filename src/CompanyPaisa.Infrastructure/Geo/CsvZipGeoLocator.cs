@@ -30,11 +30,13 @@ public sealed partial class CsvZipGeoLocator(
         // Europe, Australia, New Zealand, Pakistan: the website sends the country with the code ("FR-75008", "NL 1012 AB",
         // "AU-2000", "PK-74000"), because a bare 5-digit French, Italian, Spanish or Pakistani postcode looks like a US ZIP.
         var eu = EuropeanPostcodePattern().Match(q.ToUpperInvariant());
-        if (eu.Success)
+        if (eu.Success && Regions.PrefixedPostcodeCountries.Contains(eu.Groups["country"].Value))
         {
             var country = eu.Groups["country"].Value;
-            var digits = eu.Groups["digits"].Value;
-            var code = country is "NL" or "AU" or "NZ" ? digits[..Math.Min(4, digits.Length)] : digits.PadLeft(5, '0');
+            // "113 56" (Sweden) and "00-950" (Poland) are written with a space or dash; the table holds the digits.
+            var digits = new string(eu.Groups["digits"].Value.Where(char.IsDigit).ToArray());
+            if (digits.Length is < 4 or > 5) return Task.FromResult<GeoLookupResult?>(null);
+            var code = Regions.PostcodeDigits(country) == 4 ? digits[..4] : digits.PadLeft(5, '0');
             return Task.FromResult(index.ByZip.TryGetValue($"{country}:{code}", out var e)
                 ? e with { Query = q, PostalCode = country == "NL" && eu.Groups["letters"].Success ? $"{code} {eu.Groups["letters"].Value}" : code }
                 : null);
@@ -104,10 +106,11 @@ public sealed partial class CsvZipGeoLocator(
     private static partial Regex CityStatePattern();
 
     /// <summary>
-    /// "FR-75008", "IT 00184", "ES-08002", "NL-1012 AB", "AU-2000", "NZ-1010", "PK-74000": country, then the code
-    /// (Dutch codes may carry two letters; Dutch, Australian and New Zealand codes are 4 digits).
+    /// "FR-75008", "IT 00184", "NL-1012 AB", "AU-2000", "PK-74000", "SE-113 56", "PL-00-950", "DK-2100": a country with
+    /// prefixed postcodes (<see cref="Regions.PrefixedPostcodeCountries"/>), then the code — Dutch codes may carry two
+    /// letters, Swedish and Polish ones a space or dash.
     /// </summary>
-    [GeneratedRegex(@"^(?<country>FR|NL|IT|ES|AU|NZ|PK)[\s\-:]+(?<digits>\d{4,5})(?:\s*(?<letters>[A-Z]{2}))?$")]
+    [GeneratedRegex(@"^(?<country>[A-Z]{2})[\s\-:]+(?<digits>\d{2,3}[\s\-]?\d{2,3})(?:\s*(?<letters>[A-Z]{2}))?$")]
     private static partial Regex EuropeanPostcodePattern();
 
     /// <summary>Canadian postal code: forward sortation area ("M5J") and an optional local delivery unit ("2J2").</summary>

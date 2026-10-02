@@ -237,7 +237,7 @@ public static partial class SitePages
     public static string PlaceToken(string postcode, string country)
     {
         var code = postcode.Replace(" ", "").ToUpperInvariant();
-        return country is "FR" or "NL" or "IT" or "ES" or "AU" or "NZ" or "PK" ? $"{country}-{code}" : code;
+        return Regions.PrefixedPostcodeCountries.Contains(country) ? $"{country}-{code}" : code;
     }
 
     /// <summary>

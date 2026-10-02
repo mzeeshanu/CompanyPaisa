@@ -37,7 +37,19 @@ public static class Regions
     [
         ("US", "United States"), ("CA", "Canada"), ("UK", "United Kingdom"), ("FR", "France"), ("NL", "Netherlands"),
         ("IT", "Italy"), ("ES", "Spain"), ("AU", "Australia"), ("NZ", "New Zealand"), ("PK", "Pakistan"),
+        ("SE", "Sweden"), ("DK", "Denmark"), ("FI", "Finland"), ("NO", "Norway"), ("PL", "Poland"), ("BE", "Belgium"), ("AT", "Austria"),
     ];
+
+    /// <summary>
+    /// Countries whose postcodes travel with their country ("FR-75008", "SE-11356"): a bare 4- or 5-digit code reads as a
+    /// US ZIP. Locations there store the country code as their state.
+    /// </summary>
+    public static readonly IReadOnlySet<string> PrefixedPostcodeCountries =
+        new HashSet<string>(["FR", "NL", "IT", "ES", "AU", "NZ", "PK", "SE", "DK", "FI", "NO", "PL", "BE", "AT"], StringComparer.OrdinalIgnoreCase);
+
+    /// <summary>Postcode digits: 4 in the Netherlands, Australia, New Zealand, Denmark, Norway, Belgium and Austria; else 5.</summary>
+    public static int PostcodeDigits(string country) =>
+        country.ToUpperInvariant() is "NL" or "AU" or "NZ" or "DK" or "NO" or "BE" or "AT" ? 4 : 5;
 
     private static readonly Dictionary<string, string> UsStates = new(StringComparer.OrdinalIgnoreCase)
     {
@@ -67,6 +79,8 @@ public static class Regions
         ("usa", "US"), ("us", "US"), ("u s", "US"), ("u s a", "US"), ("america", "US"), ("united states of america", "US"),
         ("uk", "UK"), ("u k", "UK"), ("gb", "UK"), ("great britain", "UK"), ("britain", "UK"), ("england", "UK"),
         ("holland", "NL"), ("the netherlands", "NL"), ("aus", "AU"), ("nz", "NZ"),
+        ("sverige", "SE"), ("danmark", "DK"), ("suomi", "FI"), ("norge", "NO"), ("polska", "PL"), ("belgique", "BE"), ("belgie", "BE"),
+        ("osterreich", "AT"), ("oesterreich", "AT"),
         ("new york state", "US-NY"), ("state of new york", "US-NY"), ("washington state", "US-WA"), ("state of washington", "US-WA"),
         ("newfoundland", "CA-NL"), ("pei", "CA-PE"), ("quebec province", "CA-QC"),
     ];

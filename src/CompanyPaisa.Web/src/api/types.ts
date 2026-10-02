@@ -173,7 +173,7 @@ export interface ClientConfig {
   privacyContact?: string | null;
 }
 
-export type Country = 'US' | 'CA' | 'UK' | 'FR' | 'NL' | 'IT' | 'ES' | 'AU' | 'NZ' | 'PK';
+export type Country = 'US' | 'CA' | 'UK' | 'FR' | 'NL' | 'IT' | 'ES' | 'SE' | 'DK' | 'FI' | 'NO' | 'PL' | 'BE' | 'AT' | 'AU' | 'NZ' | 'PK';
 export interface CoverageArea { name: string; exampleZip: string; country: Country }
 
 /** Facts worked out from a company's figures; each is null when the data doesn't support it. */
