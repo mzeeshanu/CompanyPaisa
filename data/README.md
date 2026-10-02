@@ -2,7 +2,7 @@
 
 | Path | What | Real or sample? |
 |---|---|---|
-| `companypaisa.db` | **The live dataset** (SQLite) — every market in one file: SEC filers (US, Canada, Australia, NZ), UK Main Market, France, the Netherlands, Italy, Spain, Pakistan, ASX and NZX companies. Each importer run replaces only its own market's rows | **Real**, built by `tools/CompanyPaisa.Importer` (see *Database layout*) |
+| `companypaisa.db` | **The live dataset** (SQLite) — every market in one file: SEC filers (US, Canada, Australia, NZ), UK Main Market, France, the Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belgium, Austria, Pakistan, ASX and NZX companies. Each importer run replaces only its own market's rows | **Real**, built by `tools/CompanyPaisa.Importer` (see *Database layout*) |
 | `import-report.md` | What the last import included (per metro), excluded (and why), and rows that need review | Generated |
 | `import-report-enrichment.md` | The last `--enrich` run: websites, careers pages and street positions per market | Generated |
 | `import-report-salaries.md` | The last `--salaries` run: filings read and matched, the companies with most filings, and the biggest unmatched employers | Generated |
@@ -64,7 +64,10 @@ To add a metro: add a `Regions` entry in the importer settings (`Country` "US" o
    and titles, table labels read as names dropped, one executive under two spellings merged (similar names paid exactly
    the same, never two SEC insiders), and a row dropped when its title names the person whose identical package it is (a
    neighbour's name ran into the cell). Financial figures go through `FinancialsCleanup`: a year 1,000× off what its own
-   quarters (or both neighbouring years) say is rescaled, and fourth quarters worked out from it are redone. The rows in
+   quarters (or both neighbouring years) say is rescaled — its profit too when the corrected revenue says the whole year
+   was in thousands; a profit over 10× revenue that ÷1,000 fits an ordinary neighbouring year (never when a neighbour
+   confirms the profit as filed, so the revenue line is what is small); a run of years at either end of the figures
+   1,000× (or 1,000,000×) off on both revenue and profit — and fourth quarters worked out from them are redone. The rows in
    `companypaisa.db` are left as the filings gave them.
 
 **Known gaps** (see `import-report.md`): foreign private issuers (e.g. NICE) don't file DEF 14A, so no executive pay;
@@ -78,7 +81,7 @@ The importer is a set of **markets**, each a class implementing `IMarketImporter
 |---|---|---|
 | `sec` | `ImportPipeline` | SEC filers with a US, Canadian, Australian or NZ address: XBRL financials, proxy pay (checked against the CEO totals companies tag) |
 | `uk` | `Uk/UkImportPipeline` | UK Main Market: ESEF annual reports, directors' pay |
-| `eu` | `Eu/EuImportPipeline` | France, Netherlands, Italy, Spain: ESEF annual reports (financials only) |
+| `eu` | `Eu/EuImportPipeline` | France, Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belgium, Austria: ESEF annual reports (financials only) |
 | `pk` | `Pk/PkImportPipeline` | Pakistan Stock Exchange: companies' own annual report PDFs (revenue, profit, chief executive's pay) |
 | `anz` | `Anz/AnzImportPipeline` | ASX and NZX: annual reports found on companies' own websites (revenue, profit) |
 
@@ -150,12 +153,13 @@ generic `CompanyPaisa` User-Agent — no personal contact details.
 dotnet run --project tools/CompanyPaisa.Importer -- --eu
 ```
 
-France, the Netherlands, Italy and Spain (`Importer:Eu:Countries`), published as market `eu` in `companypaisa.db`. For each country:
+France, the Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belgium and Austria (`Importer:Eu:Countries`), published as market `eu` in `companypaisa.db`. For each country:
 ESEF filers on filings.xbrl.org → shares on the home exchange (GLEIF ISINs → OpenFIGI; if a bank's share ISIN is lost
 among its bond ISINs, an OpenFIGI name search, exact name match only) → GLEIF headquarters in that country → GeoNames
 postcode (`reference/eu-postcodes.csv`) → IFRS revenue and profit from each report. No executives yet, sector "Other".
-Germany isn't on filings.xbrl.org. To add another country on it, add a `Countries` entry (exchange codes, ticker suffix,
-areas) and matching `Ui:Coverage` entries. OpenFIGI name searches are slow without an API key (about 5 a minute), but
+Germany and Ireland aren't on filings.xbrl.org, and Poland stopped filing there after 2023. To add another country on it, add a `Countries` entry (exchange codes, ticker suffix,
+areas), matching `Ui:Coverage` entries, the country in `Regions.PrefixedPostcodeCountries` (with its postcode length) and
+the web app's country lists (`LocationGate.tsx`, `router.tsx`), and an exchange rate for a new currency. OpenFIGI name searches are slow without an API key (about 5 a minute), but
 answers are cached in `data/cache/eu/openfigi-*.json`.
 
 ## The Pakistan dataset

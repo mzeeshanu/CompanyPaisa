@@ -16,11 +16,16 @@ public sealed record EsefYear(int FiscalYear, DateOnly PeriodEnd, decimal Revenu
 
 public static partial class EsefFinancials
 {
-    /// <summary>Revenue concepts in order of preference. Banks and insurers rarely tag plain "Revenue".</summary>
+    /// <summary>
+    /// Revenue concepts: plain "Revenue" when tagged, else the largest of the rest. Banks and insurers rarely tag plain
+    /// "Revenue"; nor do companies whose top line is "Revenue and operating income" (Aker BP, Solstad, Avanza) or rent
+    /// (CA Immo, NEPI Rockcastle) — without those lines their interest income passed for revenue (Aker BP's $2.5 million).
+    /// </summary>
     internal static readonly string[] RevenueConcepts =
     [
-        "ifrs-full:Revenue", "ifrs-full:RevenueFromContractsWithCustomers", "ifrs-full:InsuranceRevenue",
-        "ifrs-full:RevenueFromSaleOfGoods", "ifrs-full:RevenueFromRenderingOfServices",
+        "ifrs-full:Revenue", "ifrs-full:RevenueFromContractsWithCustomers", "ifrs-full:RevenueAndOperatingIncome",
+        "ifrs-full:InsuranceRevenue", "ifrs-full:RevenueFromInsuranceContractsIssuedWithoutReductionForReinsuranceHeld",
+        "ifrs-full:RevenueFromSaleOfGoods", "ifrs-full:RevenueFromRenderingOfServices", "ifrs-full:RentalIncomeFromInvestmentProperty",
         "ifrs-full:InterestRevenueCalculatedUsingEffectiveInterestMethod", "ifrs-full:RevenueFromInterest"
     ];
 

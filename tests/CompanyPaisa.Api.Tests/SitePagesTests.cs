@@ -239,6 +239,9 @@ public class SitePagesTests(SitePagesFactory factory) : IClassFixture<SitePagesF
     [InlineData("sw1a 1aa", "UK", "SW1A1AA")]
     [InlineData("75008", "FR", "FR-75008")]
     [InlineData("1012 AB", "NL", "NL-1012AB")]
+    [InlineData("113 56", "SE", "SE-11356")]
+    [InlineData("00-950", "PL", "PL-00-950")]
+    [InlineData("1050", "DK", "DK-1050")]
     public void Places_in_addresses_have_no_spaces_and_keep_their_country(string postcode, string country, string expected) =>
         Assert.Equal(expected, SitePages.PlaceToken(postcode, country));
 

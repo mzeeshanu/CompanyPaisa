@@ -360,11 +360,20 @@ public static partial class AnnualReportReader
         var cells = ColumnGap().Split(line.Trim()).Where(c => c.Length > 0).ToList();
         var values = new List<decimal>();
         var label = new List<string>();
+        decimal? noteSplit = null;
         foreach (var raw in cells)
         {
             // Glyph spacing can split a number ("3,461,306,13 1"): a cell of number pieces is one number.
             var cell = raw.Replace(" ", "");
-            if (Amount(cell) is { } v) { values.Add(v); continue; }
+            if (Amount(cell) is { } v)
+            {
+                // …unless it is a note number and the amount one space apart ("Revenue  28 3,607,041,808"): kept aside
+                // and decided against the other column below.
+                if (values.Count == 0 && label.Count > 0 && raw.Split(' ') is [var note, var amount] && IsNoteNumber(note) &&
+                    amount.Contains(',') && Amount(amount) is { } split) noteSplit = split;
+                values.Add(v);
+                continue;
+            }
             if (values.Count > 0)
             {
                 // Text after amounts ("12,345  (Restated)"): cells like "- -" hold several dashes.
@@ -380,6 +389,11 @@ public static partial class AnnualReportReader
             label.Add(raw);
         }
         if (values.Count == 0) return null;
+        // Joined, EMCO's 2025 revenue read Rs 283.6 billion beside 4.2 billion the year before; as note 28 and Rs 3.6 billion
+        // it is in line. The note reading wins only when it fits the comparative and the joined one doesn't.
+        if (noteSplit is { } s && values.Count >= 2 && values[1] != 0 &&
+            Math.Abs(values[0] / values[1]) > 10 && Math.Abs(s / values[1]) is > 0.1m and < 10)
+            values[0] = s;
         // A note number right after the label ("27", "35.1", "(37.2)"): not an amount.
         var text = string.Join(" ", label);
         var noteMatch = TrailingNote().Match(text);

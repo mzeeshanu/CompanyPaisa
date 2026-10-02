@@ -59,14 +59,15 @@ public sealed partial class EuPostcodes
         ("Canberra", new(-35.2809, 149.1300)), ("Darwin", new(-12.4634, 130.8456))
     ];
 
-    /// <summary>Countries whose postcodes are 4 digits: the Netherlands ("1012 AB" → 1012), Australia, New Zealand.</summary>
-    public static readonly HashSet<string> FourDigitCountries = new(StringComparer.OrdinalIgnoreCase) { "NL", "AU", "NZ" };
-
-    /// <summary>"1012 AB" → "1012" in the Netherlands, "2000" in Sydney; other countries keep their 5 digits ("8002" → "08002").</summary>
+    /// <summary>
+    /// "1012 AB" → "1012" in the Netherlands, "2000" in Sydney, "113 56" → "11356" in Stockholm, "00-950" → "00950" in
+    /// Warsaw; 5-digit countries keep their 5 digits ("8002" → "08002"). See <see cref="Core.Services.Regions.PostcodeDigits"/>.
+    /// </summary>
     public static string? Normalise(string country, string postcode)
     {
-        var digits = PostcodeDigits().Match(postcode).Value;   // "75008", "1012 AB" → 1012, "F-75008" → 75008
-        if (FourDigitCountries.Contains(country))
+        // "75008", "1012 AB" → 1012, "F-75008" → 75008, "SE-113 56" → 11356, "00-950" → 00950.
+        var digits = PostcodeDigits().Match(SpaceOrDash().Replace(postcode, "")).Value;
+        if (Core.Services.Regions.PostcodeDigits(country) == 4)
             return digits.Length >= 4 ? digits[..4] : null;
         return digits.Length is >= 4 and <= 5 ? digits.PadLeft(5, '0') : null;
     }
@@ -97,4 +98,5 @@ public sealed partial class EuPostcodes
 
     [GeneratedRegex(@"\s+\d{1,2}(\s.*)?$")] private static partial Regex ArrondissementSuffix();
     [GeneratedRegex(@"\d{4,5}")] private static partial Regex PostcodeDigits();
+    [GeneratedRegex(@"(?<=\d)[\s\-](?=\d)")] private static partial Regex SpaceOrDash();
 }

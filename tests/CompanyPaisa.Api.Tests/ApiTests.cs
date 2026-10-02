@@ -106,6 +106,7 @@ public class ApiTests(SampleDataFactory factory) : IClassFixture<SampleDataFacto
         Assert.Equal(7, config.Coverage.Count(c => c.Country is "AU" or "NZ"));
         Assert.Contains(config.Coverage, c => c.Name == "Karachi" && c.ExampleZip == "74000" && c.Country == "PK");
         Assert.Equal(5, config.Coverage.Count(c => c.Country == "PK"));
+        Assert.Equal(18, config.Coverage.Count(c => c.Country is "SE" or "DK" or "FI" or "NO" or "BE" or "AT"));
         Assert.Equal("privacy@companypaisa.com", config.PrivacyContact);
     }
 
@@ -124,6 +125,13 @@ public class ApiTests(SampleDataFactory factory) : IClassFixture<SampleDataFacto
     [InlineData("NZ 1010", "Auckland", "NZ")]
     [InlineData("PK-74000", "Karachi", "PK")]      // a bare 74000 would be a US ZIP
     [InlineData("PK 54000", "Lahore", "PK")]
+    [InlineData("SE-113 56", "Stockholm", "SE")]    // Swedish codes are written with a space
+    [InlineData("SE-11356", "Stockholm", "SE")]
+    [InlineData("DK-1050", "København", "DK")]
+    [InlineData("FI-00100", "Helsinki", "FI")]
+    [InlineData("NO 0150", "Oslo", "NO")]
+    [InlineData("BE-1000", "Bruxelles", "BE")]
+    [InlineData("AT-1010", "Wien", "AT")]
     public async Task Postcodes_resolve_to_the_right_country(string query, string city, string state)
     {
         var hit = await Client().LookupAsync(query);

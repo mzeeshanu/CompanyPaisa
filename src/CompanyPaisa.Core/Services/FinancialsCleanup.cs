@@ -42,12 +42,43 @@ public static class FinancialsCleanup
                 var revenueEstimate = FromQuarters(q, f => f.Revenue);
                 var incomeEstimate = FromQuarters(q, f => f.NetIncome);
                 var revenue = Fix(a.Revenue, Agrees(a.NetIncome, incomeEstimate, 10) ? revenueEstimate : null, Neighbours(annual, i, f => f.Revenue), null);
-                var income = Fix(a.NetIncome, Agrees(revenue, revenueEstimate, 2) ? incomeEstimate : null, Neighbours(annual, i, f => f.NetIncome), revenue);
+                var incomeNeighbours = Neighbours(annual, i, f => f.NetIncome);
+                var income = Fix(a.NetIncome, Agrees(revenue, revenueEstimate, 2) ? incomeEstimate : null, incomeNeighbours, revenue, ProfitConfirmed(annual, i));
+                // A year filed in the wrong unit is wrong throughout: Netcompany's 2022 report gave DKK 5,544,600 of revenue
+                // and 603,400 of profit, both in thousands. Profit follows revenue's correction when that puts it in line
+                // with both neighbouring years (profit swings too much year to year for the 1,000× test on its own).
+                if (revenue != a.Revenue && income == a.NetIncome && a.Revenue != 0 && incomeNeighbours is { } n &&
+                    a.NetIncome * (revenue / a.Revenue) is var scaled && Near(scaled, n.Prev, 10) && Near(scaled, n.Next, 10))
+                    income = scaled;
+                else if (income == a.NetIncome && ProfitInThousands(annual, i, revenue))
+                    income /= 1000;
                 if (income != a.NetIncome) income = Sign(income, revenue, q);
                 if (revenue == a.Revenue && income == a.NetIncome) continue;
                 annual[i] = a with { Revenue = revenue, NetIncome = income };
                 rescaled++;
             }
+
+            // A profit between two years whose profits were both filed 1,000× too big is in the same unit when ÷1,000 puts it
+            // in line with them: OPKO's 2024 loss of $53 billion between corrected losses of $189 million and $226 million.
+            for (var i = 1; i < annual.Count - 1; i++)
+            {
+                var (prev, a, next) = (annual[i - 1], annual[i], annual[i + 1]);
+                if (next.FiscalYear - prev.FiscalYear != 2 || a.NetIncome != original[a.FiscalYear].NetIncome) continue;
+                if (prev.NetIncome * 1000 != original[prev.FiscalYear].NetIncome || next.NetIncome * 1000 != original[next.FiscalYear].NetIncome) continue;
+                if (Math.Abs(a.NetIncome) <= Math.Abs(a.Revenue) * 10 || !Near(a.NetIncome / 1000, prev.NetIncome, 10) || !Near(a.NetIncome / 1000, next.NetIncome, 10)) continue;
+                annual[i] = a with { NetIncome = a.NetIncome / 1000 };
+                rescaled++;
+            }
+
+            // Years at either end of the run have one neighbour, so the test above cannot judge them; there both revenue and
+            // profit must sit 1,000× (or 1,000,000×) from the adjacent year — a young company's tiny first sales come with a
+            // loss on its own scale. Moury Construct's 2020–22 figures in thousands (€155,000 of sales before €194 million),
+            // Scandinavian Tobacco's 2025 (DKK 2.9 million after 2.9 billion), Lenzing's 2019 in millions (€2,105).
+            var fixedHere = new HashSet<int>();
+            for (var i = annual.Count - 2; i >= 0; i--)
+                if (EdgeSlip(annual, i, i + 1, i - 1, fixedHere) is { } k) { annual[i] = Scale(annual[i], k); fixedHere.Add(i); rescaled++; }
+            for (var i = 1; i < annual.Count; i++)
+                if (EdgeSlip(annual, i, i - 1, i + 1, fixedHere) is { } k) { annual[i] = Scale(annual[i], k); fixedHere.Add(i); rescaled++; }
 
             // 2. Fourth quarters: one worked out as "year minus the first three" follows its corrected year; one far out of
             //    line with the year's other quarters is replaced by that difference when the difference fits, else left out.
@@ -109,7 +140,7 @@ public static class FinancialsCleanup
     /// that far out; a profit also when it is over 100× its year's revenue and ÷1,000 makes it ordinary. The sign follows
     /// the filing (see <see cref="Sign"/>).
     /// </summary>
-    private static decimal Fix(decimal value, decimal? quarterEstimate, (decimal Prev, decimal Next)? neighbours, decimal? revenue)
+    private static decimal Fix(decimal value, decimal? quarterEstimate, (decimal Prev, decimal Next)? neighbours, decimal? revenue, bool profitConfirmed = false)
     {
         if (value == 0) return value;
         if (quarterEstimate is { } est && est != 0)
@@ -125,7 +156,7 @@ public static class FinancialsCleanup
             if (a is > Low and < High && b is > Low and < High) return value / 1000;
             if (a is > 1 / High and < 1 / Low && b is > 1 / High and < 1 / Low) return value * 1000;
         }
-        if (revenue is { } rev && rev >= 10_000_000 && Math.Abs(value) > rev * 100 && Math.Abs(value) / 1000 < rev * 10)
+        if (revenue is { } rev && rev >= 10_000_000 && Math.Abs(value) > rev * 100 && Math.Abs(value) / 1000 < rev * 10 && !profitConfirmed)
             return value / 1000;
         return value;
     }
@@ -148,6 +179,62 @@ public static class FinancialsCleanup
         return asFiled > q4Revenue * 1.5m && flipped <= q4Revenue ? -income : income;
     }
 
+    /// <summary>
+    /// True when an adjacent year's profit is on the same scale as this year's and believable against its own revenue: then a
+    /// profit far above revenue is real and the revenue is what is out (Solstad's "revenue" of NOK 10 million beside a NOK
+    /// 1.1 billion loss, after another NOK 1.1 billion loss in 2022). A neighbour in the same wrong unit confirms nothing
+    /// (American Superconductor's 2021 and 2022 losses, both filed 1,000× too big).
+    /// </summary>
+    private static bool ProfitConfirmed(List<FinancialPeriod> annual, int i) =>
+        Adjacent(annual, i).Any(n => Near(annual[i].NetIncome, n.NetIncome, 10) && Math.Abs(n.NetIncome) <= Math.Abs(n.Revenue) * 30);
+
+    /// <summary>
+    /// A profit over 10× its year's revenue that ÷1,000 puts in line with an ordinary adjacent year (one whose profit is
+    /// within 10× its revenue — earlier years are already corrected): OPKO's 2021 loss of $30.1 billion on $1.8 billion
+    /// of sales beside a 2020 profit of $31 million; its 2024 loss of $53 billion beside 2023's corrected $189 million.
+    /// </summary>
+    private static bool ProfitInThousands(List<FinancialPeriod> annual, int i, decimal revenue)
+    {
+        var income = annual[i].NetIncome;
+        return revenue >= 10_000_000 && Math.Abs(income) > revenue * 10 && Math.Abs(income) / 1000 <= revenue * 10 && !ProfitConfirmed(annual, i) &&
+               Adjacent(annual, i).Any(n => Math.Abs(n.NetIncome) <= Math.Abs(n.Revenue) * 10 && Near(income / 1000, n.NetIncome, income > 0 ? 10 : 2));
+    }
+
+    private static IEnumerable<FinancialPeriod> Adjacent(List<FinancialPeriod> annual, int i) =>
+        new[] { i - 1, i + 1 }.Where(j => j >= 0 && j < annual.Count && Math.Abs(annual[j].FiscalYear - annual[i].FiscalYear) == 1).Select(j => annual[j]);
+
+    /// <summary>
+    /// The factor that brings year <paramref name="i"/> in line with the adjacent year <paramref name="anchor"/> when it is an
+    /// end year (or every year beyond it is out the same way) and the anchor is trustworthy — itself corrected, or in line
+    /// with the year after it.
+    /// </summary>
+    private static decimal? EdgeSlip(List<FinancialPeriod> annual, int i, int anchor, int beyond, HashSet<int> fixedHere)
+    {
+        var (a, n) = (annual[i], annual[anchor]);
+        if (fixedHere.Contains(i) || Math.Abs(a.FiscalYear - n.FiscalYear) != 1 || a.Revenue <= 0 || n.Revenue <= 0) return null;
+        var further = anchor + (anchor - i);
+        var trusted = fixedHere.Contains(anchor) ||
+                      further >= 0 && further < annual.Count && Math.Abs(annual[further].FiscalYear - n.FiscalYear) == 1 && Near(annual[further].Revenue, n.Revenue, 3);
+        if (!trusted) return null;
+        foreach (var k in new[] { 1000m, 1_000_000m, 1 / 1000m, 1 / 1_000_000m })
+        {
+            if (n.Revenue / (a.Revenue * k) is not (> 0.6m and < 1.7m)) continue;
+            if (a.NetIncome != 0 && !Near(a.NetIncome * k, n.NetIncome, 10)) return null;
+            // Only a run reaching the end of the figures: every year beyond this one must be out the same way (a single year
+            // out of line between two good ones is the neighbours test's to judge).
+            for (var j = beyond; j >= 0 && j < annual.Count; j += beyond - i)
+                if (!Near(annual[j].Revenue, a.Revenue, 10)) return null;
+            return k;
+        }
+        return null;
+    }
+
+    private static FinancialPeriod Scale(FinancialPeriod f, decimal k) => f with { Revenue = f.Revenue * k, NetIncome = f.NetIncome * k };
+
+    /// <summary>True when two figures are within a factor of each other in size (either sign).</summary>
+    private static bool Near(decimal a, decimal b, decimal factor) =>
+        a != 0 && b != 0 && Math.Abs(a / b) is var r && r > 1 / factor && r < factor;
+
     /// <summary>True when a year's figure and its quarters' estimate are within a factor of each other (same sign).</summary>
     private static bool Agrees(decimal value, decimal? estimate, decimal factor) =>
         estimate is { } e && e != 0 && value != 0 && value / e is var r && r > 1 / factor && r < factor;
@@ -160,7 +247,7 @@ public static class FinancialsCleanup
         return first3.Count >= 2 && first3.Select(get).All(v => v > 0) || first3.Count >= 2 && first3.Select(get).All(v => v < 0) ? first3.Average(get) * 4 : null;
     }
 
-    private static (decimal, decimal)? Neighbours(List<FinancialPeriod> annual, int i, Func<FinancialPeriod, decimal> get) =>
+    private static (decimal Prev, decimal Next)? Neighbours(List<FinancialPeriod> annual, int i, Func<FinancialPeriod, decimal> get) =>
         i > 0 && i < annual.Count - 1 && annual[i - 1].FiscalYear == annual[i].FiscalYear - 1 && annual[i + 1].FiscalYear == annual[i].FiscalYear + 1
             ? (get(annual[i - 1]), get(annual[i + 1]))
             : null;

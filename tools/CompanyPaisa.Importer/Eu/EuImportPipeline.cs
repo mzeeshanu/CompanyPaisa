@@ -19,7 +19,7 @@ public sealed class EuImportPipeline(IOptions<ImporterOptions> options, RepoPath
     : Publishing.IMarketImporter
 {
     string Publishing.IMarketImporter.Market => Market;
-    public string Description => "France, the Netherlands, Italy and Spain: ESEF annual reports (financials only)";
+    public string Description => $"{string.Join(", ", _o.Countries.Select(c => c.Name))}: ESEF annual reports (financials only)";
     Task<int> Publishing.IMarketImporter.RunAsync(bool refreshLists, CancellationToken ct) => RunAsync(ct);
 
     private readonly EuOptions _o = options.Value.Eu;
@@ -70,6 +70,8 @@ public sealed class EuImportPipeline(IOptions<ImporterOptions> options, RepoPath
                 var years = await EsefFinancials.CollectYearsAsync(client, entity, companyId, warnings, ct);
                 if (years.Count == 0) { excluded.Add($"{companyId} {c.Name}: no revenue in its tagged reports"); continue; }
                 var latest = years.Values.MaxBy(y => y.Year.FiscalYear).Year;
+                // A currency no European company reports in is a tagging slip (Josef Manner's figures tagged in Fiji dollars).
+                if (!ReportingCurrencies.Contains(latest.Currency)) { excluded.Add($"{companyId} {c.Name}: figures tagged in {latest.Currency}, not a currency European companies report in (a tagging error)"); continue; }
                 var region = RegionFor(country, place.Point);
 
                 companies.Add(new Company
@@ -105,6 +107,9 @@ public sealed class EuImportPipeline(IOptions<ImporterOptions> options, RepoPath
 
     /// <summary>This importer's partition of the database.</summary>
     public const string Market = "eu";
+
+    /// <summary>The currencies European listed companies report in (the site has exchange rates for each).</summary>
+    private static readonly HashSet<string> ReportingCurrencies = ["EUR", "USD", "GBP", "SEK", "DKK", "NOK", "CAD"];
 
     private string RegionFor(EuCountryOptions country, GeoPoint point)
     {

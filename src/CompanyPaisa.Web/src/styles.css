@@ -601,6 +601,13 @@ td.co i{width:8px;height:8px;border-radius:2px;display:inline-block}
 .new-parts li{display:flex;align-items:center;gap:7px}
 .new-parts li i{width:9px;height:9px;border-radius:3px;flex:none}
 .new-parts .num{margin-left:auto;color:var(--ink)}
+.new-total .new-at-risk{color:var(--dim);white-space:normal;max-width:190px;text-align:right}
+.new-group{margin-top:8px}
+.new-group-head{display:flex;align-items:baseline;gap:8px;font-size:12.5px;margin-bottom:3px}
+.new-group-head b{font-weight:700;color:var(--ink)}
+.new-group-head small{color:var(--faint);font-size:11.5px}
+.new-group-head .num{margin-left:auto;color:var(--ink);font-weight:600}
+.new-group.performance .new-group-head b{color:var(--accent)}
 /* Full width under the company header: people side by side on wide screens. */
 /* Reads as news: a warm tint and a NEWS label, set apart from the data cards around it. */
 .new-leadership{--news:var(--flat);background:linear-gradient(135deg,color-mix(in srgb,var(--news) 16%,var(--glass-strong)),color-mix(in srgb,var(--news) 6%,var(--glass-strong)));border-color:color-mix(in srgb,var(--news) 45%,transparent)}

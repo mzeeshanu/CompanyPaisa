@@ -32,17 +32,23 @@ const CA_POSTCODE = /^[ABCEGHJ-NPRSTVXY]\d[A-Z](\s*\d[A-Z]\d)?$/i;
  * New Zealand; 5 in Pakistan; a Dutch 4 digits with optional letters ("1012 AB").
  */
 const EU_POSTCODE: Partial<Record<Country, RegExp>> = {
-  FR: /^\d{5}$/, IT: /^\d{5}$/, ES: /^\d{5}$/, NL: /^\d{4}(\s*[A-Z]{2})?$/i, AU: /^\d{4}$/, NZ: /^\d{4}$/, PK: /^\d{5}$/
+  FR: /^\d{5}$/, IT: /^\d{5}$/, ES: /^\d{5}$/, NL: /^\d{4}(\s*[A-Z]{2})?$/i, SE: /^\d{3}\s?\d{2}$/, DK: /^\d{4}$/, FI: /^\d{5}$/,
+  NO: /^\d{4}$/, PL: /^\d{2}-?\d{3}$/, BE: /^\d{4}$/, AT: /^\d{4}$/, AU: /^\d{4}$/, NZ: /^\d{4}$/, PK: /^\d{5}$/
 };
-const EU_EXAMPLES: Partial<Record<Country, string>> = { FR: '75008', IT: '20121', ES: '28013', NL: '1012 AB', AU: '2000', NZ: '1010', PK: '74000' };
+const EU_EXAMPLES: Partial<Record<Country, string>> = {
+  FR: '75008', IT: '20121', ES: '28013', NL: '1012 AB', SE: '113 56', DK: '1050', FI: '00100', NO: '0150', PL: '00-950', BE: '1000',
+  AT: '1010', AU: '2000', NZ: '1010', PK: '74000'
+};
 const COUNTRY_NAMES: Record<Country, string> = {
   US: 'United States', CA: 'Canada', UK: 'United Kingdom', FR: 'France', NL: 'Netherlands', IT: 'Italy', ES: 'Spain',
+  SE: 'Sweden', DK: 'Denmark', FI: 'Finland', NO: 'Norway', PL: 'Poland', BE: 'Belgium', AT: 'Austria',
   AU: 'Australia', NZ: 'New Zealand', PK: 'Pakistan'
 };
 const SHORT_NAMES: Record<Country, string> = {
-  US: 'US', CA: 'Canada', UK: 'UK', FR: 'France', NL: 'Netherlands', IT: 'Italy', ES: 'Spain', AU: 'Australia', NZ: 'New Zealand', PK: 'Pakistan'
+  US: 'US', CA: 'Canada', UK: 'UK', FR: 'France', NL: 'Netherlands', IT: 'Italy', ES: 'Spain', SE: 'Sweden', DK: 'Denmark',
+  FI: 'Finland', NO: 'Norway', PL: 'Poland', BE: 'Belgium', AT: 'Austria', AU: 'Australia', NZ: 'New Zealand', PK: 'Pakistan'
 };
-const ORDER: Country[] = ['US', 'CA', 'UK', 'FR', 'NL', 'IT', 'ES', 'AU', 'NZ', 'PK'];
+const ORDER: Country[] = ['US', 'CA', 'UK', 'FR', 'NL', 'IT', 'ES', 'SE', 'DK', 'FI', 'NO', 'PL', 'BE', 'AT', 'AU', 'NZ', 'PK'];
 /** "US, Canada & UK" */
 const listCountries = (cs: Country[]) => cs.map(c => SHORT_NAMES[c]).join(', ').replace(/, ([^,]*)$/, ' & $1');
 
@@ -56,6 +62,13 @@ function browserCountry(available: Country[]): Country {
   if (pick('NL', /^nl/i)) return 'NL';
   if (pick('IT', /^it/i)) return 'IT';
   if (pick('ES', /^es(-ES)?$/i)) return 'ES';
+  if (pick('SE', /^sv/i)) return 'SE';
+  if (pick('DK', /^da/i)) return 'DK';
+  if (pick('FI', /^fi|-FI$/i)) return 'FI';
+  if (pick('NO', /^(nb|nn|no)/i)) return 'NO';
+  if (pick('PL', /^pl/i)) return 'PL';
+  if (pick('BE', /-BE$/i)) return 'BE';
+  if (pick('AT', /-AT$/i)) return 'AT';
   if (pick('AU', /-AU$/i)) return 'AU';
   if (pick('NZ', /-NZ$/i)) return 'NZ';
   if (pick('PK', /-PK$|^ur/i)) return 'PK';

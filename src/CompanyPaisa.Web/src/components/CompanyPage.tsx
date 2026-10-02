@@ -91,8 +91,9 @@ export function CompanyPage({ ticker, from, showExecutives, onExplore, onLoaded 
   const lastYear = d.annual[d.annual.length - 1];
   const shownPeriod: PeriodType = noQuarters ? 'Annual' : period;
   const uk = d.detail.exchange === 'LSE';
-  // European companies (ESEF reports, financials only): tickers end in .PA, .AS, .MI or .MC.
-  const europe = /\.(PA|AS|MI|MC)$/.test(d.detail.ticker);
+  // European companies (ESEF reports, financials only): Paris, Amsterdam, Milan, Madrid, Stockholm, Copenhagen, Helsinki,
+  // Oslo, Warsaw, Brussels and Vienna tickers.
+  const europe = /\.(PA|AS|MI|MC|ST|CO|HE|OL|WA|BR|VI)$/.test(d.detail.ticker);
   // Pakistan Stock Exchange (".KA"): figures read from the company's annual report PDF.
   const pakistan = d.detail.ticker.endsWith('.KA');
   // ASX (".AX") and NZX (".NZ"): figures read from the annual report on the company's own website.
@@ -242,7 +243,7 @@ export function CompanyPage({ ticker, from, showExecutives, onExplore, onLoaded 
 /** European, Australian, New Zealand and Pakistani locations keep their country in the state field ("FR"); "NL" is also Newfoundland. */
 function countryOf(l: Location, currency: string): string | null {
   if (l.state === 'NL') return currency === 'EUR' ? 'NL' : null;
-  return ['FR', 'IT', 'ES', 'AU', 'NZ', 'PK'].includes(l.state) ? l.state : null;
+  return ['FR', 'IT', 'ES', 'SE', 'DK', 'FI', 'NO', 'PL', 'BE', 'AT', 'AU', 'NZ', 'PK'].includes(l.state) ? l.state : null;
 }
 
 function Kpi({ k, s, v, cls = '' }: { k: string; s: string; v: string; cls?: string }) {

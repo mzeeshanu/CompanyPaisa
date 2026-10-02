@@ -129,4 +129,85 @@ public class FinancialsCleanupTests
         Assert.Equal(0, r.Rescaled + r.QuartersRedone + r.QuartersDropped);
         Assert.Equal(input, r.Financials.OrderBy(f => f.FiscalYear).ThenBy(f => f.FiscalQuarter ?? 0).ToArray());
     }
+
+    [Fact]
+    public void A_year_filed_in_thousands_scales_its_profit_with_its_revenue()
+    {
+        // Netcompany 2022: DKK 5,544,600 of revenue and 603,400 of profit, both in thousands.
+        var r = FinancialsCleanup.Apply(
+        [
+            Year("NETC.CO", 2021, 3_631_971_000, 576_142_000), Year("NETC.CO", 2022, 5_544_600, 603_400),
+            Year("NETC.CO", 2023, 6_078_400_000, 303_500_000)
+        ]);
+
+        Assert.Equal(5_544_600_000, Get(r, 2022).Revenue);
+        Assert.Equal(603_400_000, Get(r, 2022).NetIncome);
+    }
+
+    [Fact]
+    public void Leaves_a_real_profit_alone_when_the_revenue_line_is_what_is_small()
+    {
+        // Solstad Offshore: a NOK 1.1 billion loss on NOK 10 million of "revenue", beside another NOK 1.1 billion loss.
+        var input = new[]
+        {
+            Year("SOFF.OL", 2020, 6_373_000, 7_240_743_000), Year("SOFF.OL", 2021, 10_295_000, -1_102_449_000),
+            Year("SOFF.OL", 2022, 46_436_000, -1_117_803_000)
+        };
+
+        Assert.Equal(-1_102_449_000, Get(FinancialsCleanup.Apply(input), 2021).NetIncome);
+    }
+
+    [Fact]
+    public void Scales_a_run_of_profits_filed_in_thousands()
+    {
+        // OPKO Health: every loss from 2021 to 2025 filed 1,000× too big, some only 17–75× its revenue.
+        var r = FinancialsCleanup.Apply(
+        [
+            Year("OPK", 2020, 1_435_413_000, 30_586_000), Year("OPK", 2021, 1_774_718_000, -30_143_000_000),
+            Year("OPK", 2022, 1_004_196_000, -328_405_000_000), Year("OPK", 2023, 863_495_000, -188_863_000_000),
+            Year("OPK", 2024, 713_142_000, -53_224_000_000), Year("OPK", 2025, 606_879_000, -225_680_000_000)
+        ]);
+
+        Assert.Equal([30_586_000m, -30_143_000m, -328_405_000m, -188_863_000m, -53_224_000m, -225_680_000m],
+            r.Financials.OrderBy(f => f.FiscalYear).Select(f => f.NetIncome));
+    }
+
+    [Fact]
+    public void Leaves_a_one_off_loss_far_above_revenue_alone()
+    {
+        // Vivid Seats 2020: a $774 million loss on $23 million of sales in the pandemic year — real.
+        var input = new[]
+        {
+            Year("SEAT", 2019, 403_645_000, -53_848_000), Year("SEAT", 2020, 23_281_000, -774_185_000),
+            Year("SEAT", 2021, 389_668_000, -5_024_000)
+        };
+
+        Assert.Equal(0, FinancialsCleanup.Apply(input).Rescaled);
+    }
+
+    [Fact]
+    public void Scales_years_at_the_ends_of_the_figures()
+    {
+        // Moury Construct's first three years in thousands; Scandinavian Tobacco's last year in thousands.
+        var r = FinancialsCleanup.Apply(
+        [
+            Year("MOUR.BR", 2020, 128_601, 9_092), Year("MOUR.BR", 2021, 134_822, 13_005), Year("MOUR.BR", 2022, 155_351, 17_269),
+            Year("MOUR.BR", 2023, 194_000_000, 24_400_000), Year("MOUR.BR", 2024, 186_300_000, 24_400_000),
+            Year("SPG.CO", 2023, 2_610_000_000, 158_500_000), Year("SPG.CO", 2024, 2_920_000_000, 260_900_000), Year("SPG.CO", 2025, 2_948_100, 265_000)
+        ]);
+
+        Assert.Equal([128_601_000m, 134_822_000m, 155_351_000m],
+            r.Financials.Where(f => f.CompanyId == "MOUR.BR" && f.FiscalYear < 2023).OrderBy(f => f.FiscalYear).Select(f => f.Revenue));
+        var spg = r.Financials.Single(f => f.CompanyId == "SPG.CO" && f.FiscalYear == 2025);
+        Assert.Equal((2_948_100_000m, 265_000_000m), (spg.Revenue, spg.NetIncome));
+    }
+
+    [Fact]
+    public void Leaves_a_young_company_s_tiny_first_sales_alone()
+    {
+        // First-year sales of $20,000 with a loss on the company's own scale, then real growth.
+        var input = new[] { Year("NEW", 2023, 20_000, -6_000_000), Year("NEW", 2024, 18_500_000, -5_800_000), Year("NEW", 2025, 18_600_000, -6_500_000) };
+
+        Assert.Equal(0, FinancialsCleanup.Apply(input).Rescaled);
+    }
 }
