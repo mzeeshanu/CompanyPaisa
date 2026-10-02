@@ -144,6 +144,39 @@ public class UkImporterTests
         Assert.Equal(900_000_000m, year.NetIncome);
     }
 
+    /// <summary>Aker BP: no plain "Revenue" — its top line is "Revenue and operating income"; interest income is not revenue.</summary>
+    [Fact]
+    public void Takes_revenue_and_operating_income_over_interest_income()
+    {
+        const string json = """
+            { "facts": {
+              "f1": { "value": "13134000000", "dimensions": { "concept": "ifrs-full:RevenueAndOperatingIncome", "entity": "lei:X", "period": "2022-01-01T00:00:00/2023-01-01T00:00:00", "unit": "iso4217:USD" } },
+              "f2": { "value": "25972000", "dimensions": { "concept": "ifrs-full:RevenueFromInterest", "entity": "lei:X", "period": "2022-01-01T00:00:00/2023-01-01T00:00:00", "unit": "iso4217:USD" } },
+              "f3": { "value": "1595000000", "dimensions": { "concept": "ifrs-full:ProfitLoss", "entity": "lei:X", "period": "2022-01-01T00:00:00/2023-01-01T00:00:00", "unit": "iso4217:USD" } }
+            } }
+            """;
+
+        var year = Assert.Single(EsefFinancials.Extract(json, new DateOnly(2022, 12, 31)));
+
+        Assert.Equal(13_134_000_000m, year.Revenue);
+        Assert.Equal("ifrs-full:RevenueAndOperatingIncome", year.RevenueConcept);
+    }
+
+    /// <summary>A property company's top line is rent (CA Immo), not the service income it also tags.</summary>
+    [Fact]
+    public void Takes_rental_income_for_a_property_company()
+    {
+        const string json = """
+            { "facts": {
+              "f1": { "value": "8100000", "dimensions": { "concept": "ifrs-full:RevenueFromRenderingOfServices", "entity": "lei:X", "period": "2022-01-01T00:00:00/2023-01-01T00:00:00", "unit": "iso4217:EUR" } },
+              "f2": { "value": "229000000", "dimensions": { "concept": "ifrs-full:RentalIncomeFromInvestmentProperty", "entity": "lei:X", "period": "2022-01-01T00:00:00/2023-01-01T00:00:00", "unit": "iso4217:EUR" } },
+              "f3": { "value": "75500000", "dimensions": { "concept": "ifrs-full:ProfitLossAttributableToOwnersOfParent", "entity": "lei:X", "period": "2022-01-01T00:00:00/2023-01-01T00:00:00", "unit": "iso4217:EUR" } }
+            } }
+            """;
+
+        Assert.Equal(229_000_000m, Assert.Single(EsefFinancials.Extract(json, new DateOnly(2022, 12, 31))).Revenue);
+    }
+
     [Theory]
     [InlineData("Ken Murphy", true)]
     [InlineData("Dame Emma Walmsley", true)]

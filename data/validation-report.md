@@ -1,11 +1,11 @@
-# Data validation report — 2026-09-25 14:53 UTC
+# Data validation report — 2026-10-02 16:35 UTC
 
-Checks everything in `companypaisa.db` together, as the website sees it — markets: pk (pk-2026.09.19), sec (sec-2026.09.22), anz (anz-2026.09.24), uk (uk-2026.09.25), eu (eu-2026.09.25).
+Checks everything in `companypaisa.db` together, as the website sees it — markets: pk (pk-2026.09.19), sec (sec-2026.09.22), anz (anz-2026.09.24), uk (uk-2026.09.25), eu (eu-2026.10.02).
 
 **Errors** are values that can't be right. **Warnings** are unusual values worth a look — many are real (big acquisitions, holding-company gains, mega stock grants). Nothing here changes the data.
 
 - Errors: **0**
-- Warnings: **648**
+- Warnings: **669**
 
 ## Checks
 
@@ -14,7 +14,7 @@ Checks everything in `companypaisa.db` together, as the website sees it — mark
 | Companies | Currency without an exchange rate | Error | ✓ 0 |
 | Companies | No location at all | Error | ✓ 0 |
 | Companies | Only a local office, no headquarters | Warning | 1 |
-| Companies | Same name under two ids | Warning | 4 |
+| Companies | Same name under two ids | Warning | 5 |
 | Locations | Outside its country | Error | ✓ 0 |
 | Locations | Missing city | Warning | ✓ 0 |
 | Financials | No figures at all | Error | ✓ 0 |
@@ -22,10 +22,10 @@ Checks everything in `companypaisa.db` together, as the website sees it — mark
 | Financials | Period in the future | Error | ✓ 0 |
 | Financials | Duplicate period | Error | ✓ 0 |
 | Financials | Implausibly large revenue | Warning | ✓ 0 |
-| Financials | Profit far bigger than revenue | Warning | 64 |
-| Financials | Revenue jumps 10× in a year | Warning | 53 |
+| Financials | Profit far bigger than revenue | Warning | 70 |
+| Financials | Revenue jumps 10× in a year | Warning | 55 |
 | Financials | Quarters don't add up to the year | Warning | 70 |
-| Financials | Out of date | Warning | 42 |
+| Financials | Out of date | Warning | 54 |
 | Financials | Annual figures missing, quarters only | Warning | 103 |
 | Pay | Negative amount | Error | ✓ 0 |
 | Pay | Year in the future | Error | ✓ 0 |
@@ -46,13 +46,19 @@ Checks everything in `companypaisa.db` together, as the website sees it — mark
 |---|---|
 | US | 3,832 |
 | GB | 334 |
+| SE | 258 |
 | PK | 228 |
-| FR | 180 |
+| FR | 194 |
 | CA | 144 |
-| IT | 139 |
-| ES | 95 |
+| IT | 141 |
+| NO | 134 |
+| ES | 94 |
 | AU | 90 |
-| NL | 70 |
+| DK | 85 |
+| FI | 82 |
+| NL | 73 |
+| BE | 67 |
+| AT | 50 |
 | NZ | 11 |
 | ? | 1 |
 
@@ -63,14 +69,20 @@ Checks everything in `companypaisa.db` together, as the website sees it — mark
 | Nasdaq | 2,160 |
 | NYSE | 1,446 |
 | LSE | 334 |
+| Nasdaq Stockholm | 258 |
 | Pakistan Stock Exchange | 228 |
 | OTC | 209 |
-| Euronext Paris | 180 |
+| Euronext Paris | 194 |
 | NYSE American | 158 |
-| Borsa Italiana | 139 |
-| Bolsa de Madrid | 95 |
+| Borsa Italiana | 141 |
+| Oslo Børs | 134 |
+| Bolsa de Madrid | 94 |
+| Nasdaq Copenhagen | 85 |
+| Nasdaq Helsinki | 82 |
 | ASX | 73 |
-| Euronext Amsterdam | 70 |
+| Euronext Amsterdam | 73 |
+| Euronext Brussels | 67 |
+| Wiener Börse | 50 |
 | NYSE Arca | 16 |
 | NZX | 11 |
 | Unlisted | 3 |
@@ -80,12 +92,15 @@ Checks everything in `companypaisa.db` together, as the website sees it — mark
 
 | | Count |
 |---|---|
-| USD | 3,998 |
-| EUR | 487 |
+| USD | 4,035 |
+| EUR | 728 |
 | GBP | 272 |
+| SEK | 247 |
 | PKR | 228 |
+| NOK | 95 |
 | AUD | 73 |
-| CAD | 50 |
+| DKK | 73 |
+| CAD | 51 |
 | NZD | 11 |
 | GEL | 2 |
 | CNY | 1 |
@@ -96,7 +111,7 @@ Checks everything in `companypaisa.db` together, as the website sees it — mark
 
 | | Count |
 |---|---|
-| Other | 823 |
+| Other | 1,517 |
 | Finance | 755 |
 | Healthcare | 687 |
 | Consumer & retail | 605 |
@@ -127,28 +142,28 @@ Checks everything in `companypaisa.db` together, as the website sees it — mark
 | | Count |
 |---|---|
 | 10+ | 2,451 |
-| 6–9 | 1,203 |
-| 3–5 | 1,106 |
-| 1–2 | 261 |
+| 3–5 | 1,535 |
+| 6–9 | 1,399 |
+| 1–2 | 330 |
 | 0 (quarters only) | 103 |
 
 ### Newest annual figures
 
 | | Count |
 |---|---|
-| FY 2025 | 4,229 |
-| FY 2026 | 468 |
-| FY 2024 | 282 |
+| FY 2025 | 4,460 |
+| FY 2024 | 718 |
+| FY 2026 | 483 |
 | none | 103 |
-| 2023 or older | 42 |
+| 2023 or older | 54 |
 
 ### Rows
 
 | | Count |
 |---|---|
-| Companies | 5,124 |
-| Locations | 5,134 |
-| Annual periods | 37,814 |
+| Companies | 5,818 |
+| Locations | 5,828 |
+| Annual periods | 41,227 |
 | Quarterly periods | 132,442 |
 | Pay rows | 88,763 |
 | People | 23,235 |
@@ -161,10 +176,11 @@ Expected for hand-added offices of companies based abroad (e.g. NICE in Utah); a
 
 - NICE (NICE Ltd.)
 
-### Companies · Same name under two ids (4)
+### Companies · Same name under two ids (5)
 
 Usually two share classes or a parent and its subsidiary listed separately — one company shown twice.
 
+- AGX, ARG.PA — Argan Inc
 - DPZ, DOM.L — Dominos Pizza Inc
 - FMCB, FMAO — Farmers & Merchants Bancorp
 - IPAR, ITP.PA — Interparfums Inc
@@ -188,7 +204,7 @@ Reported revenue below zero. Real for mortgage REITs and energy producers, whose
 - BENF (Beneficient) FY 2024: -98,696,000
 - … and 232 more
 
-### Financials · Profit far bigger than revenue (64)
+### Financials · Profit far bigger than revenue (70)
 
 Net profit more than 3× revenue for a company with ≥ $10M revenue — possible for holding companies and one-off gains, often a revenue sub-line.
 
@@ -204,9 +220,9 @@ Net profit more than 3× revenue for a company with ≥ $10M revenue — possibl
 - CPT (Camden Property Trust) FY 2021: revenue 10.5M, net income 303.9M
 - CPT (Camden Property Trust) FY 2025: revenue 13.0M, net income 384.5M
 - CHRS (Coherus Oncology, Inc.) FY 2025: revenue 42.2M, net income 168.0M
-- … and 52 more
+- … and 58 more
 
-### Financials · Revenue jumps 10× in a year (53)
+### Financials · Revenue jumps 10× in a year (55)
 
 Year-on-year revenue up or down more than tenfold (both years ≥ $10M) — a real acquisition, or a switch of revenue definition or units.
 
@@ -222,7 +238,7 @@ Year-on-year revenue up or down more than tenfold (both years ≥ $10M) — a re
 - AAWH (Ascend Wellness Holdings, Inc.): FY 2019 12.0M → FY 2020 143.7M
 - CANG (Cango Inc.): FY 2023 1.70bn → FY 2024 110.2M
 - DNLI (Denali Therapeutics Inc.): FY 2019 26.7M → FY 2020 335.7M
-- … and 41 more
+- … and 43 more
 
 ### Financials · Quarters don't add up to the year (70)
 
@@ -242,7 +258,7 @@ For December year-ends, the four quarters differ from the annual figure by more 
 - BRT (BRT Apartments Corp.) FY 2017: quarters 108.5M vs year 105.8M
 - … and 58 more
 
-### Financials · Out of date (42)
+### Financials · Out of date (54)
 
 Newest annual figures are more than two years old — the company may have stopped reporting, been taken over, or changed filer.
 
@@ -258,7 +274,7 @@ Newest annual figures are more than two years old — the company may have stopp
 - ESOA (Energy Services of America CORP): latest FY 2022
 - GERN (Geron Corp): latest FY 2023
 - GGROU (Golden Growers Cooperative): latest FY 2023
-- … and 30 more
+- … and 42 more
 
 ### Financials · Annual figures missing, quarters only (103)
 

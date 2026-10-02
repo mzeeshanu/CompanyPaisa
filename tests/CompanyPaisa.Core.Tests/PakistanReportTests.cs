@@ -265,6 +265,7 @@ public class PakistanReportTests
     [InlineData("Profit after taxation  3,461,306,13 1  3,059,341,877", 3_461_306_131, 3_059_341_877)]   // glyph spacing inside a number
     [InlineData("Loss for the year  (599,668)  (186,362)", -599_668, -186_362)]
     [InlineData("Final tax  34  –  (24,785)", 0, -24_785)]
+    [InlineData("Revenue  28 3,607,041,808  4,192,404,621", 3_607_041_808, 4_192_404_621)]   // EMCO: note 28 one space from the amount
     public void Reads_amounts_in_a_row(string line, decimal current, decimal prior)
     {
         var row = AnnualReportReader.Row(line)!;
