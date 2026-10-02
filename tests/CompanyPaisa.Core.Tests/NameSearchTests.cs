@@ -106,6 +106,10 @@ public class NameSearchTests
         public Task<IReadOnlyList<ExecutiveCompensation>> GetExecutiveCompensationAsync(IEnumerable<string> ids, CancellationToken ct = default) => inner.GetExecutiveCompensationAsync(ids, ct);
         public Task<IReadOnlyList<ExecutiveCompensation>> GetCompensationForPeopleAsync(IEnumerable<string> ids, CancellationToken ct = default) => inner.GetCompensationForPeopleAsync(ids, ct);
         public Task<Person?> GetPersonAsync(string id, CancellationToken ct = default) => inner.GetPersonAsync(id, ct);
+        public Task<IReadOnlyList<NewExecutive>> GetNewExecutivesAsync(IEnumerable<string> ids, CancellationToken ct = default) => inner.GetNewExecutivesAsync(ids, ct);
+        public Task<IReadOnlyList<WorkerPay>> GetWorkerPayAsync(string id, CancellationToken ct = default) => inner.GetWorkerPayAsync(id, ct);
+        public Task<IReadOnlyList<JobSalary>> GetJobSalariesAsync(string id, CancellationToken ct = default) => inner.GetJobSalariesAsync(id, ct);
+        public Task<IReadOnlyList<JobSalarySource>> GetJobSalarySourcesAsync(CancellationToken ct = default) => inner.GetJobSalarySourcesAsync(ct);
         public Task<IReadOnlyList<string>> GetSectorsAsync(CancellationToken ct = default) => inner.GetSectorsAsync(ct);
         public Task<DataSetMetadata> GetMetadataAsync(CancellationToken ct = default) => inner.GetMetadataAsync(ct);
         public Task<(int Companies, int Locations)> GetCountsAsync(CancellationToken ct = default) => inner.GetCountsAsync(ct);

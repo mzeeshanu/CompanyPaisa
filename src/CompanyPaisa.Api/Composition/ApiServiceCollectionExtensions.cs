@@ -35,19 +35,32 @@ public static class ApiServiceCollectionExtensions
         return services;
     }
 
+    /// <summary>
+    /// How each <see cref="DataSourceProvider"/> registers itself. Adding a data source means adding one entry here
+    /// and one member to the enum; nothing else in the composition root changes.
+    /// </summary>
+    private static readonly Dictionary<DataSourceProvider, Func<IServiceCollection, IConfiguration, IServiceCollection>> DataSources = new()
+    {
+        [DataSourceProvider.Sqlite] = static (services, configuration) => services.AddSqliteDataSource(configuration),
+        [DataSourceProvider.Excel] = static (services, configuration) => services.AddExcelDataSource(configuration)
+    };
+
     /// <summary>Picks the <see cref="ICompanyRepository"/> implementation named in DataSource:Provider.</summary>
     public static IServiceCollection AddCompanyPaisaDataSource(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddValidatedOptions<DataSourceOptions>(configuration, DataSourceOptions.SectionName);
-        var provider = configuration.GetSection(DataSourceOptions.SectionName).Get<DataSourceOptions>()?.Provider ?? "Sqlite";
 
-        return provider.ToLowerInvariant() switch
-        {
-            "sqlite" => services.AddSqliteDataSource(configuration),
-            "excel" => services.AddExcelDataSource(configuration),
-            _ => throw new InvalidOperationException(
-                $"DataSource:Provider '{provider}' isn't supported. Supported: Sqlite, Excel.")
-        };
+        // Read here as well as binding the options above: which repository to register is decided while the container
+        // is still being built, before anything can resolve IOptions. Matched by name (any case) rather than left to the
+        // binder, so a wrong value fails at startup with the supported names instead of a bare conversion error.
+        var name = configuration[$"{DataSourceOptions.SectionName}:{nameof(DataSourceOptions.Provider)}"] ?? nameof(DataSourceProvider.Sqlite);
+        var provider = DataSources.Keys.Cast<DataSourceProvider?>()
+            .FirstOrDefault(p => string.Equals(p.ToString(), name.Trim(), StringComparison.OrdinalIgnoreCase));
+
+        return provider is { } known
+            ? DataSources[known](services, configuration)
+            : throw new InvalidOperationException(
+                $"DataSource:Provider '{name}' isn't supported. Supported: {string.Join(", ", DataSources.Keys)}.");
     }
 
     /// <summary>
