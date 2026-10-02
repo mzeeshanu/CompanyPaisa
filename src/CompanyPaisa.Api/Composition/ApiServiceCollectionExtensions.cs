@@ -50,15 +50,17 @@ public static class ApiServiceCollectionExtensions
     {
         services.AddValidatedOptions<DataSourceOptions>(configuration, DataSourceOptions.SectionName);
 
-        // Read once here as well as binding the options above: which repository to register is decided while the
-        // container is still being built, before anything can resolve IOptions. An unparseable name throws here.
-        var provider = configuration.GetSection(DataSourceOptions.SectionName).Get<DataSourceOptions>()?.Provider
-                       ?? DataSourceProvider.Sqlite;
+        // Read here as well as binding the options above: which repository to register is decided while the container
+        // is still being built, before anything can resolve IOptions. Matched by name (any case) rather than left to the
+        // binder, so a wrong value fails at startup with the supported names instead of a bare conversion error.
+        var name = configuration[$"{DataSourceOptions.SectionName}:{nameof(DataSourceOptions.Provider)}"] ?? nameof(DataSourceProvider.Sqlite);
+        var provider = DataSources.Keys.Cast<DataSourceProvider?>()
+            .FirstOrDefault(p => string.Equals(p.ToString(), name.Trim(), StringComparison.OrdinalIgnoreCase));
 
-        return DataSources.TryGetValue(provider, out var register)
-            ? register(services, configuration)
+        return provider is { } known
+            ? DataSources[known](services, configuration)
             : throw new InvalidOperationException(
-                $"DataSource:Provider '{provider}' has no registration. Supported: {string.Join(", ", DataSources.Keys)}.");
+                $"DataSource:Provider '{name}' isn't supported. Supported: {string.Join(", ", DataSources.Keys)}.");
     }
 
     /// <summary>
