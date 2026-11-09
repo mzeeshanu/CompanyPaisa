@@ -255,6 +255,14 @@ public class SitePagesTests(SitePagesFactory factory) : IClassFixture<SitePagesF
     }
 
     [Fact]
+    public void A_dollar_sign_in_a_title_is_kept_as_written()
+    {
+        var html = SitePages.WithMeta(SitePagesFactory.IndexHtml, new PageMeta("Ca$h $0 Holdings", "d", "/company/X"), "https://companypaisa.com");
+
+        Assert.Contains("<title>Ca$h $0 Holdings</title>", html);
+    }
+
+    [Fact]
     public async Task A_company_page_links_its_salaries_and_its_state_and_country()
     {
         var html = await factory.CreateClient().GetStringAsync("/company/LFVN");

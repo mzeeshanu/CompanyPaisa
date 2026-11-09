@@ -42,6 +42,15 @@ public sealed class ApiOptions
     /// </summary>
     public string? ClientIpHeader { get; set; }
 
+    /// <summary>
+    /// Believe <see cref="ClientIpHeader"/> only on connections from Cloudflare's networks: anyone who reaches the server
+    /// directly can send that header with someone else's address (a search engine's, to skip the hourly caps). Off, a
+    /// header from elsewhere is still believed but logged ("… is not a Cloudflare address"); turn it on once the logs show
+    /// real visitors arrive from Cloudflare addresses (if they arrived through another proxy, everyone would share its
+    /// address and the hourly caps).
+    /// </summary>
+    public bool ClientIpHeaderOnlyFromCloudflare { get; set; }
+
     /// <summary>Origins (other websites) allowed to call the API from a browser. The site itself doesn't need an entry.</summary>
     public List<string> CorsAllowedOrigins { get; set; } = [];
 
@@ -124,7 +133,7 @@ public sealed class CoverageAreaOptions
     [Required] public string Name { get; set; } = "";
     /// <summary>A US ZIP ("84043"), a UK postcode district ("EC2N"), a Canadian postal area ("M5J") or a European postcode ("75008", Dutch "1012").</summary>
     [RegularExpression(@"^(\d{4,5}|[A-Z]{1,2}\d[A-Z\d]?)$")] public string ExampleZip { get; set; } = "";
-    [RegularExpression("^(US|CA|UK|FR|NL|IT|ES|AU|NZ|PK|SE|DK|FI|NO|PL|BE|AT)$")] public string Country { get; set; } = "US";
+    [RegularExpression("^(US|CA|UK|FR|NL|IT|ES|AU|NZ|PK|SE|DK|FI|NO|PL|BE|AT|LU|HU|LT|HR|SI)$")] public string Country { get; set; } = "US";
 }
 
 public sealed class ConsentUiOptions

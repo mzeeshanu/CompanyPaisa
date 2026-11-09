@@ -107,6 +107,7 @@ public class ApiTests(SampleDataFactory factory) : IClassFixture<SampleDataFacto
         Assert.Contains(config.Coverage, c => c.Name == "Karachi" && c.ExampleZip == "74000" && c.Country == "PK");
         Assert.Equal(5, config.Coverage.Count(c => c.Country == "PK"));
         Assert.Equal(18, config.Coverage.Count(c => c.Country is "SE" or "DK" or "FI" or "NO" or "BE" or "AT"));
+        Assert.Equal(4, config.Coverage.Count(c => c.Country is "LU" or "LT" or "SI"));
         Assert.Equal("privacy@companypaisa.com", config.PrivacyContact);
     }
 
@@ -132,6 +133,9 @@ public class ApiTests(SampleDataFactory factory) : IClassFixture<SampleDataFacto
     [InlineData("NO 0150", "Oslo", "NO")]
     [InlineData("BE-1000", "Bruxelles", "BE")]
     [InlineData("AT-1010", "Wien", "AT")]
+    [InlineData("LU-1855", "Luxembourg", "LU")]
+    [InlineData("LT-01103", "Vilnius", "LT")]
+    [InlineData("SI 1000", "Ljubljana", "SI")]
     public async Task Postcodes_resolve_to_the_right_country(string query, string city, string state)
     {
         var hit = await Client().LookupAsync(query);
@@ -167,6 +171,20 @@ public class ApiTests(SampleDataFactory factory) : IClassFixture<SampleDataFacto
         context.Connection.RemoteIpAddress = System.Net.IPAddress.Parse("10.0.0.1");
         if (value is not null) context.Request.Headers["CF-Connecting-IP"] = value;
         Assert.Equal(expected, CompanyPaisa.Api.Security.ApiKeyValidator.ClientIp(context, header));
+    }
+
+    [Theory]
+    [InlineData("162.158.10.20", false, "66.249.66.1")]   // from a Cloudflare edge: the visitor's address
+    [InlineData("162.158.10.20", true, "66.249.66.1")]
+    [InlineData("198.51.100.9", false, "66.249.66.1")]    // straight to the server, not enforced yet: believed (and logged)
+    [InlineData("198.51.100.9", true, "198.51.100.9")]    // enforced: a faked Googlebot address counts as the sender's own
+    [InlineData("::ffff:172.64.1.1", true, "66.249.66.1")]  // a Cloudflare IPv4 address seen as IPv6
+    public void The_cdn_header_counts_only_from_cloudflare_when_enforced(string remote, bool enforce, string expected)
+    {
+        var context = new Microsoft.AspNetCore.Http.DefaultHttpContext();
+        context.Connection.RemoteIpAddress = System.Net.IPAddress.Parse(remote);
+        context.Request.Headers["CF-Connecting-IP"] = "66.249.66.1";
+        Assert.Equal(expected, CompanyPaisa.Api.Security.ApiKeyValidator.ClientIp(context, "CF-Connecting-IP", enforce));
     }
 
     [Fact]

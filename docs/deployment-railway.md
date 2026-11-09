@@ -119,7 +119,25 @@ Limits per visitor IP without a key: 120 API calls a minute and 2,000 an hour; 1
 3. **Security → WAF → Rate limiting rules → Create rule**: *URI Path starts with `/api/`*, *same IP*, *more than 100
    requests in 10 seconds* → *Block for 10 seconds*. Catches floods before they cost anything.
 
-## Checks after deploying
+**Only believe Cloudflare's visitor address from Cloudflare.** The app reads each visitor's IP from Cloudflare's
+`CF-Connecting-IP` header (`Api:ClientIpHeader`). Someone who sends requests straight to Railway, skipping Cloudflare,
+can fake that header — with a Google crawler's address, to skip the hourly caps. `Api:ClientIpHeaderOnlyFromCloudflare`
+ignores the header unless the connection comes from one of Cloudflare's networks. It is **off** until checked:
+
+1. Deploy, browse the site for a few minutes, then open Railway → the service → **Logs** and search for
+   `is not a Cloudflare address`.
+2. **No such line:** real visitors arrive from Cloudflare addresses. In Railway → **Variables**, add
+   `Api__ClientIpHeaderOnlyFromCloudflare` = `true` and redeploy.
+3. **Lines for ordinary visits:** traffic reaches the app through another proxy first; leave the setting off (turned on,
+   every visitor would share that proxy's address and the hourly caps) and look into the proxy's forwarding headers.
+
+Lines that appear later, with the setting on, are someone going around Cloudflare; the setting already ignores them.
+
+## Checks before and after deploying
+
+Every push to `main` and every pull request runs the tests and the website build on GitHub
+(`.github/workflows/ci.yml`; the **Actions** tab). Railway deploys `main` regardless, so look for a green tick there.
+
 
 - `https://<domain>/health` → `Healthy`
 - `https://<domain>/` → the website; enter 84043

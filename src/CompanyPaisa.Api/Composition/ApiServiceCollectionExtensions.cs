@@ -121,8 +121,8 @@ public static class ApiServiceCollectionExtensions
                 }
                 else if (SitePages.IsRenderedPage(path))
                 {
-                    var header = context.RequestServices.GetRequiredService<IOptionsMonitor<ApiOptions>>().CurrentValue.ClientIpHeader;
-                    (perHour, partition) = (limits.PagesPerHour, "pages-hour:" + ApiKeyValidator.ClientIp(context, header));
+                    var api = context.RequestServices.GetRequiredService<IOptionsMonitor<ApiOptions>>().CurrentValue;
+                    (perHour, partition) = (limits.PagesPerHour, "pages-hour:" + ApiKeyValidator.ClientIp(context, api));
                 }
                 return perHour is { } permits
                     ? RateLimitPartition.GetFixedWindowLimiter(partition!, _ => new FixedWindowRateLimiterOptions

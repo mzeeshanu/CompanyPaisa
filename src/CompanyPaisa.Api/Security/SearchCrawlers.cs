@@ -33,7 +33,7 @@ public sealed class SearchCrawlers(IMemoryCache cache, IOptionsMonitor<ApiOption
         var agent = context.Request.Headers.UserAgent.ToString();
         var domains = Known.FirstOrDefault(k => agent.Contains(k.Agent, StringComparison.OrdinalIgnoreCase)).Domains;
         if (domains is null) return;
-        if (!IPAddress.TryParse(ApiKeyValidator.ClientIp(context, options.CurrentValue.ClientIpHeader), out var ip)) return;
+        if (!IPAddress.TryParse(ApiKeyValidator.ClientIp(context, options.CurrentValue), out var ip)) return;
 
         var verified = await cache.GetOrCreateAsync($"crawler:{ip}", async entry =>
         {

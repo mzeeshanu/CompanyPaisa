@@ -24,7 +24,7 @@ public sealed class ApiKeyValidator(IOptionsMonitor<ApiOptions> options) : IApiK
         if (context.Items.TryGetValue(typeof(ApiCaller), out var cached) && cached is ApiCaller known) return known;
 
         ApiCaller caller;
-        var ip = ClientIp(context, o.ClientIpHeader);
+        var ip = ClientIp(context, o);
         var presented = context.Request.Headers[o.ApiKeyHeader].ToString();
         if (string.IsNullOrEmpty(presented))
         {
@@ -42,17 +42,63 @@ public sealed class ApiKeyValidator(IOptionsMonitor<ApiOptions> options) : IApiK
         return caller;
     }
 
-    /// <summary>The visitor's IP: from the CDN's header when configured and valid, else the connection's address.</summary>
-    public static string ClientIp(HttpContext context, string? header)
+    /// <summary>The visitor's IP as the API's options say to read it (see <see cref="ApiOptions.ClientIpHeaderOnlyFromCloudflare"/>).</summary>
+    public static string ClientIp(HttpContext context, ApiOptions o) => ClientIp(context, o.ClientIpHeader, o.ClientIpHeaderOnlyFromCloudflare);
+
+    /// <summary>
+    /// The visitor's IP: from the CDN's header when configured and valid, else the connection's address. Anyone reaching
+    /// the server without going through the CDN can send that header too — with a search engine's address to skip the
+    /// hourly caps — so a header on a connection from outside Cloudflare's networks is logged, and with
+    /// <paramref name="onlyFromCloudflare"/> ignored.
+    /// </summary>
+    public static string ClientIp(HttpContext context, string? header, bool onlyFromCloudflare = false)
     {
+        var remote = context.Connection.RemoteIpAddress;
         if (!string.IsNullOrWhiteSpace(header) && context.Request.Headers[header].ToString() is { Length: > 0 } value &&
             System.Net.IPAddress.TryParse(value.Split(',')[0].Trim(), out var fromCdn))
-            return fromCdn.ToString();
-        return context.Connection.RemoteIpAddress?.ToString() ?? "unknown";
+        {
+            if (remote is not null && Cloudflare.Contains(remote)) return fromCdn.ToString();
+            ReportOutsideCloudflare(context, header, remote);
+            if (!onlyFromCloudflare) return fromCdn.ToString();
+        }
+        return remote?.ToString() ?? "unknown";
     }
+
+    /// <summary>At most one warning every ten minutes: enough to see whether real traffic would be affected.</summary>
+    private static void ReportOutsideCloudflare(HttpContext context, string header, System.Net.IPAddress? remote)
+    {
+        var now = Environment.TickCount64;
+        var last = Interlocked.Read(ref _lastReport);
+        if (last != 0 && now - last < 600_000 || Interlocked.CompareExchange(ref _lastReport, now, last) != last) return;
+        (context.RequestServices?.GetService<ILoggerFactory>())?.CreateLogger(typeof(ApiKeyValidator))
+            .LogWarning("{Header} sent from {Remote}, which is not a Cloudflare address", header, remote?.ToString() ?? "unknown");
+    }
+
+    private static long _lastReport;
 
     private static bool FixedTimeEquals(string a, string b) =>
         CryptographicOperations.FixedTimeEquals(Encoding.UTF8.GetBytes(a), Encoding.UTF8.GetBytes(b));
+}
+
+/// <summary>Cloudflare's published networks (cloudflare.com/ips, October 2026).</summary>
+public static class Cloudflare
+{
+    private static readonly System.Net.IPNetwork[] Networks =
+    [
+        .. new[]
+        {
+            "173.245.48.0/20", "103.21.244.0/22", "103.22.200.0/22", "103.31.4.0/22", "141.101.64.0/18", "108.162.192.0/18",
+            "190.93.240.0/20", "188.114.96.0/20", "197.234.240.0/22", "198.41.128.0/17", "162.158.0.0/15", "104.16.0.0/13",
+            "104.24.0.0/14", "172.64.0.0/13", "131.0.72.0/22",
+            "2400:cb00::/32", "2606:4700::/32", "2803:f800::/32", "2405:b500::/32", "2405:8100::/32", "2a06:98c0::/29", "2c0f:f248::/32"
+        }.Select(System.Net.IPNetwork.Parse)
+    ];
+
+    public static bool Contains(System.Net.IPAddress address)
+    {
+        var a = address.IsIPv4MappedToIPv6 ? address.MapToIPv4() : address;
+        return Networks.Any(n => n.Contains(a));
+    }
 }
 
 /// <summary>

@@ -373,7 +373,8 @@ public static partial class SitePages
     {
         var enc = HtmlEncoder.Default;
         string title = enc.Encode(meta.Title), description = enc.Encode(meta.Description), url = enc.Encode(origin + meta.CanonicalPath);
-        html = TitleTag().Replace(html, $"<title>{title}</title>", 1);
+        // A function, not a replacement pattern: "$0" or "$'" in a name would otherwise pull in parts of the page.
+        html = TitleTag().Replace(html, _ => $"<title>{title}</title>", 1);
         html = DescriptionTag().Replace(html, "", 1);
         var head = $"""
                 <meta name="description" content="{description}" />

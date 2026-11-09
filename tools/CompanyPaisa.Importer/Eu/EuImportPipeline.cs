@@ -109,7 +109,7 @@ public sealed class EuImportPipeline(IOptions<ImporterOptions> options, RepoPath
     public const string Market = "eu";
 
     /// <summary>The currencies European listed companies report in (the site has exchange rates for each).</summary>
-    private static readonly HashSet<string> ReportingCurrencies = ["EUR", "USD", "GBP", "SEK", "DKK", "NOK", "CAD"];
+    private static readonly HashSet<string> ReportingCurrencies = ["EUR", "USD", "GBP", "SEK", "DKK", "NOK", "CAD", "HUF"];
 
     private string RegionFor(EuCountryOptions country, GeoPoint point)
     {

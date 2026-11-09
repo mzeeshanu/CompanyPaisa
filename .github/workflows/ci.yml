@@ -1,0 +1,41 @@
+# Runs the tests and builds the website on every pull request and every push to main. Railway deploys main as soon as
+# it changes, so a red run here is the warning that a push broke something.
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  api:
+    name: .NET tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+      - run: dotnet test CompanyPaisa.slnx -c Release -p:SkipSpaBuild=true
+
+  web:
+    name: Website build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: src/CompanyPaisa.Web
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: src/CompanyPaisa.Web/package-lock.json
+      - run: npm ci --no-fund --no-audit
+      - run: npm run build

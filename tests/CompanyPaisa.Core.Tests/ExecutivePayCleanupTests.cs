@@ -35,6 +35,15 @@ public class ExecutivePayCleanupTests
     public void Leaves_real_names_alone(string name) => Assert.Equal(name, ExecutivePayCleanup.CleanName(name));
 
     [Theory]
+    [InlineData("TED SARANDOS", "Ted Sarandos")]
+    [InlineData("JOHN P. MCDONALD III", "John P. McDonald III")]
+    [InlineData("MARY O'BRIEN-SMITH", "Mary O'Brien-Smith")]
+    [InlineData("J.R. LUCIANO", "J.R. Luciano")]
+    [InlineData("Ted SARANDOS", "Ted SARANDOS")]   // any small letter: as filed
+    public void Puts_names_filed_in_capitals_in_ordinary_case(string raw, string expected) =>
+        Assert.Equal(expected, ExecutivePayCleanup.NameCase(raw));
+
+    [Theory]
     [InlineData("Other NEOs Required to Be Discussed")]
     [InlineData("Current NEOs")]
     [InlineData("Counsel and")]

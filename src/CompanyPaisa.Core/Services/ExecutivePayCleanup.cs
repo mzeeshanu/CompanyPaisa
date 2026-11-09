@@ -168,8 +168,26 @@ public static partial class ExecutivePayCleanup
         n = DashTitle().Replace(n, "");          // "Wes Powell -President", "John C. Watts -Vice"
         n = RoleTail(n);                          // "Jeffrey Hoover CLO and", "Michael McElhaugh Current"
         n = n.Trim().TrimEnd(':', ',', ';', '-', '–', '—', '*', '†', '‡', '/').TrimStart(':', ',', ';', '-', '*', '(', ')').Trim();
-        return n.Length == 0 ? (name ?? "").Trim() : n;
+        return n.Length == 0 ? (name ?? "").Trim() : NameCase(n);
     }
+
+    /// <summary>
+    /// A name filed in capitals in ordinary case ("TED SARANDOS" → "Ted Sarandos", "JOHN P. MCDONALD III" → "John P.
+    /// McDonald III", "MARY O'BRIEN-SMITH" → "Mary O'Brien-Smith"). Names with any small letter are left as filed.
+    /// </summary>
+    public static string NameCase(string name)
+    {
+        if (!name.Any(char.IsUpper) || name.Any(char.IsLower)) return name;
+        return string.Join(' ', name.Split(' ').Select(word =>
+            RomanNumeral().IsMatch(word.TrimEnd('.', ',')) ? word
+            : Regex.Replace(word.ToLowerInvariant(), @"(^|[-'’.])(\p{Ll})", m => m.Groups[1].Value + char.ToUpperInvariant(m.Groups[2].Value[0]))
+                is var w && w.StartsWith("Mc", StringComparison.Ordinal) && w.Length > 2
+                ? "Mc" + char.ToUpperInvariant(w[2]) + w[3..]
+                : w));
+    }
+
+    [GeneratedRegex(@"^(II|III|IV|VI{0,3}|IX)$")]
+    private static partial Regex RomanNumeral();
 
     /// <summary>
     /// A name followed by the start of its title ("Philip B. Flynn Special Advisor and", "Mandy Yang VP and", "Ravi Kumar

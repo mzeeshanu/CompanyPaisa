@@ -16,7 +16,7 @@ const oneUnit = (currency: string) => currency === 'PKR' ? 'Rs 1' : `${currencyS
 const size = (ratio: number) => `${Math.abs(ratio * 100).toFixed(Math.abs(ratio) < 0.1 ? 1 : 0)}%`;
 
 /** Hundredths of each currency: pence, paisa, öre, øre, grosze; cents otherwise. */
-const HUNDREDTHS: Record<string, string> = { GBP: 'p', PKR: ' paisa', SEK: ' öre', DKK: ' øre', NOK: ' øre', PLN: ' grosze' };
+const HUNDREDTHS: Record<string, string> = { GBP: 'p', PKR: ' paisa', SEK: ' öre', DKK: ' øre', NOK: ' øre', PLN: ' grosze', HUF: ' fillér' };
 
 /** 0.034 of a dollar → "3¢"; pence for pounds, paisa for rupees, öre for kronor; "less than 1¢" rather than "0¢". */
 function perUnit(ratio: number, currency: string) {

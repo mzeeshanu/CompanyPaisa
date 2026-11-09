@@ -45,7 +45,7 @@ public sealed class HttpAnalyticsTracker(
             Country(Header(request, o.CountryHeader)), Header(request, o.RegionHeader), Header(request, o.CityHeader),
             ua.Device, ua.Browser, ua.Os, Clip(referrer, 200), Clip(path, 200), source);
 
-        var ip = ApiKeyValidator.ClientIp(context, api.CurrentValue.ClientIpHeader);
+        var ip = ApiKeyValidator.ClientIp(context, api.CurrentValue);
         sink.TryWrite(new PendingAnalyticsEvent(e, $"{ip}|{userAgent}"));
     }
 

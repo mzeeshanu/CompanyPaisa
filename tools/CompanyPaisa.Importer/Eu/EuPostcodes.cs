@@ -40,7 +40,7 @@ public sealed partial class EuPostcodes
         foreach (var (code, list) in rows)
         {
             // "Paris 08" and "Paris" share 75008: the plain city name reads better.
-            var place = list.Select(x => ArrondissementSuffix().Replace(x.Place, "")).GroupBy(p => p).MaxBy(g => g.Count())!.Key;
+            var place = list.Select(x => DeliverySuffix().Replace(ArrondissementSuffix().Replace(x.Place, ""), "")).GroupBy(p => p).MaxBy(g => g.Count())!.Key;
             var point = new GeoPoint(list.Average(x => x.Lat), list.Average(x => x.Lng));
             // Australia's second-level names are councils ("Vincent" for central Perth): near a capital, use the capital.
             if (country.Equals("AU", StringComparison.OrdinalIgnoreCase) &&
@@ -72,8 +72,22 @@ public sealed partial class EuPostcodes
         return digits.Length is >= 4 and <= 5 ? digits.PadLeft(5, '0') : null;
     }
 
-    public (string Place, GeoPoint Point)? Locate(string country, string postcode) =>
-        Normalise(country, postcode) is { } code && _codes.TryGetValue(Key(country, code), out var c) ? (c.Place, c.Point) : null;
+    public (string Place, GeoPoint Point)? Locate(string country, string postcode)
+    {
+        if (Normalise(country, postcode) is not { } code) return null;
+        if (_codes.TryGetValue(Key(country, code), out var c)) return (c.Place, c.Point);
+        // GeoNames lists only some codes in a few countries (Lithuania: Apranga's LT-14311, Grigeo's LT-27101): the
+        // numerically nearest code of the same postal area — the same first three digits, else two — is a street or two away.
+        foreach (var prefix in new[] { 3, 2 })
+        {
+            var area = _codes.Values.Where(x => x.Country.Equals(country, StringComparison.OrdinalIgnoreCase) && x.Code.Length == code.Length &&
+                                                string.CompareOrdinal(x.Code, 0, code, 0, prefix) == 0).ToList();
+            if (area.Count == 0) continue;
+            var near = area.MinBy(x => Math.Abs(long.Parse(x.Code, CultureInfo.InvariantCulture) - long.Parse(code, CultureInfo.InvariantCulture)));
+            return (near.Place, near.Point);
+        }
+        return null;
+    }
 
     /// <summary>The country's postcode whose centre is nearest a point (a headquarters known only by its coordinates).</summary>
     public (string Code, string Place, GeoPoint Point)? Nearest(string country, GeoPoint point) =>
@@ -97,6 +111,8 @@ public sealed partial class EuPostcodes
     private static string Quote(string s) => s.Contains(',') || s.Contains('"') ? $"\"{s.Replace("\"", "\"\"")}\"" : s;
 
     [GeneratedRegex(@"\s+\d{1,2}(\s.*)?$")] private static partial Regex ArrondissementSuffix();
+    /// <summary>Slovenian post-office variants: "Ljubljana - dostava" (delivery), "Velenje - poštni predali" (PO boxes).</summary>
+    [GeneratedRegex(@"\s+-\s+(dostava|poštni predali)$", RegexOptions.IgnoreCase)] private static partial Regex DeliverySuffix();
     [GeneratedRegex(@"\d{4,5}")] private static partial Regex PostcodeDigits();
     [GeneratedRegex(@"(?<=\d)[\s\-](?=\d)")] private static partial Regex SpaceOrDash();
 }
