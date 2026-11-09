@@ -62,7 +62,12 @@ try {
 
     # Every market (US/Canada/Australia SEC filers, UK, Europe) publishes into data/companypaisa.db, then the data-quality
     # checks run with --strict: a failed market or any error-level finding stops the run before anything is published.
-    Invoke-Step 'Import every market, then validate' 'dotnet' @('run', '--project', 'tools/CompanyPaisa.Importer', '-c', 'Release', '--', '--all', '--refresh-lists', '--strict')
+    # Pakistan is left out until it has a source that allows automated access: since October 2026 the exchange's portal
+    # answers its company list and announcements only to its own pages, and we don't work around that. Its last import stays.
+    Invoke-Step 'Import every market except Pakistan' 'dotnet' @('run', '--project', 'tools/CompanyPaisa.Importer', '-c', 'Release', '--',
+        '--market', 'sec', '--market', 'uk', '--market', 'eu', '--market', 'anz', '--refresh-lists')
+    # Named markets don't validate on their own (only --all does): any error-level finding stops the run here.
+    Invoke-Step 'Validate the data' 'dotnet' @('run', '--project', 'tools/CompanyPaisa.Importer', '-c', 'Release', '--', '--validate', '--strict')
     # Websites, careers pages and street positions for companies that are new or due a recheck (the rest are kept).
     Invoke-Step 'Websites, careers pages, street positions' 'dotnet' @('run', '--project', 'tools/CompanyPaisa.Importer', '-c', 'Release', '--', '--enrich')
     # Salaries by job title from the Department of Labor's H-1B wage filings (a new quarter's file is downloaded once).
