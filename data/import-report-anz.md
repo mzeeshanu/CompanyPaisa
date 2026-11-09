@@ -1,31 +1,33 @@
-# Australia / New Zealand import report — 2026-09-24 21:52 UTC
+# Australia / New Zealand import report — 2026-11-09 10:40 UTC
 
 Scope: ASX and NZX companies known to Wikidata or in Wikipedia's S&P/ASX 200 and NZX tables, whose latest annual report could be found on their own website and read. Financials only. The exchanges' own websites aren't used (their terms don't allow automated access). Sources: Wikidata, Wikipedia, companies' websites, GLEIF, GeoNames.
 
-- Companies looked for: 536
-- Companies included: **84**
-- Years of figures: 218
+- Companies looked for: 539
+- Companies included: **87**
+- Years of figures: 225
 
 | Country | Area | Companies |
 |---|---|---|
 | Australia | Sydney | 25 |
-| Australia | Melbourne | 18 |
-| Australia | Perth | 14 |
-| Australia | Rest of Australia | 9 |
-| Australia | Brisbane | 7 |
+| Australia | Melbourne | 17 |
+| Australia | Perth | 15 |
+| Australia | Rest of Australia | 11 |
+| Australia | Brisbane | 8 |
 | New Zealand | Rest of New Zealand | 6 |
 | New Zealand | Auckland | 5 |
 
-## Included — Australia (73)
+## Included — Australia (76)
 
 | Ticker | Company | City (placed from) | Latest revenue | Years | Source |
 |---|---|---|---|---|---|
 | 4DX.AX | 4DMedical | Melbourne (report) | A$5.9M | 2023–2025 | [report](https://4dmedical.com/wp-content/uploads/2025/09/FY25-4DX-Annual-Report-Web-Booklet.pdf) |
-| AEF.AX | Australian Ethical Investment | Sydney (report) | A$129.5M | 2024–2026 | [report](https://www.australianethical.com.au/globalassets/pdf-files/asx-announcement/2026/20260825-aef-appendix-4e-and-fy26-full-report-and-accounts.pdf) |
+| AEF.AX | Australian Ethical Investment | Sydney (report) | A$129.5M | 2025–2026 | [report](https://www.australianethical.com.au/globalassets/pdf-files/annual-reports/2026-annual-report.pdf) |
 | AFP.AX | AFT Pharmaceuticals (New Zealand) | Sydney (report) | A$254.7M | 2024–2026 | [report](https://investors.aftpharm.com/FormBuilder/_Resource/_module/p2XGBX4eEUuPk0R-Ti1BoQ/docs/annual-reports/2026/Annual_ReportFY2026.pdf) |
 | AMA.AX | AMA GROUP LIMITED | Melbourne (LEI) | A$1.04B | 2024–2026 | [report](https://amagroupltd.com/wp-content/uploads/2026/08/FY26-Annual-Report.pdf) |
-| AMI.AX | AURELIA METALS LIMITED | Brisbane (LEI) | A$343.5M | 2023–2025 | [report](https://aureliametals.com/wp-content/uploads/2025/10/ANNUAL-REPORT-2025_WEB-NEW_OPTIMISED.pdf) |
+| AMI.AX | AURELIA METALS LIMITED | Brisbane City (LEI) | A$343.5M | 2023–2025 | [report](https://aureliametals.com/wp-content/uploads/2025/10/ANNUAL-REPORT-2025_WEB-NEW_OPTIMISED.pdf) |
 | AMP.AX | AMP | Sydney (LEI) | A$2.81B | 2023–2025 | [report](https://www.amp.com.au/content/dam/corporate/shareholdercentre/files/reports/2026/AMP_Annual%20Report%202025%20FINAL.pdf) |
+| APE.AX | Eagers Automotive | Brisbane (report) | A$13.05B | 2024–2025 | [report](https://web-assets.cdn.dealersolutions.com.au/modular.multisite.dealer.solutions/wp-content/uploads/sites/2892/2026/04/3055521.pdf) |
+| AVG.AX | Australian Vintage | Adelaide (report) | A$257.6M | 2024–2026 | [report](https://avlwines.com.au/wp-content/uploads/AVL-2026-Annual-Report.pdf) |
 | AZJ.AX | Aurizon | Brisbane (report) | A$4.17B | 2024–2026 | [report](https://media.aurizon.com.au/-/media/files/investors/reports-and-webcasts/2026/full-year-results/aurizon-annual-report-2026.pdf) |
 | BEN.AX | Bendigo & Adelaide Bank | Greater Bendigo (report) | A$1.99B | 2024–2026 | [report](https://www.bendigobank.com.au/globalassets/documents/bendigoadelaide/investorcentre/results-and-reporting/annual-reviews/2026-annual-financial-report.pdf) |
 | BGA.AX | Bega Cheese | Snowy Monaro (report) | A$3.77B | 2025–2026 | [report](https://begagroup.com.au/wp-content/uploads/2026/09/163232_Bega_AR26_FA-Interactive.pdf) |
@@ -35,7 +37,7 @@ Scope: ASX and NZX companies known to Wikidata or in Wikipedia's S&P/ASX 200 and
 | BRN.AX | BRAINCHIP HOLDINGS LTD | Sydney (LEI) | US$398K | 2022–2024 | [4E](https://investor.brainchip.com/wp-content/uploads/2025/09/Preliminary-Final-Report-December-2024.pdf) |
 | BSL.AX | BlueScope | Melbourne (Wikidata) | A$16.66B | 2024–2026 | [report](https://www.bluescope.com/content/dam/bluescope/corporate/bluescope-com/investor/documents/fy2026-full-year/FY2026_BlueScope_Annual_Report.pdf) |
 | BXB.AX | Brambles | Sydney (Wikidata) | US$7.04B | 2024–2026 | [report](https://www.brambles.com/Content/cms/FY26-Results/pdf/Brambles-FY26-Annual-Report.pdf) |
-| CDA.AX | Codan | Adelaide (report) | A$875.0M | 2024–2026 | [report](https://codan.com.au/wp-content/uploads/2026/09/CODAN-Annual-Report-2026-Web.pdf) |
+| CDA.AX | Codan | Adelaide (report) | A$875.0M | 2024–2026 | [report](https://codan.com.au/wp-content/uploads/2026/09/CODAN-Annual-Report-2026-Web-1.pdf) |
 | CEH.AX | Coast Entertainment | Sydney (report) | A$105.0M | 2021–2025 | [report](https://coastentertainment.cdn.prismic.io/coastentertainment/aN8ar55xUNkB1bmX_AnnualReportfortheyearended24June2025.pdf) |
 | CMW.AX | Cromwell Property Group | Brisbane (report) | A$180.8M | 2024–2026 | [report](https://www.cromwellpropertygroup.com/wp-content/uploads/sites/3/2026/08/2026-Annual-Report.pdf) |
 | CNI.AX | Centuria Capital Group | Sydney (report) | A$152.6M | 2025–2026 | [report](https://centuria.com.au/wp-content/uploads/2026/09/COF-2026-Annual-Report.pdf) |
@@ -43,43 +45,44 @@ Scope: ASX and NZX companies known to Wikidata or in Wikipedia's S&P/ASX 200 and
 | CUV.AX | Clinuvel Pharmaceuticals (Australia) | Melbourne (report) | A$94.0M | 2024–2026 | [4E](https://www.clinuvel.com/wp-content/uploads/2026/08/20260827-clinuvel-digital-appendix-4e-annual-report.pdf) |
 | CVL.AX | Civmec | Cockburn (report) | A$903.0M | 2023–2026 | [report](https://civmec.com.au/wp-content/uploads/2026/08/3.-Report-of-the-Directors-and-Financial-Statements-FY26-1.pdf) |
 | DDR.AX | Dicker Data | Sydney (LEI) | A$2.28B | 2025–2025 | [4E](https://www.dickerdata.com.au/hubfs/Dicker%20Data/Investors/Announcement/2026/3030477.pdf) |
-| DOW.AX | Downer Group | Sydney (Wikidata) | A$9.74B | 2025–2026 | [report](https://downergroup.com/wp-content/uploads/sites/4/2026/08/2026-08-20_2_Downer-FY26-Annual-Report_ASX-FINAL-compressed.pdf) |
+| DOW.AX | Downer Group | Sydney (Wikidata) | A$9.74B | 2016–2026 | [report](https://downergroup.com/wp-content/uploads/sites/4/2026/10/AnnualReport_2026.pdf) |
 | EDV.AX | Endeavour Group | Sydney (report) | A$12.21B | 2026–2026 | [4E](https://cdn.prod.website-files.com/69411b50da307126bedceb2b/6a8b78f8909c47b86b4e4272_8f6de2a6e99043d52befecadd676e820_2026%20Endeavour%20Group%20Appendix%204E%20and%20Pre%20Financial%20Statements%2024%20August%202026.pdf) |
+| EGR.AX | ECOGRAF LIMITED | Perth (report) | A$3.1M | 2025–2026 | [report](https://www.ecograf.com.au/wp-content/uploads/2026/09/EcoGraf-Annual-Report-2026.pdf) |
 | EOS.AX | Electro Optic Systems Holdings | Canberra (report) | A$128.5M | 2024–2025 | [report](https://res.cloudinary.com/investorhub/raw/upload/v1776387356/leaf-prod/236/documents/EOS_2025_Annual_Report_jbkfj5.pdf) |
 | ERA.AX | Energy Resources of Australia | Darwin (report) | A$58.9M | 2023–2025 | [report](https://www.energyres.com.au/uploads/2025-Annual-Report-web.pdf) |
 | GEM.AX | G8 Education | Gold Coast (report) | A$948.2M | 2023–2025 | [report](https://g8education.edu.au/wp-content/uploads/2026/03/g8_annual-report-2025-high-res.pdf) |
 | GNC.AX | GrainCorp | Sydney (report) | A$7.31B | 2023–2025 | [report](https://www.graincorp.com.au/wp-content/uploads/2025/11/GrainCorp-Annual-Report-2025.pdf) |
-| GOZ.AX | GROWTHPOINT PROPERTIES AUSTRALIA | Melbourne (report) | A$328.4M | 2024–2026 | [report](https://growthpoint.com.au/sites/default/files/results/2026/GOZ-FY26-Appendix-4E-and-Annual-Report.pdf) |
-| GUD.AX | G.U.D. HOLDINGS LIMITED | Melbourne (LEI) | A$1.02B | 2024–2026 | [report](https://amotiv.com/uploads/documents/889/Annual-Report-2026-&-Appendix-4E.pdf) |
-| HLS.AX | Healius Limited | St Leonards (LEI) | A$1.37B | 2026–2026 | [4E](https://investors.healius.com.au/FormBuilder/_Resource/_module/jayqNJDrbU28n2uDd6qbFg/file/ar/HLS_FY26_Financial_Report.pdf) |
+| GUD.AX | G.U.D. HOLDINGS LIMITED | Melbourne (LEI) | A$1.02B | 2024–2026 | [report](https://amotiv.com/uploads/documents/888/Annual-Report-2026-&-Appendix-4E.pdf) |
 | IRE.AX | IRESS | Melbourne (Wikidata) | A$600.8M | 2023–2024 | [report](https://www.iress.com/media/documents/IRESS_Annual_Report_2024.pdf) |
-| JMS.AX | JUPITER MINES LIMITED. | Perth (report) | A$9.4M | 2022–2025 | [report](https://www.jupitermines.com/cproot/1317/3/20250926-Jupiter-Mines-2025-Annual-Report.pdf) |
+| JMS.AX | JUPITER MINES LIMITED. | Perth (report) | A$9.3M | 2024–2026 | [report](https://www.jupitermines.com/cproot/1361/3/20260930-Jupiter-Mines-Annual-Report-2026-Final.pdf) |
 | LOV.AX | Lovisa | Melbourne (LEI) | A$938.8M | 2026–2026 | [4E](https://cdn.shopify.com/s/files/1/0257/8130/5424/files/FY26_Appendix_4E_Full_Year_Financial_Report.pdf) |
 | MAH.AX | Macmahon Holdings | Perth (report) | A$2.62B | 2024–2026 | [report](https://d2dycffe7xo3vi.cloudfront.net/app/uploads/2026/08/Annual-Report-2026_FINAL-web.pdf) |
-| MAQ.AX | Macquarie Technology Group | Sydney (report) | A$390.0M | 2024–2026 | [4E](https://www.macquarietechnologygroup.com/wp-content/uploads/2026/08/MAQ-2026-App4E-Annual-Report-Final.pdf) |
+| MAQ.AX | Macquarie Technology Group | Sydney (report) | A$390.0M | 2024–2026 | [report](https://www.macquarietechnologygroup.com/wp-content/uploads/2026/10/MTG-Annual-Report-2026.pdf) |
 | MGX.AX | MOUNT GIBSON IRON LIMITED | Perth (LEI) | A$220.8M | 2026–2026 | [4E](https://www.mgx.com.au/wp-content/uploads/2026/08/Combined-Appendix-4E-and-FY26-Financial-Report-for-lodgement-20Aug26.pdf) |
 | MLX.AX | METALS X LIMITED | Perth (LEI) | A$218.8M | 2023–2024 | [report](https://www.metalsx.com.au/wp-content/uploads/2025/02/2857091.pdf) |
-| MND.AX | Monadelphous Group | Victoria Park (LEI) | A$2.80B | 2024–2026 | [4E](https://www.monadelphous.com.au/media/5884358/260825-fy26-preliminary-final-report.pdf) |
+| MME.AX | MoneyMe | Sydney (report) | A$218.7M | 2025–2026 | [report](https://investors.moneyme.com.au/FormBuilder/_Resource/_module/97gyKB3QKE2GPtoH0CRNvg/files/MoneyMe_2026_Annual_Report.pdf) |
+| MND.AX | Monadelphous Group | Victoria Park (LEI) | A$2.80B | 2024–2026 | [report](https://www.monadelphous.com.au/media/5885279/261019-2026-annual-report.pdf) |
 | MPL.AX | Medibank | Melbourne (report) | A$8.65B | 2024–2026 | [report](https://www.medibank.com.au/content/dam/retail/about-assets/pdfs/investor-centre/annual-reports/Medibank_Group_%20Annual_Report_2026.pdf) |
-| NAB.AX | National Australia Bank | Melbourne (LEI) | A$20.87B | 2023–2025 | [report](https://www.nab.com.au/content/dam/nab/documents/reports/corporate/2025-annual-report.pdf) |
+| NAB.AX | National Australia Bank | Melbourne (LEI) | A$22.24B | 2024–2026 | [report](https://www.nab.com.au/content/dam/nab/documents/reports/corporate/2026-annual-report.pdf) |
 | NEC.AX | Nine Entertainment Co. | Sydney (report) | A$2.20B | 2026–2026 | [4E](https://www.nineforbrands.com.au/wp-content/uploads/2026/08/Annual-Report-4E.pdf) |
 | NGI.AX | Navigator Global Investments | Toowong (LEI) | US$417.7M | 2025–2026 | [report](https://cdn.prod.website-files.com/62e0236ec6ce300ddd4fd302/6a8b8222c1ce9ade02b42dbe_20260824-NGI-2026%20Annual%20Report.pdf) |
-| NSX.AX | National Stock Exchange Of Australia Limited | Sydney (Wikidata) | A$22.3M | 2025–2026 | [report](https://www.nsx.com.au/ftp/news/021745613.PDF) |
-| NWH.AX | NRW Holdings | Perth (report) | A$4.29B | 2024–2026 | [report](https://nrw.com.au/wp-content/uploads/2026/08/30-June-2026-Financial-Statements.pdf) |
+| NSX.AX | National Stock Exchange Of Australia Limited | Noosa (report) | A$4.8M | 2025–2026 | [report](https://www.nsx.com.au/ftp/news/021745679.PDF) |
+| NWH.AX | NRW Holdings | Perth (report) | A$4.29B | 2024–2026 | [report](https://nrw.com.au/wp-content/uploads/2026/10/Annual-Report-2026_Final.pdf) |
 | NXL.AX | Nuix | Sydney (Wikidata) | A$121.2M | 2023–2025 | [report](https://www.nuix.com/sites/default/files/2026-02/Annual%20Financial%20Report.pdf) |
 | PDN.AX | Paladin Energy | Perth (report) | US$304.3M | 2025–2026 | [report](https://www.paladinenergy.com/wp-content/uploads/2026/08/61340285.pdf) |
-| PLY.AX | PlaySide Studios | Melbourne (report) | A$48.7M | 2024–2025 | [report](https://investor.playsidestudios.com/wp-content/uploads/2025/09/75321_PLY_Annual-Report-2025-Proof-1.pdf) |
+| PLY.AX | PlaySide Studios | Melbourne (report) | A$54.9M | 2025–2026 | [report](https://investor.playsidestudios.com/wp-content/uploads/2026/10/FY26-App-4E.pdf) |
 | PME.AX | Pro Medicus | Melbourne (report) | A$213.0M | 2024–2025 | [report](https://www.promed.com.au/wp-content/uploads/2025/10/Pro-Medicus-Limited-Annual-Report-2025.pdf) |
 | PNW.AX | Pacific Star Network | Richmond (Wikidata) | A$110.2M | 2023–2025 | [report](https://www.sportsentertainmentnetwork.com.au/s/SEG-Financial-Report-30-June-2025-Copy_opt-3g7e.pdf) |
 | PPC.AX | Peet | Perth (report) | A$414.8M | 2023–2025 | [report](https://www.peet.com.au/wp-content/uploads/2025/10/24.10.25-2025-Annual-Report.pdf) |
-| PPT.AX | Perpetual | Sydney (LEI) | A$1.16B | 2024–2026 | [report](https://www.perpetual.com.au/4a4b7b/globalassets/_au-site-media/01-documents/04-group/01-shareholders/annual-reports/fy26/fy26-full-year-statutory-accounts.pdf) |
+| PPT.AX | Perpetual | Sydney (LEI) | A$1.16B | 2025–2026 | [report](https://www.perpetual.com.au/4a4b7b/globalassets/_au-site-media/01-documents/04-group/01-shareholders/annual-reports/fy26/fy26-full-year-statutory-accounts.pdf) |
 | PRU.AX | Perseus Mining | Subiaco (LEI) | A$1.48B | 2025–2026 | [report](https://perseusmining.com/wp-content/uploads/2026/08/Annual-Report-2026.pdf) |
 | QUB.AX | Qube Holdings | Sydney (report) | A$4.17B | 2023–2025 | [4E](https://qube.com.au/wp-content/uploads/2025/08/Appendix-4E-and-2025-Annual-Report.pdf) |
-| RHC.AX | Ramsay Health Care | Sydney (Wikidata) | A$18.71B | 2024–2026 | [report](https://www.ramsayhealth.com/globalassets/global/investor-centre/investor-centre-pdfs/fy26-appendix-4e-and-full-year-results.pdf) |
-| RRL.AX | Regis Resources | Subiaco (LEI) | A$2.35B | 2024–2026 | [report](https://www.regisresources.com.au/wp-content/uploads/2026/08/Appendix-4E-and-Annual-Report-2026.pdf) |
-| SBM.AX | St Barbara | Perth (report) | A$215.5M | 2024–2025 | [report](https://stbarbara.com.au/wp-content/uploads/2025/10/2025.10.16_2025-annual-report.pdf) |
+| RHC.AX | Ramsay Health Care | Sydney (Wikidata) | A$18.71B | 2025–2026 | [report](https://www.ramsayhealth.com/globalassets/global/investor-centre/investor-centre-pdfs/2026-rhc-annual-report.pdf) |
+| RRL.AX | Regis Resources | Subiaco (LEI) | A$2.35B | 2025–2026 | [report](https://www.regisresources.com.au/wp-content/uploads/2026/08/Appendix-4E-and-Annual-Report-2026.pdf) |
+| SBM.AX | St Barbara | Perth (report) | A$3.6M | 2024–2026 | [report](https://stbarbara.com.au/wp-content/uploads/2026/10/2026.10.16_-asx_2026-annual-report.pdf) |
 | SFR.AX | Sandfire Resources | West Perth (LEI) | A$1.65B | 2024–2026 | [report](https://www.sandfire.com.au/wp-content/uploads/2026/08/Sandfire-FY26-Annual-Report.pdf) |
 | SGR.AX | The Star Entertainment Group | Brisbane (report) | A$1.31B | 2026–2026 | [4E](https://www.starentertainmentgroup.com.au/wp-content/uploads/2026/08/31-08-2026-Appendix-4E-FY26-Annual-Report.pdf) |
+| SOL.AX | Soul Patts | Sydney (report) | A$1.87B | 2025–2026 | [report](https://www.datocms-assets.com/104850/1790201949-annual-report-2026.pdf) |
 | STO.AX | Santos | Adelaide (LEI) | US$4.94B | 2023–2024 | [4E](https://www.santos.com/wp-content/uploads/2026/02/Appendix-4E-and-2025-Annual-Report.pdf) |
 | SUL.AX | Super Retail Group | Moreton Bay (report) | A$4.20B | 2025–2026 | [report](https://superretailgroup.com.au/wp-content/uploads/2026/08/3105232.pdf) |
 | SVW.AX | Seven Group Holdings | Sydney (report) | A$10.59B | 2024–2026 | [4E](https://sghl.com.au/assets/Financial-Results/2026/SGH-ASX-FY26-Appendix-4E-11-August-2026.pdf) |
@@ -92,7 +95,7 @@ Scope: ASX and NZX companies known to Wikidata or in Wikipedia's S&P/ASX 200 and
 | WHC.AX | Whitehaven Coal | Sydney (report) | A$5.83B | 2025–2025 | [4E](https://whitehavencoal.com.au/wp-content/uploads/2025/08/WHC_FY25_Appendix_4E_and_Annual_Financial_Report.pdf) |
 | WOR.AX | Worley | Sydney (report) | A$10.68B | 2025–2026 | [report](https://www.worley.com/-/media/files/worley/investors/results-and-presentations/2026/wor-annual-report-2026.pdf) |
 | WOW.AX | Woolworths Group | Parramatta (report) | A$71.54B | 2024–2026 | [report](https://www.woolworthsgroup.com.au/content/dam/wwg/investors/reports/f26/Woolworths%20Group%202026%20Annual%20Report.pdf) |
-| WTC.AX | Wisetech Global | Sydney (LEI) | US$1.40B | 2024–2026 | [report](https://www.wisetechglobal.com/media/jj2pu2jn/wtc-fy26-app-4e-and-financial-report.pdf) |
+| WTC.AX | Wisetech Global | Sydney (LEI) | US$1.40B | 2024–2026 | [report](https://www.wisetechglobal.com/media/4o1lj2yf/wisetech-global-2026-annual-report.pdf) |
 
 ## Included — New Zealand (11)
 
@@ -107,17 +110,17 @@ Scope: ASX and NZX companies known to Wikidata or in Wikipedia's S&P/ASX 200 and
 | PEB.NZ | Pacific Edge Limited | Dunedin (Wikidata) | NZ$11.5M | 2024–2026 | [report](https://www.pacificedgedx.com/assets/Investor-Files/Annual-Reports/PEB-Annual-Report-2026.pdf) |
 | RYM.NZ | Ryman Healthcare | Christchurch (LEI) | NZ$855.6M | 2023–2026 | [report](https://www.rymanhealthcare.co.nz/hubfs/Investor%20Centre/Annual%20and%20interim%20reports/Ryman%20Healthcare%20Limited%20-%20FY26%20Annual%20Report.pdf) |
 | SML.NZ | Synlait | Dunsandel (Wikidata) | NZ$1.83B | 2024–2025 | [report](https://www.synlait.com/wp-content/uploads/2025/09/Annual-Report-2025.pdf) |
-| SUM.NZ | Summerset Group | Mount Victoria (report) | NZ$361.8M | 2024–2025 | [report](https://assets.ctfassets.net/hjeh5mvg3dxz/2jnhMVUuNIqYJjtLrjEUYY/a8d205014126db0536258770f8e75cee/Summerset_Annual_Report_2025.pdf) |
-| VGL.NZ | Vista Group International | Auckland (report) | NZ$164.3M | 2023–2025 | [report](https://cdn.prod.website-files.com/62e1b5395a096c50d469e9d9/69a0a455fbb6681c03c87c8a_2025%20Full%20Results%20Pack.pdf) |
+| SUM.NZ | Summerset Group | Mount Victoria (report) | NZ$361.8M | 2021–2025 | [report](https://assets.ctfassets.net/hjeh5mvg3dxz/2jnhMVUuNIqYJjtLrjEUYY/a8d205014126db0536258770f8e75cee/Summerset_Annual_Report_2025.pdf) |
+| VGL.NZ | Vista Group International | Auckland (report) | NZ$164.3M | 2023–2025 | [report](https://cdn.prod.website-files.com/60d2aec2a563f9d361b2c9ec/6a05439cfe6031b4b005bebe_69a0a32b8626c402b1c86ab7_2025%20Annual%20Report.pdf) |
 
 ## Excluded (452)
 
-- no annual report found on its website: 223
-- no website known …: 144
+- no annual report found on its website: 228
+- no website known …: 142
 - no revenue and profit read from its report …: 52
-- already shown from its US filings …: 15
-- latest report found is for … …: 6
+- already shown from its US filings …: 14
 - no address found: 5
+- latest report found is for … …: 4
 - headquarters … not in Australia or not placed: 3
 - already shown from its home market …: 3
 - headquartered outside Australia and New Zealand …: 1
@@ -134,13 +137,13 @@ Scope: ASX and NZX companies known to Wikidata or in Wikipedia's S&P/ASX 200 and
 - ABY.AX Adore Beauty: no annual report found on its website
 - ACE.NZ Ascension Capital: no website known (add one in data/curated/anz-companies.csv)
 - ACL.AX Australian Clinical Labs: no annual report found on its website
-- ADA.AX Adacel: latest report found is for FY2016 (not recent)
+- ADA.AX Adacel: no revenue and profit read from its report (layout not recognised)
 - ADH.AX Adairs: no annual report found on its website
 - AFC.NZ AFC Group: no website known (add one in data/curated/anz-companies.csv)
 - AFI.AX Australian Foundation Investment Company: no annual report found on its website
 - AFI.NZ Australian Foundation Investment Company: no website known (add one in data/curated/anz-companies.csv)
 - AFT.NZ AFT Pharmaceuticals: no website known (add one in data/curated/anz-companies.csv)
-- AGG.AX AngloGold Ashanti: no revenue and profit read from its report (the report link isn't a PDF)
+- AGG.AX AngloGold Ashanti: no revenue and profit read from its report (layout not recognised)
 - AGI.AX AINSWORTH GAME TECHNOLOGY LIMITED: no annual report found on its website
 - AGL.AX AGL Energy: no annual report found on its website
 - AGL.NZ Accordant Group: no website known (add one in data/curated/anz-companies.csv)
@@ -151,14 +154,13 @@ Scope: ASX and NZX companies known to Wikidata or in Wikipedia's S&P/ASX 200 and
 - ALF.NZ Allied Farmers: no website known (add one in data/curated/anz-companies.csv)
 - ALK.AX Alkane Resources: no revenue and profit read from its report (layout not recognised)
 - ALL.AX Aristocrat Leisure: no annual report found on its website
-- ALQ.AX ALS: latest report found is for FY2024 (not recent)
+- ALQ.AX ALS: no annual report found on its website
 - ALX.AX Atlas Arteria: no address found
-- AMC.AX Amcor: no annual report found on its website
+- AMC.AX Amcor: no revenue and profit read from its report (layout not recognised)
 - ANN.AX Ansell: no annual report found on its website
 - ANZ.AX Australia & New Zealand Banking Group: no annual report found on its website
 - APA.AX APA Group: no annual report found on its website
 - APA.NZ The Asia Pacific Trust: no website known (add one in data/curated/anz-companies.csv)
-- APE.AX Eagers Automotive: no annual report found on its website
 - API.AX Australian Pharmaceutical Industries: no annual report found on its website
 - APL.NZ Asset Plus: no website known (add one in data/curated/anz-companies.csv)
 - APT.AX Afterpay: no annual report found on its website
@@ -179,7 +181,6 @@ Scope: ASX and NZX companies known to Wikidata or in Wikipedia's S&P/ASX 200 and
 - ATB.AX Asian Development Bank: no revenue and profit read from its report (layout not recognised)
 - ATM.AX Aneka Tambang: no annual report found on its website
 - AUB.AX AUB Group: no website known (add one in data/curated/anz-companies.csv)
-- AVG.AX Australian Vintage: no revenue and profit read from its report (the report link answered 403)
 - AVH.AX Avita Medical: already shown from its US filings (RCEL)
 - AWC.AX Alumina Limited: no annual report found on its website
 - AXE.AX ARCHER MATERIALS LIMITED: no revenue and profit read from its report (layout not recognised)
@@ -198,7 +199,7 @@ Scope: ASX and NZX companies known to Wikidata or in Wikipedia's S&P/ASX 200 and
 - BMN.AX BANNERMAN ENERGY LTD: no annual report found on its website
 - BOE.AX Boss Energy Ltd: no annual report found on its website
 - BOQ.AX Bank of Queensland: no annual report found on its website
-- BPG.NZ Blackpearl Group: no website known (add one in data/curated/anz-companies.csv)
+- BPG.NZ Blackpearl Group: no revenue and profit read from its report (the report link answered 404)
 - BRL.AX Bathurst Resources: headquarters (Wellington) not in Australia or not placed
 - BRM.NZ Barramundi: no website known (add one in data/curated/anz-companies.csv)
 - BST.AX Best & Less: no annual report found on its website
@@ -219,7 +220,7 @@ Scope: ASX and NZX companies known to Wikidata or in Wikipedia's S&P/ASX 200 and
 - CGF.AX Challenger: no website known (add one in data/curated/anz-companies.csv)
 - CGF.NZ Cooks Global Foods: no website known (add one in data/curated/anz-companies.csv)
 - CHC.AX Charter Hall: no website known (add one in data/curated/anz-companies.csv)
-- CIA.AX Champion Iron: no revenue and profit read from its report (layout not recognised)
+- CIA.AX Champion Iron: no annual report found on its website
 - CIM.AX CIMIC Group: no annual report found on its website
 - CIP.AX Centuria Industrial REIT: no website known (add one in data/curated/anz-companies.csv)
 - CKF.AX Collins Foods: no annual report found on its website
@@ -237,6 +238,7 @@ Scope: ASX and NZX companies known to Wikidata or in Wikipedia's S&P/ASX 200 and
 - CSV.AX CSG Limited: no annual report found on its website
 - CTD.AX Corporate Travel Management: no website known (add one in data/curated/anz-companies.csv)
 - CTM.AX CENTAURUS METALS LIMITED: no revenue and profit read from its report (layout not recognised)
+- CTT.AX Cettire: no annual report found on its website
 - CVT.NZ Comvita Limited: no website known (add one in data/curated/anz-companies.csv)
 - CWN.AX Crown Resorts Limited: no annual report found on its website
 - CWY.AX Cleanaway: no revenue and profit read from its report (layout not recognised)
@@ -258,7 +260,7 @@ Scope: ASX and NZX companies known to Wikidata or in Wikipedia's S&P/ASX 200 and
 - DYL.AX Deep Yellow: no revenue and profit read from its report (layout not recognised)
 - EBO.AX EBOS Group: no website known (add one in data/curated/anz-companies.csv)
 - EBO.NZ Ebos Group: no website known (add one in data/curated/anz-companies.csv)
-- EGR.AX ECOGRAF LIMITED: no annual report found on its website
+- ECX.AX FleetPartners Group: no annual report found on its website
 - ELD.AX Elders Limited: no annual report found on its website
 - ELX.AX Ellex Medical Lasers: no annual report found on its website
 - EMH.AX European Metals Holdings: no annual report found on its website
@@ -289,11 +291,13 @@ Scope: ASX and NZX companies known to Wikidata or in Wikipedia's S&P/ASX 200 and
 - GFL.NZ Geneva Finance: no website known (add one in data/curated/anz-companies.csv)
 - GGP.AX Greatland Resources: no website known (add one in data/curated/anz-companies.csv)
 - GLB.AX Globe International: no annual report found on its website
+- GLF.AX GemLife Communities Group: no annual report found on its website
 - GLN.AX GALAN LITHIUM LIMITED: no annual report found on its website
 - GMD.AX Genesis Minerals: no annual report found on its website
 - GMG.AX Goodman Group: no annual report found on its website
 - GNE.NZ Genesis Energy Limited: no annual report found on its website
 - GNX.AX Genex Power: no revenue and profit read from its report (layout not recognised)
+- GOZ.AX GROWTHPOINT PROPERTIES AUSTRALIA: no annual report found on its website
 - GPT.AX GPT Group: no revenue and profit read from its report (layout not recognised)
 - GQG.AX GQG Partners: no website known (add one in data/curated/anz-companies.csv)
 - GRR.AX Grange Resources Limited: no annual report found on its website
@@ -308,6 +312,7 @@ Scope: ASX and NZX companies known to Wikidata or in Wikipedia's S&P/ASX 200 and
 - HGH.NZ Heartland Group Holdings: no annual report found on its website
 - HLG.NZ Hallenstein Glassons Holdings: no website known (add one in data/curated/anz-companies.csv)
 - HLO.AX Helloworld Travel: no annual report found on its website
+- HLS.AX Healius Limited: no revenue and profit read from its report (layout not recognised)
 - HM1.AX HEARTS AND MINDS INVESTMENTS LIMITED: no annual report found on its website
 - HMY.NZ Harmoney Group: no annual report found on its website
 - HPG.AX Hipages Group: no annual report found on its website
@@ -363,7 +368,7 @@ Scope: ASX and NZX companies known to Wikidata or in Wikipedia's S&P/ASX 200 and
 - MCY.NZ Mercury Energy: no revenue and profit read from its report (layout not recognised)
 - MEE.NZ Me Today: no website known (add one in data/curated/anz-companies.csv)
 - MEL.NZ Meridian Energy: no revenue and profit read from its report (layout not recognised)
-- MFB.NZ My Food Bag: no revenue and profit read from its report (layout not recognised)
+- MFB.NZ My Food Bag: no annual report found on its website
 - MFF.AX MFF Capital Investments: no website known (add one in data/curated/anz-companies.csv)
 - MFG.AX Magellan Financial Group: no annual report found on its website
 - MGR.AX Mirvac: no revenue and profit read from its report (layout not recognised)
@@ -393,7 +398,7 @@ Scope: ASX and NZX companies known to Wikidata or in Wikipedia's S&P/ASX 200 and
 - NEU.AX Neuren Pharmaceuticals (New Zealand): no annual report found on its website
 - NHC.AX New Hope: no website known (add one in data/curated/anz-companies.csv)
 - NHF.AX Nib: no annual report found on its website
-- NIB.AX Nordic Investment Bank: no revenue and profit read from its report (layout not recognised)
+- NIB.AX Nordic Investment Bank: no annual report found on its website
 - NIC.AX Nickel Industries: no website known (add one in data/curated/anz-companies.csv)
 - NPF.NZ New Zealand Property Trust: no website known (add one in data/curated/anz-companies.csv)
 - NPH.NZ Napier Port Holdings: no website known (add one in data/curated/anz-companies.csv)
@@ -492,8 +497,7 @@ Scope: ASX and NZX companies known to Wikidata or in Wikipedia's S&P/ASX 200 and
 - SNC.NZ Southern Charter Financial Group: no website known (add one in data/curated/anz-companies.csv)
 - SNG.AX Siren Gold: no annual report found on its website
 - SNZ.AX Summerset Group Holdings: no website known (add one in data/curated/anz-companies.csv)
-- SOL.AX Soul Patts: no annual report found on its website
-- SPG.NZ Stride Property & Stride Investment Management: no annual report found on its website
+- SPG.NZ Stride Property & Stride Investment Management: no revenue and profit read from its report (layout not recognised)
 - SPK.NZ Spark New Zealand: no annual report found on its website
 - SPL.AX Starpharma (Australia): no annual report found on its website
 - SPN.NZ South Port New Zealand: no website known (add one in data/curated/anz-companies.csv)
@@ -503,8 +507,7 @@ Scope: ASX and NZX companies known to Wikidata or in Wikipedia's S&P/ASX 200 and
 - ST1.AX Spirit Technology Solutions: no annual report found on its website
 - STU.NZ Steel & Tube: no revenue and profit read from its report (the report link answered 404)
 - SUN.AX Suncorp: no annual report found on its website
-- SXL.AX Southern Cross Media Group: no annual report found on its website
-- SXR.AX Virgin Australia Regional Airlines: no annual report found on its website
+- SXL.AX Seven Media Group: no annual report found on its website
 - SXY.AX Senex Energy Limited: no annual report found on its website
 - SYA.AX SAYONA MINING LIMITED: no annual report found on its website
 - SYD.AX Sydney Airports Corporation Limited: no annual report found on its website
@@ -521,7 +524,7 @@ Scope: ASX and NZX companies known to Wikidata or in Wikipedia's S&P/ASX 200 and
 - TLL.NZ MOVe Logistics Group: no website known (add one in data/curated/anz-companies.csv)
 - TLT.NZ Tilt Renewables: no annual report found on its website
 - TLX.AX Telix Pharmaceuticals: already shown from its US filings (TLX)
-- TNE.AX TechnologyOne: no website known (add one in data/curated/anz-companies.csv)
+- TNE.AX TechnologyOne: no annual report found on its website
 - TPW.AX Temple & Webster: no annual report found on its website
 - TPW.NZ Trustpower: no annual report found on its website
 - TRA.NZ Turners Automotive Group: no website known (add one in data/curated/anz-companies.csv)
@@ -534,7 +537,7 @@ Scope: ASX and NZX companies known to Wikidata or in Wikipedia's S&P/ASX 200 and
 - TYR.AX Tyro Payments: no annual report found on its website
 - TZL.AX TZ Limited: no annual report found on its website
 - URW.AX Unibail Rodamco Westfield: no annual report found on its website
-- VAH.AX Virgin Australia Holdings: no annual report found on its website
+- VAH.AX Virgin Australia Regional Airlines: no annual report found on its website
 - VAR.AX Variscan Mines Limited: no annual report found on its website
 - VAU.AX Vault Minerals: no website known (add one in data/curated/anz-companies.csv)
 - VCT.NZ Vector: no revenue and profit read from its report (layout not recognised)
@@ -548,14 +551,14 @@ Scope: ASX and NZX companies known to Wikidata or in Wikipedia's S&P/ASX 200 and
 - VRL.AX Village Roadshow: no annual report found on its website
 - VRT.AX Virtus Health: no annual report found on its website
 - VTL.NZ Vital Limited: no website known (add one in data/curated/anz-companies.csv)
-- VUL.AX Vulcan Energy Resources: no revenue and profit read from its report (layout not recognised)
+- VUL.AX Vulcan Energy Resources: no annual report found on its website
 - WAF.AX West African Resources: no website known (add one in data/curated/anz-companies.csv)
 - WAM.AX WAM Capital: no website known (add one in data/curated/anz-companies.csv)
 - WBA.AX Webster Limited: no annual report found on its website
 - WBC.AX Westpac: no annual report found on its website
 - WCI.AX Waratah Coal: no annual report found on its website
 - WCO.NZ WasteCo: no website known (add one in data/curated/anz-companies.csv)
-- WDS.AX Woodside Energy Group: already shown from its US filings (WDS)
+- WDS.AX Woodside Energy Group: no annual report found on its website
 - WDT.NZ Wellington Drive Technologies: no website known (add one in data/curated/anz-companies.csv)
 - WEB.AX Webjet Limited: no annual report found on its website
 - WGX.AX Westgold Resources: no annual report found on its website
@@ -583,11 +586,8 @@ Scope: ASX and NZX companies known to Wikidata or in Wikipedia's S&P/ASX 200 and
 - CUV.AX Clinuvel Pharmaceuticals (Australia): figures from the Appendix 4E summary only (the statement wasn't read)
 - DDR.AX Dicker Data: figures from the Appendix 4E summary only (the statement wasn't read)
 - EDV.AX Endeavour Group: figures from the Appendix 4E summary only (the statement wasn't read)
-- HLS.AX Healius Limited: figures from the Appendix 4E summary only (the statement wasn't read)
 - LOV.AX Lovisa: figures from the Appendix 4E summary only (the statement wasn't read)
-- MAQ.AX Macquarie Technology Group: figures from the Appendix 4E summary only (the statement wasn't read)
 - MGX.AX MOUNT GIBSON IRON LIMITED: figures from the Appendix 4E summary only (the statement wasn't read)
-- MND.AX Monadelphous Group: figures from the Appendix 4E summary only (the statement wasn't read)
 - NEC.AX Nine Entertainment Co.: figures from the Appendix 4E summary only (the statement wasn't read)
 - QUB.AX Qube Holdings: figures from the Appendix 4E summary only (the statement wasn't read)
 - SGR.AX The Star Entertainment Group: figures from the Appendix 4E summary only (the statement wasn't read)

@@ -1,48 +1,52 @@
-# European import report — 2026-10-02 16:33 UTC
+# European import report — 2026-11-09 09:50 UTC
 
-Scope: France, Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belgium, Austria — companies with shares on the home exchange that file ESEF annual reports. Financials only (no executives). Sources: filings.xbrl.org, GLEIF, OpenFIGI, GeoNames.
+Scope: France, Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belgium, Austria, Luxembourg, Lithuania, Slovenia — companies with shares on the home exchange that file ESEF annual reports. Financials only (no executives). Sources: filings.xbrl.org, GLEIF, OpenFIGI, GeoNames.
 
-- Companies included: **1178**
-- Years of figures: 5851
-- Postcodes written: 72786
-- Network requests this run: 0
+- Companies included: **1276**
+- Years of figures: 6692
+- Postcodes written: 79695
+- Network requests this run: 4332
 
 | Country | Area | Companies |
 |---|---|---|
 | Austria | Vienna | 29 |
 | Austria | Rest of Austria | 21 |
-| Belgium | Brussels | 35 |
+| Belgium | Brussels | 36 |
 | Belgium | Rest of Belgium | 20 |
 | Belgium | Antwerp | 12 |
-| Denmark | Copenhagen | 58 |
+| Denmark | Copenhagen | 57 |
 | Denmark | Rest of Denmark | 20 |
 | Denmark | Aarhus | 7 |
 | Finland | Helsinki | 58 |
-| Finland | Rest of Finland | 24 |
-| France | Paris | 137 |
+| Finland | Rest of Finland | 25 |
+| France | Paris | 136 |
 | France | Rest of France | 49 |
 | France | Lyon | 8 |
-| Italy | Rest of Italy | 63 |
+| Italy | Rest of Italy | 66 |
 | Italy | Milan | 55 |
 | Italy | Rome | 18 |
 | Italy | Turin | 5 |
-| Netherlands | Amsterdam | 34 |
-| Netherlands | Rest of Netherlands | 23 |
+| Lithuania | Vilnius | 11 |
+| Lithuania | Rest of Lithuania | 6 |
+| Luxembourg | Luxembourg | 2 |
+| Netherlands | Amsterdam | 33 |
+| Netherlands | Rest of Netherlands | 24 |
 | Netherlands | Rotterdam–The Hague | 11 |
 | Netherlands | Eindhoven | 5 |
-| Norway | Oslo | 83 |
-| Norway | Rest of Norway | 38 |
-| Norway | Bergen | 7 |
-| Norway | Stavanger | 6 |
-| Spain | Madrid | 52 |
-| Spain | Rest of Spain | 29 |
-| Spain | Barcelona | 13 |
-| Sweden | Stockholm | 157 |
-| Sweden | Rest of Sweden | 52 |
-| Sweden | Malmö | 28 |
-| Sweden | Gothenburg | 21 |
+| Norway | Oslo | 95 |
+| Norway | Rest of Norway | 41 |
+| Norway | Bergen | 8 |
+| Norway | Stavanger | 7 |
+| Slovenia | Slovenia | 9 |
+| Spain | Madrid | 56 |
+| Spain | Rest of Spain | 35 |
+| Spain | Barcelona | 15 |
+| Sweden | Stockholm | 176 |
+| Sweden | Rest of Sweden | 63 |
+| Sweden | Malmö | 32 |
+| Sweden | Gothenburg | 25 |
 
-## Included — France (194)
+## Included — France (193)
 
 | Ticker | Company | City | Latest revenue | Years |
 |---|---|---|---|---|
@@ -79,17 +83,18 @@ Scope: France, Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belg
 | AVT.PA | Avenir Telecom | Marseille | €10.4M | 2021–2026 |
 | AYV.PA | Ayvens | Puteaux | €5.22B | 2019–2025 |
 | BB.PA | Societe Bic | Clichy | €2.09B | 2020–2025 |
-| BIG.PA | Bigben Interactive | Fretin | €288.0M | 2021–2025 |
+| BIG.PA | Bigben Interactive | Fretin | €284.5M | 2021–2026 |
 | BIM.PA | Biomerieux SA | Marcy-L'etoile | €4.07B | 2019–2025 |
 | BLEE.PA | Bleecker | Paris | €24.6M | 2021–2025 |
 | BN.PA | Danone | Paris | €27.38B | 2020–2024 |
 | BNP.PA | BNP Paribas | Paris | €71.53B | 2020–2025 |
 | BOL.PA | Bollore SE | Ergue Gaberic | €2.93B | 2021–2025 |
-| BON.PA | Bonduelle | Renescure | €2.20B | 2021–2025 |
+| BON.PA | Bonduelle | Renescure | €2.19B | 2021–2026 |
 | BSD.PA | Bourse Direct | Paris | €36.8M | 2021–2025 |
 | BVI.PA | Bureau Veritas | Courbevoie | €6.47B | 2019–2025 |
 | CA.PA | Carrefour | Massy | €84.03B | 2020–2025 |
 | CAP.PA | Capgemini | Paris | €22.10B | 2020–2024 |
+| CARM.PA | Carmila | Paris | €404.1M | 2022–2024 |
 | CBSM.PA | Soc Centrale Bois Scieries Manche | Paris | €23.3M | 2021–2025 |
 | CDA.PA | Compagnie Des Alpes | Paris | €1.40B | 2020–2025 |
 | CEN.PA | Groupe Crit | Paris | €3.37B | 2019–2025 |
@@ -111,7 +116,7 @@ Scope: France, Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belg
 | DSYNV.PA | Dassault Systemes | Velizy-Villacoublay | €6.24B | 2021–2025 |
 | EAPI.PA | Euroapi | Paris | €848.2M | 2022–2025 |
 | EDEN.PA | Edenred | Issy-Les-Moulineaux | €2.96B | 2019–2025 |
-| EFG.PA | Eagle Football Group | Decines-Charpieu | €162.6M | 2021–2025 |
+| EFG.PA | Eagle Football Group | Decines-Charpieu | €143.3M | 2021–2026 |
 | EKI.PA | Ekinops | Lannion | €105.0M | 2021–2025 |
 | EL.PA | Essilorluxottica | Charenton-Le-Pont | €26.51B | 2020–2024 |
 | ELIOR.PA | Elior Group | Courbevoie | €6.15B | 2021–2025 |
@@ -121,7 +126,7 @@ Scope: France, Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belg
 | ENGI.PA | Engie | Courbevoie | €71.94B | 2020–2025 |
 | EQS.PA | Equasens | Villers-Les-Nancy | €216.8M | 2019–2024 |
 | ERA.PA | Eramet | Paris | €2.75B | 2019–2025 |
-| ETL.PA | Eutelsat Communications | Issy-Les-Moulineaux | €1.24B | 2021–2025 |
+| ETL.PA | Eutelsat Communications | Issy-Les-Moulineaux | €1.24B | 2021–2026 |
 | EXA.PA | Exail Technologies | Paris | €478.5M | 2020–2025 |
 | EXE.PA | Exel Industries | Epernay | €983.0M | 2021–2025 |
 | EXENS.PA | Exosens | Merignac | €468.2M | 2023–2025 |
@@ -134,9 +139,8 @@ Scope: France, Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belg
 | FREY.PA | Frey | Bezannes | €231.4M | 2023–2025 |
 | GAM.PA | Gaumont | Neuilly-Sur-Seine | €150.3M | 2022–2025 |
 | GBT.PA | Guerbet | Villepinte | €786.4M | 2020–2025 |
-| GDS.PA | Ramsay Generale De Sante | Paris | €5.24B | 2021–2025 |
+| GDS.PA | Ramsay Generale De Sante | Paris | €5.38B | 2021–2026 |
 | GET.PA | Getlink S.E. | Paris | €1.61B | 2021–2024 |
-| GFC.PA | Gecina | Paris | €712.6M | 2019–2025 |
 | GLE.PA | Societe Generale | Paris | €43.63B | 2020–2025 |
 | GLO.PA | Gl Events | Lyon | €1.72B | 2020–2025 |
 | GNFT.PA | SA Genfit | Loos | €70.9M | 2020–2024 |
@@ -166,7 +170,6 @@ Scope: France, Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belg
 | LPE.PA | Laurent-Perrier | Tours-Sur-Marne | €303.8M | 2021–2026 |
 | LR.PA | Legrand | Limoges | €9.48B | 2020–2025 |
 | MBWS.PA | Marie Brizard Wine And Spirits | Charenton-Le-Pont | €217.0M | 2020–2025 |
-| MC.PA | Lvmh Moet Hennessy Louis Vuitton | Paris | €84.68B | 2020–2024 |
 | MDM.PA | Maisons Du Monde | Vertou | €973.2M | 2019–2025 |
 | MEDCL.PA | Medincell S.A. | Jacou | €24.3M | 2021–2026 |
 | MERY.PA | Mercialys | Paris | €180.6M | 2020–2025 |
@@ -175,7 +178,7 @@ Scope: France, Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belg
 | MMT.PA | Metropole Television | Neuilly-Sur-Seine | €1.31B | 2020–2024 |
 | MRN.PA | Mersen | Courbevoie | €1.19B | 2020–2025 |
 | MTU.PA | Manitou Bf | Ancenis-Saint-Gereon | €2.56B | 2019–2025 |
-| NACON.PA | Nacon | Fretin | €167.9M | 2021–2025 |
+| NACON.PA | Nacon | Fretin | €160.8M | 2021–2026 |
 | NANO.PA | Nanobiotix | Paris | €29.6M | 2020–2025 |
 | NEX.PA | Nexans | Puteaux | €7.81B | 2020–2025 |
 | NK.PA | Imerys | Paris | €3.38B | 2021–2025 |
@@ -267,11 +270,11 @@ Scope: France, Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belg
 | BEVER.AS | N.V. Bever Holding | Wassenaar | €2K | 2020–2023 |
 | BFIT.AS | Basic-Fit N.V. | Hoofddorp | €1.42B | 2024–2025 |
 | BRNL.AS | Brunel International N.V. | Amsterdam | €1.22B | 2024–2025 |
-| CABKA.AS | Cabka N.V. | Amsterdam | €180.8M | 2021–2025 |
 | CMCOM.AS | CM.com N.V. | Breda | €259.4M | 2020–2025 |
 | CRBN.AS | Corbion N.V. | Amsterdam | €1.29B | 2019–2024 |
 | CTAC.AS | Ctac N.V. | 's-Hertogenbosch | €125.7M | 2020–2025 |
 | CTPNV.AS | Ctp N.V. | Amsterdam | €870.8M | 2020–2024 |
+| DSC2S.AS | Cabka N.V. | Hilversum | €180.8M | 2021–2025 |
 | EARTH.AS | DGB Group N.V. | Lelystad | €88K | 2022–2024 |
 | EAS2P.AS | Ease2pay N.V. | Rotterdam | €3.9M | 2023–2025 |
 | EBUS.AS | Ebusco Holding NV | Deurne | €76.6M | 2020–2025 |
@@ -319,7 +322,7 @@ Scope: France, Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belg
 | WHA.AS | Wereldhave N.V. | Amsterdam | €215.9M | 2020–2025 |
 | WKL.AS | Wolters Kluwer N.V. | Alphen aan den Rijn | €6.13B | 2020–2025 |
 
-## Included — Italy (141)
+## Included — Italy (144)
 
 | Ticker | Company | City | Latest revenue | Years |
 |---|---|---|---|---|
@@ -361,7 +364,7 @@ Scope: France, Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belg
 | CY4.MI | Cy4gate S.p.A. | Roma | €99.1M | 2024–2025 |
 | DEX.MI | Dexelance S.p.A. | Milano | €329.3M | 2022–2024 |
 | DIA.MI | Diasorin S.p.A. | Saluggia | €1.20B | 2020–2025 |
-| DIB.MI | Digital Bros S.p.A. | Milano | €93.6M | 2021–2025 |
+| DIB.MI | Digital Bros S.p.A. | Milano | €108.5M | 2021–2026 |
 | DLG.MI | De' Longhi S.p.A. | Treviso | €3.80B | 2023–2025 |
 | DNR.MI | Industrie De Nora S.p.A. | Milano | €875.0M | 2021–2025 |
 | ECNL.MI | Aquafil S.p.A. | Arco | €520.8M | 2020–2025 |
@@ -377,6 +380,7 @@ Scope: France, Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belg
 | ERG.MI | Erg S.p.A. | Genova | €738.1M | 2020–2024 |
 | ETH.MI | Eurotech S.p.A. | Amaro | €55.4M | 2020–2025 |
 | EUK.MI | Eukedos S.p.A. | Firenze | €52.9M | 2021–2025 |
+| FBK.MI | Finecobank Banca Fineco S.p.A. | Milan | €544.1M | 2020–2025 |
 | FCT.MI | Fincantieri S.p.A. | Trieste | €7.45B | 2020–2023 |
 | FF.MI | "Fine Foods & Pharmaceuticals N.T.M. S.P.A." | Verdellino | €253.5M | 2021–2025 |
 | FILA.MI | F.I.L.A - Fabbrica Italiana Lapis Ed Affini - Societa' Per Azioni Siglabile In Forma F.I.L.A. S.P.A. O In Forma Abbreviata Con La Dicituara Anticipata Dal Simbolo Del Giglio Stilizzato | Pero | €572.2M | 2020–2025 |
@@ -394,7 +398,6 @@ Scope: France, Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belg
 | IEG.MI | Italian Exhibition Group S.p.A. | Rimini | €250.0M | 2020–2024 |
 | IG.MI | Italgas S.p.A. | Milano | €3.59B | 2020–2025 |
 | IGD.MI | Immobiliare Grande Distribuzione Societa' Di Investimento Immobil Iare Quotata S.P.A. In Forma Abbreviata Igd Siiq S.p.A. | Bologna | €134.8M | 2020–2024 |
-| IGV.MI | I Grandi Viaggi S.p.A. | Milano | €67.2M | 2021–2024 |
 | IMS.MI | Immsi S.p.A. | Mantova | €1.59B | 2020–2025 |
 | INDB.MI | Indel B S.p.A. | Sant'agata Feltria | €204.9M | 2021–2025 |
 | INW.MI | Infrastrutture Wireless Italiane S.P.A. O, In Forma Abbreviata, Inwit S.p.A. | Milano | €1.08B | 2022–2025 |
@@ -406,11 +409,10 @@ Scope: France, Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belg
 | ITW.MI | Itway S.p.A. | Milano | €56.7M | 2020–2024 |
 | IWB.MI | Italian Wine Brands S.P.A. O In Forma Abbreviata Iwb S.p.A. | Milano | €401.9M | 2020–2024 |
 | JUVE.MI | Juventus F.C. - S.P.A. O Juventus Football Club S.p.A. | Torino | €529.6M | 2021–2025 |
-| KME.MI | Kme Group S.p.A. | Milano | €1.57B | 2022–2024 |
+| KMER.MI | Kme Group S.p.A. | Milano | €1.57B | 2022–2024 |
 | LDO.MI | Leonardo - Societa' Per Azioni | Roma | €17.76B | 2020–2024 |
 | LUVE.MI | "Lu-Ve - S.P.A." | Varese | €603.8M | 2022–2025 |
 | MAIRE.MI | Maire S.p.A. | Roma | €7.10B | 2020–2025 |
-| MB.MI | Mediobanca - Banca Di Credito Finanziario S.p.A. | Milan | €3.28B | 2021–2025 |
 | MET.MI | Met.Extra Group S.p.A. | Milano | €39.2M | 2023–2024 |
 | MN.MI | Arnoldo Mondadori Editore S.p.A. | Milano | €931.6M | 2023–2025 |
 | MOL.MI | "Moltiply Group S.P.A.", Ovvero, In Breve, "Mol Group S.P.A." O Anche "Gruppo Mol S.P.A." | Milano | €674.1M | 2020–2025 |
@@ -449,385 +451,439 @@ Scope: France, Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belg
 | SOL.MI | Sol S.p.A. | Monza | €1.64B | 2020–2024 |
 | SOM.MI | Somec S.p.A. | San Vendemiano | €370.0M | 2021–2025 |
 | SRG.MI | Snam S.p.A. | Milano | €3.55B | 2020–2024 |
-| SSL.MI | S.S. Lazio - S.p.A. | Formello | €146.0M | 2023–2025 |
+| SSL.MI | S.S. Lazio - S.p.A. | Formello | €134.5M | 2023–2026 |
 | TES.MI | Tesmec S.p.A. | Milano | €257.6M | 2020–2025 |
+| TFIN.MI | Trevi - Finanziaria Industriale S.p.A. | Cesena | €612.4M | 2020–2025 |
+| TGYM.MI | Technogym S.p.A. | Cesena | €899.0M | 2020–2024 |
 | TIP.MI | Tamburi Investment Partners S.P.A. In Via Breve T.I.P. S.P.A. Ov Vero Tip S.p.A. | Milano | €2.6M | 2023–2025 |
+| TISG.MI | The Italian Sea Group S.p.A. | Carrara | €424.1M | 2020–2024 |
 | TIT.MI | Telecom Italia Spa O Tim S.p.A. | Milano | €13.73B | 2020–2025 |
 | TPRO.MI | Technoprobe S.p.A. | Cernusco Lombardone | €628.4M | 2022–2025 |
 | TRN.MI | "Terna - Rete Elettrica Nazionale Societa' Per Azioni" (In Forma Abbreviata "Terna S.P.A.") | Roma | €3.62B | 2020–2024 |
 | TYA.MI | Toscana Aeroporti S.p.A. | Firenze | €115.9M | 2020–2025 |
+| UCG.MI | Unicredit, Societa' Per Azioni | Milano | €28.19B | 2020–2024 |
 | UD.MI | Unidata S.p.A. | Roma | €101.3M | 2022–2024 |
 | UNI.MI | Unipol Assicurazioni S.p.A. | Bologna | €10.07B | 2022–2025 |
 | VLS.MI | Valsoia S.P.A. (In Forma Estesa "Valsoia - Bonta' E Salute - S.P.A." O In Sigla Anche "V.B.S. S.P.A.") | Bologna | €117.9M | 2025–2025 |
-| WBD.MI | Webuild S.p.A. | Rozzano | €13.57B | 2020–2025 |
+| WBDR.MI | Webuild S.p.A. | Rozzano | €13.57B | 2020–2025 |
 | WIIT.MI | Wiit S.p.A. | Milano | €167.9M | 2020–2025 |
 | YACHT.MI | Ferretti S.p.A. | Cattolica | €1.24B | 2022–2024 |
 | ZEST.MI | Zest Societa' Per Azioni | Roma | €11.23B | 2023–2025 |
 | ZV.MI | Zignago Vetro S.P.A. Con La Sigla "Z.V. S.P.A." | Fossalta Di Portogruaro | €444.8M | 2020–2025 |
 
-## Included — Spain (94)
+## Included — Spain (106)
 
 | Ticker | Company | City | Latest revenue | Years |
 |---|---|---|---|---|
-| A3M.MC | Atresmedia Corporacion De Medios De Comunicacion, S.A. | San Sebastián de los Reyes | €919.0M | 2020–2024 |
-| ACS.MC | ACS Actividades De Construccion Y Servicios, S.A. | Madrid | €41.63B | 2020–2024 |
-| ACX.MC | Acerinox SA | Madrid | €5.41B | 2019–2024 |
-| ADX.MC | Audax Renovables S.A. | Badalona | €1.98B | 2019–2024 |
-| AENA.MC | Aena S.M.E. SA | Madrid | €5.76B | 2020–2024 |
-| AI.MC | Airtificial Intelligence Structures SA | Madrid | €110.1M | 2020–2024 |
+| A3M.MC | Atresmedia Corporacion De Medios De Comunicacion, S.A. | San Sebastián de los Reyes | €893.7M | 2020–2025 |
+| ACS.MC | ACS Actividades De Construccion Y Servicios, S.A. | Madrid | €49.85B | 2020–2025 |
+| ACX.MC | Acerinox SA | Madrid | €5.78B | 2019–2025 |
+| ADX.MC | Audax Renovables S.A. | Badalona | €1.88B | 2019–2025 |
+| ADZ.MC | Adolfo Dominguez SA | San Cibrao das Viñas | €139.0M | 2021–2026 |
+| AEDAS.MC | Aedas Homes SA | Madrid | €868.8M | 2021–2026 |
+| AENA.MC | Aena S.M.E. SA | Madrid | €6.28B | 2019–2025 |
+| AI.MC | Airtificial Intelligence Structures SA | Madrid | €94.0M | 2020–2025 |
 | ALB.MC | Corporacion Financiera Alba, S.A. | Madrid | €15.1M | 2020–2024 |
-| ALM.MC | Almirall S.A. | Barcelona | €985.7M | 2020–2024 |
-| ALNT.MC | Alantra Partners, S.A. | Madrid | €191.0M | 2019–2024 |
-| AMP.MC | Amper, S.A. | Pozuelo de Alarcón | €419.5M | 2020–2024 |
-| AMS.MC | Amadeus IT Group Sociedad Anonima | Madrid | €6.14B | 2019–2024 |
-| ANE.MC | Corporacion Acciona Energias Renovables SA | Madrid | €3.05B | 2020–2024 |
-| ATRY.MC | Atrys Health, S.A. | Madrid | €201.6M | 2020–2023 |
-| AZK.MC | Azkoyen SA | Peralta/Azkoien | €199.0M | 2020–2024 |
-| BKT.MC | Bankinter Sociedad Anonima | Madrid | €4.40B | 2019–2024 |
-| CABK.MC | Caixabank SA | Valencia | €20.90B | 2019–2024 |
-| CASH.MC | Prosegur Cash, S.A. | Madrid | €2.09B | 2020–2024 |
-| CBAV.MC | Clinica Baviera SA | Madrid | €262.6M | 2019–2024 |
-| CEV.MC | Compañía Española De Viviendas En Alquiler S.A. | Barcelona | €39.6M | 2020–2024 |
-| CIE.MC | Cie Automotive SA | Bilbao | €3.96B | 2019–2024 |
-| CLEO.MC | Compañia Levantina De Edificacion Y Obras Publicas SA | Valencia | €31.5M | 2020–2024 |
-| CLNX.MC | Cellnex Telecom SA | Madrid | €4.35B | 2020–2024 |
-| CMO.MC | Cementos Molins S.A. | Sant Vicenç dels Horts | €1.06B | 2019–2024 |
-| COL.MC | Inmobiliaria Colonial Socimi Sociedad Anonima | Barcelona | €106.8M | 2024–2024 |
-| DIA.MC | Distribuidora Internacional De Alimentacion SA | Rozas de Madrid, Las | €5.90B | 2020–2024 |
-| DOM.MC | Global Dominion Access SA | Bilbao | €1.15B | 2019–2024 |
-| EAT.MC | AmRest Holdings SE | Madrid | €2.56B | 2019–2024 |
-| EBRO.MC | Ebro Foods, S.A. | Madrid | €3.14B | 2020–2024 |
-| ECR.MC | Ercros S.A. | Barcelona | €700.4M | 2023–2024 |
-| ELE.MC | Endesa SA | Madrid | €20.94B | 2019–2024 |
-| ENC.MC | Ence Energia Y Celulosa S.A. | Madrid | €870.4M | 2019–2024 |
-| ENER.MC | Ecoener, S.A. | Coruña, A | €81.7M | 2020–2024 |
-| ENG.MC | Enagas, S.A. | Madrid | €905.5M | 2019–2024 |
-| ENO.MC | Elecnor SA | Madrid | €3.81B | 2020–2024 |
-| EZE.MC | Grupo Ezentis SA | Sevilla | €13.9M | 2021–2024 |
-| FAE.MC | Faes Farma SA | Leioa | €493.6M | 2019–2024 |
-| FCC.MC | Fomento De Construcciones Y Contratas S.A. | Madrid | €9.07B | 2019–2024 |
-| FDR.MC | Fluidra S.A. | Sant Cugat del Vallès | €2.16B | 2020–2024 |
-| GAM.MC | General De Alquiler De Maquinaria, S.A | Oviedo | €304.0M | 2020–2024 |
-| GCO.MC | Grupo Catalana Occidente, S.A. | Madrid | €4.92B | 2022–2024 |
-| GEST.MC | Gestamp Automocion SA | Abadiño | €12.00B | 2020–2024 |
-| GRE.MC | Grenergy Renovables SA | Madrid | €531.6M | 2020–2024 |
-| GRF.MC | Grifols S.A. | Sant Cugat del Vallès | €7.21B | 2020–2024 |
-| GSJ.MC | Grupo Empresarial San Jose, SA | Pontevedra | €1.56B | 2020–2024 |
-| HOME.MC | Neinor Homes SA | Bilbao | €486.7M | 2019–2024 |
-| IBE.MC | Iberdrola SA | Bilbao | €44.74B | 2019–2024 |
-| IBG.MC | Iberpapel Gestion, S.A. | Donostia/San Sebastián | €238.2M | 2019–2024 |
-| IDR.MC | Indra Sistemas, S.A. | Alcobendas | €4.84B | 2019–2024 |
-| IMC.MC | Inmocemento S.A. | Madrid | €943.9M | 2023–2024 |
-| ISUR.MC | Inmobiliaria Del Sur, S.A. | Sevilla | €164.5M | 2019–2024 |
-| ITX.MC | Industria De Diseño Textil, S.A. | Arteixo | €38.63B | 2020–2025 |
-| LDA.MC | Linea Directa Aseguradora Sociedad Anonima Compañia De Seguros Y Reaseguros | Tres Cantos | €991.3M | 2022–2024 |
-| LGT.MC | Lingotes Especiales, S.A. | Valladolid | €87.1M | 2020–2024 |
-| LIB.MC | Libertas 7 Sociedad Anonima | Valencia | €7.8M | 2019–2024 |
-| MCM.MC | Miquel Y Costas & Miquel S.A. | Barcelona | €309.2M | 2020–2024 |
-| MDF.MC | Duro Felguera SA | Gijón | €286.0M | 2019–2024 |
-| MEL.MC | Melia Hotels International SA | Palma de Mallorca | €2.01B | 2020–2024 |
-| MPD.MC | Minerales Y Productos Derivados SA | Getxo | €447.3M | 2021–2024 |
-| MRL.MC | Merlin Properties Socimi, S.A. | Madrid | €494.6M | 2019–2024 |
-| MTB.MC | Montebalito, S.A. | Madrid | €9.0M | 2020–2024 |
-| MVC.MC | Metrovacesa SA | Madrid | €588.1M | 2020–2024 |
-| NEA.MC | Nicolas Correa S.A. | Burgos | €121.5M | 2020–2024 |
-| NTGY.MC | Naturgy Energy Group SA | Madrid | €19.27B | 2019–2024 |
-| NTH.MC | Naturhouse Health, S.A. | Madrid | €49.4M | 2020–2024 |
-| NXT.MC | Nueva Expresion Textil SA | Madrid | €24.0M | 2020–2024 |
-| NYE.MC | Nyesa Valores Corporacion SA | Madrid | €4.6M | 2019–2024 |
-| OHLA.MC | Obrascon Huarte Lain, S.A. | Madrid | €3.65B | 2020–2024 |
-| OLE.MC | Deoleo SA | Rivas-Vaciamadrid | €996.6M | 2020–2024 |
-| PHM.MC | Pharma Mar, S.A. | Colmenar Viejo | €174.9M | 2019–2024 |
-| PRM.MC | Prim, S.A. | Móstoles | €233.1M | 2021–2024 |
-| PRS.MC | Promotora De Informaciones, S.A. | Madrid | €880.6M | 2019–2024 |
-| PSG.MC | Prosegur Compañia De Seguridad, S.A. | Madrid | €4.91B | 2020–2024 |
-| PUIG.MC | Puig Brands S.A. | Barcelona | €4.79B | 2023–2024 |
-| R4.MC | Renta 4 Banco SA | Madrid | €55.2M | 2019–2024 |
-| RED.MC | Redeia Corporacion SA | Alcobendas | €1.59B | 2020–2024 |
-| REN.MC | Renta Corporacion Real Estate S.A. | Barcelona | €25.7M | 2019–2024 |
-| REP.MC | Repsol SA | Madrid | €56.71B | 2019–2024 |
-| RIO.MC | Bodegas Riojanas Sociedad Anonima | Cenicero | €16.1M | 2020–2024 |
-| RJF.MC | Laboratorio Reig Jofre S.A. | Sant Joan Despí | €338.9M | 2019–2024 |
-| RLIA.MC | Realia Business, S.A. | Madrid | €114.0M | 2019–2024 |
-| ROVI.MC | Laboratorios Farmaceuticos Rovi S.A | Madrid | €763.7M | 2020–2024 |
-| SAB.MC | Banco De Sabadell SA | Sabadell | €9.71B | 2021–2024 |
-| SCYR.MC | Sacyr SA | Madrid | €4.57B | 2021–2024 |
-| SLR.MC | Solaria Energia Y Medio Ambiente SA | Madrid | €176.9M | 2020–2024 |
-| SQRL.MC | Squirrel Media S.A. | Madrid | €143.4M | 2020–2024 |
-| TEF.MC | Telefonica SA | Madrid | €41.32B | 2020–2024 |
-| TLGO.MC | Talgo SA | Rozas de Madrid, Las | €669.2M | 2019–2024 |
-| TRE.MC | Tecnicas Reunidas SA | Madrid | €4.45B | 2020–2024 |
-| TRG.MC | Tubos Reunidos S.A. | Amurrio | €332.8M | 2020–2024 |
-| UNI.MC | Unicaja Banco SA | Málaga | €2.69B | 2020–2024 |
-| URB.P.MC | Urbar Ingenieros, S.A. | Alcobendas | €3.3M | 2021–2024 |
-| VID.MC | Vidrala SA | Laudio/Llodio | €1.59B | 2021–2024 |
-| VIS.MC | Viscofan SA | Aranguren | €1.20B | 2019–2024 |
-| VOC.MC | Vocento SA | Bilbao | €344.7M | 2019–2024 |
+| ALM.MC | Almirall S.A. | Barcelona | €1.11B | 2020–2025 |
+| ALNT.MC | Alantra Partners, S.A. | Madrid | €228.2M | 2019–2025 |
+| AMP.MC | Amper, S.A. | Pozuelo de Alarcón | €281.7M | 2020–2025 |
+| AMS.MC | Amadeus IT Group Sociedad Anonima | Madrid | €6.52B | 2019–2025 |
+| ANA.MC | Acciona SA | Madrid | €20.24B | 2020–2025 |
+| ANE.MC | Corporacion Acciona Energias Renovables SA | Madrid | €2.93B | 2020–2025 |
+| ART.MC | Arteche Lantegi Elkartea SA | Mungia | €508.4M | 2024–2025 |
+| ATRY.MC | Atrys Health, S.A. | Madrid | €141.0M | 2020–2025 |
+| AYC.MC | Ayco Grupo Inmobiliario, S.A. | Madrid | €890K | 2020–2024 |
+| AZK.MC | Azkoyen SA | Peralta/Azkoien | €211.1M | 2020–2025 |
+| BAIN.MC | Borges Agricultural & Industrial Nuts SA | Reus | €114.4M | 2021–2025 |
+| CABK.MC | Caixabank SA | Valencia | €18.02B | 2019–2025 |
+| CAF.MC | Construcciones Y Auxiliar De Ferrocarriles, S.A. | Madrid | €4.49B | 2020–2025 |
+| CASH.MC | Prosegur Cash, S.A. | Madrid | €1.99B | 2020–2025 |
+| CBAV.MC | Clinica Baviera SA | Madrid | €301.8M | 2019–2025 |
+| CEV.MC | Compañía Española De Viviendas En Alquiler S.A. | Barcelona | €33.3M | 2020–2025 |
+| CIE.MC | Cie Automotive SA | Bilbao | €3.96B | 2019–2025 |
+| CIRSA.MC | Cirsa Enterprises S.A. | Terrassa | €2.77B | 2024–2025 |
+| CLEO.MC | Compañia Levantina De Edificacion Y Obras Publicas SA | Valencia | €35.7M | 2020–2025 |
+| CLNX.MC | Cellnex Telecom SA | Madrid | €4.42B | 2019–2025 |
+| CMO.MC | Cementos Molins S.A. | Sant Vicenç dels Horts | €1.03B | 2019–2025 |
+| COL.MC | Colonial Sfl Socimi SA | Barcelona | €106.8M | 2024–2024 |
+| DESA.MC | Desarrollos Especiales De Sistemas De Anclaje S.A. | Barcelona | €49.0M | 2024–2025 |
+| DIA.MC | Distribuidora Internacional De Alimentacion SA | Rozas de Madrid, Las | €5.74B | 2020–2025 |
+| DOM.MC | Global Dominion Access SA | Bilbao | €1.05B | 2019–2025 |
+| EAT.MC | AmRest Holdings SE | Madrid | €2.56B | 2019–2025 |
+| EBRO.MC | Ebro Foods, S.A. | Madrid | €3.01B | 2020–2025 |
+| ECR.MC | Ercros S.A. | Barcelona | €662.8M | 2023–2025 |
+| ELE.MC | Endesa SA | Madrid | €21.03B | 2019–2025 |
+| ENC.MC | Ence Energia Y Celulosa S.A. | Madrid | €747.3M | 2019–2025 |
+| ENER.MC | Ecoener, S.A. | Coruña, A | €84.7M | 2020–2025 |
+| ENG.MC | Enagas, S.A. | Madrid | €960.4M | 2019–2025 |
+| ENO.MC | Elecnor SA | Madrid | €4.39B | 2020–2025 |
+| EZE.MC | Grupo Ezentis SA | Sevilla | €34.3M | 2021–2025 |
+| FAE.MC | Faes Farma SA | Leioa | €610.5M | 2019–2025 |
+| FCC.MC | Fomento De Construcciones Y Contratas S.A. | Madrid | €9.70B | 2019–2025 |
+| FDR.MC | Fluidra S.A. | Sant Cugat del Vallès | €2.25B | 2020–2025 |
+| GAM.MC | General De Alquiler De Maquinaria, S.A | Oviedo | €316.1M | 2020–2025 |
+| GCO.MC | Grupo Catalana Occidente, S.A. | Madrid | €5.07B | 2022–2025 |
+| GEST.MC | Gestamp Automocion SA | Abadiño | €11.35B | 2020–2025 |
+| GRE.MC | Grenergy Renovables SA | Madrid | €698.0M | 2020–2025 |
+| GRF.MC | Grifols S.A. | Sant Cugat del Vallès | €7.52B | 2019–2025 |
+| GSJ.MC | Grupo Empresarial San Jose, SA | Pontevedra | €1.59B | 2020–2025 |
+| HOME.MC | Neinor Homes SA | Bilbao | €704.6M | 2019–2025 |
+| IBE.MC | Iberdrola SA | Bilbao | €44.08B | 2019–2025 |
+| IBG.MC | Iberpapel Gestion, S.A. | Donostia/San Sebastián | €216.7M | 2019–2025 |
+| IDR.MC | Indra Sistemas, S.A. | Alcobendas | €5.46B | 2019–2025 |
+| IMC.MC | Inmocemento S.A. | Madrid | €967.0M | 2023–2025 |
+| ISUR.MC | Inmobiliaria Del Sur, S.A. | Sevilla | €208.3M | 2019–2025 |
+| ITX.MC | Industria De Diseño Textil, S.A. | Arteixo | €39.86B | 2020–2026 |
+| IZER.MC | Izertis SA | Gijón | €161.4M | 2024–2025 |
+| LDA.MC | Linea Directa Aseguradora Sociedad Anonima Compañia De Seguros Y Reaseguros | Tres Cantos | €1.08B | 2022–2025 |
+| LGT.MC | Lingotes Especiales, S.A. | Valladolid | €79.5M | 2020–2025 |
+| LIB.MC | Libertas 7 Sociedad Anonima | Valencia | €21.3M | 2019–2025 |
+| LIW.MC | Liwe Española S.A. | Murcia | €82.0M | 2020–2025 |
+| LOG.MC | Logista Integral SA | Leganés | €13.54B | 2021–2025 |
+| MCM.MC | Miquel Y Costas & Miquel S.A. | Barcelona | €313.8M | 2020–2025 |
+| MDF.MC | Duro Felguera SA | Gijón | €161.1M | 2019–2025 |
+| MEL.MC | Melia Hotels International SA | Palma de Mallorca | €2.08B | 2019–2025 |
+| MPD.MC | Minerales Y Productos Derivados SA | Getxo | €461.0M | 2020–2025 |
+| MRL.MC | Merlin Properties Socimi, S.A. | Madrid | €539.0M | 2019–2025 |
+| MTB.MC | Montebalito, S.A. | Madrid | €7.2M | 2020–2025 |
+| MVC.MC | Metrovacesa SA | Madrid | €676.4M | 2020–2025 |
+| NEA.MC | Nicolas Correa S.A. | Burgos | €119.1M | 2020–2025 |
+| NTGY.MC | Naturgy Energy Group SA | Madrid | €19.46B | 2019–2025 |
+| NTH.MC | Naturhouse Health, S.A. | Madrid | €47.6M | 2020–2025 |
+| NXT.MC | Nueva Expresion Textil SA | Madrid | €30.4M | 2020–2025 |
+| NYE.MC | Nyesa Valores Corporacion SA | Madrid | €6.7M | 2019–2025 |
+| OHLA.MC | Obrascon Huarte Lain, S.A. | Madrid | €3.46B | 2019–2025 |
+| OLE.MC | Deoleo SA | Rivas-Vaciamadrid | €820.9M | 2020–2025 |
+| PHM.MC | Pharma Mar, S.A. | Colmenar Viejo | €221.4M | 2019–2025 |
+| PRM.MC | Prim, S.A. | Móstoles | €251.8M | 2021–2025 |
+| PRS.MC | Promotora De Informaciones, S.A. | Madrid | €883.2M | 2019–2025 |
+| PSG.MC | Prosegur Compañia De Seguridad, S.A. | Madrid | €4.93B | 2020–2025 |
+| PUIG.MC | Puig Brands S.A. | Barcelona | €5.04B | 2023–2025 |
+| R4.MC | Renta 4 Banco SA | Madrid | €49.6M | 2019–2025 |
+| RED.MC | Redeia Corporacion SA | Alcobendas | €1.66B | 2020–2025 |
+| REN.MC | Renta Corporacion Real Estate S.A. | Barcelona | €45.4M | 2019–2025 |
+| REP.MC | Repsol SA | Madrid | €54.42B | 2019–2025 |
+| RIO.MC | Bodegas Riojanas Sociedad Anonima | Cenicero | €13.5M | 2020–2025 |
+| RJF.MC | Laboratorio Reig Jofre S.A. | Sant Joan Despí | €331.1M | 2019–2025 |
+| RLIA.MC | Realia Business, S.A. | Madrid | €301.5M | 2019–2025 |
+| ROVI.MC | Laboratorios Farmaceuticos Rovi SA | Madrid | €743.5M | 2020–2025 |
+| SAB.MC | Banco De Sabadell S.A. | Sabadell | €6.18B | 2021–2025 |
+| SCYR.MC | Sacyr SA | Madrid | €4.66B | 2021–2025 |
+| SLR.MC | Solaria Energia Y Medio Ambiente SA | Madrid | €197.4M | 2020–2025 |
+| SOL.MC | Soltec Power Holdings SA | Molina de Segura | €69.7M | 2019–2025 |
+| SQRL.MC | Squirrel Media S.A. | Madrid | €243.6M | 2020–2025 |
+| TEF.MC | Telefonica SA | Madrid | €35.12B | 2019–2025 |
+| TLGO.MC | Talgo SA | Rozas de Madrid, Las | €618.2M | 2019–2025 |
+| TRE.MC | Tecnicas Reunidas SA | Madrid | €6.47B | 2020–2025 |
+| TRG.MC | Tubos Reunidos S.A. | Amurrio | €378.1M | 2020–2025 |
+| UNI.MC | Unicaja Banco SA | Málaga | €2.33B | 2019–2025 |
+| URB.P.MC | Urbar Ingenieros, S.A. | Alcobendas | €4.5M | 2021–2025 |
+| VID.MC | Vidrala SA | Laudio/Llodio | €1.47B | 2021–2025 |
+| VIS.MC | Viscofan SA | Aranguren | €1.25B | 2019–2025 |
+| VOC.MC | Vocento SA | Bilbao | €337.4M | 2019–2025 |
 
-## Included — Sweden (258)
+## Included — Sweden (296)
 
 | Ticker | Company | City | Latest revenue | Years |
 |---|---|---|---|---|
-| AAK.ST | Aak Ab (Publ) | Malmo | SEK 45.05B | 2020–2024 |
-| ACRIB.ST | Acrinova AB (publ) | Malmö | SEK 159.7M | 2021–2024 |
+| AAK.ST | Aak Ab (Publ) | Malmo | SEK 46.02B | 2020–2025 |
+| ACAD.ST | AcadeMedia AB | Stockholm | SEK 20.36B | 2021–2026 |
+| ACAST.ST | Acast AB (publ) | Stockholm | SEK 2.52B | 2024–2025 |
+| ACRIA.ST | Acrinova AB (publ) | Malmö | SEK 128.1M | 2021–2025 |
 | ACTI.ST | Active Biotech AB (publ) | Lund | SEK 6.7M | 2020–2020 |
-| AFRY.ST | Afry Ab | Stockholm | SEK 27.16B | 2020–2024 |
-| AJAB.ST | Byggmästare Anders J Ahlström Holding AB (publ) | Stockholm | SEK 14K | 2023–2024 |
-| ALFA.ST | Alfa Laval AB | Lund | SEK 66.95B | 2020–2024 |
-| ALIFB.ST | AddLife AB | Stockholm | SEK 10.29B | 2023–2024 |
-| ALIG.ST | Alimak Group AB (publ) | Stockholm | SEK 7.10B | 2020–2024 |
-| ALLEI.ST | Alleima AB | Sandviken | SEK 19.69B | 2021–2024 |
-| ALLIGOB.ST | Alligo AB | Stockholm | SEK 9.33B | 2021–2024 |
-| ALTRA.ST | Nyfosa AB | Nacka | SEK 3.67B | 2020–2024 |
-| AMBEA.ST | Ambea AB ( publ ) | Solna | SEK 14.36B | 2021–2024 |
-| ANNEB.ST | Annehem Fastigheter AB (publ) | Solna | SEK 275.0M | 2020–2024 |
-| ANODB.ST | Addnode Group Aktiebolag (publ) | Stockholm | SEK 7.76B | 2020–2024 |
-| APOTEA.ST | Apotea AB (publ) | Stockholm | SEK 6.56B | 2023–2024 |
-| AQ.ST | AQ Group AB | Västerås | SEK 8.70B | 2021–2024 |
-| ARJOB.ST | Arjo AB (publ) | Malmö | SEK 11.29B | 2020–2024 |
-| ARPL.ST | Arla Plast AB | Borensberg | SEK 1.40B | 2022–2024 |
-| ASSAB.ST | Assa Abloy Ab | Stockholm | SEK 150.16B | 2020–2024 |
-| ATCOA.ST | Atlas Copco Aktiebolag | Stockholm | SEK 176.77B | 2020–2024 |
-| ATIC.ST | Actic Group AB | Solna | SEK 732.5M | 2020–2024 |
-| ATORX.ST | Alligator Bioscience AB | Lund | SEK 59.7M | 2020–2024 |
-| ATRLJB.ST | Atrium Ljungberg AB | Nacka | SEK 3.52B | 2020–2024 |
-| ATT.ST | Attendo AB (publ) | Danderyd | SEK 19.02B | 2020–2024 |
-| AXFO.ST | Axfood AB | Stockholm | SEK 84.06B | 2020–2024 |
-| AZA.ST | Avanza Bank Holding AB | Stockholm | SEK 3.90B | 2020–2024 |
-| B3.ST | B3 Consulting Group AB (publ) | Stockholm | SEK 1.13B | 2020–2024 |
-| BACTIB.ST | Bactiguard Holding AB | Tullinge | SEK 241.7M | 2020–2024 |
-| BALDB.ST | Fastighets AB Balder | Göteborg | SEK 12.88B | 2020–2024 |
-| BEGR.ST | BE Group AB (publ) | Malmö | SEK 4.67B | 2020–2024 |
-| BEIAB.ST | Beijer Alma AB | Uppsala | SEK 7.20B | 2020–2024 |
-| BEIJB.ST | Beijer Ref AB (publ) | Malmö | SEK 35.80B | 2020–2024 |
-| BERNERB.ST | Berner Industrier AB | Stockholm | SEK 962.7M | 2020–2024 |
-| BETSB.ST | Betsson AB | Stockholm | €1.11B | 2021–2024 |
-| BHG.ST | BHG Group AB | Malmö | SEK 9.96B | 2020–2024 |
-| BICO.ST | BICO Group AB | Göteborg | SEK 1.95B | 2022–2024 |
-| BILIA.ST | Bilia Ab | Göteborg | SEK 39.15B | 2020–2024 |
-| BINV.ST | BioInvent International Aktiebolag | Lund | SEK 44.7M | 2020–2024 |
-| BIOAB.ST | BioArctic AB | Stockholm | SEK 257.4M | 2020–2024 |
-| BMAX.ST | Byggmax Group AB | Stockholm | SEK 6.02B | 2020–2024 |
-| BOL.ST | Boliden Ab | Stockholm | SEK 89.21B | 2020–2024 |
-| BONAVA.ST | Bonava AB (publ) | Stockholm | SEK 8.19B | 2020–2024 |
-| BONEX.ST | Bonesupport Holding Ab | Lund | SEK 898.7M | 2020–2024 |
-| BONG.ST | Bong AB | Kristianstad | SEK 1.91B | 2020–2024 |
-| BOOZT.ST | Boozt AB | Malmö | SEK 8.24B | 2020–2024 |
-| BORG.ST | Björn Borg AB | Solna | SEK 1.01B | 2020–2024 |
-| BOUL.ST | Boule Diagnostics Ab | Spånga | SEK 558.5M | 2020–2024 |
-| BRAV.ST | Bravida Holding AB | Stockholm | SEK 29.65B | 2020–2024 |
-| BRINB.ST | Brinova Fastigheter AB (publ) | Helsingborg | SEK 522.2M | 2020–2024 |
+| ADDTB.ST | Addtech AB | Stockholm | SEK 22.70B | 2021–2026 |
+| AFRY.ST | Afry Ab | Stockholm | SEK 25.76B | 2020–2025 |
+| AJAB.ST | Byggmästare Anders J Ahlström Holding AB (publ) | Stockholm | SEK 632.2M | 2024–2024 |
+| ALFA.ST | Alfa Laval AB | Lund | SEK 69.67B | 2020–2025 |
+| ALIFB.ST | AddLife AB | Stockholm | SEK 10.44B | 2024–2025 |
+| ALIG.ST | Alimak Group AB (publ) | Stockholm | SEK 6.87B | 2020–2025 |
+| ALLEI.ST | Alleima AB | Sandviken | SEK 18.63B | 2021–2025 |
+| ALLIGOB.ST | Alligo AB | Stockholm | SEK 9.55B | 2021–2025 |
+| ALTRA.ST | Altra Fastigheter AB | Nacka | SEK 3.59B | 2020–2025 |
+| AMBEA.ST | Ambea AB ( publ ) | Solna | SEK 16.21B | 2020–2025 |
+| ANNEB.ST | Annehem Fastigheter AB (publ) | Solna | SEK 301.6M | 2020–2025 |
+| ANODB.ST | Addnode Group Aktiebolag (publ) | Stockholm | SEK 5.79B | 2020–2025 |
+| APOTEA.ST | Apotea AB (publ) | Stockholm | SEK 7.20B | 2023–2025 |
+| AQ.ST | AQ Group AB | Västerås | SEK 9.07B | 2024–2025 |
+| ARJOB.ST | Arjo AB (publ) | Malmö | SEK 11.00B | 2020–2025 |
+| ARPL.ST | Arla Plast AB | Borensberg | SEK 1.43B | 2022–2025 |
+| ASKER.ST | Asker Healthcare Group AB | Danderyd | SEK 16.79B | 2024–2025 |
+| ASMDEE.ST | Asmodee Group AB | Karlstad | €1.68B | 2024–2026 |
+| ASSAB.ST | Assa Abloy Ab | Stockholm | SEK 152.41B | 2020–2025 |
+| ATCOA.ST | Atlas Copco Aktiebolag | Stockholm | SEK 168.34B | 2020–2025 |
+| ATIC.ST | Actic Group AB | Solna | SEK 762.3M | 2024–2025 |
+| ATORX.ST | Alligator Bioscience AB | Lund | SEK 6.4M | 2020–2025 |
+| ATRLJB.ST | Atrium Ljungberg AB | Nacka | SEK 3.45B | 2020–2025 |
+| ATT.ST | Attendo AB (publ) | Danderyd | SEK 19.03B | 2020–2025 |
+| AXFO.ST | Axfood AB | Stockholm | SEK 89.15B | 2020–2025 |
+| AZA.ST | Avanza Bank Holding AB | Stockholm | SEK 4.50B | 2020–2025 |
+| B3.ST | B3 Consulting Group AB (publ) | Stockholm | SEK 1.21B | 2020–2025 |
+| BACTIB.ST | Bactiguard Holding AB | Tullinge | SEK 215.9M | 2020–2025 |
+| BALCO.ST | Balco Group AB | Växjö | SEK 1.30B | 2024–2025 |
+| BALDB.ST | Fastighets AB Balder | Göteborg | SEK 13.72B | 2020–2025 |
+| BEGR.ST | BE Group AB (publ) | Malmö | SEK 3.93B | 2020–2025 |
+| BEIAB.ST | Beijer Alma AB | Uppsala | SEK 7.75B | 2020–2025 |
+| BEIJB.ST | Beijer Ref AB (publ) | Malmö | SEK 37.32B | 2020–2025 |
+| BERGB.ST | Bergman & Beving Aktiebolag | Stockholm | SEK 4.97B | 2021–2026 |
+| BERNERB.ST | Berner Industrier AB | Stockholm | SEK 1.00B | 2019–2025 |
+| BETSB.ST | Betsson AB | Stockholm | €1.20B | 2024–2025 |
+| BHG.ST | BHG Group AB | Malmö | SEK 10.58B | 2020–2025 |
+| BICO.ST | BICO Group AB | Göteborg | SEK 1.50B | 2022–2025 |
+| BILIA.ST | Bilia Ab | Göteborg | SEK 40.41B | 2020–2025 |
+| BINV.ST | BioInvent International Aktiebolag | Lund | SEK 226.5M | 2020–2025 |
+| BIOAB.ST | BioArctic AB | Stockholm | SEK 2.00B | 2020–2025 |
+| BMAX.ST | Byggmax Group AB | Stockholm | SEK 6.17B | 2020–2025 |
+| BOL.ST | Boliden Ab | Stockholm | SEK 93.51B | 2020–2025 |
+| BONAVA.ST | Bonava AB (publ) | Stockholm | SEK 7.73B | 2020–2025 |
+| BONEX.ST | Bonesupport Holding Ab | Lund | SEK 1.17B | 2020–2025 |
+| BONG.ST | Bong AB | Kristianstad | SEK 1.81B | 2020–2025 |
+| BOOZT.ST | Boozt AB | Malmö | SEK 8.29B | 2020–2025 |
+| BORG.ST | Björn Borg AB | Solna | SEK 1.07B | 2020–2025 |
+| BOUL.ST | Boule Diagnostics Ab | Spånga | SEK 489.7M | 2024–2025 |
+| BRAV.ST | Bravida Holding AB | Stockholm | SEK 28.21B | 2020–2025 |
+| BRINB.ST | Brinova Fastigheter AB (publ) | Helsingborg | SEK 907.5M | 2020–2025 |
 | BTSB.ST | BTS Group AB | Stockholm | SEK 2.80B | 2020–2024 |
 | BUFAB.ST | Bufab AB (publ) | Värnamo | SEK 8.04B | 2021–2024 |
-| BULTEN.ST | Bulten AB | Göteborg | SEK 5.81B | 2020–2024 |
-| CAMX.ST | Camurus AB | Lund | SEK 1.87B | 2020–2024 |
-| CARA.ST | Carasent AB (publ) | Göteborg | SEK 275.3M | 2023–2024 |
-| CAST.ST | Castellum Aktiebolag | Göteborg | SEK 9.85B | 2020–2024 |
-| CATB.ST | Catella AB | Stockholm | SEK 2.21B | 2020–2024 |
-| CATE.ST | Catena AB | Helsingborg | SEK 2.19B | 2020–2024 |
-| CEVI.ST | CellaVision AB | Lund | SEK 723.2M | 2020–2024 |
-| CIBUS.ST | Cibus Nordic Real Estate AB (publ) | Stockholm | €122.4M | 2022–2024 |
-| CLAB.ST | Cloetta AB | Sundbyberg | SEK 8.61B | 2020–2024 |
-| CNCJOB.ST | Concejo AB (publ) | Nacka | SEK 576.3M | 2020–2024 |
-| CORED.ST | Corem Property Group AB | Stockholm | SEK 3.70B | 2020–2024 |
-| CRADB.ST | C-Rad AB | Uppsala | SEK 469.0M | 2020–2024 |
-| CREDA.ST | Creades AB (publ) | Stockholm | SEK 1.26B | 2023–2024 |
-| CTEK.ST | CTEK AB (publ) | Falun | SEK 917.2M | 2020–2024 |
-| CYNCA.ST | Vestum AB (publ) | Stockholm | SEK 4.25B | 2021–2024 |
-| DEDI.ST | Dedicare AB (publ) | Stockholm | SEK 1.74B | 2021–2024 |
-| DOM.ST | Dometic Group AB (publ) | Solna | SEK 24.62B | 2021–2024 |
-| DUNI.ST | Duni AB | Malmö | SEK 7.58B | 2020–2024 |
-| DYVOX.ST | Dynavox Group AB | Stockholm | SEK 1.97B | 2020–2024 |
-| EAST.ST | Eastnine Ab (Publ) | Stockholm | €41.5M | 2021–2024 |
-| EG7.ST | Enad Global 7 AB (publ) | Stockholm | SEK 1.71B | 2023–2024 |
-| EGTX.ST | Egetis Therapeutics AB (publ) | Stockholm | SEK 46.1M | 2023–2024 |
-| ELANB.ST | Elanders AB | Mölndal | SEK 14.14B | 2020–2024 |
-| ELON.ST | Elon AB (publ) | Örebro | SEK 4.73B | 2020–2024 |
-| ELTEL.ST | Eltel AB | Bromma | €828.7M | 2020–2024 |
-| EMILB.ST | Fastighetsbolaget Emilshus AB | Vetlanda | SEK 674.0M | 2022–2024 |
-| ENEA.ST | Enea Aktiebolag | Solna | SEK 920.2M | 2020–2024 |
-| ENGCONB.ST | engcon AB | Strömsund | SEK 1.65B | 2021–2024 |
-| ENRO.ST | Eniro Group AB | Solna | SEK 951.0M | 2021–2024 |
-| EOLUB.ST | Eolus Vind Aktiebolag (publ). | Hässleholm | SEK 851.0M | 2021–2024 |
-| EPEN.ST | Ependion AB | Malmö | SEK 2.26B | 2020–2024 |
-| EPIB.ST | Epiroc Aktiebolag | Nacka | SEK 63.60B | 2021–2024 |
+| BULTEN.ST | Bulten AB | Göteborg | SEK 5.05B | 2020–2025 |
+| CAMX.ST | Camurus AB | Lund | SEK 2.27B | 2020–2025 |
+| CARA.ST | Carasent AB (publ) | Göteborg | SEK 343.8M | 2023–2025 |
+| CAST.ST | Castellum Aktiebolag | Göteborg | SEK 9.59B | 2020–2025 |
+| CATA.ST | Catella AB | Stockholm | SEK 1.89B | 2020–2025 |
+| CATE.ST | Catena AB | Helsingborg | SEK 2.65B | 2020–2025 |
+| CCC.ST | Cavotec Group AB | Stockholm | €159.7M | 2024–2025 |
+| CEVI.ST | CellaVision AB | Lund | SEK 759.0M | 2020–2025 |
+| CIBUS.ST | Cibus Nordic Real Estate AB (publ) | Stockholm | €166.7M | 2022–2025 |
+| CLAB.ST | Cloetta AB | Sundbyberg | SEK 8.53B | 2024–2025 |
+| CLASB.ST | Clas Ohlson Aktiebolag | Insjön | SEK 12.51B | 2021–2026 |
+| CNCJOB.ST | Concejo AB (publ) | Nacka | SEK 522.0M | 2020–2025 |
+| COREB.ST | Corem Property Group AB | Stockholm | SEK 3.47B | 2020–2025 |
+| CRADB.ST | C-Rad AB | Uppsala | SEK 441.9M | 2024–2025 |
+| CREDA.ST | Creades AB (publ) | Stockholm | SEK 1.28B | 2023–2025 |
+| CTEK.ST | CTEK AB (publ) | Falun | SEK 835.4M | 2020–2025 |
+| CYNCA.ST | Vestum AB (publ) | Stockholm | SEK 3.78B | 2021–2025 |
+| DEDI.ST | Dedicare AB (publ) | Stockholm | SEK 1.45B | 2020–2025 |
+| DOM.ST | Dometic Group AB (publ) | Solna | SEK 21.04B | 2021–2025 |
+| DUNI.ST | Duni AB | Malmö | SEK 7.69B | 2020–2025 |
+| DURCB.ST | Duroc Aktiebolag | Stockholm | SEK 2.77B | 2021–2026 |
+| DUST.ST | Dustin Group AB | Nacka Strand | SEK 20.41B | 2021–2025 |
+| DYVOX.ST | Dynavox Group AB | Stockholm | SEK 2.47B | 2020–2025 |
+| EAST.ST | Eastnine Ab (Publ) | Stockholm | €61.7M | 2021–2025 |
+| EG7.ST | Enad Global 7 AB (publ) | Stockholm | SEK 1.63B | 2023–2025 |
+| EGTX.ST | Egetis Therapeutics AB (publ) | Stockholm | SEK 62.4M | 2023–2025 |
+| EKTAB.ST | Elekta AB (publ) | Stockholm | SEK 16.72B | 2021–2026 |
+| ELANB.ST | Elanders AB | Mölndal | SEK 12.20B | 2020–2025 |
+| ELLOS.ST | Ellos Holding AB (publ) | Borås | SEK 3.46B | 2025–2025 |
+| ELON.ST | Elon AB (publ) | Örebro | SEK 4.67B | 2020–2025 |
+| ELTEL.ST | Eltel AB | Bromma | €817.8M | 2020–2025 |
+| ELUXA.ST | Aktiebolaget Electrolux | Stockholm | SEK 131.28B | 2020–2025 |
+| EMBRACB.ST | Embracer Group AB | Karlstad | SEK 30.77B | 2022–2025 |
+| EMILB.ST | Fastighetsbolaget Emilshus AB | Vetlanda | SEK 896.0M | 2022–2025 |
+| ENEA.ST | Enea Aktiebolag | Solna | SEK 900.0M | 2020–2025 |
+| ENGCONB.ST | engcon AB | Strömsund | SEK 1.89B | 2021–2025 |
+| ENITY.ST | Enity Holding AB (publ) | Stockholm | SEK 2.27B | 2024–2025 |
+| ENRO.ST | Eniro Group AB | Solna | SEK 955.0M | 2020–2025 |
+| EOLUB.ST | Eolus Aktiebolag (publ) | Hässleholm | SEK 3.91B | 2021–2025 |
+| EPEN.ST | Ependion AB | Malmö | SEK 2.23B | 2020–2025 |
+| EPIA.ST | Epiroc Aktiebolag | Nacka | SEK 62.00B | 2021–2025 |
 | EPISB.ST | Episurf Medical AB | Stockholm | SEK 13.0M | 2020–2024 |
-| EPROB.ST | Electrolux Professional AB (publ) | Stockholm | SEK 12.58B | 2020–2024 |
-| EQT.ST | Eqt Ab | Stockholm | €2.65B | 2020–2024 |
-| ERICA.ST | Telefonaktiebolaget LM Ericsson | Stockholm | SEK 247.88B | 2020–2024 |
-| ESSITYA.ST | Essity Aktiebolag (publ) | Stockholm | SEK 145.55B | 2020–2024 |
-| EVO.ST | Evolution AB (publ) | Stockholm | €2.21B | 2023–2024 |
-| EWRK.ST | Ework Group AB | Stockholm | SEK 15.76B | 2020–2024 |
-| FABG.ST | Fabege AB | Solna | SEK 3.67B | 2022–2024 |
-| FAG.ST | Fagerhult Group AB | Habo | SEK 8.31B | 2020–2024 |
-| FASTAT.ST | Aktiebolaget Fastator (publ) | Stockholm | SEK 332.3M | 2020–2024 |
-| FG.ST | Fasadgruppen Group AB (publ) | Stockholm | SEK 5.00B | 2020–2024 |
-| FLERIE.ST | InDex Pharmaceuticals Holding AB | Stockholm | SEK 100K | 2024–2024 |
-| FPARD.ST | Fastpartner AB | Stockholm | SEK 2.29B | 2020–2024 |
-| G5EN.ST | G5 Entertainment AB (publ) | Stockholm | SEK 1.13B | 2020–2024 |
-| GETIB.ST | Getinge AB (publ) | Göteborg | SEK 34.76B | 2020–2024 |
-| GPG.ST | Genova Property Group AB | Stockholm | SEK 507.8M | 2020–2024 |
-| GREEN.ST | Green Landscaping Group AB (publ) | Stockholm | SEK 6.40B | 2021–2024 |
-| GRNG.ST | Gränges AB | Stockholm | SEK 23.44B | 2022–2024 |
-| HAKIB.ST | HAKI Safety AB | Malmö | SEK 1.19B | 2020–2023 |
-| HANZA.ST | Hanza Ab | Kista | SEK 4.85B | 2022–2024 |
-| HAVB.ST | Havsfrun Investment AB | Stockholm | SEK 2.4M | 2020–2024 |
-| HEBAB.ST | Heba Fastighets Aktiebolag | Stockholm | SEK 561.8M | 2020–2024 |
-| HEM.ST | Hemnet Group AB (publ) | Stockholm | SEK 1.40B | 2020–2024 |
-| HMB.ST | H & M Hennes & Mauritz AB | Stockholm | SEK 234.48B | 2021–2024 |
+| EPROB.ST | Electrolux Professional AB (publ) | Stockholm | SEK 12.17B | 2020–2025 |
+| EQL.ST | EQL Pharma AB | Lund | SEK 432.7M | 2024–2026 |
+| EQT.ST | Eqt Ab | Stockholm | €2.63B | 2020–2025 |
+| ERICB.ST | Telefonaktiebolaget LM Ericsson | Stockholm | SEK 236.68B | 2020–2025 |
+| ESSITYB.ST | Essity Aktiebolag (publ) | Stockholm | SEK 138.49B | 2020–2025 |
+| EVO.ST | Evolution AB (publ) | Stockholm | €2.12B | 2023–2025 |
+| EWRK.ST | Ework Group AB | Stockholm | SEK 13.74B | 2020–2025 |
+| FABG.ST | Fabege AB | Solna | SEK 3.76B | 2022–2025 |
+| FAG.ST | Fagerhult Group AB | Habo | SEK 7.89B | 2020–2025 |
+| FASTAT.ST | Aktiebolaget Fastator (publ) | Stockholm | SEK 225.8M | 2024–2025 |
+| FG.ST | Fasadgruppen Group AB (publ) | Stockholm | SEK 5.49B | 2020–2025 |
+| FLERIE.ST | Flerie AB | Stockholm | SEK 100K | 2024–2024 |
+| FNOVAB.ST | Fortinova Fastigheter AB (publ) | Varberg | SEK 393.4M | 2024–2025 |
+| G5EN.ST | G5 Entertainment AB (publ) | Stockholm | SEK 941.6M | 2020–2025 |
+| GETIB.ST | Getinge AB (publ) | Göteborg | SEK 34.97B | 2020–2025 |
+| GPG.ST | Genova Property Group AB | Stockholm | SEK 514.0M | 2020–2025 |
+| GREEN.ST | Green Landscaping Group AB (publ) | Stockholm | SEK 6.32B | 2021–2025 |
+| GRNG.ST | Gränges AB | Stockholm | SEK 28.33B | 2022–2025 |
+| HACK.ST | Hacksaw AB | Stockholm | €197.5M | 2024–2025 |
+| HAKIA.ST | HAKI Safety AB | Malmö | SEK 1.18B | 2020–2025 |
+| HANZA.ST | Hanza Ab | Kista | SEK 6.03B | 2022–2025 |
+| HAVB.ST | Havsfrun Investment AB | Stockholm | SEK 986K | 2020–2025 |
+| HEBAB.ST | Heba Fastighets Aktiebolag | Stockholm | SEK 605.4M | 2020–2025 |
+| HEM.ST | Hemnet Group AB (publ) | Stockholm | SEK 1.53B | 2020–2025 |
+| HMB.ST | H & M Hennes & Mauritz AB | Stockholm | SEK 228.29B | 2021–2025 |
 | HMS.ST | HMS Networks AB | Halmstad | SEK 3.06B | 2020–2024 |
-| HNSA.ST | Hansa Biopharma AB | Lund | SEK 171.3M | 2020–2024 |
-| HOFI.ST | Hoist Finance AB | Stockholm | SEK 4.39B | 2023–2024 |
-| HOLMA.ST | Holmen Aktiebolag | Stockholm | SEK 22.76B | 2020–2024 |
-| HPOLB.ST | Hexpol Ab | Malmö | SEK 20.44B | 2020–2024 |
+| HNSA.ST | Hansa Biopharma AB | Lund | SEK 222.3M | 2020–2025 |
+| HOFI.ST | Hoist Finance AB | Stockholm | SEK 4.41B | 2023–2025 |
+| HOLMA.ST | Holmen Aktiebolag | Stockholm | SEK 22.06B | 2020–2025 |
+| HPOLB.ST | Hexpol Ab | Malmö | SEK 19.32B | 2020–2025 |
 | HTRO.ST | Hexatronic Group Ab | Göteborg | SEK 7.58B | 2020–2024 |
-| HUFVA.ST | Hufvudstaden Ab | Stockholms | SEK 3.18B | 2020–2024 |
-| HUMBLE.ST | Humble Group AB | Stockholm | SEK 7.71B | 2023–2024 |
-| HUSQA.ST | Husqvarna AB | Huskvarna | SEK 48.35B | 2020–2024 |
-| INDT.ST | Indutrade Aktiebolag | Kista | SEK 32.54B | 2020–2024 |
-| INFREA.ST | Infrea AB | Stockholm | SEK 2.09B | 2020–2024 |
-| INQ.ST | Anoto Group AB | Stockholm | SEK 30.1M | 2020–2024 |
-| INSTAL.ST | Instalco AB | Stockholm | SEK 13.69B | 2020–2024 |
-| INTEAB.ST | Intea Fastigheter AB (publ) | Stockholm | SEK 1.20B | 2023–2024 |
-| INTRUM.ST | Intrum AB | Stockholm | SEK 18.03B | 2020–2024 |
-| INVEA.ST | Investor Aktiebolag | Stockholm | SEK 63.20B | 2020–2024 |
-| IRLABA.ST | IRLAB Therapeutics AB | Göteborg | SEK 94.6M | 2021–2024 |
-| IS.ST | Image Systems AB | Linköping | SEK 184.9M | 2020–2024 |
-| ITAB.ST | ITAB Shop Concept AB | Jönköping | SEK 6.59B | 2020–2024 |
-| IVSO.ST | Invisio Ab | Malmö | SEK 1.81B | 2021–2024 |
-| JM.ST | Jm Ab | Stockholm | SEK 14.27B | 2020–2024 |
-| JOMA.ST | John Mattson Fastighetsföretagen AB (publ) | Lidingö | SEK 642.7M | 2020–2024 |
-| K2AB.ST | K2A Knaust & Andersson Fastigheter AB (publ) | Stockholm | SEK 426.9M | 2020–2024 |
-| KAR.ST | Karnov Group AB (publ) | Stockholm | SEK 2.59B | 2020–2024 |
-| KARNELB.ST | Karnell Group AB (publ) | Stockholm | SEK 1.40B | 2023–2024 |
+| HUFVA.ST | Hufvudstaden Ab | Stockholms | SEK 3.29B | 2020–2025 |
+| HUMBLE.ST | Humble Group AB | Stockholm | SEK 8.10B | 2023–2025 |
+| HUSQA.ST | Husqvarna AB | Huskvarna | SEK 46.61B | 2020–2025 |
+| IMMNOV.ST | Immunovia AB (publ) | Stockholm | SEK 752K | 2020–2025 |
+| INDT.ST | Indutrade Aktiebolag | Kista | SEK 32.23B | 2020–2025 |
+| INFREA.ST | Infrea AB | Stockholm | SEK 2.09B | 2020–2025 |
+| INISSB.ST | Inission AB | Karlstad | SEK 2.21B | 2024–2025 |
+| INQ.ST | Anoto Group AB | Stockholm | SEK 22.4M | 2024–2025 |
+| INSTAL.ST | Instalco AB | Stockholm | SEK 13.60B | 2020–2025 |
+| INTEAD.ST | Intea Fastigheter AB (publ) | Stockholm | SEK 1.56B | 2023–2025 |
+| INTRUM.ST | Intrum AB | Stockholm | SEK 17.03B | 2020–2025 |
+| INVEB.ST | Investor Aktiebolag | Stockholm | SEK 64.83B | 2020–2025 |
+| INWI.ST | Inwido AB (publ) | Malmö | SEK 9.00B | 2024–2025 |
+| IRLABA.ST | IRLAB Therapeutics AB | Göteborg | SEK 57.5M | 2021–2025 |
+| IS.ST | Image Systems AB | Linköping | SEK 168.5M | 2020–2025 |
+| ITAB.ST | ITAB Shop Concept AB | Jönköping | SEK 12.78B | 2020–2025 |
+| IVSO.ST | Invisio Ab | Malmö | SEK 1.74B | 2020–2025 |
+| JM.ST | Jm Ab | Stockholm | SEK 10.69B | 2020–2025 |
+| JOMA.ST | John Mattson Fastighetsföretagen AB (publ) | Lidingö | SEK 673.0M | 2020–2025 |
+| K2AB.ST | K2A Knaust & Andersson Fastigheter AB (publ) | Stockholm | SEK 306.5M | 2020–2025 |
+| KAR.ST | Karnov Group AB (publ) | Stockholm | SEK 2.64B | 2020–2025 |
+| KARNELB.ST | Karnell Group AB (publ) | Stockholm | SEK 1.69B | 2023–2025 |
 | KDV.ST | Karolinska Development AB | Solna | SEK 1.8M | 2020–2024 |
 | KFASTB.ST | K-Fast Holding AB | Hässleholm | SEK 1.14B | 2020–2024 |
-| LAMMB.ST | Lammhults Design Group AB | Lammhult | SEK 870.9M | 2022–2024 |
-| LATOB.ST | Investmentaktiebolaget Latour | Göteborg | SEK 25.89B | 2020–2024 |
-| LIAB.ST | Lindab International AB | Båstad | SEK 13.32B | 2020–2024 |
-| LIFCOB.ST | Lifco AB (publ) | Enköping | SEK 26.14B | 2020–2024 |
-| LOGIB.ST | Logistea AB | Stockholm | SEK 706.0M | 2020–2024 |
-| LOOMIS.ST | Loomis Ab | Stockholm | SEK 30.44B | 2023–2024 |
-| LUNDB.ST | L E Lundbergföretagen Aktiebolag (publ) | Stockholm | SEK 29.31B | 2020–2024 |
-| MANG.ST | Mangold AB | Stockholm | SEK 182.8M | 2020–2024 |
-| MCAP.ST | MedCap AB (publ) | Stockholm | SEK 1.81B | 2021–2024 |
-| MCOVB.ST | Medicover AB | Stockholm | €4.8M | 2020–2024 |
-| MEABB.ST | Malmbergs Elektriska Aktiebolag (publ) | Kumla | SEK 516.5M | 2020–2024 |
-| MEKO.ST | Meko Ab | Stockholm | SEK 18.05B | 2023–2024 |
-| MILDEF.ST | MilDef Group AB | Helsingborg | SEK 1.20B | 2020–2024 |
-| MIPS.ST | Mips AB | Täby | SEK 483.0M | 2020–2024 |
-| MMGRB.ST | Momentum Group AB | Stockholm | SEK 2.87B | 2021–2024 |
-| MOB.ST | Moberg Pharma AB (publ) | Bromma | SEK 9.8M | 2022–2024 |
-| MOMENT.ST | Moment Group Ab | Göteborg | SEK 1.07B | 2020–2024 |
-| MSABB.ST | Micro Systemation AB (publ) | Stockholm | SEK 416.9M | 2020–2023 |
-| MSONA.ST | Midsona AB | Malmö | SEK 3.73B | 2020–2024 |
-| MTGB.ST | Modern Times Group MTG AB | Stockholm | SEK 6.02B | 2020–2024 |
-| MTRS.ST | Munters Group AB | Kista | SEK 15.45B | 2020–2024 |
-| MVIR.ST | Medivir Aktiebolag | Huddinge | SEK 4.5M | 2020–2024 |
-| MYCR.ST | Mycronic AB (publ) | Täby | SEK 7.06B | 2020–2024 |
-| NCAB.ST | NCAB Group AB (publ) | Sundbyberg | SEK 3.61B | 2023–2024 |
-| NELLY.ST | Nelly Group AB (publ) | Borås | SEK 1.09B | 2020–2024 |
-| NEOBO.ST | Neobo Fastigheter AB (publ) | Stockholm | SEK 908.0M | 2023–2024 |
-| NETEL.ST | Netel Holding AB (publ) | Stockholm | SEK 3.33B | 2020–2024 |
-| NETIB.ST | Net Insight AB | Solna | SEK 608.0M | 2020–2024 |
+| LAGRB.ST | Lagercrantz Group Aktiebolag | Stockholm | SEK 10.61B | 2021–2026 |
+| LAMMB.ST | Lammhults Design Group AB | Lammhult | SEK 878.5M | 2022–2025 |
+| LATOB.ST | Investmentaktiebolaget Latour | Göteborg | SEK 28.15B | 2020–2025 |
+| LIAB.ST | Lindab International AB | Båstad | SEK 12.85B | 2020–2025 |
+| LIFCOB.ST | Lifco AB (publ) | Enköping | SEK 28.25B | 2020–2025 |
+| LIME.ST | Lime Technologies AB (publ) | Lund | SEK 747.4M | 2020–2025 |
+| LINC.ST | Linc AB | Stockholm | SEK 16.1M | 2024–2025 |
+| LOGIB.ST | Logistea AB | Stockholm | SEK 1.07B | 2020–2025 |
+| LOOMIS.ST | Loomis Ab | Stockholm | SEK 30.43B | 2023–2025 |
+| LUNDB.ST | L E Lundbergföretagen Aktiebolag (publ) | Stockholm | SEK 28.78B | 2020–2025 |
+| MANG.ST | Mangold AB | Stockholm | SEK 195.9M | 2020–2025 |
+| MCAP.ST | MedCap AB (publ) | Stockholm | SEK 2.11B | 2021–2025 |
+| MCOVB.ST | Medicover AB | Stockholm | €4.3M | 2020–2025 |
+| MEABB.ST | Malmbergs Elektriska Aktiebolag (publ) | Kumla | SEK 459.5M | 2020–2025 |
+| MEKO.ST | Meko Ab | Stockholm | SEK 18.01B | 2023–2025 |
+| MILDEF.ST | MilDef Group AB | Helsingborg | SEK 2.05B | 2020–2025 |
+| MIPS.ST | Mips AB | Täby | SEK 533.0M | 2020–2025 |
+| MMGRB.ST | Momentum Group AB | Stockholm | SEK 3.10B | 2021–2025 |
+| MOB.ST | Moberg Pharma AB (publ) | Bromma | SEK 13.5M | 2022–2025 |
+| MOMENT.ST | Moment Group Ab | Göteborg | SEK 1.09B | 2020–2025 |
+| MSABB.ST | Micro Systemation AB (publ) | Stockholm | SEK 461.8M | 2020–2025 |
+| MSONB.ST | Midsona AB | Malmö | SEK 3.63B | 2020–2025 |
+| MTGB.ST | Modern Times Group MTG AB | Stockholm | SEK 11.58B | 2020–2025 |
+| MTRS.ST | Munters Group AB | Kista | SEK 14.71B | 2020–2025 |
+| MVIR.ST | Medivir Aktiebolag | Huddinge | SEK 8.9M | 2020–2025 |
+| MYCR.ST | Mycronic AB (publ) | Täby | SEK 7.94B | 2020–2025 |
+| NCAB.ST | NCAB Group AB (publ) | Sundbyberg | SEK 3.74B | 2023–2025 |
+| NELLY.ST | Nelly Group AB (publ) | Borås | SEK 1.26B | 2020–2025 |
+| NEOBO.ST | Neobo Fastigheter AB (publ) | Stockholm | SEK 934.0M | 2023–2025 |
+| NETEL.ST | Netel Holding AB (publ) | Stockholm | SEK 2.93B | 2020–2025 |
+| NETIB.ST | Net Insight AB | Solna | SEK 521.2M | 2020–2025 |
 | NEWAB.ST | New Wave Group AB | Göteborg | SEK 9.53B | 2020–2024 |
-| NIBEB.ST | NIBE Industrier AB | Markaryd | SEK 40.52B | 2021–2024 |
-| NICA.ST | Nanologica AB (publ) | Södertälje | SEK 14.5M | 2022–2024 |
-| NIVIB.ST | Nivika Fastigheter AB (publ) | Värnamo | SEK 611.9M | 2021–2023 |
-| NMAN.ST | Nederman Holding Aktiebolag | Helsingborg | SEK 5.90B | 2020–2024 |
-| NOBI.ST | Nobia AB | Stockholm | SEK 10.54B | 2020–2024 |
-| NOLAB.ST | Nolato Aktiebolag | Torekov | SEK 9.66B | 2021–2024 |
-| NORION.ST | Norion Bank AB | Göteborg | SEK 5.24B | 2023–2024 |
-| NOTE.ST | NOTE AB (publ) | Stockholm | SEK 3.90B | 2020–2024 |
-| NP3.ST | NP3 Fastigheter AB | Sundsvall | SEK 1.99B | 2020–2024 |
-| NTEKB.ST | NOVOTEK Aktiebolag | Malmö | SEK 522.3M | 2020–2024 |
-| NYOR.ST | TradeDoubler Aktiebolag | Stockholm | SEK 2.11B | 2020–2024 |
-| OEMB.ST | OEM International Aktiebolag | Tranås | SEK 5.24B | 2020–2024 |
-| ONCO.ST | Oncopeptides AB | Stockholm | SEK 31.6M | 2021–2024 |
+| NIBEB.ST | NIBE Industrier AB | Markaryd | SEK 40.84B | 2020–2025 |
+| NICA.ST | Nanologica AB (publ) | Södertälje | SEK 21.1M | 2022–2025 |
+| NIVIB.ST | Nivika Fastigheter AB (publ) | Värnamo | SEK 789.0M | 2025–2025 |
+| NMAN.ST | Nederman Holding Aktiebolag | Helsingborg | SEK 5.78B | 2020–2025 |
+| NOBA.ST | Noba Bank Group Ab (Publ) | Stockholm | SEK 14.42B | 2021–2025 |
+| NOBI.ST | Nobia AB | Stockholm | SEK 5.62B | 2020–2025 |
+| NOLAB.ST | Nolato Aktiebolag | Torekov | SEK 9.46B | 2021–2025 |
+| NORBB.ST | Nordisk Bergteknik AB (publ) | Göteborg | SEK 3.52B | 2020–2025 |
+| NORION.ST | Norion Bank AB | Göteborg | SEK 5.13B | 2023–2025 |
+| NOTE.ST | NOTE AB (publ) | Stockholm | SEK 3.81B | 2020–2025 |
+| NP3.ST | NP3 Fastigheter AB | Sundsvall | SEK 2.27B | 2020–2025 |
+| NTEKB.ST | NOVOTEK Aktiebolag | Malmö | SEK 512.8M | 2020–2025 |
+| NYOR.ST | TradeDoubler Aktiebolag | Stockholm | SEK 2.22B | 2020–2025 |
+| OEMB.ST | OEM International Aktiebolag | Tranås | SEK 5.32B | 2020–2025 |
+| ONCO.ST | Oncopeptides AB | Stockholm | SEK 71.1M | 2021–2025 |
 | ORRON.ST | Orrön Energy AB | Stockholm | €25.7M | 2023–2024 |
-| ORX.ST | Orexo AB | Uppsala | SEK 590.0M | 2020–2024 |
-| PCELL.ST | Powercell Sweden AB (publ) | Göteborg | SEK 334.3M | 2022–2024 |
-| PEABB.ST | Peab AB | Förslöv | SEK 61.28B | 2020–2024 |
-| PIERCE.ST | Pierce Group AB (publ) | Stockholm | SEK 1.63B | 2020–2024 |
-| PIONB.ST | PION Group AB | Johanneshov | SEK 1.60B | 2020–2024 |
-| PNDXB.ST | Pandox Aktiebolag | Stockholm | SEK 7.14B | 2020–2024 |
-| PREC.ST | Precise Biometrics AB | Lund | SEK 86.9M | 2020–2024 |
-| PREVB.ST | Prevas Aktiebolag | Västerås | SEK 1.59B | 2021–2024 |
-| PRFO.ST | Profoto Holding AB (publ) | Sundbyberg | SEK 751.0M | 2020–2024 |
-| PRICB.ST | Pricer Aktiebolag | Stockholm | SEK 2.56B | 2020–2024 |
-| PRISMA.ST | Prisma Properties AB | Stockholm | SEK 435.0M | 2023–2024 |
-| PROFB.ST | Profilgruppen Ab | Åseda | SEK 2.27B | 2020–2024 |
-| QLINEA.ST | Q-linea AB | Uppsala | SEK 2.4M | 2021–2024 |
-| QLIRO.ST | Qliro Ab | Stockholm | SEK 397.8M | 2020–2024 |
-| RAIL.ST | Railcare Group AB | Skelleftehamn | SEK 635.3M | 2020–2024 |
-| RATOB.ST | Ratos AB | Stockholm | SEK 32.13B | 2020–2024 |
-| RAYB.ST | RaySearch Laboratories AB (publ) | Stockholm | SEK 1.19B | 2021–2024 |
-| REJLB.ST | Rejlers AB (publ) | Stockholm | SEK 4.43B | 2023–2024 |
+| ORX.ST | Orexo AB | Uppsala | SEK 26.0M | 2020–2025 |
+| PCELL.ST | Powercell Sweden AB (publ) | Göteborg | SEK 385.0M | 2022–2025 |
+| PEABB.ST | Peab AB | Förslöv | SEK 58.58B | 2020–2025 |
+| PIERCE.ST | Pierce Group AB (publ) | Stockholm | SEK 1.82B | 2020–2025 |
+| PIONB.ST | PION Group AB | Johanneshov | SEK 1.41B | 2020–2025 |
+| PLAZB.ST | Platzer Fastigheter Holding AB (publ) | Göteborg | SEK 1.75B | 2020–2025 |
+| PNDXB.ST | Pandox Aktiebolag | Stockholm | SEK 7.47B | 2020–2025 |
+| PREC.ST | Precise Biometrics AB | Lund | SEK 77.8M | 2020–2025 |
+| PREVB.ST | Prevas Aktiebolag | Västerås | SEK 1.63B | 2021–2025 |
+| PRFO.ST | Profoto Holding AB (publ) | Sundbyberg | SEK 619.0M | 2024–2025 |
+| PRICB.ST | Pricer Aktiebolag | Stockholm | SEK 2.15B | 2020–2025 |
+| PRISMA.ST | Prisma Properties AB | Stockholm | SEK 539.0M | 2023–2025 |
+| PROFB.ST | Profilgruppen Ab | Åseda | SEK 2.33B | 2020–2025 |
+| QLINEA.ST | Q-linea AB | Uppsala | SEK 11.1M | 2021–2025 |
+| QLIRO.ST | Qliro Ab | Stockholm | SEK 412.1M | 2020–2025 |
+| RAIL.ST | Railcare Group AB | Skelleftehamn | SEK 667.6M | 2024–2025 |
+| RATOB.ST | Ratos AB | Stockholm | SEK 18.83B | 2020–2025 |
+| RAYB.ST | RaySearch Laboratories AB (publ) | Stockholm | SEK 1.34B | 2021–2025 |
+| REJLB.ST | Rejlers AB (publ) | Stockholm | SEK 4.74B | 2023–2025 |
+| ROKOB.ST | Röko AB (publ) | Stockholm | SEK 6.45B | 2024–2025 |
 | RROS.ST | Rottneros Ab | Söderhamn | SEK 2.71B | 2020–2024 |
-| SAABB.ST | SAAB Aktiebolag | Stockholm | SEK 63.75B | 2020–2024 |
-| SAFETYB.ST | mySafety Group AB | Stockholm | SEK 320.0M | 2020–2024 |
-| SAGAB.ST | AB Sagax | Stockholm | SEK 4.99B | 2020–2024 |
-| SAND.ST | Sandvik Aktiebolag | Stockholm | SEK 122.88B | 2020–2024 |
-| SANION.ST | Saniona AB | Lund | SEK 334.7M | 2020–2024 |
-| SAVE.ST | Nordnet AB (publ) | Stockholm | SEK 3.48B | 2020–2024 |
-| SCAA.ST | Svenska Cellulosa Aktiebolaget SCA | Sundsvall | SEK 23.63B | 2023–2024 |
-| SCST.ST | Scandi Standard AB (publ) | Stockholm | SEK 13.02B | 2021–2024 |
-| SDIPB.ST | Sdiptech AB (publ) | Stockholm | SEK 5.17B | 2020–2024 |
-| SEAF.ST | Seafire AB (publ) | Stockholm | SEK 905.0M | 2022–2024 |
-| SECUB.ST | Securitas AB | Stockholm | SEK 161.92B | 2020–2024 |
-| SEDANA.ST | Sedana Medical AB (publ) | Danderyd | SEK 178.8M | 2022–2024 |
-| SEZI.ST | Senzime AB (publ.) | Uppsala | SEK 58.5M | 2020–2024 |
-| SF.ST | Stillfront Group AB (publ) | Stockholm | SEK 6.74B | 2020–2024 |
-| SFAST.ST | Stenhus Fastigheter i Norden AB (publ) | Stockholm | SEK 1.01B | 2023–2024 |
-| SGG.ST | Sensys Gatso Group AB | Jönköping | SEK 631.2M | 2020–2024 |
-| SHOT.ST | Scandic Hotels Group AB | Stockholm | SEK 21.96B | 2020–2024 |
-| SINCH.ST | Sinch AB (publ) | Stockholm | SEK 28.71B | 2020–2024 |
-| SINT.ST | SinterCast Aktiebolag | Katrineholm | SEK 135.6M | 2020–2024 |
-| SIVE.ST | Sivers Semiconductors AB | Stockholm | SEK 243.7M | 2020–2024 |
-| SKAB.ST | Skanska AB | Stockholm | SEK 176.48B | 2020–2024 |
-| SLEEP.ST | Sleep Cycle AB (publ) | Göteborg | SEK 261.5M | 2022–2024 |
-| SLPB.ST | Swedish Logistic Property AB | Malmo | SEK 710.0M | 2021–2024 |
+| RUSTA.ST | Rusta AB (publ) | Upplands Väsby | SEK 12.60B | 2023–2026 |
+| RVRC.ST | RVRC Holding AB | Borås | SEK 2.02B | 2021–2026 |
+| SAABB.ST | SAAB Aktiebolag | Stockholm | SEK 79.15B | 2020–2025 |
+| SAFETYB.ST | mySafety Group AB | Stockholm | SEK 332.6M | 2020–2025 |
+| SAGAB.ST | AB Sagax | Stockholm | SEK 5.38B | 2020–2025 |
+| SAND.ST | Sandvik Aktiebolag | Stockholm | SEK 120.68B | 2020–2025 |
+| SANION.ST | Saniona AB | Lund | SEK 434.4M | 2020–2025 |
+| SAVE.ST | Nordnet AB (publ) | Stockholm | SEK 2.79B | 2020–2025 |
+| SCAA.ST | Svenska Cellulosa Aktiebolaget SCA | Sundsvall | SEK 23.45B | 2023–2025 |
+| SCST.ST | Scandi Standard AB (publ) | Stockholm | SEK 14.08B | 2021–2025 |
+| SDIPB.ST | Sdiptech AB (publ) | Stockholm | SEK 5.20B | 2020–2025 |
+| SEAF.ST | Seafire AB (publ) | Stockholm | SEK 949.0M | 2022–2025 |
+| SECTB.ST | SECTRA Aktiebolag | Linköping | SEK 3.54B | 2021–2026 |
+| SECUB.ST | Securitas AB | Stockholm | SEK 155.11B | 2020–2025 |
+| SEDANA.ST | Sedana Medical AB (publ) | Danderyd | SEK 200.2M | 2022–2025 |
+| SEZI.ST | Senzime AB (publ.) | Uppsala | SEK 104.0M | 2020–2025 |
+| SF.ST | Stillfront Group AB (publ) | Stockholm | SEK 5.71B | 2020–2025 |
+| SFAST.ST | Stenhus Fastigheter i Norden AB (publ) | Stockholm | SEK 1.04B | 2023–2025 |
+| SGG.ST | Sensys Gatso Group AB | Jönköping | SEK 719.1M | 2020–2025 |
+| SHOT.ST | Scandic Hotels Group AB | Stockholm | SEK 22.29B | 2020–2025 |
+| SINCH.ST | Sinch AB (publ) | Stockholm | SEK 27.08B | 2020–2025 |
+| SINT.ST | SinterCast Aktiebolag | Katrineholm | SEK 108.0M | 2020–2025 |
+| SIVE.ST | Sivers Semiconductors AB | Stockholm | SEK 306.6M | 2020–2025 |
+| SKAB.ST | Skanska AB | Stockholm | SEK 176.66B | 2020–2025 |
+| SKISB.ST | SkiStar Aktiebolag | Sälen | SEK 4.63B | 2021–2025 |
+| SLEEP.ST | Sleep Cycle AB (publ) | Göteborg | SEK 247.9M | 2022–2025 |
+| SLPB.ST | Swedish Logistic Property AB | Malmo | SEK 1.02B | 2021–2025 |
 | SOBI.ST | Swedish Orphan Biovitrum AB (publ) | Stockholm | SEK 26.03B | 2021–2024 |
-| SOFB.ST | Softronic Aktiebolag | Stockholm | SEK 842.4M | 2020–2024 |
-| SSABA.ST | Ssab Ab | Stockholm | SEK 103.42B | 2020–2024 |
-| STARB.ST | Starbreeze AB | Stockholm | SEK 185.9M | 2020–2024 |
-| STEFB.ST | Stendörren Fastigheter AB | Stockholm | SEK 910.0M | 2020–2024 |
-| STORB.ST | Storskogen Group AB (publ) | Stockholm | SEK 34.18B | 2023–2024 |
-| STWK.ST | Stockwik Förvaltning AB | Solna | SEK 850.9M | 2021–2024 |
-| SVEDB.ST | Svedbergs Group AB | Halmstad | SEK 2.18B | 2020–2024 |
-| SVIK.ST | Studsvik AB | Nyköping | SEK 893.1M | 2020–2024 |
-| SWECB.ST | SWECO AB (publ) | Stockholm | SEK 30.68B | 2020–2024 |
-| SYNSAM.ST | Synsam AB (publ) | Stockholm | SEK 6.44B | 2020–2024 |
-| TEL2B.ST | Tele2 Ab | Kista | SEK 29.58B | 2020–2024 |
-| TELIA.ST | Telia Company Ab | Solna | SEK 89.13B | 2020–2024 |
-| THULE.ST | Thule Group AB | Malmö | SEK 9.54B | 2023–2024 |
-| TOBII.ST | Tobii AB | Danderyd | SEK 857.0M | 2020–2024 |
-| TRACB.ST | AB Traction | Stockholm | SEK 490.4M | 2021–2024 |
-| TRANS.ST | Transtema Group AB | Mölndal | SEK 2.49B | 2021–2024 |
-| TRELB.ST | Trelleborg AB | Trelleborg | SEK 34.17B | 2020–2024 |
-| TRIANB.ST | Fastighets Aktiebolaget Trianon | Malmö | SEK 772.5M | 2020–2024 |
-| TROAX.ST | Troax Group AB (publ) | Hillerstorp | €278.5M | 2020–2024 |
+| SOFB.ST | Softronic Aktiebolag | Stockholm | SEK 915.8M | 2020–2025 |
+| SSABB.ST | Ssab Ab | Stockholm | SEK 96.22B | 2020–2025 |
+| STARA.ST | Starbreeze AB | Stockholm | SEK 221.0M | 2020–2025 |
+| STEFB.ST | Stendörren Fastigheter AB | Stockholm | SEK 1.05B | 2020–2025 |
+| STORB.ST | Storskogen Group AB (publ) | Stockholm | SEK 33.10B | 2023–2025 |
+| STWK.ST | Stockwik AB (publ) | Solna | SEK 918.1M | 2020–2025 |
+| SVEAFB.ST | Sveafastigheter AB (publ) | Malmö | SEK 1.54B | 2024–2025 |
+| SVEDB.ST | Svedbergs Group AB | Halmstad | SEK 2.25B | 2020–2025 |
+| SVIK.ST | Studsvik AB | Nyköping | SEK 883.3M | 2020–2025 |
+| SVOLA.ST | Svolder Aktiebolag | Stockholm | SEK 31.8M | 2021–2025 |
+| SWECA.ST | SWECO AB (publ) | Stockholm | SEK 31.59B | 2020–2025 |
+| SYNSAM.ST | Synsam AB (publ) | Stockholm | SEK 7.07B | 2020–2025 |
+| SYSR.ST | Systemair Aktiebolag | Skinnskatteberg | SEK 12.50B | 2021–2026 |
+| TEL2B.ST | Tele2 Ab | Kista | SEK 29.89B | 2020–2025 |
+| TELIA.ST | Telia Company Ab | Solna | SEK 80.98B | 2020–2025 |
+| THULE.ST | Thule Group AB | Malmö | SEK 10.43B | 2023–2025 |
+| TOBII.ST | Tobii AB | Danderyd | SEK 834.0M | 2020–2025 |
+| TRACB.ST | AB Traction | Stockholm | SEK 211.1M | 2024–2025 |
+| TRANS.ST | Transtema Group AB | Mölndal | SEK 2.60B | 2021–2025 |
+| TRELB.ST | Trelleborg AB | Trelleborg | SEK 34.33B | 2024–2025 |
+| TRIANB.ST | Fastighets Aktiebolaget Trianon | Malmö | SEK 787.3M | 2020–2025 |
+| TROAX.ST | Troax Group AB (publ) | Hillerstorp | €262.4M | 2020–2025 |
 | TRUEB.ST | Truecaller AB | Stockholm | SEK 1.73B | 2022–2023 |
-| VBGB.ST | VBG GROUP AB (publ) | Trollhättan | SEK 5.58B | 2020–2024 |
+| VBGB.ST | VBG GROUP AB (publ) | Trollhättan | SEK 5.39B | 2020–2025 |
 | VEFAB.ST | VEF AB (publ) | Stockholm | $493K | 2022–2024 |
+| VICO.ST | Vicore Pharma Holding AB | Göteborg | SEK 3.8M | 2024–2025 |
+| VIMIAN.ST | Vimian Group AB | Stockholm | €428.4M | 2024–2025 |
 | VISC.ST | Gruvaktiebolaget Viscaria | Kiruna | SEK 260.7M | 2022–2023 |
-| VITB.ST | Vitec Software Group AB (publ) | Umeå | SEK 3.33B | 2021–2024 |
-| VITR.ST | Vitrolife AB | Göteborg | SEK 3.61B | 2020–2024 |
-| VNV.ST | VNV Global AB (publ) | Stockholm | $2.4M | 2020–2024 |
-| VOLCARB.ST | Volvo Car AB | Göteborg | SEK 400.23B | 2020–2024 |
-| VOLO.ST | Volati AB | Stockholm | SEK 7.87B | 2020–2024 |
-| VOLVA.ST | Aktiebolaget Volvo | Göteborg | SEK 526.82B | 2020–2024 |
-| VPLAYB.ST | Viaplay Group AB (publ) | Stockholm | SEK 18.49B | 2020–2024 |
-| WALLB.ST | Wallenstam Ab | Göteborg | SEK 3.17B | 2023–2024 |
-| WBGRB.ST | Wästbygg Gruppen AB (publ) | Borås | SEK 4.99B | 2021–2024 |
-| WIHL.ST | Wihlborgs Fastigheter AB | Malmö | SEK 4.17B | 2021–2024 |
-| WISE.ST | Wise Group AB | Stockholm | SEK 630.6M | 2021–2024 |
-| WTWA.ST | Wall To Wall Group AB | Stockholm | SEK 918.5M | 2023–2024 |
-| XANOB.ST | Xano Industri Ab | Jonkoping | SEK 3.31B | 2020–2024 |
-| XBRANE.ST | Xbrane Biopharma AB | Solna | SEK 198.7M | 2021–2024 |
-| YUBICO.ST | Yubico AB | Stockholm | SEK 2.33B | 2023–2024 |
+| VITB.ST | Vitec Software Group AB (publ) | Umeå | SEK 3.63B | 2020–2025 |
+| VITR.ST | Vitrolife AB | Göteborg | SEK 3.44B | 2020–2025 |
+| VNV.ST | VNV Global AB (publ) | Stockholm | $828K | 2020–2025 |
+| VOLCARB.ST | Volvo Car AB | Göteborg | SEK 357.26B | 2020–2025 |
+| VOLO.ST | Volati AB | Stockholm | SEK 8.42B | 2020–2025 |
+| VOLVB.ST | Aktiebolaget Volvo | Göteborg | SEK 479.18B | 2020–2025 |
+| VPLAYA.ST | Viaplay Group AB (publ) | Stockholm | SEK 17.68B | 2020–2025 |
+| WALLB.ST | Wallenstam Ab | Göteborg | SEK 3.26B | 2023–2025 |
+| WBGRB.ST | Wästbygg Gruppen AB (publ) | Borås | SEK 4.02B | 2021–2025 |
+| WIHL.ST | Wihlborgs Fastigheter AB | Malmö | SEK 4.35B | 2020–2025 |
+| WISE.ST | Wise Group AB | Stockholm | SEK 477.2M | 2021–2025 |
+| WTWA.ST | Wall To Wall Group AB | Stockholm | SEK 820.2M | 2023–2025 |
+| XANOB.ST | Xano Industri Ab | Jonkoping | SEK 3.40B | 2020–2025 |
+| XBRANE.ST | Xbrane Biopharma AB | Solna | SEK 152.4M | 2021–2025 |
+| XVIVO.ST | Xvivo Perfusion Aktiebolag | Göteborg | SEK 812.2M | 2019–2025 |
+| YUBICO.ST | Yubico AB | Stockholm | SEK 2.22B | 2023–2025 |
 
-## Included — Denmark (85)
+## Included — Denmark (84)
 
 | Ticker | Company | City | Latest revenue | Years |
 |---|---|---|---|---|
@@ -844,10 +900,10 @@ Scope: France, Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belg
 | BIOMAR.CO | Biomar Group A/S | Aarhus C | DKK 16.53B | 2020–2025 |
 | BIOPOR.CO | Bioporto A/S | Hellerup | DKK 40.3M | 2020–2025 |
 | BO.CO | Bang & Olufsen A/S | Struer | DKK 2.47B | 2021–2026 |
-| CARLB.CO | Carlsberg A/S | København V | DKK 89.10B | 2021–2025 |
+| CARLA.CO | Carlsberg A/S | København V | DKK 89.10B | 2021–2025 |
 | CBRAIN.CO | Cbrain A/S | København | DKK 251.3M | 2020–2025 |
 | CEMAT.CO | Cemat A/S | København Ø | DKK 164.7M | 2020–2025 |
-| CHEMM.CO | Chemometec A/S | Allerød | DKK 495.6M | 2021–2025 |
+| CHEMM.CO | Chemometec A/S | Allerød | DKK 511.1M | 2021–2026 |
 | COLOB.CO | Coloplast A/S | Humlebæk | DKK 27.87B | 2020–2025 |
 | COLUM.CO | Columbus A/S | Ballerup | DKK 1.58B | 2019–2025 |
 | CPHCAPST.CO | Copenhagen Capital A/S | Hellerup | DKK 58.4M | 2021–2025 |
@@ -870,7 +926,7 @@ Scope: France, Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belg
 | GN.CO | Gn Store Nord A/S | Ballerup | DKK 9.57B | 2019–2025 |
 | GREENM.CO | GreenMobility A/S | København K | DKK 153.9M | 2020–2025 |
 | GUBRA.CO | Gubra A/S | Hørsholm | DKK 2.64B | 2022–2025 |
-| GYLDA.CO | Gyldendal A/S | København K | DKK 798.7M | 2019–2025 |
+| GYLDB.CO | Gyldendal A/S | København K | DKK 798.7M | 2019–2025 |
 | HARBB.CO | Harboes Bryggeri A/S | Slagelse | DKK 1.74B | 2020–2026 |
 | HH.CO | H+H International A/S | København Ø | €2.74B | 2025–2025 |
 | HLUNA.CO | H. Lundbeck A/S | Valby | DKK 24.63B | 2019–2025 |
@@ -881,7 +937,7 @@ Scope: France, Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belg
 | JYSK.CO | Jyske Bank A/S | Silkeborg | DKK 12.45B | 2023–2024 |
 | KBHL.CO | Københavns Lufthavne A/S | Kastrup | DKK 5.52B | 2020–2025 |
 | KLEEB.CO | Brd. Klee A/S | Albertslund | DKK 352.0M | 2021–2025 |
-| MAERSKB.CO | A.P. Møller - Mærsk A/S | Kobenhavn K | $53.99B | 2019–2025 |
+| MAERSKA.CO | A.P. Møller - Mærsk A/S | Kobenhavn K | $53.99B | 2019–2025 |
 | MATAS.CO | Matas A/S | Allerød | DKK 8.78B | 2021–2026 |
 | MTHH.CO | MT Højgaard Holding A/S | Copenhagen | DKK 10.23B | 2020–2025 |
 | NETC.CO | Netcompany Group A/S | København K | DKK 7.89B | 2020–2025 |
@@ -889,7 +945,6 @@ Scope: France, Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belg
 | NKT.CO | Nkt A/S | Brøndby | €3.57B | 2020–2025 |
 | NNIT.CO | Nnit A/S | København S | DKK 1.79B | 2020–2025 |
 | NORTHM.CO | North Media A/S | Søborg | DKK 1.30B | 2019–2025 |
-| NOVOB.CO | Novo Nordisk A/S | Bagsværd | DKK 309.06B | 2019–2025 |
 | NSISB.CO | Novozymes A/S | Bagsvaerd | €4.16B | 2023–2025 |
 | NTG.CO | NTG Nordic Transport Group A/S | Hvidovre | DKK 11.38B | 2020–2025 |
 | ORSTED.CO | Ørsted A/S | Fredericia | DKK 73.24B | 2019–2025 |
@@ -901,7 +956,7 @@ Scope: France, Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belg
 | PRIMOF.CO | Prime Office A/S | Aarhus C | DKK 204.2M | 2020–2025 |
 | RBLNB.CO | Roblon Aktieselskab | Frederikshavn | DKK 236.9M | 2021–2025 |
 | RBREW.CO | Royal Unibrew A/S | Faxe | DKK 15.72B | 2019–2025 |
-| ROCKA.CO | Rockwool A/S | Hedehusene | €3.62B | 2019–2025 |
+| ROCKB.CO | Rockwool A/S | Hedehusene | €3.62B | 2019–2025 |
 | ROV.CO | Rovsing A/S | Glostrup | DKK 37.0M | 2024–2025 |
 | RTX.CO | Rtx A/S | Nørresundby | DKK 547.1M | 2020–2025 |
 | SCHO.CO | Aktieselskabet Schouw & Co. | Aarhus | €34.13B | 2025–2025 |
@@ -917,7 +972,7 @@ Scope: France, Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belg
 | VWS.CO | Vestas Wind Systems A/S | Aarhus | €18.82B | 2019–2025 |
 | ZEAL.CO | Zealand Pharma A/S | Søborg | DKK 9.21B | 2019–2025 |
 
-## Included — Finland (82)
+## Included — Finland (83)
 
 | Ticker | Company | City | Latest revenue | Years |
 |---|---|---|---|---|
@@ -949,7 +1004,7 @@ Scope: France, Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belg
 | GOFORE.HE | Gofore Oyj | Tampere | €191.4M | 2020–2025 |
 | GRK.HE | GRK Infra Oyj | Vantaa | €872.3M | 2024–2025 |
 | HARVIA.HE | Harvia Oyj | Muurame | €198.9M | 2019–2025 |
-| HEALTH.HE | Nightingale Health Oyj | Helsinki | €4.7M | 2024–2025 |
+| HEALTH.HE | Nightingale Health Oyj | Helsinki | €5.5M | 2024–2026 |
 | HIAB.HE | Hiab Oyj | Helsinki | €1.56B | 2019–2025 |
 | HKFOODS.HE | HKFoods Oyj | Turku | €996.4M | 2019–2025 |
 | ICP1V.HE | Incap Oyj | Helsinki | €214.6M | 2020–2025 |
@@ -958,7 +1013,7 @@ Scope: France, Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belg
 | KCR.HE | Konecranes Oyj | Hyvinkää | €4.19B | 2019–2025 |
 | KEMIRA.HE | Kemira Oyj | Helsinki | €2.75B | 2020–2025 |
 | KEMPOWR.HE | Kempower Oyj | Lahti | €251.3M | 2023–2025 |
-| KHG.HE | KH Group Oyj | Helsinki | €204.5M | 2019–2025 |
+| KHG.HE | KH Group Oyj | Klaukkala | €204.5M | 2019–2025 |
 | KOSKI.HE | Koskisen Oyj | Järvelä | €354.9M | 2021–2025 |
 | KREATE.HE | Kreate Group Oyj | Vantaa | €315.2M | 2020–2025 |
 | LEHTO.HE | Lehto Group Oyj | Tupos | €1.4M | 2021–2025 |
@@ -966,6 +1021,7 @@ Scope: France, Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belg
 | MANTA.HE | Mandatum Oyj | Helsinki | €295.0M | 2022–2025 |
 | MARAS.HE | Martela Oyj | Espoo | €93.7M | 2019–2025 |
 | MEKKO.HE | Marimekko Oyj | Helsinki | €189.6M | 2019–2025 |
+| NDA.HE | Nordea Bank Abp | Helsinki | €15.40B | 2019–2025 |
 | NESTE.HE | Neste Oyj | Espoo | €19.02B | 2019–2025 |
 | NOHO.HE | NoHo Partners Oyj | Tampere | €358.0M | 2020–2025 |
 | NOKIA.HE | Nokia Oyj | Espoo | €19.89B | 2019–2025 |
@@ -1004,146 +1060,163 @@ Scope: France, Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belg
 | WITH.HE | WithSecure Oyj | Helsinki | €116.0M | 2019–2024 |
 | YIT.HE | YIT Oyj | Helsinki | €1.76B | 2019–2025 |
 
-## Included — Norway (134)
+## Included — Norway (151)
 
 | Ticker | Company | City | Latest revenue | Years |
 |---|---|---|---|---|
-| ABG.OL | Abg Sundal Collier Holding Asa | Oslo | NOK 1.93B | 2020–2024 |
-| ABTEC.OL | Aqua Bio Technology Asa | Oslo | NOK 106.6M | 2020–2024 |
-| ACR.OL | Axactor Asa | Oslo | €222.0M | 2020–2024 |
-| AFK.OL | Arendals Fossekompani Asa | Froland | NOK 4.36B | 2023–2024 |
-| AGLX.OL | Agilyx Asa | Oslo | $1.0M | 2021–2024 |
-| AKAST.OL | Akastor Asa | Lysaker | NOK 922.0M | 2020–2024 |
-| AKBM.OL | Aker Biomarine Asa | Lysaker | $199.0M | 2020–2024 |
-| AKER.OL | Aker Asa | Lysaker | NOK 12.89B | 2020–2024 |
-| AKRBP.OL | Aker BP Asa | Lysaker | $12.38B | 2020–2024 |
-| AKSO.OL | Aker Solutions Asa | Lysaker | NOK 53.20B | 2020–2024 |
-| AKVA.OL | Akva Group Asa | Klepp | NOK 3.60B | 2020–2024 |
-| AQUA.OL | Abl Group Asa | Oslo | $309.6M | 2020–2024 |
-| ARR.OL | Arribatec Group Asa | Oslo | NOK 574.7M | 2021–2024 |
-| ASA.OL | Atlantic Sapphire Asa | Vikebukt | $22.8M | 2020–2024 |
-| ATEA.OL | Atea Asa | Oslo | NOK 34.58B | 2020–2024 |
-| AUSS.OL | Austevoll Seafood Asa | Storebø | NOK 35.37B | 2020–2024 |
-| AUTO.OL | Autostore Holdings Ltd. | Nedre Vats | $601.4M | 2020–2024 |
-| AZT.OL | Arcticzymes Technologies Asa | Tromsø | NOK 108.1M | 2020–2024 |
-| B2I.OL | B2 Impact Asa | Oslo | NOK 3.68B | 2023–2024 |
-| BEWI.OL | Bewi Asa | Hamarvik | €775.2M | 2020–2024 |
+| ABG.OL | Abg Sundal Collier Holding Asa | Oslo | NOK 2.17B | 2020–2025 |
+| ABTEC.OL | Aqua Bio Technology Asa | Oslo | NOK 1.3M | 2020–2025 |
+| ACR.OL | Axactor Asa | Oslo | €258.4M | 2020–2025 |
+| AFG.OL | Af Gruppen Asa | Oslo | NOK 31.99B | 2020–2025 |
+| AFK.OL | Arendals Fossekompani Asa | Froland | NOK 3.71B | 2023–2025 |
+| AGLX.OL | Agilyx Asa | Oslo | $8.2M | 2025–2025 |
+| AKAST.OL | Akastor Asa | Lysaker | NOK 390.0M | 2020–2025 |
+| AKER.OL | Aker Asa | Lysaker | NOK 18.36B | 2020–2025 |
+| AKRBP.OL | Aker BP Asa | Lysaker | $10.94B | 2020–2025 |
+| AKSO.OL | Aker Solutions Asa | Lysaker | NOK 63.20B | 2020–2025 |
+| AKVA.OL | Akva Group Asa | Klepp | NOK 4.40B | 2020–2025 |
+| ANDF.OL | Andfjord Salmon Group As | Dverberg | NOK 1.0M | 2024–2025 |
+| APR.OL | Appear Asa | Oslo | NOK 800.9M | 2024–2025 |
+| AQUA.OL | Abl Group Asa | Oslo | $354.4M | 2020–2025 |
+| ARR.OL | Arribatec Group Asa | Oslo | NOK 578.8M | 2021–2025 |
+| ASA.OL | Atlantic Sapphire Asa | Vikebukt | $43.3M | 2020–2025 |
+| ATEA.OL | Atea Asa | Oslo | NOK 37.38B | 2020–2025 |
+| AUSS.OL | Austevoll Seafood Asa | Storebø | NOK 39.31B | 2020–2025 |
+| AUTO.OL | Autostore Holdings Ltd. | Nedre Vats | $538.6M | 2020–2025 |
+| AZT.OL | Arcticzymes Technologies Asa | Tromsø | NOK 118.2M | 2020–2025 |
+| B2I.OL | B2 Impact Asa | Oslo | NOK 3.78B | 2023–2025 |
+| BEWI.OL | Bewi Asa | Hamarvik | €798.6M | 2020–2025 |
 | BINT.OL | Kmc Properties Asa | Hamarvik | NOK 409.4M | 2020–2023 |
 | BMA.OL | Byggma Asa | Vennesla | NOK 2.17B | 2020–2024 |
 | BNOR.OL | Bluenord Asa | Oslo | $702.3M | 2020–2024 |
-| BONHR.OL | Bonheur ASA | Oslo | NOK 13.99B | 2020–2024 |
-| BOR.OL | Borgestad Asa | Lysaker | NOK 1.14B | 2020–2024 |
-| BOUV.OL | Bouvet Asa | Oslo | NOK 3.92B | 2020–2024 |
-| BRG.OL | Borregaard Asa | Sarpsborg | NOK 7.62B | 2020–2024 |
-| CAPSL.OL | Capsol Technologies Asa | Oslo | NOK 94.2M | 2023–2024 |
-| CAVEN.OL | Cavendish Hydrogen Asa | Oslo | €31.4M | 2023–2024 |
-| CLOUD.OL | Cloudberry Clean Energy Asa | Oslo | NOK 382.0M | 2020–2024 |
+| BONHR.OL | Bonheur ASA | Oslo | NOK 12.49B | 2020–2025 |
+| BOR.OL | Borgestad Asa | Lysaker | NOK 1.11B | 2020–2025 |
+| BOUV.OL | Bouvet Asa | Oslo | NOK 3.91B | 2020–2025 |
+| BRG.OL | Borregaard Asa | Sarpsborg | NOK 7.71B | 2020–2025 |
+| CAPSL.OL | Capsol Technologies Asa | Oslo | NOK 70.7M | 2023–2025 |
+| CAVEN.OL | Cavendish Hydrogen Asa | Oslo | €16.0M | 2023–2025 |
+| CLOUD.OL | Cloudberry Clean Energy Asa | Oslo | NOK 512.0M | 2020–2025 |
 | CRNA.OL | Circio Holding Asa | Oslo | NOK 123K | 2020–2023 |
-| DFENS.OL | Aquila Holdings ASA | Oslo | $3.9M | 2020–2024 |
-| DNB.OL | Dnb Bank Asa | Oslo | NOK 186.74B | 2023–2024 |
-| DOFG.OL | Dof Group Asa | Storebø | $1.39B | 2023–2024 |
-| EIOF.OL | Eidesvik Offshore Asa | Bømlo | NOK 775.1M | 2020–2024 |
+| DELIA.OL | Dellia Group Asa | Oslo | NOK 638.3M | 2024–2025 |
+| DFENS.OL | Fjord Defence Group ASA | Oslo | NOK 59.0M | 2024–2025 |
+| DNB.OL | Dnb Bank Asa | Oslo | NOK 170.97B | 2023–2025 |
+| DNO.OL | Dno Asa | Oslo | $1.47B | 2024–2025 |
+| DOFG.OL | Dof Group Asa | Storebø | $1.87B | 2023–2025 |
+| EIOF.OL | Eidesvik Offshore Asa | Bømlo | NOK 785.1M | 2020–2025 |
 | ELK.OL | Elkem Asa | Oslo | NOK 17.81B | 2020–2024 |
-| ELMRA.OL | Elmera Group Asa | Fyllingsdalen | NOK 12.23B | 2021–2024 |
-| ELO.OL | Elopak Asa | Spikkestad | €1.16B | 2020–2024 |
-| ENDUR.OL | Endúr Asa | Lysaker | NOK 2.79B | 2021–2024 |
-| ENSU.OL | Ensurge Micropower Asa | Oslo | $61K | 2020–2024 |
-| ENTRA.OL | Entra Asa | Oslo | NOK 3.10B | 2020–2024 |
-| EPR.OL | Europris Asa | Rolvsøy | NOK 12.63B | 2020–2024 |
-| EQNR.OL | Equinor Asa | Stavanger | $103.77B | 2023–2024 |
-| EQVA.OL | Eqva Asa | Sunde | NOK 1.10B | 2020–2024 |
-| GENT.OL | Gentian Diagnostics Asa | Moss | NOK 142.3M | 2020–2023 |
+| ELMRA.OL | Elmera Group Asa | Fyllingsdalen | NOK 12.12B | 2021–2025 |
+| ELO.OL | Elopak Asa | Spikkestad | €1.21B | 2020–2025 |
+| ENDUR.OL | Endúr Asa | Lysaker | NOK 6.42B | 2021–2025 |
+| ENSU.OL | Ensurge Micropower Asa | Oslo | $25K | 2020–2025 |
+| ENTRA.OL | Entra Asa | Oslo | NOK 3.10B | 2020–2025 |
+| EPR.OL | Europris Asa | Rolvsøy | NOK 14.74B | 2020–2025 |
+| EQNR.OL | Equinor Asa | Stavanger | $106.46B | 2023–2025 |
+| EQVA.OL | Eqva Asa | Sunde | NOK 1.28B | 2020–2025 |
+| GENT.OL | Gentian Diagnostics Asa | Moss | NOK 176.5M | 2020–2025 |
 | GJF.OL | Gjensidige Forsikring ASA | Oslo | NOK 38.88B | 2021–2024 |
-| GOD.OL | Goodtech Asa | Oslo | NOK 716.6M | 2020–2024 |
-| GYL.OL | Gyldendal Asa | Oslo | NOK 2.73B | 2021–2024 |
-| HAUTO.OL | Höegh Autoliners Asa | Oslo | $1.37B | 2021–2024 |
-| HAVI.OL | Havila Shipping Asa | Fosnavåg | NOK 585.1M | 2020–2024 |
-| HBC.OL | Hofseth Biocare Asa | Ålesund | NOK 265.5M | 2020–2024 |
-| HELG.OL | Sparebank 1 Helgeland | Mo I Rana | NOK 2.03B | 2020–2024 |
-| HERMA.OL | Hermana Holding Asa | Oslo | NOK 3.9M | 2023–2024 |
-| HEX.OL | Hexagon Composites Asa | Ålesund | NOK 4.88B | 2020–2024 |
-| HPUR.OL | Hexagon Purus Asa | Oslo | NOK 1.88B | 2021–2024 |
-| HUNT.OL | Hunter Group Asa | Oslo | $2.0M | 2023–2023 |
-| HYPRO.OL | Hydrogenpro Asa | Porsgrunn | NOK 195.7M | 2021–2024 |
-| IDEX.OL | Idex Biometrics Asa | Oslo | $841K | 2020–2024 |
-| ITERA.OL | Itera Asa | Oslo | NOK 848.8M | 2020–2024 |
-| IWS.OL | Integrated Wind Solutions Asa | Oslo | €55.7M | 2023–2024 |
-| KCC.OL | Klaveness Combination Carriers Asa | Oslo | $278.3M | 2020–2024 |
-| KID.OL | Kid Asa | Gullaug | NOK 3.78B | 2020–2024 |
-| KIT.OL | Kitron Asa | Billingstad | €647.2M | 2022–2024 |
-| KOA.OL | Kongsberg Automotive Asa | Kongsberg | €788.2M | 2020–2024 |
-| KOG.OL | Kongsberg Gruppen Asa | Kongsberg | NOK 48.87B | 2020–2024 |
-| KOMPL.OL | Komplett Asa | Sandefjord | NOK 15.30B | 2020–2024 |
-| LIFE.OL | Lifecare ASA | Bergen | NOK 3.0M | 2023–2024 |
-| LINK.OL | Link Mobility Group Holding Asa | Oslo | NOK 6.99B | 2020–2024 |
-| LSG.OL | Lerøy Seafood Group Asa | Bergen | NOK 31.12B | 2020–2024 |
-| MEDI.OL | Medistim Asa | Oslo | NOK 556.2M | 2020–2024 |
-| MGN.OL | Magnora Asa | Oslo | NOK 2.3M | 2020–2024 |
+| GOD.OL | Goodtech Asa | Oslo | NOK 724.0M | 2020–2025 |
+| GSF.OL | Grieg Seafood Asa | Bergen | NOK 7.38B | 2020–2024 |
+| GYL.OL | Gyldendal Asa | Oslo | NOK 2.92B | 2021–2025 |
+| HAUTO.OL | Höegh Autoliners Asa | Oslo | $1.43B | 2021–2025 |
+| HAVI.OL | Havila Shipping Asa | Fosnavåg | NOK 648.0M | 2020–2025 |
+| HBC.OL | Hofseth Biocare Asa | Ålesund | NOK 256.3M | 2020–2025 |
+| HELG.OL | Sparebank 1 Helgeland | Mo I Rana | NOK 2.03B | 2020–2025 |
+| HERMA.OL | Hermana Holding Asa | Oslo | NOK 1.2M | 2023–2025 |
+| HEX.OL | Hexagon Composites Asa | Ålesund | NOK 2.96B | 2024–2025 |
+| HPUR.OL | Hexagon Purus Asa | Oslo | NOK 1.14B | 2021–2025 |
+| HUNT.OL | Hunter Group Asa | Oslo | $15.2M | 2023–2025 |
+| HYPRO.OL | Hydrogenpro Asa | Porsgrunn | NOK 86.7M | 2021–2025 |
+| IDEX.OL | Idex Biometrics Asa | Oslo | $254K | 2020–2025 |
+| IOX.OL | Interoil Exploration And Production Asa | Oslo | $8.7M | 2020–2025 |
+| ITERA.OL | Itera Asa | Oslo | NOK 844.3M | 2020–2025 |
+| IWS.OL | Integrated Wind Solutions Asa | Oslo | €106.4M | 2023–2025 |
+| KCC.OL | Klaveness Combination Carriers Asa | Oslo | $238.5M | 2020–2025 |
+| KID.OL | Kid Asa | Gullaug | NOK 3.94B | 2020–2025 |
+| KIT.OL | Kitron Asa | Billingstad | €738.3M | 2022–2025 |
+| KOA.OL | Kongsberg Automotive Asa | Kongsberg | €712.8M | 2020–2025 |
+| KOG.OL | Kongsberg Gruppen Asa | Kongsberg | NOK 31.56B | 2020–2025 |
+| KOMPL.OL | Komplett Asa | Sandefjord | NOK 15.78B | 2020–2025 |
+| LIFE.OL | Lifecare ASA | Bergen | NOK 112K | 2023–2025 |
+| LINK.OL | Link Mobility Group Holding Asa | Oslo | NOK 7.08B | 2020–2025 |
+| LSG.OL | Lerøy Seafood Group Asa | Bergen | NOK 34.36B | 2020–2025 |
+| MEDI.OL | Medistim Asa | Oslo | NOK 699.8M | 2020–2025 |
+| MGN.OL | Magnora Asa | Oslo | NOK 97.7M | 2020–2025 |
 | MING.OL | Sparebank 1 Smn | Trondheim | NOK 9.12B | 2021–2024 |
-| MORG.OL | Sparebanken Møre | Ålesund | NOK 5.97B | 2020–2024 |
-| MOWI.OL | Mowi Asa | Bergen | €5.60B | 2020–2024 |
-| MPCC.OL | Mpc Container Ships Asa | Oslo | $540.9M | 2020–2024 |
-| MULTI.OL | Multiconsult ASA | Oslo | NOK 6.35B | 2020–2024 |
-| NAS.OL | Norwegian Air Shuttle Asa | Lysaker | NOK 35.32B | 2020–2024 |
-| NAVA.OL | Navamedic Asa | Oslo | NOK 531.4M | 2020–2024 |
-| NEL.OL | Nel Asa | Oslo | NOK 1.49B | 2020–2024 |
-| NEXT.OL | Next Biometrics Group Asa | Oslo | NOK 71.6M | 2020–2024 |
-| NHY.OL | Norsk Hydro ASA | Oslo | NOK 203.64B | 2020–2024 |
-| NKR.OL | Nekkar Asa | Kristiansand | NOK 623.5M | 2020–2024 |
-| NOD.OL | Nordic Semiconductor Asa | Trondheim | $511.4M | 2020–2024 |
-| NOFIN.OL | Aega Asa | Oslo | €2.6M | 2020–2022 |
-| NONG.OL | Sparebank 1 Nord-Norge | Tromsø | NOK 7.89B | 2020–2024 |
-| NORBT.OL | Norbit Asa | Trondheim | NOK 1.75B | 2020–2024 |
-| NORCO.OL | Norconsult ASA | Sandvika | NOK 10.41B | 2022–2024 |
-| NORSE.OL | Norse Atlantic ASA | Arendal | $588.1M | 2023–2024 |
-| NORTH.OL | North Energy Asa | Oslo | NOK 90K | 2021–2024 |
-| NRC.OL | Nrc Group Asa | Lysaker | NOK 6.89B | 2020–2024 |
-| NSKOG.OL | Norske Skog Asa | Oslo | NOK 9.23B | 2020–2024 |
-| ODF.OL | Odfjell SE | Bergen | $1.25B | 2020–2024 |
-| ONCIN.OL | Bergenbio Asa | Oslo | NOK 848K | 2020–2024 |
-| ORK.OL | Orkla Asa | Oslo | NOK 69.96B | 2020–2024 |
-| OTEC.OL | Otello Corporation Asa | Oslo | $213K | 2020–2022 |
-| PEN.OL | Panoro Energy Asa | Oslo | $285.1M | 2021–2024 |
-| PEXIP.OL | Pexip Holding Asa | Oslo | NOK 1.12B | 2020–2024 |
-| PHO.OL | Photocure Asa | Oslo | NOK 525.4M | 2020–2024 |
-| PLT.OL | Polight Asa | Tønsberg | NOK 9.6M | 2020–2024 |
-| PNOR.OL | Petronor E&P Asa | Oslo | $204.5M | 2021–2024 |
-| POL.OL | Polaris Media Asa | Trondheim | NOK 3.38B | 2020–2024 |
-| REACH.OL | Reach Subsea Asa | Haugesund | NOK 2.72B | 2020–2024 |
-| RING.OL | Sparebank 1 Ringerike Hadeland | Hønefoss | NOK 1.39B | 2020–2024 |
-| ROGS.OL | Rogaland Sparebank | Sandnes | NOK 1.92B | 2020–2024 |
-| SAGA.OL | Saga Pure Asa | Oslo | NOK 38.6M | 2020–2024 |
-| SALM.OL | Salmar Asa | Kverva | NOK 26.43B | 2020–2024 |
-| SALME.OL | Salmon Evolution Asa | Elnesvågen | NOK 471.6M | 2020–2024 |
-| SATS.OL | Sats Asa | Oslo | NOK 5.06B | 2020–2024 |
-| SBNOR.OL | Sparebanken Norge | Bergen | NOK 15.63B | 2020–2024 |
-| SBO.OL | Selvaag Bolig Asa | Oslo | NOK 1.97B | 2020–2024 |
-| SCANA.OL | Scana Asa | Bergen | NOK 1.97B | 2020–2024 |
-| SCATC.OL | Scatec Asa | Oslo | NOK 6.57B | 2020–2024 |
-| SOFF.OL | Solstad Offshore Asa | Skudeneshavn | NOK 2.79B | 2020–2024 |
-| STB.OL | Storebrand Asa | Lysaker | NOK 12.71B | 2020–2024 |
-| STECH.OL | Soiltech As | Sandnes | NOK 273.9M | 2023–2024 |
-| STRO.OL | Strongpoint Asa | Rælingen | NOK 1.31B | 2020–2024 |
-| TECH.OL | Techstep Asa | Oslo | NOK 1.07B | 2020–2024 |
-| TEKNA.OL | Tekna Holding Asa | Arendal | CAD 37.2M | 2021–2024 |
-| TEL.OL | Telenor Asa | Fornebu | NOK 79.93B | 2020–2024 |
-| TGS.OL | Tgs Asa | Oslo | $1.32B | 2020–2024 |
-| TOM.OL | Tomra Systems Asa | Asker | €1.35B | 2023–2024 |
-| TRSB.OL | Trøndelag Sparebank | Brekstad | NOK 501.9M | 2023–2024 |
-| VAR.OL | Vår Energi Asa | Sandnes | $7.45B | 2020–2024 |
-| VEI.OL | Veidekke ASA | Oslo | NOK 41.40B | 2020–2024 |
-| VEND.OL | Schibsted Asa | Oslo | NOK 8.33B | 2020–2024 |
-| VISTN.OL | Vistin Pharma Asa | Oslo | NOK 429.1M | 2020–2024 |
-| VOIM.OL | Electromagnetic Geoservices Asa | Oslo | $1.5M | 2020–2024 |
-| VOW.OL | Vow Asa | Oslo | NOK 1.02B | 2020–2024 |
-| WAWI.OL | Wallenius Wilhelmsen Asa | Lysaker | $5.31B | 2020–2024 |
-| WSTEP.OL | Webstep Asa | Oslo | NOK 874.1M | 2020–2024 |
-| WWIB.OL | Wilh. Wilhelmsen Holding Asa | Lysaker | $1.14B | 2020–2024 |
-| YAR.OL | Yara International Asa | Oslo | $13.87B | 2023–2024 |
-| ZAL.OL | Zalaris Asa | Oslo | NOK 1.35B | 2020–2024 |
-| ZAP.OL | Zaptec Asa | Sandnes | NOK 1.27B | 2021–2024 |
+| MORG.OL | Sparebanken Møre | Ålesund | NOK 6.06B | 2020–2025 |
+| MORLD.OL | Moreld AS | Stavanger | NOK 9.84B | 2024–2025 |
+| MOWI.OL | Mowi Asa | Bergen | €5.72B | 2020–2025 |
+| MPCC.OL | Mpc Container Ships Asa | Oslo | $517.8M | 2020–2025 |
+| MULTI.OL | Multiconsult ASA | Oslo | NOK 6.63B | 2020–2025 |
+| NAS.OL | Norwegian Air Shuttle Asa | Lysaker | NOK 37.65B | 2020–2025 |
+| NAVA.OL | Navamedic Asa | Oslo | NOK 565.4M | 2020–2025 |
+| NEL.OL | Nel Asa | Oslo | NOK 1.10B | 2020–2025 |
+| NHY.OL | Norsk Hydro ASA | Oslo | NOK 207.97B | 2020–2025 |
+| NKR.OL | Nekkar Asa | Kristiansand | NOK 571.1M | 2020–2025 |
+| NOD.OL | Nordic Semiconductor Asa | Trondheim | $667.6M | 2020–2025 |
+| NOFIN.OL | Nordic Financials Asa | Oslo | €1.1M | 2025–2025 |
+| NOM.OL | Nordic Mining Asa | Oslo | NOK 4.8M | 2025–2025 |
+| NONG.OL | Sparebank 1 Nord-Norge | Tromsø | NOK 7.95B | 2020–2025 |
+| NORBT.OL | Norbit Asa | Trondheim | NOK 2.50B | 2020–2025 |
+| NORCO.OL | Norconsult ASA | Sandvika | NOK 11.40B | 2022–2025 |
+| NORSE.OL | Norse Atlantic ASA | Arendal | $734.0M | 2023–2025 |
+| NORTH.OL | North Energy Asa | Oslo | NOK 90K | 2021–2025 |
+| NRC.OL | Nrc Group Asa | Lysaker | NOK 6.55B | 2020–2025 |
+| NSKOG.OL | Norske Skog Asa | Oslo | NOK 9.45B | 2020–2025 |
+| NYKD.OL | Nykode Therapeutics Asa | Oslo | $8.7M | 2023–2024 |
+| OBSRV.OL | Observe Medical Asa | Oslo | NOK 18.8M | 2020–2025 |
+| ODFB.OL | Odfjell SE | Bergen | $1.12B | 2020–2025 |
+| ONCIN.OL | Oncoinvent Asa | Oslo | NOK 23.0M | 2020–2025 |
+| ORK.OL | Orkla Asa | Oslo | NOK 71.04B | 2020–2025 |
+| OTEC.OL | Otello Corporation Asa | Oslo | $2.5M | 2025–2025 |
+| OTOVO.OL | Otovo Asa | Oslo | NOK 567.3M | 2021–2025 |
+| PEN.OL | Panoro Energy Asa | Oslo | $216.8M | 2024–2025 |
+| PEXIP.OL | Pexip Holding Asa | Oslo | NOK 1.23B | 2020–2025 |
+| PHO.OL | Photocure Asa | Oslo | NOK 532.6M | 2020–2025 |
+| PLT.OL | Polight Asa | Tønsberg | NOK 20.5M | 2020–2025 |
+| PNOR.OL | Petronor E&P Asa | Oslo | $83.1M | 2021–2025 |
+| POL.OL | Polaris Media Asa | Trondheim | NOK 3.43B | 2020–2025 |
+| PRS.OL | Prosafe SE | Oslo | $188.4M | 2020–2025 |
+| REACH.OL | Reach Subsea Asa | Haugesund | NOK 2.67B | 2020–2025 |
+| RING.OL | Sparebank 1 Ringerike Hadeland | Hønefoss | NOK 1.45B | 2020–2025 |
+| ROGS.OL | Rogaland Sparebank | Sandnes | NOK 2.08B | 2020–2025 |
+| SAGA.OL | Saga Pure Asa | Oslo | NOK 5.7M | 2020–2025 |
+| SALM.OL | Salmar Asa | Kverva | NOK 27.39B | 2020–2025 |
+| SALME.OL | Salmon Evolution Asa | Elnesvågen | NOK 326.0M | 2020–2025 |
+| SATS.OL | Sats Asa | Oslo | NOK 5.51B | 2020–2025 |
+| SBNOR.OL | Sparebanken Norge | Bergen | NOK 23.46B | 2020–2025 |
+| SBO.OL | Selvaag Bolig Asa | Oslo | NOK 2.09B | 2020–2025 |
+| SCANA.OL | Scana Asa | Bergen | NOK 1.60B | 2020–2025 |
+| SCATC.OL | Scatec Asa | Oslo | NOK 5.24B | 2020–2025 |
+| SMOP.OL | Smartoptics Group ASA | Oslo | $75.3M | 2024–2025 |
+| SNTIA.OL | Sentia Asa | Oslo | NOK 11.80B | 2024–2025 |
+| SOAG.OL | Sparebank 1 Østfold Akershus | Moss | NOK 1.36B | 2020–2024 |
+| SOFF.OL | Solstad Offshore Asa | Skudeneshavn | $290.4M | 2024–2025 |
+| SOMA.OL | Solstad Maritime Asa | Skudeneshavn | $590.4M | 2024–2025 |
+| STB.OL | Storebrand Asa | Lysaker | NOK 14.59B | 2020–2025 |
+| STECH.OL | Soiltech As | Sandnes | NOK 400.8M | 2023–2025 |
+| STRO.OL | Strongpoint Asa | Rælingen | NOK 1.36B | 2020–2025 |
+| TECH.OL | Techstep Asa | Oslo | NOK 997.9M | 2020–2025 |
+| TEKNA.OL | Tekna Holding Asa | Arendal | CAD 35.6M | 2021–2025 |
+| TEL.OL | Telenor Asa | Fornebu | NOK 76.55B | 2020–2025 |
+| TGS.OL | Tgs Asa | Oslo | $1.53B | 2020–2025 |
+| TOM.OL | Tomra Systems Asa | Asker | €1.32B | 2023–2025 |
+| TRMED.OL | Thor Medical Asa | Oslo | NOK 839K | 2025–2025 |
+| TRSB.OL | Trøndelag Sparebank | Brekstad | NOK 523.2M | 2023–2025 |
+| VAR.OL | Vår Energi Asa | Sandnes | $8.10B | 2020–2025 |
+| VEI.OL | Veidekke ASA | Oslo | NOK 43.14B | 2020–2025 |
+| VEND.OL | Vend Marketplaces Asa | Oslo | NOK 6.32B | 2020–2025 |
+| VISTN.OL | Vistin Pharma Asa | Oslo | NOK 452.3M | 2020–2025 |
+| VOIM.OL | Electromagnetic Geoservices Asa | Oslo | $19.7M | 2020–2025 |
+| VOW.OL | Vow Asa | Oslo | NOK 1.03B | 2020–2025 |
+| WAWI.OL | Wallenius Wilhelmsen Asa | Lysaker | $5.24B | 2020–2025 |
+| WSTEP.OL | Webstep Asa | Oslo | NOK 835.2M | 2020–2025 |
+| WWI.OL | Wilh. Wilhelmsen Holding Asa | Lysaker | $1.14B | 2020–2024 |
+| YAR.OL | Yara International Asa | Oslo | $15.62B | 2023–2025 |
+| ZAL.OL | Zalaris Asa | Oslo | NOK 1.50B | 2020–2025 |
+| ZAP.OL | Zaptec Asa | Sandnes | NOK 1.53B | 2021–2025 |
+| ZLNA.OL | Zelluna ASA | Oslo | NOK 53K | 2024–2024 |
 
-## Included — Belgium (67)
+## Included — Belgium (68)
 
 | Ticker | Company | City | Latest revenue | Years |
 |---|---|---|---|---|
@@ -1171,7 +1244,7 @@ Scope: France, Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belg
 | ECONB.BR | Econocom Group | Ixelles | €2.92B | 2020–2025 |
 | ELI.BR | Elia Group | Brussels | €3.77B | 2020–2024 |
 | EVS.BR | Evs Broadcast Equipment | Seraing | €198.0M | 2020–2024 |
-| FAGR.BR | Fagron | Nazareth | €872.0M | 2020–2024 |
+| FAGR.BR | Fagron | Nazareth-De Pinte | €872.0M | 2020–2024 |
 | FLOB.BR | SA Floridienne NV | Waterloo | €725.9M | 2020–2025 |
 | FLUX.BR | Fluxys Belgium | Bruxelles | €592.8M | 2020–2023 |
 | FOU.BR | Fountain SA | Braine-L'alleud | €30.3M | 2020–2025 |
@@ -1182,6 +1255,7 @@ Scope: France, Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belg
 | IBAB.BR | Ion Beam Applications | Ottignies-Louvain-la-Neuve | €620.2M | 2020–2025 |
 | IEP.BR | Iep Invest | Antwerpen | €5.9M | 2020–2025 |
 | JEN.BR | Jensen Group | Wetteren | €453.2M | 2020–2024 |
+| KBC.BR | Kbc Groep | Molenbeek-Saint-Jean | €12.20B | 2020–2025 |
 | KIN.BR | Kinepolis Group | Gent | €578.2M | 2020–2024 |
 | LKFT.BR | Galapagos NV | Mechelen | €1.11B | 2024–2025 |
 | LOTB.BR | Lotus Bakeries | Kaprijke | €1.36B | 2020–2025 |
@@ -1206,7 +1280,7 @@ Scope: France, Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belg
 | TESB.BR | Tessenderlo Group | Elsene | €2.65B | 2020–2024 |
 | TEXF.BR | Texaf | Brussel | €32.3M | 2020–2024 |
 | TINC.BR | Tinc | Antwerpen | €65.0M | 2021–2025 |
-| TITC.BR | Titan Cement International | Bruxelles | €2.64B | 2019–2024 |
+| TITC.BR | Titan | Bruxelles | €2.64B | 2019–2024 |
 | UCB.BR | U C B | Anderlecht | €6.15B | 2020–2024 |
 | UMI.BR | Umicore | Brussel | €14.85B | 2020–2024 |
 | VASTB.BR | Vastned | Antwerpen | €67.8M | 2020–2025 |
@@ -1270,7 +1344,50 @@ Scope: France, Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belg
 | WXF.VI | Warimpex Finanz- und Beteiligungs Aktiengesellschaft | Wien | €20.4M | 2019–2025 |
 | ZAG.VI | Zumtobel Group AG | Dornbirn | €1.04B | 2020–2026 |
 
-## Excluded (80)
+## Included — Luxembourg (2)
+
+| Ticker | Company | City | Latest revenue | Years |
+|---|---|---|---|---|
+| MT.LU | ArcelorMittal | Luxembourg | $62.44B | 2020–2024 |
+| ORCL.LU | Cpi Fim SA | Luxembourg | €147.7M | 2020–2024 |
+
+## Included — Lithuania (17)
+
+| Ticker | Company | City | Latest revenue | Years |
+|---|---|---|---|---|
+| AKO1L.VS | AB Akola group | Vilnius | €1.51B | 2021–2026 |
+| AMG1L.VS | AB "Amber Grid" | Vilnius | €69.6M | 2019–2025 |
+| APG1L.VS | Akcinė prekybos bendrovė "APRANGA" | Vilnius | €307.2M | 2020–2025 |
+| AUG1L.VS | AUGA group, AB | Vilnius | €51.5M | 2021–2025 |
+| GRG1L.VS | AB "Grigeo" | Vilnius | €246.4M | 2020–2025 |
+| IGN1L.VS | Ab "Ignitis Grupė" | Vilnius | €2.31B | 2020–2024 |
+| INL1L.VS | Akcinė bendrovė "INVL Baltic Farmland" | Vilnius | €891K | 2020–2025 |
+| INR1L.VS | Specialioji uždarojo tipo nekilnojamojo turto investicinė bendrovė "INVL Baltic Real Estate" | Vilnius | €4.1M | 2020–2025 |
+| IVL1L.VS | Akcinė bendrovė "Invalda INVL" | Vilnius | €20.4M | 2020–2025 |
+| KNR1L.VS | Akcinė bendrovė "Kauno energija" | Kaunas | €84.8M | 2020–2024 |
+| LGD1L.VS | Litgrid Ab | Vilnius | €429.3M | 2020–2025 |
+| NTU1L.VS | Akcinė bendrovė "Novaturas" | Kaunas | €200.9M | 2022–2024 |
+| ROE1L.VS | AB Artea bankas | Šiauliai | €223.3M | 2020–2025 |
+| RSU1L.VS | Akcinė bendrovė "ROKIŠKIO SŪRIS" | Rokiškio | €402.7M | 2020–2025 |
+| VBL1L.VS | Akcinė bendrovė "VILNIAUS BALDAI" | Vilnius | €104.2M | 2021–2025 |
+| VLP1L.VS | Ab "Vilkyškių Pieninė" | Vilkyškiai | €286.9M | 2020–2025 |
+| ZMP1L.VS | Akcinė bendrovė "ŽEMAITIJOS PIENAS" | Telšiai | €340.3M | 2020–2025 |
+
+## Included — Slovenia (9)
+
+| Ticker | Company | City | Latest revenue | Years |
+|---|---|---|---|---|
+| KRKG.LJ | KRKA, tovarna zdravil, d.d., Novo mesto | Novo mesto | €1.91B | 2019–2024 |
+| LKPG.LJ | LUKA KOPER, pristaniški in logistični sistem, delniška družba | Koper - Capodistria | €330.1M | 2019–2024 |
+| NLBR.LJ | NOVA LJUBLJANSKA BANKA d.d., Ljubljana | Ljubljana | €1.24B | 2020–2025 |
+| PETG.LJ | PETROL, Slovenska energetska družba, d.d., Ljubljana | Ljubljana | €6.14B | 2022–2025 |
+| SALR.LJ | SALUS promet s farmacevtskimi, medicinskimi in drugimi proizvodi, d.d., Ljubljana | Ljubljana | €648.8M | 2019–2024 |
+| SKDR.LJ | KD, finančna družba, d.d. | Ljubljana | €12.9M | 2019–2024 |
+| TCRG.LJ | TERME ČATEŽ d.d. Čatež ob Savi | Brežice | €39.3M | 2019–2025 |
+| UKIG.LJ | UNIOR Kovaška industrija d.d. | Zreče | €249.7M | 2019–2024 |
+| ZVTG.LJ | ZAVAROVALNICA TRIGLAV, d.d. | Ljubljana | €1.61B | 2022–2025 |
+
+## Excluded (78)
 
 - 5PG.OL 5Th Planet Games A/S: headquartered outside Norway (KØBENHAVN K, DK)
 - AAB.CO Aalborg Boldspilklub A/S: no revenue in its tagged reports
@@ -1284,7 +1401,6 @@ Scope: France, Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belg
 - AXS.AS Accsys Technologies plc: headquartered outside Netherlands (LONDON, GB)
 - AZM.MI Azimut Holding S.p.A.: no revenue in its tagged reports
 - AZN.ST Astrazeneca plc: headquartered outside Sweden (CAMBRIDGE, GB)
-- BALCO.ST Balco Group AB: no revenue in its tagged reports
 - BANQ.BR Unifiedpost Group: no revenue in its tagged reports
 - BGN.MI Banca Generali - Societa' Per Azioni O In Forma Abbreviata: Generbanca: no revenue in its tagged reports
 - BIF.CO Brøndbyernes I.F. Fodbold A/S: no revenue in its tagged reports
@@ -1298,37 +1414,38 @@ Scope: France, Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belg
 - CONTX.OL ContextVision AB: headquartered outside Norway (Stockholm, SE)
 - COXG.MC Cox Abg Group SA: no revenue in its tagged reports
 - CVC.AS Cvc Capital Partners plc: headquartered outside Netherlands (ST. HELIER, JE)
-- DESA.MC Desarrollos Especiales De Sistemas De Anclaje S.A.: no revenue in its tagged reports
-- DNO.OL Dno Asa: no revenue in its tagged reports
 - DSFIR.AS DSM-Firmenich AG: headquartered outside Netherlands (Kaiseraugst, CH)
 - FERGR.AS Ferrari Group plc: headquartered outside Netherlands (London, GB)
 - FLOW.AS Flow Traders Ltd.: headquartered outside Netherlands (Hamilton, BM)
 - FNM.MI Fnm S.p.A.: no revenue in its tagged reports
 - FOIB.ST Fenix Outdoor International AG: headquartered outside Sweden (Zug, CH)
 - FRO.OL Frontline plc: headquartered outside Norway (LIMASSOL, CY)
+- G2M.ST Gentoo Media Inc.: headquartered outside Sweden (WILMINGTON, US)
 - GARO.ST GARO Aktiebolag: no revenue in its tagged reports
 - HAL.AS HAL Trust: headquartered outside Netherlands (Hamilton, BM)
 - HAVAS.AS Havas N.V.: headquartered outside Netherlands (Puteaux, FR)
+- HBX.MC Hbx Group International plc: headquartered outside Spain (London, GB)
 - HYSG.BR Hybrid Software Group plc: headquartered outside Belgium (CAMBRIDGE, GB)
 - IAG.MC International Consolidated Airlines Group, S.A.: headquartered outside Spain (Harmondsworth, GB)
 - INDUA.ST Aktiebolaget Industrivärden: no revenue in its tagged reports
-- KEOC.ST Maha Energy Ab: no revenue in its tagged reports
+- KEOC.ST Keo Capital Ab: no revenue in its tagged reports
 - KINVA.ST Kinnevik Ab: no revenue in its tagged reports
+- KNE1L.VS AB "KN Energies": unknown postcode LT-92276
 - KNOW.ST Knowit Aktiebolag (publ): no revenue in its tagged reports
-- LINC.ST Linc AB: no revenue in its tagged reports
 - LTMC.MI Lottomatica Group S.p.A.: headquartered outside Italy (New York, US)
 - LUG.ST Lundin Gold Inc.: headquartered outside Sweden (Vancouver, CA)
 - LVIDE.AS Lavide Holding N.V.: no revenue in its tagged reports
+- LXMP.LU Luxempart: no revenue in its tagged reports
 - MAN.VI Josef Manner & Comp. Aktiengesellschaft: figures tagged in FJD, not a currency European companies report in (a tagging error)
 - MAP.MC Mapfre S.A.: no revenue in its tagged reports
 - MAU.PA Etablissements Maurel Et Prom: no revenue in its tagged reports
 - MTRK.AS Motork plc: headquartered outside Netherlands (London, GB)
 - NAPA.OL Napatech A/S: headquartered outside Norway (SØBORG, DK)
 - NAXS.ST NAXS AB (publ): no revenue in its tagged reports
-- NCCB.ST Ncc Aktiebolag: no revenue in its tagged reports
-- NDA.HE Nordea Bank Abp: unknown postcode 00020
+- NCCA.ST Ncc Aktiebolag: no revenue in its tagged reports
 - NEXTA.BR Nextensa: no revenue in its tagged reports
 - NSE.AS New Sources Energy N.V.: no revenue in its tagged reports
+- ODL.OL Odfjell Drilling Ltd: headquartered outside Norway (Aberdeen, GB)
 - OET.OL Okeanis Eco Tankers Corp.: headquartered outside Norway (PIRAEUS, GR)
 - OKEAC.CO Det Østasiatiske Kompagni A/S: no revenue in its tagged reports
 - ORES.ST Investment AB Öresund: no revenue in its tagged reports
@@ -1338,20 +1455,18 @@ Scope: France, Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belg
 - PSE.OL Petrolia SE: headquartered outside Norway (LIMASSOL, CY)
 - REN.AS Relx plc: headquartered outside Netherlands (LONDON, GB)
 - RIASB.CO Rias A/S: headquartered outside Denmark (ESSEN, DE)
+- ROM.OL RomReal Ltd.: headquartered outside Norway (Hamilton, BM)
 - SEA1.OL Sea1 Offshore Inc.: headquartered outside Norway (George Town, KY)
 - SHELL.AS Shell plc: headquartered outside Netherlands (LONDON, GB)
 - SPOG.OL Sparebanken Øst: no revenue in its tagged reports
+- SWON.OL SoftwareOne Holding AG: headquartered outside Norway (Stans, CH)
 - SYNACT.ST SynAct Pharma AB: no revenue in its tagged reports
-- TFIN.MI Trevi - Finanziaria Industriale S.p.A.: unknown postcode 47522
-- TGYM.MI Technogym S.p.A.: unknown postcode 47521
-- TISG.MI The Italian Sea Group S.p.A.: unknown postcode 54036
 - TKO.PA Tikehau Capital: no revenue in its tagged reports
-- TRMED.OL Thor Medical Asa: no revenue in its tagged reports
 - UNA.AS Unilever plc: headquartered outside Netherlands (LIVERPOOL, GB)
 - VIK1V.HE Viking Line Abp: unknown postcode FI-22100
+- VSURE.ST Verisure P.L.C.: headquartered outside Sweden (London, GB)
 - VVL.OL Voss Veksel- og Landsmandsbank ASA: no revenue in its tagged reports
 - XSPRAY.ST Xspray Pharma AB (publ): no revenue in its tagged reports
-- ZLNA.OL Zelluna ASA: no revenue in its tagged reports
 
 ## Needs review
 
@@ -1378,6 +1493,8 @@ Scope: France, Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belg
 - BORG.ST: report data for 12/31/2023 is not valid JSON
 - BRAV.ST: report data for 12/31/2023 is not valid JSON
 - BURE.ST: report data for 12/31/2021 is not valid JSON
+- CLASB.ST: report data for 4/30/2023 is not valid JSON
+- EMBRACB.ST: report data for 3/31/2026 is not valid JSON
 - FABG.ST: report data for 12/31/2022 is not valid JSON
 - JM.ST: report data for 12/31/2023 is not valid JSON
 - MSABB.ST: report data for 12/31/2024 is not valid JSON
@@ -1400,7 +1517,8 @@ Scope: France, Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belg
 - BOREO.HE: report data for 12/31/2021 is not valid JSON
 - EXEL.HE: report data for 12/31/2020 is not valid JSON
 - KEMIRA.HE: report data for 12/31/2020 is not valid JSON
-- GENT.OL: report data for 12/31/2024 is not valid JSON
 - COMB.BR: report data for 12/31/2021 is not valid JSON
 - MIKO.BR: report data for 12/31/2021 is not valid JSON
 - ROS.VI: report data for 12/31/2021 is not valid JSON
+- NLBR.LJ: report data for 12/31/2020 is not valid JSON
+- ZVTG.LJ: report data for 12/31/2020 is not valid JSON

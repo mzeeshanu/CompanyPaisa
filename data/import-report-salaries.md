@@ -1,17 +1,17 @@
 # Job salaries import report
 
-Generated 2026-09-22 10:38 UTC by `--salaries`. Source: US Department of Labor, H-1B labor condition applications (disclosure data), decisions 2024-10-01 to 2026-06-30.
+Generated 2026-11-09 10:49 UTC by `--salaries`. Source: US Department of Labor, H-1B labor condition applications (disclosure data), decisions 2024-10-01 to 2026-06-30.
 
 | | |
 |---|---|
-| US-listed companies | 3,994 (3,982 with a tax id from the SEC) |
+| US-listed companies | 4,826 (3,975 with a tax id from the SEC) |
 | Filings read | 3,454,962 |
 | Certified, full-time | 935,382 |
-| Matched to a company | 286,961 (ein 134,637, alias 58,629, subsidiary 53,616, name 40,079) |
+| Matched to a company | 287,165 (ein 134,696, alias 58,629, subsidiary 53,693, name 40,147) |
 | Left out: implausible yearly salary | 221 |
-| Companies with job salaries | 678 |
-| Job titles (at least 3 filings) | 9,740 |
-| Work-place rows | 14,085 |
+| Companies with job salaries | 683 |
+| Job titles (at least 3 filings) | 9,744 |
+| Work-place rows | 14,089 |
 
 ## Files
 

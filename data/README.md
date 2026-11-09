@@ -2,7 +2,7 @@
 
 | Path | What | Real or sample? |
 |---|---|---|
-| `companypaisa.db` | **The live dataset** (SQLite) — every market in one file: SEC filers (US, Canada, Australia, NZ), UK Main Market, France, the Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belgium, Austria, Pakistan, ASX and NZX companies. Each importer run replaces only its own market's rows | **Real**, built by `tools/CompanyPaisa.Importer` (see *Database layout*) |
+| `companypaisa.db` | **The live dataset** (SQLite) — every market in one file: SEC filers (US, Canada, Australia, NZ), UK Main Market, France, the Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belgium, Austria, Luxembourg, Lithuania, Slovenia, Pakistan, ASX and NZX companies. Each importer run replaces only its own market's rows | **Real**, built by `tools/CompanyPaisa.Importer` (see *Database layout*) |
 | `import-report.md` | What the last import included (per metro), excluded (and why), and rows that need review | Generated |
 | `import-report-enrichment.md` | The last `--enrich` run: websites, careers pages and street positions per market | Generated |
 | `import-report-salaries.md` | The last `--salaries` run: filings read and matched, the companies with most filings, and the biggest unmatched employers | Generated |
@@ -81,7 +81,7 @@ The importer is a set of **markets**, each a class implementing `IMarketImporter
 |---|---|---|
 | `sec` | `ImportPipeline` | SEC filers with a US, Canadian, Australian or NZ address: XBRL financials, proxy pay (checked against the CEO totals companies tag) |
 | `uk` | `Uk/UkImportPipeline` | UK Main Market: ESEF annual reports, directors' pay |
-| `eu` | `Eu/EuImportPipeline` | France, Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belgium, Austria: ESEF annual reports (financials only) |
+| `eu` | `Eu/EuImportPipeline` | France, Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belgium, Austria, Luxembourg, Lithuania, Slovenia: ESEF annual reports (financials only) |
 | `pk` | `Pk/PkImportPipeline` | Pakistan Stock Exchange: companies' own annual report PDFs (revenue, profit, chief executive's pay) |
 | `anz` | `Anz/AnzImportPipeline` | ASX and NZX: annual reports found on companies' own websites (revenue, profit) |
 
@@ -103,7 +103,8 @@ Every market ends by calling `DataPublisher.Publish(market, …)`, which replace
 
 ## Monthly refresh (scheduled)
 
-`tools/refresh-data.ps1` runs every market (`--all --refresh-lists --strict`) and, only if they all finish and
+`tools/refresh-data.ps1` runs every market except Pakistan (`--market sec --market uk --market eu --market anz
+--refresh-lists`, then `--validate --strict`) and, only if they all finish and
 verify the database, commits and pushes the data files so Railway redeploys. It refuses to run while there are
 uncommitted changes outside `data/`, and logs to `%LOCALAPPDATA%\CompanyPaisa\logs`.
 
@@ -153,7 +154,7 @@ generic `CompanyPaisa` User-Agent — no personal contact details.
 dotnet run --project tools/CompanyPaisa.Importer -- --eu
 ```
 
-France, the Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belgium and Austria (`Importer:Eu:Countries`), published as market `eu` in `companypaisa.db`. For each country:
+France, the Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belgium, Austria, Luxembourg, Lithuania and Slovenia (`Importer:Eu:Countries`), published as market `eu` in `companypaisa.db`. For each country:
 ESEF filers on filings.xbrl.org → shares on the home exchange (GLEIF ISINs → OpenFIGI; if a bank's share ISIN is lost
 among its bond ISINs, an OpenFIGI name search, exact name match only) → GLEIF headquarters in that country → GeoNames
 postcode (`reference/eu-postcodes.csv`) → IFRS revenue and profit from each report. No executives yet, sector "Other".
@@ -171,6 +172,11 @@ dotnet run --project tools/CompanyPaisa.Importer -- --pk
 Companies listed on the Pakistan Stock Exchange, published as market `pk` (tickers `LUCK.KA`, currency PKR). Sources are
 free and public only: the exchange's company list and profile pages (dps.psx.com.pk) and the annual report each company
 files with the exchange. The portal's own financial tables are licensed third-party data and are **not** used.
+
+**Paused since 2026-11-09.** In October 2026 the exchange's portal stopped answering its company list (`/symbols`) and
+announcements to anything but its own pages' script. We don't work around that, so `--pk` fails and the monthly
+refresh leaves Pakistan out; the site keeps the 2026-09-19 import until there is a source that allows automated
+access (companies' own websites, as for Australia, or permission or a licence from the exchange).
 
 1. **Companies** — `/symbols`, equities only (no ETFs, debt, funds, modarabas, rights or class-B shares).
 2. **Profile** — `/company/{symbol}`: description, CEO, registered address, website, fiscal year end.

@@ -108,6 +108,7 @@ ASX,CSR,CSR Limited,,http://www.csr.com.au,549300TOGR54OMW2T093,Q5014246,North R
 ASX,CSV,CSG Limited,Print,http://www.csg.com.au/,,Q5014097,Brisbane,-27.46778,153.02778
 ASX,CTD,Corporate Travel Management,Consumer Discretionary,,529900NSAKXFXS5XED26,Q109625721,,,
 ASX,CTM,CENTAURUS METALS LIMITED,,https://www.centaurus.com.au/,,Q25419186,,,
+ASX,CTT,Cettire,e-commerce,https://www.cettire.com/,,Q111181873,Melbourne,-37.81417,144.96306
 ASX,CUV,Clinuvel Pharmaceuticals (Australia),,http://clinuvel.com/,,Q43896142,Melbourne,-37.81417,144.96306
 ASX,CVL,Civmec,construction,https://www.civmec.com.au/,,Q104830562,,,
 ASX,CWN,Crown Resorts Limited,gambling industry,https://www.crownresorts.com.au/,549300D88XW2GD6R0Y98,Q1029724,Melbourne,-37.81417,144.96306
@@ -129,11 +130,12 @@ ASX,DUB,Dubber,,http://www.dubber.net,,Q28446217,Melbourne,-37.81417,144.96306
 ASX,DXS,Dexus,Real Estate,https://www.dexus.com/,,Q22907757,Australia Square,-33.865,151.20778
 ASX,DYL,Deep Yellow,Energy,https://deepyellow.com.au/,529900FL7FGTGTVII319,Q109626980,,,
 ASX,EBO,EBOS Group,Healthcare,,254900KJ40C7HBYTWC21,Q109625725,,,
+ASX,ECX,FleetPartners Group,fleet management,https://www.fleetpartners.co.nz/,,Q109626982,St Leonards,-33.8261,151.19
 ASX,EDV,Endeavour Group,Consumer Staples,https://endeavourgroup.com.au/,,Q107348258,,,
 ASX,EGR,ECOGRAF LIMITED,,https://www.ecograf.com.au/,,Q109626984,,,
 ASX,ELD,Elders Limited,agribusiness,http://www.elders.com.au/,254900Y0SQG962QL6549,Q5353983,Adelaide,-34.9275,138.6
 ASX,ELX,Ellex Medical Lasers,industrial manufacturing,http://www.ellex.com,,Q4038008,Mawson Lakes,-34.814,138.612
-ASX,EMH,European Metals Holdings,,https://www.europeanmet.com/,213800NZKFBQAMMLXC39,Q50390569,West Perth,-31.95,115.843
+ASX,EMH,European Metals Holdings,,https://www.europeanmet.com/,213800NZKFBQAMMLXC39,Q50390569,Road Town,18.43333,-64.61667
 ASX,EMR,Emerald Resources,Materials,,,Q109626988,,,
 ASX,EOS,Electro Optic Systems Holdings,Industrials,https://www.eos-aus.com/,,Q56612564,City of Hume,-37.68333,144.91667
 ASX,ERA,Energy Resources of Australia,uranium mining,https://www.energyres.com.au/,,Q1330701,,,
@@ -152,6 +154,7 @@ ASX,GDG,Generation Development Group,Financials,,,,,,
 ASX,GEM,G8 Education,,https://g8education.edu.au,,Q107008081,,,
 ASX,GGP,Greatland Resources,Materials,,,,,,
 ASX,GLB,Globe International,skateboard,http://www.globe.tv/,,Q2096177,Melbourne,-37.81417,144.96306
+ASX,GLF,GemLife Communities Group,real estate development,https://www.gemlife.com.au/,,Q141872649,Helensvale,-27.93333,153.33333
 ASX,GLN,GALAN LITHIUM LIMITED,,https://galanlithium.com.au/,529900DMKODFURRUHR79,Q109627000,,,
 ASX,GMD,Genesis Minerals,Materials,https://genesisminerals.com.au/,,Q109627003,,,
 ASX,GMG,Goodman Group,Real Estate,https://www.goodman.com/,,Q3110722,Sydney,-33.86778,151.21
@@ -175,7 +178,7 @@ ASX,HUB,HUB24,Financials,https://www.hub24.com.au/,,Q109625733,,,
 ASX,HVN,Harvey Norman,Consumer Discretionary,https://harveynorman.com.au/,,Q4040441,Sydney,-33.86778,151.21
 ASX,HYT,HyTerra,,https://hyterra.com,,Q125144516,,,
 ASX,IAG,Insurance Australia Group,Financials,http://www.iag.com.au/,,Q1665336,Sydney,-33.86778,151.21
-ASX,ICB,Industrial and Commercial Bank of China,financial services,https://www.icbc.com.cn,5493002ERZU2K9PZDL40,Q26463,Beijing,39.90403,116.40753
+ASX,ICB,Industrial and Commercial Bank of China,financial sector,https://www.icbc.com.cn,5493002ERZU2K9PZDL40,Q26463,Beijing,39.90403,116.40753
 ASX,IDA,Indiana Resources Ltd,mineral exploration,http://indianaresources.com.au/,,Q17051737,Adelaide,-34.9275,138.6
 ASX,IEL,IDP Education,,http://www.idp.com,,Q5970065,,,
 ASX,IFL,Insignia Financial,Financials,https://www.ioof.com.au/,,Q5972875,Melbourne,-37.81417,144.96306
@@ -222,6 +225,7 @@ ASX,MGX,MOUNT GIBSON IRON LIMITED,,https://www.mtgibsoniron.com.au/,254900QOF9A5
 ASX,MHJ,Michael Hill Jeweller,jewelry,https://www.michaelhill.com.au/,,Q3308250,Brisbane,-27.46778,153.02778
 ASX,MIN,Mineral Resources,Materials,https://www.mineralresources.com.au/,5493008FLK5J6UQRZT08,Q108541568,,,
 ASX,MLX,METALS X LIMITED,,https://www.metalsx.com.au/,549300PYQIA9NE598013,Q109627051,Perth,-31.95583,115.85972
+ASX,MME,MoneyMe,financial services,https://www.moneyme.com.au/,,Q109627052,Sydney,-33.86778,151.21
 ASX,MMM,Marley Spoon Inc.,food delivery,http://marleyspoon.com/,,Q101568596,Berlin,52.51667,13.38333
 ASX,MND,Monadelphous Group,Industrials,https://www.monadelphous.com.au/,5299007YT51BCWZTYW93,Q109627054,,,
 ASX,MNL,Manaccom,software industry,http://www.manac.com.au/,,Q4043674,Queensland,-20,143
@@ -270,14 +274,14 @@ ASX,OVN,Oventus Medical,,http://www.oventusmedical.com/,,Q29051871,Queensland,-2
 ASX,PAR,PARADIGM BIOPHARMACEUTICALS LIMITED..,,https://paradigmbiopharma.com/,,Q109627079,,,
 ASX,PDI,Predictive Discovery,Materials,,,Q109627082,,,
 ASX,PDN,Paladin Energy,Energy,http://www.paladinenergy.com.au/,,Q2046830,Perth,-31.95583,115.85972
-ASX,PGL,Prospa,financial services,https://www.prospa.com/,,Q133284115,Sydney,-33.86778,151.21
+ASX,PGL,Prospa,fintech,https://www.prospa.com/,,Q133284115,Sydney,-33.86778,151.21
 ASX,PLS,PLS Group,Materials,http://www.pilbaraminerals.com.au/,,Q56064089,,,
 ASX,PLY,PlaySide Studios,video game industry,https://www.playsidestudios.com/,,Q109610462,,,
 ASX,PME,Pro Medicus,Healthcare,https://www.promed.com.au/,,Q109625750,,,
 ASX,PMV,Premier Investments,Consumer Discretionary,,,Q109625751,,,
 ASX,PNI,Pinnacle Investment Management,Financials,,,Q109625752,,,
 ASX,PNW,Pacific Star Network,,http://pacificstarnetwork.com.au/,,Q7122705,Richmond,-37.823,144.998
-ASX,PPC,Peet,Real Estate Company,http://www.peet.com.au/,,Q19876921,Perth,-31.95583,115.85972
+ASX,PPC,Peet,real estate company,http://www.peet.com.au/,,Q19876921,Perth,-31.95583,115.85972
 ASX,PPT,Perpetual,Financials,https://www.perpetual.com.au/,549300US8OE0UQWXPO82,Q7169536,Sydney,-33.86778,151.21
 ASX,PRN,Perenti,Materials,,25490044GUNE4S2E6K11,Q109627098,,,
 ASX,PRU,Perseus Mining,Materials,https://perseusmining.com/,54930054ZDGKBCW3SM26,Q109625753,,,
@@ -334,8 +338,7 @@ ASX,STO,Santos,Energy,http://www.santos.com/,5299000RK70B5O2M7077,Q846914,Adelai
 ASX,SUL,Super Retail Group,Consumer Discretionary,http://www.superretailgroup.com.au,,Q48803019,,,
 ASX,SUN,Suncorp,Financials,http://suncorpgroup.com.au,549300BVOKRTHDIWVT46,Q2366028,Brisbane,-27.46778,153.02778
 ASX,SVW,Seven Group Holdings,mining,http://www.sevengroup.com.au/,,Q7457267,Pyrmont,-33.86861,151.19278
-ASX,SXL,Southern Cross Media Group,mass media,http://www.southerncrossaustereo.com.au/,,Q7569838,Sydney,-33.86778,151.21
-ASX,SXR,Virgin Australia Regional Airlines,,http://www.virginaustralia.com/au/en/skywest/,,Q608421,Perth,-31.95583,115.85972
+ASX,SXL,Seven Media Group,mass media,http://www.southerncrossaustereo.com.au/,,Q7569838,Sydney,-33.86778,151.21
 ASX,SXY,Senex Energy Limited,petroleum industry,http://www.senexenergy.com.au/,261700ZXBROOT65KIC41,Q17032158,,,
 ASX,SYA,SAYONA MINING LIMITED,,https://sayonamining.com.au/,5299007N8RQDP4IN4F31,Q109627130,,,
 ASX,SYD,Sydney Airports Corporation Limited,aviation,http://www.sydneyairport.com.au/Corporate,,Q4121167,Sydney,-33.86778,151.21
@@ -347,7 +350,7 @@ ASX,TLC,The Lottery Corporation,Consumer Discretionary,,,Q140407863,,,
 ASX,TLG,TALGA GROUP LTD,,http://www.talgagroup.com,,Q109627133,,,
 ASX,TLS,Telstra,Communication Services,https://www.telstra.com.au,PCTXNQGRJVR3OG33JG65,Q721162,Melbourne,-37.81417,144.96306
 ASX,TLX,Telix Pharmaceuticals,Healthcare,https://telixpharma.com/,,Q109627134,,,
-ASX,TNE,TechnologyOne,Information Technology,,875500YEWBJIM91P9N12,Q109625761,,,
+ASX,TNE,TechnologyOne,Information Technology,http://www.TechnologyOneCorp.com/,,Q7692548,Brisbane,-27.46778,153.02778
 ASX,TPG,TPG Telecom,Communication Services,https://www.tpgtelecom.com.au/,,Q7939276,North Sydney,-33.83528,151.20944
 ASX,TPW,Temple & Webster,online shopping,https://www.templeandwebster.com.au/,,Q29098099,,,
 ASX,TSE,Broadspectrum,infrastructure,http://www.transfieldservices.com/,,Q7834044,North Sydney,-33.83528,151.20944
@@ -358,7 +361,7 @@ ASX,TYR,Tyro Payments,,http://www.tyro.com/,,Q7861540,Sydney,-33.86778,151.21
 ASX,TZL,TZ Limited,engineering,http://www.tzlimited.com,,Q7672614,Chicago,41.88194,-87.62778
 ASX,UNI,Universal Store,fashion,https://www.universalstore.com/,,Q96412731,,,
 ASX,URW,Unibail Rodamco Westfield,,https://www.urw.com/,969500SHQITWXSIS7N89,Q608518,Paris,48.85667,2.35222
-ASX,VAH,Virgin Australia Holdings,aircraft industry,http://www.virginaustralia.com/au/en/about-us/company-overview/,254900SNPW6V9967CJ18,Q874131,Bowen Hills,-27.4432,153.038
+ASX,VAH,Virgin Australia Regional Airlines,,http://www.virginaustralia.com/au/en/skywest/,,Q608421,Perth,-31.95583,115.85972
 ASX,VAR,Variscan Mines Limited,mining,http://www.variscan.com.au/,,Q30329357,,,
 ASX,VAU,Vault Minerals,Materials,,,,,,
 ASX,VCX,Vicinity Centres,Real Estate,https://www.vicinity.com.au,,Q1054327,Melbourne,-37.81417,144.96306
@@ -414,7 +417,7 @@ NZX,BGI,Blackwell Global Holdings,,,,,,,
 NZX,BGP,Briscoe Group,retail,https://www.briscoegroup.co.nz/,,Q4968659,Morningside,-36.8788,174.733
 NZX,BIT,The Bankers Investment Trust plc,,,,,,,
 NZX,BLT,Blis Technologies,biotechnology,http://www.blis.co.nz,,Q4926813,Dunedin,-45.87417,170.50361
-NZX,BPG,Blackpearl Group,,,,,,,
+NZX,BPG,Blackpearl Group,software industry,https://www.blackpearl.com/,,Q142077563,Wellington,-41.28889,174.77722
 NZX,BRM,Barramundi,,,,,,,
 NZX,CAV,Cavalier Corporation,,,,Q1051723,Auckland,-36.84917,174.76528
 NZX,CBD,Cannasouth,,,,,,,
@@ -510,7 +513,7 @@ NZX,SML,Synlait,dairy industry,https://www.synlait.com/,,Q7662490,Dunsandel,-43.
 NZX,SMW,SMW Group,,,,,,,
 NZX,SNC,Southern Charter Financial Group,,,,,,,
 NZX,SPG,Stride Property & Stride Investment Management,,https://www.strideproperty.co.nz/,,Q109608705,Auckland Central,-36.847,174.765
-NZX,SPK,Spark New Zealand,telecommunications industry,https://www.spark.co.nz/,529900HUN51H3Y7QBB66,Q1549526,Auckland,-36.84917,174.76528
+NZX,SPK,Spark New Zealand,mobile phone industry,https://www.spark.co.nz/,529900HUN51H3Y7QBB66,Q1549526,Auckland,-36.84917,174.76528
 NZX,SPN,South Port New Zealand,,,,,,,
 NZX,SPY,Smartpay Holdings,,,,,,,
 NZX,STU,Steel & Tube,,http://www.steelandtube.co.nz/,,Q24998551,,,
