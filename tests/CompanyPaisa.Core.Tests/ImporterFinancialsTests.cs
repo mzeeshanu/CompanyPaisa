@@ -86,6 +86,28 @@ public class XbrlFinancialsExtractorTests
         Assert.Equal(3_010_000_000m, Assert.Single(result.Periods).Revenue);
     }
 
+    /// <summary>Goldman Sachs 2025: its headline "total net revenues" ($58.3bn), not gross interest income + non-interest revenues ($125bn).</summary>
+    [Fact]
+    public void A_bank_that_tags_net_revenues_is_not_given_gross_interest_income()
+    {
+        var json = $$"""
+            { "facts": { "us-gaap": {
+                "RevenuesNetOfInterestExpense": { "units": { "USD": [ {{Fact("CY2025", "2025-01-01", "2025-12-31", 58_283_000_000m)}} ] } },
+                "InterestAndDividendIncomeOperating": { "units": { "USD": [
+                  {{Fact("CY2025", "2025-01-01", "2025-12-31", 80_373_000_000m)}}, {{Fact("CY2015", "2015-01-01", "2015-12-31", 8_452_000_000m)}} ] } },
+                "NoninterestIncome": { "units": { "USD": [
+                  {{Fact("CY2025", "2025-01-01", "2025-12-31", 44_724_000_000m)}}, {{Fact("CY2015", "2015-01-01", "2015-12-31", 30_756_000_000m)}} ] } },
+                "NetIncomeLoss": { "units": { "USD": [
+                  {{Fact("CY2025", "2025-01-01", "2025-12-31", 17_176_000_000m)}}, {{Fact("CY2015", "2015-01-01", "2015-12-31", 6_083_000_000m)}} ] } }
+            } } }
+            """;
+
+        var result = new XbrlFinancialsExtractor().Extract("GS", 886982, json, years: 20);
+
+        Assert.Equal(58_283_000_000m, result.Periods.Single(p => p.FiscalYear == 2025).Revenue);
+        Assert.Equal(39_208_000_000m, result.Periods.Single(p => p.FiscalYear == 2015).Revenue);   // no net figure tagged: the formula stays
+    }
+
     /// <summary>A company that moved from US GAAP to IFRS keeps its old US GAAP facts; the newer standard must win.</summary>
     [Fact]
     public void Uses_the_accounting_standard_with_the_newest_figures()

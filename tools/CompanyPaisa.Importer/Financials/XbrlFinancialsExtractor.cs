@@ -68,10 +68,14 @@ public sealed partial class XbrlFinancialsExtractor : IFinancialsExtractor
 
         // Per period, the largest revenue line tagged: a total is never smaller than its own sub-lines, and companies also
         // tag segment or product lines without dimensions (Acadia Healthcare's 2018 "Revenues" was $1.9bn of $3.0bn).
-        // Banks: interest & dividend income + non-interest income is a candidate too.
+        // Banks: interest & dividend income + non-interest income is a candidate too, but only for periods where the bank
+        // doesn't tag its own headline "net revenues" (net of interest expense): Goldman's 2025 total net revenues are
+        // $58.3bn, while gross interest income plus non-interest revenues come to $125bn.
         const string BankRevenue = "InterestAndDividendIncomeOperating + NoninterestIncome";
+        var netOfInterestFrames = Facts(gaap, "RevenuesNetOfInterestExpense", currency).Select(f => f.Frame).OfType<string>().ToHashSet();
         var candidates = revenueConcepts.Select(c => (c, (IEnumerable<Fact>)Facts(gaap, c, currency)))
-            .Append((BankRevenue, SumByFrame(Facts(gaap, "InterestAndDividendIncomeOperating", currency), Facts(gaap, "NoninterestIncome", currency)).Values));
+            .Append((BankRevenue, SumByFrame(Facts(gaap, "InterestAndDividendIncomeOperating", currency), Facts(gaap, "NoninterestIncome", currency))
+                .Values.Where(f => !netOfInterestFrames.Contains(f.Frame!))));
         var (revenue, revenueConcept) = LargestByFrame(candidates);
         if (revenueConcept == BankRevenue) notes.Add("Revenue = interest & dividend income + non-interest income (bank).");
         var (netIncome, _) = MergeByFrame(gaap, netIncomeConcepts, currency);

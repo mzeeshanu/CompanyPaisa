@@ -241,7 +241,12 @@ public sealed partial class SummaryCompensationTableParser : ICompensationParser
         if (!m.Success || m.Index == 0) return (text, "");
         var at = m.Index;
         if (at >= 3 && text.Substring(at - 3, 3).Equals("Co-", StringComparison.OrdinalIgnoreCase)) at -= 3;   // "Co-Founder"
-        return at > 0 ? (text[..at].Trim(' ', ',', '-', '–', ';'), text[at..].Trim()) : (text, "");
+        if (at == 0) return (text, "");
+        // "Elon Musk Technoking of Tesla and Chief Executive Officer": a title we don't know ran into the name, which
+        // then ends in "and"; give the whole "… of … and" phrase to the title.
+        if (UnknownTitleBeforeAnd().Match(text[..at].TrimEnd()) is { Success: true } spill && spill.Index > 0)
+            at = spill.Index;
+        return (text[..at].Trim(' ', ',', '-', '–', ';'), text[at..].Trim());
     }
 
     private static string CleanTitle(string title)
@@ -320,5 +325,6 @@ public sealed partial class SummaryCompensationTableParser : ICompensationParser
     [GeneratedRegex(@"^(?:Mr|Mrs|Ms|Dr)\.?\s+", RegexOptions.IgnoreCase)] private static partial Regex HonorificPrefix();
     [GeneratedRegex(@"^(Jr\.|Sr\.|Jr|Sr|II|III|IV)(?=[\s,]|$)", RegexOptions.IgnoreCase)] private static partial Regex SuffixStart();
     [GeneratedRegex(@"salary|bonus|stock|option|total|\byear\b|name|position|\(\s*\$\s*\)|compensation", RegexOptions.IgnoreCase)] private static partial Regex HeaderWord();
+    [GeneratedRegex(@"(?<=\S)\s+\p{Lu}[\p{L}-]*\s+of\s+[^,]+?\s+(and|&)$")] private static partial Regex UnknownTitleBeforeAnd();
     [GeneratedRegex(@"\b(Chief|President|Officer|Vice|Executive|Former|Chairman|Chair|CEO|CFO|COO|CTO|General Counsel|Secretary|Treasurer|Director|Senior|EVP|SVP|Interim|Founder|Head|Managing|Principal|Corporate|Group)\b", RegexOptions.IgnoreCase)] private static partial Regex TitleKeyword();
 }

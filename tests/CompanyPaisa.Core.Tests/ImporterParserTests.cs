@@ -74,6 +74,7 @@ public class SummaryCompensationTableParserTests
     [InlineData("Jonathan E. Johnson III (7)", "Jonathan E. Johnson III", "")]
     [InlineData("Robert L. Smith, Jr., Chief Financial Officer", "Robert L. Smith, Jr.", "Chief Financial Officer")]
     [InlineData("David Wright (3) Co-Founder; Chairman of the Board", "David Wright", "Co-Founder; Chairman of the Board")]
+    [InlineData("Elon Musk Technoking of Tesla and Chief Executive Officer", "Elon Musk", "Technoking of Tesla and Chief Executive Officer")]
     public void Splits_names_from_titles_and_footnotes(string text, string name, string title) =>
         Assert.Equal((name, title), SummaryCompensationTableParser.SplitNameAndTitle(text));
 

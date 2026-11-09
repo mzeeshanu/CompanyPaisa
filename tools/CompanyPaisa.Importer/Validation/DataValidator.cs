@@ -153,9 +153,13 @@ public static class DataValidator
             data.Pay.Where(p => p.Total > 0 && p.Salary > p.Total * 1.02m).Select(p => $"{Name(p.CompanyId)} {p.ExecutiveName} {p.Year}: salary {p.Salary:N0}, total {p.Total:N0}"));
 
         Check("Pay", "Impossibly large total", Severity.Error,
-            "Above $3bn (US-dollar equivalent) in one year — larger than any package ever reported (Tesla's 2018 grant to Elon Musk was $2.3bn); a unit or scale error.",
-            data.Pay.Where(p => p.Total * usdPer.GetValueOrDefault(PayCurrency(companies, p.CompanyId), 1m) > 3_000_000_000m)
+            "Above $3bn (US-dollar equivalent) in one year — beyond any package filed apart from the ones checked by hand below; a unit or scale error.",
+            data.Pay.Where(p => p.Total * usdPer.GetValueOrDefault(PayCurrency(companies, p.CompanyId), 1m) > 3_000_000_000m && !IsCheckedRecordAward(p))
                 .Select(p => $"{Name(p.CompanyId)} {p.ExecutiveName} {p.Year}: {Money(p.Total)}"));
+
+        Check("Pay", "Record award checked by hand", Severity.Warning,
+            "Above $3bn but checked against the proxy statement: Tesla's 2026 proxy reports Elon Musk's 2025 stock awards (the interim award and the 2025 CEO performance award) at $158,359,009,867.",
+            data.Pay.Where(IsCheckedRecordAward).Select(p => $"{Name(p.CompanyId)} {p.ExecutiveName} {p.Year}: {Money(p.Total)}"));
 
         Check("Pay", "Very large total", Severity.Warning,
             "Total above $150M (US-dollar equivalent) in one year — happens (mega stock grants), but check it's not a unit error.",
@@ -203,6 +207,15 @@ public static class DataValidator
     private static Tally Count(string title, IEnumerable<string> keys) =>
         new(title, keys.GroupBy(k => k).Select(g => (g.Key, g.Count())).OrderByDescending(x => x.Item2).ThenBy(x => x.Key).ToList());
 
+    /// <summary>Totals above $3bn read correctly from the proxy statement (checked by hand), by company, year and amount.</summary>
+    private static readonly HashSet<(string Company, int Year, decimal Total)> CheckedRecordAwards =
+    [
+        ("TSLA", 2025, 158_359_009_867m),   // Elon Musk: 2025 interim award + 2025 CEO performance award (2026 DEF 14A)
+    ];
+
+    private static bool IsCheckedRecordAward(ExecutiveCompensation p) =>
+        CheckedRecordAwards.Contains((p.CompanyId.ToUpperInvariant(), p.Year, p.Total));
+
     private static string PayCurrency(IReadOnlyDictionary<string, Company> companies, string id) =>
         companies.TryGetValue(id, out var c) ? c.PayCurrency ?? c.Currency : "USD";
 
@@ -227,7 +240,7 @@ public static class DataValidator
     private static readonly (string Suffix, string Country)[] Suffixes =
     [
         (".L", "GB"), (".PA", "FR"), (".AS", "NL"), (".MI", "IT"), (".MC", "ES"), (".ST", "SE"), (".CO", "DK"), (".HE", "FI"), (".OL", "NO"),
-        (".BR", "BE"), (".VI", "AT"), (".KA", "PK")
+        (".BR", "BE"), (".VI", "AT"), (".LU", "LU"), (".BD", "HU"), (".VS", "LT"), (".ZA", "HR"), (".LJ", "SI"), (".KA", "PK")
     ];
     private static readonly HashSet<string> CanadianProvinces = ["AB", "BC", "MB", "NB", "NL", "NS", "NT", "NU", "ON", "PE", "QC", "SK", "YT"];
 
@@ -238,7 +251,9 @@ public static class DataValidator
         ["FR"] = new(41, 51.5, -5.5, 10), ["NL"] = new(50.6, 53.7, 3.2, 7.3), ["IT"] = new(35, 47.2, 6.5, 18.6),
         ["ES"] = new(27.5, 44, -18.5, 4.5), ["AU"] = new(-44, -9, 112, 154), ["NZ"] = new(-48, -34, 166, 179),
         ["PK"] = new(23.5, 37.2, 60.8, 77.9), ["SE"] = new(55, 69.2, 10.5, 24.3), ["DK"] = new(54.5, 57.9, 8, 15.3),
-        ["FI"] = new(59.6, 70.2, 19.5, 31.7), ["NO"] = new(57.8, 71.3, 4.4, 31.3), ["BE"] = new(49.4, 51.6, 2.5, 6.5), ["AT"] = new(46.3, 49.1, 9.5, 17.2)
+        ["FI"] = new(59.6, 70.2, 19.5, 31.7), ["NO"] = new(57.8, 71.3, 4.4, 31.3), ["BE"] = new(49.4, 51.6, 2.5, 6.5), ["AT"] = new(46.3, 49.1, 9.5, 17.2),
+        ["LU"] = new(49.4, 50.2, 5.7, 6.6), ["HU"] = new(45.7, 48.6, 16.1, 22.9), ["LT"] = new(53.9, 56.5, 20.9, 26.9), ["HR"] = new(42.3, 46.6, 13.4, 19.5),
+        ["SI"] = new(45.4, 46.9, 13.3, 16.7)
     };
 
     private static readonly string[] NotPersonWords = ["total", "inc", "llc", "ltd", "plc", "corp", "company", "officers", "directors", "named", "executive", "average", "compensation", "salary"];
