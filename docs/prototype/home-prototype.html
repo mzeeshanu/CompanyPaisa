@@ -660,7 +660,7 @@ function renderSummary(vis){
   const s=stats(vis), place=user.label.split(',')[0];
   $('#summary').innerHTML=s.n?`
     <h1><em>${s.n} public ${s.n===1?'company':'companies'}</em> within ${radius} miles of ${place}</h1>
-    <span class="stat"><b>${money(s.total)}</b> combined revenue, last 12 months</span>
+    <span class="stat"><b>${money(s.total)}</b> combined revenue, last 12 months or fiscal year</span>
     <span class="stat"><i class="dot up"></i><b>${s.growing}</b> growing</span>
     <span class="stat"><b>${s.hq}</b> headquartered here</span>`
     :`<h1>No public companies within ${radius} miles${sector!=='All'?' in '+sector:''}</h1><span class="stat">Try a wider radius or a different sector.</span>`;

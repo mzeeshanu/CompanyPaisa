@@ -3,7 +3,7 @@ import * as d3 from '../lib/d3';
 import { api, ApiError } from '../api/client';
 import type { CompanyDetail, CompanyInsights, Executive, FinancialPeriod, GeoPoint, Location, PeriodType } from '../api/types';
 import { money, pct, tone, trendClass } from '../lib/format';
-import { Link, personPath, placeToken, salariesPath } from '../lib/router';
+import { companyPath, Link, navigate, personPath, placeToken, salariesPath } from '../lib/router';
 import { AtAGlance, NewLeadership, PayVsPeersCard, SimilarCompanies } from './CompanyInsights';
 import { Filing } from './Filing';
 import { SharePrice } from './SharePrice';
@@ -53,6 +53,8 @@ export function CompanyPage({ ticker, from, showExecutives, onExplore, onLoaded 
       api.insights(ticker).catch(() => null),
     ]).then(([detail, q, a, ex, insights]) => {
       if (cancelled) return;
+      // A former ticker finds the company under the one it has now.
+      if (detail.ticker.toUpperCase() !== ticker.toUpperCase()) { navigate(companyPath(detail.ticker), { replace: true }); return; }
       setData({ detail, quarterly: q.periods.slice(-12), annual: a.periods, executives: ex.executives, insights });
       document.title = titled(`${detail.name} (${detail.ticker}): revenue, profit and executive pay`);
       loadedFor.current(`${detail.name} (${detail.ticker})`);
@@ -133,7 +135,7 @@ export function CompanyPage({ ticker, from, showExecutives, onExplore, onLoaded 
         {d.detail.description && !d.detail.description.toLowerCase().includes('synthetic') && <p className="page-about">{d.detail.description}</p>}
 
         <div className="kpis page-kpis">
-          {noQuarters && lastYear ? (
+          {(noQuarters || ind.totalsYear) && lastYear ? (
             <>
               <Kpi k="Revenue" s={`Fiscal year ${lastYear.fiscalYear}`} v={money(lastYear.revenue, cur)} />
               <Kpi k="Net income" s={`Fiscal year ${lastYear.fiscalYear}`} v={money(lastYear.netIncome, cur)} cls={lastYear.netIncome < 0 ? 'down' : ''} />
@@ -144,7 +146,7 @@ export function CompanyPage({ ticker, from, showExecutives, onExplore, onLoaded 
               <Kpi k="Net income" s={ind.latestQuarterLabel ?? 'Latest quarter'} v={money(ind.latestQuarterNetIncome, cur)} cls={(ind.latestQuarterNetIncome ?? 0) < 0 ? 'down' : ''} />
             </>
           )}
-          <Kpi k="Revenue growth" s={noQuarters ? 'Latest year vs prior' : 'Last 12 mo vs prior'} v={pct(ind.revenueGrowthYoY)} cls={tone(ind.revenueGrowthYoY)} />
+          <Kpi k="Revenue growth" s={!ind.hasTotals ? 'Missing quarters' : ind.totalsYear ? `FY ${ind.totalsYear} vs prior` : 'Last 12 mo vs prior'} v={pct(ind.revenueGrowthYoY)} cls={tone(ind.revenueGrowthYoY)} />
           <Kpi k={`${ind.cagrYears}-year CAGR`} s="Annual revenue" v={pct(ind.revenueCagr)} cls={tone(ind.revenueCagr)} />
         </div>
         <p className="note page-note">Company-wide figures, not just one location.</p>

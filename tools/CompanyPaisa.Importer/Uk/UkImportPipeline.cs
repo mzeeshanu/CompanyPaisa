@@ -61,7 +61,8 @@ public sealed partial class UkImportPipeline(IOptions<ImporterOptions> options, 
                 .Where(e => e is not null).Select(e => e!.Lei).ToHashSet(StringComparer.OrdinalIgnoreCase);
             using var mainMarket = new UkMainMarket(client, _o.GleifApi, paths.Resolve(_o.CacheDirectory), _log);
             added = await mainMarket.FindAsync(entities.Where(e => !claimed.Contains(e.Lei)),
-                constituents.Select(c => c.Ticker).ToHashSet(StringComparer.OrdinalIgnoreCase), recentYears: 2, ct);
+                constituents.Select(c => c.Ticker).ToHashSet(StringComparer.OrdinalIgnoreCase), recentYears: 2,
+                UkConstituents.Read(paths.Resolve(_o.MainMarketListPath)), ct);
             UkConstituents.Write(paths.Resolve(_o.MainMarketListPath), added.OrderBy(a => a.Name));
             constituents = [.. constituents, .. added];
         }
@@ -135,6 +136,11 @@ public sealed partial class UkImportPipeline(IOptions<ImporterOptions> options, 
             {
                 var r = row with { Name = canonical[row.Name] };
                 payRows.TryAdd((PersonSlug(r.Name), r.Year), (r, source));   // newest report first, so restated years win
+            }
+            foreach (var key in TotalRows(payRows.Values.Select(p => p.Row).ToList()).Select(r => (PersonSlug(r.Name), r.Year)))
+            {
+                warnings.Add($"{c.Ticker}: {payRows[key].Row.Name} {key.Year}: salary is the sum of the other directors'; a total row, left out");
+                payRows.Remove(key);
             }
 
             companies.Add(new Company
@@ -233,11 +239,27 @@ public sealed partial class UkImportPipeline(IOptions<ImporterOptions> options, 
         var fits = entities.Where(e =>
         {
             var legal = Words(e.Name);
-            return legal.Length > 0 && legal.Length <= wanted.Length + 2 && wanted.All(w => legal.Any(l => l.StartsWith(w, StringComparison.Ordinal) || w.StartsWith(l, StringComparison.Ordinal) && l.Length >= 4));
+            return legal.Length > 0 && legal.Length <= wanted.Length + 2 && wanted.All(w => legal.Any(l => Fits(w, l)));
         }).ToList();
+        // Initials only match whole ("B&M" is not Mitchells & Butlers), and the legal word can only be a plural shorter
+        // ("Wetherspoons"): Bellway is not AJ Bell, nor GlobalData Hansard Global.
+        static bool Fits(string w, string l) => l == w || w.Length >= 3 && l.StartsWith(w, StringComparison.Ordinal)
+            || l.Length >= 4 && w.Length - l.Length <= 2 && w.StartsWith(l, StringComparison.Ordinal);
         // Several filers can share a name (a group and its bank); the one with most annual reports is the listed parent.
         return fits.Count switch { 0 => null, 1 => fits[0], _ => fits.GroupBy(f => Words(f.Name).Length).OrderBy(g => g.Key).First().MaxBy(f => f.Filings.Count) };
     }
+
+    /// <summary>
+    /// A table's total row read under a director's name (Bellway 2025: a "£6.2M" director whose salary was the other five's
+    /// together): the salary is the sum of at least four others' that year, and the largest by far.
+    /// </summary>
+    internal static List<UkPayRow> TotalRows(IReadOnlyList<UkPayRow> rows) =>
+        rows.Where(r =>
+        {
+            var others = rows.Where(o => !ReferenceEquals(o, r) && o.Year == r.Year).ToList();
+            return others.Count >= 4 && r.Salary > 1.5m * others.Max(o => o.Salary)
+                   && Math.Abs(others.Sum(o => o.Salary) - r.Salary) <= 0.002m * r.Salary;
+        }).ToList();
 
     /// <summary>"BAE Systems" in BAE Systems' own pay table is a heading, not a director.</summary>
     internal static bool IsCompanyName(string candidate, string companyName)

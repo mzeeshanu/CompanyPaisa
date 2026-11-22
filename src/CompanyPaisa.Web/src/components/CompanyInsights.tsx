@@ -146,7 +146,7 @@ export function AtAGlance({ insights: i, name }: { insights: CompanyInsights; na
       <ul className="glance-list">
         {facts.map(f => <li key={f.key}><span className="glance-ico" aria-hidden="true">{f.icon}</span><p>{f.text}</p></li>)}
       </ul>
-      <p className="fine">Worked out from the figures on this page and the other companies we track. Revenue is the latest 12 months unless a year is named.</p>
+      <p className="fine">Worked out from the figures on this page and the other companies we track. Revenue is the latest 12 months, or the latest fiscal year where quarters are missing, unless a year is named.</p>
     </section>
   );
 }
@@ -168,7 +168,7 @@ export function SimilarCompanies({ insights: i }: { insights: CompanyInsights })
           </li>
         ))}
       </ul>
-      <p className="fine">{i.similarSameSector ? 'Same sector, closest to its headquarters' : 'Closest to its headquarters'} · revenue for the latest 12 months and growth on the year before.</p>
+      <p className="fine">{i.similarSameSector ? 'Same sector, closest to its headquarters' : 'Closest to its headquarters'} · revenue for the latest 12 months (or fiscal year) and growth on the year before.</p>
     </section>
   );
 }

@@ -1,11 +1,11 @@
-# European import report — 2026-11-09 09:50 UTC
+# European import report — 2026-11-22 21:24 UTC
 
 Scope: France, Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belgium, Austria, Luxembourg, Lithuania, Slovenia — companies with shares on the home exchange that file ESEF annual reports. Financials only (no executives). Sources: filings.xbrl.org, GLEIF, OpenFIGI, GeoNames.
 
-- Companies included: **1276**
-- Years of figures: 6692
+- Companies included: **1278**
+- Years of figures: 6720
 - Postcodes written: 79695
-- Network requests this run: 4332
+- Network requests this run: 0
 
 | Country | Area | Companies |
 |---|---|---|
@@ -20,7 +20,7 @@ Scope: France, Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belg
 | Finland | Helsinki | 58 |
 | Finland | Rest of Finland | 25 |
 | France | Paris | 136 |
-| France | Rest of France | 49 |
+| France | Rest of France | 50 |
 | France | Lyon | 8 |
 | Italy | Rest of Italy | 66 |
 | Italy | Milan | 55 |
@@ -41,12 +41,12 @@ Scope: France, Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belg
 | Spain | Madrid | 56 |
 | Spain | Rest of Spain | 35 |
 | Spain | Barcelona | 15 |
-| Sweden | Stockholm | 176 |
+| Sweden | Stockholm | 177 |
 | Sweden | Rest of Sweden | 63 |
 | Sweden | Malmö | 32 |
 | Sweden | Gothenburg | 25 |
 
-## Included — France (193)
+## Included — France (194)
 
 | Ticker | Company | City | Latest revenue | Years |
 |---|---|---|---|---|
@@ -69,7 +69,7 @@ Scope: France, Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belg
 | ALPWG.PA | Prodways Group | Montigny-Le-Bretonneux | €58.7M | 2021–2024 |
 | ALTA.PA | Altarea | Paris | €243.5M | 2019–2024 |
 | ALTOU.PA | Touax SCA - Sgtr - Cite - Sgt - Cmte - Taf - Slm Touage Investissements Reunies | Puteaux | €198.5M | 2019–2024 |
-| AMUN.PA | Amundi | Paris | €166.6M | 2020–2025 |
+| AMUN.PA | Amundi | Paris | €3.20B | 2020–2025 |
 | ANTIN.PA | Antin Infrastructure Partners | Paris | €292.5M | 2020–2025 |
 | ARAMI.PA | Aramis Group | Arcueil | €2.38B | 2021–2025 |
 | AREIT.PA | Altareit | Paris | €32.9M | 2019–2024 |
@@ -95,7 +95,7 @@ Scope: France, Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belg
 | CA.PA | Carrefour | Massy | €84.03B | 2020–2025 |
 | CAP.PA | Capgemini | Paris | €22.10B | 2020–2024 |
 | CARM.PA | Carmila | Paris | €404.1M | 2022–2024 |
-| CBSM.PA | Soc Centrale Bois Scieries Manche | Paris | €23.3M | 2021–2025 |
+| CBSM.PA | Soc Centrale Bois Scieries Manche | Paris | €26.2M | 2021–2026 |
 | CDA.PA | Compagnie Des Alpes | Paris | €1.40B | 2020–2025 |
 | CEN.PA | Groupe Crit | Paris | €3.37B | 2019–2025 |
 | CLARI.PA | Clariane | Paris | €5.31B | 2020–2025 |
@@ -174,6 +174,7 @@ Scope: France, Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belg
 | MEDCL.PA | Medincell S.A. | Jacou | €24.3M | 2021–2026 |
 | MERY.PA | Mercialys | Paris | €180.6M | 2020–2025 |
 | MF.PA | Wendel | Paris | €7.78B | 2021–2025 |
+| ML.PA | Compagnie Generale Des Etablissements Michelin | Clermont-Ferrand | €25.99B | 2020–2025 |
 | MMB.PA | Lagardere SA | Paris | €8.94B | 2019–2024 |
 | MMT.PA | Metropole Television | Neuilly-Sur-Seine | €1.31B | 2020–2024 |
 | MRN.PA | Mersen | Courbevoie | €1.19B | 2020–2025 |
@@ -187,7 +188,7 @@ Scope: France, Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belg
 | OR.PA | L'oreal | Paris | €44.05B | 2020–2025 |
 | ORA.PA | Orange | Issy-Les-Moulineaux | €40.26B | 2020–2024 |
 | OSE.PA | Ose Immunotherapeutics | Nantes | €2.6M | 2020–2025 |
-| OVH.PA | Ovh Groupe | Roubaix | €1.08B | 2023–2025 |
+| OVH.PA | Ovh Groupe | Roubaix | €1.15B | 2023–2026 |
 | PARP.PA | Groupe Partouche | Paris | €460.2M | 2020–2025 |
 | PARRO.PA | Parrot | Paris | €79.8M | 2024–2025 |
 | PAT.PA | Patrimoine Et Commerce | Paris | €57.6M | 2021–2025 |
@@ -218,7 +219,7 @@ Scope: France, Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belg
 | SPIE.PA | Spie SA | Cergy | €10.40B | 2023–2025 |
 | SRP.PA | Srp Groupe | Saint-Denis | €559.0M | 2020–2025 |
 | SU.PA | Schneider Electric SE | Paris | €40.15B | 2020–2025 |
-| SW.PA | Sodexo | Issy-Les-Moulineaux | €24.07B | 2021–2025 |
+| SW.PA | Sodexo | Issy-Les-Moulineaux | €23.96B | 2021–2026 |
 | TEP.PA | Teleperformance SE | Paris | €10.21B | 2019–2025 |
 | TFI.PA | Television Francaise 1 | Boulogne-Billancourt | €2.30B | 2020–2025 |
 | THEP.PA | Thermador Groupe | Saint-Quentin-Fallavier | €501.7M | 2022–2025 |
@@ -339,7 +340,7 @@ Scope: France, Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belg
 | AVIO.MI | Avio S.p.A. | Roma | €583.7M | 2020–2025 |
 | B.MI | Bastogi S.p.A. | Milano | €60.4M | 2021–2025 |
 | BAN.MI | Basic Net S.p.A. | Torino | €348.3M | 2021–2025 |
-| BC.MI | Brunello Cucinelli S.p.A. | Corciano | €188K | 2020–2025 |
+| BC.MI | Brunello Cucinelli S.p.A. | Corciano | €1.28B | 2020–2024 |
 | BEC.MI | B&C Speakers S.p.A. | Bagno A Ripoli | €99.1M | 2023–2025 |
 | BFF.MI | Bff Bank S.p.A. | Milano | €459.8M | 2021–2025 |
 | BFG.MI | B.F. S.p.A. | Jolanda Di Savoia | €1.63B | 2020–2025 |
@@ -539,7 +540,7 @@ Scope: France, Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belg
 | LGT.MC | Lingotes Especiales, S.A. | Valladolid | €79.5M | 2020–2025 |
 | LIB.MC | Libertas 7 Sociedad Anonima | Valencia | €21.3M | 2019–2025 |
 | LIW.MC | Liwe Española S.A. | Murcia | €82.0M | 2020–2025 |
-| LOG.MC | Logista Integral SA | Leganés | €13.54B | 2021–2025 |
+| LOG.MC | Logista Integral SA | Leganés | €13.84B | 2021–2026 |
 | MCM.MC | Miquel Y Costas & Miquel S.A. | Barcelona | €313.8M | 2020–2025 |
 | MDF.MC | Duro Felguera SA | Gijón | €161.1M | 2019–2025 |
 | MEL.MC | Melia Hotels International SA | Palma de Mallorca | €2.08B | 2019–2025 |
@@ -582,7 +583,7 @@ Scope: France, Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belg
 | VIS.MC | Viscofan SA | Aranguren | €1.25B | 2019–2025 |
 | VOC.MC | Vocento SA | Bilbao | €337.4M | 2019–2025 |
 
-## Included — Sweden (296)
+## Included — Sweden (297)
 
 | Ticker | Company | City | Latest revenue | Years |
 |---|---|---|---|---|
@@ -665,7 +666,7 @@ Scope: France, Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belg
 | DOM.ST | Dometic Group AB (publ) | Solna | SEK 21.04B | 2021–2025 |
 | DUNI.ST | Duni AB | Malmö | SEK 7.69B | 2020–2025 |
 | DURCB.ST | Duroc Aktiebolag | Stockholm | SEK 2.77B | 2021–2026 |
-| DUST.ST | Dustin Group AB | Nacka Strand | SEK 20.41B | 2021–2025 |
+| DUST.ST | Dustin Group AB | Nacka Strand | SEK 21.01B | 2021–2026 |
 | DYVOX.ST | Dynavox Group AB | Stockholm | SEK 2.47B | 2020–2025 |
 | EAST.ST | Eastnine Ab (Publ) | Stockholm | €61.7M | 2021–2025 |
 | EG7.ST | Enad Global 7 AB (publ) | Stockholm | SEK 1.63B | 2023–2025 |
@@ -699,6 +700,7 @@ Scope: France, Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belg
 | FG.ST | Fasadgruppen Group AB (publ) | Stockholm | SEK 5.49B | 2020–2025 |
 | FLERIE.ST | Flerie AB | Stockholm | SEK 100K | 2024–2024 |
 | FNOVAB.ST | Fortinova Fastigheter AB (publ) | Varberg | SEK 393.4M | 2024–2025 |
+| FPARA.ST | Fastpartner AB | Stockholm | SEK 2.27B | 2020–2025 |
 | G5EN.ST | G5 Entertainment AB (publ) | Stockholm | SEK 941.6M | 2020–2025 |
 | GETIB.ST | Getinge AB (publ) | Göteborg | SEK 34.97B | 2020–2025 |
 | GPG.ST | Genova Property Group AB | Stockholm | SEK 514.0M | 2020–2025 |
@@ -753,7 +755,7 @@ Scope: France, Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belg
 | LUNDB.ST | L E Lundbergföretagen Aktiebolag (publ) | Stockholm | SEK 28.78B | 2020–2025 |
 | MANG.ST | Mangold AB | Stockholm | SEK 195.9M | 2020–2025 |
 | MCAP.ST | MedCap AB (publ) | Stockholm | SEK 2.11B | 2021–2025 |
-| MCOVB.ST | Medicover AB | Stockholm | €4.3M | 2020–2025 |
+| MCOVB.ST | Medicover AB | Stockholm | €2.38B | 2020–2025 |
 | MEABB.ST | Malmbergs Elektriska Aktiebolag (publ) | Kumla | SEK 459.5M | 2020–2025 |
 | MEKO.ST | Meko Ab | Stockholm | SEK 18.01B | 2023–2025 |
 | MILDEF.ST | MilDef Group AB | Helsingborg | SEK 2.05B | 2020–2025 |
@@ -834,7 +836,7 @@ Scope: France, Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belg
 | SINT.ST | SinterCast Aktiebolag | Katrineholm | SEK 108.0M | 2020–2025 |
 | SIVE.ST | Sivers Semiconductors AB | Stockholm | SEK 306.6M | 2020–2025 |
 | SKAB.ST | Skanska AB | Stockholm | SEK 176.66B | 2020–2025 |
-| SKISB.ST | SkiStar Aktiebolag | Sälen | SEK 4.63B | 2021–2025 |
+| SKISB.ST | SkiStar Aktiebolag | Sälen | SEK 4.95B | 2021–2026 |
 | SLEEP.ST | Sleep Cycle AB (publ) | Göteborg | SEK 247.9M | 2022–2025 |
 | SLPB.ST | Swedish Logistic Property AB | Malmo | SEK 1.02B | 2021–2025 |
 | SOBI.ST | Swedish Orphan Biovitrum AB (publ) | Stockholm | SEK 26.03B | 2021–2024 |
@@ -847,7 +849,7 @@ Scope: France, Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belg
 | SVEAFB.ST | Sveafastigheter AB (publ) | Malmö | SEK 1.54B | 2024–2025 |
 | SVEDB.ST | Svedbergs Group AB | Halmstad | SEK 2.25B | 2020–2025 |
 | SVIK.ST | Studsvik AB | Nyköping | SEK 883.3M | 2020–2025 |
-| SVOLA.ST | Svolder Aktiebolag | Stockholm | SEK 31.8M | 2021–2025 |
+| SVOLA.ST | Svolder Aktiebolag | Stockholm | SEK 450.9M | 2021–2026 |
 | SWECA.ST | SWECO AB (publ) | Stockholm | SEK 31.59B | 2020–2025 |
 | SYNSAM.ST | Synsam AB (publ) | Stockholm | SEK 7.07B | 2020–2025 |
 | SYSR.ST | Systemair Aktiebolag | Skinnskatteberg | SEK 12.50B | 2021–2026 |
@@ -889,11 +891,11 @@ Scope: France, Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belg
 |---|---|---|---|---|
 | 3NOV25.CO | Investeringsselskabet af 3. november 2025 A/S | Humlebæk | DKK 237.4M | 2020–2024 |
 | AGAT.CO | Agat Ejendomme A/S | Aalborg | DKK 72.2M | 2021–2026 |
-| AGFB.CO | Agf A/S | Viby | DKK 188.4M | 2021–2025 |
+| AGFB.CO | Agf A/S | Viby | DKK 230.6M | 2021–2026 |
 | ALKB.CO | Alk-Abelló A/S | Hørsholm | DKK 6.31B | 2019–2025 |
 | ALMB.CO | ALM. Brand A/S | København Ø | DKK 12.87B | 2023–2024 |
 | ALSYDB.CO | Sydbank A/S | Aabenraa | DKK 6.89B | 2020–2024 |
-| AMBUB.CO | Ambu A/S | Ballerup | DKK 6.04B | 2021–2025 |
+| AMBUB.CO | Ambu A/S | Ballerup | DKK 6.47B | 2021–2026 |
 | AOJB.CO | Brødrene A. & O. Johansen A/S | Albertslund | DKK 6.12B | 2021–2025 |
 | BAVA.CO | Bavarian Nordic A/S | Hellerup | DKK 6.24B | 2020–2025 |
 | BETCODKK.CO | Better Collective A/S | Copenhagen | €336.7M | 2021–2025 |
@@ -904,13 +906,13 @@ Scope: France, Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belg
 | CBRAIN.CO | Cbrain A/S | København | DKK 251.3M | 2020–2025 |
 | CEMAT.CO | Cemat A/S | København Ø | DKK 164.7M | 2020–2025 |
 | CHEMM.CO | Chemometec A/S | Allerød | DKK 511.1M | 2021–2026 |
-| COLOB.CO | Coloplast A/S | Humlebæk | DKK 27.87B | 2020–2025 |
+| COLOB.CO | Coloplast A/S | Dageløkke | DKK 27.87B | 2020–2025 |
 | COLUM.CO | Columbus A/S | Ballerup | DKK 1.58B | 2019–2025 |
 | CPHCAPST.CO | Copenhagen Capital A/S | Hellerup | DKK 58.4M | 2021–2025 |
 | DANSKE.CO | Danske Bank A/S | København V | DKK 63.02B | 2023–2024 |
-| DANTB.CO | Dantax A/S | Pandrup | DKK 24.7M | 2021–2025 |
+| DANTB.CO | Dantax A/S | Pandrup | DKK 19.7M | 2021–2026 |
 | DEMANT.CO | Demant A/S | Smørum | DKK 22.97B | 2019–2025 |
-| DFDS.CO | Dfds A/S | København Ø | DKK 31.54B | 2019–2026 |
+| DFDS.CO | Dfds A/S | København Ø | DKK 30.95B | 2019–2025 |
 | DNORD.CO | Dampskibsselskabet Norden A/S | Hellerup | $3.13B | 2020–2025 |
 | DSV.CO | Dsv A/S | Høje-Taastrup | DKK 247.33B | 2019–2025 |
 | ESG.CO | Ennogie Solar Group A/S | Herning | DKK 52.8M | 2020–2025 |
@@ -918,7 +920,7 @@ Scope: France, Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belg
 | FFARMS.CO | Firstfarms A/S | Billund | DKK 379.2M | 2021–2025 |
 | FLS.CO | Flsmidth & Co. A/S | Valby | DKK 14.61B | 2023–2025 |
 | FLUGB.CO | Flügger group A/S | Rødovre | DKK 2.31B | 2020–2026 |
-| FYNBK.CO | Fynske Bank A/S | Svendborg | DKK 388.6M | 2023–2024 |
+| FYNBK.CO | Fynske Bank A/S | Odense M | DKK 388.6M | 2023–2024 |
 | GABR.CO | Gabriel Holding A/S | Aalborg | DKK 516.0M | 2021–2025 |
 | GERHSP.CO | German High Street Properties A/S | Charlottenlund | €5.0M | 2020–2025 |
 | GJ.CO | Glunz & Jensen Holding A/S | Ringsted | DKK 143.6M | 2021–2025 |
@@ -928,7 +930,7 @@ Scope: France, Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belg
 | GUBRA.CO | Gubra A/S | Hørsholm | DKK 2.64B | 2022–2025 |
 | GYLDB.CO | Gyldendal A/S | København K | DKK 798.7M | 2019–2025 |
 | HARBB.CO | Harboes Bryggeri A/S | Slagelse | DKK 1.74B | 2020–2026 |
-| HH.CO | H+H International A/S | København Ø | €2.74B | 2025–2025 |
+| HH.CO | H+H International A/S | København Ø | DKK 2.74B | 2020–2025 |
 | HLUNA.CO | H. Lundbeck A/S | Valby | DKK 24.63B | 2019–2025 |
 | HUSCO.CO | HusCompagniet A/S | Tilst | DKK 2.96B | 2020–2025 |
 | IG.CO | InstallatørGruppen A/S | Roskilde | DKK 3.71B | 2025–2025 |
@@ -957,17 +959,17 @@ Scope: France, Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belg
 | RBLNB.CO | Roblon Aktieselskab | Frederikshavn | DKK 236.9M | 2021–2025 |
 | RBREW.CO | Royal Unibrew A/S | Faxe | DKK 15.72B | 2019–2025 |
 | ROCKB.CO | Rockwool A/S | Hedehusene | €3.62B | 2019–2025 |
-| ROV.CO | Rovsing A/S | Glostrup | DKK 37.0M | 2024–2025 |
+| ROV.CO | Rovsing A/S | Glostrup | DKK 30.7M | 2024–2026 |
 | RTX.CO | Rtx A/S | Nørresundby | DKK 547.1M | 2020–2025 |
-| SCHO.CO | Aktieselskabet Schouw & Co. | Aarhus | €34.13B | 2025–2025 |
+| SCHO.CO | Aktieselskabet Schouw & Co. | Aarhus | DKK 34.13B | 2020–2025 |
 | SIG.CO | Scandinavian Investment Group A/S | Herlev | DKK 6.7M | 2024–2025 |
 | SJF.CO | Sparekassen Sjælland-Fyn A/S | Holbæk | DKK 1.04B | 2023–2024 |
 | SOLARB.CO | Solar A/S | Vejen | DKK 12.17B | 2019–2025 |
-| SPG.CO | Sp Group A/S | Søndersø | DKK 2.9M | 2023–2025 |
+| SPG.CO | Sp Group A/S | Søndersø | DKK 2.95B | 2023–2025 |
 | STG.CO | Scandinavian Tobacco Group A/S | Gentofte | DKK 9.04B | 2019–2025 |
 | STRAP.CO | Strategic Partners A/S | Herlev | DKK 309K | 2021–2025 |
 | STRINV.CO | Strategic Investments A/S | København K | DKK 2.1M | 2021–2025 |
-| TCM.CO | TCM Group A/S | Holstebro | DKK 1.3M | 2020–2025 |
+| TCM.CO | TCM Group A/S | Holstebro | DKK 1.28B | 2020–2025 |
 | TIV.CO | Tivoli A/S | København V | DKK 1.34B | 2019–2025 |
 | VWS.CO | Vestas Wind Systems A/S | Aarhus | €18.82B | 2019–2025 |
 | ZEAL.CO | Zealand Pharma A/S | Søborg | DKK 9.21B | 2019–2025 |
@@ -988,7 +990,7 @@ Scope: France, Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belg
 | CTH1V.HE | Componenta Oyj | Vantaa | €97.1M | 2019–2024 |
 | CTY1S.HE | Citycon Oyj | Espoo | €223.1M | 2020–2025 |
 | DIGIA.HE | Digia Oyj | Helsinki | €217.0M | 2019–2025 |
-| DIGIGR.HE | Digitalist Group Oyj | Helsinki | €16.2M | 2020–2024 |
+| DIGIGR.HE | Digitalist Group Oyj | Helsinki | €16.2M | 2022–2024 |
 | DOV1V.HE | Dovre Group Oyj | Espoo | €91.9M | 2020–2025 |
 | EEZY.HE | Eezy Oyj | Helsinki | €139.3M | 2020–2025 |
 | ELISA.HE | Elisa Oyj | Helsinki | €2.26B | 2019–2025 |
@@ -1480,11 +1482,16 @@ Scope: France, Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belg
 - NRP.AS: report data for 12/31/2021 is not valid JSON
 - NSI.AS: report data for 12/31/2021 is not valid JSON
 - ONWD.AS: report data for 12/31/2021 is not valid JSON
+- LUVE.MI: report 12/31/2024: unit slip proved by another report of the same year; revenue ×1000, profit ×1000
+- ECNL.MI: report 12/31/2023: unit slip proved by another report of the same year; revenue ×1000, profit ×1000
 - B.MI: report data for 12/31/2021 is not valid JSON
+- BC.MI: report 12/31/2025: revenue tag contradicted by another report of the same year; report left out
 - ERG.MI: report data for 12/31/2022 is not valid JSON
 - FCT.MI: report data for 12/31/2025 is not valid JSON
 - GAB.MI: report data for 12/31/2025 is not valid JSON
 - GAB.MI: report data for 12/31/2024 is not valid JSON
+- RN.MI: report 12/31/2024: left out a revenue far bigger than the report's revenue and operating income
+- NTGY.MC: report 12/31/2020: unit slip proved by another report of the same year; revenue ×1000000, profit ×1000000
 - PRM.MC: report data for 12/31/2021 is not valid JSON
 - URB.P.MC: report data for 12/31/2021 is not valid JSON
 - AQ.ST: report data for 12/31/2021 is not valid JSON
@@ -1506,19 +1513,36 @@ Scope: France, Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belg
 - CPHCAPST.CO: report data for 12/31/2021 is not valid JSON
 - ESG.CO: report data for 12/31/2021 is not valid JSON
 - FFARMS.CO: report data for 12/31/2021 is not valid JSON
+- HH.CO: report 3/31/2024: one mistyped revenue for 2023, outvoted by the company's other reports; corrected
+- NETC.CO: report 12/31/2024: unit slip proved by another report of the same year; revenue ×1000, profit ×1000
+- NETC.CO: report 12/31/2023: unit slip proved by another report of the same year; revenue ×1000, profit ×1000
 - NEWCAP.CO: report data for 12/31/2021 is not valid JSON
 - NSISB.CO: report data for 12/31/2021 is not valid JSON
 - PARKSTA.CO: report data for 12/31/2021 is not valid JSON
+- PARKSTA.CO: report 12/31/2023: one mistyped profit for 2022, outvoted by the company's other reports; corrected
 - PARKEN.CO: report data for 12/31/2021 is not valid JSON
+- RBLNB.CO: report 7/31/2022: unit slip proved by another report of the same year; revenue ×1000, profit ×1000
+- RBLNB.CO: report 4/30/2022: unit slip proved by another report of the same year; revenue ×1000, profit ×1000
+- SPG.CO: report 6/30/2026: unit slip proved by another report of the same year; revenue ×1000, profit ×1000
+- SPG.CO: report 3/31/2026: unit slip proved by another report of the same year; revenue ×1000, profit ×1000
 - STRINV.CO: report data for 12/31/2021 is not valid JSON
+- TCM.CO: report 3/31/2026: unit slip proved by another report of the same year; revenue ×1000, profit ×1000
 - TIV.CO: report data for 12/31/2021 is not valid JSON
 - ZEAL.CO: report data for 12/31/2021 is not valid JSON
 - ATRAV.HE: report data for 12/31/2020 is not valid JSON
 - BOREO.HE: report data for 12/31/2021 is not valid JSON
+- DIGIGR.HE: report 12/31/2021: revenue and profit both over 300x away from the neighbouring year, and no other report states the year; left out
 - EXEL.HE: report data for 12/31/2020 is not valid JSON
 - KEMIRA.HE: report data for 12/31/2020 is not valid JSON
+- WITH.HE: report 12/31/2023: unit slip proved by another report of the same year; revenue ×0.001, profit ×0.001
+- SALME.OL: report 12/31/2022: unit slip proved by another report of the same year; revenue ×1000, profit ×1000
 - COMB.BR: report data for 12/31/2021 is not valid JSON
 - MIKO.BR: report data for 12/31/2021 is not valid JSON
+- MOUR.BR: report 12/31/2023: unit slip proved by another report of the same year; revenue ×1000, profit ×1000
+- MOUR.BR: report 12/31/2022: unit slip proved by another report of the same year; revenue ×1000, profit ×1000
+- MOUR.BR: report 12/31/2021: unit slip proved by another report of the same year; revenue ×1000, profit ×1000
+- LNZ.VI: report 12/31/2020: unit slip proved by another report of the same year; revenue ×1000000, profit ×1000
+- POS.VI: report 12/31/2024: unit slip proved by another report of the same year; revenue ×1000, profit ×1000
 - ROS.VI: report data for 12/31/2021 is not valid JSON
 - NLBR.LJ: report data for 12/31/2020 is not valid JSON
 - ZVTG.LJ: report data for 12/31/2020 is not valid JSON

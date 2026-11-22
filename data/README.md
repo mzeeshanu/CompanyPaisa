@@ -104,7 +104,9 @@ Every market ends by calling `DataPublisher.Publish(market, …)`, which replace
 ## Monthly refresh (scheduled)
 
 `tools/refresh-data.ps1` runs every market except Pakistan (`--market sec --market uk --market eu --market anz
---refresh-lists`, then `--validate --strict`) and, only if they all finish and
+--refresh-lists`), then EdgarTools over the SEC companies that import found (`tools/edgar/run.ps1`), then the SEC
+market again to use those annual reports (quick: it reads what the first pass downloaded), then `--validate --strict`,
+websites, salaries and job ads. Only if they all finish and
 verify the database, commits and pushes the data files so Railway redeploys. It refuses to run while there are
 uncommitted changes outside `data/`, and logs to `%LOCALAPPDATA%\CompanyPaisa\logs`.
 

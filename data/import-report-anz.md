@@ -1,8 +1,8 @@
-# Australia / New Zealand import report — 2026-11-09 10:40 UTC
+# Australia / New Zealand import report — 2026-11-22 11:15 UTC
 
 Scope: ASX and NZX companies known to Wikidata or in Wikipedia's S&P/ASX 200 and NZX tables, whose latest annual report could be found on their own website and read. Financials only. The exchanges' own websites aren't used (their terms don't allow automated access). Sources: Wikidata, Wikipedia, companies' websites, GLEIF, GeoNames.
 
-- Companies looked for: 539
+- Companies looked for: 540
 - Companies included: **87**
 - Years of figures: 225
 
@@ -24,7 +24,7 @@ Scope: ASX and NZX companies known to Wikidata or in Wikipedia's S&P/ASX 200 and
 | AEF.AX | Australian Ethical Investment | Sydney (report) | A$129.5M | 2025–2026 | [report](https://www.australianethical.com.au/globalassets/pdf-files/annual-reports/2026-annual-report.pdf) |
 | AFP.AX | AFT Pharmaceuticals (New Zealand) | Sydney (report) | A$254.7M | 2024–2026 | [report](https://investors.aftpharm.com/FormBuilder/_Resource/_module/p2XGBX4eEUuPk0R-Ti1BoQ/docs/annual-reports/2026/Annual_ReportFY2026.pdf) |
 | AMA.AX | AMA GROUP LIMITED | Melbourne (LEI) | A$1.04B | 2024–2026 | [report](https://amagroupltd.com/wp-content/uploads/2026/08/FY26-Annual-Report.pdf) |
-| AMI.AX | AURELIA METALS LIMITED | Brisbane City (LEI) | A$343.5M | 2023–2025 | [report](https://aureliametals.com/wp-content/uploads/2025/10/ANNUAL-REPORT-2025_WEB-NEW_OPTIMISED.pdf) |
+| AMI.AX | AURELIA METALS LIMITED | Brisbane City (LEI) | A$480.2M | 2024–2026 | [report](https://aureliametals.com/wp-content/uploads/2026/10/ANNUAL-REPORT-2026-WEB-FINAL-1.pdf) |
 | AMP.AX | AMP | Sydney (LEI) | A$2.81B | 2023–2025 | [report](https://www.amp.com.au/content/dam/corporate/shareholdercentre/files/reports/2026/AMP_Annual%20Report%202025%20FINAL.pdf) |
 | APE.AX | Eagers Automotive | Brisbane (report) | A$13.05B | 2024–2025 | [report](https://web-assets.cdn.dealersolutions.com.au/modular.multisite.dealer.solutions/wp-content/uploads/sites/2892/2026/04/3055521.pdf) |
 | AVG.AX | Australian Vintage | Adelaide (report) | A$257.6M | 2024–2026 | [report](https://avlwines.com.au/wp-content/uploads/AVL-2026-Annual-Report.pdf) |
@@ -113,14 +113,14 @@ Scope: ASX and NZX companies known to Wikidata or in Wikipedia's S&P/ASX 200 and
 | SUM.NZ | Summerset Group | Mount Victoria (report) | NZ$361.8M | 2021–2025 | [report](https://assets.ctfassets.net/hjeh5mvg3dxz/2jnhMVUuNIqYJjtLrjEUYY/a8d205014126db0536258770f8e75cee/Summerset_Annual_Report_2025.pdf) |
 | VGL.NZ | Vista Group International | Auckland (report) | NZ$164.3M | 2023–2025 | [report](https://cdn.prod.website-files.com/60d2aec2a563f9d361b2c9ec/6a05439cfe6031b4b005bebe_69a0a32b8626c402b1c86ab7_2025%20Annual%20Report.pdf) |
 
-## Excluded (452)
+## Excluded (453)
 
 - no annual report found on its website: 228
 - no website known …: 142
 - no revenue and profit read from its report …: 52
 - already shown from its US filings …: 14
 - no address found: 5
-- latest report found is for … …: 4
+- latest report found is for … …: 5
 - headquarters … not in Australia or not placed: 3
 - already shown from its home market …: 3
 - headquartered outside Australia and New Zealand …: 1
@@ -202,6 +202,7 @@ Scope: ASX and NZX companies known to Wikidata or in Wikipedia's S&P/ASX 200 and
 - BPG.NZ Blackpearl Group: no revenue and profit read from its report (the report link answered 404)
 - BRL.AX Bathurst Resources: headquarters (Wellington) not in Australia or not placed
 - BRM.NZ Barramundi: no website known (add one in data/curated/anz-companies.csv)
+- BRS.AX Broadspectrum: no annual report found on its website
 - BST.AX Best & Less: no annual report found on its website
 - BVS.AX BRAVURA SOLUTIONS LIMITED.: no annual report found on its website
 - BWP.AX BWP Trust: no website known (add one in data/curated/anz-companies.csv)
@@ -254,13 +255,12 @@ Scope: ASX and NZX companies known to Wikidata or in Wikipedia's S&P/ASX 200 and
 - DOW.NZ Downer EDI Works: no address found
 - DRO.AX Droneshield: no revenue and profit read from its report (layout not recognised)
 - DRR.AX Deterra Royalties: no website known (add one in data/curated/anz-companies.csv)
-- DTL.AX Data3: no revenue and profit read from its report (layout not recognised)
+- DTL.AX DATA#3 LIMITED: no revenue and profit read from its report (layout not recognised)
 - DUB.AX Dubber: no annual report found on its website
 - DXS.AX Dexus: no annual report found on its website
 - DYL.AX Deep Yellow: no revenue and profit read from its report (layout not recognised)
 - EBO.AX EBOS Group: no website known (add one in data/curated/anz-companies.csv)
 - EBO.NZ Ebos Group: no website known (add one in data/curated/anz-companies.csv)
-- ECX.AX FleetPartners Group: no annual report found on its website
 - ELD.AX Elders Limited: no annual report found on its website
 - ELX.AX Ellex Medical Lasers: no annual report found on its website
 - EMH.AX European Metals Holdings: no annual report found on its website
@@ -279,6 +279,7 @@ Scope: ASX and NZX companies known to Wikidata or in Wikipedia's S&P/ASX 200 and
 - FLN.AX freelancer.com: no annual report found on its website
 - FLT.AX Flight Centre Travel Group: no revenue and profit read from its report (layout not recognised)
 - FMG.AX Fortescue: no annual report found on its website
+- FPR.AX FleetPartners Group: no annual report found on its website
 - FRE.AX Freshtel: no annual report found on its website
 - FRE.NZ Freightways: no website known (add one in data/curated/anz-companies.csv)
 - FRW.AX Freightways Group: no website known (add one in data/curated/anz-companies.csv)
@@ -320,6 +321,7 @@ Scope: ASX and NZX companies known to Wikidata or in Wikipedia's S&P/ASX 200 and
 - HUB.AX HUB24: no annual report found on its website
 - HVN.AX Harvey Norman: no annual report found on its website
 - HYT.AX HyTerra: no annual report found on its website
+- HZR.AX Hazer Group: latest report found is for FY2022 (not recent)
 - IAG.AX Insurance Australia Group: no annual report found on its website
 - ICB.AX Industrial and Commercial Bank of China: no annual report found on its website
 - IDA.AX Indiana Resources Ltd: no annual report found on its website
@@ -349,7 +351,7 @@ Scope: ASX and NZX companies known to Wikidata or in Wikipedia's S&P/ASX 200 and
 - JRV.AX JERVOIS GLOBAL LIMITED: no annual report found on its website
 - KED.AX Keypath Education: no annual report found on its website
 - KFL.NZ Kingfish Limited: no website known (add one in data/curated/anz-companies.csv)
-- KGN.AX Kogan Technologies: no annual report found on its website
+- KGN.AX Kogan.com: no annual report found on its website
 - KMD.NZ KMD Brands: no annual report found on its website
 - L1G.AX L1 Group: no website known (add one in data/curated/anz-companies.csv)
 - LCT.AX Living Cell Technologies: no annual report found on its website
@@ -529,7 +531,6 @@ Scope: ASX and NZX companies known to Wikidata or in Wikipedia's S&P/ASX 200 and
 - TPW.NZ Trustpower: no annual report found on its website
 - TRA.NZ Turners Automotive Group: no website known (add one in data/curated/anz-companies.csv)
 - TRU.NZ TruScreen Limited: no website known (add one in data/curated/anz-companies.csv)
-- TSE.AX Broadspectrum: no annual report found on its website
 - TTS.AX Tatts Group: headquarters (Queensland) not in Australia or not placed
 - TUA.AX Tuas: no website known (add one in data/curated/anz-companies.csv)
 - TWE.AX Treasury Wine Estates: no annual report found on its website

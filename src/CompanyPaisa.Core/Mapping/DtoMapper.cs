@@ -24,7 +24,9 @@ public static class DtoMapper
         i.LatestQuarter?.Label,
         i.LatestQuarter?.Revenue,
         i.LatestQuarter?.NetIncome,
-        i.AnnualHistory.Select(y => new AnnualPointDto(y.FiscalYear, y.Revenue, y.NetIncome)).ToList());
+        i.AnnualHistory.Select(y => new AnnualPointDto(y.FiscalYear, y.Revenue, y.NetIncome)).ToList(),
+        i.TotalsYear,
+        i.HasTotals);
 
     public static FinancialPeriodDto ToDto(this FinancialPeriod p, decimal? growth) =>
         new(p.Label, p.FiscalYear, p.FiscalQuarter, p.PeriodType, p.Revenue, p.NetIncome, growth, p.SourceFiling);

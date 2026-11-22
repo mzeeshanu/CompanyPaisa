@@ -34,12 +34,19 @@ public sealed class UkMainMarket(ISecClient client, string gleifApi, string cach
     /// <summary>
     /// Constituents for filers the FTSE list doesn't already cover: ticker from OpenFIGI, sector unknown ("").
     /// Only filers with an annual report ending in the last <paramref name="recentYears"/> years (still listed).
+    /// A filer in <paramref name="saved"/> keeps its ticker: GLEIF's ISINs change order and content from day to day
+    /// (on 2026-11-22 that dropped UniCredit and KBC and moved Volvo from B to A shares), and the ticker is the page's
+    /// address. The lookup is for filers we don't know yet; to change a ticker, edit the saved list.
     /// </summary>
-    public async Task<List<UkConstituent>> FindAsync(IEnumerable<UkEntity> unclaimed, ISet<string> takenTickers, int recentYears, CancellationToken ct)
+    public async Task<List<UkConstituent>> FindAsync(IEnumerable<UkEntity> unclaimed, ISet<string> takenTickers, int recentYears,
+        IEnumerable<UkConstituent> saved, CancellationToken ct)
     {
         LoadCache();
         var cutoff = DateOnly.FromDateTime(DateTime.UtcNow).AddYears(-recentYears);
         var candidates = unclaimed.Where(e => e.Filings.Count > 0 && e.Filings.Max(f => f.PeriodEnd) >= cutoff).ToList();
+        var result = KeepSaved(candidates, saved, takenTickers);
+        var kept = result.Select(c => c.Lei!).ToHashSet(StringComparer.OrdinalIgnoreCase);
+        candidates = candidates.Where(e => !kept.Contains(e.Lei)).ToList();
         logger.LogInformation("Looking up {Exchanges} tickers for {Count} ESEF filers", string.Join("/", _exchanges), candidates.Count);
 
         // 1. ISINs per filer (GLEIF), keeping home-market equity-looking ones.
@@ -71,7 +78,6 @@ public sealed class UkMainMarket(ISecClient client, string gleifApi, string cach
             SaveCache();
         }
 
-        var result = new List<UkConstituent>();
         foreach (var e in candidates)
         {
             var listing = ByIsin(e) ?? _cache.GetValueOrDefault(SearchKey(e));
@@ -82,6 +88,20 @@ public sealed class UkMainMarket(ISecClient client, string gleifApi, string cach
         }
         logger.LogInformation("{Count} companies with shares listed on {Exchanges}", result.Count, string.Join("/", _exchanges));
         return result;
+    }
+
+    /// <summary>The filers already on the saved list, under their saved tickers (which no newcomer can then take).</summary>
+    internal static List<UkConstituent> KeepSaved(IEnumerable<UkEntity> filers, IEnumerable<UkConstituent> saved, ISet<string> takenTickers)
+    {
+        var byLei = filers.ToDictionary(e => e.Lei, StringComparer.OrdinalIgnoreCase);
+        var kept = new List<UkConstituent>();
+        foreach (var c in saved)
+            if (c.Lei is { } lei && byLei.TryGetValue(lei, out var e) && takenTickers.Add(c.Ticker))
+            {
+                byLei.Remove(lei);
+                kept.Add(new UkConstituent(c.Ticker, TidyName(e.Name), "", e.Lei));
+            }
+        return kept;
     }
 
     private static string SearchKey(UkEntity e) => "name:" + e.Lei;

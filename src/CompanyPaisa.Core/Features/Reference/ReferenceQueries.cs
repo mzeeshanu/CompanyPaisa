@@ -66,6 +66,8 @@ public sealed class GetDataMetaHandler(ICompanyRepository repository) : IRequest
     {
         var meta = await repository.GetMetadataAsync(ct);
         var (companies, locations) = await repository.GetCountsAsync(ct);
-        return new DataMetaDto(meta.DataVersion, meta.AsOfDate, meta.IsSampleData, companies, locations, meta.LoadedAt);
+        return new DataMetaDto(meta.DataVersion, meta.AsOfDate, meta.IsSampleData, companies, locations, meta.LoadedAt,
+            (meta.MarketDates ?? new Dictionary<string, DateOnly>()).OrderByDescending(m => m.Value).ThenBy(m => m.Key, StringComparer.Ordinal)
+                .Select(m => new MarketDateDto(m.Key, m.Value)).ToList());
     }
 }

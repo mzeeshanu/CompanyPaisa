@@ -3,6 +3,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using CompanyPaisa.Contracts;
 using CompanyPaisa.Core.Domain;
+using CompanyPaisa.Data.Sqlite;
 using CompanyPaisa.Importer.Compensation;
 using CompanyPaisa.Importer.Financials;
 using CompanyPaisa.Importer.Geo;
@@ -57,6 +58,9 @@ public sealed partial class ImportPipeline(
         public int PayDropped { get; set; }
         public int PayUnmatched { get; set; }
         public List<string> Excluded { get; } = [];
+        public List<string> StatementCorrections { get; } = [];
+        public List<string> KeptYears { get; } = [];
+        public List<string> AddedYears { get; } = [];
         public List<string> Warnings { get; } = [];
     }
 
@@ -130,6 +134,16 @@ public sealed partial class ImportPipeline(
 
         // 3. Financials, listing rules and executive pay per company.
         var listings = await ListingExchanges.LoadAsync(o.Listing.OtherListedUrl, logger, ct);
+        // Each company's newest annual report as EdgarTools read it (tools/edgar/run.ps1, run before this import).
+        var statements = Validation.EdgarCrossCheck.Load(paths.Resolve(Validation.ValidationRun.EdgarCacheDir))
+            .Where(r => r.Cik > 0 && r.ToStatement() is not null)
+            .GroupBy(r => r.Cik).ToDictionary(g => g.Key, g => g.MaxBy(r => r.Filed)!.ToStatement()!);
+        if (statements.Count == 0) logger.LogWarning("No EdgarTools statements found: run tools/edgar/run.ps1 first, or revenue falls back to company facts alone");
+        // What this run replaces, so a company can't lose its newest years to a gap in the SEC's feed (PublishedYears).
+        var database = paths.Resolve(o.Output.DatabasePath);
+        var before = File.Exists(database) ? SqliteDataStore.Read(database, DateTimeOffset.UtcNow) : null;
+        var publishedPeriods = before?.Financials.ToLookup(p => p.CompanyId, StringComparer.OrdinalIgnoreCase);
+        var publishedCurrencies = before?.Companies.ToLookup(x => x.CompanyId, x => x.Currency, StringComparer.OrdinalIgnoreCase);
         var parsedProxies = 0;
         var done = 0;
         foreach (var c in candidates.Values.OrderBy(c => c.Sec.Name))
@@ -138,7 +152,12 @@ public sealed partial class ImportPipeline(
             if (++done % 100 == 0) logger.LogInformation("Companies: {Done}/{Total}", done, candidates.Count);
             var ticker = c.Sec.PrimaryTicker ?? c.Sec.Cik10;
             var facts = await edgar.GetCompanyFactsAsync(c.Sec.Cik, ct);
-            var fin = facts is null ? null : financials.Extract(ticker, c.Sec.Cik, facts, o.History.Years);
+            var statement = statements.GetValueOrDefault(c.Sec.Cik);
+            var fin = facts is null ? null : financials.Extract(ticker, c.Sec.Cik, facts, o.History.Years, statement);
+            if (fin is { Periods.Count: > 0 } && publishedPeriods is not null)
+                fin = PublishedYears.Keep(fin, c.Sec.Cik, o.History.Years, publishedPeriods[ticker].ToList(),
+                    publishedCurrencies![ticker].FirstOrDefault(), statement);
+            if (fin is { Periods.Count: > 0 }) fin = StatementYears.AddNewest(fin, c.Sec.Cik, o.History.Years, statement);
             if (fin is null || fin.Periods.Count == 0)
             { outcome.Excluded.Add($"{Label(c.Sec)}: no revenue data in XBRL filings"); continue; }
             // Figures more than two years old describe a company that's since been taken over, gone private or stopped
@@ -178,6 +197,12 @@ public sealed partial class ImportPipeline(
                 Currency = fin.Currency, PayCurrency = pay.Count > 0 && fin.Currency != "USD" ? "USD" : null
             };
             outcome.Companies.Add(company);
+            outcome.StatementCorrections.AddRange(fin.Notes
+                .Where(n => n.StartsWith(XbrlFinancialsExtractor.CorrectedNote, StringComparison.Ordinal)).Select(n => $"{ticker}: {n}"));
+            outcome.KeptYears.AddRange(fin.Notes
+                .Where(n => n.StartsWith(PublishedYears.KeptNote, StringComparison.Ordinal)).Select(n => $"{ticker}: {n}"));
+            outcome.AddedYears.AddRange(fin.Notes
+                .Where(n => n.StartsWith(StatementYears.AddedNote, StringComparison.Ordinal)).Select(n => $"{ticker}: {n}"));
             outcome.Locations.Add(c.Location with { CompanyId = ticker, LocationId = $"{ticker}-HQ" });
             outcome.Locations.AddRange(extraSites.Where(s => s.Cik == c.Sec.Cik).Select(s => s.Site with { CompanyId = ticker }));
             outcome.Financials.AddRange(fin.Periods.Select(p => p with { CompanyId = ticker }));
@@ -434,6 +459,15 @@ public sealed partial class ImportPipeline(
         sb.AppendLine($"- {o.Abroad} US-listed companies headquartered outside the US and Canada");
         sb.AppendLine($"- {o.OutsideMetros} listed companies in the searched states but outside the covered metros");
         foreach (var line in o.Excluded.OrderBy(x => x)) sb.AppendLine($"- {line}");
+        sb.AppendLine().AppendLine($"## Revenue taken from the annual report ({o.StatementCorrections.Count} company-years)").AppendLine();
+        sb.AppendLine("Read by EdgarTools, and used because net income, label and the SEC's own copy of the figure all agreed.").AppendLine();
+        foreach (var line in o.StatementCorrections) sb.AppendLine($"- {line}");
+        sb.AppendLine().AppendLine($"## Published years kept ({o.KeptYears.Count} companies)").AppendLine();
+        sb.AppendLine("Years the SEC's company facts no longer give, kept because the company's newest annual report states the same figures.").AppendLine();
+        foreach (var line in o.KeptYears) sb.AppendLine($"- {line}");
+        sb.AppendLine().AppendLine($"## Newest year added from the annual report ({o.AddedYears.Count} companies)").AppendLine();
+        sb.AppendLine("Missing from the SEC's company facts; used because the same statement's prior year matches ours on revenue and net income.").AppendLine();
+        foreach (var line in o.AddedYears) sb.AppendLine($"- {line}");
         sb.AppendLine().AppendLine("## Needs review").AppendLine();
         sb.AppendLine("Rows where the pay components didn't add up to the total, or a table couldn't be read, are listed here. Check them against the linked filing.").AppendLine();
         foreach (var line in o.Warnings) sb.AppendLine($"- {line}");

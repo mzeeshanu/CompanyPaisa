@@ -95,6 +95,65 @@ public sealed class SqliteDataStoreTests : IDisposable
     }
 
     [Fact]
+    public void The_data_is_as_new_as_its_newest_market_and_keeps_each_ones_date()
+    {
+        SqliteDataStore.ReplaceMarket(_db, "pk", Market("OGDC.KA", 100m, "https://example.test/report"), Meta("pk-1"));
+        var meta = Meta("sec-1");
+        meta["as_of_date"] = "2026-11-22";
+        SqliteDataStore.ReplaceMarket(_db, "sec", Market("AAPL", 100m, "https://www.sec.gov/Archives/edgar/data/1/a/"), meta);
+
+        var data = SqliteDataStore.Read(_db, DateTimeOffset.UtcNow);
+
+        Assert.Equal(new DateOnly(2026, 11, 22), data.Metadata.AsOfDate);
+        Assert.Equal(new DateOnly(2026, 9, 15), data.Metadata.MarketDates!["pk"]);
+        Assert.Equal("pk", data.Companies.Single(c => c.CompanyId == "OGDC.KA").Market);
+    }
+
+    [Fact]
+    public void A_changed_ticker_still_leads_to_the_company()
+    {
+        void Publish(string id, int cik) =>
+            SqliteDataStore.ReplaceMarket(_db, "sec", Market(id, 100m, $"https://www.sec.gov/Archives/edgar/data/{cik}/a/"), Meta("sec-1"));
+        string? Find(string id) => new DataSnapshot(SqliteDataStore.Read(_db, DateTimeOffset.UtcNow)).Find(id)?.Ticker;
+
+        Publish("TCBI", 7);
+        Publish("TXCP", 7);
+        Assert.Equal("TXCP", Find("tcbi"));
+
+        Publish("TXC", 7);   // renamed again: both old addresses follow
+        Assert.Equal(("TXC", "TXC"), (Find("TCBI"), Find("TXCP")));
+
+        Publish("OTHER", 8); // another company taking its place is not a rename
+        Assert.Null(Find("TXC"));
+    }
+
+    [Fact]
+    public void A_company_matched_to_anothers_filer_does_not_redirect_to_it()   // B&M and Mitchells & Butlers
+    {
+        const string filing = "https://filings.xbrl.org/SAMELEI/report";
+        var both = Market("MAB.L", 100m, filing);
+        var wrong = Market("BME.L", 100m, filing);
+        both = both with { Companies = [.. both.Companies, .. wrong.Companies], Locations = [.. both.Locations, .. wrong.Locations], Financials = [.. both.Financials, .. wrong.Financials] };
+        SqliteDataStore.ReplaceMarket(_db, "uk", both, Meta("uk-1"));
+        SqliteDataStore.ReplaceMarket(_db, "uk", Market("MAB.L", 100m, filing), Meta("uk-2"));
+
+        Assert.Empty(SqliteDataStore.Read(_db, DateTimeOffset.UtcNow).FormerTickers);
+    }
+
+    [Fact]
+    public void A_ticker_in_use_again_is_no_longer_a_former_ticker()
+    {
+        SqliteDataStore.ReplaceMarket(_db, "sec", Market("OLD", 100m, "https://www.sec.gov/Archives/edgar/data/7/a/"), Meta("sec-1"));
+        SqliteDataStore.ReplaceMarket(_db, "sec", Market("NEW", 100m, "https://www.sec.gov/Archives/edgar/data/7/a/"), Meta("sec-2"));
+        SqliteDataStore.ReplaceMarket(_db, "uk", Market("OLD", 100m, "https://filings.xbrl.org/x/report"), Meta("uk-1"));
+
+        var data = SqliteDataStore.Read(_db, DateTimeOffset.UtcNow);
+
+        Assert.Empty(data.FormerTickers);
+        Assert.Equal("OLD", new DataSnapshot(data).Find("OLD")!.Ticker);
+    }
+
+    [Fact]
     public void A_failed_publish_leaves_the_existing_file_untouched()
     {
         SqliteDataStore.ReplaceMarket(_db, "sec", Market("AAPL", 100m, "https://www.sec.gov/Archives/edgar/data/1/a/"), Meta("sec-1"));

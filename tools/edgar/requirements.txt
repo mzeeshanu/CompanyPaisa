@@ -1,0 +1,2 @@
+# Pinned on purpose: upgrade by hand after checking data/edgar-crosscheck.md (docs/edgartools-plan.md). Stay on 5.x until 6.0 is stable.
+edgartools==5.62.1

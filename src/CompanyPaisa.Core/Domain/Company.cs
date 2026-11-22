@@ -20,4 +20,6 @@ public sealed record Company
     public string? FiscalYearEnd { get; init; }
     public string? LogoUrl { get; init; }
     public DateOnly? AsOfDate { get; init; }
+    /// <summary>The importer run the company came from ("sec", "uk", "eu"…), where the data source records it.</summary>
+    public string? Market { get; init; }
 }

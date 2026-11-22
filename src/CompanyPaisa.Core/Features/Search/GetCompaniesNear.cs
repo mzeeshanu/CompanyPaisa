@@ -115,7 +115,7 @@ public sealed class GetCompaniesNearHandler(
         var rows = companies.Select(c =>
         {
             var hit = inRange[c.CompanyId];
-            var indicators = metrics.Compute(financials.TryGetValue(c.CompanyId, out var f) ? f : []);
+            var indicators = metrics.Compute(financials.TryGetValue(c.CompanyId, out var f) ? f : [], c.FiscalYearEnd);
             return new CompanySummaryDto(c.Ticker, c.Name, c.Exchange, c.Sector, hit.HasHeadquartersInRange,
                 hit.NearestLocation.ToDto(), hit.DistanceMiles, indicators.ToDto(), c.Currency);
         }).ToList();

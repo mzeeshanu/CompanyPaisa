@@ -35,7 +35,7 @@ public sealed class CompanyStatsIndex(ICompanyRepository repository, IFinancialM
             foreach (var c in source)
             {
                 var locations = await repository.GetLocationsAsync(c.CompanyId, ct);
-                var indicators = metrics.Compute(financials.GetValueOrDefault(c.CompanyId) ?? []);
+                var indicators = metrics.Compute(financials.GetValueOrDefault(c.CompanyId) ?? [], c.FiscalYearEnd);
                 all.Add(new CompanyStats(c, locations.FirstOrDefault(l => l.IsHeadquarters) ?? locations.FirstOrDefault(), indicators,
                     fx.ToUsd(indicators.TtmRevenue, c.Currency)));
             }

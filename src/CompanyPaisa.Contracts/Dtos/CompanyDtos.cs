@@ -2,7 +2,10 @@ namespace CompanyPaisa.Contracts;
 
 // Money values are in whole units of the company's reporting currency (USD for v1).
 
-/// <summary>Headline numbers derived from a company's financials.</summary>
+/// <summary>
+/// Headline numbers derived from a company's financials. The Ttm figures are the last 12 months, or the fiscal year
+/// <see cref="TotalsYear"/> when set; when <see cref="HasTotals"/> is false they are unknown (and zero).
+/// </summary>
 public sealed record CompanyIndicatorsDto(
     decimal TtmRevenue,
     decimal TtmNetIncome,
@@ -14,7 +17,9 @@ public sealed record CompanyIndicatorsDto(
     string? LatestQuarterLabel,
     decimal? LatestQuarterRevenue,
     decimal? LatestQuarterNetIncome,
-    IReadOnlyList<AnnualPointDto> RevenueHistory);
+    IReadOnlyList<AnnualPointDto> RevenueHistory,
+    int? TotalsYear = null,
+    bool HasTotals = true);
 
 /// <summary>One point of the annual revenue sparkline.</summary>
 public sealed record AnnualPointDto(int FiscalYear, decimal Revenue, decimal NetIncome);

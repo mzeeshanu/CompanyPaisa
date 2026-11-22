@@ -39,7 +39,7 @@ public sealed class PageRenderer(
     {
         var locations = await repository.GetLocationsAsync(c.CompanyId, ct);
         var hq = locations.FirstOrDefault(l => l.IsHeadquarters) ?? locations.FirstOrDefault();
-        var indicators = metrics.Compute(await repository.GetFinancialsAsync(c.CompanyId, ct));
+        var indicators = metrics.Compute(await repository.GetFinancialsAsync(c.CompanyId, ct), c.FiscalYearEnd);
         var pay = Executives ? await repository.GetExecutiveCompensationAsync(c.CompanyId, ct) : [];
         var ratio = (await repository.GetWorkerPayAsync(c.CompanyId, ct)).MaxBy(w => w.Year);
         var jobs = (await repository.GetJobSalariesAsync(c.CompanyId, ct)).Where(j => j.City is null).OrderByDescending(j => j.Filings).ToList();
@@ -60,11 +60,12 @@ public sealed class PageRenderer(
         }
         if (jobs.Count > 0) h.Open("p").Link($"{CompanyPath(c)}/salaries", $"Salaries at {c.Name}: {jobs.Count:N0} job titles").Close("p");
 
-        if (indicators.AnnualHistory.Count > 0 || indicators.TtmRevenue != 0)
+        if (indicators.HasTotals)
         {
+            var span = indicators.TotalsYear is { } totalsYear ? $"fiscal year {totalsYear}" : "last 12 months";
             h.Open("h2").Text("Key figures").Close("h2").Open("ul");
-            h.Item($"Revenue (last 12 months): {Money(indicators.TtmRevenue, c.Currency)}");
-            h.Item($"Net income (last 12 months): {Money(indicators.TtmNetIncome, c.Currency)}");
+            h.Item($"Revenue ({span}): {Money(indicators.TtmRevenue, c.Currency)}");
+            h.Item($"Net income ({span}): {Money(indicators.TtmNetIncome, c.Currency)}");
             if (indicators.NetMargin is { } margin) h.Item($"Net margin: {Percent(margin)}");
             if (indicators.RevenueGrowthYoY is { } growth) h.Item($"Revenue growth: {Signed(growth)} on the year before");
             if (c.Employees is { } employees) h.Item($"Employees: {employees:N0}");
@@ -247,7 +248,7 @@ public sealed class PageRenderer(
         var companies = await repository.GetCompaniesAsync(hits.Keys, ct);
         var financials = await repository.GetFinancialsAsync(hits.Keys, ct);
         var ranked = companies
-            .Select(c => (Company: c, Indicators: metrics.Compute(financials.GetValueOrDefault(c.CompanyId) ?? []), Hit: hits[c.CompanyId]))
+            .Select(c => (Company: c, Indicators: metrics.Compute(financials.GetValueOrDefault(c.CompanyId) ?? [], c.FiscalYearEnd), Hit: hits[c.CompanyId]))
             .OrderByDescending(x => currency.ToUsd(x.Indicators.TtmRevenue, x.Company.Currency)).ToList();
 
         var h = new Html();
@@ -273,7 +274,7 @@ public sealed class PageRenderer(
         {
             h.Open("h1").Text($"Public companies {nearWhere}").Close("h1");
             h.Open("p").Text($"{companies.Count:N0} public companies have an office {within}. The largest by revenue:").Close("p");
-            h.Open("table").Open("thead").Open("tr").Cell("th", "Company").Cell("th", "Where").Cell("th", "Sector").Cell("th", "Revenue (12 months)").Close("tr").Close("thead").Open("tbody");
+            h.Open("table").Open("thead").Open("tr").Cell("th", "Company").Cell("th", "Where").Cell("th", "Sector").Cell("th", "Revenue (12 months or latest year)").Close("tr").Close("thead").Open("tbody");
             foreach (var x in ranked.Take(100))
             {
                 h.Open("tr").Open("td").Link(CompanyPath(x.Company), $"{x.Company.Name} ({x.Company.Ticker})").Close("td")
@@ -312,7 +313,7 @@ public sealed class PageRenderer(
         var companies = await repository.GetCompaniesAsync(ct);
         var financials = await repository.GetFinancialsAsync(companies.Select(c => c.CompanyId), ct);
         var largest = companies
-            .Select(c => (Company: c, Revenue: metrics.Compute(financials.GetValueOrDefault(c.CompanyId) ?? []).TtmRevenue))
+            .Select(c => (Company: c, Revenue: metrics.Compute(financials.GetValueOrDefault(c.CompanyId) ?? [], c.FiscalYearEnd).TtmRevenue))
             .OrderByDescending(x => currency.ToUsd(x.Revenue, x.Company.Currency)).Take(50).ToList();
 
         var h = new Html();

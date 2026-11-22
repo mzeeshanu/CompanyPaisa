@@ -15,6 +15,8 @@ namespace CompanyPaisa.Importer.Validation;
 public sealed class ValidationRun(IOptions<ImporterOptions> options, RepoPaths paths, ILogger<ValidationRun> logger)
 {
     public const string ReportPath = "data/validation-report.md";
+    public const string EdgarReportPath = "data/edgar-crosscheck.md";
+    public const string EdgarCacheDir = "data/cache/edgar";
     private const string ApiSettings = "src/CompanyPaisa.Api/appsettings.json";
 
     public async Task<int> RunAsync(bool strict, CancellationToken ct)
@@ -23,7 +25,19 @@ public sealed class ValidationRun(IOptions<ImporterOptions> options, RepoPaths p
         var all = SqliteDataStore.Read(database, DateTimeOffset.UtcNow);
         var markets = SqliteDataStore.Markets(database).Select(m => $"{m.Key} ({m.Value.GetValueOrDefault("data_version")})").ToList();
 
-        var result = DataValidator.Validate(all, ReadRates(), DateOnly.FromDateTime(DateTime.UtcNow));
+        var rates = ReadRates();
+        var result = DataValidator.Validate(all, rates, DateOnly.FromDateTime(DateTime.UtcNow));
+
+        // EdgarTools shadow comparison: only when tools/edgar/extract.py has written its files (warnings, never errors).
+        var edgar = EdgarCrossCheck.Load(paths.Resolve(EdgarCacheDir));
+        if (edgar.Count > 0)
+        {
+            var cross = EdgarCrossCheck.Compare(all, edgar, rates);
+            result = result with { Checks = [.. result.Checks, .. cross.Checks] };
+            await File.WriteAllTextAsync(paths.Resolve(EdgarReportPath), EdgarCrossCheck.Render(cross, all, rates), ct);
+            logger.LogInformation("EdgarTools cross-check: {Reports} companies, {Compared} figures compared → {Report}",
+                edgar.Count, cross.Comparisons.Count, EdgarReportPath);
+        }
         await File.WriteAllTextAsync(paths.Resolve(ReportPath), Render(result, Path.GetFileName(database), markets), ct);
 
         foreach (var c in result.Checks.Where(c => c.Count > 0))

@@ -39,6 +39,8 @@ public static partial class SitePages
         app.MapGet("/company/{ticker}", async (string ticker, ICompanyRepository repository, PageRenderer pages, IndexHtml index, HttpContext http, CancellationToken ct) =>
             {
                 var company = await repository.GetCompanyAsync(ticker, ct);
+                if (company is not null && !company.Ticker.Equals(ticker, StringComparison.OrdinalIgnoreCase))
+                    return Results.Redirect(CompanyPath(company.Ticker) + http.Request.QueryString, permanent: true);
                 PageMeta? meta = null;
                 PageContent? content = null;
                 if (company is not null)
@@ -60,6 +62,8 @@ public static partial class SitePages
                 HttpContext http, CancellationToken ct) =>
             {
                 var company = await repository.GetCompanyAsync(ticker, ct);
+                if (company is not null && !company.Ticker.Equals(ticker, StringComparison.OrdinalIgnoreCase))
+                    return Results.Redirect(CompanyPath(company.Ticker) + "/salaries" + http.Request.QueryString, permanent: true);
                 var salaries = company is null ? [] : await repository.GetJobSalariesAsync(company.CompanyId, ct);
                 PageMeta? meta = null;
                 PageContent? content = null;
@@ -173,9 +177,9 @@ public static partial class SitePages
                 var paths = await CachedSitemapPathsAsync(http, repository, ui.CurrentValue, features.CurrentValue.IsEnabled("Executives"), ct);
                 var page = paths.Skip((file - 1) * SitemapFileSize).Take(SitemapFileSize).ToList();
                 if (page.Count == 0) return Results.NotFound();
-                var lastModified = (await repository.GetMetadataAsync(ct)).AsOfDate;
+                var dated = await SitemapDatesAsync(repository, page, ct);
                 http.Response.Headers.CacheControl = "public, max-age=86400";
-                return Results.Text(SitemapXml(Origin(http), page, lastModified), "application/xml; charset=utf-8");
+                return Results.Text(SitemapXml(Origin(http), dated), "application/xml; charset=utf-8");
             })
             .ExcludeFromDescription();
 
@@ -231,6 +235,32 @@ public static partial class SitePages
     }
 
     /// <summary>
+    /// When each address last changed: a company's pages with its market's refresh (Pakistan's can be months behind the
+    /// rest), an executive's with their company's, and every other page with the newest refresh.
+    /// </summary>
+    private static async Task<IReadOnlyList<(string Path, DateOnly? Modified)>> SitemapDatesAsync(ICompanyRepository repository,
+        IReadOnlyList<string> paths, CancellationToken ct)
+    {
+        var meta = await repository.GetMetadataAsync(ct);
+        var companies = await repository.GetCompaniesAsync(ct);
+        DateOnly? DateOf(Company c) => c.Market is { } m && meta.MarketDates?.TryGetValue(m, out var date) == true ? date : meta.AsOfDate;
+        var dates = new Dictionary<string, DateOnly?>(StringComparer.Ordinal);
+        foreach (var c in companies) dates[CompanyPath(c.Ticker)] = dates[CompanyPath(c.Ticker) + "/salaries"] = DateOf(c);
+        if (paths.Any(p => p.StartsWith("/executive/", StringComparison.Ordinal)))
+        {
+            var byId = companies.ToDictionary(c => c.CompanyId, StringComparer.OrdinalIgnoreCase);
+            foreach (var row in await repository.GetExecutiveCompensationAsync(byId.Keys, ct))
+            {
+                if (!byId.TryGetValue(row.CompanyId, out var company)) continue;
+                var path = $"/executive/{Uri.EscapeDataString(row.PersonId)}";
+                var date = DateOf(company);
+                if (!dates.TryGetValue(path, out var had) || had < date) dates[path] = date;
+            }
+        }
+        return paths.Select(p => (p, dates.TryGetValue(p, out var date) ? date : meta.AsOfDate)).ToList();
+    }
+
+    /// <summary>
     /// How a postcode appears in a search address (the website builds the same): no spaces, and European, Australian,
     /// New Zealand and Pakistani codes carry their country ("FR-75008"), because a bare 5-digit code reads as a US ZIP.
     /// </summary>
@@ -264,14 +294,14 @@ public static partial class SitePages
     [GeneratedRegex(@"^(?<country>FR|NL|IT|ES|AU|NZ|PK)[\s\-:]+\d")]
     private static partial Regex CountryPrefix();
 
-    private static string SitemapXml(string origin, IEnumerable<string> paths, DateOnly? lastModified)
+    private static string SitemapXml(string origin, IEnumerable<(string Path, DateOnly? Modified)> pages)
     {
         var sb = new StringBuilder();
         using (var xml = XmlWriter.Create(sb, new XmlWriterSettings { Indent = false, Encoding = Encoding.UTF8 }))
         {
             xml.WriteStartDocument();
             xml.WriteStartElement("urlset", "http://www.sitemaps.org/schemas/sitemap/0.9");
-            foreach (var path in paths)
+            foreach (var (path, lastModified) in pages)
             {
                 xml.WriteStartElement("url");
                 xml.WriteElementString("loc", origin + path);

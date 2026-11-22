@@ -4,7 +4,7 @@ import { api } from '../api/client';
 import type { CompanyDetail, JobSalariesResponse, JobSalary, JobSalarySet, WorkerPay } from '../api/types';
 import { money } from '../lib/format';
 import { Filing } from './Filing';
-import { companyPath, Link } from '../lib/router';
+import { companyPath, Link, navigate, salariesPath } from '../lib/router';
 import { milesBetween, PageBack, type Nearby } from './PageShell';
 import { titled } from '../lib/title';
 
@@ -84,6 +84,7 @@ export function SalariesPage({ ticker, from, onLoaded }: { ticker: string; from:
     setCompany(null); setMissing(false);
     api.company(ticker).then(c => {
       if (cancelled) return;
+      if (c.ticker.toUpperCase() !== ticker.toUpperCase()) { navigate(salariesPath(c.ticker), { replace: true }); return; }
       setCompany(c);
       document.title = titled(`${c.name} (${c.ticker}) salaries by job title`);
       loaded.current(`salaries at ${c.name}`);

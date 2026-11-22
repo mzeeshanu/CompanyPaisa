@@ -1,5 +1,6 @@
 using System.Globalization;
 using System.Text.Json;
+using CompanyPaisa.Data.Sqlite;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
@@ -26,7 +27,7 @@ public interface IEdgarService
     Task<string?> GetDocumentAsync(string url, CancellationToken ct);
 }
 
-public sealed class EdgarService(ISecClient client, IOptions<ImporterOptions> options, ILogger<EdgarService> logger) : IEdgarService
+public sealed class EdgarService(ISecClient client, IOptions<ImporterOptions> options, RepoPaths paths, ILogger<EdgarService> logger) : IEdgarService
 {
     private Dictionary<string, long>? _tickers;
 
@@ -114,16 +115,20 @@ public sealed class EdgarService(ISecClient client, IOptions<ImporterOptions> op
         using var doc = JsonDocument.Parse(json);
         _tickers = new(StringComparer.OrdinalIgnoreCase);
         _listings = [];
+        _tickersByCik = [];
         if (doc.RootElement.TryGetProperty("data", out var data))
             foreach (var row in data.EnumerateArray())   // [cik, name, ticker, exchange]
             {
                 var (cik, ticker, exchange) = (row[0].GetInt64(), row[2].GetString() ?? "", row[3].ValueKind == JsonValueKind.String ? row[3].GetString() ?? "" : "");
                 _tickers.TryAdd(ticker, cik);
                 _listings.TryAdd(cik, (ticker, exchange));
+                if (!_tickersByCik.TryGetValue(cik, out var all)) _tickersByCik[cik] = all = [];
+                all.Add((ticker, exchange));
             }
     }
 
     private Dictionary<long, (string Ticker, string Exchange)>? _listings;
+    private Dictionary<long, List<(string Ticker, string Exchange)>>? _tickersByCik;
 
     public async Task<SecCompany?> GetCompanyAsync(long cik, DateOnly filingsSince, CancellationToken ct)
     {
@@ -150,7 +155,40 @@ public sealed class EdgarService(ISecClient client, IOptions<ImporterOptions> op
             if (_listings!.TryGetValue(cik, out var listing))
                 company = company with { Tickers = [listing.Ticker], Exchanges = [listing.Exchange] };
         }
-        return company;
+        if (company.PrimaryTicker is null) return company;
+
+        await LoadTickersAsync(ct);
+        return KeepPublishedTicker(company, PublishedIds(), _tickersByCik!.GetValueOrDefault(cik, []));
+    }
+
+    /// <summary>
+    /// A company keeps the ticker it's published under while the SEC's ticker file still lists that ticker for it: the
+    /// ticker is the page's address, and the order of a company's tickers at the SEC changes (on 2026-11-22 Simon
+    /// Property's preferred SPGJ and Hertz's warrant HTZWW came first). A ticker the file has dropped gives way to the
+    /// new one (Texas Capital's TCBI became TXCP).
+    /// </summary>
+    internal static SecCompany KeepPublishedTicker(SecCompany company, IReadOnlySet<string> published,
+        IReadOnlyList<(string Ticker, string Exchange)> listed)
+    {
+        var kept = listed.FirstOrDefault(l => published.Contains(l.Ticker));
+        if (kept.Ticker is null || string.Equals(company.PrimaryTicker, kept.Ticker, StringComparison.OrdinalIgnoreCase)) return company;
+        return company with
+        {
+            Tickers = [kept.Ticker, .. company.Tickers.Where(t => !string.Equals(t, kept.Ticker, StringComparison.OrdinalIgnoreCase))],
+            Exchanges = [kept.Exchange, .. company.Exchanges],
+        };
+    }
+
+    private HashSet<string>? _published;
+
+    /// <summary>The ids in the database this run will replace.</summary>
+    private HashSet<string> PublishedIds()
+    {
+        if (_published is not null) return _published;
+        var database = paths.Resolve(options.Value.Output.DatabasePath);
+        return _published = File.Exists(database)
+            ? SqliteDataStore.Read(database, DateTimeOffset.UtcNow).Companies.Select(c => c.CompanyId).ToHashSet(StringComparer.OrdinalIgnoreCase)
+            : new HashSet<string>(StringComparer.OrdinalIgnoreCase);
     }
 
     public Task<string?> GetCompanyFactsAsync(long cik, CancellationToken ct) =>

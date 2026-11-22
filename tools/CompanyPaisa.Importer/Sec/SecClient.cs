@@ -46,12 +46,11 @@ public sealed class SecClient : ISecClient, IDisposable
         _logger = logger;
         _cacheDir = paths.Resolve(_options.CacheDirectory);
         Directory.CreateDirectory(_cacheDir);
-        _http = new HttpClient(new HttpClientHandler { AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate })
+        // Redirects are followed by hand, so the identity is chosen again for every host (see IdentityFor).
+        _http = new HttpClient(new HttpClientHandler { AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate, AllowAutoRedirect = false })
         {
             Timeout = TimeSpan.FromSeconds(300)   // UK annual reports can be 30 MB+
         };
-        // The SEC's required format ("Company contact@email") isn't a valid product token, so skip header validation.
-        _http.DefaultRequestHeaders.TryAddWithoutValidation("User-Agent", _options.UserAgent);
         _http.DefaultRequestHeaders.AcceptEncoding.ParseAdd("gzip, deflate");
     }
 
@@ -79,7 +78,7 @@ public sealed class SecClient : ISecClient, IDisposable
             Interlocked.Increment(ref _requests);
             try
             {
-                using var response = await _http.GetAsync(url, ct);
+                using var response = await SendAsync(new Uri(url), ct);
                 if (response.StatusCode == HttpStatusCode.NotFound) return null;
                 if (response.StatusCode is HttpStatusCode.TooManyRequests or HttpStatusCode.ServiceUnavailable or HttpStatusCode.Forbidden)
                 {
@@ -108,6 +107,32 @@ public sealed class SecClient : ISecClient, IDisposable
         _logger.LogError("Giving up on {Url}", url);
         return null;
     }
+
+    private async Task<HttpResponseMessage> SendAsync(Uri uri, CancellationToken ct)
+    {
+        for (var hop = 0; ; hop++)
+        {
+            using var request = new HttpRequestMessage(HttpMethod.Get, uri);
+            // The SEC's required format ("Company contact@email") isn't a valid product token, so skip header validation.
+            request.Headers.TryAddWithoutValidation("User-Agent", IdentityFor(uri, _options.UserAgent));
+            var response = await _http.SendAsync(request, ct);
+            if (hop >= 5 || (int)response.StatusCode is not (301 or 302 or 303 or 307 or 308) || response.Headers.Location is not { } next)
+                return response;
+            response.Dispose();
+            uri = new Uri(uri, next);
+        }
+    }
+
+    /// <summary>
+    /// The contact email is for the SEC and nobody else (decided 2026-11-21): an identity holding an email is sent only
+    /// to sec.gov over HTTPS. Any other host gets the plain product name.
+    /// </summary>
+    internal static string IdentityFor(Uri uri, string configured) =>
+        !configured.Contains('@') || IsSec(uri) ? configured : "CompanyPaisa";
+
+    private static bool IsSec(Uri uri) =>
+        uri.Scheme == Uri.UriSchemeHttps && (uri.IdnHost.Equals("sec.gov", StringComparison.OrdinalIgnoreCase)
+                                             || uri.IdnHost.EndsWith(".sec.gov", StringComparison.OrdinalIgnoreCase));
 
     /// <summary>Spaces requests evenly so we never exceed MaxRequestsPerSecond.</summary>
     private async Task WaitForSlotAsync(CancellationToken ct)

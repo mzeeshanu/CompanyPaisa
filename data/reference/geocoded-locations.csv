@@ -69,6 +69,7 @@ ADOC.PA-HQ,"115 AVENUE LACASSAGNE, Lyon, FR 69003",45.749683,4.876130,openstreet
 ADP-HQ,"One Adp Boulvard, Roseland, NJ 07068",40.815094,-74.310034,us-census
 ADP.PA-HQ,"1 RUE DE FRANCE, Tremblay-En-France, FR 93290",49.009661,2.555992,openstreetmap
 ADPT-HQ,"1165 Eastlake Ave E, Seattle, WA 98109",47.630133,-122.328219,us-census
+ADRX-HQ,"5871 Oberlin Drive, Suite 200, San Diego, CA 92121",32.895668,-117.192465,us-census
 ADSK-HQ,"One Market, Ste. 400., San Francisco, CA 94105",37.794409,-122.394695,us-census
 ADTN-HQ,"901 Explorer Blvd, Huntsville, AL 35806",34.721403,-86.684667,us-census
 ADUR-HQ,"542 Newbold Street, London, ON N6E 2S5",42.934885,-81.205337,openstreetmap
@@ -155,6 +156,7 @@ ALAB-HQ,"2345 North First Street, San Jose, CA 95131",37.383236,-121.925771,us-c
 ALB-HQ,"4250 Congress Street Suite 900, Charlotte, NC 28209",35.155280,-80.837608,us-census
 ALB.MC-HQ,"CASTELLO 77 5, Madrid, ES 28006",40.433120,-3.680870,openstreetmap
 ALC-HQ,"6201 South Freeway, Fort Worth, TX 76134",32.660373,-97.320586,us-census
+ALCLA.PA-HQ,"179 AVENUE CHARLES DE GAULLE, Neuilly-Sur-Seine, FR 92200",48.883829,2.262312,openstreetmap
 ALCO-HQ,"10070 Daniels Interstate Court Ste. 100, Ft. Myers,, FL 33913",26.545489,-81.792815,us-census
 ALEC-HQ,"131 Oyster Point Blvd., Suite 600, South San Francisco, CA 94080",37.662340,-122.395966,us-census
 ALFEN.AS-HQ,"Hefbrugweg 79, Almere, NL 1332AM",52.405268,5.247328,openstreetmap
@@ -220,6 +222,7 @@ AMPX-HQ,"1180 Page Avenue, Fremont, CA 94538",37.468088,-121.927003,us-census
 AMPY-HQ,"500 Dallas Street Suite 1700, Houston, TX 77002",29.757948,-95.370395,us-census
 AMR-HQ,"340 Martin Luther King Jr. Blvd., Bristol, TN 37620",36.591416,-82.182162,us-census
 AMRC-HQ,"111 Speen Street, Framingham, MA 01701",42.310105,-71.384589,us-census
+AMRO-HQ,"130 Innovation Drive Sw, Mcdonald, TN 37353",35.142948,-84.964681,us-census
 AMS-HQ,"601 Montgomery Street Suite 1112, San Francisco, CA 94111",37.794714,-122.403220,us-census
 AMS.MC-HQ,"Salvador de Madariaga 1, Madrid, ES 28027",40.436893,-3.658445,openstreetmap
 AMSF-HQ,"2301 Highway 190 West, Deridder, LA 70634",30.846801,-93.320328,us-census
@@ -365,6 +368,7 @@ AVAP.L-HQ,"5 Fleet Place, London, UK EC4M 7RD",51.514939,-0.104153,openstreetmap
 AVAV-HQ,"241 18Th Street South, Suite 650, Arlington, VA 22202",38.857634,-77.050002,us-census
 AVBC-HQ,"42 Main Street, Hudson, MA 01749",42.391288,-71.568853,us-census
 AVBH-HQ,"1732 N. 1St Street, 6Th Floor, San Jose, CA 95112",37.366973,-121.913457,us-census
+AVBP-HQ,"18 Campus Blvd. Suite 100, Newtown Square, PA 19073",39.980758,-75.424523,us-census
 AVD-HQ,"4695 Macarthur Court, Newport Beach, CA 92660",33.670325,-117.861673,us-census
 AVEX-HQ,"440 Stevens Ave #150, Solana Beach, CA 92075",32.991810,-117.261546,us-census
 AVG.AX-HQ,"275 Sir Donald Bradman Drive, Adelaide, AU 5033",-34.932994,138.553391,openstreetmap
@@ -486,6 +490,7 @@ BIIB-HQ,"225 Binney Street, Cambridge, MA 02142",42.366056,-71.084889,us-census
 BIM.PA-HQ,"376 CHEMIN DE L'ORME, Marcy-L'etoile, FR 69280",45.780898,4.709753,openstreetmap
 BIO-HQ,"1000 Alfred Nobel Drive, Hercules, CA 94547",38.022625,-122.277045,us-census
 BIOA-HQ,"5885 Hollis Street Suite 370, Emeryville, CA 94608",37.841005,-122.289764,us-census
+BIPC-HQ,"225 Liberty Street, 8Th Floor, New York, NY",40.711285,-74.014896,us-census
 BIYA-HQ,"Room 18022, Floor 18 112 W. 34Th Street, New York, NY 10120",40.749837,-73.988039,us-census
 BJ-HQ,"350 Campus Drive, Marlborough, MA 01752",42.326608,-71.583948,us-census
 BJRI-HQ,"7755 Center Avenue Suite 300, Huntington Beach, CA 92647",33.733696,-117.995748,us-census
@@ -624,6 +629,7 @@ BWMN-HQ,"12355 Sunrise Valley Drive Suite 520, Reston, VA 20191",38.950763,-77.3
 BWXT-HQ,"1720 Mt. Athos Road, Lynchburg, VA 24504",37.411068,-79.049384,us-census
 BWZ.MI-HQ,"VIALE EDOARDO JENNER, 53, Milano, IT 20159",45.497171,9.182798,openstreetmap
 BX-HQ,"345 Park Avenue, New York, NY 10154",40.757910,-73.973362,us-census
+BXBL-HQ,"104 S. Walnut Street Unit 1A, Itasca, IL 60143",41.970529,-88.013171,us-census
 BXC-HQ,"1950 Spectrum Circle Suite 300, Marietta, GA 30067",33.906028,-84.468771,us-census
 BXDC-HQ,"C/O Blackstone Inc. 345 Park Avenue, New York, NY 10154",40.757910,-73.973362,us-census
 BXMT-HQ,"345 Park Avenue 24Th Floor, New York, NY 10154",40.757910,-73.973362,us-census
@@ -827,7 +833,7 @@ CMB.MI-HQ,"VIA SERENISSIMA, 9, Brescia, IT 25135",45.519532,10.284961,openstreet
 CMC-HQ,"6565 N. Macarthur Blvd., Suite 800 P O Box 1046, Irving, TX 75039",32.898651,-96.958988,us-census
 CMCO-HQ,"13320 Ballantyne Corporate Place Suite D, Charlotte, NC 28277",35.059534,-80.844891,us-census
 CMCOM.AS-HQ,"Konijnenberg 24, Breda, NL 4825BD",51.602945,4.770662,openstreetmap
-CMCT-HQ,"17950 Preston Rd Suite 600, Dallas, TX 75252",32.996501,-96.798397,us-census
+CMCT-HQ,"4700 Wilshire Boulevard, Los Angeles, CA 90010",34.061925,-118.331785,us-census
 CMCX.L-HQ,"133 Houndsditch, London, UK EC3A 7BX",51.514929,-0.077875,openstreetmap
 CME-HQ,"20 S. Wacker Dr., Chicago, IL 60606",41.881635,-87.637089,us-census
 CMG-HQ,"610 Newport Center Dr Suite 1100, Newport Beach, CA 92660",33.617525,-117.872511,us-census
@@ -1005,6 +1011,7 @@ CYAN-HQ,"73-4460 Queen Kaahumanu Hwy Suite 102, Kailua Kona, HI 96740",19.725563
 CYCN-HQ,"203 Crescent Street Bldgs. #3/3A/4, Suite 503, Waltham, MA 02453",42.367367,-71.243032,us-census
 CYH-HQ,"4000 Meridian Boulevard, Franklin, TN 37067",35.951603,-86.809975,us-census
 CYN-HQ,"1344 Terra Bella Avenue, Mountain View, CA 94043",37.410199,-122.081752,us-census
+CYPH-HQ,"47 Thorndike Street Suite B1-1, Cambridge, MA 02142",42.369679,-71.080057,us-census
 CYRX-HQ,"112 Westwood Place, Suite 350, Brentwood, TN 37027",36.036818,-86.805457,us-census
 CYTK-HQ,"350 Oyster Point Boulevard ., South San Francisco, CA 94080",37.662997,-122.385368,us-census
 CZFS-HQ,"15 S Main St, Mansfield, PA 16933",41.805730,-77.077462,us-census
@@ -1022,7 +1029,7 @@ DAVE-HQ,"1265 South Cochran Avenue, Los Angeles, CA 90019",34.051504,-118.351455
 DBD-HQ,"350 Orchard Ave Ne, North Canton, OH 44720",40.878590,-81.401063,us-census
 DBG.PA-HQ,"119 AVENUE DU GENERAL MICHEL BIZOT, Paris, FR 75012",48.840245,2.404375,openstreetmap
 DBGI-HQ,"350 Texas Ave Suite 250, Round Rock, TX 78664",30.530315,-97.683756,us-census
-DBHL-HQ,"5717 Legacy Drive, Suite 250 Office 2079, Piano, TX 75024",33.078099,-96.820073,us-census
+DBHL-HQ,"5717 Legacy Drive, Suite 250 Office 2079, Plano, TX",33.078099,-96.820073,us-census
 DBI-HQ,"810 Dsw Drive, Columbus, OH 43219",39.989424,-82.900061,us-census
 DBRG-HQ,"750 Park Of Commerce Drive Suite 210, Boca Raton, FL 33487",26.400538,-80.101468,us-census
 DBRHP-HQ,"750 Park Of Commerce Drive Suite 210, Boca Raton, FL 33487",26.400539,-80.101469,us-census
@@ -1112,6 +1119,7 @@ DREM-HQ,"314 S. Main Street, Forked River, NJ 08731",39.835501,-74.194597,us-cen
 DRH-HQ,"7373 Wisconsin Avenue Suite 1900, Bethesda, MD",38.983382,-77.093653,us-census
 DRIO-HQ,"322 W 57Th St. #33B, New York, NY 10019",40.767040,-73.983795,us-census
 DRK-HQ,"2810 N Church St Suite 90696, Wilmington, DE 19802",39.752844,-75.529929,us-census
+DRMA-HQ,"3525 Del Mar Heights Rd., #322, San Diego, CA 92130",32.955041,-117.230825,us-census
 DRS-HQ,"2345 Crystal Drive Suite 1000, Arlington, VA 22202",38.852935,-77.049554,us-census
 DRVN-HQ,"440 S. Church Street Suite 700, Charlotte, NC 28202",35.225487,-80.848077,us-census
 DSC2S.AS-HQ,"John M. Keynesplein 10, Amsterdam, NL 1066EP",52.341568,4.823825,openstreetmap
@@ -1190,6 +1198,7 @@ EKI.PA-HQ,"10 RUE EDOUARD BRANLY, Lannion, FR 22300",48.807450,-3.460993,openstr
 EL-HQ,"767 Fifth Ave, New York, NY 10153",40.764199,-73.972985,us-census
 EL.PA-HQ,"147 RUE DE PARIS, Charenton-Le-Pont, FR 94220",48.826791,2.405224,openstreetmap
 ELA-HQ,"1901 Gateway Drive Suite 100, Irving, TX 75038",32.884077,-96.974317,us-census
+ELAB-HQ,"520 Newport Center Drive Suite 470, Newport Beach, CA",33.615797,-117.872254,us-census
 ELC.MI-HQ,"VIA ERMANNO CASOLI, 2, Fabriano, IT 60044",43.344385,12.948410,openstreetmap
 ELE-HQ,"2650 W Belleview Ave Suite D-100, Littleton, CO 80123",39.624095,-105.019672,us-census
 ELF-HQ,"601 12Th Street Suite 1400, Oakland, CA",37.804793,-122.276959,us-census
@@ -1265,7 +1274,7 @@ ESAB-HQ,"909 Rose Avenue 8Th Floor, North Bethesda, MD 20852",39.051217,-77.1158
 ESBA-HQ,"111 West 33Rd Street, 12Th Fl, New York, NY 10120",40.749339,-73.988576,us-census
 ESCA-HQ,"817 Maxwell Ave., Evansville, IN 47711",37.993814,-87.551756,us-census
 ESE-HQ,"645 Maryville Centre Dr., Suite 300, St. Louis, MO 63141",38.641223,-90.503116,us-census
-ESGH-HQ,"433 East Hillendale Rd., Chadds Ford, PA 19317",39.847283,-75.664870,us-census
+ESGH-HQ,"2044 14Th Avenue, Suite 21, Vero Beach, FL 32960",27.639129,-80.399284,us-census
 ESI-HQ,"500 S Pointe Drive Suite 200, Miami Beach, FL 33139",25.768238,-80.134245,us-census
 ESMC-HQ,"435 Devon Park Road Suite 824, Wayne, PA 19087",40.071906,-75.419431,us-census
 ESOA-HQ,"75 West 3Rd Ave., Huntington, WV 25701",38.419161,-82.459421,us-census
@@ -1318,6 +1327,7 @@ EZPW-HQ,"2500 Bee Cave Road Building 1, Suite 200, Rollingwood, TX 78746",30.267
 F-HQ,"One American Road, Dearborn, MI 48126",42.313472,-83.211385,us-census
 FA-HQ,"1 Concourse Parkway Ne, Suite 200 Attn: Bret T. Jardine, Esq., Atlanta, GA 30328",33.916519,-84.351118,us-census
 FABC-HQ,"900 E. Old Settlers Boulevard, Suite 100, Round Rock, TX 78664",30.536937,-97.678329,us-census
+FAC-HQ,"805 Middlesex Turnpike, Billerica, MA 01821",42.525684,-71.254418,us-census
 FAE.MC-HQ,"AVENIDA AUTONOMIA, 10-, Leioa, ES 48940",43.318886,-3.005432,openstreetmap
 FAF-HQ,"1 First American Way, Santa Ana, CA 92707",33.701217,-117.865479,us-census
 FAN.L-HQ,"Fleming Way, Crawley, UK RH10 9YX",51.135216,-0.172869,openstreetmap
@@ -1372,10 +1382,11 @@ FFBC-HQ,"255 East Fifth Street Suite 900, Cincinnati, OH 45202",39.101714,-84.50
 FFIN-HQ,"400 Pine Street, Abilene, TX 79601",32.452600,-99.732818,us-census
 FFIV-HQ,"801 5Th Avenue, Seattle, WA 98104",47.605144,-122.330613,us-census
 FFLY-HQ,"1130 South 3800 West, Suite 100, Salt Lake City, UT 84104",40.744968,-111.982298,us-census
+FFR-HQ,"1990 E. Grand Avenue, El Segundo, CA 90245",33.919397,-118.393661,us-census
 FG-HQ,"801 Grand Ave, Suite 2600, Des Moines, IA 50309",41.587268,-93.627843,us-census
 FGBI-HQ,"400 East Thomas Street, Hammond, LA 70401",30.504847,-90.457386,us-census
 FGBIP-HQ,"400 East Thomas Street, Hammond, LA 70401",30.504848,-90.457390,us-census
-FGC-HQ,"6408 Bannington Road, Charlotte, NC 28226",35.088319,-80.837369,us-census
+FGC-HQ,"3540 Toringdon Way Suite 200 #1074, Charlotte, NC 28277",35.068359,-80.840705,us-census
 FGI-HQ,"906 Murray Road, East Hanover, NJ 07869",40.817152,-74.382196,us-census
 FGNX-HQ,"6408 Bannington Road, Charlotte, NC 28226",35.088322,-80.837369,us-census
 FGP.L-HQ,"395 King Street, Aberdeen, UK AB24 5RP",57.157602,-2.096993,openstreetmap
@@ -1782,6 +1793,7 @@ HYLN-HQ,"1202 Bmc Drive, Suite 100, Cedar Park, TX 78613",30.503231,-97.801699,u
 HYNE-HQ,"810 S. Oak Park Avenue, Oak Park, IL 60304",41.874088,-87.793977,us-census
 HZO-HQ,"2600 Mccormick Drive Suite200, Clearwater, FL 33759",27.999313,-82.729196,us-census
 IA-HQ,"720 Pennsylvania Drive, Exton, PA 19341",40.068432,-75.686558,us-census
+IAM-HQ,"5627 Oberlin Drive, Suite 120, San Diego, CA 92121",32.891794,-117.196898,us-census
 IART-HQ,"1100 Campus Road, Princeton, NJ 08540",40.352151,-74.607080,us-census
 IBCP-HQ,"98 Ottawa Ave Nw, Grand Rapids, MI 49503",42.965419,-85.670069,us-census
 IBEX-HQ,"1717 Pennsylvania Avenue Nw Suite 825, Washington, DC 20006",38.899009,-77.039841,us-census
@@ -1859,6 +1871,7 @@ INFU-HQ,"3851 West Hamlin Road, Rochester Hills, MI 48309",42.646654,-83.209923,
 INGA.AS-HQ,"BIJLMERDREEF 106, Amsterdam, NL 1102 CT",52.315355,4.949761,openstreetmap
 INGM-HQ,"3351 Michelson Drive Suite 100, Irvine, CA 92612",33.670470,-117.840784,us-census
 INIS-HQ,"4137 Commerce Circle, Idaho Falls, ID 83401",43.532646,-112.007526,us-census
+INKT-HQ,"149 Fifth Avenue Suite 500, New York, NY 10010",40.740285,-73.990415,us-census
 INLX-HQ,"2190 Dividend Drive, Columbus, OH 43228",39.997222,-83.120410,us-census
 INMB-HQ,"225 Ne Mizner Blvd, Suite 640, Boca Raton, FL 33432",26.352617,-80.083801,us-census
 INN-HQ,"13215 Bee Cave Parkway Suite B-300, Austin, TX 78738",30.312243,-97.943824,us-census
@@ -2108,7 +2121,7 @@ LGIH-HQ,"1450 Lake Robbins Drive, Suite 430, The Woodlands, TX 77380",30.161334,
 LGL-HQ,"3100 Clarendon Blvd Suite 1200, Arlington, VA 22201",38.886918,-77.094956,us-census
 LGMK-HQ,"2801 Diode Lane, Louisville, KY 40299",38.201738,-85.547581,us-census
 LGN-HQ,"1601 Las Plumas Avenue, San Jose, CA 95133",37.359850,-121.869291,us-census
-LGND-HQ,"3911 Sorrento Valley Blvd Suite 110, San Diego, CA 92121",32.902620,-117.221060,us-census
+LGND-HQ,"7111 Fairway Drive Suite 302, Palm Beach Gardens, FL 33418",26.837848,-80.132070,us-census
 LGT.MC-HQ,"COLMENARES 5 1º, Valladolid, ES 47004",41.646543,-4.726975,openstreetmap
 LGVN-HQ,"1951 Nw 7Th Avenue Suite 520, Miami, FL 33136",25.794619,-80.206953,us-census
 LH-HQ,"358 S Main St, Burlington, NC 27215",36.093386,-79.437210,us-census
@@ -2385,6 +2398,7 @@ MTDR-HQ,"5400 Lbj Freeway Suite 1500, Dallas, TX 75240",32.925388,-96.817252,us-
 MTEX-HQ,"1410 Lakeside Parkway Suite 200, Flower Mound, TX 75028",32.995008,-97.049690,us-census
 MTG-HQ,"250 East Kilbourn Avenue, Milwaukee, WI 53202",43.042392,-87.908861,us-census
 MTN-HQ,"390 Interlocken Crescent Suite 1000, Broomfield, CO 80021",39.924621,-105.116604,us-census
+MTRI-HQ,"221 Crescent Street Building 23, Suite 105, Waltham, MA 02453",42.367118,-71.243113,us-census
 MTRN-HQ,"6070 Parkland Blvd., Mayfield Hts., OH 44124",41.509530,-81.456295,us-census
 MTRO.L-HQ,"One Southampton Row, London, UK WC1B 5HA",51.517839,-0.121102,openstreetmap
 MTRX-HQ,"15 East 5Th Street Suite 1100, Tulsa, OK 74103",36.151553,-95.989953,us-census
@@ -2399,7 +2413,7 @@ MTZ-HQ,"800 S. Douglas Road 10Th Floor, Coral Gables, FL 33134",25.764632,-80.25
 MUR-HQ,"9805 Katy Fwy Suite G-200, Houston, TX 77024",29.783788,-95.536014,us-census
 MVBF-HQ,"301 Virginia Avenue, Fairmont, WV 26554",39.480075,-80.145866,us-census
 MVC.MC-HQ,"PUERTO DE SOMPORT 23 1, Madrid, ES 28050",40.495329,-3.668265,openstreetmap
-MVIS-HQ,"18390 Ne 68Th Street, Redmond, WA 98052",47.667318,-122.096308,us-census
+MVIS-HQ,"2603 Discovery Dr Suite 100, Orlando, FL 32826",28.582252,-81.191566,us-census
 MWA-HQ,"1200 Abernathy Rd, Ne Suite 1200, Atlanta, GA 30328",33.933241,-84.352901,us-census
 MWH-HQ,"16680 West Bernardo Drive, San Diego, CA 92127",33.014609,-117.083268,us-census
 MWYN-HQ,"2955 Main Street, Ste 100A, Irvine, CA 92614",33.679571,-117.836727,us-census
@@ -2485,6 +2499,7 @@ NL-HQ,"5430 Lbj Freeway Suite 1700, Dallas, TX 75240",32.925410,-96.816937,us-ce
 NLCP-HQ,"50 Locust Avenue, New Canaan, CT 06840",41.149496,-73.491280,us-census
 NLOP-HQ,"C/O W. P. Carey Inc. One Manhattan West, 395 9Th Ave. 58 Fl, New York, NY 10001",40.752483,-73.997047,us-census
 NLST-HQ,"111 Academy, Suite 100, Irvine, CA 92617",33.648768,-117.853455,us-census
+NMAD-HQ,"433 Plaza Real Suite 275, Boca Raton, FL 33432",26.355080,-80.085491,us-census
 NMAX-HQ,"750 Park Of Commerce Drive Suite 100, Boca Raton, FL 33487",26.400538,-80.101468,us-census
 NMIH-HQ,"2100 Powell Street, 12Th Floor, Emeryville, CA 94608",37.837385,-122.300472,us-census
 NMRK-HQ,"125 Park Avenue, New York, NY 10017",40.751537,-73.978015,us-census
@@ -2563,6 +2578,7 @@ NWBI-HQ,"100 Liberty Street, Warren, PA 16365",41.844398,-79.147147,us-census
 NWE-HQ,"3010 West 69Th Street, Sioux Falls, SD 57108",43.489786,-96.757471,us-census
 NWFL-HQ,"717 Main St Po Box 269, Honesdale, PA 18431",41.571584,-75.255203,us-census
 NWG.L-HQ,"36 St Andrew Square, Edinburgh, UK EH2 2YB",55.954484,-3.191423,openstreetmap
+NWGL-HQ,"2701 Merced Ave, El Monte, CA 91733",34.060286,-118.051386,us-census
 NWH.AX-HQ,"219 St Georges Terrace, Perth, AU 6000",-31.954390,115.851827,openstreetmap
 NWL-HQ,"5 Concourse Parkway Ne 8Th Floor, Atlanta, GA",33.916523,-84.351063,us-census
 NWL.MI-HQ,"VIA KENNEDY, 16, Reggio Emilia, IT 42124",44.689617,10.530911,openstreetmap
@@ -2613,6 +2629,7 @@ OFRM-HQ,"2111 San Pablo Avenue, Suite 2216, Berkeley, CA 94702",37.867732,-122.2
 OGN-HQ,"30 Hudson Street Fl 33, Jersey City, NJ 07302",40.712772,-74.034695,us-census
 OHI-HQ,"303 International Circle, Suite 200, Hunt Valley, MD 21030",39.498941,-76.665434,us-census
 OHLA.MC-HQ,"PASEO DE LA CASTELLANA 259 D, Madrid, ES 28046",40.479104,-3.686821,openstreetmap
+OIG-HQ,"930 S. Harbor City Blvd., Melbourne, FL 32901",28.095093,-80.610799,us-census
 OII-HQ,"5875 North Sam Houston Parkway West Suite 400, Houston, TX 77086",29.936470,-95.511817,us-census
 OIS-HQ,"Three Allen Center 333 Clay Street, Suite 4620, Houston, TX 77002",29.757586,-95.372617,us-census
 OKE-HQ,"100 West 5Th St, Tulsa, OK 74103",36.150920,-95.991360,us-census
@@ -2740,7 +2757,7 @@ PCOR-HQ,"6309 Carpinteria Ave., Carpinteria, CA 93013",34.384910,-119.488521,us-
 PCSV-HQ,"941 S. Industry Way, Meridian, ID 83642",43.596048,-116.387181,us-census
 PCT-HQ,"20 North Orange Ave Suite 106, Orlando, FL 32801",28.542562,-81.379103,us-census
 PCTY-HQ,"1400 American Lane, Schaumburg, IL 60173",42.047488,-88.043980,us-census
-PCYO-HQ,"34501 E. Quincy Ave Bldg. 34, Watkins, CO 80137",39.638055,-104.583798,us-census
+PCYO-HQ,"34501 E. Quincy Ave Building 1, Unit D, Watkins, CO",39.638054,-104.583796,us-census
 PD-HQ,"600 Townsend Street #200, San Francisco, CA 94103",37.771816,-122.401759,us-census
 PDEX-HQ,"2361 Mcgaw Avenue, Irvine, CA 92614",33.689705,-117.840491,us-census
 PDFS-HQ,"2858 De La Cruz Boulevard, Santa Clara, CA 95050",37.369696,-121.941337,us-census
@@ -2944,7 +2961,7 @@ QNTO-HQ,"501 Knowles Avenue, Southampton, PA 18966",40.167230,-75.050694,us-cens
 QRVO-HQ,"7628 Thorndike Road, Greensboro, NC 27409",36.076586,-79.961011,us-census
 QSI-HQ,"29 Business Park Drive, Branford, CT 06405",41.296454,-72.767424,us-census
 QSR-HQ,"5707 Blue Lagoon Drive, Miami, FL 33126",25.782072,-80.288613,us-census
-QTI-HQ,"3 Hamilton Landing Suite 160, Novato, CA 94949",38.056784,-122.511961,us-census
+QTI-HQ,"1351 Redwood Way Suite B, Petaluma, CA 94954",38.276882,-122.666659,us-census
 QTRX-HQ,"900 Middlesex Turnpike, Billerica, MA 01821",42.525805,-71.254352,us-census
 QTTB-HQ,"830 Winter Street, Waltham, MA 02451",42.410001,-71.273545,us-census
 QTWO-HQ,"10355 Pecan Park Boulevard, Austin, TX 78729",30.466424,-97.791705,us-census
@@ -2955,7 +2972,7 @@ R4.MC-HQ,"PASEO HABANA, 74, Madrid, ES 28036",40.454908,-3.682383,openstreetmap
 RAIL-HQ,"125 South Wacker Drive Suite 1500, Chicago, IL 60606",41.880287,-87.636650,us-census
 RAMP-HQ,"225 Bush Street 17Th Floor, San Francisco, CA 94104",37.791028,-122.401460,us-census
 RAND.AS-HQ,"Diemermere 25, Diemen, NL 1112TC",52.323682,4.952518,openstreetmap
-RANI-HQ,"2051 Ringwood Avenue, San Jose, CA 95131",37.392759,-121.897684,us-census
+RANI-HQ,"47709 Fremont Blvd, Fremont, CA 94538",37.473198,-121.941594,us-census
 RAPP-HQ,"99 High Street Suite 2100, Boston, MA 02110",42.354568,-71.054595,us-census
 RARE-HQ,"60 Leveroni Court, Novato, CA 94949",38.072297,-122.531999,us-census
 RAT.L-HQ,"30 Gresham Street, London, UK EC2V 7QN",51.514885,-0.093077,openstreetmap
@@ -3062,7 +3079,7 @@ RMS.PA-HQ,"24 RUE DU FAUBOURG SAINT-HONORE, Paris, FR 75008",48.868871,2.321719,
 RMTG-HQ,"433 Plaza Real Suite 275, Boca Raton, FL 33432",26.355082,-80.085489,us-census
 RMTI-HQ,"30142 Wixom Road, Wixom, MI 48393",42.513074,-83.536948,us-census
 RN.MI-HQ,"VIA NERVESA, 21, Milano, IT 20139",45.444339,9.217528,openstreetmap
-RNA-HQ,"3020 Callan Road, San Diego, CA 92121",32.904667,-117.241723,us-census
+RNA-HQ,"10578 Science Center Drive, Suite 125, San Diego, CA",32.895226,-117.230732,us-census
 RNAC-HQ,"7495 New Horizon Way, Frederick, MD 21703",39.379692,-77.400438,us-census
 RNG-HQ,"20 Davis Drive, Belmont, CA 94002",37.512028,-122.309357,us-census
 RNGR-HQ,"10375 Richmond Avenue Suite 800, Houston, TX 77042",29.727569,-95.555955,us-census
@@ -3176,6 +3193,7 @@ SDR.L-HQ,"1 London Wall Place, London, UK EC2Y 5AU",51.517746,-0.092066,openstre
 SDSYA-HQ,"100 Caspian Ave. P.O. Box 500, Volga, SD 57071",44.326048,-96.908401,us-census
 SEAT-HQ,"24 E. Washington Street Ste. 900, Chicago, IL 60602",41.883277,-87.625908,us-census
 SEB-HQ,"9000 W. 67Th Street, Shawnee Mission, KS 66202",39.007706,-94.690628,us-census
+SECZ-HQ,"78 Sw 7Th Street, Suite 500, Miami, FL 33130",25.767277,-80.194779,us-census
 SEER-HQ,"3800 Bridge Parkway, Suite 102, Redwood City, CA 94065",37.538589,-122.251178,us-census
 SEG-HQ,"The Seaport, 199 Water Street 28Th Floor, New York, NY 10038",40.707261,-74.004219,us-census
 SEGG-HQ,"5049 Edwards Rand Rd. 4Th Floor, Ft. Worth, TX 76109",32.711380,-97.397930,us-census
@@ -3214,7 +3232,7 @@ SGRP-HQ,"110 East Boulevard Suite 1600, Charlotte, NC 28203",35.212331,-80.85857
 SGRY-HQ,"340 Seven Springs Way Suite 600, Brentwood, TN",36.040887,-86.768346,us-census
 SGU-HQ,"9 West Broad Street Suite 310, Stamford, CT 06902",41.055630,-73.544173,us-census
 SHAK-HQ,"225 Varick Street Suite 301, New York, NY 10014",40.728914,-74.005341,us-census
-SHAZ-HQ,"745 Fifth Avenue, Suite 500, New York, NY 10151",40.763070,-73.973804,us-census
+SHAZ-HQ,"201 W 5Th Street Suite 121 Level 16, Austin, TX 78701",30.267442,-97.744554,us-census
 SHBI-HQ,"18 East Dover Street, Easton, MD 21601",38.774314,-76.075469,us-census
 SHC-HQ,"9100 South Hills Blvd, Suite 300, Broadview Heights, OH 44147",41.318690,-81.643048,us-census
 SHEL.L-HQ,"Shell Centre, London, UK SE1 7NA",51.503799,-0.116905,openstreetmap
@@ -3246,6 +3264,7 @@ SKY-HQ,"755 W Big Beaver Road Suite 1000, Troy, MI 48084",42.561823,-83.162188,u
 SKYA-HQ,"105 Maxess Road Ste. 124, Melville, NY 11747",40.773594,-73.413391,us-census
 SKYD-HQ,"1515 Broadway, New York, NY 10036",40.757017,-73.986021,us-census
 SKYH-HQ,"1601 Dodge Street Suite 3300, Omaha, NE 68102",41.259653,-95.937229,us-census
+SKYQ-HQ,"707 W. 700 S. Suite 101, Woods Cross, UT 84087",40.882359,-111.901026,us-census
 SKYW-HQ,"444 S River Rd, St George, UT 84790",37.100738,-113.555723,us-census
 SKYX-HQ,"2855 W. Mcnab Road, Pompano Beach, FL 33069",26.209279,-80.177356,us-census
 SLAB-HQ,"400 W Cesar Chavez, Austin, TX 78701",30.264438,-97.748047,us-census
@@ -3296,6 +3315,7 @@ SNOA-HQ,"5445 Conestoga Court, Suite 150, Boulder, CO 80301",40.016440,-105.2275
 SNOW-HQ,"135 Constitution Drive, Menlo Park, CA 94025",37.484523,-122.175269,us-census
 SNPS-HQ,"675 Almanor Ave, Sunnyvale, CA 94085",37.397794,-122.033154,us-census
 SNR.L-HQ,"59/61 High Street, Rickmansworth, UK WD3 1RH",51.638954,-0.467009,openstreetmap
+SNSC-HQ,"112 Kaimanawa Street, Kelvin Grove, NZ 4414",-40.335042,175.641971,openstreetmap
 SNTI-HQ,"2 Corporate Drive, First Floor, South San Francisco, CA 94080",37.656876,-122.400866,us-census
 SNUS-PH-HQ,"75 State Street, Boston, MA 02109",42.359049,-71.055520,us-census
 SNWV-HQ,"9600 W. 76Th Street, Eden Prairie, MN",44.865636,-93.398682,us-census
@@ -3594,6 +3614,7 @@ TWIN-HQ,"1328 Racine St, Racine, WI 53403",42.716531,-87.793867,us-census
 TWLO-HQ,"101 Spear Street Suite 500, San Francisco, CA 94105",37.792534,-122.393958,us-census
 TWNPQ-HQ,"5151 Belt Line Road, Suite 1200, Dallas, TX 75254",32.954213,-96.819676,us-census
 TWST-HQ,"681 Gateway Blvd., South San Francisco, CA 94080",37.657553,-122.399865,us-census
+TXCP-HQ,"2000 Mckinney Ave Suite 700, Dallas, TX 75201",32.790770,-96.803479,us-census
 TXG-HQ,"6230 Stoneridge Mall Road, Pleasanton, CA 94588",37.692246,-121.923314,us-census
 TXNM-HQ,"414 Silver Ave. Sw, Albuquerque, NM 87102",35.082547,-106.652220,us-census
 TXO-HQ,"400 West 7Th Street, Fort Worth, TX 76102",32.751545,-97.332363,us-census
@@ -3720,7 +3741,7 @@ VIP-HQ,"1159 Pittsford-Victor Road Suite 240, Pittsford, NY 14534",43.046269,-77
 VIRC-HQ,"2027 Harpers Way, Torrance, CA 90501",33.843818,-118.316651,us-census
 VIRI.PA-HQ,"27 AVENUE CARNOT, Massy, FR 91300",48.726156,2.262847,openstreetmap
 VIRT-HQ,"1633 Broadway, New York, NY 10019",40.761560,-73.984044,us-census
-VITL-HQ,"3601 South Congress Avenue Suite A100, Austin, TX",30.227986,-97.761157,us-census
+VITL-HQ,"14425 Falcon Head Blvd. Building E, Suite 100, Office 136, Austin, TX 78738",30.323603,-97.959172,us-census
 VIV.PA-HQ,"42 AVENUE DE FRIEDLAND, Paris, FR 75008",48.874204,2.297708,openstreetmap
 VIVK-HQ,"5220 Spring Valley Rd. Suite Ll20, Dallas, TX 75254",32.939435,-96.820963,us-census
 VIVS-HQ,"11555 Sorrento Valley Road Suite 100, San Diego, CA 92121",32.912064,-117.231660,us-census
@@ -3785,6 +3806,7 @@ VVX-HQ,"2100 Reston Parkway Suite 300, Reston, VA",38.946049,-77.359414,us-censu
 VWAV-HQ,"1063 N. Spaulding Ave, West Hollywood, CA 90046",34.090398,-118.357468,us-census
 VXRT-HQ,"310 Utah Avenue, Suite 150, South San Francisco, CA",37.647129,-122.395011,us-census
 VYGR-HQ,"75 Hayden Avenue, Lexington, MA 02421",42.424543,-71.248478,us-census
+VYLR-HQ,"7000 Nw 62Nd Avenue, Johnston, IA 50131",41.672799,-93.713725,us-census
 VYX-HQ,"864 Spring St Nw, Atlanta, GA 30308",33.777703,-84.388850,us-census
 VZ-HQ,"1095 Avenue Of The Americas, New York, NY 10036",40.754257,-73.984628,us-census
 WAB-HQ,"30 Isabella Street, Pittsburgh, PA 15212",40.447755,-80.003298,us-census
@@ -3799,6 +3821,7 @@ WBD-HQ,"230 Park Avenue South, New York, NY 10003",40.737616,-73.988330,us-censu
 WBHC-HQ,"623 W Main Street P.O. Box 768, Lebanon, TN 37087",36.209548,-86.305838,us-census
 WBI-HQ,"5555 San Felipe Street Suite 1200, Houston, TX 77056",29.750013,-95.472711,us-census
 WCC-HQ,"225 West Station Square Drive Ste 700, Pittsburgh, PA 15219",40.433840,-80.005337,us-census
+WCCB-HQ,"75 River Street, Santa Cruz, CA 95060",36.977314,-122.024821,us-census
 WCN-HQ,"3 Waterway Square Place Suite 110, The Woodlands, TX 77380",30.160492,-95.455830,us-census
 WCW.L-HQ,"128 Queen Victoria Street, London, UK EC4V 4BJ",51.512107,-0.097769,openstreetmap
 WD-HQ,"7272 Wisconsin Avenue Suite 1300, Bethesda, MD 20814",38.982219,-77.093408,us-census

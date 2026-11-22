@@ -1,6 +1,51 @@
 # Plan: EdgarTools in the SEC data load
 
-Status: **proposed** (2026-11-09). Nothing here is built yet; agreed decisions move to `functional-requirements.md`.
+Status: **in the SEC engine** (2026-11-22). Agreed decisions move to `functional-requirements.md`.
+
+The import takes a report's revenue line only when every check in `XbrlFinancialsExtractor.UseStatementRevenue` passes,
+and never for banks. A statement also confirms a published year that the company facts have since dropped
+(`PublishedYears`): that year is kept instead of the company going backwards. And it supplies the newest year
+when the company facts lack it and its prior-year column matches ours (`StatementYears`). The sections below record how it got there; where they say the site shows only our own reading,
+this replaces them.
+
+## Shadow mode as built (phase 2)
+
+| Piece | What it does |
+|---|---|
+| `tools/edgar/extract.py` | For every SEC company (CIK taken from the filing its newest figures cite), finds the newest unamended 10-K, 20-F or 40-F and reads its income statement with `Financials.get_revenue()` / `get_net_income()` for each year shown (usually three). Writes `data/cache/edgar/<company id>.json`. A company is read again only when it files a newer annual report or EdgarTools is upgraded. `--tickers GS,AAPL` for a quick look, `--force` to reread all. |
+| `tools/edgar/run.ps1` | Creates `tools/edgar/.venv` with Python 3.13 and the pinned `requirements.txt` (rebuilt when that file changes), then runs `extract.py` with `-I`. Identity: `Sec:UserAgent` from the importer's `appsettings.Local.json`. Rate: 5 requests a second. EdgarTools' own download cache: `data/cache/edgartools`. |
+| `--validate` | When `data/cache/edgar` has files, compares each year with ours (years ending in January/February are the previous fiscal year, as in the SEC import). Two **warning** checks, never errors: revenue / net income more than 10% apart (both at least $10M). Writes `data/edgar-crosscheck.md` with the full list, agreement counts, years only the report has, and companies it couldn't read. |
+| `tools/refresh-data.ps1` | Imports every market, runs `run.ps1` on the company list that import wrote (so new listings are included), imports the SEC market again to use the statements, then validates. A failure in any of these stops the run before anything is committed. `data/edgar-crosscheck.md` is committed with the data. |
+
+Speed: about 2 seconds a company when a report has to be read (the first full run took 140 minutes); later monthly runs
+only reread companies that filed an annual report since.
+
+## First full comparison (2026-11-10)
+
+3,979 SEC companies: 3,881 read, 74 with no 10-K/20-F/40-F (mostly funds and trusts), 24 without usable figures, 0 failures.
+
+| Measure | Compared | Within 1% | 1–10% | Over 10% |
+|---|---|---|---|---|
+| Revenue | 9,450 | 8,897 (94%) | 59 | 494 |
+| Net income | 9,981 | 9,798 (98%) | 68 | 115 |
+
+What the differences are:
+
+- **Banks: 154 of the 199 companies with a revenue gap.** Where a bank doesn't tag `RevenuesNetOfInterestExpense`, we
+  still use the gross formula (interest income + non-interest income): Bank of America 2024 $196.4bn against the
+  reported $105.9bn, Citigroup $170.3bn against $80.7bn. **EdgarTools is wrong for some banks too**: First Citizens,
+  Zions, Popular and Valley come out at roughly their non-interest income alone (First Citizens 2023 $1.18bn). So
+  neither source can be switched to blindly; the fix for us is net interest income + non-interest income.
+- **Non-financial: 45 companies, mostly errors on our side** after spot checks: Tigo Energy is 1,000× too big (2025:
+  $103.5bn against $103.5M; the company facts carry the wrong scale), Comfort Systems 2025 $1.83bn against $9.10bn
+  (a sub-line), Republic Services, Williams, Essential Utilities, Hasbro and fuboTV on a different revenue concept,
+  Brown-Forman including excise duty. Some are restatements, where the latest report shows earlier years as they are
+  now measured (Array Digital after selling its wireless business).
+- **Years only the report has: 184 companies.** Mostly small companies whose newest report is newer than our figures or
+  whose years our consistency rules dropped.
+
+Decision point for phase 3: the cross-check is clearly worth keeping. Switching the source wholesale is not, because
+of the bank misreads above. The next step is fixing our own bank formula and the non-financial cases it found.
 
 ## What EdgarTools is
 

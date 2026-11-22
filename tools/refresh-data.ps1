@@ -46,7 +46,8 @@ $dataFiles = @(
     'data/reference/company-sites.csv', 'data/reference/geocoded-locations.csv', 'data/import-report-enrichment.md',
     'data/reference/employer-aliases.csv', 'data/import-report-salaries.md', 'data/reference/job-boards.csv', 'data/import-report-postings.md',
     'data/reference/us-zip-centroids.csv', 'data/reference/ca-postal-areas.csv', 'data/reference/uk-postcode-districts.csv',
-    'data/curated/uk-ftse350.csv', 'data/curated/uk-main-market.csv', 'data/validation-report.md'
+    'data/curated/uk-ftse350.csv', 'data/curated/uk-main-market.csv', 'data/validation-report.md', 'data/edgar-crosscheck.md',
+    'data/curated/anz-companies.csv', 'data/import-report-anz.md'
 )
 
 try {
@@ -66,6 +67,13 @@ try {
     # answers its company list and announcements only to its own pages, and we don't work around that. Its last import stays.
     Invoke-Step 'Import every market except Pakistan' 'dotnet' @('run', '--project', 'tools/CompanyPaisa.Importer', '-c', 'Release', '--',
         '--market', 'sec', '--market', 'uk', '--market', 'eu', '--market', 'anz', '--refresh-lists')
+    # EdgarTools reads each company's newest annual report, for the company list the import above just wrote (so a new
+    # listing is checked in its first month). The SEC market is then imported again to use those statements: that pass
+    # reads what the first one downloaded (Sec:IndexCacheHours), so it's short. A failure in either stops the run before
+    # anything is committed. Never side by side: one SEC client at a time.
+    Invoke-Step 'EdgarTools: annual reports' 'powershell' @('-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', 'tools\edgar\run.ps1')
+    Invoke-Step 'SEC again, with the annual reports' 'dotnet' @('run', '--project', 'tools/CompanyPaisa.Importer', '-c', 'Release', '--',
+        '--market', 'sec')
     # Named markets don't validate on their own (only --all does): any error-level finding stops the run here.
     Invoke-Step 'Validate the data' 'dotnet' @('run', '--project', 'tools/CompanyPaisa.Importer', '-c', 'Release', '--', '--validate', '--strict')
     # Websites, careers pages and street positions for companies that are new or due a recheck (the rest are kept).

@@ -22,6 +22,20 @@ import { HOME_TITLE } from './lib/title';
 
 // The company, salaries and executive pages (and their charts) are fetched when one is first opened, so a visitor who lands
 // on a search or the home page doesn't download them.
+const MARKETS: Record<string, string> = { sec: 'US & Canada', uk: 'UK', eu: 'Europe', anz: 'Australia & NZ', pk: 'Pakistan' };
+
+/** "US & Canada, UK 22 Nov 2026 · Pakistan 19 Sep 2026": each market's own date, newest first. */
+function updatedOn(meta: { asOfDate: string | null; markets: { market: string; asOfDate: string }[] } | null | undefined) {
+  if (!meta?.asOfDate) return '—';
+  const day = (iso: string) => new Date(`${iso}T00:00:00`).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+  if (!meta.markets.length) return day(meta.asOfDate);
+  const order = Object.keys(MARKETS);
+  return [...new Set(meta.markets.map(m => m.asOfDate))].map(date => {
+    const names = meta.markets.filter(m => m.asOfDate === date).sort((a, b) => order.indexOf(a.market) - order.indexOf(b.market));
+    return `${names.map(m => MARKETS[m.market] ?? m.market).join(', ')} ${day(date)}`;
+  }).join(' · ');
+}
+
 const CompanyPage = lazy(() => import('./components/CompanyPage').then(m => ({ default: m.CompanyPage })));
 const SalariesPage = lazy(() => import('./components/WorkforcePay').then(m => ({ default: m.SalariesPage })));
 const ExecutivePage = lazy(() => import('./components/ExecutivePage').then(m => ({ default: m.ExecutivePage })));
@@ -332,7 +346,7 @@ export default function App() {
       </p>
       <span className="sources-line">{meta?.isSampleData
         ? 'Sample data — company names and approximate locations are real; financial figures and executive names are synthetic.'
-        : <>Data as of {meta?.asOfDate ?? '—'}. Sources:{' '}
+        : <>Data updated: {updatedOn(meta)}. Sources:{' '}
             <a className="linkbtn" href="https://www.sec.gov/search-filings/edgar-application-programming-interfaces" target="_blank" rel="noreferrer">SEC EDGAR</a>,{' '}
             <a className="linkbtn" href="https://filings.xbrl.org/" target="_blank" rel="noreferrer">filings.xbrl.org</a> (UK &amp; European annual reports),{' '}
             <a className="linkbtn" href="https://www.gleif.org/en" target="_blank" rel="noreferrer">GLEIF</a>,{' '}
@@ -414,7 +428,7 @@ export default function App() {
       {tip && onHome && (
         <div className="tip pane" style={{ left: tip.x, top: tip.y }}>
           <b>{tip.company.name}</b>
-          <span>{money(tip.company.ttmRevenue, tip.company.currency)} revenue · {pct(tip.company.revenueGrowthYoY)}{data?.region ? ` · ${tip.company.city}` : ` · ${tip.company.distanceMiles.toFixed(1)} mi`}</span>
+          <span>{money(tip.company.ttmRevenue || null, tip.company.currency)} revenue · {pct(tip.company.revenueGrowthYoY)}{data?.region ? ` · ${tip.company.city}` : ` · ${tip.company.distanceMiles.toFixed(1)} mi`}</span>
         </div>
       )}
 

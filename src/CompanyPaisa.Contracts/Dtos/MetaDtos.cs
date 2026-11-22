@@ -1,7 +1,11 @@
 namespace CompanyPaisa.Contracts;
 
 /// <summary>Information about the loaded data set.</summary>
-public sealed record DataMetaDto(string DataVersion, DateOnly? AsOfDate, bool IsSampleData, int CompanyCount, int LocationCount, DateTimeOffset LoadedAt);
+public sealed record DataMetaDto(string DataVersion, DateOnly? AsOfDate, bool IsSampleData, int CompanyCount, int LocationCount, DateTimeOffset LoadedAt,
+    IReadOnlyList<MarketDateDto> Markets);
+
+/// <summary>When one market ("sec", "uk", "eu", "anz", "pk") was last refreshed.</summary>
+public sealed record MarketDateDto(string Market, DateOnly AsOfDate);
 
 /// <summary>Settings the website needs, driven by appsettings.json.</summary>
 public sealed record ClientConfigDto(

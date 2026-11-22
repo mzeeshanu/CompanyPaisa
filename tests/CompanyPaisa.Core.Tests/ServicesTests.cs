@@ -79,6 +79,66 @@ public class FinancialMetricsServiceTests
         Assert.Equal(6, result.AnnualHistory.Count);
     }
 
+    private static FinancialPeriod Quarter(int year, int quarter, decimal revenue) =>
+        new() { CompanyId = "X", PeriodType = PeriodType.Quarterly, FiscalYear = year, FiscalQuarter = quarter, Revenue = revenue, NetIncome = 1 };
+
+    private static FinancialPeriod Year(int year, decimal revenue) =>
+        new() { CompanyId = "X", PeriodType = PeriodType.Annual, FiscalYear = year, Revenue = revenue, NetIncome = 4 };
+
+    [Fact]
+    public void Quarters_with_a_gap_give_the_latest_fiscal_year()
+    {
+        // Brookfield Business Corp: four second quarters from four different years.
+        var result = Service().Compute([Year(2024, 250), Year(2025, 275), Quarter(2023, 2, 110), Quarter(2024, 2, 120), Quarter(2025, 2, 115), Quarter(2026, 2, 123)]);
+        Assert.Equal((275m, (int?)2025, true), (result.TtmRevenue, result.TotalsYear, result.HasTotals));
+        Assert.Equal(0.1m, result.RevenueGrowthYoY);
+    }
+
+    [Fact]
+    public void Four_consecutive_quarters_are_the_last_12_months()
+    {
+        var result = Service().Compute([Year(2025, 400), Quarter(2025, 3, 100), Quarter(2025, 4, 100), Quarter(2026, 1, 110), Quarter(2026, 2, 120)], "12-31");
+        Assert.Equal((430m, (int?)null, true), (result.TtmRevenue, result.TotalsYear, result.HasTotals));
+    }
+
+    [Fact]
+    public void A_gap_before_the_last_12_months_leaves_growth_unknown()
+    {
+        var quarters = Quarters(100, 110, 0.1m);
+        quarters[0] = quarters[0] with { FiscalYear = 2020 };
+        var result = Service().Compute(quarters);
+        Assert.Equal((440m, (decimal?)null), (result.TtmRevenue, result.RevenueGrowthYoY));
+    }
+
+    [Fact]
+    public void A_missing_year_leaves_growth_unknown() =>
+        Assert.Null(Service().Compute([Year(2022, 100), Year(2025, 200)]).RevenueGrowthYoY);
+
+    [Theory]
+    [InlineData(2022, 4, "12-31", 2025)]   // the quarters stopped years ago
+    [InlineData(2025, 2, "12-31", 2025)]   // and half a year before the year ended
+    [InlineData(2025, 2, "06-30", null)]   // a June year ends with the second calendar quarter
+    [InlineData(2025, 3, "12-31", null)]   // one quarter can be the calendar label's doing
+    [InlineData(2025, 2, null, null)]      // no year-end, no proof
+    public void Quarters_older_than_the_latest_year_give_that_year(int year, int quarter, string? yearEnd, int? expected)
+    {
+        var last = year * 4 + quarter - 1;
+        var periods = Enumerable.Range(last - 3, 4).Select(i => Quarter(i / 4, i % 4 + 1, 10)).Append(Year(2025, 99)).ToList();
+        Assert.Equal(expected, Service().Compute(periods, yearEnd).TotalsYear);
+    }
+
+    [Theory]
+    [InlineData(2009)]
+    [InlineData(null)]
+    public void A_gap_and_no_recent_year_give_no_total(int? annual)
+    {
+        List<FinancialPeriod> periods = [Quarter(2025, 1, 10), Quarter(2025, 2, 10), Quarter(2026, 1, 10), Quarter(2026, 2, 12)];
+        if (annual is { } year) periods.Add(Year(year, 500));
+        var result = Service().Compute(periods);
+        Assert.Equal((false, 0m), (result.HasTotals, result.TtmRevenue));
+        Assert.Equal("Q2 2026", result.LatestQuarter!.Label);
+    }
+
     [Fact]
     public void No_data_gives_empty_indicators() =>
         Assert.Equal(0, Service().Compute([]).TtmRevenue);

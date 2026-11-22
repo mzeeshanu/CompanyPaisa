@@ -121,14 +121,51 @@ public static class SqliteDataStore
             Prepare(db, path);
             using (var tx = db.BeginTransaction())
             {
+                var before = Filers(db, market);
                 foreach (var table in Tables) Execute(db, $"DELETE FROM {table} WHERE market = $m", ("$m", market));
                 Insert(db, market, data, meta);
+                RecordRenames(db, before, Filers(db, market));
                 Execute(db, OrphanSalaries);
                 Execute(db, UnusedFilings);
                 tx.Commit();
             }
             Execute(db, "VACUUM");
         }
+    }
+
+    private const string FormerTickerKey = "former_ticker.";
+
+    /// <summary>Who files for each company of a market: the SEC CIK or the LEI in its reports' addresses.</summary>
+    private static Dictionary<string, HashSet<string>> Filers(SqliteConnection db, string market)
+    {
+        var filers = new Dictionary<string, HashSet<string>>(StringComparer.OrdinalIgnoreCase);
+        var urls = Query(db, "SELECT DISTINCT x.market, x.company_id, f.url FROM financials x JOIN filings f ON f.id = x.filing_id",
+            r => (Market: r.GetString(0), Id: r.GetString(1), Url: r.GetString(2)));
+        foreach (var (_, id, url) in urls.Where(u => u.Market == market))
+        {
+            if (!url.StartsWith("~sec/", StringComparison.Ordinal) && !url.StartsWith("~xbrl/", StringComparison.Ordinal)) continue;
+            if (!filers.TryGetValue(id, out var set)) filers[id] = set = [];
+            set.Add(url.Split('/')[1]);
+        }
+        return filers;
+    }
+
+    /// <summary>
+    /// A company gone from a market whose filer is now published under another id changed its ticker: the old address
+    /// keeps leading to it.
+    /// </summary>
+    private static void RecordRenames(SqliteConnection db, Dictionary<string, HashSet<string>> before, Dictionary<string, HashSet<string>> after)
+    {
+        foreach (var (old, filers) in before.Where(b => !after.ContainsKey(b.Key)))
+        {
+            var now = after.Where(a => a.Value.Overlaps(filers)).Select(a => a.Key).ToList();
+            // Both listed before: two classes of share, or one was matched to the other's filer (B&M had Mitchells & Butlers').
+            if (now.Count != 1 || before.ContainsKey(now[0])) continue;
+            Execute(db, "UPDATE extras SET value = $now WHERE key LIKE 'former_ticker.%' AND value = $old COLLATE NOCASE", ("$now", now[0]), ("$old", old));
+            Execute(db, "INSERT OR REPLACE INTO extras (key, value) VALUES ($key, $now)", ("$key", FormerTickerKey + old.ToUpperInvariant()), ("$now", now[0]));
+        }
+        // A ticker in use again is that company's address, and stays so if it leaves later.
+        Execute(db, "DELETE FROM extras WHERE key LIKE 'former_ticker.%' AND substr(key, 15) COLLATE NOCASE IN (SELECT company_id FROM companies)");
     }
 
     private const string UnusedFilings = """
@@ -295,13 +332,14 @@ public static class SqliteDataStore
 
         var companies = Query(db, """
             SELECT company_id, name, ticker, exchange, sector, industry, website, employees, market_cap, description,
-                   currency, pay_currency, fiscal_year_end, logo_url, as_of_date, careers_url FROM companies ORDER BY rowid
+                   currency, pay_currency, fiscal_year_end, logo_url, as_of_date, careers_url, market FROM companies ORDER BY rowid
             """, r => new Company
         {
             CompanyId = r.GetString(0), Name = r.GetString(1), Ticker = r.GetString(2), Exchange = pool.Of(r.GetString(3)), Sector = pool.Of(r.GetString(4)),
             Industry = pool.OrNull(Text(r, 5)), Website = Text(r, 6), Employees = r.IsDBNull(7) ? null : r.GetInt32(7), MarketCap = Money(r, 8),
             Description = Text(r, 9), Currency = pool.Of(r.GetString(10)), PayCurrency = pool.OrNull(Text(r, 11)), FiscalYearEnd = pool.OrNull(Text(r, 12)), LogoUrl = Text(r, 13),
-            AsOfDate = Text(r, 14) is { } d ? DateOnly.Parse(d, CultureInfo.InvariantCulture) : null, CareersUrl = Text(r, 15)
+            AsOfDate = Text(r, 14) is { } d ? DateOnly.Parse(d, CultureInfo.InvariantCulture) : null, CareersUrl = Text(r, 15),
+            Market = pool.Of(r.GetString(16))
         });
         var locations = Query(db, """
             SELECT location_id, company_id, type, label, street, city, state, postal_code, latitude, longitude FROM locations ORDER BY rowid
@@ -381,13 +419,19 @@ public static class SqliteDataStore
         // One row per market and key; the data set's version lists every market's.
         var meta = Query(db, "SELECT market, key, value FROM meta ORDER BY market", r => (Market: r.GetString(0), Key: r.GetString(1), Value: r.GetString(2)))
             .GroupBy(x => x.Market).Select(g => g.ToDictionary(x => x.Key, x => x.Value, StringComparer.OrdinalIgnoreCase)).ToList();
+        var marketDates = new Dictionary<string, DateOnly>();
+        foreach (var (market, _, value) in Query(db, "SELECT market, key, value FROM meta WHERE key = 'as_of_date'", r => (r.GetString(0), r.GetString(1), r.GetString(2))))
+            if (DateOnly.TryParse(value, CultureInfo.InvariantCulture, out var date)) marketDates[market] = date;
         var metadata = new DataSetMetadata(
             meta.Count == 0 ? "unversioned" : string.Join('+', meta.Select(m => m.GetValueOrDefault("data_version", "unversioned"))),
-            meta.Select(m => DateOnly.TryParse(m.GetValueOrDefault("as_of_date"), CultureInfo.InvariantCulture, out var d) ? d : (DateOnly?)null).Where(d => d is not null).Min(),
+            marketDates.Count == 0 ? null : marketDates.Values.Max(),
             meta.Any(m => bool.TryParse(m.GetValueOrDefault("is_sample"), out var s) && s),
-            loadedAt);
+            loadedAt,
+            marketDates);
+        var formerTickers = Query(db, "SELECT key, value FROM extras WHERE key LIKE 'former_ticker.%'", r => (Key: r.GetString(0), Value: r.GetString(1)))
+            .ToDictionary(x => x.Key[FormerTickerKey.Length..], x => x.Value, StringComparer.OrdinalIgnoreCase);
 
-        return new CompanyData(companies, locations, financials, pay, people, metadata, appointments, workerPay, jobSalaries, salarySources);
+        return new CompanyData(companies, locations, financials, pay, people, metadata, appointments, workerPay, jobSalaries, salarySources, formerTickers);
     }
 
     /// <summary>A source's date range from the extras table (layout 3 stored the visa filings' without the kind).</summary>

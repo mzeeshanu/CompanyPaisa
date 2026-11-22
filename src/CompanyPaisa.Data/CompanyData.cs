@@ -14,8 +14,12 @@ public sealed record CompanyData(
     IReadOnlyList<NewExecutive>? NewExecutives = null,
     IReadOnlyList<WorkerPay>? WorkerPayRows = null,
     IReadOnlyList<JobSalary>? JobSalaryRows = null,
-    IReadOnlyList<JobSalarySource>? SalarySourceRows = null)
+    IReadOnlyList<JobSalarySource>? SalarySourceRows = null,
+    IReadOnlyDictionary<string, string>? FormerTickerRows = null)
 {
+    /// <summary>Tickers companies were published under before, and the company id each leads to now.</summary>
+    public IReadOnlyDictionary<string, string> FormerTickers => FormerTickerRows ?? new Dictionary<string, string>();
+
     /// <summary>Officer appointments with their announced packages (only the SEC importer produces these).</summary>
     public IReadOnlyList<NewExecutive> Appointments => NewExecutives ?? [];
 
@@ -30,7 +34,7 @@ public sealed record CompanyData(
 
     /// <summary>
     /// Several parts (markets, workbooks) as one data set. The same person id in two parts is the same person (first record
-    /// kept). Metadata: versions joined, the oldest as-of date, sample if any part is.
+    /// kept). Metadata: versions joined, the newest as-of date, sample if any part is.
     /// </summary>
     public static CompanyData Combine(IReadOnlyList<CompanyData> parts)
     {
@@ -38,7 +42,9 @@ public sealed record CompanyData(
         var meta = parts[0].Metadata with
         {
             DataVersion = string.Join('+', parts.Select(p => p.Metadata.DataVersion)),
-            AsOfDate = parts.Select(p => p.Metadata.AsOfDate).Where(d => d is not null).Min(),
+            AsOfDate = parts.Select(p => p.Metadata.AsOfDate).Max(),
+            MarketDates = parts.SelectMany(p => p.Metadata.MarketDates ?? new Dictionary<string, DateOnly>())
+                .GroupBy(m => m.Key).ToDictionary(g => g.Key, g => g.Max(m => m.Value)),
             IsSampleData = parts.Any(p => p.Metadata.IsSampleData)
         };
         return new CompanyData(
@@ -51,7 +57,8 @@ public sealed record CompanyData(
             parts.SelectMany(p => p.Appointments).ToList(),
             parts.SelectMany(p => p.WorkerPays).ToList(),
             parts.SelectMany(p => p.JobSalaries).ToList(),
-            parts.SelectMany(p => p.SalarySources).DistinctBy(s => s.Kind).ToList());
+            parts.SelectMany(p => p.SalarySources).DistinctBy(s => s.Kind).ToList(),
+            parts.SelectMany(p => p.FormerTickers).DistinctBy(t => t.Key, StringComparer.OrdinalIgnoreCase).ToDictionary(t => t.Key, t => t.Value));
     }
 }
 

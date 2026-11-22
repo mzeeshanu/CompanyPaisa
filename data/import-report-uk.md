@@ -1,19 +1,19 @@
-# UK import report — 2026-11-09 08:58 UTC
+# UK import report — 2026-11-22 21:22 UTC
 
 Scope: UK companies on the London Stock Exchange Main Market that file ESEF annual reports (FTSE 350 plus the rest; tickers via GLEIF ISINs and OpenFIGI), minus investment trusts and funds. Sources: ESEF annual reports (filings.xbrl.org), GLEIF headquarters addresses, GeoNames postcode districts.
 
-- Companies included: **338**
-- Years of figures: 1737
-- Directors' pay rows: 548 for 255 directors (99 add up exactly), from 977 annual reports
+- Companies included: **337**
+- Years of figures: 1736
+- Directors' pay rows: 554 for 257 directors (102 add up exactly), from 975 annual reports
 - Postcode districts written: 3002
-- Network requests this run: 873
+- Network requests this run: 0
 
 | Area | Companies |
 |---|---|
 | London | 191 |
-| Rest of UK | 85 |
-| Manchester | 16 |
-| Birmingham | 14 |
+| Rest of UK | 86 |
+| Manchester | 15 |
+| Birmingham | 13 |
 | Thames Valley | 8 |
 | Glasgow | 5 |
 | Leeds | 5 |
@@ -28,7 +28,7 @@ Scope: UK companies on the London Stock Exchange Main Market that file ESEF annu
 |---|---|---|---|---|---|---|---|
 | AAF.L | Airtel Africa | London | Other | $6.42B | 2021–2026 | 0 | — |
 | AAL.L | Anglo American plc | London | Other | $18.55B | 2020–2025 | 0 | — |
-| ABF.L | Associated British Foods | London | Other | £19.46B | 2021–2025 | 0 | — |
+| ABF.L | Associated British Foods | London | Other | £19.58B | 2021–2026 | 0 | — |
 | ALFA.L | Alfa Financial Software | London | Software & IT | £126.7M | 2020–2025 | 0 | — |
 | ALTN.L | Altyngold plc | London | Other | $175.4M | 2021–2025 | 0 | — |
 | AMGO.L | Amigo Holdings plc | London | Other | £3.5M | 2021–2024 | 0 | — |
@@ -93,7 +93,7 @@ Scope: UK companies on the London Stock Exchange Main Market that file ESEF annu
 | ENQ.L | EnQuest | London | Energy & utilities | $1.12B | 2020–2025 | 3 | 2023–2024 |
 | FCH.L | Funding Circle | London | Finance | £50.2M | 2022–2025 | 0 | — |
 | FDM.L | Fdm Group (Holdings) plc | London | Other | £177.7M | 2020–2025 | 5 | 2022–2025 |
-| FIL.L | Fairview International plc | London | Other | £5.3M | 2024–2025 | 0 | — |
+| FIL.L | Fairview International plc | London | Other | £6.0M | 2024–2026 | 0 | — |
 | FOUR.L | 4imprint | London | Media & telecom | $1.35B | 2020–2025 | 2 | 2023–2023 |
 | FOXT.L | Foxtons Group plc | London | Other | £172.5M | 2021–2025 | 4 | 2022–2023 |
 | FSTA.L | Fuller Smith & Turner plc | London | Other | £397.8M | 2021–2026 | 0 | — |
@@ -218,7 +218,7 @@ Scope: UK companies on the London Stock Exchange Main Market that file ESEF annu
 | YNGA.L | Young's | London | Consumer & retail | £508.2M | 2025–2026 | 2 | 2025–2026 |
 | ZTF.L | Zotefoams plc | London | Other | £158.5M | 2019–2025 | 0 | — |
 
-## Included — Rest of UK (85)
+## Included — Rest of UK (86)
 
 | Ticker | Company | City | Sector | Latest revenue | Years | Directors | Pay years |
 |---|---|---|---|---|---|---|---|
@@ -234,6 +234,7 @@ Scope: UK companies on the London Stock Exchange Main Market that file ESEF annu
 | BOOT.L | Henry Boot plc | Sheffield | Other | £251.5M | 2020–2025 | 0 | — |
 | BREE.L | Breedon Group | Derby | Materials | £1.71B | 2022–2025 | 0 | — |
 | BTRW.L | Barratt Redrow | Coalville | Other | £5.58B | 2021–2025 | 0 | — |
+| BWY.L | Bellway | Newcastle Upon Tyne | Consumer & retail | £3.16B | 2021–2026 | 5 | 2023–2026 |
 | CFYN.L | Caffyns Public Limited Company | Eastbourne | Other | £270.7M | 2021–2026 | 0 | — |
 | CHG.L | Chemring Group | Romsey | Industrials | £497.5M | 2021–2025 | 0 | — |
 | CRDA.L | Croda International | Goole | Other | £1.70B | 2020–2025 | 2 | 2024–2025 |
@@ -292,7 +293,7 @@ Scope: UK companies on the London Stock Exchange Main Market that file ESEF annu
 | SPX.L | Spirax Group | Cheltenham | Other | £1.70B | 2021–2025 | 2 | 2023–2025 |
 | SRAD.L | Stelrad Group plc | Newcastle Upon Tyne | Other | £279.6M | 2020–2025 | 4 | 2022–2025 |
 | SSE.L | SSE plc | Perth | Other | £10.19B | 2021–2026 | 4 | 2023–2026 |
-| STJ.L | St. James's Place | Cirencester | Other | £24.2M | 2022–2025 | 0 | — |
+| STJ.L | St. James's Place | Cirencester | Other | £3.77B | 2022–2025 | 0 | — |
 | SVT.L | Severn Trent | Coventry | Other | £2.83B | 2021–2026 | 3 | 2025–2026 |
 | TPK.L | Travis Perkins | Northampton | Business services | £4.56B | 2020–2025 | 0 | — |
 | TPT.L | Topps Tiles plc | Enderby | Other | £295.8M | 2021–2025 | 0 | — |
@@ -308,14 +309,13 @@ Scope: UK companies on the London Stock Exchange Main Market that file ESEF annu
 | WTB.L | Whitbread | Dunstable | Other | £2.92B | 2021–2026 | 0 | — |
 | ZIG.L | Zigup | Darlington | Business services | £1.86B | 2021–2026 | 0 | — |
 
-## Included — Manchester (16)
+## Included — Manchester (15)
 
 | Ticker | Company | City | Sector | Latest revenue | Years | Directors | Pay years |
 |---|---|---|---|---|---|---|---|
 | AJB.L | AJ Bell | Manchester | Finance | £317.8M | 2021–2025 | 3 | 2022–2025 |
 | AUTO.L | Autotrader Group | Manchester | Other | £624.3M | 2021–2026 | 0 | — |
 | BOY.L | Bodycote | Macclesfield | Industrials | £727.1M | 2020–2025 | 3 | 2022–2024 |
-| BWY.L | Bellway | Manchester | Consumer & retail | £317.8M | 2021–2025 | 3 | 2022–2025 |
 | ITV.L | ITV | Manchester | Media & telecom | £3.51B | 2020–2025 | 2 | 2022–2025 |
 | JD.L | JD Sports | Bury | Other | £12.66B | 2021–2026 | 3 | 2023–2026 |
 | KIE.L | Kier Group | Salford | Materials | £4.35B | 2021–2026 | 1 | 2024–2024 |
@@ -329,11 +329,10 @@ Scope: UK companies on the London Stock Exchange Main Market that file ESEF annu
 | THG.L | THG | Altrincham | Consumer & retail | £1.72B | 2021–2025 | 3 | 2022–2025 |
 | ULTP.L | Ultimate Products plc | Oldham | Other | £150.1M | 2021–2025 | 0 | — |
 
-## Included — Birmingham (14)
+## Included — Birmingham (13)
 
 | Ticker | Company | City | Sector | Latest revenue | Years | Directors | Pay years |
 |---|---|---|---|---|---|---|---|
-| BME.L | B&M | Birmingham | Consumer & retail | £2.71B | 2021–2025 | 0 | — |
 | CGS.L | Castings Public Limited Company | Brownhills | Other | £173.2M | 2021–2026 | 0 | — |
 | HEAD.L | Headlam Group plc | Birmingham | Other | £498.7M | 2020–2025 | 3 | 2024–2025 |
 | HFD.L | Halfords | Redditch | Consumer & retail | £1.80B | 2021–2026 | 0 | — |
@@ -378,7 +377,7 @@ Scope: UK companies on the London Stock Exchange Main Market that file ESEF annu
 | CARD.L | Card Factory plc | Wakefield | Other | £582.7M | 2021–2026 | 2 | 2023–2026 |
 | GEN.L | Genuit Group | Leeds | Materials | £602.1M | 2020–2025 | 0 | — |
 | MSLH.L | Marshalls plc | Elland | Other | £632.1M | 2020–2025 | 2 | 2021–2022 |
-| TOWN.L | Town Centre Securities plc | Leeds | Other | £14.9M | 2021–2025 | 0 | — |
+| TOWN.L | Town Centre Securities plc | Leeds | Other | £15.9M | 2021–2026 | 0 | — |
 | VANQ.L | Vanquis Banking Group plc | Bradford | Other | £454.9M | 2021–2025 | 3 | 2023–2025 |
 
 ## Included — Edinburgh (4)
@@ -415,10 +414,10 @@ Scope: UK companies on the London Stock Exchange Main Market that file ESEF annu
 | OXB.L | Oxford Biomedica | Oxford | Healthcare | £168.7M | 2021–2025 | 3 | 2022–2024 |
 | RM.L | Rm plc | Abingdon | Other | £162.1M | 2021–2025 | 0 | — |
 
-## Excluded (205)
+## Excluded (207)
 
 - 0QKU Royal Bank of Canada: headquartered outside the UK (Toronto, CA)
-- 1SN First Tin plc: no revenue in its tagged reports
+- 1SNA First Tin plc: no revenue in its tagged reports
 - 3IN 3i Infrastructure: no ESEF annual reports found on filings.xbrl.org (set its LEI in data/curated/uk-ftse350.csv if it's a naming mismatch)
 - AAS Aberdeen Asia Focus: Investment Trusts (investment trust / fund)
 - AC8 Acceler8 Ventures plc: headquartered outside the UK (ST. HELIER, JE)
@@ -443,6 +442,7 @@ Scope: UK companies on the London Stock Exchange Main Market that file ESEF annu
 - BBOX Tritax Big Box REIT: no revenue in its tagged reports
 - BGFD Baillie Gifford Japan Trust: Investment Trusts (investment trust / fund)
 - BHMG BH Macro: no ESEF annual reports found on filings.xbrl.org (set its LEI in data/curated/uk-ftse350.csv if it's a naming mismatch)
+- BME B&M: headquartered outside the UK (ST. HELIER, JE)
 - BMV Bluebird Mining Ventures Ltd: headquartered outside the UK (ROAD TOWN, VG)
 - BNKR Bankers Investment Trust: Investment Trusts (investment trust / fund)
 - BPCR Biopharma Credit: Investment Trusts (investment trust / fund)
@@ -466,7 +466,7 @@ Scope: UK companies on the London Stock Exchange Main Market that file ESEF annu
 - CRN Cairn Homes Public Limited Company: headquartered outside the UK (Dublin, IE)
 - CRTM Critical Metals plc: no revenue in its tagged reports
 - CTY City of London Investment Trust: Investment Trusts (investment trust / fund)
-- DATA GlobalData: headquartered outside the UK (DOUGLAS, IM)
+- DATA GlobalData: no ESEF annual reports found on filings.xbrl.org (set its LEI in data/curated/uk-ftse350.csv if it's a naming mismatch)
 - DCC DCC Energy: no ESEF annual reports found on filings.xbrl.org (set its LEI in data/curated/uk-ftse350.csv if it's a naming mismatch)
 - DISH Amala Foods plc: headquartered outside the UK (St Saviour, JE)
 - DLN Derwent London: Real Estate Investment Trusts (investment trust / fund)
@@ -513,6 +513,7 @@ Scope: UK companies on the London Stock Exchange Main Market that file ESEF annu
 - HICL HICL Infrastructure Company: Investment Trusts (investment trust / fund)
 - HMSO Hammerson: Real Estate Investment Trusts (investment trust / fund)
 - HRI Herald Investment Trust: Investment Trusts (investment trust / fund)
+- HSD Hansard Global plc: headquartered outside the UK (DOUGLAS, IM)
 - HSL Henderson Smaller Companies Investment Trust: Investment Trusts (investment trust / fund)
 - HSW Hostelworld Group plc: headquartered outside the UK (DUBLIN, IE)
 - HSX Hiscox: headquartered outside the UK (HAMILTON, BM)
@@ -600,7 +601,7 @@ Scope: UK companies on the London Stock Exchange Main Market that file ESEF annu
 - TAR Medcaw Investments plc: no revenue in its tagged reports
 - TCAP TP ICAP: headquartered outside the UK (ST. HELIER, JE)
 - TEM Templeton Emerging Markets Investment Trust: Investment Trusts (investment trust / fund)
-- TERA Altona Rare Earths plc: no revenue in its tagged reports
+- TERA Neoterra Group plc: no revenue in its tagged reports
 - TFIF Twentyfour Income Fund: Investment Trusts (investment trust / fund)
 - TGA Thungela Resources: headquartered outside the UK (JOHANNESBURG, ZA)
 - THRL Target Healthcare REIT: Real Estate Investment Trusts (investment trust / fund)
@@ -735,16 +736,10 @@ Scope: UK companies on the London Stock Exchange Main Market that file ESEF annu
 - ASC: report 8/31/2025: ignored 4 row(s) that weren't an executive director's pay
 - ASC: report 9/1/2024: no single total figure table recognised
 - ASC: report 9/3/2023: no single total figure table recognised
+- ABF: report 9/12/2026: ignored 1 row(s) that weren't an executive director's pay
 - ABF: report 9/13/2025: skipped 1 row(s) with implausible totals
 - ABF: report 9/13/2025: ignored 1 row(s) that weren't an executive director's pay
 - ABF: report 9/14/2024: ignored 1 row(s) that weren't an executive director's pay
-- ABF: report 9/16/2023: skipped 1 row(s) with implausible totals
-- ABF: report 9/16/2023: George Weston 2023 read as total 4,100,000, salary 0 — not reliable enough to publish; left out
-- ABF: report 9/16/2023: George Weston 2022 read as total 2,286,000, salary 0 — not reliable enough to publish; left out
-- ABF: report 9/16/2023: Eoin Tonge 2023 read as total 3,582,000, salary 0 — not reliable enough to publish; left out
-- ABF: report 9/16/2023: John Bason 2023 read as total 2,004,000, salary 0 — not reliable enough to publish; left out
-- ABF: report 9/16/2023: John Bason 2022 read as total 1,697,000, salary 0 — not reliable enough to publish; left out
-- ABF: report 9/16/2023: ignored 5 row(s) that weren't an executive director's pay
 - AML: report 12/31/2025: Adrian Hallmark 2025 read as total 1,617,000, salary 31,000 — not reliable enough to publish; left out
 - AML: report 12/31/2025: Adrian Hallmark 2024 read as total 1,021,000, salary 31,000 — not reliable enough to publish; left out
 - AML: report 12/31/2025: Doug Lafferty 2025 read as total 1,016,000, salary 31,000 — not reliable enough to publish; left out
@@ -799,10 +794,6 @@ Scope: UK companies on the London Stock Exchange Main Market that file ESEF annu
 - AVON: Rich Cashin 2022: components don't add up to the stated total 325,000; difference shown as Other
 - AVON: Paul McDonald 2022: components don't add up to the stated total 873,000; difference shown as Other
 - AVON: Nick Keveth 2022: components don't add up to the stated total 316,000; difference shown as Other
-- BME: report 9/27/2025: no single total figure table recognised
-- BME: report 9/28/2024: ignored 1 row(s) that weren't an executive director's pay
-- BME: report 9/30/2023: Alistair Darby 2023 read as total 2,022,000, salary -1,700 — not reliable enough to publish; left out
-- BME: report 9/30/2023: ignored 1 row(s) that weren't an executive director's pay
 - BAB: report 3/31/2026: ignored 1 row(s) that weren't an executive director's pay
 - BAB: report 3/31/2025: David Lockwood 2025 read as total 5,367,000, salary 0 — not reliable enough to publish; left out
 - BAB: report 3/31/2025: David Lockwood 2024 read as total 4,162,000, salary 0 — not reliable enough to publish; left out
@@ -835,18 +826,23 @@ Scope: UK companies on the London Stock Exchange Main Market that file ESEF annu
 - BTRW: report 6/30/2024: ignored 2 row(s) that weren't an executive director's pay
 - BTRW: report 6/30/2023: skipped 1 row(s) with implausible totals
 - BTRW: report 6/30/2023: ignored 6 row(s) that weren't an executive director's pay
-- BWY: report 9/30/2025: skipped 15 row(s) with implausible totals
-- BWY: report 9/30/2024: skipped 16 row(s) with implausible totals
-- BWY: report 9/30/2024: ignored 3 row(s) that weren't an executive director's pay
-- BWY: report 9/30/2023: skipped 17 row(s) with implausible totals
-- BWY: report 9/30/2023: ignored 1 row(s) that weren't an executive director's pay
-- BWY: Michael Summersgill 2025: components don't add up to the stated total 1,874,000; difference shown as Other
-- BWY: Michael Summersgill 2024: components don't add up to the stated total 1,575,000; difference shown as Other
-- BWY: Roger Stott 2024: components don't add up to the stated total 742,000; difference shown as Other
-- BWY: Peter Birch 2025: components don't add up to the stated total 1,289,000; difference shown as Other
-- BWY: Peter Birch 2024: components don't add up to the stated total 1,070,000; difference shown as Other
-- BWY: Peter Birch 2023: components don't add up to the stated total 323,000; difference shown as Other
-- BWY: Roger Stott 2022: components don't add up to the stated total 282,000; difference shown as Other
+- BWY: report 7/31/2026: skipped 1 row(s) with implausible totals
+- BWY: report 7/31/2026: Philip Harrison 2026 read as total 6,149,221, salary 2,504,024 — not reliable enough to publish; left out
+- BWY: report 7/31/2026: ignored 10 row(s) that weren't an executive director's pay
+- BWY: report 7/31/2025: ignored 8 row(s) that weren't an executive director's pay
+- BWY: report 7/31/2024: skipped 1 row(s) with implausible totals
+- BWY: report 7/31/2024: ignored 2 row(s) that weren't an executive director's pay
+- BWY: Philip Harrison 2025: salary is the sum of the other directors'; a total row, left out
+- BWY: Jason Honeyman 2026: components don't add up to the stated total 2,907,566; difference shown as Other
+- BWY: Jason Honeyman 2025: components don't add up to the stated total 3,268,324; difference shown as Other
+- BWY: Simon Scougall 2026: components don't add up to the stated total 1,312,772; difference shown as Other
+- BWY: Simon Scougall 2025: components don't add up to the stated total 1,484,591; difference shown as Other
+- BWY: Shane Doherty 2026: components don't add up to the stated total 1,200,388; difference shown as Other
+- BWY: Shane Doherty 2025: components don't add up to the stated total 871,798; difference shown as Other
+- BWY: Jason Honeyman 2024: components don't add up to the stated total 1,714,831; difference shown as Other
+- BWY: Keith Adey 2025: components don't add up to the stated total 1,361,529; difference shown as Other
+- BWY: Keith Adey 2024: components don't add up to the stated total 1,053,882; difference shown as Other
+- BWY: Keith Adey 2023: components don't add up to the stated total 667,896; difference shown as Other
 - BKG: report 4/30/2026: ignored 2 row(s) that weren't an executive director's pay
 - BKG: report 4/30/2025: ignored 1 row(s) that weren't an executive director's pay
 - BKG: report 4/30/2024: skipped 5 row(s) with implausible totals
@@ -1180,6 +1176,7 @@ Scope: UK companies on the London Stock Exchange Main Market that file ESEF annu
 - ECEL: report 12/31/2025: ignored 2 row(s) that weren't an executive director's pay
 - ECEL: report 12/31/2024: ignored 1 row(s) that weren't an executive director's pay
 - ECEL: report 12/31/2023: ignored 2 row(s) that weren't an executive director's pay
+- FIL: report 6/30/2026: no single total figure table recognised
 - FIL: report 6/30/2025: no single total figure table recognised
 - FDM: report 12/31/2025: ignored 1 row(s) that weren't an executive director's pay
 - FDM: Rod Flavell 2025: components don't add up to the stated total 725,600; difference shown as Other
@@ -1425,9 +1422,9 @@ Scope: UK companies on the London Stock Exchange Main Market that file ESEF annu
 - ICG: Vijay Bharadia 2023: components don't add up to the stated total 2,482,500; difference shown as Other
 - ICG: Antje Hensel-Roth 2024: components don't add up to the stated total 2,135,600; difference shown as Other
 - ICG: Antje Hensel-Roth 2023: components don't add up to the stated total 1,931,600; difference shown as Other
+- ICON: report 6/30/2026: no single total figure table recognised
 - ICON: report 6/30/2025: no single total figure table recognised
 - ICON: report 6/30/2024: no single total figure table recognised
-- ICON: report 6/30/2023: no single total figure table recognised
 - IMI: report 12/31/2025: skipped 1 row(s) with implausible totals
 - IMI: report 12/31/2025: ignored 1 row(s) that weren't an executive director's pay
 - IMI: report 12/31/2023: ignored 1 row(s) that weren't an executive director's pay
@@ -2245,9 +2242,9 @@ Scope: UK companies on the London Stock Exchange Main Market that file ESEF annu
 - TGR: report 3/31/2026: no single total figure table recognised
 - TGR: report 3/31/2025: no single total figure table recognised
 - TGR: report 3/31/2024: no single total figure table recognised
+- TOWN: report 6/30/2026: no single total figure table recognised
 - TOWN: report 6/30/2025: no single total figure table recognised
 - TOWN: report 6/30/2024: no single total figure table recognised
-- TOWN: report 6/30/2023: no single total figure table recognised
 - TRN: report 2/28/2026: no single total figure table recognised
 - TRN: report 2/28/2025: no single total figure table recognised
 - TRN: report 2/29/2024: no single total figure table recognised

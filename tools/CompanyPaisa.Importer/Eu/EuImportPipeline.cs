@@ -43,6 +43,8 @@ public sealed class EuImportPipeline(IOptions<ImporterOptions> options, RepoPath
         var warnings = new List<string>();
         var found = new List<(string Country, UkConstituent Company)>();
 
+        // The saved list holds the country code in its sector column.
+        var saved = UkConstituents.Read(paths.Resolve(_o.ListPath)).ToLookup(c => c.Sector, StringComparer.OrdinalIgnoreCase);
         foreach (var country in _o.Countries)
         {
             await postcodes.LoadAsync(client, _o.PostcodesUrl, country.Code, ct);
@@ -51,7 +53,7 @@ public sealed class EuImportPipeline(IOptions<ImporterOptions> options, RepoPath
 
             using var market = new UkMainMarket(client, _o.GleifApi, paths.Resolve(_o.CacheDirectory), _log,
                 country.ExchangeCodes, [country.Code], $"openfigi-{country.Code.ToLowerInvariant()}.json");
-            var listed = await market.FindAsync(entities, new HashSet<string>(StringComparer.OrdinalIgnoreCase), _o.RecentYears, ct);
+            var listed = await market.FindAsync(entities, new HashSet<string>(StringComparer.OrdinalIgnoreCase), _o.RecentYears, saved[country.Code], ct);
             var byLei = entities.ToDictionary(e => e.Lei, StringComparer.OrdinalIgnoreCase);
 
             foreach (var c in listed.OrderBy(c => c.Name))

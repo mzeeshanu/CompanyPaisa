@@ -9,7 +9,8 @@ namespace CompanyPaisa.Importer.Financials;
 /// <summary>Turns SEC XBRL "company facts" into annual and quarterly revenue / net income.</summary>
 public interface IFinancialsExtractor
 {
-    FinancialsResult Extract(string companyId, long cik, string companyFactsJson, int years);
+    /// <param name="statement">The newest annual report's own top line (EdgarTools), used where it can be proved right.</param>
+    FinancialsResult Extract(string companyId, long cik, string companyFactsJson, int years, StatementReading? statement = null);
 }
 
 public sealed record FinancialsResult(IReadOnlyList<FinancialPeriod> Periods, string? RevenueConcept, IReadOnlyList<string> Notes)
@@ -20,6 +21,10 @@ public sealed record FinancialsResult(IReadOnlyList<FinancialPeriod> Periods, st
     public string Currency { get; init; } = "USD";
 }
 
+/// <summary>
+/// Company facts give the history; the annual report's income statement (<see cref="StatementReading"/>) settles which
+/// of several tagged lines is the revenue. See docs/edgartools-plan.md for why neither source is trusted alone.
+/// </summary>
 public sealed partial class XbrlFinancialsExtractor : IFinancialsExtractor
 {
     // Revenue candidates; per period the largest one tagged wins (companies switch concepts over the years, ASC 606 etc.).
@@ -40,9 +45,9 @@ public sealed partial class XbrlFinancialsExtractor : IFinancialsExtractor
     ];
     private static readonly string[] IfrsNetIncomeConcepts = ["ProfitLoss", "ProfitLossAttributableToOwnersOfParent"];
 
-    internal sealed record Fact(DateOnly? Start, DateOnly End, decimal Value, string? Frame, string Accession);
+    internal sealed record Fact(DateOnly? Start, DateOnly End, decimal Value, string? Frame, string Accession, string Filed = "");
 
-    public FinancialsResult Extract(string companyId, long cik, string json, int years)
+    public FinancialsResult Extract(string companyId, long cik, string json, int years, StatementReading? statement = null)
     {
         var notes = new List<string>();
         using var doc = JsonDocument.Parse(json);
@@ -76,9 +81,15 @@ public sealed partial class XbrlFinancialsExtractor : IFinancialsExtractor
         var candidates = revenueConcepts.Select(c => (c, (IEnumerable<Fact>)Facts(gaap, c, currency)))
             .Append((BankRevenue, SumByFrame(Facts(gaap, "InterestAndDividendIncomeOperating", currency), Facts(gaap, "NoninterestIncome", currency))
                 .Values.Where(f => !netOfInterestFrames.Contains(f.Frame!))));
-        var (revenue, revenueConcept) = LargestByFrame(candidates);
-        if (revenueConcept == BankRevenue) notes.Add("Revenue = interest & dividend income + non-interest income (bank).");
+        var chosen = LargestByFrame(WithoutThresholds(candidates));
+        UseLeaseIncome(gaap, currency, chosen);
+        var lenderFrames = UseNetRevenueForBanks(gaap, currency, chosen, BankRevenue, notes);
         var (netIncome, _) = MergeByFrame(gaap, netIncomeConcepts, currency);
+        FixProfitSigns(gaap, currency, netIncome);
+        if (statement is not null) UseStatementRevenue(gaap, currency, statement, chosen, netIncome, lenderFrames, notes);
+        var revenueConcept = chosen.Values.GroupBy(b => b.Concept).MaxBy(g => g.Count())?.Key;
+        var revenue = chosen.ToDictionary(kv => kv.Key, kv => kv.Value.Fact);
+        if (revenueConcept == BankRevenue) notes.Add("Revenue = interest & dividend income + non-interest income (bank).");
         if (revenue.Count == 0) return new FinancialsResult([], null, ["No revenue facts in XBRL."]);
 
         // ---- annual: frames "CY2023" (≈12-month duration) ----
@@ -151,13 +162,13 @@ public sealed partial class XbrlFinancialsExtractor : IFinancialsExtractor
                 SourceFiling = FilingUrl(cik, kv.Value.Acc)
             }).ToList();
 
-        var periods = annual.Where(p => p.FiscalYear >= fromYear).Concat(quarterly).ToList();
+        var periods = annual.Where(p => p.FiscalYear >= fromYear).Concat(WithoutImpossibleQuarters(quarterly, annual.Where(p => p.FiscalYear >= fromYear).ToList())).ToList();
         var latestEnd = revenue.Values.Max(f => f.End);
         return new FinancialsResult(periods, revenueConcept, notes) { LatestPeriodEnd = latestEnd, Currency = currency };
     }
 
     /// <summary>Retail-style years ending in January/February belong to the previous fiscal year.</summary>
-    private static int FiscalYearLabel(DateOnly end) => end.Month <= 2 ? end.Year - 1 : end.Year;
+    internal static int FiscalYearLabel(DateOnly end) => end.Month <= 2 ? end.Year - 1 : end.Year;
 
     /// <summary>Calendar quarters whose end date falls inside (start, end], allowing a few days of slack.</summary>
     private static IEnumerable<(int Y, int Q)> CalendarQuartersIn(DateOnly start, DateOnly end)
@@ -183,15 +194,138 @@ public sealed partial class XbrlFinancialsExtractor : IFinancialsExtractor
         return (result, first);
     }
 
-    /// <summary>The largest value per frame across all candidates; the concept is the one chosen most often.</summary>
-    private static (Dictionary<string, Fact> ByFrame, string? Concept) LargestByFrame(IEnumerable<(string Concept, IEnumerable<Fact> Facts)> candidates)
+    /// <summary>
+    /// A profit tagged with the wrong sign: the same period's consolidated profit is about the same size with the other
+    /// sign, and the pre-tax result agrees with that (MBIA's 2025 10-K gave 2024's $447M loss as a $435M profit, beside a
+    /// $444M consolidated loss and a $441M pre-tax loss).
+    /// </summary>
+    private static void FixProfitSigns(JsonElement gaap, string currency, Dictionary<string, Fact> profit)
+    {
+        Dictionary<string, Fact> Framed(string concept) =>
+            Facts(gaap, concept, currency).Where(f => f.Frame is not null).GroupBy(f => f.Frame!).ToDictionary(g => g.Key, g => g.First());
+        var pretax = Framed("IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest");
+        if (pretax.Count == 0) return;
+        var minority = Framed("NetIncomeLossAttributableToNoncontrollingInterest");
+        foreach (var (frame, whole) in Framed("ProfitLoss"))
+            if (AnnualFrame().IsMatch(frame) && profit.TryGetValue(frame, out var ours) && pretax.TryGetValue(frame, out var before)
+                && Math.Sign(ours.Value) == -Math.Sign(whole.Value) && Math.Sign(before.Value) == Math.Sign(whole.Value)
+                && Math.Abs(Math.Abs(ours.Value) - Math.Abs(whole.Value)) <= 0.1m * Math.Abs(whole.Value)
+                && Math.Abs(Math.Abs(before.Value) - Math.Abs(whole.Value)) <= 0.3m * Math.Abs(whole.Value)
+                // A big minority's share really can turn the group's profit into a loss for its own shareholders (Telos 2018).
+                && (!minority.TryGetValue(frame, out var theirs) || Math.Abs(theirs.Value) <= 0.25m * Math.Abs(whole.Value)))
+                profit[frame] = whole;
+    }
+
+    /// <summary>The largest value per frame across all candidates, with the concept it came from.</summary>
+    private static Dictionary<string, (Fact Fact, string Concept)> LargestByFrame(IEnumerable<(string Concept, IEnumerable<Fact> Facts)> candidates)
     {
         var best = new Dictionary<string, (Fact Fact, string Concept)>();
         foreach (var (concept, facts) in candidates)
             foreach (var f in facts.Where(f => f.Frame is not null))
                 if (!best.TryGetValue(f.Frame!, out var b) || f.Value > b.Fact.Value) best[f.Frame!] = (f, concept);
-        var concept1 = best.Values.GroupBy(b => b.Concept).MaxBy(g => g.Count())?.Key;
-        return (best.ToDictionary(kv => kv.Key, kv => kv.Value.Fact), concept1);
+        return best;
+    }
+
+    /// <summary>
+    /// A bank's headline revenue is net interest income + non-interest income (Bank of America 2025: $113.1bn, where gross
+    /// interest income made it $191.6bn). Applies where the gross formula, or a line equal to it, would have been used.
+    /// </summary>
+    /// <returns>The periods in which the company reports as a lender.</returns>
+    private static HashSet<string> UseNetRevenueForBanks(JsonElement gaap, string currency,
+        Dictionary<string, (Fact Fact, string Concept)> chosen, string grossFormula, List<string> notes)
+    {
+        Dictionary<string, Fact> ByFrame(string concept) =>
+            Facts(gaap, concept, currency).Where(f => f.Frame is not null).GroupBy(f => f.Frame!).ToDictionary(g => g.Key, g => g.First());
+
+        var interest = ByFrame("InterestAndDividendIncomeOperating");
+        var other = ByFrame("NoninterestIncome");
+        var net = ByFrame("InterestIncomeExpenseNet");
+        var expense = ByFrame("InterestExpenseOperating");
+        foreach (var (frame, f) in ByFrame("InterestExpense")) expense.TryAdd(frame, f);
+
+        var lender = other.Keys.Where(f => net.ContainsKey(f) || interest.ContainsKey(f)).ToHashSet();
+        var changed = 0;
+        foreach (var frame in lender)
+        {
+            if (!chosen.TryGetValue(frame, out var current) || !interest.TryGetValue(frame, out var income)) continue;
+            var gross = income.Value + other[frame].Value;
+            if (current.Concept != grossFormula && Math.Abs(current.Fact.Value - gross) > 0.01m * Math.Abs(gross)) continue;
+            decimal netInterest;
+            // A negative tag contradicted by income less expense is a mistyped sign (Peoples Bancorp's 2020 10-K gave 2018's
+            // $129.6M net interest income as -$129.6M).
+            if (net.TryGetValue(frame, out var tagged)
+                && !(tagged.Value < 0 && expense.TryGetValue(frame, out var cost) && income.Value - cost.Value > 0))
+                netInterest = tagged.Value;
+            else if (expense.TryGetValue(frame, out var paid)) netInterest = income.Value - paid.Value;
+            else continue;
+            chosen[frame] = (income with { Value = netInterest + other[frame].Value }, NetBankRevenue);
+            changed++;
+        }
+        if (changed > 0) notes.Add("Revenue = net interest income + non-interest income (bank).");
+        return lender;
+    }
+
+    private const string NetBankRevenue = "InterestIncomeExpenseNet + NoninterestIncome";
+    internal const string CorrectedNote = "Revenue taken from the annual report's income statement";
+
+    /// <summary>
+    /// Replaces a year's revenue with the statement's top line only when every check passes: not a lender; the same
+    /// column's net income agrees with ours within 1% (so same period, currency and units); the line is labelled as the
+    /// whole of revenue and no larger revenue total is printed; the SEC's company facts hold the same amount from the
+    /// same report; and our figure isn't a restatement filed after that report.
+    /// </summary>
+    private static void UseStatementRevenue(JsonElement gaap, string currency, StatementReading statement,
+        Dictionary<string, (Fact Fact, string Concept)> chosen, IReadOnlyDictionary<string, Fact> netIncome,
+        IReadOnlySet<string> lenderFrames, List<string> notes)
+    {
+        var corrected = new HashSet<string>();
+        var switches = new Dictionary<string, string>();   // rejected concept -> the statement's
+        DateOnly? from = null;
+        foreach (var year in statement.Years)
+        {
+            if (year.Revenue is not > 0 || year.NetIncome is not { } profit || profit == 0) continue;
+            var revenue = year.Revenue.Value;
+            if (year.Label is null || !HeadlineLabel().IsMatch(year.Label.Trim())) continue;
+            if (year.LargestTotal is { } total && total > revenue * 1.01m) continue;
+
+            var frame = chosen.FirstOrDefault(kv => AnnualFrame().IsMatch(kv.Key) && kv.Value.Fact.End == year.End).Key;
+            if (frame is null || lenderFrames.Contains(frame)) continue;
+            var (ours, oldConcept) = chosen[frame];
+            if (Math.Abs(ours.Value - revenue) <= 0.01m * revenue) continue;
+            if (!netIncome.TryGetValue(frame, out var ourProfit) || Math.Abs(ourProfit.Value - profit) > 0.01m * Math.Abs(profit)) continue;
+            if (ours.Accession != statement.Accession && string.CompareOrdinal(ours.Filed, statement.Filed) > 0) continue;
+            if (FindInReport(gaap, currency, statement.Accession, year.End, revenue, year.Concept) is not { } found) continue;
+
+            chosen[frame] = (found.Fact with { Frame = frame }, found.Concept);
+            corrected.Add(frame);
+            if (found.Concept != oldConcept) switches[oldConcept] = found.Concept;
+            if (found.Fact.Start is { } start && (from is null || start < from)) from = start;
+            notes.Add(string.Create(CultureInfo.InvariantCulture, $"{CorrectedNote}: {year.End:yyyy-MM-dd} {ours.Value:N0} -> {revenue:N0}."));
+        }
+
+        // Keep the history on one measure: wherever the rejected line was used and the statement's line is tagged too,
+        // use that. A recent quarter with only the rejected line is left out rather than mixed in.
+        foreach (var (rejected, headline) in switches)
+        {
+            var tagged = Facts(gaap, headline, currency).Where(f => f.Frame is not null).GroupBy(f => f.Frame!).ToDictionary(g => g.Key, g => g.First());
+            foreach (var (frame, pick) in chosen.ToList())
+            {
+                if (pick.Concept != rejected || corrected.Contains(frame)) continue;
+                if (tagged.TryGetValue(frame, out var fact) && fact.Value > 0) chosen[frame] = (fact, headline);
+                else if (QuarterFrame().IsMatch(frame) && pick.Fact.End >= from) chosen.Remove(frame);
+            }
+        }
+    }
+
+    /// <summary>The fact in that report with this year-end, a year's duration and this amount; the statement's concept first.</summary>
+    private static (Fact Fact, string Concept)? FindInReport(JsonElement gaap, string currency, string accession, DateOnly end, decimal value, string? preferred)
+    {
+        var concepts = gaap.EnumerateObject().Select(p => p.Name).OrderByDescending(n => n == preferred);
+        foreach (var concept in concepts)
+            foreach (var f in Facts(gaap, concept, currency))
+                if (f.Accession == accession && f.End == end && f.Value == value && f.Start is { } start && end.DayNumber - start.DayNumber is >= 300 and <= 400)
+                    return (f, concept);
+        return null;
     }
 
     /// <summary>End date of the newest fact for any of the concepts, in any currency.</summary>
@@ -231,6 +365,8 @@ public sealed partial class XbrlFinancialsExtractor : IFinancialsExtractor
     /// statements are never used: their pay-versus-performance tables tag the year's net income too, often without the
     /// "in thousands" scale — Con Edison's 2023 proxy gave its $2.5 billion profit as $2,519,000 — and the SEC's frame then
     /// points at that proxy fact. The frame goes to the same period's figure from a report (10-K, 10-Q, 20-F, 40-F…).
+    /// The same goes for a whole year stated only by mistake in a later 10-Q (Comfort Systems' Q1 2026 report tagged a
+    /// quarter's $1.8bn as 2025's revenue, over the 10-K's $9.1bn): an annual frame goes back to the annual report.
     /// </summary>
     internal static IEnumerable<Fact> Facts(JsonElement gaap, string concept, string currency = "USD")
     {
@@ -244,25 +380,104 @@ public sealed partial class XbrlFinancialsExtractor : IFinancialsExtractor
             var frame = f.TryGetProperty("frame", out var fr) ? fr.GetString() : null;
             var form = f.TryGetProperty("form", out var fo) ? fo.GetString() ?? "" : "";
             var filed = f.TryGetProperty("filed", out var fi) ? fi.GetString() ?? "" : "";
-            all.Add((new Fact(start, end, f.GetProperty("val").GetDecimal(), frame, f.TryGetProperty("accn", out var acc) ? acc.GetString() ?? "" : ""), form, filed));
+            all.Add((new Fact(start, end, f.GetProperty("val").GetDecimal(), frame, f.TryGetProperty("accn", out var acc) ? acc.GetString() ?? "" : "", filed), form, filed));
         }
-        foreach (var (fact, form, _) in all)
+        foreach (var (tagged, form, _) in all)
         {
-            if (!IsProxy(form)) { yield return fact; continue; }
+            var fact = InReportedUnits(tagged);
+            var proxy = IsProxy(form) || AnothersStatements.Contains(tagged.Accession);
+            var yearInQuarterlyReport = IsQuarterly(form) && fact.Frame is { } fr && AnnualFrame().IsMatch(fr);
+            if (!proxy && !yearInQuarterlyReport) { yield return fact; continue; }
             if (fact.Frame is null) continue;
+            if (yearInQuarterlyReport)
+            {
+                var annualReport = all.Where(x => !IsProxy(x.Form) && !IsQuarterly(x.Form) && x.Fact.Start == fact.Start && x.Fact.End == fact.End)
+                    .OrderByDescending(x => x.Filed, StringComparer.Ordinal).Select(x => x.Fact).FirstOrDefault();
+                yield return annualReport is null ? fact : annualReport with { Frame = fact.Frame };
+                continue;
+            }
             // The frame moves to the newest report that states the same period.
-            var report = all.Where(x => !IsProxy(x.Form) && x.Fact.Start == fact.Start && x.Fact.End == fact.End)
-                .OrderByDescending(x => x.Filed, StringComparer.Ordinal).Select(x => x.Fact).FirstOrDefault();
-            if (report is not null) yield return report with { Frame = fact.Frame };
+            var report = all.Where(x => !IsProxy(x.Form) && !AnothersStatements.Contains(x.Fact.Accession) && SamePeriod(x.Fact, fact))
+                .OrderByDescending(x => x.Fact.Start == fact.Start && x.Fact.End == fact.End)
+                .ThenByDescending(x => x.Filed, StringComparer.Ordinal).Select(x => x.Fact).FirstOrDefault();
+            if (report is not null) yield return InReportedUnits(report) with { Frame = fact.Frame };
         }
 
+        // A filing that added the "in thousands" scale to a full amount is exactly 1,000 or 1,000,000 times another of the
+        // company's reports for the same period (INVE's 2023 10-K/A: a $1.62 trillion profit over the 10-K's $1.62 million).
+        Fact InReportedUnits(Fact f)
+        {
+            if (Math.Abs(f.Value) < ScaleSlipFrom) return f;
+            var right = all.Where(x => !IsProxy(x.Form) && x.Fact.Start == f.Start && x.Fact.End == f.End && x.Fact.Value != 0
+                    && (Math.Abs(x.Fact.Value) * 1_000m == Math.Abs(f.Value) || Math.Abs(x.Fact.Value) * 1_000_000m == Math.Abs(f.Value)))
+                .OrderByDescending(x => x.Filed, StringComparer.Ordinal).Select(x => x.Fact).FirstOrDefault();
+            return right is null ? f : right with { Frame = f.Frame };
+        }
+
+        // A proxy can date a year a day off the report's (Lululemon 2021 from 31 January, its 10-K from 1 February).
+        static bool SamePeriod(Fact a, Fact b) => a.Start is { } from && b.Start is { } since
+            ? Math.Abs(from.DayNumber - since.DayNumber) <= 7 && Math.Abs(a.End.DayNumber - b.End.DayNumber) <= 3
+            : a.Start == b.Start && a.End == b.End;
+
+        static bool IsQuarterly(string form) => form is "10-Q" or "10-Q/A";
         static bool IsProxy(string form) => form.StartsWith("DEF 14", StringComparison.Ordinal) || form.StartsWith("DEFA14", StringComparison.Ordinal)
-                                            || form.StartsWith("PRE 14", StringComparison.Ordinal) || form.StartsWith("DEFM14", StringComparison.Ordinal);
+                                            || form.StartsWith("PRE 14", StringComparison.Ordinal) || form.StartsWith("DEFM14", StringComparison.Ordinal)
+                                            || form.StartsWith("DEFR14", StringComparison.Ordinal) || form.StartsWith("PRER14", StringComparison.Ordinal)   // revised
+                                            || form.StartsWith("DEFC14", StringComparison.Ordinal) || form.StartsWith("PREC14", StringComparison.Ordinal);  // contested
     }
 
-    private static string? FilingUrl(long cik, string accession) =>
+    /// <summary>Only figures this large are checked for a scale slip: no small company's real figures get near it.</summary>
+    private const decimal ScaleSlipFrom = 10_000_000_000m;
+
+    /// <summary>
+    /// Filings that tag another company's statements as the filer's own, found by two companies showing identical years:
+    /// Essential Utilities' 8-K of 25 March 2026 carries American Water's 2023–25.
+    /// </summary>
+    private static readonly HashSet<string> AnothersStatements = ["0001193125-26-124163"];
+
+    /// <summary>The revenue ceilings of an "emerging growth company", which cover pages and notes get tagged with as revenue.</summary>
+    private static readonly decimal[] GrowthCompanyCeilings = [1_070_000_000m, 1_235_000_000m];
+
+    /// <summary>
+    /// Leaves out a ceiling tagged as revenue (IonQ's "$1,235,000,000" 2022, beside $11M): exactly that amount, and over
+    /// four times every other revenue figure the company gave within about a year of it.
+    /// </summary>
+    private static List<(string, IEnumerable<Fact>)> WithoutThresholds(IEnumerable<(string Concept, IEnumerable<Fact> Facts)> candidates)
+    {
+        var lists = candidates.Select(c => (c.Concept, Facts: c.Facts.ToList())).ToList();
+        var others = lists.SelectMany(c => c.Facts).Where(f => !GrowthCompanyCeilings.Contains(f.Value)).ToList();
+        return lists.Select(c => (c.Concept, (IEnumerable<Fact>)c.Facts.Where(f => !GrowthCompanyCeilings.Contains(f.Value)
+            || others.Any(o => Math.Abs(o.End.DayNumber - f.End.DayNumber) <= 400 && o.Value * 4 >= f.Value)).ToList())).ToList();
+    }
+
+    /// <summary>
+    /// A landlord that tags only its fee income as revenue: rent is the top line (Camden 2025: $1.57bn beside $13M of fees).
+    /// </summary>
+    private static void UseLeaseIncome(JsonElement gaap, string currency, Dictionary<string, (Fact Fact, string Concept)> chosen)
+    {
+        const string Lease = "OperatingLeaseLeaseIncome";
+        foreach (var rent in Facts(gaap, Lease, currency).Where(f => f.Frame is not null && f.Value >= 10_000_000m))
+            if (chosen.TryGetValue(rent.Frame!, out var pick) && rent.Value > 4 * pick.Fact.Value
+                && rent.Value != 1_000m * pick.Fact.Value && rent.Value != 1_000_000m * pick.Fact.Value)   // the same line in the wrong units
+                chosen[rent.Frame!] = (rent, Lease);
+    }
+
+    /// <summary>A quarter over $1bn and five times the company's biggest year (RPC's Q4 2015: $40.9bn) is a slip of the tag.</summary>
+    private static List<FinancialPeriod> WithoutImpossibleQuarters(List<FinancialPeriod> quarters, List<FinancialPeriod> years)
+    {
+        if (years.Count < 2) return quarters;
+        var (biggest, newest) = (years.Max(y => y.Revenue), years.Max(y => y.FiscalYear));
+        return quarters.Where(q => q.FiscalYear > newest || q.Revenue <= 1_000_000_000m || q.Revenue <= 5 * biggest).ToList();
+    }
+
+    internal static string? FilingUrl(long cik, string accession) =>
         string.IsNullOrEmpty(accession) ? null : $"https://www.sec.gov/Archives/edgar/data/{cik}/{accession.Replace("-", "")}/";
 
+    internal static bool IsHeadline(string label) => HeadlineLabel().IsMatch(label.Trim());
+
+    // Labels that mean the whole of revenue; a sub-line ("License and other revenue", "Resident fees") never matches.
+    [GeneratedRegex(@"^((total|net|operating|total net|total operating) )?(revenues?|sales)(,? net)?(,? net of (royalties|excise taxes|interest expense))?$|^revenue from tenants$", RegexOptions.IgnoreCase)]
+    private static partial Regex HeadlineLabel();
     [GeneratedRegex(@"^CY(\d{4})$")] private static partial Regex AnnualFrame();
     [GeneratedRegex(@"^CY(\d{4})Q([1-4])$")] private static partial Regex QuarterFrame();
 }

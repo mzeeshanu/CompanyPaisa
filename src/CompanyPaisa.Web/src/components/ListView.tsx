@@ -8,6 +8,10 @@ import { companyPath, Link } from '../lib/router';
 import { QuickFact } from './QuickFact';
 import { SortHeader } from './SortHeader';
 
+/** What a row's totals cover. */
+const totalsSpan = (i: { hasTotals: boolean; totalsYear: number | null }) =>
+  !i.hasTotals ? '' : i.totalsYear ? `FY ${i.totalsYear}` : '12 mo';
+
 export interface Highlight { selected: string | null; hovered: string | null }
 export interface BubbleEvents {
   onHover: (ticker: string | null, el?: HTMLElement) => void;
@@ -159,7 +163,7 @@ function BubbleField({ items, region, highlight, onHover, onOpened }: { items: C
           <Link key={n.c.ticker} to={companyPath(n.c.ticker)}
             className={`bub t-${trendClass(n.c.trend)}${n.r < 8 ? ' dot-sm' : ''}${highlight.hovered === n.c.ticker ? ' hl' : ''}${highlight.selected === n.c.ticker ? ' sel' : ''}`}
             style={{ left: n.x - n.r, top: n.y - n.r, width: n.r * 2, height: n.r * 2, ...popDelay(i, all.length) }}
-            aria-label={`${n.c.name}, ${money(n.c.ttmRevenue, n.c.currency)} revenue`}
+            aria-label={`${n.c.name}, ${money(n.c.ttmRevenue || null, n.c.currency)} revenue`}
             onMouseEnter={e => onHover(n.c.ticker, e.currentTarget)} onMouseLeave={() => onHover(null)}
             onFocus={e => onHover(n.c.ticker, e.currentTarget)} onBlur={() => onHover(null)}
             onClick={() => onOpened(n.c.ticker)}>
@@ -290,10 +294,10 @@ function RankedRows({ data, region, sort, onSort, reverse, onReverse, onMore, lo
           <span className={`mini c-mini t-${trendClass(c.indicators.trend)}`} />
           <span className="who"><b>{c.name}</b>{c.isHeadquarteredNearby && <span className="hq">HQ</span>}<small>{c.ticker} · {c.sector}</small></span>
           <span className="at c-at">{c.nearestLocation.type === 'Headquarters' ? 'Headquarters' : c.nearestLocation.label}<small>{region ? `${c.nearestLocation.city}, ${c.nearestLocation.state}` : `${c.nearestLocation.city} · ${c.distanceMiles.toFixed(1)} mi`}</small></span>
-          <span className="val">{money(c.indicators.ttmRevenue, c.currency)}<small>{c.indicators.latestQuarterLabel ? '12 mo' : 'year'}</small></span>
+          <span className="val">{money(c.indicators.hasTotals ? c.indicators.ttmRevenue : null, c.currency)}<small>{totalsSpan(c.indicators)}</small></span>
           <span className="r"><span className={`pill ${tone(c.indicators.revenueGrowthYoY)}`}>{pct(c.indicators.revenueGrowthYoY)}</span></span>
           <span className="r c-spark spark"><Sparkline points={c.indicators.revenueHistory.map(p => p.revenue)} /></span>
-          <span className={`val c-net${c.indicators.ttmNetIncome < 0 ? ' neg' : ''}`}>{money(c.indicators.ttmNetIncome, c.currency)}<small>{c.indicators.latestQuarterLabel ? '12 mo' : 'year'}</small></span>
+          <span className={`val c-net${c.indicators.ttmNetIncome < 0 ? ' neg' : ''}`}>{money(c.indicators.hasTotals ? c.indicators.ttmNetIncome : null, c.currency)}<small>{totalsSpan(c.indicators)}</small></span>
         </Link>
       ))}
       {(searching || left > 0) && (

@@ -45,7 +45,7 @@ public partial class DiscoveryTests
         var options = Microsoft.Extensions.Options.Options.Create(new ImporterOptions { Discovery = { States = ["TX"], Forms = ["10-K"], FiledSince = since } });
         var client = new FakeSearch();
 
-        var ciks = await new EdgarService(client, options, NullLogger<EdgarService>.Instance).DiscoverFilerCiksAsync(CancellationToken.None);
+        var ciks = await new EdgarService(client, options, new RepoPaths(), NullLogger<EdgarService>.Instance).DiscoverFilerCiksAsync(CancellationToken.None);
 
         var days = DateOnly.FromDateTime(DateTime.UtcNow).DayNumber - since.DayNumber + 1;
         Assert.Equal(days * FakeSearch.PerDay, ciks.Count);      // every filer, once

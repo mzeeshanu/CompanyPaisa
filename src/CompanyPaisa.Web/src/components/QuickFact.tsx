@@ -49,7 +49,7 @@ function revenueFact(s: NearbySummary): Fact | null {
   return {
     icon: '⚡',
     text: <>Together, these {s.companyCount} companies bring in <b>{approx}{exact(rate.amount, s.currency)} every {rate.unit}</b>.</>,
-    about: <>Their combined revenue over the latest 12 months ({approx}{money(s.combinedTtmRevenue, s.currency)}) spread evenly over a year.
+    about: <>Their combined revenue over the latest 12 months or fiscal year ({approx}{money(s.combinedTtmRevenue, s.currency)}) spread evenly over a year.
       Revenue is sales worldwide, not only in this area{s.approximate ? '; amounts in other currencies were converted at approximate rates' : ''}.</>,
   };
 }

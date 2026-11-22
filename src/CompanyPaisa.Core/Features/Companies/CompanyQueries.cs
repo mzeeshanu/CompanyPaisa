@@ -25,7 +25,7 @@ public sealed class GetCompanyHandler(ICompanyRepository repository, IFinancialM
     {
         var c = await repository.GetCompanyAsync(query.Ticker, ct) ?? throw CompanyNotFound(query.Ticker);
         var locations = await repository.GetLocationsAsync(c.CompanyId, ct);
-        var indicators = metrics.Compute(await repository.GetFinancialsAsync(c.CompanyId, ct));
+        var indicators = metrics.Compute(await repository.GetFinancialsAsync(c.CompanyId, ct), c.FiscalYearEnd);
         // Pay ratios come from US proxy statements, which state pay in US dollars.
         var workerPay = (await repository.GetWorkerPayAsync(c.CompanyId, ct)).OrderBy(w => w.Year)
             .Select(w => new WorkerPayDto(w.Year, w.MedianEmployeePay, w.CeoPay, w.Ratio, "USD", w.SourceFiling)).ToList();

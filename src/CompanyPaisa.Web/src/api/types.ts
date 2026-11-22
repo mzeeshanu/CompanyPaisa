@@ -29,6 +29,10 @@ export interface Indicators {
   netMargin: number | null; trend: TrendStatus;
   latestQuarterLabel: string | null; latestQuarterRevenue: number | null; latestQuarterNetIncome: number | null;
   revenueHistory: AnnualPoint[];
+  /** The fiscal year the ttm figures cover; null = the last 12 months. */
+  totalsYear: number | null;
+  /** False = no honest total (gaps in the quarters and no recent year): the ttm figures are zero. */
+  hasTotals: boolean;
 }
 
 export interface CompanySummary {
@@ -162,7 +166,8 @@ export interface ExecutiveDetail {
   roles: ExecutiveRole[]; history: ExecutivePayYear[];
 }
 
-export interface DataMeta { dataVersion: string; asOfDate: string | null; isSampleData: boolean; companyCount: number; locationCount: number; loadedAt: string }
+export interface MarketDate { market: string; asOfDate: string }
+export interface DataMeta { dataVersion: string; asOfDate: string | null; markets: MarketDate[]; isSampleData: boolean; companyCount: number; locationCount: number; loadedAt: string }
 
 export interface ClientConfig {
   defaultTheme: 'Auto' | 'Light' | 'Dark';

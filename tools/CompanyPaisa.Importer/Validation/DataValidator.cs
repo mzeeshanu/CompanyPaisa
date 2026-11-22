@@ -97,6 +97,24 @@ public static class DataValidator
             data.Financials.Where(f => f.PeriodType == PeriodType.Annual && Usd(f.CompanyId, f.Revenue) > 800_000_000_000m)
                 .Select(f => $"{Name(f.CompanyId)} {f.Label}: {Money(f.Revenue)} {companies.GetValueOrDefault(f.CompanyId)?.Currency}"));
 
+        Check("Financials", "Impossible size", Severity.Error,
+            "No company has had revenue over $1.5 trillion, or a profit or loss over $200bn, in a period: a scale slip in the source.",
+            data.Financials.Where(f => Usd(f.CompanyId, Math.Abs(f.Revenue)) > 1_500_000_000_000m || Usd(f.CompanyId, Math.Abs(f.NetIncome)) > 200_000_000_000m)
+                .Select(f => $"{Name(f.CompanyId)} {f.Label}: revenue {Money(f.Revenue)}, net income {Money(f.NetIncome)}"));
+
+        Check("Financials", "Another company's figures", Severity.Error,
+            "Two companies state the same revenue and profit for three or more years: one is matched to the wrong filer. (An SEC parent and its operating partnership are expected, and share their first name.)",
+            data.Financials.Where(f => f.PeriodType == PeriodType.Annual && Usd(f.CompanyId, Math.Abs(f.Revenue)) >= 20_000_000m)
+                .GroupBy(f => (f.FiscalYear, f.Revenue, f.NetIncome)).Where(g => g.Count() > 1)
+                .SelectMany(g =>
+                {
+                    var ids = g.Select(f => f.CompanyId).Order(StringComparer.Ordinal).ToList();
+                    return ids.SelectMany((a, i) => ids.Skip(i + 1).Select(b => (A: a, B: b)));
+                })
+                .GroupBy(p => p).Where(g => g.Count() >= 3 && FirstWord(g.Key.A) != FirstWord(g.Key.B))
+                .Select(g => $"{Name(g.Key.A)} and {Name(g.Key.B)}: {g.Count()} years"));
+        string FirstWord(string id) => companies.TryGetValue(id, out var c) ? c.Name.Split(' ')[0].ToUpperInvariant() : id;
+
         // Losses far bigger than revenue are normal for drug developers; profits far bigger than revenue are not.
         Check("Financials", "Profit far bigger than revenue", Severity.Warning,
             "Net profit more than 3× revenue for a company with ≥ $10M revenue — possible for holding companies and one-off gains, often a revenue sub-line.",
@@ -273,7 +291,7 @@ public static class DataValidator
         return n.Trim();
     }
 
-    private static string Money(decimal v) => Math.Abs(v) switch
+    internal static string Money(decimal v) => Math.Abs(v) switch
     {
         >= 1_000_000_000 => (v / 1_000_000_000).ToString("0.00", CultureInfo.InvariantCulture) + "bn",
         >= 1_000_000 => (v / 1_000_000).ToString("0.0", CultureInfo.InvariantCulture) + "M",

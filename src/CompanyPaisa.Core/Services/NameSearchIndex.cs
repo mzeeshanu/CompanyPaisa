@@ -88,7 +88,7 @@ public sealed class NameSearchIndex(ICompanyRepository repository, IFinancialMet
         foreach (var c in source)
         {
             var hq = (await repository.GetLocationsAsync(c.CompanyId, ct)).OrderBy(l => l.IsHeadquarters ? 0 : 1).FirstOrDefault();
-            var revenue = metrics.Compute(financials.GetValueOrDefault(c.CompanyId) ?? []).TtmRevenue;
+            var revenue = metrics.Compute(financials.GetValueOrDefault(c.CompanyId) ?? [], c.FiscalYearEnd).TtmRevenue;
             var name = Normalize(c.Name);
             var ticker = c.Ticker.ToUpperInvariant();
             companies.Add(new CompanyEntry(

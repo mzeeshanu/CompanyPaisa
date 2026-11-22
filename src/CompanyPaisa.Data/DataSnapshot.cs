@@ -16,6 +16,7 @@ public sealed class DataSnapshot
         Locations = data.Locations;
         SalarySources = data.SalarySources;
         Metadata = data.Metadata;
+        FormerTickers = data.FormerTickers.ToDictionary(t => t.Key, t => t.Value, StringComparer.OrdinalIgnoreCase);
 
         CompaniesById = data.Companies.ToDictionary(c => c.CompanyId, StringComparer.OrdinalIgnoreCase);
         CompaniesByTicker = data.Companies.GroupBy(c => c.Ticker, StringComparer.OrdinalIgnoreCase)
@@ -50,7 +51,10 @@ public sealed class DataSnapshot
     public GroupedRows<JobSalary> JobSalariesByCompany { get; }
     public IReadOnlyList<JobSalarySource> SalarySources { get; }
     public IReadOnlyList<string> Sectors { get; }
+    public IReadOnlyDictionary<string, string> FormerTickers { get; }
 
+    /// <summary>By id or ticker; failing both, by a ticker it used to have (a company using that ticker now always wins).</summary>
     public Company? Find(string idOrTicker) =>
-        CompaniesById.TryGetValue(idOrTicker, out var c) || CompaniesByTicker.TryGetValue(idOrTicker, out c) ? c : null;
+        CompaniesById.TryGetValue(idOrTicker, out var c) || CompaniesByTicker.TryGetValue(idOrTicker, out c)
+        || FormerTickers.TryGetValue(idOrTicker, out var now) && CompaniesById.TryGetValue(now, out c) ? c : null;
 }
