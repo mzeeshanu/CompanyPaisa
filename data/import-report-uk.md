@@ -1,9 +1,9 @@
-# UK import report — 2026-11-22 21:22 UTC
+# UK import report — 2026-11-22 23:46 UTC
 
 Scope: UK companies on the London Stock Exchange Main Market that file ESEF annual reports (FTSE 350 plus the rest; tickers via GLEIF ISINs and OpenFIGI), minus investment trusts and funds. Sources: ESEF annual reports (filings.xbrl.org), GLEIF headquarters addresses, GeoNames postcode districts.
 
 - Companies included: **337**
-- Years of figures: 1736
+- Years of figures: 1739
 - Directors' pay rows: 554 for 257 directors (102 add up exactly), from 975 annual reports
 - Postcode districts written: 3002
 - Network requests this run: 0

@@ -116,11 +116,32 @@ public sealed partial class XbrlFinancialsExtractor : IFinancialsExtractor
             if (!m.Success || netIncome.GetValueOrDefault(frame) is not { } ni) continue;
             quarters[(int.Parse(m.Groups[1].Value, CultureInfo.InvariantCulture), int.Parse(m.Groups[2].Value, CultureInfo.InvariantCulture))] = (f.Value, ni.Value, f.Accession);
         }
+        // A quarterly report missing from the SEC's feed (Dow's Q2 2026) leaves the year to date: six or nine months less
+        // the quarters around it. Only where the result is the size of the other quarters.
+        var fromYearToDate = 0;
+        foreach (var (frame, ytd) in revenue)
+        {
+            var m = YearToDateFrame().Match(frame);
+            if (!m.Success || netIncome.GetValueOrDefault(frame) is not { } yni) continue;
+            var last = int.Parse(m.Groups[1].Value, CultureInfo.InvariantCulture) * 4 + int.Parse(m.Groups[2].Value, CultureInfo.InvariantCulture) - 1;
+            var count = ytd.End.DayNumber - ytd.Start!.Value.DayNumber > 225 ? 3 : 2;
+            var inPeriod = Enumerable.Range(last - count + 1, count).Select(i => (Y: i / 4, Q: i % 4 + 1)).ToList();
+            var missing = inPeriod.Where(q => !quarters.ContainsKey(q)).ToList();
+            if (missing.Count != 1) continue;
+            var others = inPeriod.Where(q => q != missing[0]).Select(q => quarters[q]).ToList();
+            var rest = ytd.Value - others.Sum(o => o.Rev);
+            var usual = others.Average(o => o.Rev);
+            if (rest < 0 || usual <= 0 || rest < usual / 3 || rest > usual * 3) continue;
+            quarters[missing[0]] = (rest, yni.Value - others.Sum(o => o.Ni), ytd.Accession);
+            fromYearToDate++;
+        }
+        if (fromYearToDate > 0) notes.Add($"{fromYearToDate} quarter(s) derived from the year to date less the other quarters.");
+
         var derived = 0;
         foreach (var (frame, a) in revenue.Where(kv => AnnualFrame().IsMatch(kv.Key)))
         {
             if (a.Start is null || netIncome.GetValueOrDefault(frame) is not { } ani) continue;
-            var inYear = CalendarQuartersIn(a.Start.Value, a.End).ToList();
+            var inYear = QuartersOfYear(a.End).ToList();
             var missing = inYear.Where(q => !quarters.ContainsKey(q)).ToList();
             if (inYear.Count != 4 || missing.Count != 1) continue;
             var others = inYear.Where(q => q != missing[0]).Select(q => quarters[q]).ToList();
@@ -137,7 +158,7 @@ public sealed partial class XbrlFinancialsExtractor : IFinancialsExtractor
         foreach (var (frame, a) in revenue.Where(kv => AnnualFrame().IsMatch(kv.Key)))
         {
             if (a.Start is null) continue;
-            var inYear = CalendarQuartersIn(a.Start.Value, a.End).ToList();
+            var inYear = QuartersOfYear(a.End).ToList();
             if (inYear.Count != 4 || !inYear.All(quarters.ContainsKey)) continue;
             var sum = inYear.Sum(q => quarters[q].Rev);
             if (Math.Abs(sum - a.Value) <= 0.02m * Math.Abs(a.Value)) continue;
@@ -170,14 +191,59 @@ public sealed partial class XbrlFinancialsExtractor : IFinancialsExtractor
     /// <summary>Retail-style years ending in January/February belong to the previous fiscal year.</summary>
     internal static int FiscalYearLabel(DateOnly end) => end.Month <= 2 ? end.Year - 1 : end.Year;
 
-    /// <summary>Calendar quarters whose end date falls inside (start, end], allowing a few days of slack.</summary>
-    private static IEnumerable<(int Y, int Q)> CalendarQuartersIn(DateOnly start, DateOnly end)
+    /// <summary>The four quarter labels of the year ending on <paramref name="end"/>.</summary>
+    private static IEnumerable<(int Y, int Q)> QuartersOfYear(DateOnly end)
     {
-        for (var d = new DateOnly(start.Year, (start.Month - 1) / 3 * 3 + 1, 1); d <= end.AddDays(20); d = d.AddMonths(3))
+        var (y, q) = QuarterLabel(end);
+        for (var i = 3; i >= 0; i--)
         {
-            var qEnd = d.AddMonths(3).AddDays(-1);
-            if (qEnd > start.AddDays(20) && qEnd <= end.AddDays(20)) yield return (qEnd.Year, (qEnd.Month - 1) / 3 + 1);
+            var index = y * 4 + q - 1 - i;
+            yield return (index / 4, index % 4 + 1);
         }
+    }
+
+    /// <summary>
+    /// The calendar quarter a period ending on <paramref name="end"/> is labelled with: the one holding the day 35 days
+    /// before it ends, which is the quarter a 13-week quarter mostly covers (to 31 January is Q4, to 30 April is Q1).
+    /// </summary>
+    internal static (int Y, int Q) QuarterLabel(DateOnly end)
+    {
+        var d = end.AddDays(-35);
+        return (d.Year, (d.Month - 1) / 3 + 1);
+    }
+
+    /// <summary>
+    /// "CY2025" for a year's duration labelled 2025, "CY2025Q3" for a quarter's, null for any other length. A quarter is
+    /// numbered by its place in the fiscal year (Kroger's 16-week first quarter and the three 12-week ones are first to
+    /// fourth), and the fiscal year's last quarter takes the label of the calendar quarter it ends in (see
+    /// <see cref="QuarterLabel"/>), so the four labels always differ and follow on from year to year.
+    /// </summary>
+    /// <param name="yearEnds">The company's fiscal year-ends, oldest first.</param>
+    internal static string? PeriodKey(Fact f, IReadOnlyList<DateOnly>? yearEnds = null)
+    {
+        if (f.Start is not { } start) return null;
+        var days = f.End.DayNumber - start.DayNumber;
+        if (days is >= 330 and <= 395) return string.Create(CultureInfo.InvariantCulture, $"CY{FiscalYearLabel(f.End)}");
+        // The year-end before this period: a quarter's place is how many quarters of time have passed since then.
+        var before = yearEnds?.LastOrDefault(e => e < f.End.AddDays(-20)) ?? default;
+        var known = before != default && f.End.DayNumber - before.DayNumber <= 395;
+        var place = known ? Math.Clamp((int)Math.Round((f.End.DayNumber - before.DayNumber) / 91.3), 1, 4) : 0;
+        int index;
+        if (known)
+        {
+            var (by, bq) = QuarterLabel(before);
+            index = by * 4 + bq - 1 + place;
+        }
+        else
+        {
+            var (y, q) = QuarterLabel(f.End);
+            index = y * 4 + q - 1;
+        }
+        var key = string.Create(CultureInfo.InvariantCulture, $"CY{index / 4}Q{index % 4 + 1}");
+        if (days is >= 60 and <= 125) return key;
+        // Six or nine months from the start of the fiscal year: "CY2026Q3T", the year to date through that quarter.
+        if (known && place is 2 or 3 && days is >= 150 and <= 300 && Math.Abs(start.DayNumber - before.DayNumber - 1) <= 7) return key + "T";
+        return null;
     }
 
     private static (Dictionary<string, Fact> ByFrame, string? Concept) MergeByFrame(JsonElement gaap, IEnumerable<string> concepts, string currency)
@@ -361,12 +427,10 @@ public sealed partial class XbrlFinancialsExtractor : IFinancialsExtractor
     }
 
     /// <summary>
-    /// A concept's facts in one currency, each with the SEC's calendar frame ("CY2023", "CY2023Q2"). Facts from proxy
-    /// statements are never used: their pay-versus-performance tables tag the year's net income too, often without the
-    /// "in thousands" scale — Con Edison's 2023 proxy gave its $2.5 billion profit as $2,519,000 — and the SEC's frame then
-    /// points at that proxy fact. The frame goes to the same period's figure from a report (10-K, 10-Q, 20-F, 40-F…).
-    /// The same goes for a whole year stated only by mistake in a later 10-Q (Comfort Systems' Q1 2026 report tagged a
-    /// quarter's $1.8bn as 2025's revenue, over the 10-K's $9.1bn): an annual frame goes back to the annual report.
+    /// A concept's facts in one currency. One fact per period carries its key in <see cref="Fact.Frame"/>: "CY2023" for the
+    /// fiscal year labelled 2023, "CY2023Q2" for the quarter labelled so (see <see cref="PeriodKey"/>); the rest have none.
+    /// Facts from proxy statements are never used: their pay-versus-performance tables tag the year's net income too, often
+    /// without the "in thousands" scale (Con Edison's 2023 proxy gave its $2.5 billion profit as $2,519,000).
     /// </summary>
     internal static IEnumerable<Fact> Facts(JsonElement gaap, string concept, string currency = "USD")
     {
@@ -382,26 +446,37 @@ public sealed partial class XbrlFinancialsExtractor : IFinancialsExtractor
             var filed = f.TryGetProperty("filed", out var fi) ? fi.GetString() ?? "" : "";
             all.Add((new Fact(start, end, f.GetProperty("val").GetDecimal(), frame, f.TryGetProperty("accn", out var acc) ? acc.GetString() ?? "" : "", filed), form, filed));
         }
-        foreach (var (tagged, form, _) in all)
+        // Every period is keyed by its own dates. The SEC's frames are calendar periods, and an off-calendar year loses
+        // periods to them: Sysco's year to June 2025 is framed CY2024, so its year to June 2024 has no frame at all, and
+        // Costco's 12-week Q2 and Q3 both fall nearest calendar Q1, so one of them has none.
+        var reports = all.Where(x => !IsProxy(x.Form) && !AnothersStatements.Contains(x.Fact.Accession)).ToList();
+        var yearEnds = reports.Where(x => x.Fact.Start is { } s && x.Fact.End.DayNumber - s.DayNumber is >= 330 and <= 395)
+            .Select(x => x.Fact.End).Distinct().Order().ToList();
+        var usable = reports.Select(x => (x.Fact, x.Form, x.Filed, Key: PeriodKey(x.Fact, yearEnds))).ToList();
+        var picked = new HashSet<(DateOnly?, DateOnly, decimal, string, string)>();
+        foreach (var group in usable.Where(x => x.Key is not null).GroupBy(x => x.Key!))
         {
-            var fact = InReportedUnits(tagged);
-            var proxy = IsProxy(form) || AnothersStatements.Contains(tagged.Accession);
-            var yearInQuarterlyReport = IsQuarterly(form) && fact.Frame is { } fr && AnnualFrame().IsMatch(fr);
-            if (!proxy && !yearInQuarterlyReport) { yield return fact; continue; }
-            if (fact.Frame is null) continue;
-            if (yearInQuarterlyReport)
-            {
-                var annualReport = all.Where(x => !IsProxy(x.Form) && !IsQuarterly(x.Form) && x.Fact.Start == fact.Start && x.Fact.End == fact.End)
-                    .OrderByDescending(x => x.Filed, StringComparer.Ordinal).Select(x => x.Fact).FirstOrDefault();
-                yield return annualReport is null ? fact : annualReport with { Frame = fact.Frame };
-                continue;
-            }
-            // The frame moves to the newest report that states the same period.
-            var report = all.Where(x => !IsProxy(x.Form) && !AnothersStatements.Contains(x.Fact.Accession) && SamePeriod(x.Fact, fact))
-                .OrderByDescending(x => x.Fact.Start == fact.Start && x.Fact.End == fact.End)
-                .ThenByDescending(x => x.Filed, StringComparer.Ordinal).Select(x => x.Fact).FirstOrDefault();
-            if (report is not null) yield return InReportedUnits(report) with { Frame = fact.Frame };
+            var annual = AnnualFrame().IsMatch(group.Key);
+            var target = annual ? 365 : 91;
+            var period = group.GroupBy(x => (x.Fact.Start, x.Fact.End))
+                .OrderByDescending(p => p.Any(x => x.Fact.Frame == group.Key))     // the SEC's own pick, where it agrees
+                .ThenByDescending(p => !annual || p.Any(x => !IsQuarterly(x.Form)))
+                .ThenBy(p => Math.Abs(p.Key.End.DayNumber - p.Key.Start!.Value.DayNumber - target))
+                .ThenByDescending(p => p.Key.End).First();
+            // A whole year stated by mistake in a later 10-Q (Comfort Systems' Q1 2026 report tagged a quarter's $1.8bn as
+            // 2025's revenue, over the 10-K's $9.1bn) yields to the annual report; otherwise the newest filing wins.
+            var best = period.OrderByDescending(x => !annual || !IsQuarterly(x.Form))
+                .ThenByDescending(x => x.Filed, StringComparer.Ordinal)
+                .ThenByDescending(x => x.Fact.Frame == group.Key).First();
+            picked.Add(Id(best.Fact));
         }
+        foreach (var x in usable)
+        {
+            var frame = x.Key is null ? (x.Fact.Start is null ? x.Fact.Frame : null) : picked.Contains(Id(x.Fact)) ? x.Key : null;
+            yield return InReportedUnits(x.Fact) with { Frame = frame };
+        }
+
+        static (DateOnly?, DateOnly, decimal, string, string) Id(Fact f) => (f.Start, f.End, f.Value, f.Accession, f.Filed);
 
         // A filing that added the "in thousands" scale to a full amount is exactly 1,000 or 1,000,000 times another of the
         // company's reports for the same period (INVE's 2023 10-K/A: a $1.62 trillion profit over the 10-K's $1.62 million).
@@ -413,11 +488,6 @@ public sealed partial class XbrlFinancialsExtractor : IFinancialsExtractor
                 .OrderByDescending(x => x.Filed, StringComparer.Ordinal).Select(x => x.Fact).FirstOrDefault();
             return right is null ? f : right with { Frame = f.Frame };
         }
-
-        // A proxy can date a year a day off the report's (Lululemon 2021 from 31 January, its 10-K from 1 February).
-        static bool SamePeriod(Fact a, Fact b) => a.Start is { } from && b.Start is { } since
-            ? Math.Abs(from.DayNumber - since.DayNumber) <= 7 && Math.Abs(a.End.DayNumber - b.End.DayNumber) <= 3
-            : a.Start == b.Start && a.End == b.End;
 
         static bool IsQuarterly(string form) => form is "10-Q" or "10-Q/A";
         static bool IsProxy(string form) => form.StartsWith("DEF 14", StringComparison.Ordinal) || form.StartsWith("DEFA14", StringComparison.Ordinal)
@@ -480,4 +550,5 @@ public sealed partial class XbrlFinancialsExtractor : IFinancialsExtractor
     private static partial Regex HeadlineLabel();
     [GeneratedRegex(@"^CY(\d{4})$")] private static partial Regex AnnualFrame();
     [GeneratedRegex(@"^CY(\d{4})Q([1-4])$")] private static partial Regex QuarterFrame();
+    [GeneratedRegex(@"^CY(\d{4})Q([1-4])T$")] private static partial Regex YearToDateFrame();
 }

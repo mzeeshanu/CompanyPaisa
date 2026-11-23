@@ -23,6 +23,12 @@ public sealed record CompParseResult(IReadOnlyList<CompRow> Rows, IReadOnlyList<
 /// </summary>
 public sealed partial class SummaryCompensationTableParser : ICompensationParser
 {
+    [GeneratedRegex(@"SUMMARY COMPENSATION TABLE(?: FOR (?:FISCAL )?(?:YEAR )?20\d\d)?\s+(?:<[^>]+>\s*)*Change in", RegexOptions.IgnoreCase)]
+    private static partial Regex TextHeading();
+    // "D.W. Woods", "J.P. Williams, Jr.", "Darren W. Woods" at the end of the text before a person's first row.
+    [GeneratedRegex(@"((?:[A-Z]\.\s?)+[A-Z][A-Za-z'\-]+(?:,? (?:Jr|Sr)\.| I{2,3})?|[A-Z][a-z]+(?: [A-Z]\.)? [A-Z][A-Za-z'\-]+(?:,? (?:Jr|Sr)\.| I{2,3})?)$")]
+    private static partial Regex TextName();
+
     private enum Col { Name, Year, Salary, Bonus, Stock, StockSubtotal, Option, NonEquity, Pension, Other, Total, Ignore }
 
     private sealed record Span(int Start, int End, Col Kind);
@@ -37,7 +43,86 @@ public sealed partial class SummaryCompensationTableParser : ICompensationParser
             var result = ParseTable(HtmlTableGrid.Build(t.Value));
             if (result is not null && (best is null || result.Rows.Count > best.Rows.Count)) best = result;
         }
-        return best ?? new CompParseResult([], ["No Summary Compensation Table found."]);
+        return best ?? FromText(html) ?? new CompParseResult([], ["No Summary Compensation Table found."]);
+    }
+
+    /// <summary>
+    /// A table printed as a picture, with its words given as hidden text (ExxonMobil's proxies: "D.W. Woods 2025 2,058,000
+    /// 4,093,000 25,886,250 0 0 0 961,378 32,998,628 Chairman and CEO 2024 …"). Each row is a year and one amount per
+    /// column; only rows whose amounts add up to their total are taken, so a misread row can't get in.
+    /// </summary>
+    internal static CompParseResult? FromText(string html)
+    {
+        var heading = TextHeading().Match(html);
+        if (!heading.Success) return null;
+        var text = System.Net.WebUtility.HtmlDecode(Regex.Replace(html.Substring(heading.Index, Math.Min(12_000, html.Length - heading.Index)), "<[^>]+>", " "));
+        text = Regex.Replace(text, @"\s+", " ");
+        var start = text.IndexOf("Principal Position", StringComparison.OrdinalIgnoreCase);
+        if (start < 0) return null;
+        var header = text[..start];
+        // Item 402's order; a column the company leaves out is missing from the header.
+        var columns = new List<Col> { Col.Salary };
+        if (header.Contains("Bonus", StringComparison.OrdinalIgnoreCase)) columns.Add(Col.Bonus);
+        if (header.Contains("Stock", StringComparison.OrdinalIgnoreCase)) columns.Add(Col.Stock);
+        if (header.Contains("Option", StringComparison.OrdinalIgnoreCase)) columns.Add(Col.Option);
+        if (header.Contains("Non-Equity", StringComparison.OrdinalIgnoreCase)) columns.Add(Col.NonEquity);
+        if (header.Contains("Pension", StringComparison.OrdinalIgnoreCase)) columns.Add(Col.Pension);
+        columns.Add(Col.Other);
+        columns.Add(Col.Total);
+
+        var amount = @"(?:\(?[\d,]+\)?|—|–|-)";
+        var row = new Regex($@"\b(20\d\d)((?:\s+{amount}){{{columns.Count}}})(?=\s|$)");
+        var rows = new List<CompRow>();
+        var warnings = new List<string>();
+        int? newestYear = null;
+        string? name = null, title = "";
+        var position = start + "Principal Position".Length;
+        foreach (Match m in row.Matches(text, position))
+        {
+            var between = text[position..m.Index].Trim();
+            // A long run of words after the rows is the end of the table; it starts with the last person's title.
+            if (rows.Count > 0 && between.Length > 200) { title = (title + " " + TitleBeforeHeading(between)).Trim(); break; }
+            position = m.Index + m.Length;
+            var year = int.Parse(m.Groups[1].Value, CultureInfo.InvariantCulture);
+            var values = m.Groups[2].Value.Split(' ', StringSplitOptions.RemoveEmptyEntries).Select(Amount).ToList();
+            newestYear ??= year;
+            if (year == newestYear)
+            {
+                // A new person: their name ends the text since the last row; anything before it is the last one's title.
+                var found = TextName().Match(between);
+                if (!found.Success) { name = null; continue; }
+                if (rows.Count > 0 && name is not null) rows = Retitle(rows, name, (title + " " + between[..found.Index]).Trim());
+                name = found.Groups[1].Value.Trim();
+                title = "";
+            }
+            else if (name is not null) title = (title + " " + between).Trim();
+            if (name is null) continue;
+
+            var v = columns.Zip(values).ToDictionary(x => x.First, x => x.Second);
+            var total = v[Col.Total];
+            var stock = v.GetValueOrDefault(Col.Stock) + v.GetValueOrDefault(Col.Option);
+            var other = v.GetValueOrDefault(Col.NonEquity) + v.GetValueOrDefault(Col.Pension) + v[Col.Other];
+            var salary = v[Col.Salary];
+            var bonus = v.GetValueOrDefault(Col.Bonus);
+            if (total <= 0 || Math.Abs(salary + bonus + stock + other - total) > Math.Max(2, total * 0.001m)) continue;
+            rows.Add(new CompRow(name, title, year, salary, bonus, stock, other, total, true));
+        }
+        if (rows.Count > 0 && name is not null) rows = Retitle(rows, name, title!);
+        return rows.Count == 0 ? null : new CompParseResult(rows, warnings);
+
+        static List<CompRow> Retitle(List<CompRow> rows, string person, string title) =>
+            rows.Select(r => r.Name == person && r.Title.Length == 0 ? r with { Title = title } : r).ToList();
+
+        // "Senior President, ExxonMobil Global Operations COMPENSATION ADJUSTED FOR …": up to the next heading in capitals.
+        static string TitleBeforeHeading(string text)
+        {
+            var heading = Regex.Match(text, @"\b[A-Z]{3,}\s+[A-Z]{3,}\b");
+            var title = heading.Success ? text[..heading.Index] : "";
+            return title.Length <= 120 ? title.Trim() : "";
+        }
+
+        static decimal Amount(string s) => s is "—" or "–" or "-" ? 0
+            : decimal.Parse(s.Trim('(', ')').Replace(",", ""), CultureInfo.InvariantCulture);
     }
 
     /// <summary>Diagnostics: how each candidate table's header was understood (used by --debug-proxy).</summary>

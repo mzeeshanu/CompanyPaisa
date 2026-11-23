@@ -154,6 +154,9 @@ public sealed partial class ImportPipeline(
             var facts = await edgar.GetCompanyFactsAsync(c.Sec.Cik, ct);
             var statement = statements.GetValueOrDefault(c.Sec.Cik);
             var fin = facts is null ? null : financials.Extract(ticker, c.Sec.Cik, facts, o.History.Years, statement);
+            var predecessor = o.Sec.Predecessors.TryGetValue(c.Sec.Cik, out var oldCik) ? oldCik : (long?)null;
+            if (predecessor is { } pc && await edgar.GetCompanyFactsAsync(pc, ct) is { } oldFacts)
+                fin = PredecessorFiler.Merge(fin, financials.Extract(ticker, pc, oldFacts, o.History.Years, statements.GetValueOrDefault(pc)), pc, o.History.Years);
             if (fin is { Periods.Count: > 0 } && publishedPeriods is not null)
                 fin = PublishedYears.Keep(fin, c.Sec.Cik, o.History.Years, publishedPeriods[ticker].ToList(),
                     publishedCurrencies![ticker].FirstOrDefault(), statement);
@@ -173,6 +176,9 @@ public sealed partial class ImportPipeline(
 
             // Executives: newest proxy first; older proxies only for years we don't have yet.
             var payResult = await ReadExecutivePayAsync(c.Sec, ticker, historyStart.Year + 1, ct);
+            // A new holding company's first proxy comes a year after it: until then, the old filer's.
+            if (payResult.Rows.Count == 0 && predecessor is { } payCik && await edgar.GetCompanyAsync(payCik, historyStart, ct) is { } oldSec)
+                payResult = await ReadExecutivePayAsync(oldSec, ticker, historyStart.Year + 1, ct);
             var pay = payResult.Rows;
             var proxies = payResult.Proxies;
             parsedProxies += proxies;
@@ -203,6 +209,8 @@ public sealed partial class ImportPipeline(
                 .Where(n => n.StartsWith(PublishedYears.KeptNote, StringComparison.Ordinal)).Select(n => $"{ticker}: {n}"));
             outcome.AddedYears.AddRange(fin.Notes
                 .Where(n => n.StartsWith(StatementYears.AddedNote, StringComparison.Ordinal)).Select(n => $"{ticker}: {n}"));
+            outcome.Warnings.AddRange(fin.Notes
+                .Where(n => n.StartsWith(PredecessorFiler.Note, StringComparison.Ordinal)).Select(n => $"{ticker}: {n}"));
             outcome.Locations.Add(c.Location with { CompanyId = ticker, LocationId = $"{ticker}-HQ" });
             outcome.Locations.AddRange(extraSites.Where(s => s.Cik == c.Sec.Cik).Select(s => s.Site with { CompanyId = ticker }));
             outcome.Financials.AddRange(fin.Periods.Select(p => p with { CompanyId = ticker }));

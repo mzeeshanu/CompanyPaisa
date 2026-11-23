@@ -1,14 +1,14 @@
-# EdgarTools cross-check — 2026-11-22 21:25 UTC
+# EdgarTools cross-check — 2026-11-22 23:52 UTC
 
 What the SEC import published (docs/edgartools-plan.md): revenue and net income against the headline lines of each company's latest annual report (10-K, 20-F or 40-F), read by [EdgarTools](https://github.com/dgunning/edgartools) (`tools/edgar/extract.py`). The import uses a report's top line only where it passes the checks; the rest are listed here. A report covers its latest three years.
 
 - Companies read: **3,986** (ok 3,881, no report 82, no figures 23)
-- Years in a report but not in our data: **249**
+- Years in a report but not in our data: **219**
 
 | Measure | Compared | Within 1% | 1–10% | Over 10% |
 |---|---|---|---|---|
-| Revenue | 9,449 | 9,017 | 24 | 408 |
-| Net income | 9,977 | 9,835 | 51 | 91 |
+| Revenue | 9,477 | 9,045 | 24 | 408 |
+| Net income | 10,007 | 9,872 | 53 | 82 |
 
 ## Revenue: more than 10% apart (408)
 
@@ -423,7 +423,7 @@ What the SEC import published (docs/edgartools-plan.md): revenue and net income 
 | ATLX (Atlas Lithium Corp) | 2024 | 748,654 | 667,131 (10-K) | 12% | USD |
 | ATLX (Atlas Lithium Corp) | 2025 | 121,388 | 92,491 (10-K) | 31% | USD |
 
-## Net income: more than 10% apart (91)
+## Net income: more than 10% apart (82)
 
 | Company | FY | Ours | Annual report | Gap | Currency |
 |---|---|---|---|---|---|
@@ -456,7 +456,7 @@ What the SEC import published (docs/edgartools-plan.md): revenue and net income 
 | HOLO (MicroCloud Hologram Inc.) | 2023 | -11.6M | -81.6M (20-F) | 86% | USD |
 | ITXP (Independence Power Holdings, Inc.) | 2025 | -25,323 | 68.9M (10-K) | 100% | USD |
 | POWW (Outdoor Holding Co) | 2025 | -130.8M | -65.2M (10-K) | 101% | USD |
-| CHRN (ChronoScale Holdings Corp) | 2025 | -11.3M | -72.7M (10-K) | 84% | USD |
+| CHRN (ChronoScale Holdings Corp) | 2025 | -11.7M | -72.7M (10-K) | 84% | USD |
 | INFQ (Infleqtion, Inc.) | 2024 | -55.7M | -51,910 (10-K) | 107282% | USD |
 | HOLO (MicroCloud Hologram Inc.) | 2024 | -9.0M | -64.2M (20-F) | 86% | USD |
 | NHC (National Healthcare Corp) | 2025 | 120.0M | 66.8M (10-K) | 80% | USD |
@@ -468,8 +468,6 @@ What the SEC import published (docs/edgartools-plan.md): revenue and net income 
 | ELMES (Elme Communities) | 2023 | -53.0M | -13.1M (10-K) | 304% | USD |
 | LEVI (Levi Strauss & Co) | 2023 | 249.6M | 210.6M (10-K) | 19% | USD |
 | LEVI (Levi Strauss & Co) | 2024 | 210.6M | 249.6M (10-K) | 16% | USD |
-| CHRN (ChronoScale Holdings Corp) | 2026 | -11.7M | -50.3M (10-K) | 77% | USD |
-| AZIO (Azio AI Holdings, Inc.) | 2025 | -3.3M | -39.1M (10-K) | 91% | USD |
 | NHC (National Healthcare Corp) | 2023 | 66.8M | 101.9M (10-K) | 34% | USD |
 | RR (Richtech Robotics Inc.) | 2025 | -49.1M | -15.8M (10-K) | 212% | USD |
 | APOG (Apogee Enterprises, Inc.) | 2025 | 54.1M | 85.1M (10-K) | 36% | USD |
@@ -482,7 +480,7 @@ What the SEC import published (docs/edgartools-plan.md): revenue and net income 
 | CMP (Compass Minerals International Inc) | 2023 | 10.5M | -3.1M (10-K) | 439% | USD |
 | SMC (Summit Midstream Corp) | 2023 | -51.5M | -38.9M (10-K) | 32% | USD |
 | SMA (SmartStop Self Storage REIT, Inc.) | 2024 | -18.4M | -5.9M (10-K) | 212% | USD |
-| WKSP (Worksport Ltd) | 2024 | -3.7M | -16.2M (10-K) | 77% | USD |
+| AMCX (AMC Global Media Inc.) | 2025 | 89.4M | 101.8M (10-K) | 12% | USD |
 | WETO (Wetour Robotics Ltd) | 2025 | -1.7M | -12.5M (20-F) | 86% | USD |
 | TTEC (TTEC Holdings, Inc.) | 2023 | 8.4M | 18.3M (10-K) | 54% | USD |
 | DCO (Ducommun Inc /De/) | 2024 | 21.7M | 31.5M (10-K) | 31% | USD |
@@ -491,17 +489,12 @@ What the SEC import published (docs/edgartools-plan.md): revenue and net income 
 | SMA (SmartStop Self Storage REIT, Inc.) | 2025 | -8.8M | -1.7M (10-K) | 404% | USD |
 | RR (Richtech Robotics Inc.) | 2024 | -1.4M | -8.1M (10-K) | 83% | USD |
 | GPUS (Hyperscale Data, Inc.) | 2024 | -56.2M | -62.5M (10-K) | 10% | USD |
-| AZIO (Azio AI Holdings, Inc.) | 2024 | -4.2M | -8.8M (10-K) | 52% | USD |
-| FTLF (Fitlife Brands, Inc.) | 2025 | 2.0M | 6.3M (10-K) | 68% | USD |
-| PPIH (Perma-Pipe International Holdings, Inc.) | 2024 | 13.1M | 9.0M (10-K) | 46% | USD |
 | SMC (Summit Midstream Corp) | 2025 | -5.9M | -1.9M (10-K) | 212% | USD |
-| PPIH (Perma-Pipe International Holdings, Inc.) | 2025 | 20.6M | 17.0M (10-K) | 21% | USD |
 | DCO (Ducommun Inc /De/) | 2025 | -37.4M | -33.9M (10-K) | 10% | USD |
 | SLSN (Solesence, Inc.) | 2024 | 1.1M | 4.2M (10-K) | 74% | USD |
 | KIQSF (Kelso Technologies Inc) | 2024 | -4.6M | -1.7M (20-F) | 180% | USD |
 | GEG (Great Elm Group, Inc.) | 2025 | 12.9M | 15.6M (10-K) | 17% | USD |
 | EONR (EON Resources Inc.) | 2025 | -7.5M | -10.1M (10-K) | 26% | USD |
-| RCAT (Red Cat Holdings, Inc.) | 2024 | -21.5M | -24.1M (10-K) | 11% | USD |
 | KIQSF (Kelso Technologies Inc) | 2023 | -2.1M | -118,097 (20-F) | 1680% | USD |
 | NABL (N-able, Inc.) | 2025 | -18.8M | -17.0M (10-K) | 10% | USD |
 | STSR (Strategic Student & Senior Housing Trust, Inc.) | 2025 | -5.8M | -4.3M (10-K) | 35% | USD |
@@ -511,15 +504,13 @@ What the SEC import published (docs/edgartools-plan.md): revenue and net income 
 | QETA (Quetta Acquisition Corp) | 2025 | 323,454 | -780,924 (10-K) | 141% | USD |
 | SLSN (Solesence, Inc.) | 2025 | 2.8M | 1.8M (10-K) | 57% | USD |
 | CRMZ (Creditriskmonitor Com Inc) | 2025 | 511,161 | 1.0M (10-K) | 50% | USD |
-| SGRP (SPAR Group, Inc.) | 2024 | -2.7M | -3.2M (10-K) | 15% | USD |
 | CRMZ (Creditriskmonitor Com Inc) | 2024 | 1.3M | 1.7M (10-K) | 22% | USD |
-| BLIN (Bridgeline Digital, Inc.) | 2025 | -2.8M | -2.5M (10-K) | 13% | USD |
 | FDCT (Fdctech, Inc.) | 2024 | 247,544 | -18,781 (10-K) | 1418% | USD |
 | TRT (Trio-Tech International) | 2026 | -34,000 | 219,000 (10-K) | 116% | USD |
 | KIQSF (Kelso Technologies Inc) | 2025 | 447,397 | 547,157 (20-F) | 18% | USD |
 | TRT (Trio-Tech International) | 2025 | -41,000 | 0 (10-K) | 100% | USD |
 
-## Years only the report has (166 companies)
+## Years only the report has (144 companies)
 
 A year missing from our data: a report newer than our last import, or a year our consistency rules dropped.
 
@@ -545,7 +536,6 @@ A year missing from our data: a report newer than our last import, or a year our
 - ATHE (Alterity Therapeutics Ltd): FY 2026
 - ATNM (Actinium Pharmaceuticals, Inc.): FY 2024
 - AVBP (ArriVent BioPharma, Inc.): FY 2024, 2025
-- AVT (Avnet Inc): FY 2024
 - BESS (Bimergen Energy Corp): FY 2024, 2025
 - BFRG (BullFrog AI Holdings, Inc.): FY 2024
 - BNO (United States Brent Oil Fund, LP): FY 2023, 2024, 2025
@@ -555,7 +545,6 @@ A year missing from our data: a report newer than our last import, or a year our
 - BXBL (BOXABL Inc.): FY 2025
 - BXMT (Blackstone Mortgage Trust, Inc.): FY 2024, 2025
 - CHGA (Change Agents Corporation.): FY 2025
-- CIA (Citizens, Inc.): FY 2024, 2025
 - CMS-PB (Consumers Energy Co): FY 2023, 2024, 2025
 - CNTN (Canton Strategic Holdings, Inc.): FY 2024, 2025
 - COCP (Cocrystal Pharma, Inc.): FY 2024, 2025
@@ -577,12 +566,9 @@ A year missing from our data: a report newer than our last import, or a year our
 - EQ (Equillium, Inc.): FY 2025
 - ERNA (Ernexa Therapeutics Inc.): FY 2025
 - ESOA (Energy Services of America CORP): FY 2024, 2025
-- ESQ (Esquire Financial Holdings, Inc.): FY 2025
 - FABC (Fabric.AI, Inc.): FY 2025
 - FAC (Factorial Energy Inc.): FY 2025
 - FFR (FF EAI Robotics Ecosystem Inc.): FY 2024, 2025
-- FLWS (1 800 Flowers Com Inc): FY 2024
-- FNGR (FingerMotion, Inc.): FY 2024, 2025
 - FRMM (FORUM MARKETS Inc): FY 2024
 - FRNM (Freenome, Inc.): FY 2025
 - GERN (Geron Corp): FY 2024, 2025
@@ -590,20 +576,15 @@ A year missing from our data: a report newer than our last import, or a year our
 - GNPX (Genprex, Inc.): FY 2025
 - GP (GREENPOWER MOTOR Co INC.): FY 2025, 2026
 - GRDX (GridAI Technologies Corp.): FY 2024
-- HDRN (Hadron Energy, Inc.): FY 2025
 - IBO (Impact Biomedical Inc.): FY 2024
 - IKT (Inhibikase Therapeutics, Inc.): FY 2025
 - IMMP (IMMUTEP Ltd): FY 2026
 - IMSR (Terrestrial Energy Inc. /DE/): FY 2025
 - INKT (MiNK Therapeutics, Inc.): FY 2024, 2025
 - JSPR (Jasper Therapeutics, Inc.): FY 2024, 2025
-- KDK (Kodiak AI, Inc.): FY 2023, 2024, 2025
 - KFFB (Kentucky First Federal Bancorp): FY 2025, 2026
-- LITE (Lumentum Holdings Inc.): FY 2024
 - LITS (Lite Strategy, Inc.): FY 2026
-- LRCX (Lam Research Corp): FY 2024
 - LSPD (Lightspeed Commerce Inc.): FY 2026
-- LUCK (Lucky Strike Entertainment Corp): FY 2024
 - MAIA (MAIA Biotechnology, Inc.): FY 2025
 - MAYS (Mays J W Inc): FY 2026
 - MAZE (Maze Therapeutics, Inc.): FY 2025
@@ -633,10 +614,7 @@ A year missing from our data: a report newer than our last import, or a year our
 - PAL (Proficient Auto Logistics, Inc): FY 2023, 2024, 2025
 - PCG-PA (PACIFIC GAS & ELECTRIC Co): FY 2023, 2024, 2025
 - PEW (GrabAGun Digital Holdings Inc.): FY 2023
-- PFGC (Performance Food Group Co): FY 2024
 - PFSA (Profusa, Inc.): FY 2025
-- PLCE (Childrens Place, Inc.): FY 2023, 2024, 2025
-- PMI (Picard Medical, Inc.): FY 2024, 2025
 - PTPI (Petros Pharmaceuticals, Inc.): FY 2025
 - PULM (Pulmatrix, Inc.): FY 2025
 - PVLA (Palvella Therapeutics, Inc.): FY 2024, 2025
@@ -644,7 +622,6 @@ A year missing from our data: a report newer than our last import, or a year our
 - RADX (Radiopharm Theranostics Ltd): FY 2026
 - RAIN (Rain Enhancement Technologies Holdco, Inc.): FY 2024, 2025
 - RAPP (Rapport Therapeutics, Inc.): FY 2024, 2025
-- RAVE (Rave Restaurant Group, Inc.): FY 2024
 - RKTO (Rocket One Inc.): FY 2024, 2025
 - RMSG (Real Messenger Corp): FY 2024, 2025
 - RPT (Rithm Property Trust Inc.): FY 2025
@@ -661,32 +638,24 @@ A year missing from our data: a report newer than our last import, or a year our
 - SRRK (Scholar Rock Holding Corp): FY 2024
 - STCB (Starco Brands, Inc.): FY 2024, 2025
 - STEX (Streamex Corp.): FY 2025
-- STI (Solidion Technology Inc.): FY 2024, 2025
-- STRT (Strattec Security Corp): FY 2024
+- STI (Solidion Technology Inc.): FY 2024
 - SWX (Southwest Gas Holdings, Inc.): FY 2024, 2025
-- SYNA (SYNAPTICS Inc): FY 2024
-- SYY (Sysco Corp): FY 2024
 - TIC (TIC Solutions, Inc.): FY 2023
 - TMC (TMC the metals Co Inc.): FY 2024, 2025
 - TMS (Teamshares Inc): FY 2025
 - TNYA (Tenaya Therapeutics, Inc.): FY 2024, 2025
 - TOVX (Theriva Biologics, Inc.): FY 2024, 2025
-- TPR (Tapestry, Inc.): FY 2024
 - TVRD (Tvardi Therapeutics, Inc.): FY 2025
 - UBCP (United Bancorp Inc /Oh/): FY 2024, 2025
-- UFI (Unifi Inc): FY 2024
 - UNG (United States Natural Gas Fund, LP): FY 2023, 2024, 2025
-- VABK (Virginia National Bankshares Corp): FY 2024
 - VBIO (Valion Bio, Inc.): FY 2025
 - VERA (Vera Therapeutics, Inc.): FY 2023, 2024, 2025
 - VERU (Veru Inc.): FY 2025
 - VHUB (VenHub Global, Inc.): FY 2024
-- VIAV (Viavi Solutions Inc.): FY 2024
 - VRMK (Erp Operating Ltd Partnership): FY 2023, 2024, 2025
 - VSTM (Verastem, Inc.): FY 2023
 - VWAV (VisionWave Holdings, Inc.): FY 2025
 - WETO (Wetour Robotics Ltd): FY 2024
-- WOLF (Wolfspeed, Inc.): FY 2024
 - XTLB (Xtl Biopharmaceuticals Ltd): FY 2023, 2025
 - ZNOG (Zion Oil & Gas Inc): FY 2024, 2025
 

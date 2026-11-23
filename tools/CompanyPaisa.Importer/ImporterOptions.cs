@@ -53,6 +53,11 @@ public sealed class SecOptions
     public bool CompressCache { get; set; } = true;
     /// <summary>Re-download cached responses older than this (filings themselves never change; indexes do).</summary>
     [Range(0, 8760)] public int IndexCacheHours { get; set; } = 24;
+    /// <summary>
+    /// New SEC filer ID → the ID it replaced, for companies reorganised under a new holding company (the new ID's company
+    /// facts start from nothing). The old filer's history and pay fill what the new one doesn't have yet.
+    /// </summary>
+    public Dictionary<long, long> Predecessors { get; set; } = [];
 }
 
 public sealed class DiscoveryOptions

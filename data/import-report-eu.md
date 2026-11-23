@@ -1,9 +1,9 @@
-# European import report — 2026-11-22 21:24 UTC
+# European import report — 2026-11-22 23:48 UTC
 
 Scope: France, Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belgium, Austria, Luxembourg, Lithuania, Slovenia — companies with shares on the home exchange that file ESEF annual reports. Financials only (no executives). Sources: filings.xbrl.org, GLEIF, OpenFIGI, GeoNames.
 
 - Companies included: **1278**
-- Years of figures: 6720
+- Years of figures: 6728
 - Postcodes written: 79695
 - Network requests this run: 0
 

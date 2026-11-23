@@ -176,17 +176,26 @@ public static partial class EsefFinancials
             }
             catch (JsonException) { warnings.Add($"{label}: report data for {filing.PeriodEnd} is not valid JSON"); }
         }
+        // Every report's version of every year, newest report first.
+        var versions = new Dictionary<int, List<(EsefYear Year, string Source)>>();
         foreach (var report in EsefReconciler.Reconcile(reports, label, warnings))
-            foreach (var y in report.Years) years.TryAdd(y.FiscalYear, (y, report.Source));
-        if (years.Count == 0) return years;
-        var latest = years.Values.MaxBy(y => y.Year.FiscalYear).Year;
-        // One revenue definition for all years (a bank can tag different lines in different reports).
-        foreach (var fy in years.Keys.ToList())
-            years[fy] = (years[fy].Year.WithRevenueConcept(latest.RevenueConcept), years[fy].Source);
-        // A year that didn't tag that line is measured differently; mixing them fakes growth (Barclays £12bn → £35bn).
-        foreach (var fy in years.Where(y => y.Value.Year.RevenueConcept != latest.RevenueConcept).Select(y => y.Key).ToList()) years.Remove(fy);
-        // Other currencies in older reports (a company that switched to reporting in dollars) can't be compared; drop them.
-        foreach (var fy in years.Where(y => y.Value.Year.Currency != latest.Currency).Select(y => y.Key).ToList()) years.Remove(fy);
+            foreach (var y in report.Years)
+            {
+                if (!versions.TryGetValue(y.FiscalYear, out var list)) versions[y.FiscalYear] = list = [];
+                list.Add((y, report.Source));
+            }
+        if (versions.Count == 0) return years;
+        var latest = versions[versions.Keys.Max()][0].Year;
+        // One revenue definition and one currency for all years (a bank can tag different lines in different reports; a
+        // company can switch to reporting in dollars): a year measured differently fakes growth (Barclays £12bn → £35bn).
+        // The newest report's version wins, unless it doesn't tag that line: a restating report (IFRS 17 at Lloyds and
+        // Standard Life in 2023) can tag the year before on another line, while the year's own report has it on this one.
+        foreach (var (fy, list) in versions)
+        {
+            var fits = list.Select(v => (Year: v.Year.WithRevenueConcept(latest.RevenueConcept), v.Source))
+                .Where(v => v.Year.RevenueConcept == latest.RevenueConcept && v.Year.Currency == latest.Currency).ToList();
+            if (fits.Count > 0) years[fy] = fits[0];
+        }
         return years;
     }
 }
