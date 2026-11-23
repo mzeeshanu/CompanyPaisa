@@ -1,4 +1,4 @@
-# EdgarTools cross-check — 2026-11-22 23:52 UTC
+# EdgarTools cross-check — 2026-11-23 01:55 UTC
 
 What the SEC import published (docs/edgartools-plan.md): revenue and net income against the headline lines of each company's latest annual report (10-K, 20-F or 40-F), read by [EdgarTools](https://github.com/dgunning/edgartools) (`tools/edgar/extract.py`). The import uses a report's top line only where it passes the checks; the rest are listed here. A report covers its latest three years.
 

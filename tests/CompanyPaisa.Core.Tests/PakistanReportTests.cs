@@ -44,6 +44,52 @@ public class PakistanReportTests
     }
 
     [Fact]
+    public void A_year_printed_twice_over_its_column_is_one_column()   // PPL 2026
+    {
+        var report = Read("""
+            CONSOLIDATED STATEMENT OF PROFIT OR LOSS
+            FOR THE YEAR ENDED JUNE 30, 2026
+            Note  2026 2026  2025
+            (Rupees in thousand)
+            Revenue from contracts with customers  27  266,305,532  244,977,029
+            Operating expenses  28  (62,317,573)  (54,700,741)
+            Profit before taxation  135,889,600  136,868,071
+            Taxation  36  (38,208,509)  (46,918,730)
+            Profit after taxation  97,681,091  89,949,341
+            """);
+        var s = report.Main!;
+        Assert.True(s.Consolidated);
+        Assert.Equal(266_305_532_000m, s.Revenue);
+        Assert.Equal(97_681_091_000m, s.NetIncome);
+    }
+
+    [Fact]
+    public void A_profit_label_under_its_amounts_names_them()   // Treet 2026
+    {
+        var report = Read("""
+            Consolidated Statement of Profit or Loss
+            For the year ended June 30, 2026
+            2026  2025
+            Note  (Rupees in thousand)
+            Revenue from contracts with customers - net  32  26,258,341  26,687,607
+            Cost of revenue  33  (18,463,618)  (19,499,486)
+            Gross profit  7,794,723  7,188,121
+            Profit before income tax  1,507,956  971,179
+            Income tax  (728,631)  (412,889)
+            779,325  558,290
+            Profit for the year
+            Attributable to:
+            Equity holders of the Parent  747,831  502,972
+            Non - controlling interest  31,494  55,318
+            779,325  558,290
+            """);
+        var s = report.Main!;
+        Assert.Equal(26_258_341_000m, s.Revenue);
+        Assert.Equal(747_831_000m, s.NetIncome);
+        Assert.Equal(502_972_000m, s.PriorNetIncome);
+    }
+
+    [Fact]
     public void Prefers_the_group_accounts_and_the_owners_share_of_profit()
     {
         var report = Read("""
@@ -266,6 +312,7 @@ public class PakistanReportTests
     [InlineData("Loss for the year  (599,668)  (186,362)", -599_668, -186_362)]
     [InlineData("Final tax  34  –  (24,785)", 0, -24_785)]
     [InlineData("Revenue  28 3,607,041,808  4,192,404,621", 3_607_041_808, 4_192_404_621)]   // EMCO: note 28 one space from the amount
+    [InlineData("Profit after taxation  8 56,838,044  5 5,651,988", 856_838_044, 55_651_988)]   // Prime Textile: glyph spacing in both columns, no note
     public void Reads_amounts_in_a_row(string line, decimal current, decimal prior)
     {
         var row = AnnualReportReader.Row(line)!;

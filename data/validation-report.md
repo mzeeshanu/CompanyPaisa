@@ -1,11 +1,11 @@
-# Data validation report — 2026-11-22 23:52 UTC
+# Data validation report — 2026-11-23 01:55 UTC
 
 Checks everything in `companypaisa.db` together, as the website sees it — markets: pk (pk-2026.09.19), anz (anz-2026.11.22), sec (sec-2026.11.22), uk (uk-2026.11.22), eu (eu-2026.11.22).
 
 **Errors** are values that can't be right. **Warnings** are unusual values worth a look — many are real (big acquisitions, holding-company gains, mega stock grants). Nothing here changes the data.
 
 - Errors: **0**
-- Warnings: **1185**
+- Warnings: **1184**
 
 ## Checks
 
@@ -25,7 +25,7 @@ Checks everything in `companypaisa.db` together, as the website sees it — mark
 | Financials | Impossible size | Error | ✓ 0 |
 | Financials | Another company's figures | Error | ✓ 0 |
 | Financials | Profit far bigger than revenue | Warning | 58 |
-| Financials | Revenue jumps 10× in a year | Warning | 48 |
+| Financials | Revenue jumps 10× in a year | Warning | 47 |
 | Financials | Quarters don't add up to the year | Warning | 104 |
 | Financials | Out of date | Warning | 49 |
 | Financials | Annual figures missing, quarters only | Warning | 120 |
@@ -234,11 +234,10 @@ Net profit more than 3× revenue for a company with ≥ $10M revenue — possibl
 - GAIA (Gaia, Inc) FY 2016: revenue 17.2M, net income 87.1M
 - … and 46 more
 
-### Financials · Revenue jumps 10× in a year (48)
+### Financials · Revenue jumps 10× in a year (47)
 
 Year-on-year revenue up or down more than tenfold (both years ≥ $10M) — a real acquisition, or a switch of revenue definition or units.
 
-- EMCO.KA (Emco Industries Limited): FY 2024 4.19bn → FY 2025 283.61bn
 - ABCL (AbCellera Biologics Inc.): FY 2019 11.6M → FY 2020 233.2M
 - ABCL (AbCellera Biologics Inc.): FY 2022 485.4M → FY 2023 38.0M
 - ACTG (Acacia Research Corp): FY 2018 131.5M → FY 2019 11.2M
@@ -250,7 +249,8 @@ Year-on-year revenue up or down more than tenfold (both years ≥ $10M) — a re
 - AAWH (Ascend Wellness Holdings, Inc.): FY 2019 12.0M → FY 2020 143.7M
 - CANG (Cango Inc.): FY 2023 1.70bn → FY 2024 89.9M
 - DNLI (Denali Therapeutics Inc.): FY 2019 26.7M → FY 2020 335.7M
-- … and 36 more
+- DBRHP (DigitalBridge Group, Inc.): FY 2018 1.17bn → FY 2019 61.0M
+- … and 35 more
 
 ### Financials · Quarters don't add up to the year (104)
 

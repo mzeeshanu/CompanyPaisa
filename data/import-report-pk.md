@@ -80,7 +80,7 @@ Scope: companies listed on the Pakistan Stock Exchange with a recent annual repo
 | ECOP.KA | Ecopack Limited | Haripur | company | Rs 7.2B | 2021–2025 |  |
 | EFERT.KA | Engro Fertilizers Limited | Karachi | group | Rs 237.1B | 2024–2025 | Rs 107.1M |
 | EFUG.KA | EFU General Insurance Limited | Islamabad | group | Rs 67.0B | 2024–2025 |  |
-| EMCO.KA | Emco Industries Limited | Lahore | company | Rs 283.6B | 2023–2025 |  |
+| EMCO.KA | Emco Industries Limited | Lahore | company | Rs 3.6B | 2023–2025 |  |
 | ENGROH.KA | Engro Holdings Limited | Karachi | company | Rs 549M | 2024–2025 | Rs 79.9M |
 | EPCL.KA | Engro Polymer & Chemicals Limited | Karachi | group | Rs 78.0B | 2023–2025 |  |
 | EPQL.KA | Engro Powergen Qadirpur Limited | Karachi | company | Rs 11.9B | 2023–2025 | Rs 47.7M |
@@ -710,7 +710,6 @@ Scope: companies listed on the Pakistan Stock Exchange with a recent annual repo
 - BPL.KA Burshane LPG (Pakistan) Limited: remuneration note: implausible chief executive total Rs 50,000
 - BPL.KA Burshane LPG (Pakistan) Limited: remuneration note: implausible chief executive total Rs 50,000
 - DLL.KA Dawood Lawrencepur Limited: remuneration note: 2 people held the chief executive's post during the year
-- EMCO.KA Emco Industries Limited: revenue changes more than 20× between FY2024 and FY2025
 - EMCO.KA Emco Industries Limited: remuneration note: the chief executive's items don't add up to the total
 - ENGROH.KA Engro Holdings Limited: revenue changes more than 20× between FY2024 and FY2025
 - EPCL.KA Engro Polymer & Chemicals Limited: remuneration note: implausible chief executive total Rs 80,790

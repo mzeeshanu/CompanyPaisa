@@ -105,6 +105,8 @@ public static partial class AnnualReportReader
                 // Horizontal / vertical analysis pages repeat the statement with percentages: not the statement.
                 if (AnalysisPage().IsMatch(line) || headingLine > 0 && AnalysisPage().IsMatch(Clean(lines[headingLine - 1]))) return null;
                 var years = YearToken().Matches(line).Select(m => int.Parse(m.Value, CultureInfo.InvariantCulture)).ToList();
+                // "Note  2026 2026  2025": a year printed twice over its column (PPL) is still one column.
+                years = years.Where((y, k) => k == 0 || y != years[k - 1]).ToList();
                 if (years.Count > 2 && years.Count % 2 == 0 && years.Chunk(2).All(p => p[0] == years[0] && p[1] == years[1])) years = years[..2];
                 if (years.Count > 2 && !line.Contains("ended", StringComparison.OrdinalIgnoreCase)) return null;
                 if (years.Count == 2 && years[0] == years[1] + 1 && !line.Contains("ended", StringComparison.OrdinalIgnoreCase)) year ??= years[0];
@@ -113,6 +115,12 @@ public static partial class AnnualReportReader
             if (StatementEnd().IsMatch(line) && rows.Count > 0) break;
             if (IsYearsHeader(line)) continue;
             var parsed = Row(line, stripNote: true);
+            // "779,325  558,290" then "Profit for the year" on the next line (Treet): the label names the amounts above.
+            if (parsed is null && rows.Count > 0 && rows[^1] is { Label.Length: 0 } bare && bare.Line == i - 1 && ProfitRow().IsMatch(line.Trim()))
+            {
+                rows[^1] = (line.Trim(), bare.Values, bare.Line);
+                continue;
+            }
             if (parsed is { Label.Length: > 0, Values.Count: 2 } && Row(line, stripNote: false) is { Values.Count: 2 } && NoteAfterLabel(line))
             {
                 // "Turnover - net  29  13,691,815" with this year's amount printed alone on the line above: the note
@@ -361,12 +369,14 @@ public static partial class AnnualReportReader
         var values = new List<decimal>();
         var label = new List<string>();
         decimal? noteSplit = null;
+        var spacedLater = false;
         foreach (var raw in cells)
         {
             // Glyph spacing can split a number ("3,461,306,13 1"): a cell of number pieces is one number.
             var cell = raw.Replace(" ", "");
             if (Amount(cell) is { } v)
             {
+                if (values.Count > 0 && raw.Contains(' ')) spacedLater = true;
                 // …unless it is a note number and the amount one space apart ("Revenue  28 3,607,041,808"): kept aside
                 // and decided against the other column below.
                 if (values.Count == 0 && label.Count > 0 && raw.Split(' ') is [var note, var amount] && IsNoteNumber(note) &&
@@ -390,8 +400,10 @@ public static partial class AnnualReportReader
         }
         if (values.Count == 0) return null;
         // Joined, EMCO's 2025 revenue read Rs 283.6 billion beside 4.2 billion the year before; as note 28 and Rs 3.6 billion
-        // it is in line. The note reading wins only when it fits the comparative and the joined one doesn't.
-        if (noteSplit is { } s && values.Count >= 2 && values[1] != 0 &&
+        // it is in line. The note reading wins only when it fits the comparative and the joined one doesn't, and only when
+        // the other column's amount is printed whole: "8 56,838,044  5 5,651,988" is glyph spacing in both (Prime Textile's
+        // profit of Rs 856.8 million), not a note.
+        if (noteSplit is { } s && !spacedLater && values.Count >= 2 && values[1] != 0 &&
             Math.Abs(values[0] / values[1]) > 10 && Math.Abs(s / values[1]) is > 0.1m and < 10)
             values[0] = s;
         // A note number right after the label ("27", "35.1", "(37.2)"): not an amount.
