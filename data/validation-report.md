@@ -1,11 +1,11 @@
-# Data validation report — 2026-11-23 05:00 UTC
+# Data validation report — 2026-11-23 06:32 UTC
 
-Checks everything in `companypaisa.db` together, as the website sees it — markets: pk (pk-2026.09.19), anz (anz-2026.11.22), sec (sec-2026.11.22), uk (uk-2026.11.23), eu (eu-2026.11.23).
+Checks everything in `companypaisa.db` together, as the website sees it — markets: pk (pk-2026.09.19), anz (anz-2026.11.22), sec (sec-2026.11.23), uk (uk-2026.11.23), eu (eu-2026.11.23).
 
 **Errors** are values that can't be right. **Warnings** are unusual values worth a look — many are real (big acquisitions, holding-company gains, mega stock grants). Nothing here changes the data.
 
 - Errors: **0**
-- Warnings: **1184**
+- Warnings: **1195**
 
 ## Checks
 
@@ -18,7 +18,7 @@ Checks everything in `companypaisa.db` together, as the website sees it — mark
 | Locations | Outside its country | Error | ✓ 0 |
 | Locations | Missing city | Warning | ✓ 0 |
 | Financials | No figures at all | Error | ✓ 0 |
-| Financials | Negative revenue | Warning | 267 |
+| Financials | Negative revenue | Warning | 276 |
 | Financials | Period in the future | Error | ✓ 0 |
 | Financials | Duplicate period | Error | ✓ 0 |
 | Financials | Implausibly large revenue | Warning | ✓ 0 |
@@ -26,9 +26,9 @@ Checks everything in `companypaisa.db` together, as the website sees it — mark
 | Financials | Another company's figures | Error | ✓ 0 |
 | Financials | Profit far bigger than revenue | Warning | 58 |
 | Financials | Revenue jumps 10× in a year | Warning | 47 |
-| Financials | Quarters don't add up to the year | Warning | 104 |
-| Financials | Out of date | Warning | 49 |
-| Financials | Annual figures missing, quarters only | Warning | 120 |
+| Financials | Quarters don't add up to the year | Warning | 110 |
+| Financials | Out of date | Warning | 41 |
+| Financials | Annual figures missing, quarters only | Warning | 121 |
 | Pay | Negative amount | Error | ✓ 0 |
 | Pay | Year in the future | Error | ✓ 0 |
 | Pay | Person record missing | Error | ✓ 0 |
@@ -40,7 +40,7 @@ Checks everything in `companypaisa.db` together, as the website sees it — mark
 | Pay | Tiny total | Warning | ✓ 0 |
 | Pay | Name doesn't look like a person | Warning | 3 |
 | Pay | Pieces don't add up to the total | Warning | ✓ 0 |
-| EdgarTools | Revenue differs from the annual report | Warning | 399 |
+| EdgarTools | Revenue differs from the annual report | Warning | 402 |
 | EdgarTools | Net income differs from the annual report | Warning | 65 |
 
 ## Overview
@@ -49,13 +49,13 @@ Checks everything in `companypaisa.db` together, as the website sees it — mark
 
 | | Count |
 |---|---|
-| US | 3,828 |
-| GB | 337 |
+| US | 3,849 |
+| GB | 336 |
 | SE | 297 |
 | PK | 228 |
 | FR | 194 |
 | NO | 151 |
-| IT | 144 |
+| IT | 145 |
 | CA | 139 |
 | ES | 106 |
 | AU | 92 |
@@ -74,16 +74,16 @@ Checks everything in `companypaisa.db` together, as the website sees it — mark
 
 | | Count |
 |---|---|
-| Nasdaq | 2,162 |
-| NYSE | 1,427 |
-| LSE | 337 |
+| Nasdaq | 2,172 |
+| NYSE | 1,437 |
+| LSE | 336 |
 | Nasdaq Stockholm | 297 |
 | Pakistan Stock Exchange | 228 |
-| OTC | 209 |
+| OTC | 210 |
 | Euronext Paris | 194 |
 | NYSE American | 158 |
 | Oslo Børs | 151 |
-| Borsa Italiana | 144 |
+| Borsa Italiana | 145 |
 | Bolsa de Madrid | 106 |
 | Nasdaq Copenhagen | 84 |
 | Nasdaq Helsinki | 83 |
@@ -104,10 +104,10 @@ Checks everything in `companypaisa.db` together, as the website sees it — mark
 
 | | Count |
 |---|---|
-| USD | 4,034 |
-| EUR | 775 |
+| USD | 4,055 |
+| EUR | 776 |
 | SEK | 282 |
-| GBP | 274 |
+| GBP | 273 |
 | PKR | 228 |
 | NOK | 107 |
 | AUD | 76 |
@@ -123,14 +123,14 @@ Checks everything in `companypaisa.db` together, as the website sees it — mark
 
 | | Count |
 |---|---|
-| Other | 1,697 |
-| Finance | 746 |
+| Other | 1,698 |
+| Finance | 758 |
 | Healthcare | 679 |
-| Consumer & retail | 587 |
+| Consumer & retail | 588 |
 | Industrials | 514 |
 | Software & IT | 353 |
-| Energy & utilities | 279 |
-| Real estate | 229 |
+| Energy & utilities | 283 |
+| Real estate | 232 |
 | Business services | 207 |
 | Materials | 196 |
 | Technology hardware | 144 |
@@ -143,7 +143,7 @@ Checks everything in `companypaisa.db` together, as the website sees it — mark
 
 | | Count |
 |---|---|
-| US | 3,399 |
+| US | 3,417 |
 | PK | 123 |
 | GB | 96 |
 | CA | 28 |
@@ -153,32 +153,32 @@ Checks everything in `companypaisa.db` together, as the website sees it — mark
 
 | | Count |
 |---|---|
-| 10+ | 2,459 |
-| 6–9 | 1,735 |
-| 3–5 | 1,259 |
-| 1–2 | 343 |
-| 0 (quarters only) | 120 |
+| 10+ | 2,479 |
+| 6–9 | 1,740 |
+| 3–5 | 1,266 |
+| 1–2 | 331 |
+| 0 (quarters only) | 121 |
 
 ### Newest annual figures
 
 | | Count |
 |---|---|
-| FY 2025 | 4,778 |
-| FY 2026 | 702 |
-| FY 2024 | 267 |
-| none | 120 |
-| 2023 or older | 49 |
+| FY 2025 | 4,806 |
+| FY 2026 | 704 |
+| FY 2024 | 265 |
+| none | 121 |
+| 2023 or older | 41 |
 
 ### Rows
 
 | | Count |
 |---|---|
-| Companies | 5,916 |
-| Locations | 5,926 |
-| Annual periods | 41,931 |
-| Quarterly periods | 135,847 |
-| Pay rows | 88,358 |
-| People | 23,126 |
+| Companies | 5,937 |
+| Locations | 5,947 |
+| Annual periods | 42,161 |
+| Quarterly periods | 137,824 |
+| Pay rows | 88,795 |
+| People | 23,231 |
 
 ## Details
 
@@ -198,7 +198,7 @@ Usually two share classes or a parent and its subsidiary listed separately — o
 - IPAR, ITP.PA — Interparfums Inc
 - IREN, IRE.MI — IREN Ltd
 
-### Financials · Negative revenue (267)
+### Financials · Negative revenue (276)
 
 Reported revenue below zero. Real for mortgage REITs and energy producers, whose revenue includes investment or hedging losses; otherwise a sign error.
 
@@ -212,9 +212,9 @@ Reported revenue below zero. Real for mortgage REITs and energy producers, whose
 - ATH-PA (Athene Holding Ltd.) Q1 2022: -281,000,000
 - BANC (Banc Of California, Inc.) Q4 2023: -249,351,000
 - BMRC (Bank of Marin Bancorp) Q4 2025: -36,867,000
-- BENF (Beneficient) FY 2023: -104,903,000
-- BENF (Beneficient) FY 2024: -98,696,000
-- … and 255 more
+- BENF (Beneficient) FY 2023: -54,010,000
+- BENF (Beneficient) FY 2025: -6,500,000
+- … and 264 more
 
 ### Financials · Profit far bigger than revenue (58)
 
@@ -252,7 +252,7 @@ Year-on-year revenue up or down more than tenfold (both years ≥ $10M) — a re
 - DBRHP (DigitalBridge Group, Inc.): FY 2018 1.17bn → FY 2019 61.0M
 - … and 35 more
 
-### Financials · Quarters don't add up to the year (104)
+### Financials · Quarters don't add up to the year (110)
 
 For December year-ends, the four quarters differ from the annual figure by more than 2% (revenue ≥ $10M). Usually a restatement: the year was restated later (a business sold, an accounting change) while the quarters are as first reported.
 
@@ -268,9 +268,9 @@ For December year-ends, the four quarters differ from the annual figure by more 
 - RIME (Algorhythm Holdings, Inc.) FY 2016: quarters 53.0M vs year 48.9M
 - RIME (Algorhythm Holdings, Inc.) FY 2017: quarters 61.8M vs year 52.9M
 - RIME (Algorhythm Holdings, Inc.) FY 2018: quarters 48.2M vs year 60.8M
-- … and 92 more
+- … and 98 more
 
-### Financials · Out of date (49)
+### Financials · Out of date (41)
 
 Newest annual figures are more than two years old — the company may have stopped reporting, been taken over, or changed filer.
 
@@ -286,9 +286,9 @@ Newest annual figures are more than two years old — the company may have stopp
 - ESOA (Energy Services of America CORP): latest FY 2022
 - VRMK (Erp Operating Ltd Partnership): latest FY 2009
 - FFR (FF EAI Robotics Ecosystem Inc.): latest FY 2022
-- … and 37 more
+- … and 29 more
 
-### Financials · Annual figures missing, quarters only (120)
+### Financials · Annual figures missing, quarters only (121)
 
 Shown with quarterly figures only; the headline 'annual revenue' comes from the last four quarters.
 
@@ -304,7 +304,7 @@ Shown with quarterly figures only; the headline 'annual revenue' comes from the 
 - APUS (Apimeds Pharmaceuticals US, Inc.)
 - APMD (Apnimed, Inc.)
 - AADX (Applied Aerospace & Defense, Inc.)
-- … and 108 more
+- … and 109 more
 
 ### Pay · Record award checked by hand (1)
 
@@ -338,7 +338,7 @@ Digits, company words or table labels where a person's name should be.
 - JACK (Jack In The Box Inc): "Martin"
 - JACK (Jack In The Box Inc): "Tuckerr"
 
-### EdgarTools · Revenue differs from the annual report (399)
+### EdgarTools · Revenue differs from the annual report (402)
 
 Our revenue is more than 10% away from the headline revenue line of the company's own 10-K/20-F/40-F income statement, as EdgarTools reads it. Either our concept choice or its mapping is wrong; data/edgar-crosscheck.md lists them all.
 
@@ -354,7 +354,7 @@ Our revenue is more than 10% away from the headline revenue line of the company'
 - FUBO (FuboTV Inc.) FY 2024: ours 1.62bn, 10-K 4.22bn
 - ZION (Zions Bancorporation, National Association /UT/) FY 2023: ours 3.12bn, 10-K 616.0M
 - ZION (Zions Bancorporation, National Association /UT/) FY 2024: ours 3.13bn, 10-K 639.0M
-- … and 387 more
+- … and 390 more
 
 ### EdgarTools · Net income differs from the annual report (65)
 

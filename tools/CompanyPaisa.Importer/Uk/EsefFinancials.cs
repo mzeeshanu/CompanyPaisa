@@ -76,6 +76,15 @@ public static partial class EsefFinancials
                 dims.TryGetProperty("unit", out var u) ? u.GetString() ?? "" : "", value, statutory));
         }
 
+        // A year's figures tagged as a one-day period on its last day (Pirelli's reports for 2022–2024: revenue "from
+        // 31 December 2023 to 31 December 2023" beside a year-long profit): the year the report states for that end.
+        var yearStarts = facts.Concat(grossLines).Where(f => (f.End.DayNumber - f.Start.DayNumber) is >= 340 and <= 380)
+            .GroupBy(f => f.End).ToDictionary(g => g.Key, g => g.Min(f => f.Start));
+        static List<Fact> Widen(List<Fact> list, Dictionary<DateOnly, DateOnly> starts) =>
+            list.Select(f => f.Start == f.End && starts.TryGetValue(f.End, out var s) ? f with { Start = s } : f).ToList();
+        facts = Widen(facts, yearStarts);
+        grossLines = Widen(grossLines, yearStarts);
+
         // A statutory-column figure only where the report has no plain one for the same line and period.
         var plain = facts.Where(f => !f.Statutory).Select(f => (f.Concept, f.Start, f.End, f.Unit)).ToHashSet();
         facts = facts.Where(f => !f.Statutory || !plain.Contains((f.Concept, f.Start, f.End, f.Unit))).ToList();
@@ -92,11 +101,21 @@ public static partial class EsefFinancials
         {
             var target = anchor.AddYears(-yearsBack);
             var inYear = facts.Where(f => Math.Abs(f.End.DayNumber - target.DayNumber) <= 10 && (f.End.DayNumber - f.Start.DayNumber) is >= 340 and <= 380).ToList();
+            // The year's revenue with a mistyped end but the year's own start (Whitbread's 2025 report gave the year to
+            // 1 March 2024 as ending 30 March): taken when the year has a profit and no revenue of its own.
+            if (!inYear.Any(f => RevenueConcepts.Contains(f.Concept)) &&
+                inYear.FirstOrDefault(f => NetIncomeConcepts.Contains(f.Concept)) is { } yearProfit)
+                inYear.AddRange(facts.Where(f => RevenueConcepts.Contains(f.Concept) && f.Start == yearProfit.Start &&
+                                                 (f.End.DayNumber - f.Start.DayNumber) is >= 340 and <= 400)
+                    .Select(f => f with { End = yearProfit.End }));
             // Plain "Revenue" when tagged; otherwise the largest candidate — banks tag a fee-income sub-line
             // (HSBC's $3bn) alongside interest income, and the sub-line badly understates the business.
             var money = inYear.Where(f => f.Unit.StartsWith("iso4217:", StringComparison.Ordinal) && f.Value > 0).ToList();
             var revenue = money.FirstOrDefault(f => f.Concept == RevenueConcepts[0])
-                          ?? money.Where(f => RevenueConcepts.Contains(f.Concept)).MaxBy(f => f.Value);
+                          ?? money.Where(f => RevenueConcepts.Contains(f.Concept)).MaxBy(f => f.Value)
+                          // A company with no sales yet tags revenue of 0 (Cyad, Strategic Partners): a real year, shown as 0.
+                          ?? inYear.FirstOrDefault(f => f.Value == 0 && f.Unit.StartsWith("iso4217:", StringComparison.Ordinal) &&
+                                                        f.Concept is "ifrs-full:Revenue" or "ifrs-full:RevenueFromContractsWithCustomers");
             var net = NetIncomeConcepts.Select(c => inYear.FirstOrDefault(f => f.Concept == c && f.Unit == revenue?.Unit)).FirstOrDefault(f => f is not null);
             if (revenue is null || net is null) continue;
             var end = revenue.End;
@@ -145,6 +164,17 @@ public static partial class EsefFinancials
     [System.Text.RegularExpressions.GeneratedRegex(@":(ResultsForThe(Year|Period)|Statutory|StatutoryResults|Reported|ReportedResults|Total|TotalResults|IFRS)Member$", System.Text.RegularExpressions.RegexOptions.IgnoreCase)]
     private static partial System.Text.RegularExpressions.Regex StatutoryMember();
 
+    /// <summary>The LEI a report's file is named for, when it is another company's than the one it is listed under.</summary>
+    internal static string? ForeignLei(string jsonUrl, string lei)
+    {
+        var name = jsonUrl[(jsonUrl.LastIndexOf('/') + 1)..];
+        return name.Length > 21 && name[20] == '-' && LeiPattern().IsMatch(name[..20]) && !name[..20].Equals(lei, StringComparison.OrdinalIgnoreCase)
+            ? name[..20] : null;
+    }
+
+    [System.Text.RegularExpressions.GeneratedRegex(@"^[A-Z0-9]{18}[0-9]{2}$")]
+    private static partial System.Text.RegularExpressions.Regex LeiPattern();
+
     /// <summary>A 52/53-week year ending in the first days of January belongs to the year before.</summary>
     internal static int FiscalYearOf(DateOnly end) => end is { Month: 1, Day: <= 7 } ? end.Year - 1 : end.Year;
 
@@ -165,6 +195,13 @@ public static partial class EsefFinancials
         var reports = new List<EsefReport>();
         foreach (var filing in entity.Filings.OrderByDescending(f => f.PeriodEnd))
         {
+            // A report named for another company's LEI, listed under this one (filings.xbrl.org has a September 2022
+            // report of 213800G4OJM9F7G9LG39 under Hemogenyx: £124M of revenue for a company with no sales).
+            if (ForeignLei(filing.JsonUrl, entity.Lei) is { } other)
+            {
+                warnings.Add($"{label}: report for {filing.PeriodEnd} is another company's (LEI {other}); left out");
+                continue;
+            }
             var json = await client.GetStringAsync(filing.JsonUrl, Sec.CachePolicy.Immutable, ct);
             if (json is null) { warnings.Add($"{label}: report data for {filing.PeriodEnd} could not be downloaded"); continue; }
             // Figures the JSON conversion couldn't read are taken from the report's own HTML.
@@ -192,8 +229,16 @@ public static partial class EsefFinancials
                 if (!versions.TryGetValue(y.FiscalYear, out var list)) versions[y.FiscalYear] = list = [];
                 list.Add((y, report.Source));
             }
-        if (versions.Count == 0) return years;
-        var latest = versions[versions.Keys.Max()][0].Year;
+        // A year of zero revenue fills a gap; it never sets the company's revenue line (a business sold leaves a newest
+        // year of 0, and its line would wipe the history), never replaces a year some report states with sales, and a
+        // company with no sales in any year isn't added.
+        var positive = versions.Where(kv => kv.Value.Any(v => v.Year.Revenue > 0)).Select(kv => kv.Key).ToList();
+        if (positive.Count == 0) return years;
+        var latest = versions[positive.Max()].First(v => v.Year.Revenue > 0).Year;
+        // Zero means no sales yet, for a small company. A large one reporting 0 changed its basis (Exor became an
+        // investment entity in 2024; 3. november 2025 sold its business): that year is left out, not shown as €0.
+        if (versions.Values.SelectMany(l => l).Max(v => v.Year.Revenue) >= 100_000_000m)
+            foreach (var list in versions.Values) list.RemoveAll(v => v.Year.Revenue == 0);
         // One revenue definition and one currency for all years (a bank can tag different lines in different reports; a
         // company can switch to reporting in dollars): a year measured differently fakes growth (Barclays £12bn → £35bn).
         // The newest report's version wins, unless it doesn't tag that line: a restating report (IFRS 17 at Lloyds and
@@ -201,7 +246,8 @@ public static partial class EsefFinancials
         foreach (var (fy, list) in versions)
         {
             var fits = list.Select(v => (Year: v.Year.WithRevenueConcept(latest.RevenueConcept), v.Source))
-                .Where(v => v.Year.RevenueConcept == latest.RevenueConcept && v.Year.Currency == latest.Currency).ToList();
+                .Where(v => v.Year.RevenueConcept == latest.RevenueConcept && v.Year.Currency == latest.Currency)
+                .OrderByDescending(v => v.Year.Revenue > 0).ToList();   // stable: newest first within each kind
             if (fits.Count > 0) years[fy] = fits[0];
         }
         return years;

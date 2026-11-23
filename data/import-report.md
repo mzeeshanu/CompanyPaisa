@@ -1,37 +1,37 @@
-# Import report — 2026-11-22 23:45 UTC
+# Import report — 2026-11-23 06:15 UTC
 
 Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, insider owner lists). ZIP centroids: US Census Gazetteer; ZIP names: GeoNames.
 
-- Companies included: **3986**
-- Financial periods: 168406
-- Executive pay rows: 88676 for 23211 people, from 16791 proxy statements
-- People linked by SEC insider id: 22376; matched by name within one company only: 1572
-- CEO pay checked against the pay-versus-performance totals companies tag in their proxies: 18817 match, 277 misread totals corrected to the tagged figure, 41 rows left out, 1877 tagged CEO-years with no table row
+- Companies included: **4007**
+- Financial periods: 170566
+- Executive pay rows: 89117 for 23317 people, from 16884 proxy statements
+- People linked by SEC insider id: 22480; matched by name within one company only: 1577
+- CEO pay checked against the pay-versus-performance totals companies tag in their proxies: 18894 match, 277 misread totals corrected to the tagged figure, 41 rows left out, 1894 tagged CEO-years with no table row
 - ZIP table rows written: 41637
-- Network requests this run: 29 (the rest came from the local cache)
+- Network requests this run: 178 (the rest came from the local cache)
 
 | Metro | Companies |
 |---|---|
 | Wasatch Front | 50 |
-| New York | 461 |
+| New York | 464 |
 | Los Angeles | 209 |
 | Chicago | 126 |
-| Dallas–Fort Worth | 160 |
-| Houston | 161 |
-| Washington–Baltimore | 132 |
+| Dallas–Fort Worth | 161 |
+| Houston | 162 |
+| Washington–Baltimore | 134 |
 | Philadelphia | 100 |
-| Atlanta | 71 |
-| Miami–South Florida | 128 |
+| Atlanta | 72 |
+| Miami–South Florida | 129 |
 | Phoenix | 62 |
 | Boston | 195 |
-| San Francisco Bay Area | 339 |
-| Detroit | 34 |
+| San Francisco Bay Area | 341 |
+| Detroit | 35 |
 | Seattle | 42 |
-| Minneapolis–St. Paul | 58 |
+| Minneapolis–St. Paul | 59 |
 | Rest of Minnesota | 5 |
 | Rest of Utah | 1 |
 | San Diego | 96 |
-| Tampa Bay | 35 |
+| Tampa Bay | 36 |
 | Denver | 97 |
 | Portland | 17 |
 | Austin | 52 |
@@ -71,14 +71,14 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 | Little Rock | 5 |
 | Honolulu | 5 |
 | Greensboro–Winston-Salem | 5 |
-| Grand Rapids | 6 |
+| Grand Rapids | 7 |
 | Boise | 6 |
 | Greenville–Spartanburg | 4 |
 | Huntsville | 5 |
 | Chattanooga | 4 |
-| Knoxville | 0 |
+| Knoxville | 2 |
 | New Orleans | 3 |
-| Madison | 4 |
+| Madison | 5 |
 | Des Moines | 6 |
 | Albuquerque | 2 |
 | Tucson | 2 |
@@ -108,9 +108,9 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 | Rest of Georgia | 13 |
 | Rest of Hawaii | 2 |
 | Rest of Idaho | 5 |
-| Rest of Illinois | 18 |
+| Rest of Illinois | 19 |
 | Rest of Indiana | 16 |
-| Rest of Iowa | 8 |
+| Rest of Iowa | 9 |
 | Rest of Kansas | 5 |
 | Rest of Kentucky | 3 |
 | Rest of Louisiana | 18 |
@@ -129,7 +129,7 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 | Rest of New York | 27 |
 | Rest of North Carolina | 16 |
 | North Dakota | 8 |
-| Rest of Ohio | 28 |
+| Rest of Ohio | 29 |
 | Rest of Oklahoma | 1 |
 | Rest of Oregon | 7 |
 | Rest of Pennsylvania | 45 |
@@ -215,12 +215,13 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 | WAY | Waystar Holding Corp. | Lehi, UT | Nasdaq | Software & IT | $1.10B | 5 | 2023–2025 |
 | ZION | Zions Bancorporation, National Association /UT/ | Salt Lake City, UT | Nasdaq | Finance | $3.39B | 9 | 2019–2025 |
 
-## Included — New York (461)
+## Included — New York (464)
 
 | Ticker | Company | City | Exchange | Sector | Latest annual revenue | Executives | Pay years |
 |---|---|---|---|---|---|---|---|
 | AAWH | Ascend Wellness Holdings, Inc. | Rochelle Park, NJ | OTC | Healthcare | $500.6M | 8 | 2020–2025 |
 | ABM | Abm Industries Inc /De/ | New York, NY | NYSE | Other | $8.75B | 12 | 2019–2025 |
+| ABR | Arbor Realty Trust Inc | Uniondale, NY | NYSE | Real estate | $510.4M | 8 | 2019–2025 |
 | ACR | ACRES Commercial Realty Corp. | Uniondale, NY | NYSE | Real estate | $79.9M | 4 | 2019–2025 |
 | ACRE | Ares Commercial Real Estate Corp | New York, NY | NYSE | Real estate | $54.8M | 5 | 2019–2025 |
 | ACTG | Acacia Research Corp | New York, NY | Nasdaq | Finance | $285.2M | 10 | 2020–2025 |
@@ -347,6 +348,7 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 | DV | DoubleVerify Holdings, Inc. | New York, NY | NYSE | Software & IT | $748.3M | 6 | 2020–2025 |
 | ECOR | electroCore, Inc. | Rockaway, NJ | Nasdaq | Healthcare | $32.0M | 4 | 2021–2025 |
 | ED | Consolidated Edison Inc | New York, NY | NYSE | Energy & utilities | $16.92B | 8 | 2019–2025 |
+| EFC | Ellington Financial Inc. | Greenwich, CT | NYSE | Real estate | $336.4M | 2 | 2019–2025 |
 | EL | Estee Lauder Companies Inc | New York, NY | NYSE | Other | $15.05B | 11 | 2020–2026 |
 | ELTP | Elite Pharmaceuticals Inc /NV/ | Northvale, NJ | OTC | Healthcare | $148.9M | 4 | 2018–2019 |
 | EMBC | Embecta Corp. | Parsippany, NJ | Nasdaq | Healthcare | $1.08B | 9 | 2021–2025 |
@@ -595,7 +597,7 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 | SLGN | Silgan Holdings Inc | Norwalk, CT | NYSE | Industrials | $6.48B | 4 | 2021–2025 |
 | SMP | Standard Motor Products, Inc. | Long Island City, NY | NYSE | Industrials | $1.79B | 5 | 2019–2025 |
 | SNDX | Syndax Pharmaceuticals Inc | New York, NY | Nasdaq | Healthcare | $172.4M | 12 | 2020–2025 |
-| SNEX | StoneX Group Inc. | New York, NY | Nasdaq | Finance | $132.38B | 11 | 2020–2025 |
+| SNEX | StoneX Group Inc. | New York, NY | Nasdaq | Finance | $130.98B | 11 | 2020–2025 |
 | SNGX | Soligenix, Inc. | Princeton, NJ | Nasdaq | Healthcare | $119K | 5 | 2021–2025 |
 | SOLS | Solstice Advanced Materials Inc. | Morris Plains, NJ | Nasdaq | Materials | $3.89B | 5 | 2024–2025 |
 | SOWG | Sow Good Inc. | New York, NY | Nasdaq | Consumer & retail | $0K | 6 | 2022–2025 |
@@ -614,6 +616,7 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 | STUB | StubHub Holdings, Inc. | New York, NY | NYSE | Business services | $1.75B | 5 | 2024–2025 |
 | SUNE | SUNation Energy, Inc. | Ronkonkoma, NY | Nasdaq | Semiconductors | $71.9M | 6 | 2022–2024 |
 | SVIA | Silvia, Inc. | New York, NY | Nasdaq | Finance | — | 0 | — |
+| SYF | Synchrony Financial | Stamford, CT | NYSE | Finance | $18.99B | 8 | 2019–2025 |
 | TAOX | TAO Synergies Inc. | New York, NY | Nasdaq | Finance | $299K | 3 | 2021–2024 |
 | TBLA | Taboola.com Ltd. | New York, NY | Nasdaq | Software & IT | $1.91B | 5 | 2021–2025 |
 | TDOC | Teladoc Health, Inc. | New York, NY | NYSE | Healthcare | $2.53B | 11 | 2019–2025 |
@@ -1026,7 +1029,7 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 | YHGJ | Yunhong Green Cti Ltd. | Barrington, IL | Nasdaq | Industrials | $19.7M | 3 | 2020–2025 |
 | ZBRA | Zebra Technologies Corp | Lincolnshire, IL | Nasdaq | Industrials | $5.40B | 8 | 2019–2025 |
 
-## Included — Dallas–Fort Worth (160)
+## Included — Dallas–Fort Worth (161)
 
 | Ticker | Company | City | Exchange | Sector | Latest annual revenue | Executives | Pay years |
 |---|---|---|---|---|---|---|---|
@@ -1181,6 +1184,7 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 | VHI | Valhi Inc /De/ | Dallas, TX | NYSE | Materials | $2.08B | 7 | 2019–2025 |
 | VISN | Vistance Networks, Inc. | Richardson, TX | Nasdaq | Technology hardware | $1.93B | 15 | 2019–2025 |
 | VIVK | Vivakor, Inc. | Dallas, TX | Nasdaq | Energy & utilities | $104.4M | 7 | 2021–2025 |
+| VRM | Vroom, Inc. | Fort Worth, TX | Nasdaq | Consumer & retail | $157.5M | 7 | 2021–2025 |
 | VST | Vistra Corp. | Irving, TX | NYSE | Energy & utilities | $17.74B | 7 | 2019–2025 |
 | WHG | Westwood Holdings Group Inc | Dallas, TX | NYSE | Finance | $97.8M | 7 | 2019–2025 |
 | WING | Wingstop Inc. | Dallas, TX | Nasdaq | Consumer & retail | $696.9M | 9 | 2019–2025 |
@@ -1191,7 +1195,7 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 | ZNOG | Zion Oil & Gas Inc | Dallas, TX | OTC | Energy & utilities | $11.3M | 3 | 2019–2025 |
 | ZSTK | ZeroStack Corp. | Dallas, TX | Nasdaq | Finance | $35.7M | 8 | 2021–2024 |
 
-## Included — Houston (161)
+## Included — Houston (162)
 
 | Ticker | Company | City | Exchange | Sector | Latest annual revenue | Executives | Pay years |
 |---|---|---|---|---|---|---|---|
@@ -1331,6 +1335,7 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 | STRL | Sterling Infrastructure, Inc. | The Woodlands, TX | Nasdaq | Industrials | $2.49B | 6 | 2022–2025 |
 | SYY | Sysco Corp | Houston, TX | NYSE | Consumer & retail | $84.55B | 13 | 2020–2026 |
 | TALO | Talos Energy Inc. | Houston, TX | NYSE | Energy & utilities | $1.78B | 13 | 2019–2025 |
+| TCBX | Third Coast Bancshares, Inc. | Humble, TX | NYSE | Finance | $208.9M | 5 | 2020–2025 |
 | TDW | Tidewater Inc | Houston, TX | NYSE | Transportation | $1.35B | 5 | 2019–2025 |
 | TH | Target Hospitality Corp. | The Woodlands, TX | Nasdaq | Consumer & retail | $320.6M | 7 | 2019–2025 |
 | TIC | TIC Solutions, Inc. | Houston, TX | NYSE | Business services | $1.53B | 7 | 2023–2025 |
@@ -1357,7 +1362,7 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 | XLAB | Exascale Labs Holdings Inc. | Houston, TX | Nasdaq | Software & IT | $14.8M | 0 | — |
 | XOM | ExxonMobil Holdings Corp | Spring, TX | NYSE | Energy & utilities | $332.24B | 8 | 2019–2025 |
 
-## Included — Washington–Baltimore (132)
+## Included — Washington–Baltimore (134)
 
 | Ticker | Company | City | Exchange | Sector | Latest annual revenue | Executives | Pay years |
 |---|---|---|---|---|---|---|---|
@@ -1377,8 +1382,10 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 | BBAI | BigBear.ai Holdings, Inc. | Mclean, VA | NYSE | Software & IT | $127.7M | 7 | 2022–2025 |
 | BFRG | BullFrog AI Holdings, Inc. | Gaithersburg, MD | Nasdaq | Healthcare | $117K | 3 | 2022–2025 |
 | BFS | Saul Centers, Inc. | Bethesda, MD | NYSE | Real estate | $289.8M | 7 | 2019–2025 |
+| BHRB | Burke & Herbert Financial Services Corp. | Alexandria, VA | Nasdaq | Finance | $342.0M | 6 | 2022–2025 |
 | BKSY | BlackSky Technology Inc. | Herndon, VA | NYSE | Technology hardware | $106.6M | 5 | 2020–2025 |
 | BLNK | Blink Charging Co. | Bowie, MD | Nasdaq | Technology hardware | $103.5M | 7 | 2019–2025 |
+| BVFL | BV Financial, Inc. | Baltimore, MD | Nasdaq | Finance | $39.6M | 4 | 2022–2025 |
 | CACI | Caci International Inc /De/ | Reston, VA | NYSE | Software & IT | $9.57B | 8 | 2020–2026 |
 | CAVA | Cava Group, Inc. | Washington, DC | NYSE | Consumer & retail | $1.18B | 6 | 2022–2025 |
 | CBNA | Chain Bridge Bancorp Inc | Mclean, VA | NYSE | Finance | $55.0M | 3 | 2024–2025 |
@@ -1511,7 +1518,7 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 | AVBP | ArriVent BioPharma, Inc. | Newtown Square, PA | Nasdaq | Healthcare | — | 3 | 2023–2025 |
 | AVTR | Avantor, Inc. | Radnor, PA | NYSE | Industrials | $6.55B | 15 | 2019–2025 |
 | AVTX | Avalo Therapeutics, Inc. | Wayne, PA | Nasdaq | Healthcare | $59K | 9 | 2020–2025 |
-| AWK | American Water Works Company, Inc. | Camden, NJ | NYSE | Energy & utilities | $5.12B | 12 | 2019–2025 |
+| AWK | American Water Works Company, Inc. | Camden, NJ | NYSE | Energy & utilities | $5.14B | 12 | 2019–2025 |
 | AXR | Amrep Corp. | Havertown, PA | NYSE | Real estate | $52.8M | 2 | 2022–2023 |
 | AXTA | Axalta Coating Systems Ltd. | Philadelphia, PA | NYSE | Other | $5.12B | 11 | 2019–2025 |
 | BDN | Brandywine Realty Trust | Philadelphia, PA | NYSE | Real estate | $484.5M | 5 | 2019–2025 |
@@ -1599,7 +1606,7 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 | XE | X-Energy, Inc. | Wilmington, DE | Nasdaq | Industrials | — | 0 | — |
 | XHLD | TEN Holdings, Inc. | Langhorne, PA | Nasdaq | Business services | $3.1M | 3 | 2024–2025 |
 
-## Included — Atlanta (71)
+## Included — Atlanta (72)
 
 | Ticker | Company | City | Exchange | Sector | Latest annual revenue | Executives | Pay years |
 |---|---|---|---|---|---|---|---|
@@ -1647,6 +1654,7 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 | LUVU | Luvu Brands, Inc. | Atlanta, GA | OTC | Consumer & retail | $27.4M | 0 | — |
 | MANH | Manhattan Associates Inc | Atlanta, GA | Nasdaq | Software & IT | $1.08B | 7 | 2019–2025 |
 | MATV | Mativ Holdings, Inc. | Alpharetta, GA | NYSE | Other | $1.99B | 11 | 2019–2025 |
+| MCBS | MetroCity Bankshares, Inc. | Doraville, GA | Nasdaq | Finance | $155.6M | 5 | 2020–2025 |
 | MDXG | Mimedx Group, Inc. | Marietta, GA | Nasdaq | Healthcare | $418.6M | 0 | — |
 | MIR | Mirion Technologies, Inc. | Atlanta, GA | NYSE | Industrials | $925.4M | 0 | — |
 | MWA | Mueller Water Products, Inc. | Atlanta, GA | NYSE | Industrials | $1.48B | 8 | 2019–2025 |
@@ -1675,7 +1683,7 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 | VSTS | Vestis Corp | Roswell, GA | NYSE | Consumer & retail | $2.73B | 11 | 2023–2025 |
 | VYX | NCR Voyix Corp | Atlanta, GA | NYSE | Technology hardware | $2.69B | 12 | 2019–2025 |
 
-## Included — Miami–South Florida (128)
+## Included — Miami–South Florida (129)
 
 | Ticker | Company | City | Exchange | Sector | Latest annual revenue | Executives | Pay years |
 |---|---|---|---|---|---|---|---|
@@ -1749,7 +1757,8 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 | MPWR | Monolithic Power Systems, Inc. | West Palm Beach, FL | Nasdaq | Semiconductors | $2.79B | 5 | 2019–2025 |
 | MTZ | Mastec Inc | Coral Gables, FL | NYSE | Industrials | $14.30B | 0 | — |
 | NCLH | Norwegian Cruise Line Holdings Ltd. | Miami, FL | NYSE | Transportation | $9.83B | 9 | 2019–2025 |
-| NEE | Nextera Energy Inc | Juno Beach, FL | NYSE | Energy & utilities | $25.80B | 10 | 2019–2025 |
+| NEE | Nextera Energy Inc | Juno Beach, FL | NYSE | Energy & utilities | $27.41B | 10 | 2019–2025 |
+| NEWT | NewtekOne, Inc. | Boca Raton, FL | Nasdaq | Finance | $284.8M | 8 | 2020–2025 |
 | NMAD | Nomad Power Solutions, Inc. | Boca Raton, FL | Nasdaq | Healthcare | $200K | 8 | 2021–2024 |
 | NMAX | Newsmax Inc. | Boca Raton, FL | NYSE | Media & telecom | $189.3M | 3 | 2024–2025 |
 | NSPR | InspireMD, Inc. | Miami, FL | Nasdaq | Healthcare | $9.0M | 5 | 2020–2025 |
@@ -2075,7 +2084,7 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 | ZBIO | Zenas BioPharma, Inc. | Waltham, MA | Nasdaq | Healthcare | $10.0M | 5 | 2023–2025 |
 | ZVRA | Zevra Therapeutics, Inc. | Boston, MA | Nasdaq | Healthcare | $106.5M | 9 | 2019–2025 |
 
-## Included — San Francisco Bay Area (339)
+## Included — San Francisco Bay Area (341)
 
 | Ticker | Company | City | Exchange | Sector | Latest annual revenue | Executives | Pay years |
 |---|---|---|---|---|---|---|---|
@@ -2381,7 +2390,9 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 | TNON | Tenon Medical, Inc. | Los Gatos, CA | Nasdaq | Healthcare | $3.9M | 0 | — |
 | TNYA | Tenaya Therapeutics, Inc. | South San Francisco, CA | Nasdaq | Healthcare | — | 5 | 2021–2025 |
 | TOGI | TurnOnGreen, Inc. | San Jose, CA | OTC | Technology hardware | $7.2M | 3 | 2022–2025 |
+| TPVG | TriplePoint Venture Growth BDC Corp. | Menlo Park, CA | NYSE | Other | — | 0 | — |
 | TRNO | Terreno Realty Corp | San Francisco, CA | NYSE | Real estate | $476.4M | 3 | 2019–2022 |
+| TRTX | TPG RE Finance Trust, Inc. | San Francisco, CA | NYSE | Real estate | $146.1M | 7 | 2019–2025 |
 | TWLO | Twilio Inc | San Francisco, CA | NYSE | Software & IT | $5.07B | 9 | 2019–2025 |
 | TWST | Twist Bioscience Corp | South San Francisco, CA | Nasdaq | Healthcare | $459.4M | 9 | 2019–2025 |
 | TXG | 10x Genomics, Inc. | Pleasanton, CA | Nasdaq | Industrials | $642.8M | 6 | 2019–2025 |
@@ -2419,7 +2430,7 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 | ZS | Zscaler, Inc. | Santa Clara, CA | Nasdaq | Software & IT | $3.35B | 10 | 2019–2025 |
 | ZSPC | zSpace, Inc. | San Jose, CA | OTC | Software & IT | $27.9M | 4 | 2023–2024 |
 
-## Included — Detroit (34)
+## Included — Detroit (35)
 
 | Ticker | Company | City | Exchange | Sector | Latest annual revenue | Executives | Pay years |
 |---|---|---|---|---|---|---|---|
@@ -2433,6 +2444,7 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 | CPS | Cooper-Standard Holdings Inc. | Northville, MI | NYSE | Industrials | $2.74B | 11 | 2019–2025 |
 | DCH | Dauch Corp | Detroit, MI | NYSE | Industrials | $5.84B | 8 | 2019–2025 |
 | DPZ | Dominos Pizza Inc | Ann Arbor, MI | Nasdaq | Consumer & retail | $4.94B | 9 | 2019–2025 |
+| DTE | Dte Energy Co | Detroit, MI | NYSE | Energy & utilities | $15.81B | 8 | 2019–2025 |
 | DTM | DT Midstream, Inc. | Detroit, MI | NYSE | Energy & utilities | $1.24B | 6 | 2020–2025 |
 | F | Ford Motor Co | Dearborn, MI | NYSE | Industrials | $187.27B | 10 | 2019–2025 |
 | GM | General Motors Co | Detroit, MI | Nasdaq | Industrials | $185.02B | 11 | 2019–2025 |
@@ -2505,7 +2517,7 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 | ZG | Zillow Group, Inc. | Seattle, WA | Nasdaq | Business services | $2.58B | 8 | 2019–2025 |
 | ZUMZ | Zumiez Inc | Lynnwood, WA | Nasdaq | Consumer & retail | $929.1M | 7 | 2019–2025 |
 
-## Included — Minneapolis–St. Paul (58)
+## Included — Minneapolis–St. Paul (59)
 
 | Ticker | Company | City | Exchange | Sector | Latest annual revenue | Executives | Pay years |
 |---|---|---|---|---|---|---|---|
@@ -2567,6 +2579,7 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 | VREOF | Vireo Growth Inc. | Minneapolis, MN | OTC | Healthcare | $268.8M | 11 | 2019–2025 |
 | WGO | Winnebago Industries Inc | Eden Prairie, MN | NYSE | Industrials | $2.70B | 6 | 2020–2026 |
 | WINA | Winmark Corp | Minneapolis, MN | Nasdaq | Consumer & retail | $86.1M | 4 | 2019–2025 |
+| XEL | Xcel Energy Inc | Minneapolis, MN | Nasdaq | Energy & utilities | $14.67B | 11 | 2019–2025 |
 
 ## Included — Rest of Minnesota (5)
 
@@ -2685,7 +2698,7 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 | XGN | Exagen Inc. | Vista, CA | Nasdaq | Healthcare | $66.6M | 6 | 2020–2025 |
 | ZNTL | Zentalis Pharmaceuticals, Inc. | San Diego, CA | Nasdaq | Healthcare | $0K | 17 | 2019–2025 |
 
-## Included — Tampa Bay (35)
+## Included — Tampa Bay (36)
 
 | Ticker | Company | City | Exchange | Sector | Latest annual revenue | Executives | Pay years |
 |---|---|---|---|---|---|---|---|
@@ -2695,6 +2708,7 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 | AKTX | Akari Therapeutics Plc | Tampa, FL | Nasdaq | Healthcare | $368K | 6 | 2023–2025 |
 | APYX | Apyx Medical Corp | Clearwater, FL | Nasdaq | Healthcare | $52.8M | 6 | 2020–2025 |
 | ATCH | AtlasClear Holdings, Inc. | Tampa, FL | NYSE | Finance | $20.1M | 4 | 2024–2025 |
+| BAFN | BayFirst Financial Corp. | St Petersburg, FL | Nasdaq | Finance | $63.1M | 5 | 2019–2025 |
 | BLMN | Bloomin' Brands, Inc. | Tampa, FL | Nasdaq | Consumer & retail | $3.96B | 6 | 2019–2022 |
 | BSEM | BioStem Technologies, Inc. | Pompano Beach, FL | Nasdaq | Healthcare | $47.5M | 0 | — |
 | BULL | Webull Corp | St. Petersburg, FL | Nasdaq | Finance | $571.0M | 0 | — |
@@ -2717,7 +2731,7 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 | OMEX | Odyssey Marine Exploration Inc | Tampa, FL | Nasdaq | Transportation | $354K | 4 | 2020–2025 |
 | PRMB | Primo Brands Corp | Tampa, FL | NYSE | Consumer & retail | $6.66B | 7 | 2024–2025 |
 | PWCM | Powercompute, Inc. | Tampa, FL | Nasdaq | Finance | $8.8M | 3 | 2022–2025 |
-| RJF | Raymond James Financial Inc | St Petersburg, FL | NYSE | Finance | $15.91B | 8 | 2019–2025 |
+| RJF | Raymond James Financial Inc | St Petersburg, FL | NYSE | Finance | $14.07B | 8 | 2019–2025 |
 | SGC | Superior Group Of Companies, Inc. | St. Petersburg, FL | Nasdaq | Consumer & retail | $566.2M | 6 | 2019–2025 |
 | SLDE | Slide Insurance Holdings, Inc. | Tampa, FL | Nasdaq | Finance | $1.16B | 4 | 2024–2025 |
 | SNX | Td Synnex Corp | Clearwater, FL | NYSE | Consumer & retail | $62.51B | 11 | 2019–2025 |
@@ -2983,7 +2997,7 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 | DDC | DDC Enterprise Ltd | Charlotte, NC | NYSE | Consumer & retail | $39.2M | 0 | — |
 | DNUT | Krispy Kreme, Inc. | Charlotte, NC | Nasdaq | Consumer & retail | $1.52B | 12 | 2020–2025 |
 | DRVN | Driven Brands Holdings Inc. | Charlotte, NC | Nasdaq | Business services | $1.86B | 11 | 2020–2025 |
-| DUK | Duke Energy CORP | Charlotte, NC | NYSE | Energy & utilities | $31.74B | 9 | 2019–2025 |
+| DUK | Duke Energy CORP | Charlotte, NC | NYSE | Energy & utilities | $32.24B | 9 | 2019–2025 |
 | FGC | FG Communities Holdings Inc. | Charlotte, NC | Nasdaq | Finance | $2.4M | 8 | 2021–2025 |
 | HAYW | Hayward Holdings, Inc. | Charlotte, NC | NYSE | Industrials | $1.12B | 10 | 2020–2025 |
 | HON | Honeywell International Inc | Charlotte, NC | Nasdaq | Industrials | $37.44B | 11 | 2019–2025 |
@@ -3274,7 +3288,7 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 | RR | Richtech Robotics Inc. | Las Vegas, NV | Nasdaq | Industrials | $5.0M | 3 | 2023–2025 |
 | RRR | Red Rock Resorts, Inc. | Las Vegas, NV | Nasdaq | Consumer & retail | $2.01B | 7 | 2019–2025 |
 | RSSS | Research Solutions, Inc. | Henderson, NV | Nasdaq | Business services | $48.3M | 6 | 2021–2026 |
-| SWX | Southwest Gas Holdings, Inc. | Las Vegas, NV | NYSE | Energy & utilities | $5.43B | 11 | 2018–2025 |
+| SWX | Southwest Gas Holdings, Inc. | Las Vegas, NV | NYSE | Energy & utilities | $1.94B | 11 | 2018–2025 |
 | TONX | TON Strategy Co | Las Vegas, NV | Nasdaq | Finance | $12.8M | 7 | 2021–2025 |
 | VHUB | VenHub Global, Inc. | Las Vegas, NV | Nasdaq | Industrials | $864K | 0 | — |
 | VNRX | Volitionrx Ltd | Henderson, NV | NYSE | Healthcare | $1.7M | 4 | 2021–2025 |
@@ -3346,7 +3360,7 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 | MO | Altria Group, Inc. | Richmond, VA | NYSE | Consumer & retail | $23.28B | 7 | 2019–2025 |
 | NEU | Newmarket Corp | Richmond, VA | NYSE | Other | $2.73B | 8 | 2019–2025 |
 | PFGC | Performance Food Group Co | Richmond, VA | NYSE | Consumer & retail | $67.84B | 14 | 2020–2026 |
-| UVV | Universal Corp /Va/ | Richmond, VA | NYSE | Consumer & retail | $2.89B | 7 | 2020–2026 |
+| UVV | Universal Corp /Va/ | Richmond, VA | NYSE | Consumer & retail | $2.92B | 7 | 2020–2026 |
 
 ## Included — Omaha (13)
 
@@ -3642,13 +3656,14 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 | SKT | Tanger Inc. | Greensboro, NC | NYSE | Real estate | — | 11 | 2019–2025 |
 | UFI | Unifi Inc | Greensboro, NC | NYSE | Consumer & retail | $531.3M | 12 | 2020–2026 |
 
-## Included — Grand Rapids (6)
+## Included — Grand Rapids (7)
 
 | Ticker | Company | City | Exchange | Sector | Latest annual revenue | Executives | Pay years |
 |---|---|---|---|---|---|---|---|
 | COFS | Choiceone Financial Services Inc | Sparta, MI | Nasdaq | Finance | $161.7M | 5 | 2020–2025 |
 | IBCP | Independent Bank Corp /Mi/ | Grand Rapids, MI | Nasdaq | Finance | $225.7M | 6 | 2019–2025 |
 | MBWM | Mercantile Bank Corp | Grand Rapids, MI | Nasdaq | Finance | $242.7M | 11 | 2019–2025 |
+| NPB | Northpointe Bancshares Inc | Grand Rapids, MI | NYSE | Finance | $241.7M | 3 | 2023–2025 |
 | SI | Shoulder Innovations, Inc. | Grand Rapids, MI | NYSE | Healthcare | $47.3M | 3 | 2024–2025 |
 | UFPI | Ufp Industries Inc | Grand Rapids, MI | Nasdaq | Industrials | $6.32B | 7 | 2019–2025 |
 | WWW | Wolverine World Wide Inc /De/ | Rockford, MI | NYSE | Industrials | $1.87B | 7 | 2022–2025 |
@@ -3692,6 +3707,13 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 | CVLG | Covenant Logistics Group, Inc. | Chattanooga, TN | NYSE | Transportation | $1.16B | 9 | 2019–2025 |
 | UNM | Unum Group | Chattanooga, TN | NYSE | Finance | $13.08B | 8 | 2019–2025 |
 
+## Included — Knoxville (2)
+
+| Ticker | Company | City | Exchange | Sector | Latest annual revenue | Executives | Pay years |
+|---|---|---|---|---|---|---|---|
+| SMBK | Smartfinancial Inc. | Knoxville, TN | NYSE | Finance | $200.5M | 3 | 2020–2021 |
+| TVE | Tennessee Valley Authority | Knoxville, TN | NYSE | Energy & utilities | $14.22B | 0 | — |
+
 ## Included — New Orleans (3)
 
 | Ticker | Company | City | Exchange | Sector | Latest annual revenue | Executives | Pay years |
@@ -3700,13 +3722,14 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 | FBLA | FB Bancorp, Inc. /MD/ | New Orleans, LA | Nasdaq | Finance | $52.1M | 3 | 2024–2024 |
 | FDSB | Fifth District Bancorp, Inc. | New Orleans, LA | Nasdaq | Finance | $17.3M | 4 | 2023–2025 |
 
-## Included — Madison (4)
+## Included — Madison (5)
 
 | Ticker | Company | City | Exchange | Sector | Latest annual revenue | Executives | Pay years |
 |---|---|---|---|---|---|---|---|
 | ARAY | Accuray Inc | Madison, WI | Nasdaq | Healthcare | $401.9M | 7 | 2021–2026 |
 | FBIZ | First Business Financial Services, Inc. | Madison, WI | Nasdaq | Finance | $168.6M | 7 | 2019–2025 |
 | LNT | Alliant Energy Corp | Madison, WI | Nasdaq | Energy & utilities | $4.36B | 12 | 2019–2025 |
+| MGEE | Mge Energy Inc | Madison, WI | Nasdaq | Energy & utilities | $743.7M | 0 | — |
 | SPB | Spectrum Brands Holdings, Inc. | Middleton, WI | NYSE | Technology hardware | $2.85B | 7 | 2019–2025 |
 
 ## Included — Des Moines (6)
@@ -4035,7 +4058,7 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 | MU | Micron Technology Inc | Boise, ID | Nasdaq | Semiconductors | $133.19B | 9 | 2019–2025 |
 | SSMR | Sunshine Silver Mining & Refining Co | Kellogg, ID | NYSE | Materials | — | 0 | — |
 
-## Included — Rest of Illinois (18)
+## Included — Rest of Illinois (19)
 
 | Ticker | Company | City | Exchange | Sector | Latest annual revenue | Executives | Pay years |
 |---|---|---|---|---|---|---|---|
@@ -4047,6 +4070,7 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 | HBT | HBT Financial, Inc. | Bloomington, IL | Nasdaq | Finance | $237.1M | 6 | 2020–2025 |
 | HMN | Horace Mann Educators Corp /De/ | Springfield, IL | NYSE | Finance | $1.70B | 7 | 2019–2025 |
 | MEGR | Metech Group Inc. | Morris, IL | OTC | Consumer & retail | $18.8M | 0 | — |
+| MSBI | Midland States Bancorp, Inc. | Effingham, IL | Nasdaq | Finance | $325.0M | 7 | 2019–2025 |
 | OSBC | Old Second Bancorp Inc | Aurora, IL | Nasdaq | Finance | $339.3M | 6 | 2019–2025 |
 | PFSB | PFS Bancorp, Inc. | Peru, IL | OTC | Finance | $6.6M | 3 | 2022–2025 |
 | QCRH | Qcr Holdings Inc | Moline, IL | Nasdaq | Finance | $369.5M | 6 | 2020–2025 |
@@ -4079,13 +4103,14 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 | VRA | Vera Bradley, Inc. | Roanoke, IN | Nasdaq | Industrials | $269.7M | 14 | 2020–2026 |
 | WNC | WABASH NATIONAL Corp | Lafayette, IN | NYSE | Industrials | $1.54B | 7 | 2019–2025 |
 
-## Included — Rest of Iowa (8)
+## Included — Rest of Iowa (9)
 
 | Ticker | Company | City | Exchange | Sector | Latest annual revenue | Executives | Pay years |
 |---|---|---|---|---|---|---|---|
 | ARTW | Arts Way Manufacturing Co Inc | Armstrong, IA | Nasdaq | Industrials | $23.0M | 3 | 2020–2025 |
 | ATLO | Ames National Corp | Ames, IA | Nasdaq | Finance | $66.8M | 3 | 2023–2025 |
 | FLXS | Flexsteel Industries Inc | Dubuque, IA | Nasdaq | Consumer & retail | $459.2M | 6 | 2021–2026 |
+| HBIA | Hills Bancorporation | Hills, IA | OTC | Finance | $174.5M | 8 | 2019–2025 |
 | HNI | Hni Corp | Muscatine, IA | NYSE | Consumer & retail | $2.84B | 8 | 2020–2025 |
 | HTLD | Heartland Express Inc | North Liberty, IA | Nasdaq | Transportation | $805.7M | 8 | 2019–2025 |
 | LEE | LEE ENTERPRISES, Inc | Davenport, IA | Nasdaq | Media & telecom | $562.3M | 0 | — |
@@ -4107,7 +4132,7 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 | Ticker | Company | City | Exchange | Sector | Latest annual revenue | Executives | Pay years |
 |---|---|---|---|---|---|---|---|
 | CTBI | Community Trust Bancorp Inc /Ky/ | Pikeville, KY | Nasdaq | Finance | $282.6M | 8 | 2019–2025 |
-| KFFB | Kentucky First Federal Bancorp | Hazard, KY | Nasdaq | Finance | $9.2M | 4 | 2021–2026 |
+| KFFB | Kentucky First Federal Bancorp | Hazard, KY | Nasdaq | Finance | $8.8M | 4 | 2021–2026 |
 | UTGN | Utg Inc | Stanford, KY | OTC | Finance | $42.3M | 8 | 2020–2025 |
 
 ## Included — Rest of Louisiana (18)
@@ -4292,7 +4317,7 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 | KRMD | KORU Medical Systems, Inc. | Mahwah, NJ | Nasdaq | Healthcare | $41.1M | 9 | 2020–2025 |
 | LTSV | Lightstone Value Plus REIT IV, Inc. | Lakewood, NJ | OTC | Real estate | $30.5M | 0 | — |
 | MG | Mistras Group, Inc. | Princeton Junction, NJ | NYSE | Business services | $724.0M | 0 | — |
-| NJR | New Jersey Resources Corp | Wall, NJ | NYSE | Energy & utilities | $1.56B | 12 | 2019–2025 |
+| NJR | New Jersey Resources Corp | Wall, NJ | NYSE | Energy & utilities | $2.27B | 12 | 2019–2025 |
 | OCFC | Oceanfirst Financial Corp | Toms River, NJ | Nasdaq | Finance | $404.9M | 6 | 2019–2025 |
 | OLED | Universal Display Corp \Pa\ | Ewing, NJ | Nasdaq | Technology hardware | $650.6M | 6 | 2019–2025 |
 | PGC | Peapack Gladstone Financial Corp | Bedminster, NJ | Nasdaq | Finance | $283.0M | 9 | 2019–2025 |
@@ -4366,7 +4391,7 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 | NODK | NI Holdings, Inc. | Fargo, ND | Nasdaq | Finance | $285.1M | 8 | 2019–2025 |
 | TITN | Titan Machinery Inc. | West Fargo, ND | Nasdaq | Consumer & retail | $2.43B | 4 | 2020–2026 |
 
-## Included — Rest of Ohio (28)
+## Included — Rest of Ohio (29)
 
 | Ticker | Company | City | Exchange | Sector | Latest annual revenue | Executives | Pay years |
 |---|---|---|---|---|---|---|---|
@@ -4393,6 +4418,7 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 | PRK | Park National Corp /Oh/ | Newark, OH | NYSE | Finance | $557.2M | 4 | 2019–2025 |
 | RCKY | Rocky Brands, Inc. | Nelsonville, OH | Nasdaq | Industrials | $482.0M | 6 | 2019–2025 |
 | RPM | Rpm International Inc/De/ | Medina, OH | NYSE | Other | $7.86B | 7 | 2020–2026 |
+| SBFG | Sb Financial Group, Inc. | Defiance, OH | Nasdaq | Finance | $65.6M | 4 | 2020–2025 |
 | SJM | J M SMUCKER Co | Orrville, OH | NYSE | Consumer & retail | $9.05B | 2 | 2023–2026 |
 | SMG | Scotts Miracle-Gro Co | Marysville, OH | NYSE | Other | $3.41B | 12 | 2019–2025 |
 | SOAR | SOAR AI, Inc. | North Canton, OH | NYSE | Transportation | $78.6M | 5 | 2022–2025 |
@@ -4859,7 +4885,7 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 ## Excluded
 
 - 0 filers with no ticker (funds, trusts, shells, private companies with public debt)
-- 1541 listed companies that haven't filed an annual or quarterly report since 2025-08-22
+- 1541 listed companies that haven't filed an annual or quarterly report since 2025-08-23
 - 1224 US-listed companies headquartered outside the US and Canada
 - 0 listed companies in the searched states but outside the covered metros
 - AAAU Goldman Sachs Physical Gold ETF: no revenue data in XBRL filings
@@ -4873,7 +4899,6 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 - ABCP AmBase Corp: no revenue data in XBRL filings
 - ABOS Acumen Pharmaceuticals, Inc.: no revenue data in XBRL filings
 - ABPO Abpro Holdings, Inc.: OTC, annual revenue $183K below $5.0M
-- ABR Arbor Realty Trust Inc: newest figures are for 2019
 - ACAA Averin Capital Acquisition Corp.: no revenue data in XBRL filings
 - ACBM Acro Biomedical Co., Ltd.: OTC, annual revenue $0K below $5.0M
 - ACCV Accelevation Holdings Corp.: no revenue data in XBRL filings
@@ -4979,7 +5004,6 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 - AZR Azora Therapeutics, Inc. (DE): no revenue data in XBRL filings
 - BABB Bab, Inc.: OTC, annual revenue $3.4M below $5.0M
 - BACC Blue Acquisition Corp/Cayman: no revenue data in XBRL filings
-- BAFN BayFirst Financial Corp.: no revenue data in XBRL filings
 - BANR Banner Corp: newest figures are for 2022
 - BAR GraniteShares Gold Trust: no revenue data in XBRL filings
 - BASA Basanite, Inc.: OTC, annual revenue $88K below $5.0M
@@ -5009,7 +5033,6 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 - BFNH Bioforce Nanosciences Holdings, Inc.: newest figures are for 2019
 - BGSI Boyd Group Services Inc.: unknown postal code 00000 (Winnipeg, A2)
 - BHLL Bunker Hill Silver Corp.: OTC, annual revenue $0K below $5.0M
-- BHRB Burke & Herbert Financial Services Corp.: no revenue data in XBRL filings
 - BHVN Biohaven Ltd.: no revenue data in XBRL filings
 - BHYP Bitwise Hyperliquid ETF: no revenue data in XBRL filings
 - BICX BioCorRx Inc.: OTC, annual revenue $797K below $5.0M
@@ -5061,7 +5084,6 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 - BTG B2gold Corp: no revenue data in XBRL filings
 - BTQ BTQ Technologies Corp.: no revenue data in XBRL filings
 - BUDZ Weed, Inc.: OTC, annual revenue $0K below $5.0M
-- BVFL BV Financial, Inc.: no revenue data in XBRL filings
 - BWIV Blue Water Acquisition Corp. IV: no revenue data in XBRL filings
 - BXSL Blackstone Secured Lending Fund: no revenue data in XBRL filings
 - BYOP KiNRG, Inc.: Unlisted, annual revenue $0K below $5.0M
@@ -5202,7 +5224,6 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 - DRUG Bright Minds Biosciences Inc.: no revenue data in XBRL filings
 - DSFT DeltaSoft Corp: OTC, annual revenue $38K below $5.0M
 - DSNY Destiny Media Technologies Inc: OTC, annual revenue $4.5M below $5.0M
-- DTE Dte Energy Co: newest figures are for 2018
 - DTSQ DT Cloud Star Acquisition Corp: no revenue data in XBRL filings
 - DWAY Driveitaway Holdings, Inc.: OTC, annual revenue $988K below $5.0M
 - DX Dynex Capital Inc: no revenue data in XBRL filings
@@ -5213,7 +5234,6 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 - ECTM ECA Marcellus Trust I: no revenue data in XBRL filings
 - EDGM Edgemode, Inc.: OTC, annual revenue $0K below $5.0M
 - EDSA Edesa Biotech, Inc.: newest figures are for 2021
-- EFC Ellington Financial Inc.: no revenue data in XBRL filings
 - EGHA EGH Acquisition Corp.: no revenue data in XBRL filings
 - EHSI Elite Health Systems Inc.: OTC, annual revenue $1.0M below $5.0M
 - EHVVF Ehave, Inc.: OTC, annual revenue $2K below $5.0M
@@ -5383,7 +5403,6 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 - GXRP Grayscale XRP Trust ETF: no revenue data in XBRL filings
 - GYRO Gyrodyne, LLC: newest figures are for 2015
 - HACQ HCM IV Acquisition Corp.: no revenue data in XBRL filings
-- HBIA Hills Bancorporation: no revenue data in XBRL filings
 - HBR Canary HBAR ETF: no revenue data in XBRL filings
 - HBUV Hubilu Venture Corp: OTC, annual revenue $2.2M below $5.0M
 - HCIC Hennessy Capital Investment Corp. VIII: no revenue data in XBRL filings
@@ -5468,7 +5487,7 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 - ITOX IIOT-OXYS, Inc.: OTC, annual revenue $0K below $5.0M
 - IVDN Innovative Designs Inc: OTC, annual revenue $2.8M below $5.0M
 - IVHI Invech Holdings, Inc.: OTC, annual revenue $0K below $5.0M
-- IVR Invesco Mortgage Capital Inc.: no revenue data in XBRL filings
+- IVR Invesco Mortgage Capital Inc.: newest figures are for 2016
 - IWAL iWallet Corp: OTC, annual revenue $0K below $5.0M
 - IWSH Wright Investors Service Holdings, Inc.: newest figures are for 2018
 - JACS Jackson Acquisition Co II: no revenue data in XBRL filings
@@ -5560,7 +5579,6 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 - MC Moelis & Co: no revenue data in XBRL filings
 - MCAG Mountain Crest Acquisition Corp. V: no revenue data in XBRL filings
 - MCAH Mountain Crest Acquisition 6 Corp.: no revenue data in XBRL filings
-- MCBS MetroCity Bankshares, Inc.: no revenue data in XBRL filings
 - MCGA Yorkville Acquisition Corp.: no revenue data in XBRL filings
 - MDBH MDB Capital Holdings, LLC: no revenue data in XBRL filings
 - MDCX Medicus Pharma Ltd.: no revenue data in XBRL filings
@@ -5573,12 +5591,11 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 - MESH Meshflow Acquisition Corp: no revenue data in XBRL filings
 - MEVO M Evo Global Acquisition Corp II: no revenue data in XBRL filings
 - MFA Mfa Financial, Inc.: newest figures are for 2020
-- MFBI Monroe Federal Bancorp, Inc.: no revenue data in XBRL filings
+- MFBI Monroe Federal Bancorp, Inc.: OTC, annual revenue $4.2M below $5.0M
 - MFIC MidCap Financial Investment Corp: no revenue data in XBRL filings
 - MGAM Mobile Global Esports, Inc.: OTC, annual revenue $4K below $5.0M
-- MGEE Mge Energy Inc: newest figures are for 2018
 - MGNC Mag Magna Corp: OTC, annual revenue $0K below $5.0M
-- MGNO Magnolia Bancorp, Inc.: OTC, annual revenue $6K below $5.0M
+- MGNO Magnolia Bancorp, Inc.: OTC, annual revenue $1.4M below $5.0M
 - MGTI Mgt Capital Investments, Inc.: OTC, annual revenue $87K below $5.0M
 - MIAC Meridian3 Industrials Acquisition Corp: no revenue data in XBRL filings
 - MIBE Miami Breeze Car Care Inc: OTC, annual revenue $8K below $5.0M
@@ -5600,7 +5617,6 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 - MOJO EQUATOR Beverage Co: OTC, annual revenue $4.2M below $5.0M
 - MPLT MapLight Therapeutics, Inc.: no revenue data in XBRL filings
 - MRCO Mercator Acquisition Corp.: no revenue data in XBRL filings
-- MSBI Midland States Bancorp, Inc.: no revenue data in XBRL filings
 - MSBT Morgan Stanley Bitcoin Trust: no revenue data in XBRL filings
 - MSDL Morgan Stanley Direct Lending Fund: no revenue data in XBRL filings
 - MSIF Msc Income Fund, Inc.: no revenue data in XBRL filings
@@ -5632,7 +5648,6 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 - NDRA ENDRA Life Sciences Inc.: newest figures are for 2020
 - NEWH NewHydrogen, Inc.: no revenue data in XBRL filings
 - NEWP New Pacific Metals Corp: newest figures are for 2023
-- NEWT NewtekOne, Inc.: no revenue data in XBRL filings
 - NEXM NexMetals Mining Corp.: no revenue data in XBRL filings
 - NGEN Nervgen Pharma Corp.: no revenue data in XBRL filings
 - NGLD Nevada Canyon Gold Corp.: newest figures are for 2017
@@ -5652,7 +5667,6 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 - NOA North American Construction Group Ltd.: unknown postal code  (Acheson, A0)
 - NOEM CO2 Energy Transition Corp.: no revenue data in XBRL filings
 - NPAC New Providence Acquisition Corp. III/Cayman: no revenue data in XBRL filings
-- NPB Northpointe Bancshares Inc: no revenue data in XBRL filings
 - NPHC Nutra Pharma Corp: OTC, annual revenue $258K below $5.0M
 - NREF NexPoint Real Estate Finance, Inc.: no revenue data in XBRL filings
 - NRHI Natural Resource Holdings, Inc.: newest figures are for 2019
@@ -5853,7 +5867,6 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 - SANA Sana Biotechnology, Inc.: no revenue data in XBRL filings
 - SAR Saratoga Investment Corp.: no revenue data in XBRL filings
 - SATT Sativus Tech Corp.: newest figures are for 2019
-- SBFG Sb Financial Group, Inc.: newest figures are for 2023
 - SBMT Silver Bow Mining Corp.: no revenue data in XBRL filings
 - SBR Sabine Royalty Trust: no revenue data in XBRL filings
 - SBXDF SilverBox Corp IV: no revenue data in XBRL filings
@@ -5893,7 +5906,6 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 - SLRC SLR Investment Corp.: no revenue data in XBRL filings
 - SLS SELLAS Life Sciences Group, Inc.: newest figures are for 2023
 - SLV iShares Silver Trust: newest figures are for 2013
-- SMBK Smartfinancial Inc.: no revenue data in XBRL filings
 - SMNR Semnur Pharmaceuticals, Inc.: no revenue data in XBRL filings
 - SNBH Sentient Brands Holdings Inc.: OTC, annual revenue $701K below $5.0M
 - SNDL SNDL Inc.: unknown postal code  (Edmonton, Z4)
@@ -5936,7 +5948,6 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 - SVRA Savara Inc: newest figures are for 2021
 - SVVC Firsthand Technology Value Fund, Inc.: no revenue data in XBRL filings
 - SYBX Synlogic, Inc.: OTC, annual revenue $0K below $5.0M
-- SYF Synchrony Financial: no revenue data in XBRL filings
 - SZZL Sizzle Acquisition Corp. II: no revenue data in XBRL filings
 - TAAG Awareness Group, Inc.: OTC, annual revenue $541K below $5.0M
 - TACH Titan Acquisition Corp.: no revenue data in XBRL filings
@@ -5946,7 +5957,6 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 - TARSF Silver North Resources Ltd.: no revenue data in XBRL filings
 - TAVI Tavia Acquisition Corp.: no revenue data in XBRL filings
 - TBCV Thunder Bridge Capital Partners V, Ltd.: no revenue data in XBRL filings
-- TCBX Third Coast Bancshares, Inc.: no revenue data in XBRL filings
 - TCPA Transcanada Pipelines Ltd: newest figures are for 2017
 - TCPC BlackRock TCP Capital Corp.: no revenue data in XBRL filings
 - TCRG Cannaisseur Group Inc.: OTC, annual revenue $0K below $5.0M
@@ -5976,7 +5986,6 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 - TOXR 21Shares XRP ETF: no revenue data in XBRL filings
 - TPST Tempest Therapeutics, Inc.: newest figures are for 2018
 - TPTI Transit Pro Tech Inc.: OTC, annual revenue $364K below $5.0M
-- TPVG TriplePoint Venture Growth BDC Corp.: no revenue data in XBRL filings
 - TRAD APEX Tech Acquisition Inc.: no revenue data in XBRL filings
 - TRAX First Tracks Biotherapeutics, Inc.: no revenue data in XBRL filings
 - TREO Tactical Resources Corp.: unknown postal code  (Vancouver, A1)
@@ -5985,7 +5994,6 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 - TRIN Trinity Capital Inc.: no revenue data in XBRL filings
 - TRLC TriLinc Global Impact Fund LLC: no revenue data in XBRL filings
 - TRSO Transuite.Org Inc.: OTC, annual revenue $118K below $5.0M
-- TRTX TPG RE Finance Trust, Inc.: no revenue data in XBRL filings
 - TRVI Trevi Therapeutics, Inc.: no revenue data in XBRL filings
 - TRWD Tradewinds Universal: OTC, annual revenue $133K below $5.0M
 - TRXA T-REX Acquisition Corp.: OTC, annual revenue $32K below $5.0M
@@ -5998,7 +6006,6 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 - TVA Texas Ventures Acquisition III Corp: no revenue data in XBRL filings
 - TVAI Thayer Ventures Acquisition Corp II: no revenue data in XBRL filings
 - TVCN TV Channels Network Inc.: Unlisted, annual revenue $0K below $5.0M
-- TVE Tennessee Valley Authority: newest figures are for 2023
 - TVGN Tevogen Inc.: no revenue data in XBRL filings
 - TVIV Texas Ventures Acquisition IV Corp: no revenue data in XBRL filings
 - TWLV Twelve Seas Investment Co III/Cayman: no revenue data in XBRL filings
@@ -6045,7 +6052,6 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 - VOR Vor Biopharma Inc.: no revenue data in XBRL filings
 - VPLM Voip-pal.com Inc: no revenue data in XBRL filings
 - VRDR Verde Resources, Inc.: unknown postal code  (St. Louis, MO)
-- VRM Vroom, Inc.: newest figures are for 2023
 - VS Versus Systems Inc.: unknown postal code  (Vancouver, A1)
 - VSBC Vitaspring Biomedical Co. Ltd.: OTC, annual revenue $0K below $5.0M
 - VSOL VanEck Solana ETF: no revenue data in XBRL filings
@@ -6076,7 +6082,6 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 - XAGE Longevity Health Holdings, Inc.: OTC, annual revenue $1.9M below $5.0M
 - XBIT XBiotech Inc.: newest figures are for 2023
 - XCBE X3 Acquisition Corp. Ltd.: no revenue data in XBRL filings
-- XEL Xcel Energy Inc: newest figures are for 2019
 - XENE Xenon Pharmaceuticals Inc.: unknown postal code  (Burnaby, A1)
 - XERI Xeriant, Inc.: newest figures are for 2018
 - XESP Electronic Servitor Publication Network, Inc.: OTC, annual revenue $0K below $5.0M
@@ -6105,7 +6110,7 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 - ZTEKF Zentek Ltd.: OTC, annual revenue $872K below $5.0M
 - ZURA Zura Bio Ltd: no revenue data in XBRL filings
 
-## Revenue taken from the annual report (80 company-years)
+## Revenue taken from the annual report (78 company-years)
 
 Read by EdgarTools, and used because net income, label and the SEC's own copy of the figure all agreed.
 
@@ -6118,6 +6123,7 @@ Read by EdgarTools, and used because net income, label and the SEC's own copy of
 - AD: Revenue taken from the annual report's income statement: 2024-12-31 3,667,000,000 -> 102,933,000.
 - AD: Revenue taken from the annual report's income statement: 2023-12-31 3,805,000,000 -> 100,469,000.
 - ASTS: Revenue taken from the annual report's income statement: 2024-12-31 13,825,000 -> 4,418,000.
+- AUID: Revenue taken from the annual report's income statement: 2025-12-31 2,924,842 -> 2,040,660.
 - BTE: Revenue taken from the annual report's income statement: 2025-12-31 1,684,648,000 -> 1,480,815,000.
 - BTE: Revenue taken from the annual report's income statement: 2024-12-31 1,874,046,000 -> 1,612,841,000.
 - BHE: Revenue taken from the annual report's income statement: 2025-12-31 2,748,742,000 -> 2,659,108,000.
@@ -6156,9 +6162,6 @@ Read by EdgarTools, and used because net income, label and the SEC's own copy of
 - HAS: Revenue taken from the annual report's income statement: 2024-12-29 4,745,900,000 -> 4,135,500,000.
 - HAS: Revenue taken from the annual report's income statement: 2023-12-31 5,710,600,000 -> 5,003,300,000.
 - HIT: Revenue taken from the annual report's income statement: 2025-12-31 37,563,851 -> 33,327,511.
-- IDA: Revenue taken from the annual report's income statement: 2025-12-31 1,746,972,000 -> 1,812,997,000.
-- IDA: Revenue taken from the annual report's income statement: 2024-12-31 1,768,881,000 -> 1,826,633,000.
-- IDA: Revenue taken from the annual report's income statement: 2023-12-31 1,639,612,000 -> 1,766,356,000.
 - IMTE: Revenue taken from the annual report's income statement: 2023-12-31 373,676 -> 85,454.
 - MWYN: Revenue taken from the annual report's income statement: 2025-04-30 10,925,873 -> 804,333.
 - NWE: Revenue taken from the annual report's income statement: 2023-12-31 1,554,800,000 -> 1,422,143,000.
@@ -6190,7 +6193,7 @@ Read by EdgarTools, and used because net income, label and the SEC's own copy of
 - WMB: Revenue taken from the annual report's income statement: 2023-12-31 11,996,000,000 -> 10,907,000,000.
 - XFOR: Revenue taken from the annual report's income statement: 2024-12-31 2,600,000 -> 2,557,000.
 
-## Published years kept (28 companies)
+## Published years kept (27 companies)
 
 Years the SEC's company facts no longer give, kept because the company's newest annual report states the same figures.
 
@@ -6210,7 +6213,6 @@ Years the SEC's company facts no longer give, kept because the company's newest 
 - FRD: Published year kept, confirmed by the annual report: 2026.
 - SIM: Published year kept, confirmed by the annual report: 2025.
 - KZIA: Published year kept, confirmed by the annual report: 2026.
-- LHX: Published year kept, confirmed by the annual report: 2025.
 - LCFY: Published year kept, confirmed by the annual report: 2026.
 - MCUJF: Published year kept, confirmed by the annual report: 2025.
 - MSB: Published year kept, confirmed by the annual report: 2025.
@@ -7988,6 +7990,9 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - DBX: proxy 4/2/2024: Timothy Regan 2022: components 10,974,086 ≠ total 5,487,043; difference shown as Other.
 - DSS: proxy 10/22/2024: Frank D. Heuszel 2022: components 434,638 ≠ total 314,639; difference shown as Other.
 - DSS: proxy 10/22/2024: Jason T. Grady 2023: components 675,973 ≠ total 555,973; difference shown as Other.
+- DTE: proxy 3/23/2023: Gerardo Norcia 2022: components 8,520,918 ≠ total 10,458,218; difference shown as Other.
+- DTE: proxy 3/23/2023: Gerardo Norcia 2021: components 9,095,577 ≠ total 11,128,277; difference shown as Other.
+- DTE: proxy 3/23/2023: Gerardo Norcia 2020: components 7,797,406 ≠ total 10,605,622; difference shown as Other.
 - DCO: proxy 3/14/2025: Stephen G. Oswald 2024: components 8,733,639 ≠ total 9,723,566; difference shown as Other.
 - DCO: proxy 3/14/2025: Stephen G. Oswald 2023: components 7,321,236 ≠ total 8,280,943; difference shown as Other.
 - DCO: proxy 3/14/2025: Stephen G. Oswald 2022: components 5,791,639 ≠ total 6,715,767; difference shown as Other.
@@ -9875,6 +9880,11 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - MXC: proxy 7/22/2024: left out 3 row(s) that can't be right (Donna Gail Yanko 2024: salary 1,200, total 1,200; Donna Gail Yanko 2023: salary 1,200, total 1,200; Donna Gail Yanko 2022: salary 1,200, total 1,200)
 - MXC: proxy 7/20/2023: left out 3 row(s) that can't be right (Donna Gail Yanko 2023: salary 1,200, total 1,200; Donna Gail Yanko 2022: salary 1,200, total 1,200; Donna Gail Yanko 2021: salary 1,200, total 1,200)
 - MXC: proxy 7/21/2022: left out 3 row(s) that can't be right (Donna Gail Yanko 2022: salary 1,200, total 1,200; Donna Gail Yanko 2021: salary 1,200, total 1,200; Donna Gail Yanko 2020: salary 1,200, total 1,200)
+- MGEE: proxy 4/2/2026: no compensation table recognised
+- MGEE: proxy 4/4/2025: no compensation table recognised
+- MGEE: proxy 4/5/2024: no compensation table recognised
+- MGEE: proxy 3/29/2023: no compensation table recognised
+- MGEE: proxy 3/30/2022: no compensation table recognised
 - MLGO: proxy 10/20/2022: no compensation table recognised
 - MBOT: proxy 2/28/2025: no compensation table recognised
 - MCHP: proxy 7/6/2026: Steve Sanghi 2026: components 2,197,085 ≠ total 40,501,951; difference shown as Other.
@@ -10109,6 +10119,8 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - NEM: proxy 3/11/2024: no compensation table recognised
 - NEM: proxy 3/7/2022: no compensation table recognised
 - NWSA: Robert J. Thomson 2021: table read total 23,024,845; the filing tags the CEO's total as 23,052,040 — corrected
+- NEWT: proxy 7/28/2022: no compensation table recognised
+- NEWT: Barry Sloane 2022: the filing tags the CEO's total as 1,700,000, far from the table's 3,700,000; kept the table figure
 - NWTG: proxy 1/10/2025: no compensation table recognised
 - NXL: proxy 11/6/2026: no compensation table recognised
 - NXL: proxy 6/17/2025: Mark White 2023: components 111,678 ≠ total 154,478; difference shown as Other.
@@ -11239,6 +11251,10 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - SND: proxy 4/27/2022: Charles E. Young 2020: components 738,766 ≠ total 783,766; difference shown as Other.
 - BIRD: proxy 6/28/2024: no compensation table recognised
 - BIRD: proxy 4/25/2024: Timothy Brown 2023: components 556,108 ≠ total 441,485; difference shown as Other.
+- SMBK: proxy 4/7/2026: no compensation table recognised
+- SMBK: proxy 4/8/2025: no compensation table recognised
+- SMBK: proxy 4/9/2024: no compensation table recognised
+- SMBK: proxy 4/11/2023: no compensation table recognised
 - SMRT: proxy 4/6/2022: Christopher Jon Edmonds 2020: components 431,743 ≠ total 283,428; difference shown as Other.
 - AOS: proxy 3/4/2026: no compensation table recognised
 - AOS: proxy 2/27/2025: no compensation table recognised
@@ -11720,6 +11736,11 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - TPET: proxy 10/30/2023: no compensation table recognised
 - TRIP: proxy 4/29/2024: left out 1 row(s) that can't be right (Ernst Teunissen 2023: salary 0, total 265)
 - TRIP: proxy 4/29/2022: no compensation table recognised
+- TPVG: proxy 3/9/2026: no compensation table recognised
+- TPVG: proxy 3/7/2025: no compensation table recognised
+- TPVG: proxy 3/8/2024: no compensation table recognised
+- TPVG: proxy 3/8/2023: no compensation table recognised
+- TPVG: proxy 3/8/2022: no compensation table recognised
 - TLSI: proxy 5/24/2023: no compensation table recognised
 - TLSI: proxy 11/7/2022: no compensation table recognised
 - TRON: proxy 11/20/2024: Deborah McDaniel-Hand 2023: components 148,717 ≠ total 158,617; difference shown as Other.
@@ -12055,6 +12076,9 @@ Rows where the pay components didn't add up to the total, or a table couldn't be
 - VNO: Steven Roth 2024: table read total 2,500,000; the filing tags the CEO's total as 2,856,837 — corrected
 - VNO: Steven Roth 2023: table read total 19,719,375; the filing tags the CEO's total as 26,843,514 — corrected
 - VNO: Steven Roth 2022: table read total 9,102,606; the filing tags the CEO's total as 9,929,707 — corrected
+- VRM: proxy 4/29/2024: Robert R. Krakowiak 2022: components 1,980,750 ≠ total 2,111,546; difference shown as Other.
+- VRM: proxy 1/2/2024: no compensation table recognised
+- VRM: proxy 4/28/2023: Robert R. Krakowiak 2021: components 2,261,546 ≠ total 2,111,546; difference shown as Other.
 - VSEC: proxy 4/2/2024: Farinaz S. Tehrani 2023: components 2,289,040 ≠ total 1,144,520; difference shown as Other.
 - VSEE: proxy 2/5/2026: no compensation table recognised
 - VSEE: proxy 10/17/2023: no compensation table recognised

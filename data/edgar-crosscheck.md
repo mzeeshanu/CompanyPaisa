@@ -1,16 +1,16 @@
-# EdgarTools cross-check — 2026-11-23 05:00 UTC
+# EdgarTools cross-check — 2026-11-23 06:32 UTC
 
 What the SEC import published (docs/edgartools-plan.md): revenue and net income against the headline lines of each company's latest annual report (10-K, 20-F or 40-F), read by [EdgarTools](https://github.com/dgunning/edgartools) (`tools/edgar/extract.py`). The import uses a report's top line only where it passes the checks; the rest are listed here. A report covers its latest three years.
 
 - Companies read: **3,986** (ok 3,881, no report 82, no figures 23)
-- Years in a report but not in our data: **219**
+- Years in a report but not in our data: **216**
 
 | Measure | Compared | Within 1% | 1–10% | Over 10% |
 |---|---|---|---|---|
-| Revenue | 9,477 | 9,045 | 24 | 408 |
-| Net income | 10,007 | 9,872 | 53 | 82 |
+| Revenue | 9,477 | 9,038 | 27 | 412 |
+| Net income | 10,010 | 9,875 | 53 | 82 |
 
-## Revenue: more than 10% apart (408)
+## Revenue: more than 10% apart (412)
 
 | Company | FY | Ours | Annual report | Gap | Currency |
 |---|---|---|---|---|---|
@@ -32,10 +32,12 @@ What the SEC import published (docs/edgartools-plan.md): revenue and net income 
 | BPOP (Popular, Inc.) | 2023 | 2.78bn | 521.9M (10-K) | 433% | USD |
 | COLB (Columbia Banking System, Inc.) | 2025 | 2.30bn | 177.0M (10-K) | 1200% | USD |
 | CFR (Cullen/Frost Bankers, Inc.) | 2025 | 2.24bn | 121.6M (10-K) | 1739% | USD |
+| RJF (Raymond James Financial Inc) | 2024 | 12.82bn | 14.92bn (10-K) | 14% | USD |
 | CFR (Cullen/Frost Bankers, Inc.) | 2024 | 2.06bn | 106.2M (10-K) | 1843% | USD |
 | VLY (Valley National Bancorp) | 2025 | 2.03bn | 124.7M (10-K) | 1525% | USD |
 | CFR (Cullen/Frost Bankers, Inc.) | 2023 | 1.99bn | 93.5M (10-K) | 2025% | USD |
 | COLB (Columbia Banking System, Inc.) | 2023 | 2.00bn | 134.0M (10-K) | 1390% | USD |
+| RJF (Raymond James Financial Inc) | 2025 | 14.07bn | 15.91bn (10-K) | 12% | USD |
 | VLY (Valley National Bancorp) | 2023 | 1.89bn | 85.5M (10-K) | 2113% | USD |
 | COLB (Columbia Banking System, Inc.) | 2024 | 1.93bn | 149.0M (10-K) | 1195% | USD |
 | VLY (Valley National Bancorp) | 2024 | 1.85bn | 110.9M (10-K) | 1571% | USD |
@@ -45,6 +47,7 @@ What the SEC import published (docs/edgartools-plan.md): revenue and net income 
 | SSB (SouthState Bank Corp) | 2023 | 1.74bn | 244.8M (10-K) | 610% | USD |
 | SSB (SouthState Bank Corp) | 2024 | 1.72bn | 250.5M (10-K) | 586% | USD |
 | ASB (Associated Banc-Corp) | 2025 | 1.49bn | 67.8M (10-K) | 2093% | USD |
+| RJF (Raymond James Financial Inc) | 2023 | 11.62bn | 12.99bn (10-K) | 11% | USD |
 | BANC (Banc Of California, Inc.) | 2023 | 298.8M | 1.52bn (10-K) | 80% | USD |
 | HWC (Hancock Whitney Corp) | 2025 | 1.52bn | 338.9M (10-K) | 347% | USD |
 | GBFH (GBank Financial Holdings Inc.) | 2025 | 76.0M | 1.24bn (10-K) | 94% | USD |
@@ -415,6 +418,7 @@ What the SEC import published (docs/edgartools-plan.md): revenue and net income 
 | PFSB (PFS Bancorp, Inc.) | 2024 | 5.9M | 473,000 (10-K) | 1151% | USD |
 | NWGL (CL Workshop Group Ltd) | 2024 | 21.5M | 16.3M (20-F) | 32% | USD |
 | NCRA (Nocera, Inc.) | 2025 | 11.0M | 13.6M (10-K) | 19% | USD |
+| BENF (Beneficient) | 2025 | -6.5M | -7.9M (10-K) | 18% | USD |
 | ESGH (ESG Inc.) | 2025 | 7.5M | 6.1M (10-K) | 23% | USD |
 | UNL (United States 12 Month Natural Gas Fund, LP) | 2024 | 11,200 | -925,374 (10-K) | 101% | USD |
 | UNL (United States 12 Month Natural Gas Fund, LP) | 2025 | 8,050 | -735,860 (10-K) | 101% | USD |
@@ -510,7 +514,7 @@ What the SEC import published (docs/edgartools-plan.md): revenue and net income 
 | KIQSF (Kelso Technologies Inc) | 2025 | 447,397 | 547,157 (20-F) | 18% | USD |
 | TRT (Trio-Tech International) | 2025 | -41,000 | 0 (10-K) | 100% | USD |
 
-## Years only the report has (144 companies)
+## Years only the report has (143 companies)
 
 A year missing from our data: a report newer than our last import, or a year our consistency rules dropped.
 
@@ -582,7 +586,7 @@ A year missing from our data: a report newer than our last import, or a year our
 - IMSR (Terrestrial Energy Inc. /DE/): FY 2025
 - INKT (MiNK Therapeutics, Inc.): FY 2024, 2025
 - JSPR (Jasper Therapeutics, Inc.): FY 2024, 2025
-- KFFB (Kentucky First Federal Bancorp): FY 2025, 2026
+- KFFB (Kentucky First Federal Bancorp): FY 2026
 - LITS (Lite Strategy, Inc.): FY 2026
 - LSPD (Lightspeed Commerce Inc.): FY 2026
 - MAIA (MAIA Biotechnology, Inc.): FY 2025
@@ -639,7 +643,6 @@ A year missing from our data: a report newer than our last import, or a year our
 - STCB (Starco Brands, Inc.): FY 2024, 2025
 - STEX (Streamex Corp.): FY 2025
 - STI (Solidion Technology Inc.): FY 2024
-- SWX (Southwest Gas Holdings, Inc.): FY 2024, 2025
 - TIC (TIC Solutions, Inc.): FY 2023
 - TMC (TMC the metals Co Inc.): FY 2024, 2025
 - TMS (Teamshares Inc): FY 2025

@@ -101,6 +101,88 @@ public class OffCalendarPeriodTests
         Assert.Equal(9_100m, result.Periods.Single(p => p.PeriodType == PeriodType.Annual).Revenue);
     }
 
+    private static object F(string start, string end, decimal value, string form, string filed, string accn) =>
+        new { start, end, val = value, form, filed, accn, frame = (string?)null };
+
+    private static FinancialsResult ExtractConcepts(Dictionary<string, object[]> concepts) =>
+        new XbrlFinancialsExtractor().Extract("X", 1, JsonSerializer.Serialize(new Dictionary<string, object>
+        {
+            ["facts"] = new Dictionary<string, object>
+            {
+                ["us-gaap"] = concepts.ToDictionary(kv => kv.Key, kv => (object)new { units = new { USD = kv.Value } })
+            }
+        }), 10);
+
+    [Fact]
+    public void A_restated_year_keeps_the_quarters_that_add_up_to_it()   // Honeywell 2025
+    {
+        const string q1 = "Q1-25", q2 = "Q2-25", q3 = "Q3-25", k = "10K-25", q3b = "Q3-26";
+        object[] revenue =
+        [
+            F("2025-01-01", "2025-03-31", 9_822m, "10-Q", "2025-04-29", q1), F("2025-04-01", "2025-06-30", 10_352m, "10-Q", "2025-07-24", q2),
+            F("2025-07-01", "2025-09-30", 10_408m, "10-Q", "2025-10-23", q3),
+            // The 10-K restates the year and lists its quarters on the new basis…
+            F("2025-01-01", "2025-12-31", 37_442m, "10-K", "2026-02-17", k), F("2025-01-01", "2025-03-31", 8_925m, "10-K", "2026-02-17", k),
+            F("2025-04-01", "2025-06-30", 9_322m, "10-K", "2026-02-17", k), F("2025-07-01", "2025-09-30", 9_437m, "10-K", "2026-02-17", k),
+            F("2025-10-01", "2025-12-31", 9_758m, "10-K", "2026-02-17", k),
+            // …and a 2026 quarterly report restates Q3 again after a spin-off.
+            F("2025-07-01", "2025-09-30", 4_929m, "10-Q", "2026-10-22", q3b),
+        ];
+        object[] profit =
+        [
+            F("2025-01-01", "2025-03-31", 1_449m, "10-Q", "2025-04-29", q1), F("2025-04-01", "2025-06-30", 1_570m, "10-Q", "2025-07-24", q2),
+            F("2025-07-01", "2025-09-30", 1_825m, "10-Q", "2025-10-23", q3), F("2025-01-01", "2025-12-31", 4_729m, "10-K", "2026-02-17", k),
+            F("2025-01-01", "2025-03-31", 1_449m, "10-K", "2026-02-17", k), F("2025-04-01", "2025-06-30", 1_570m, "10-K", "2026-02-17", k),
+            F("2025-07-01", "2025-09-30", 1_825m, "10-K", "2026-02-17", k), F("2025-10-01", "2025-12-31", -115m, "10-K", "2026-02-17", k),
+            F("2025-07-01", "2025-09-30", 1_825m, "10-Q", "2026-10-22", q3b),
+        ];
+        var result = ExtractConcepts(new() { ["RevenueFromContractWithCustomerExcludingAssessedTax"] = revenue, ["NetIncomeLoss"] = profit });
+        var quarters = result.Periods.Where(p => p is { PeriodType: PeriodType.Quarterly, FiscalYear: 2025 }).OrderBy(p => p.FiscalQuarter).Select(p => p.Revenue).ToList();
+        Assert.Equal([8_925m, 9_322m, 9_437m, 9_758m], quarters);
+    }
+
+    [Fact]
+    public void A_year_tagged_with_the_fourth_quarters_dates_is_the_year()   // L3Harris 2025
+    {
+        object[] revenue =
+        [
+            F("2024-01-01", "2024-12-31", 21_325m, "10-K", "2025-02-14", "K24"),
+            F("2025-01-01", "2025-03-28", 5_132m, "10-Q", "2025-04-24", "Q1"), F("2025-03-29", "2025-06-27", 5_426m, "10-Q", "2025-07-24", "Q2"),
+            F("2025-06-28", "2025-10-03", 5_659m, "10-Q", "2025-10-30", "Q3"),
+            F("2025-10-04", "2026-01-02", 21_865m, "10-K", "2026-02-12", "K25"),
+        ];
+        object[] profit =
+        [
+            F("2024-01-01", "2024-12-31", 1_502m, "10-K", "2025-02-14", "K24"),
+            F("2025-01-01", "2025-03-28", 386m, "10-Q", "2025-04-24", "Q1"), F("2025-03-29", "2025-06-27", 458m, "10-Q", "2025-07-24", "Q2"),
+            F("2025-06-28", "2025-10-03", 462m, "10-Q", "2025-10-30", "Q3"),
+            F("2025-01-01", "2026-01-02", 1_606m, "10-K", "2026-02-12", "K25"),
+        ];
+        var result = ExtractConcepts(new() { ["RevenueFromContractWithCustomerExcludingAssessedTax"] = revenue, ["NetIncomeLoss"] = profit });
+        Assert.Equal(21_865m, result.Periods.Single(p => p is { PeriodType: PeriodType.Annual, FiscalYear: 2025 }).Revenue);
+        Assert.Equal(21_865m - 5_132m - 5_426m - 5_659m, result.Periods.Single(p => p is { PeriodType: PeriodType.Quarterly, FiscalYear: 2025, FiscalQuarter: 4 }).Revenue);
+    }
+
+    [Fact]
+    public void A_bank_tagging_interest_income_operating_gets_its_net_revenue()   // First Horizon 2020
+    {
+        object[] Year(decimal v) => [F("2020-01-01", "2020-12-31", v, "10-K", "2021-02-25", "K20")];
+        var result = ExtractConcepts(new()
+        {
+            ["InterestIncomeOperating"] = Year(1_898m), ["NoninterestIncome"] = Year(1_492m), ["InterestIncomeExpenseNet"] = Year(1_662m),
+            ["NetIncomeLoss"] = Year(845m),
+        });
+        Assert.Equal(1_662m + 1_492m, result.Periods.Single(p => p.PeriodType == PeriodType.Annual).Revenue);
+    }
+
+    [Fact]
+    public void A_utilitys_total_operating_revenues_count()   // Duke 2017
+    {
+        object[] Year(decimal v) => [F("2017-01-01", "2017-12-31", v, "10-K", "2018-02-21", "K17")];
+        var result = ExtractConcepts(new() { ["RegulatedAndUnregulatedOperatingRevenue"] = Year(23_565m), ["NetIncomeLoss"] = Year(3_059m) });
+        Assert.Equal(23_565m, result.Periods.Single(p => p.PeriodType == PeriodType.Annual).Revenue);
+    }
+
     [Theory]
     [InlineData("2026-01-31", 2025, 4)]   // a retailer's Q4
     [InlineData("2025-02-01", 2024, 4)]

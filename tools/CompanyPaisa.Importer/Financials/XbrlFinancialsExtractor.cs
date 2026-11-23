@@ -32,7 +32,9 @@ public sealed partial class XbrlFinancialsExtractor : IFinancialsExtractor
     [
         "Revenues", "RevenueFromContractWithCustomerExcludingAssessedTax", "RevenueFromContractWithCustomerIncludingAssessedTax",
         "SalesRevenueNet", "SalesRevenueGoodsNet", "SalesRevenueServicesNet", "RevenuesNetOfInterestExpense",
-        "RealEstateRevenueNet", "OperatingLeasesIncomeStatementLeaseRevenue", "RevenueMineralSales", "ElectricUtilityRevenue"
+        "RealEstateRevenueNet", "OperatingLeasesIncomeStatementLeaseRevenue", "RevenueMineralSales", "ElectricUtilityRevenue",
+        "RegulatedAndUnregulatedOperatingRevenue",   // a utility's total operating revenues (Duke 2017)
+        "RevenuesExcludingInterestAndDividends"      // an asset manager's total revenues (WisdomTree 2019–20)
     ];
     private static readonly string[] NetIncomeConcepts =
     [
@@ -79,7 +81,7 @@ public sealed partial class XbrlFinancialsExtractor : IFinancialsExtractor
         const string BankRevenue = "InterestAndDividendIncomeOperating + NoninterestIncome";
         var netOfInterestFrames = Facts(gaap, "RevenuesNetOfInterestExpense", currency).Select(f => f.Frame).OfType<string>().ToHashSet();
         var candidates = revenueConcepts.Select(c => (c, (IEnumerable<Fact>)Facts(gaap, c, currency)))
-            .Append((BankRevenue, SumByFrame(Facts(gaap, "InterestAndDividendIncomeOperating", currency), Facts(gaap, "NoninterestIncome", currency))
+            .Append((BankRevenue, SumByFrame(InterestIncome(gaap, currency), Facts(gaap, "NoninterestIncome", currency))
                 .Values.Where(f => !netOfInterestFrames.Contains(f.Frame!))));
         var chosen = LargestByFrame(WithoutThresholds(candidates));
         UseLeaseIncome(gaap, currency, chosen);
@@ -91,6 +93,7 @@ public sealed partial class XbrlFinancialsExtractor : IFinancialsExtractor
         var revenue = chosen.ToDictionary(kv => kv.Key, kv => kv.Value.Fact);
         if (revenueConcept == BankRevenue) notes.Add("Revenue = interest & dividend income + non-interest income (bank).");
         if (revenue.Count == 0) return new FinancialsResult([], null, ["No revenue facts in XBRL."]);
+        if (YearDatedAsQuarter(revenue, netIncome) is { } misdated) notes.Add($"Year's revenue tagged with the fourth quarter's dates: {misdated}.");
 
         // ---- annual: frames "CY2023" (≈12-month duration) ----
         var annual = revenue.Where(kv => AnnualFrame().IsMatch(kv.Key))
@@ -154,17 +157,31 @@ public sealed partial class XbrlFinancialsExtractor : IFinancialsExtractor
 
         // A year restated later (a business sold, an accounting change) no longer matches the quarters as first reported.
         // Keep the restated year and drop those quarters, so a chart never mixes the two bases.
+        // Before that, look for one consistent set among every version of the year's quarters (as first reported, as the
+        // annual report lists them, as later reports restate them): Honeywell's 2025 quarters were restated in its 10-K and
+        // Q3 again after the 2026 spin-off, so the newest version of each mixed bases; the 10-K's four add up to the year.
         var restated = 0;
+        var consistent = 0;
+        var yearEnds = revenue.Where(kv => AnnualFrame().IsMatch(kv.Key)).Select(kv => kv.Value.End).Distinct().Order().ToList();
         foreach (var (frame, a) in revenue.Where(kv => AnnualFrame().IsMatch(kv.Key)))
         {
             if (a.Start is null) continue;
             var inYear = QuartersOfYear(a.End).ToList();
-            if (inYear.Count != 4 || !inYear.All(quarters.ContainsKey)) continue;
-            var sum = inYear.Sum(q => quarters[q].Rev);
-            if (Math.Abs(sum - a.Value) <= 0.02m * Math.Abs(a.Value)) continue;
+            var have = inYear.Count(quarters.ContainsKey);
+            if (inYear.Count != 4 || have < 3) continue;
+            if (have == 4 && Math.Abs(inYear.Sum(q => quarters[q].Rev) - a.Value) <= 0.02m * Math.Abs(a.Value)) continue;
+            if (have == 3) continue;   // a fourth quarter that couldn't be derived: nothing was mixed
+            var yearConcept = chosen.TryGetValue(frame, out var c) ? c.Concept : revenueConcept;
+            if (yearConcept is not null && ConsistentQuarters(gaap, currency, yearConcept, netIncomeConcepts, a, netIncome.GetValueOrDefault(frame), inYear, yearEnds) is { } set)
+            {
+                foreach (var (q, v) in set) quarters[q] = v;
+                consistent++;
+                continue;
+            }
             foreach (var q in inYear) quarters.Remove(q);
             restated++;
         }
+        if (consistent > 0) notes.Add($"{consistent} restated year(s) shown with a consistent set of quarters that adds up to the year.");
         if (restated > 0) notes.Add($"{restated} year(s) restated after their quarters were reported; those quarters left out.");
 
         var latestYear = annual.Count > 0 ? annual[^1].FiscalYear : DateTime.UtcNow.Year;
@@ -246,6 +263,93 @@ public sealed partial class XbrlFinancialsExtractor : IFinancialsExtractor
         return null;
     }
 
+    /// <summary>
+    /// The year's four quarters from one consistent set of versions: each quarter's revenue as some report states it, the
+    /// four adding up to the year within 0.5% (one may be missing and is then the year less the other three). The newest
+    /// versions win among sets that fit. Profit is the same report's figure for that quarter. Null when no set fits.
+    /// </summary>
+    private static Dictionary<(int Y, int Q), (decimal Rev, decimal Ni, string Acc)>? ConsistentQuarters(JsonElement gaap, string currency,
+        string concept, IEnumerable<string> netIncomeConcepts, Fact year, Fact? yearProfit, List<(int Y, int Q)> inYear, IReadOnlyList<DateOnly> yearEnds)
+    {
+        if (yearProfit is null || year.Value <= 0) return null;
+        var labels = inYear.ToHashSet();
+        (int Y, int Q)? Label(Fact f) =>
+            PeriodKey(f, yearEnds) is { } k && QuarterFrame().Match(k) is { Success: true } m
+                ? (int.Parse(m.Groups[1].Value, CultureInfo.InvariantCulture), int.Parse(m.Groups[2].Value, CultureInfo.InvariantCulture)) : null;
+        // Every version of each quarter: distinct values, the newest filing of each.
+        var versions = new Dictionary<(int Y, int Q), List<Fact>>();
+        foreach (var f in Facts(gaap, concept, currency))
+        {
+            if (f.Start is not { } s || s < year.Start!.Value.AddDays(-7) || f.End > year.End || f.End.DayNumber - s.DayNumber is < 60 or > 125) continue;
+            if (Label(f) is not { } q || !labels.Contains(q)) continue;
+            if (!versions.TryGetValue(q, out var list)) versions[q] = list = [];
+            list.Add(f);
+        }
+        foreach (var q in versions.Keys.ToList())
+            versions[q] = versions[q].GroupBy(f => f.Value).Select(g => g.MaxBy(f => f.Filed, StringComparer.Ordinal)!)
+                .OrderByDescending(f => f.Filed, StringComparer.Ordinal).Take(4).ToList();
+        if (versions.Count < 3) return null;
+
+        var profit = netIncomeConcepts.SelectMany(c => Facts(gaap, c, currency)).ToList();
+        decimal? ProfitOf(Fact rev) => profit.FirstOrDefault(p => p.Accession == rev.Accession && p.Start == rev.Start && p.End == rev.End)?.Value;
+
+        var known = inYear.Where(versions.ContainsKey).ToList();
+        var missing = inYear.Where(q => !versions.ContainsKey(q)).ToList();
+        List<Fact>? best = null;
+        string bestRank = "";
+        void Search(int i, List<Fact> picked)
+        {
+            if (i == known.Count)
+            {
+                var sum = picked.Sum(f => f.Value);
+                if (missing.Count == 0 ? Math.Abs(sum - year.Value) > 0.005m * year.Value : !Plausible(year.Value - sum, picked)) return;
+                if (picked.Any(f => ProfitOf(f) is null)) return;
+                // The newest set: compare the filing dates, newest first.
+                var rank = string.Join("|", picked.Select(f => f.Filed).OrderDescending(StringComparer.Ordinal));
+                if (best is null || string.CompareOrdinal(rank, bestRank) > 0) { best = [.. picked]; bestRank = rank; }
+                return;
+            }
+            foreach (var f in versions[known[i]]) { picked.Add(f); Search(i + 1, picked); picked.RemoveAt(picked.Count - 1); }
+        }
+        static bool Plausible(decimal rest, List<Fact> others)
+        {
+            var usual = others.Average(o => o.Value);
+            return rest >= 0 && usual > 0 && rest >= usual / 3 && rest <= usual * 3;
+        }
+        Search(0, []);
+        if (best is null) return null;
+
+        var set = new Dictionary<(int Y, int Q), (decimal Rev, decimal Ni, string Acc)>();
+        for (var i = 0; i < known.Count; i++) set[known[i]] = (best[i].Value, ProfitOf(best[i])!.Value, best[i].Accession);
+        if (missing.Count == 1)
+            set[missing[0]] = (year.Value - best.Sum(f => f.Value), yearProfit.Value - set.Values.Sum(v => v.Ni), year.Accession);
+        return set;
+    }
+
+    /// <summary>
+    /// A 10-K that tags the year's revenue with the fourth quarter's dates (L3Harris 2025: $21.9bn "from 4 October 2025 to
+    /// 2 January 2026"): the year has a profit but no revenue, and that "quarter" comes from the same filing, ends on the
+    /// year's last day and is several times the year's other quarters. It is the year's revenue. Returns the year fixed.
+    /// </summary>
+    private static int? YearDatedAsQuarter(Dictionary<string, Fact> revenue, Dictionary<string, Fact> netIncome)
+    {
+        int? fixedYear = null;
+        foreach (var (frame, profit) in netIncome.Where(kv => AnnualFrame().IsMatch(kv.Key)).ToList())
+        {
+            if (revenue.ContainsKey(frame) || profit.Start is null) continue;
+            var q4 = revenue.FirstOrDefault(kv => QuarterFrame().IsMatch(kv.Key) && kv.Value.Accession == profit.Accession && kv.Value.End == profit.End);
+            if (q4.Key is null) continue;
+            var others = QuartersOfYear(profit.End).Select(q => $"CY{q.Y}Q{q.Q}").Where(f => f != q4.Key && revenue.ContainsKey(f)).Select(f => revenue[f].Value).ToList();
+            // The size of a year: three to five of the year's other quarters, all of them positive (a fund's gains and
+            // losses swing too much to tell).
+            if (others.Count < 2 || others.Any(v => v <= 0) || q4.Value.Value < 3 * others.Average() || q4.Value.Value > 5 * others.Average()) continue;
+            revenue[frame] = q4.Value with { Start = profit.Start, Frame = frame };
+            revenue.Remove(q4.Key);
+            fixedYear = FiscalYearLabel(profit.End);
+        }
+        return fixedYear;
+    }
+
     private static (Dictionary<string, Fact> ByFrame, string? Concept) MergeByFrame(JsonElement gaap, IEnumerable<string> concepts, string currency)
     {
         var result = new Dictionary<string, Fact>();
@@ -303,7 +407,7 @@ public sealed partial class XbrlFinancialsExtractor : IFinancialsExtractor
         Dictionary<string, Fact> ByFrame(string concept) =>
             Facts(gaap, concept, currency).Where(f => f.Frame is not null).GroupBy(f => f.Frame!).ToDictionary(g => g.Key, g => g.First());
 
-        var interest = ByFrame("InterestAndDividendIncomeOperating");
+        var interest = InterestIncome(gaap, currency).Where(f => f.Frame is not null).GroupBy(f => f.Frame!).ToDictionary(g => g.Key, g => g.First());
         var other = ByFrame("NoninterestIncome");
         var net = ByFrame("InterestIncomeExpenseNet");
         var expense = ByFrame("InterestExpenseOperating");
@@ -332,6 +436,17 @@ public sealed partial class XbrlFinancialsExtractor : IFinancialsExtractor
     }
 
     private const string NetBankRevenue = "InterestIncomeExpenseNet + NoninterestIncome";
+
+    /// <summary>
+    /// A bank's gross interest income: "InterestAndDividendIncomeOperating", or "InterestIncomeOperating" for periods it
+    /// doesn't tag (First Horizon 2020).
+    /// </summary>
+    private static IEnumerable<Fact> InterestIncome(JsonElement gaap, string currency)
+    {
+        var main = Facts(gaap, "InterestAndDividendIncomeOperating", currency).ToList();
+        var covered = main.Select(f => f.Frame).OfType<string>().ToHashSet();
+        return main.Concat(Facts(gaap, "InterestIncomeOperating", currency).Where(f => f.Frame is null || !covered.Contains(f.Frame)));
+    }
     internal const string CorrectedNote = "Revenue taken from the annual report's income statement";
 
     /// <summary>

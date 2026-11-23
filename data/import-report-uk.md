@@ -1,16 +1,16 @@
-# UK import report — 2026-11-23 04:57 UTC
+# UK import report — 2026-11-23 06:29 UTC
 
 Scope: UK companies on the London Stock Exchange Main Market that file ESEF annual reports (FTSE 350 plus the rest; tickers via GLEIF ISINs and OpenFIGI), minus investment trusts and funds. Sources: ESEF annual reports (filings.xbrl.org), GLEIF headquarters addresses, GeoNames postcode districts.
 
-- Companies included: **337**
-- Years of figures: 1739
-- Directors' pay rows: 554 for 257 directors (102 add up exactly), from 975 annual reports
+- Companies included: **336**
+- Years of figures: 1748
+- Directors' pay rows: 554 for 257 directors (102 add up exactly), from 972 annual reports
 - Postcode districts written: 3002
 - Network requests this run: 0
 
 | Area | Companies |
 |---|---|
-| London | 191 |
+| London | 190 |
 | Rest of UK | 86 |
 | Manchester | 15 |
 | Birmingham | 13 |
@@ -22,7 +22,7 @@ Scope: UK companies on the London Stock Exchange Main Market that file ESEF annu
 | Cambridge | 3 |
 | Oxford | 3 |
 
-## Included — London (191)
+## Included — London (190)
 
 | Ticker | Company | City | Sector | Latest revenue | Years | Directors | Pay years |
 |---|---|---|---|---|---|---|---|
@@ -75,7 +75,7 @@ Scope: UK companies on the London Stock Exchange Main Market that file ESEF annu
 | CMRS.L | Critical Mineral Resources Plc | London | Other | £14K | 2023–2025 | 0 | — |
 | CNA.L | Centrica | Windsor | Other | £19.49B | 2020–2025 | 0 | — |
 | COA.L | Coats Group | London | Consumer & retail | $1.46B | 2020–2025 | 4 | 2022–2025 |
-| COIL.L | Roquefort Therapeutics PLC | London | Other | £200K | 2023–2023 | 0 | — |
+| COIL.L | Roquefort Therapeutics PLC | London | Other | £0K | 2022–2024 | 0 | — |
 | COST.L | Costain Group | London | Industrials | £1.05B | 2020–2025 | 0 | — |
 | CPG.L | Compass Group | Chertsey | Other | $46.07B | 2023–2025 | 0 | — |
 | CPI.L | Capita plc | London | Other | £2.31B | 2021–2025 | 0 | — |
@@ -105,7 +105,6 @@ Scope: UK companies on the London Stock Exchange Main Market that file ESEF annu
 | GYM.L | The Gym Group plc | London | Other | £244.9M | 2021–2025 | 0 | — |
 | HAS.L | Hays | London | Business services | £6.42B | 2021–2026 | 0 | — |
 | HBR.L | Harbour Energy | London | Energy & utilities | $10.09B | 2020–2025 | 0 | — |
-| HEMO.L | Hemogenyx Pharmaceuticals plc | London | Other | £140.2M | 2021–2022 | 0 | — |
 | HIK.L | Hikma Pharmaceuticals | London | Healthcare | $3.35B | 2020–2025 | 0 | — |
 | HLCL.L | Helical plc | London | Other | £33.3M | 2021–2026 | 0 | — |
 | HLMA.L | Halma plc | Amersham | Other | £2.58B | 2022–2026 | 0 | — |
@@ -117,7 +116,7 @@ Scope: UK companies on the London Stock Exchange Main Market that file ESEF annu
 | HTWS.L | Helios Towers | London | Media & telecom | $854.1M | 2021–2025 | 0 | — |
 | HWDN.L | Howdens Joinery | London | Other | £2.42B | 2021–2025 | 0 | — |
 | ICG.L | ICG | London | Other | £1.04B | 2021–2026 | 4 | 2023–2024 |
-| ICON.L | Iconic Labs plc | London | Other | £27K | 2020–2022 | 0 | — |
+| ICON.L | Iconic Labs plc | London | Other | £0K | 2020–2026 | 0 | — |
 | IHP.L | IntegraFin Holdings | London | Finance | £144.9M | 2021–2024 | 0 | — |
 | III.L | 3i | London | Other | £5.50B | 2021–2026 | 0 | — |
 | INCH.L | Inchcape | London | Consumer & retail | £9.10B | 2020–2025 | 0 | — |
@@ -129,7 +128,7 @@ Scope: UK companies on the London Stock Exchange Main Market that file ESEF annu
 | JDW.L | Wetherspoons | Watford | Consumer & retail | £2.13B | 2021–2025 | 0 | — |
 | JMAT.L | Johnson Matthey | London | Materials | £12.57B | 2021–2026 | 0 | — |
 | JUP.L | Jupiter Fund Management | London | Finance | £465.7M | 2020–2025 | 2 | 2023–2024 |
-| KAV.L | Kavango Resources plc | London | Other | $1.7M | 2024–2025 | 0 | — |
+| KAV.L | Kavango Resources plc | London | Other | $1.7M | 2023–2025 | 0 | — |
 | KGF.L | Kingfisher plc | London | Other | £12.95B | 2021–2026 | 3 | 2024–2026 |
 | KLR.L | Keller Group | London | Materials | £3.09B | 2020–2025 | 2 | 2022–2023 |
 | KNOS.L | Kainos | London | Software & IT | £431.1M | 2021–2026 | 0 | — |
@@ -167,7 +166,7 @@ Scope: UK companies on the London Stock Exchange Main Market that file ESEF annu
 | PHLL.L | Petershill Partners plc | London | Other | $322.8M | 2022–2024 | 0 | — |
 | PODP.L | Pod Point Group Holdings plc | London | Other | £52.9M | 2021–2024 | 0 | — |
 | POLN.L | Pollen Street Group | London | Finance | £103.2M | 2021–2023 | 0 | — |
-| PPP.L | Pennpetro Energy plc | London | Other | $30K | 2024–2025 | 0 | — |
+| PPP.L | Pennpetro Energy plc | London | Other | $30K | 2021–2025 | 0 | — |
 | PRU.L | Prudential plc | London | Other | $11.08B | 2022–2025 | 0 | — |
 | PSON.L | Pearson plc | London | Other | £3.58B | 2020–2025 | 0 | — |
 | QDE.L | Quantum Data Energy plc | London | Other | £1.6M | 2024–2025 | 0 | — |
@@ -197,7 +196,7 @@ Scope: UK companies on the London Stock Exchange Main Market that file ESEF annu
 | SSPG.L | SSP Group | London | Consumer & retail | £3.64B | 2021–2025 | 0 | — |
 | STAN.L | Standard Chartered | London | Other | $24.55B | 2020–2025 | 2 | 2024–2025 |
 | STEM.L | Sthree plc | London | Other | £1.30B | 2020–2025 | 0 | — |
-| SVNS.L | Solvonis Therapeutics plc | London | Other | £587K | 2022–2023 | 0 | — |
+| SVNS.L | Solvonis Therapeutics plc | London | Other | £0K | 2022–2025 | 0 | — |
 | SVS.L | Savills | London | Real estate | £2.55B | 2019–2025 | 2 | 2022–2023 |
 | SYME.L | Supply@Me Capital plc | London | Other | £129K | 2022–2024 | 0 | — |
 | SYNT.L | Synthomer plc | London | Other | £1.74B | 2020–2025 | 2 | 2021–2024 |
@@ -414,7 +413,7 @@ Scope: UK companies on the London Stock Exchange Main Market that file ESEF annu
 | OXB.L | Oxford Biomedica | Oxford | Healthcare | £168.7M | 2021–2025 | 3 | 2022–2024 |
 | RM.L | Rm plc | Abingdon | Other | £162.1M | 2021–2025 | 0 | — |
 
-## Excluded (207)
+## Excluded (208)
 
 - 0QKU Royal Bank of Canada: headquartered outside the UK (Toronto, CA)
 - 1SNA First Tin plc: no revenue in its tagged reports
@@ -508,6 +507,7 @@ Scope: UK companies on the London Stock Exchange Main Market that file ESEF annu
 - GST Gstechnologies Ltd: headquartered outside the UK (PERTH, AU)
 - GVMH Grand Vision Media Holdings plc: headquartered outside the UK (KOWLOON, HK)
 - HANA Hansa Investment Company: Investment Trusts (investment trust / fund)
+- HEMO Hemogenyx Pharmaceuticals plc: no revenue in its tagged reports
 - HFEL Henderson Far East Income: Investment Trusts (investment trust / fund)
 - HGT Hg Capital Trust: Investment Trusts (investment trust / fund)
 - HICL HICL Infrastructure Company: Investment Trusts (investment trust / fund)
@@ -1342,9 +1342,7 @@ Scope: UK companies on the London Stock Exchange Main Market that file ESEF annu
 - HTWS: report 12/31/2024: no single total figure table recognised
 - HTWS: report 12/31/2023: skipped 1 row(s) with implausible totals
 - HTWS: report 12/31/2023: ignored 1 row(s) that weren't an executive director's pay
-- HEMO: report 12/31/2024: no single total figure table recognised
-- HEMO: report 12/31/2023: no single total figure table recognised
-- HEMO: report 12/31/2022: no single total figure table recognised
+- HEMO: report for 9/30/2022 is another company's (LEI 213800G4OJM9F7G9LG39); left out
 - BOOT: report 12/31/2025: ignored 1 row(s) that weren't an executive director's pay
 - BOOT: report 12/31/2024: ignored 1 row(s) that weren't an executive director's pay
 - BOOT: report 12/31/2023: ignored 1 row(s) that weren't an executive director's pay
