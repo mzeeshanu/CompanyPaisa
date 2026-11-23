@@ -44,6 +44,37 @@ public class PakistanReportTests
     }
 
     [Fact]
+    public void A_kind_printed_on_its_own_line_above_the_heading_counts()   // BPL 2026
+    {
+        var report = Read("""
+            UNCONSOLIDATED
+            STATEMENT OF
+            PROFIT OR LOSS
+            FOR THE YEAR ENDED JUNE 30, 2026
+            2026  2025
+            Note  --------- (Rupees in '000) ---------
+            Sales - net  33  2,841,468  1,658,578
+            Cost of sales  34  (2,543,224)  (1,597,319)
+            Profit before income tax  179,703  29,522
+            Profit for the year after taxation  179,703  29,522
+            The annexed notes from 1 to 56 form an integral part of these financial statements.
+            CONSOLIDATED
+            STATEMENT OF
+            PROFIT OR LOSS
+            FOR THE YEAR ENDED JUNE 30, 2026
+            2026  2025
+            Note  ------------ (Rupees in '000) -----------
+            Sales - net  30  2,841,468  1,658,578
+            Cost of sales  31  (2,543,224)  (1,597,319)
+            Profit before income tax  179,507  29,628
+            Profit for the year after taxation  179,507  29,628
+            """);
+        Assert.Equal(2, report.Statements.Count);
+        Assert.True(report.Main!.Consolidated);
+        Assert.Equal(179_507_000m, report.Main.NetIncome);
+    }
+
+    [Fact]
     public void A_year_printed_twice_over_its_column_is_one_column()   // PPL 2026
     {
         var report = Read("""

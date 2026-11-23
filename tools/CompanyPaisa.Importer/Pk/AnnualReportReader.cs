@@ -79,7 +79,10 @@ public static partial class AnnualReportReader
         {
             var m = StatementHeading().Match(text);
             if (!m.Success) continue;
-            consolidated = m.Groups["kind"].Value.Equals("consolidated", StringComparison.OrdinalIgnoreCase);
+            var kind = m.Groups["kind"].Value;
+            // "CONSOLIDATED" / "STATEMENT OF" / "PROFIT OR LOSS" (BPL): the kind on its own line above the heading.
+            if (kind.Length == 0 && i > 0 && HeadingKind().Match(Clean(lines[i - 1])) is { Success: true } above) kind = above.Groups["kind"].Value;
+            consolidated = kind.Equals("consolidated", StringComparison.OrdinalIgnoreCase);
             used = n;
             return true;
         }
@@ -466,6 +469,8 @@ public static partial class AnnualReportReader
 
     [GeneratedRegex(@"^(?<kind>unconsolidated|consolidated|standalone|separate)?\s*(statement\s+of\s+pro\S{1,2}t\s+(or|and)\s+loss(\s+account)?(\s+and\s+other\s+comprehensive\s+income)?|pro\S{1,2}t\s+(and|or)\s+loss\s+account|income\s+statement)$", RegexOptions.IgnoreCase)]
     private static partial Regex StatementHeading();
+    [GeneratedRegex(@"^(?<kind>unconsolidated|consolidated|standalone|separate)$", RegexOptions.IgnoreCase)]
+    private static partial Regex HeadingKind();
     [GeneratedRegex(@"^(note\s+)?(\d{1,3}(\.\d{1,2})*\.?\s+)?remuneration\s+of\s+(the\s+)?((chairman|chairperson|directors?)[,\s]+(and\s+)?)*(chief\s+executives?|managing\s+director)", RegexOptions.IgnoreCase)]
     private static partial Regex RemunerationHeading();
     [GeneratedRegex(@"annexed notes|^statement of comprehensive|comprehensive income$|^(chief )?financial officer|^chairman", RegexOptions.IgnoreCase)]
