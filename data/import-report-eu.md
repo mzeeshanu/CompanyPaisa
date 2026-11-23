@@ -1,11 +1,11 @@
-# European import report — 2026-11-22 23:48 UTC
+# European import report — 2026-11-23 04:59 UTC
 
 Scope: France, Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belgium, Austria, Luxembourg, Lithuania, Slovenia — companies with shares on the home exchange that file ESEF annual reports. Financials only (no executives). Sources: filings.xbrl.org, GLEIF, OpenFIGI, GeoNames.
 
 - Companies included: **1278**
-- Years of figures: 6728
+- Years of figures: 6730
 - Postcodes written: 79695
-- Network requests this run: 0
+- Network requests this run: 9
 
 | Country | Area | Companies |
 |---|---|---|
@@ -990,7 +990,7 @@ Scope: France, Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belg
 | CTH1V.HE | Componenta Oyj | Vantaa | €97.1M | 2019–2024 |
 | CTY1S.HE | Citycon Oyj | Espoo | €223.1M | 2020–2025 |
 | DIGIA.HE | Digia Oyj | Helsinki | €217.0M | 2019–2025 |
-| DIGIGR.HE | Digitalist Group Oyj | Helsinki | €16.2M | 2022–2024 |
+| DIGIGR.HE | Digitalist Group Oyj | Helsinki | €16.5M | 2022–2025 |
 | DOV1V.HE | Dovre Group Oyj | Espoo | €91.9M | 2020–2025 |
 | EEZY.HE | Eezy Oyj | Helsinki | €139.3M | 2020–2025 |
 | ELISA.HE | Elisa Oyj | Helsinki | €2.26B | 2019–2025 |
@@ -1503,7 +1503,12 @@ Scope: France, Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belg
 - CLASB.ST: report data for 4/30/2023 is not valid JSON
 - EMBRACB.ST: report data for 3/31/2026 is not valid JSON
 - FABG.ST: report data for 12/31/2022 is not valid JSON
+- INVEB.ST: 6 figure(s) in the 12/31/2025 report read from its HTML (the JSON conversion failed on them)
+- INVEB.ST: 107 figure(s) in the 12/31/2024 report read from its HTML (the JSON conversion failed on them)
+- INVEB.ST: 204 figure(s) in the 12/31/2023 report read from its HTML (the JSON conversion failed on them)
 - JM.ST: report data for 12/31/2023 is not valid JSON
+- MCOVB.ST: 4 figure(s) in the 12/31/2024 report read from its HTML (the JSON conversion failed on them)
+- MCOVB.ST: 8 figure(s) in the 12/31/2023 report read from its HTML (the JSON conversion failed on them)
 - MSABB.ST: report data for 12/31/2024 is not valid JSON
 - TRANS.ST: report data for 12/31/2021 is not valid JSON
 - BAVA.CO: report data for 12/31/2021 is not valid JSON
@@ -1531,6 +1536,7 @@ Scope: France, Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belg
 - ZEAL.CO: report data for 12/31/2021 is not valid JSON
 - ATRAV.HE: report data for 12/31/2020 is not valid JSON
 - BOREO.HE: report data for 12/31/2021 is not valid JSON
+- DIGIGR.HE: 81 figure(s) in the 12/31/2025 report read from its HTML (the JSON conversion failed on them)
 - DIGIGR.HE: report 12/31/2021: revenue and profit both over 300x away from the neighbouring year, and no other report states the year; left out
 - EXEL.HE: report data for 12/31/2020 is not valid JSON
 - KEMIRA.HE: report data for 12/31/2020 is not valid JSON

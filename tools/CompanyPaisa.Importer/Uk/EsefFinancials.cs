@@ -167,6 +167,14 @@ public static partial class EsefFinancials
         {
             var json = await client.GetStringAsync(filing.JsonUrl, Sec.CachePolicy.Immutable, ct);
             if (json is null) { warnings.Add($"{label}: report data for {filing.PeriodEnd} could not be downloaded"); continue; }
+            // Figures the JSON conversion couldn't read are taken from the report's own HTML.
+            if (IxbrlRepair.NeedsRepair(json) && filing.ReportUrl.Length > 0 &&
+                await client.GetStringAsync(filing.ReportUrl, Sec.CachePolicy.Immutable, ct) is { } html)
+            {
+                var (fixedJson, repaired) = IxbrlRepair.Repair(json, html);
+                if (repaired > 0) warnings.Add($"{label}: {repaired} figure(s) in the {filing.PeriodEnd} report read from its HTML (the JSON conversion failed on them)");
+                json = fixedJson;
+            }
             try
             {
                 var found = Extract(json, filing.PeriodEnd);

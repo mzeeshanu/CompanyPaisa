@@ -1,6 +1,6 @@
-# Data validation report — 2026-11-23 01:55 UTC
+# Data validation report — 2026-11-23 05:00 UTC
 
-Checks everything in `companypaisa.db` together, as the website sees it — markets: pk (pk-2026.09.19), anz (anz-2026.11.22), sec (sec-2026.11.22), uk (uk-2026.11.22), eu (eu-2026.11.22).
+Checks everything in `companypaisa.db` together, as the website sees it — markets: pk (pk-2026.09.19), anz (anz-2026.11.22), sec (sec-2026.11.22), uk (uk-2026.11.23), eu (eu-2026.11.23).
 
 **Errors** are values that can't be right. **Warnings** are unusual values worth a look — many are real (big acquisitions, holding-company gains, mega stock grants). Nothing here changes the data.
 
@@ -154,8 +154,8 @@ Checks everything in `companypaisa.db` together, as the website sees it — mark
 | | Count |
 |---|---|
 | 10+ | 2,459 |
-| 6–9 | 1,734 |
-| 3–5 | 1,260 |
+| 6–9 | 1,735 |
+| 3–5 | 1,259 |
 | 1–2 | 343 |
 | 0 (quarters only) | 120 |
 
@@ -163,9 +163,9 @@ Checks everything in `companypaisa.db` together, as the website sees it — mark
 
 | | Count |
 |---|---|
-| FY 2025 | 4,777 |
+| FY 2025 | 4,778 |
 | FY 2026 | 702 |
-| FY 2024 | 268 |
+| FY 2024 | 267 |
 | none | 120 |
 | 2023 or older | 49 |
 
@@ -175,7 +175,7 @@ Checks everything in `companypaisa.db` together, as the website sees it — mark
 |---|---|
 | Companies | 5,916 |
 | Locations | 5,926 |
-| Annual periods | 41,929 |
+| Annual periods | 41,931 |
 | Quarterly periods | 135,847 |
 | Pay rows | 88,358 |
 | People | 23,126 |
