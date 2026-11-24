@@ -1,0 +1,791 @@
+area,check,level,company_id,finding
+Companies,No industry classification,warning,GUD.AX,GUD.AX (G.U.D. HOLDINGS LIMITED): ASX
+Companies,No industry classification,warning,NSX.AX,NSX.AX (National Stock Exchange Of Australia Limited): ASX
+Companies,No industry classification,warning,PNW.AX,PNW.AX (Pacific Star Network): ASX
+Companies,No industry classification,warning,QUB.AX,QUB.AX (Qube Holdings): ASX
+Companies,No industry classification,warning,SVW.AX,SVW.AX (Seven Group Holdings): ASX
+Companies,No industry classification,warning,AIR.NZ,AIR.NZ (Air New Zealand): NZX
+Companies,No industry classification,warning,BLT.NZ,BLT.NZ (Blis Technologies): NZX
+Companies,No industry classification,warning,FPH.NZ,FPH.NZ (Fisher & Paykel Healthcare): NZX
+Companies,No industry classification,warning,KPG.NZ,KPG.NZ (Kiwi Property): NZX
+Companies,No industry classification,warning,MFT.NZ,MFT.NZ (Mainfreight): NZX
+Companies,No industry classification,warning,NZK.NZ,NZK.NZ (NZ King Salmon Investments): NZX
+Companies,No industry classification,warning,PEB.NZ,PEB.NZ (Pacific Edge Limited): NZX
+Companies,No industry classification,warning,RYM.NZ,RYM.NZ (Ryman Healthcare): NZX
+Companies,No industry classification,warning,SML.NZ,SML.NZ (Synlait): NZX
+Companies,No industry classification,warning,SUM.NZ,SUM.NZ (Summerset Group): NZX
+Companies,No industry classification,warning,VGL.NZ,VGL.NZ (Vista Group International): NZX
+Companies,No industry classification,warning,AFCG,AFCG (Advanced Flower Capital Inc.): Nasdaq
+Companies,No industry classification,warning,TPVG,TPVG (TriplePoint Venture Growth BDC Corp.): NYSE
+Companies,No industry classification,warning,AWE.L,AWE.L (Alphawave IP Group plc): LSE
+Companies,No industry classification,warning,BISI.L,BISI.L (Bisichi plc): LSE
+Companies,No industry classification,warning,HEAD.L,HEAD.L (Headlam Group plc): LSE
+Companies,No industry classification,warning,INDV.L,INDV.L (Indivior plc): LSE
+Companies,No industry classification,warning,WG.L,WG.L (John Wood Group plc): LSE
+Companies,No industry classification,warning,PHLL.L,PHLL.L (Petershill Partners plc): LSE
+Companies,No industry classification,warning,PODP.L,PODP.L (Pod Point Group Holdings plc): LSE
+Companies,No industry classification,warning,WCW.L,WCW.L (Walker Crips Group plc): LSE
+Companies,No industry classification,warning,AYC.MC,"AYC.MC (Ayco Grupo Inmobiliario, S.A.): Bolsa de Madrid"
+Companies,No industry classification,warning,BAIN.MC,BAIN.MC (Borges Agricultural & Industrial Nuts SA): Bolsa de Madrid
+Companies,No industry classification,warning,ALB.MC,"ALB.MC (Corporacion Financiera Alba, S.A.): Bolsa de Madrid"
+Companies,No industry classification,warning,ECR.MC,ECR.MC (Ercros S.A.): Bolsa de Madrid
+Companies,No industry classification,warning,GCO.MC,"GCO.MC (Grupo Catalana Occidente, S.A.): Bolsa de Madrid"
+Companies,No industry classification,warning,LIW.MC,LIW.MC (Liwe Española S.A.): Bolsa de Madrid
+Companies,No industry classification,warning,MPD.MC,MPD.MC (Minerales Y Productos Derivados SA): Bolsa de Madrid
+Companies,No industry classification,warning,TRG.MC,TRG.MC (Tubos Reunidos S.A.): Bolsa de Madrid
+Companies,No industry classification,warning,URB.P.MC,"URB.P.MC (Urbar Ingenieros, S.A.): Bolsa de Madrid"
+Companies,No industry classification,warning,INFREA.ST,INFREA.ST (Infrea AB): Nasdaq Stockholm
+Companies,No industry classification,warning,NCCA.ST,NCCA.ST (Ncc Aktiebolag): Nasdaq Stockholm
+Companies,No industry classification,warning,WITH.HE,WITH.HE (WithSecure Oyj): Nasdaq Helsinki
+Companies,No industry classification,warning,SMAR.BR,SMAR.BR (Smartphoto group): Euronext Brussels
+Companies,No industry classification,warning,ADKO.VI,ADKO.VI (Addiko Bank AG): Wiener Börse
+Companies,No industry classification,warning,AGR.VI,AGR.VI (AGRANA Beteiligungs-Aktiengesellschaft): Wiener Börse
+Companies,No industry classification,warning,AMAG.VI,AMAG.VI (AMAG Austria Metall AG): Wiener Börse
+Companies,No industry classification,warning,ANDR.VI,ANDR.VI (Andritz AG): Wiener Börse
+Companies,No industry classification,warning,1AST.VI,1AST.VI (ASTA Energy Solutions AG): Wiener Börse
+Companies,No industry classification,warning,ATS.VI,ATS.VI (AT & S Austria Technologie & Systemtechnik Aktiengesellschaft): Wiener Börse
+Companies,No industry classification,warning,ACAG.VI,ACAG.VI (Austriacard Holdings AG): Wiener Börse
+Companies,No industry classification,warning,BG.VI,BG.VI (BAWAG Group AG): Wiener Börse
+Companies,No industry classification,warning,BKUS.VI,BKUS.VI (BKS Bank AG): Wiener Börse
+Companies,No industry classification,warning,CAI.VI,CAI.VI (CA Immobilien Anlagen Aktiengesellschaft): Wiener Börse
+Companies,No industry classification,warning,CLEN.VI,CLEN.VI (CLEEN Energy AG): Wiener Börse
+Companies,No industry classification,warning,CPI.VI,CPI.VI (CPI Europe AG): Wiener Börse
+Companies,No industry classification,warning,DOC.VI,DOC.VI (DO & CO Aktiengesellschaft): Wiener Börse
+Companies,No industry classification,warning,EBS.VI,EBS.VI (Erste Group Bank AG): Wiener Börse
+Companies,No industry classification,warning,ETS.VI,ETS.VI (EuroTeleSites AG): Wiener Börse
+Companies,No industry classification,warning,EVN.VI,EVN.VI (Evn AG): Wiener Börse
+Companies,No industry classification,warning,FAA.VI,FAA.VI (Fabasoft AG): Wiener Börse
+Companies,No industry classification,warning,FACC.VI,FACC.VI (Facc AG): Wiener Börse
+Companies,No industry classification,warning,FLU.VI,FLU.VI (Flughafen Wien Aktiengesellschaft): Wiener Börse
+Companies,No industry classification,warning,FKA.VI,FKA.VI (Frauenthal Holding AG): Wiener Börse
+Companies,No industry classification,warning,FQT.VI,FQT.VI (Frequentis AG): Wiener Börse
+Companies,No industry classification,warning,KTCG.VI,KTCG.VI (Kapsch TrafficCom AG): Wiener Börse
+Companies,No industry classification,warning,SANT.VI,SANT.VI (Kontron AG): Wiener Börse
+Companies,No industry classification,warning,LNZ.VI,LNZ.VI (Lenzing Aktiengesellschaft): Wiener Börse
+Companies,No industry classification,warning,LTH.VI,LTH.VI (Linz Textil Holding AG): Wiener Börse
+Companies,No industry classification,warning,MMK.VI,MMK.VI (Mayr-Melnhof Karton Aktiengesellschaft): Wiener Börse
+Companies,No industry classification,warning,OBS.VI,OBS.VI (Oberbank AG): Wiener Börse
+Companies,No industry classification,warning,OMV.VI,OMV.VI (Omv Aktiengesellschaft): Wiener Börse
+Companies,No industry classification,warning,POST.VI,POST.VI (Österreichische Post Aktiengesellschaft): Wiener Börse
+Companies,No industry classification,warning,PAL.VI,PAL.VI (Palfinger AG): Wiener Börse
+Companies,No industry classification,warning,BMAG.VI,BMAG.VI (PIERER Mobility AG): Wiener Börse
+Companies,No industry classification,warning,PYT.VI,PYT.VI (POLYTEC Holding AG): Wiener Börse
+Companies,No industry classification,warning,POS.VI,POS.VI (Porr AG): Wiener Börse
+Companies,No industry classification,warning,RAT.VI,RAT.VI (Rath Aktiengesellschaft): Wiener Börse
+Companies,No industry classification,warning,ROS.VI,ROS.VI (Rosenbauer International AG): Wiener Börse
+Companies,No industry classification,warning,SBO.VI,SBO.VI (Sbo AG): Wiener Börse
+Companies,No industry classification,warning,SEM.VI,SEM.VI (Semperit Aktiengesellschaft Holding): Wiener Börse
+Companies,No industry classification,warning,STR.VI,STR.VI (Strabag SE): Wiener Börse
+Companies,No industry classification,warning,SWUT.VI,SWUT.VI (SW Umwelttechnik Stoiser & Wolschner AG): Wiener Börse
+Companies,No industry classification,warning,TKA.VI,TKA.VI (Telekom Austria Aktiengesellschaft): Wiener Börse
+Companies,No industry classification,warning,UBS.VI,UBS.VI (UBM Development AG): Wiener Börse
+Companies,No industry classification,warning,UQA.VI,UQA.VI (UNIQA Insurance Group AG): Wiener Börse
+Companies,No industry classification,warning,VER.VI,VER.VI (Verbund AG): Wiener Börse
+Companies,No industry classification,warning,VIG.VI,VIG.VI (VIENNA INSURANCE GROUP AG Wiener Versicherung Gruppe): Wiener Börse
+Companies,No industry classification,warning,VOE.VI,VOE.VI (voestalpine AG): Wiener Börse
+Companies,No industry classification,warning,WXF.VI,WXF.VI (Warimpex Finanz- und Beteiligungs Aktiengesellschaft): Wiener Börse
+Companies,No industry classification,warning,WPB.VI,WPB.VI (Wiener Privatbank SE): Wiener Börse
+Companies,No industry classification,warning,WIE.VI,WIE.VI (Wienerberger AG): Wiener Börse
+Companies,No industry classification,warning,WOL.VI,WOL.VI (Wolford Aktiengesellschaft): Wiener Börse
+Companies,No industry classification,warning,ZAG.VI,ZAG.VI (Zumtobel Group AG): Wiener Börse
+Companies,No industry classification,warning,MT.LU,MT.LU (ArcelorMittal): Luxembourg Stock Exchange
+Companies,No industry classification,warning,ORCL.LU,ORCL.LU (Cpi Fim SA): Luxembourg Stock Exchange
+Companies,No industry classification,warning,ROE1L.VS,ROE1L.VS (AB Artea bankas): Nasdaq Vilnius
+Companies,No industry classification,warning,SKDR.LJ,"SKDR.LJ (KD, finančna družba, d.d.): Ljubljana Stock Exchange"
+Companies,No industry classification,warning,KRKG.LJ,"KRKG.LJ (KRKA, tovarna zdravil, d.d., Novo mesto): Ljubljana Stock Exchange"
+Companies,No industry classification,warning,LKPG.LJ,"LKPG.LJ (LUKA KOPER, pristaniški in logistični sistem, delniška družba): Ljubljana Stock Exchange"
+Companies,No industry classification,warning,NLBR.LJ,"NLBR.LJ (NOVA LJUBLJANSKA BANKA d.d., Ljubljana): Ljubljana Stock Exchange"
+Companies,No industry classification,warning,PETG.LJ,"PETG.LJ (PETROL, Slovenska energetska družba, d.d., Ljubljana): Ljubljana Stock Exchange"
+Companies,No industry classification,warning,SALR.LJ,"SALR.LJ (SALUS promet s farmacevtskimi, medicinskimi in drugimi proizvodi, d.d., Ljubljana): Ljubljana Stock Exchange"
+Companies,No industry classification,warning,TCRG.LJ,TCRG.LJ (TERME ČATEŽ d.d. Čatež ob Savi): Ljubljana Stock Exchange
+Companies,No industry classification,warning,UKIG.LJ,UKIG.LJ (UNIOR Kovaška industrija d.d.): Ljubljana Stock Exchange
+Companies,No industry classification,warning,ZVTG.LJ,"ZVTG.LJ (ZAVAROVALNICA TRIGLAV, d.d.): Ljubljana Stock Exchange"
+Financials,Out of date,warning,AKTX,AKTX (Akari Therapeutics Plc): latest FY 2023
+Financials,Out of date,warning,AQB,AQB (Aquabounty Technologies Inc): latest FY 2023
+Financials,Out of date,warning,ASUR,ASUR (Asure Software Inc): latest FY 2023
+Financials,Out of date,warning,BESS,BESS (Bimergen Energy Corp): latest FY 2023
+Financials,Out of date,warning,BXMT,"BXMT (Blackstone Mortgage Trust, Inc.): latest FY 2023"
+Financials,Out of date,warning,CTXR,"CTXR (Citius Pharmaceuticals, Inc.): latest FY 2022"
+Financials,Out of date,warning,COCP,"COCP (Cocrystal Pharma, Inc.): latest FY 2020"
+Financials,Out of date,warning,CYPH,CYPH (Cypherpunk Technologies Inc.): latest FY 2021
+Financials,Out of date,warning,DCOY,DCOY (Decoy Therapeutics Inc.): latest FY 2022
+Financials,Out of date,warning,ESOA,ESOA (Energy Services of America CORP): latest FY 2022
+Financials,Out of date,warning,VRMK,VRMK (Erp Operating Ltd Partnership): latest FY 2009
+Financials,Out of date,warning,FFR,FFR (FF EAI Robotics Ecosystem Inc.): latest FY 2022
+Financials,Out of date,warning,GERN,GERN (Geron Corp): latest FY 2023
+Financials,Out of date,warning,GGROU,GGROU (Golden Growers Cooperative): latest FY 2023
+Financials,Out of date,warning,MGYR,"MGYR (Magyar Bancorp, Inc.): latest FY 2023"
+Financials,Out of date,warning,MBOT,MBOT (Microbot Medical Inc.): latest FY 2015
+Financials,Out of date,warning,NMAD,"NMAD (Nomad Power Solutions, Inc.): latest FY 2015"
+Financials,Out of date,warning,NSARO,NSARO (Nstar Electric Co): latest FY 2011
+Financials,Out of date,warning,OMER,OMER (Omeros Corp): latest FY 2020
+Financials,Out of date,warning,ORKA,"ORKA (Oruka Therapeutics, Inc.): latest FY 2023"
+Financials,Out of date,warning,PVLA,"PVLA (Palvella Therapeutics, Inc.): latest FY 2023"
+Financials,Out of date,warning,RWT,RWT (Redwood Trust Inc): latest FY 2023
+Financials,Out of date,warning,STCB,"STCB (Starco Brands, Inc.): latest FY 2023"
+Financials,Out of date,warning,TOVX,"TOVX (Theriva Biologics, Inc.): latest FY 2011"
+Financials,Out of date,warning,UBCP,UBCP (United Bancorp Inc /Oh/): latest FY 2019
+Financials,Out of date,warning,ZNOG,ZNOG (Zion Oil & Gas Inc): latest FY 2021
+Financials,Out of date,warning,IPO.L,IPO.L (IP Group): latest FY 2021
+Financials,Out of date,warning,GROW.L,GROW.L (Molten Ventures): latest FY 2022
+Financials,Out of date,warning,POLN.L,POLN.L (Pollen Street Group): latest FY 2023
+Financials,Out of date,warning,ERC.AS,ERC.AS (ER Capital N.V.): latest FY 2022
+Financials,Out of date,warning,EXO.AS,EXO.AS (Exor N.V.): latest FY 2023
+Financials,Out of date,warning,BEVER.AS,BEVER.AS (N.V. Bever Holding): latest FY 2023
+Financials,Out of date,warning,FCT.MI,FCT.MI (Fincantieri S.p.A.): latest FY 2023
+Financials,Out of date,warning,GAB.MI,GAB.MI (Gabetti Property Solutions S.p.A.): latest FY 2023
+Financials,Out of date,warning,REC.MI,REC.MI (Recordati Industria Chimica E Farmaceutica S.P.A. In Breve Recordati S.p.A.): latest FY 2021
+Financials,Out of date,warning,VISC.ST,VISC.ST (Gruvaktiebolaget Viscaria): latest FY 2023
+Financials,Out of date,warning,TRUEB.ST,TRUEB.ST (Truecaller AB): latest FY 2023
+Financials,Out of date,warning,BINT.OL,BINT.OL (Kmc Properties Asa): latest FY 2023
+Financials,Out of date,warning,FLUX.BR,FLUX.BR (Fluxys Belgium): latest FY 2023
+Financials,"Annual figures missing, quarters only",warning,ADRX,"ADRX (ADARx Pharmaceuticals, Inc.)"
+Financials,"Annual figures missing, quarters only",warning,ADIG,ADIG (Adi Global Distribution Inc.)
+Financials,"Annual figures missing, quarters only",warning,AVEX,AVEX (AEVEX Corp.)
+Financials,"Annual figures missing, quarters only",warning,AIAI,AIAI (AIAI Holdings Corp)
+Financials,"Annual figures missing, quarters only",warning,AIB,AIB (AIB Data Centers Inc.)
+Financials,"Annual figures missing, quarters only",warning,AKTS,"AKTS (Aktis Oncology, Inc.)"
+Financials,"Annual figures missing, quarters only",warning,ALMR,"ALMR (Alamar Biosciences, Inc.)"
+Financials,"Annual figures missing, quarters only",warning,AMRO,AMRO (Amaero Inc.)
+Financials,"Annual figures missing, quarters only",warning,AMSS,AMSS (Amass Brands)
+Financials,"Annual figures missing, quarters only",warning,APUS,"APUS (Apimeds Pharmaceuticals US, Inc.)"
+Financials,"Annual figures missing, quarters only",warning,APMD,"APMD (Apnimed, Inc.)"
+Financials,"Annual figures missing, quarters only",warning,AADX,"AADX (Applied Aerospace & Defense, Inc.)"
+Financials,"Annual figures missing, quarters only",warning,APC,APC (ARKO Petroleum Corp.)
+Financials,"Annual figures missing, quarters only",warning,AVBP,"AVBP (ArriVent BioPharma, Inc.)"
+Financials,"Annual figures missing, quarters only",warning,RNA,"RNA (Atrium Therapeutics, Inc.)"
+Financials,"Annual figures missing, quarters only",warning,ATTO,"ATTO (Attovia Therapeutics, Inc.)"
+Financials,"Annual figures missing, quarters only",warning,AVAT,AVAT (Avalanche Treasury Corp)
+Financials,"Annual figures missing, quarters only",warning,BTGO,"BTGO (Bitgo Holdings, Inc.)"
+Financials,"Annual figures missing, quarters only",warning,BXDC,BXDC (Blackstone Digital Infrastructure Trust Inc.)
+Financials,"Annual figures missing, quarters only",warning,BOBS,"BOBS (Bob's Discount Furniture, Inc.)"
+Financials,"Annual figures missing, quarters only",warning,BRUN,BRUN (Boost Run Inc.)
+Financials,"Annual figures missing, quarters only",warning,BXBL,BXBL (BOXABL Inc.)
+Financials,"Annual figures missing, quarters only",warning,CNTN,"CNTN (Canton Strategic Holdings, Inc.)"
+Financials,"Annual figures missing, quarters only",warning,CBRS,CBRS (Cerebras Systems Inc.)
+Financials,"Annual figures missing, quarters only",warning,CTOR,"CTOR (Citius Oncology, Inc.)"
+Financials,"Annual figures missing, quarters only",warning,CTY,"CTY (City Therapeutics, Inc.)"
+Financials,"Annual figures missing, quarters only",warning,CLBK,"CLBK (Columbia Financial, Inc./MD/)"
+Financials,"Annual figures missing, quarters only",warning,CMS-PB,CMS-PB (Consumers Energy Co)
+Financials,"Annual figures missing, quarters only",warning,CTGO,CTGO (Contango Silver & Gold Inc.)
+Financials,"Annual figures missing, quarters only",warning,CSQR,"CSQR (Csquare, Inc.)"
+Financials,"Annual figures missing, quarters only",warning,DRMA,"DRMA (Dermata Therapeutics, Inc.)"
+Financials,"Annual figures missing, quarters only",warning,DMRC,DMRC (Digimarc Corp)
+Financials,"Annual figures missing, quarters only",warning,DWTX,"DWTX (Dogwood Therapeutics, Inc.)"
+Financials,"Annual figures missing, quarters only",warning,DPRO,DPRO (Draganfly Inc.)
+Financials,"Annual figures missing, quarters only",warning,EROK,"EROK (EagleRock Land, LLC)"
+Financials,"Annual figures missing, quarters only",warning,ELMT,ELMT (Elmet Group Co.)
+Financials,"Annual figures missing, quarters only",warning,ENHA,ENHA (Enhanced Group Inc.)
+Financials,"Annual figures missing, quarters only",warning,EAI,"EAI (Entergy Arkansas, LLC)"
+Financials,"Annual figures missing, quarters only",warning,NVRI,NVRI (Enviri Corp)
+Financials,"Annual figures missing, quarters only",warning,EROC,"EROC (ERock, Inc.)"
+Financials,"Annual figures missing, quarters only",warning,EMAT,EMAT (Evolution Metals & Technologies Corp.)
+Financials,"Annual figures missing, quarters only",warning,FAC,FAC (Factorial Energy Inc.)
+Financials,"Annual figures missing, quarters only",warning,FRVO,FRVO (Fervo Energy Co)
+Financials,"Annual figures missing, quarters only",warning,FCBM,"FCBM (First Carolina Financial Services, Inc.)"
+Financials,"Annual figures missing, quarters only",warning,FRBT,"FRBT (Forbright, Inc.)"
+Financials,"Annual figures missing, quarters only",warning,FRNM,"FRNM (Freenome, Inc.)"
+Financials,"Annual figures missing, quarters only",warning,GENB,"GENB (Generate Biomedicines, Inc.)"
+Financials,"Annual figures missing, quarters only",warning,GIW,GIW (GigCapital8 Corp.)
+Financials,"Annual figures missing, quarters only",warning,GIX,GIX (GigCapital9 Corp.)
+Financials,"Annual figures missing, quarters only",warning,GMRS,GMRS (GMR Solutions Inc.)
+Financials,"Annual figures missing, quarters only",warning,HAWK,"HAWK (HawkEye 360, Inc.)"
+Financials,"Annual figures missing, quarters only",warning,HMH,HMH (HMH Holding Inc)
+Financials,"Annual figures missing, quarters only",warning,HONA,HONA (Honeywell Aerospace Inc.)
+Financials,"Annual figures missing, quarters only",warning,IAM,"IAM (Iambic Therapeutics, Inc.)"
+Financials,"Annual figures missing, quarters only",warning,IOND,IOND (Ionic Digital Inc.)
+Financials,"Annual figures missing, quarters only",warning,ITG,"ITG (ITG, Inc./DE/)"
+Financials,"Annual figures missing, quarters only",warning,JSPR,"JSPR (Jasper Therapeutics, Inc.)"
+Financials,"Annual figures missing, quarters only",warning,JMKE,JMKE (Jersey Mike's Subs Inc.)
+Financials,"Annual figures missing, quarters only",warning,LFTO,"LFTO (Liftoff Mobile, Inc.)"
+Financials,"Annual figures missing, quarters only",warning,LCLN,"LCLN (Lincoln International, Inc.)"
+Financials,"Annual figures missing, quarters only",warning,LMRI,"LMRI (Lumexa Imaging Holdings, Inc.)"
+Financials,"Annual figures missing, quarters only",warning,LYNX,LYNX (Lyntris Inc.)
+Financials,"Annual figures missing, quarters only",warning,MAIR,MAIR (Madison Air Solutions Corp)
+Financials,"Annual figures missing, quarters only",warning,MRLN,"MRLN (Merlin, Inc.)"
+Financials,"Annual figures missing, quarters only",warning,MFP,"MFP (Midera Food Processing, Inc.)"
+Financials,"Annual figures missing, quarters only",warning,MIST,MIST (Milestone Pharmaceuticals Inc.)
+Financials,"Annual figures missing, quarters only",warning,INKT,"INKT (MiNK Therapeutics, Inc.)"
+Financials,"Annual figures missing, quarters only",warning,MOBI,"MOBI (Mobia Medical, Inc.)"
+Financials,"Annual figures missing, quarters only",warning,MSGR,MSGR (MSG Rangers Corp.)
+Financials,"Annual figures missing, quarters only",warning,NNE,NNE (Nano Nuclear Energy Inc.)
+Financials,"Annual figures missing, quarters only",warning,NARA,"NARA (Narragansett Bancorp, Inc.)"
+Financials,"Annual figures missing, quarters only",warning,NAUT,"NAUT (Nautilus Biotechnology, Inc.)"
+Financials,"Annual figures missing, quarters only",warning,NAVI,"NAVI (Navient Holdings, Inc.)"
+Financials,"Annual figures missing, quarters only",warning,LIME,"LIME (Neutron Holdings, Inc.)"
+Financials,"Annual figures missing, quarters only",warning,NRT,NRT (North European Oil Royalty Trust)
+Financials,"Annual figures missing, quarters only",warning,OCTV,OCTV (Octave Intelligence plc)
+Financials,"Annual figures missing, quarters only",warning,ODTX,"ODTX (Odyssey Therapeutics, Inc.)"
+Financials,"Annual figures missing, quarters only",warning,OKLO,OKLO (Oklo Inc.)
+Financials,"Annual figures missing, quarters only",warning,OFRM,"OFRM (Once Upon a Farm, PBC)"
+Financials,"Annual figures missing, quarters only",warning,OIG,OIG (Orion180 Insurance Group Inc.)
+Financials,"Annual figures missing, quarters only",warning,PCG-PA,PCG-PA (PACIFIC GAS & ELECTRIC Co)
+Financials,"Annual figures missing, quarters only",warning,PBLS,"PBLS (Parabilis Medicines, Inc.)"
+Financials,"Annual figures missing, quarters only",warning,PARK,"PARK (Park Dental Partners, Inc.)"
+Financials,"Annual figures missing, quarters only",warning,PS,PS (Pershing Square Inc.)
+Financials,"Annual figures missing, quarters only",warning,PBAM,"PBAM (Private Bancorp of America, Inc.)"
+Financials,"Annual figures missing, quarters only",warning,PAL,"PAL (Proficient Auto Logistics, Inc)"
+Financials,"Annual figures missing, quarters only",warning,QNT,QNT (Quantinuum Inc.)
+Financials,"Annual figures missing, quarters only",warning,QMLS,"QMLS (QumulusAI, Inc.)"
+Financials,"Annual figures missing, quarters only",warning,RAIN,"RAIN (Rain Enhancement Technologies Holdco, Inc.)"
+Financials,"Annual figures missing, quarters only",warning,RAPP,"RAPP (Rapport Therapeutics, Inc.)"
+Financials,"Annual figures missing, quarters only",warning,REAX,REAX (Real REMAX Group Inc.)
+Financials,"Annual figures missing, quarters only",warning,REF,REF (Reformation Inc.)
+Financials,"Annual figures missing, quarters only",warning,RKTO,RKTO (Rocket One Inc.)
+Financials,"Annual figures missing, quarters only",warning,SCTX,"SCTX (Scribe Therapeutics, Inc.)"
+Financials,"Annual figures missing, quarters only",warning,SECZ,SECZ (Securitize Corp.)
+Financials,"Annual figures missing, quarters only",warning,SVIA,"SVIA (Silvia, Inc.)"
+Financials,"Annual figures missing, quarters only",warning,SKYQ,SKYQ (Sky Quarry Inc.)
+Financials,"Annual figures missing, quarters only",warning,MWH,"MWH (SOLV Energy, Inc.)"
+Financials,"Annual figures missing, quarters only",warning,SCE-PG,SCE-PG (SOUTHERN CALIFORNIA EDISON Co)
+Financials,"Annual figures missing, quarters only",warning,SPCX,SPCX (Space Exploration Technologies Corp)
+Financials,"Annual figures missing, quarters only",warning,USDE,USDE (StableCoinX Inc.)
+Financials,"Annual figures missing, quarters only",warning,STDN,"STDN (Standard Nuclear, Inc.)"
+Financials,"Annual figures missing, quarters only",warning,SWRD,"SWRD (Stewards, Inc.)"
+Financials,"Annual figures missing, quarters only",warning,SUJA,"SUJA (Suja Life, Inc.)"
+Financials,"Annual figures missing, quarters only",warning,RMIX,"RMIX (Suncrete, Inc.)"
+Financials,"Annual figures missing, quarters only",warning,SSMR,SSMR (Sunshine Silver Mining & Refining Co)
+Financials,"Annual figures missing, quarters only",warning,SKT,SKT (Tanger Inc.)
+Financials,"Annual figures missing, quarters only",warning,TMS,TMS (Teamshares Inc)
+Financials,"Annual figures missing, quarters only",warning,TNYA,"TNYA (Tenaya Therapeutics, Inc.)"
+Financials,"Annual figures missing, quarters only",warning,TMC,TMC (TMC the metals Co Inc.)
+Financials,"Annual figures missing, quarters only",warning,TPVG,TPVG (TriplePoint Venture Growth BDC Corp.)
+Financials,"Annual figures missing, quarters only",warning,VERA,"VERA (Vera Therapeutics, Inc.)"
+Financials,"Annual figures missing, quarters only",warning,VIDA,VIDA (VIDA Global Inc.)
+Financials,"Annual figures missing, quarters only",warning,VWAV,"VWAV (VisionWave Holdings, Inc.)"
+Financials,"Annual figures missing, quarters only",warning,VYLR,VYLR (Vylor Inc.)
+Financials,"Annual figures missing, quarters only",warning,WCCB,WCCB (West Coast Community Bancorp)
+Financials,"Annual figures missing, quarters only",warning,XE,"XE (X-Energy, Inc.)"
+Financials,"Annual figures missing, quarters only",warning,XNDU,XNDU (Xanadu Quantum Technologies Ltd)
+Financials,"Annual figures missing, quarters only",warning,XTND,"XTND (Xtend AI Robotics, Inc.)"
+Financials,"Annual figures missing, quarters only",warning,YSWY,"YSWY (Yesway, Inc.)"
+Financials,"Annual figures missing, quarters only",warning,YSS,YSS (York Space Systems Inc.)
+Pay,Record award checked by hand,warning,TSLA,"TSLA (Tesla, Inc.) Elon Musk 2025: 158.36bn"
+Pay,Very large total,warning,TSLA,"TSLA (Tesla, Inc.) Elon Musk 2025: 158.36bn"
+Pay,Very large total,warning,PLTR,PLTR (Palantir Technologies Inc.) Alexander Karp 2020: 1.10bn
+Pay,Very large total,warning,FIG,"FIG (Figma, Inc.) Dylan Field 2025: 864.4M"
+Pay,Very large total,warning,WELL,WELL (Welltower Inc.) Shankh Mitra 2025: 821.1M
+Pay,Very large total,warning,HOOD,"HOOD (Robinhood Markets, Inc.) Vladimir Tenev 2021: 796.1M"
+Pay,Very large total,warning,OPEN,OPEN (Opendoor Technologies Inc.) Kaz Nejatian 2025: 741.1M
+Pay,Very large total,warning,OWL,OWL (Blue Owl Capital Inc.) Michael D. Rees 2021: 700.7M
+Pay,Very large total,warning,ORCL,ORCL (Oracle Corp) Clayton M. Magouyrk 2026: 627.5M
+Pay,Very large total,warning,HOOD,"HOOD (Robinhood Markets, Inc.) Baiju Bhatt 2021: 594.0M"
+Pay,Very large total,warning,LCID,"LCID (Lucid Group, Inc.) Peter Rawlinson 2021: 565.6M"
+Pay,Very large total,warning,AFRM,"AFRM (Affirm Holdings, Inc.) Max Levchin 2021: 451.2M"
+Pay,Very large total,warning,APO,"APO (Apollo Global Management, Inc.) Scott Kleinman 2021: 437.0M"
+Pay,Very large total,warning,RIVN,"RIVN (Rivian Automotive, Inc. / DE) Robert J. Scaringe 2021: 422.1M"
+Pay,Very large total,warning,DASH,"DASH (DoorDash, Inc.) Tony Xu 2020: 413.7M"
+Pay,Very large total,warning,APO,"APO (Apollo Global Management, Inc.) James Zelter 2021: 403.6M"
+Pay,Very large total,warning,RIVN,"RIVN (Rivian Automotive, Inc. / DE) Robert J. Scaringe 2025: 402.6M"
+Pay,Very large total,warning,CLOV,"CLOV (Clover Health Investments, Corp. /De) Vivek Garipalli 2021: 389.6M"
+Pay,Very large total,warning,DNA,"DNA (Ginkgo Bioworks Holdings, Inc.) Jason Kelly 2021: 380.7M"
+Pay,Very large total,warning,DNA,"DNA (Ginkgo Bioworks Holdings, Inc.) Reshma Shetty 2021: 380.7M"
+Pay,Very large total,warning,OPEN,OPEN (Opendoor Technologies Inc.) Eric Wu 2020: 370.2M
+Pay,Very large total,warning,EXPE,"EXPE (Expedia Group, Inc.) Peter Kern 2021: 296.2M"
+Pay,Very large total,warning,OWL,OWL (Blue Owl Capital Inc.) Marc Zahr 2021: 285.0M
+Pay,Very large total,warning,COTY,COTY (Coty Inc.) Sue Nabi 2021: 283.8M
+Pay,Very large total,warning,W,W (Wayfair Inc.) Niraj Shah 2025: 280.8M
+Pay,Very large total,warning,GOOGL,GOOGL (Alphabet Inc.) Sundar Pichai 2019: 280.6M
+Pay,Very large total,warning,GDRX,"GDRX (GoodRx Holdings, Inc.) Trevor Bezdek 2020: 267.7M"
+Pay,Very large total,warning,GDRX,"GDRX (GoodRx Holdings, Inc.) Douglas Hirsch 2020: 267.7M"
+Pay,Very large total,warning,ORCL,ORCL (Oracle Corp) Michael D. Sicilia 2026: 256.6M
+Pay,Very large total,warning,SMMT,SMMT (Summit Therapeutics Inc.) Manmeet Soni 2025: 249.1M
+Pay,Very large total,warning,CRWD,"CRWD (CrowdStrike Holdings, Inc.) George Kurtz 2026: 247.6M"
+Pay,Very large total,warning,SMMT,SMMT (Summit Therapeutics Inc.) Mahkam Zanganeh 2025: 246.0M
+Pay,Very large total,warning,DKNG,DKNG (DraftKings Inc.) Jason D. Robins 2020: 236.8M
+Pay,Very large total,warning,NTSK,NTSK (Netskope Inc) Sanjay Beri 2026: 234.5M
+Pay,Very large total,warning,FRSH,FRSH (Freshworks Inc.) Rathna Girish Mathrubootham 2021: 234.0M
+Pay,Very large total,warning,RBLX,RBLX (Roblox Corp) David Baszucki 2021: 232.8M
+Pay,Very large total,warning,GOOGL,GOOGL (Alphabet Inc.) Sundar Pichai 2022: 226.0M
+Pay,Very large total,warning,MQ,"MQ (Marqeta, Inc.) Jason Gardner 2021: 224.4M"
+Pay,Very large total,warning,ZETA,ZETA (Zeta Global Holdings Corp.) David Steinberg 2021: 216.5M
+Pay,Very large total,warning,AMZN,AMZN (Amazon Com Inc) Andrew R. Jassy 2021: 212.7M
+Pay,Very large total,warning,AVGO,AVGO (Broadcom Inc.) Hock E. Tan 2025: 205.3M
+Pay,Very large total,warning,PPLI,PPLI (People Inc) Joseph Levin 2020: 202.4M
+Pay,Very large total,warning,TPG,TPG (TPG Inc.) Jon Winkelried 2023: 198.7M
+Pay,Very large total,warning,DKNG,DKNG (DraftKings Inc.) Matthew Kalish 2020: 197.2M
+Pay,Very large total,warning,DKNG,DKNG (DraftKings Inc.) Paul Liberman 2020: 197.2M
+Pay,Very large total,warning,RDDT,"RDDT (Reddit, Inc.) Steven L. Huffman 2023: 193.2M"
+Pay,Very large total,warning,PLTR,PLTR (Palantir Technologies Inc.) Stephen Cohen 2020: 192.0M
+Pay,Very large total,warning,QXO,"QXO (QXO, Inc.) Brad Jacobs 2024: 189.4M"
+Pay,Very large total,warning,APLD,APLD (Applied Digital Corp.) Wes Cummins 2026: 189.2M
+Pay,Very large total,warning,CG,CG (Carlyle Group Inc.) Harvey M. Schwartz 2023: 187.0M
+Pay,Very large total,warning,WELL,WELL (Welltower Inc.) Nikhil Chaudhri 2025: 185.8M
+Pay,Very large total,warning,HTZ,"HTZ (Hertz Global Holdings, Inc) Stephen Scherr 2022: 182.1M"
+Pay,Very large total,warning,INTC,INTC (Intel Corp) Patrick P. Gelsinger 2021: 178.6M
+Pay,Very large total,warning,RH,RH (Rh) Gary Friedman 2020: 178.0M
+Pay,Very large total,warning,FIG,"FIG (Figma, Inc.) Kris Rasmussen 2025: 175.0M"
+Pay,Very large total,warning,OWL,OWL (Blue Owl Capital Inc.) Sean Ward 2021: 174.8M
+Pay,Very large total,warning,VEEV,VEEV (Veeva Systems Inc) Peter P. Gassner 2025: 172.4M
+Pay,Very large total,warning,PTON,"PTON (Peloton Interactive, Inc.) Barry McCarthy 2022: 168.1M"
+Pay,Very large total,warning,WELL,WELL (Welltower Inc.) Timothy G. McHugh 2025: 167.0M
+Pay,Very large total,warning,NOW,"NOW (ServiceNow, Inc.) William R. McDermott 2021: 165.8M"
+Pay,Very large total,warning,AXON,"AXON (Axon Enterprise, Inc.) Patrick Smith 2024: 164.5M"
+Pay,Very large total,warning,AVGO,AVGO (Broadcom Inc.) Hock E. Tan 2023: 161.8M
+Pay,Very large total,warning,CORZ,"CORZ (Core Scientific, Inc./tx) Michael Levitt 2021: 160.7M"
+Pay,Very large total,warning,DELL,DELL (Dell Technologies Inc.) Jeffrey W. Clarke 2026: 154.3M
+Pay,Very large total,warning,OWL,OWL (Blue Owl Capital Inc.) Michael Rees 2020: 152.5M
+Pay,Very large total,warning,PANW,PANW (Palo Alto Networks Inc) Nikesh Arora 2023: 151.4M
+Pay,Name doesn't look like a person,warning,JDMT.KA,"JDMT.KA (Janana De Malucho Textile Mills Limited): ""Lt. Gen. (Retd.) Ali Kuli Khan Khattak"""
+Pay,Name doesn't look like a person,warning,JACK,"JACK (Jack In The Box Inc): ""Martin"""
+Pay,Name doesn't look like a person,warning,JACK,"JACK (Jack In The Box Inc): ""Tuckerr"""
+EdgarTools,Revenue differs from the annual report,warning,FCNCA,"FCNCA (First Citizens Bancshares Inc /De/) FY 2023: ours 18.79bn, 10-K 1.18bn"
+EdgarTools,Revenue differs from the annual report,warning,SLF,"SLF (Sun Life Financial Inc) FY 2025: ours 41.90bn, 40-F 23.98bn"
+EdgarTools,Revenue differs from the annual report,warning,SLF,"SLF (Sun Life Financial Inc) FY 2024: ours 38.80bn, 40-F 22.64bn"
+EdgarTools,Revenue differs from the annual report,warning,FCNCA,"FCNCA (First Citizens Bancshares Inc /De/) FY 2024: ours 9.76bn, 10-K 1.37bn"
+EdgarTools,Revenue differs from the annual report,warning,FCNCA,"FCNCA (First Citizens Bancshares Inc /De/) FY 2025: ours 9.54bn, 10-K 1.43bn"
+EdgarTools,Revenue differs from the annual report,warning,NTRS,"NTRS (Northern Trust Corp) FY 2024: ours 8.29bn, 10-K 4.73bn"
+EdgarTools,Revenue differs from the annual report,warning,NTRS,"NTRS (Northern Trust Corp) FY 2025: ours 8.09bn, 10-K 5.02bn"
+EdgarTools,Revenue differs from the annual report,warning,ZION,"ZION (Zions Bancorporation, National Association /UT/) FY 2025: ours 3.39bn, 10-K 662.0M"
+EdgarTools,Revenue differs from the annual report,warning,BPOP,"BPOP (Popular, Inc.) FY 2025: ours 3.20bn, 10-K 558.8M"
+EdgarTools,Revenue differs from the annual report,warning,FUBO,"FUBO (FuboTV Inc.) FY 2024: ours 1.62bn, 10-K 4.22bn"
+EdgarTools,Revenue differs from the annual report,warning,ZION,"ZION (Zions Bancorporation, National Association /UT/) FY 2023: ours 3.12bn, 10-K 616.0M"
+EdgarTools,Revenue differs from the annual report,warning,ZION,"ZION (Zions Bancorporation, National Association /UT/) FY 2024: ours 3.13bn, 10-K 639.0M"
+EdgarTools,Revenue differs from the annual report,warning,NTRS,"NTRS (Northern Trust Corp) FY 2023: ours 6.77bn, 10-K 4.36bn"
+EdgarTools,Revenue differs from the annual report,warning,BPOP,"BPOP (Popular, Inc.) FY 2024: ours 2.94bn, 10-K 540.6M"
+EdgarTools,Revenue differs from the annual report,warning,SSB,"SSB (SouthState Bank Corp) FY 2025: ours 2.68bn, 10-K 322.0M"
+EdgarTools,Revenue differs from the annual report,warning,BPOP,"BPOP (Popular, Inc.) FY 2023: ours 2.78bn, 10-K 521.9M"
+EdgarTools,Revenue differs from the annual report,warning,COLB,"COLB (Columbia Banking System, Inc.) FY 2025: ours 2.30bn, 10-K 177.0M"
+EdgarTools,Revenue differs from the annual report,warning,CFR,"CFR (Cullen/Frost Bankers, Inc.) FY 2025: ours 2.24bn, 10-K 121.6M"
+EdgarTools,Revenue differs from the annual report,warning,RJF,"RJF (Raymond James Financial Inc) FY 2024: ours 12.82bn, 10-K 14.92bn"
+EdgarTools,Revenue differs from the annual report,warning,CFR,"CFR (Cullen/Frost Bankers, Inc.) FY 2024: ours 2.06bn, 10-K 106.2M"
+EdgarTools,Revenue differs from the annual report,warning,VLY,"VLY (Valley National Bancorp) FY 2025: ours 2.03bn, 10-K 124.7M"
+EdgarTools,Revenue differs from the annual report,warning,CFR,"CFR (Cullen/Frost Bankers, Inc.) FY 2023: ours 1.99bn, 10-K 93.5M"
+EdgarTools,Revenue differs from the annual report,warning,COLB,"COLB (Columbia Banking System, Inc.) FY 2023: ours 2.00bn, 10-K 134.0M"
+EdgarTools,Revenue differs from the annual report,warning,RJF,"RJF (Raymond James Financial Inc) FY 2025: ours 14.07bn, 10-K 15.91bn"
+EdgarTools,Revenue differs from the annual report,warning,VLY,"VLY (Valley National Bancorp) FY 2023: ours 1.89bn, 10-K 85.5M"
+EdgarTools,Revenue differs from the annual report,warning,COLB,"COLB (Columbia Banking System, Inc.) FY 2024: ours 1.93bn, 10-K 149.0M"
+EdgarTools,Revenue differs from the annual report,warning,VLY,"VLY (Valley National Bancorp) FY 2024: ours 1.85bn, 10-K 110.9M"
+EdgarTools,Revenue differs from the annual report,warning,CPT,"CPT (Camden Property Trust) FY 2025: ours 1.57bn, 10-K 13.0M"
+EdgarTools,Revenue differs from the annual report,warning,CPT,"CPT (Camden Property Trust) FY 2023: ours 1.54bn, 10-K 3.5M"
+EdgarTools,Revenue differs from the annual report,warning,CPT,"CPT (Camden Property Trust) FY 2024: ours 1.54bn, 10-K 7.1M"
+EdgarTools,Revenue differs from the annual report,warning,SSB,"SSB (SouthState Bank Corp) FY 2023: ours 1.74bn, 10-K 244.8M"
+EdgarTools,Revenue differs from the annual report,warning,SSB,"SSB (SouthState Bank Corp) FY 2024: ours 1.72bn, 10-K 250.5M"
+EdgarTools,Revenue differs from the annual report,warning,ASB,"ASB (Associated Banc-Corp) FY 2025: ours 1.49bn, 10-K 67.8M"
+EdgarTools,Revenue differs from the annual report,warning,RJF,"RJF (Raymond James Financial Inc) FY 2023: ours 11.62bn, 10-K 12.99bn"
+EdgarTools,Revenue differs from the annual report,warning,BANC,"BANC (Banc Of California, Inc.) FY 2023: ours 298.8M, 10-K 1.52bn"
+EdgarTools,Revenue differs from the annual report,warning,HWC,"HWC (Hancock Whitney Corp) FY 2025: ours 1.52bn, 10-K 338.9M"
+EdgarTools,Revenue differs from the annual report,warning,GBFH,"GBFH (GBank Financial Holdings Inc.) FY 2025: ours 76.0M, 10-K 1.24bn"
+EdgarTools,Revenue differs from the annual report,warning,HWC,"HWC (Hancock Whitney Corp) FY 2024: ours 1.45bn, 10-K 304.1M"
+EdgarTools,Revenue differs from the annual report,warning,UBSI,"UBSI (United Bankshares Inc/Wv) FY 2025: ours 1.24bn, 10-K 103.6M"
+EdgarTools,Revenue differs from the annual report,warning,HWC,"HWC (Hancock Whitney Corp) FY 2023: ours 1.39bn, 10-K 282.4M"
+EdgarTools,Revenue differs from the annual report,warning,BKU,"BKU (BankUnited, Inc.) FY 2025: ours 1.09bn, 10-K 21.7M"
+EdgarTools,Revenue differs from the annual report,warning,ASB,"ASB (Associated Banc-Corp) FY 2023: ours 1.10bn, 10-K 62.3M"
+EdgarTools,Revenue differs from the annual report,warning,FULT,"FULT (Fulton Financial Corp) FY 2025: ours 1.31bn, 10-K 276.8M"
+EdgarTools,Revenue differs from the annual report,warning,HOMB,"HOMB (Home Bancshares Inc) FY 2025: ours 1.09bn, 10-K 86.8M"
+EdgarTools,Revenue differs from the annual report,warning,BKU,"BKU (BankUnited, Inc.) FY 2024: ours 1.01bn, 10-K 20.2M"
+EdgarTools,Revenue differs from the annual report,warning,ASB,"ASB (Associated Banc-Corp) FY 2024: ours 1.04bn, 10-K 66.4M"
+EdgarTools,Revenue differs from the annual report,warning,UBSI,"UBSI (United Bankshares Inc/Wv) FY 2023: ours 1.06bn, 10-K 109.8M"
+EdgarTools,Revenue differs from the annual report,warning,LEGN,"LEGN (Legend Biotech Corp) FY 2025: ours 1.03bn, 20-F 84.1M"
+EdgarTools,Revenue differs from the annual report,warning,FULT,"FULT (Fulton Financial Corp) FY 2024: ours 1.24bn, 10-K 296.0M"
+EdgarTools,Revenue differs from the annual report,warning,BKU,"BKU (BankUnited, Inc.) FY 2023: ours 960.6M, 10-K 20.9M"
+EdgarTools,Revenue differs from the annual report,warning,HOMB,"HOMB (Home Bancshares Inc) FY 2024: ours 1.02bn, 10-K 82.2M"
+EdgarTools,Revenue differs from the annual report,warning,UBSI,"UBSI (United Bankshares Inc/Wv) FY 2024: ours 1.03bn, 10-K 103.5M"
+EdgarTools,Revenue differs from the annual report,warning,HOMB,"HOMB (Home Bancshares Inc) FY 2023: ours 996.9M, 10-K 83.4M"
+EdgarTools,Revenue differs from the annual report,warning,BANC,"BANC (Banc Of California, Inc.) FY 2024: ours 1.00bn, 10-K 1.89bn"
+EdgarTools,Revenue differs from the annual report,warning,FULT,"FULT (Fulton Financial Corp) FY 2023: ours 1.08bn, 10-K 228.4M"
+EdgarTools,Revenue differs from the annual report,warning,CBC,"CBC (Central Bancompany, Inc.) FY 2025: ours 1.02bn, 10-K 205.9M"
+EdgarTools,Revenue differs from the annual report,warning,CATY,"CATY (Cathay General Bancorp) FY 2025: ours 817.9M, 10-K 31.3M"
+EdgarTools,Revenue differs from the annual report,warning,CATY,"CATY (Cathay General Bancorp) FY 2023: ours 810.0M, 10-K 23.9M"
+EdgarTools,Revenue differs from the annual report,warning,WAFD,"WAFD (Wafd Inc) FY 2026: ours 814.7M, 10-K 31.9M"
+EdgarTools,Revenue differs from the annual report,warning,MCHB,"MCHB (Mechanics Bancorp) FY 2025: ours 808.6M, 10-K 49.7M"
+EdgarTools,Revenue differs from the annual report,warning,WSFS,"WSFS (Wsfs Financial Corp) FY 2023: ours 1.01bn, 10-K 274.3M"
+EdgarTools,Revenue differs from the annual report,warning,LSPD,"LSPD (Lightspeed Commerce Inc.) FY 2025: ours 1.08bn, 40-F 344.8M"
+EdgarTools,Revenue differs from the annual report,warning,WSFS,"WSFS (Wsfs Financial Corp) FY 2025: ours 1.07bn, 10-K 335.9M"
+EdgarTools,Revenue differs from the annual report,warning,WSFS,"WSFS (Wsfs Financial Corp) FY 2024: ours 1.05bn, 10-K 331.9M"
+EdgarTools,Revenue differs from the annual report,warning,CBC,"CBC (Central Bancompany, Inc.) FY 2024: ours 897.7M, 10-K 195.3M"
+EdgarTools,Revenue differs from the annual report,warning,BANC,"BANC (Banc Of California, Inc.) FY 2025: ours 1.12bn, 10-K 1.82bn"
+EdgarTools,Revenue differs from the annual report,warning,CATY,"CATY (Cathay General Bancorp) FY 2024: ours 729.7M, 10-K 30.6M"
+EdgarTools,Revenue differs from the annual report,warning,IBOC,"IBOC (International Bancshares Corp) FY 2025: ours 842.2M, 10-K 143.8M"
+EdgarTools,Revenue differs from the annual report,warning,WAFD,"WAFD (Wafd Inc) FY 2025: ours 725.5M, 10-K 29.7M"
+EdgarTools,Revenue differs from the annual report,warning,WAFD,"WAFD (Wafd Inc) FY 2024: ours 721.5M, 10-K 27.5M"
+EdgarTools,Revenue differs from the annual report,warning,IBOC,"IBOC (International Bancshares Corp) FY 2023: ours 833.4M, 10-K 141.4M"
+EdgarTools,Revenue differs from the annual report,warning,IBOC,"IBOC (International Bancshares Corp) FY 2024: ours 833.6M, 10-K 142.7M"
+EdgarTools,Revenue differs from the annual report,warning,SFNC,"SFNC (Simmons First National Corp) FY 2023: ours 805.7M, 10-K 129.1M"
+EdgarTools,Revenue differs from the annual report,warning,SFNC,"SFNC (Simmons First National Corp) FY 2024: ours 775.6M, 10-K 132.8M"
+EdgarTools,Revenue differs from the annual report,warning,BANF,"BANF (Bancfirst Corp /Ok/) FY 2025: ours 690.6M, 10-K 94.2M"
+EdgarTools,Revenue differs from the annual report,warning,BUSE,"BUSE (First Busey Corp /NV/) FY 2025: ours 719.6M, 10-K 131.1M"
+EdgarTools,Revenue differs from the annual report,warning,CASH,"CASH (Pathward Financial, Inc.) FY 2025: ours 839.9M, 10-K 269.3M"
+EdgarTools,Revenue differs from the annual report,warning,FRME,"FRME (First Merchants Corp) FY 2025: ours 662.9M, 10-K 94.5M"
+EdgarTools,Revenue differs from the annual report,warning,FRME,"FRME (First Merchants Corp) FY 2023: ours 651.0M, 10-K 85.8M"
+EdgarTools,Revenue differs from the annual report,warning,BKV,"BKV (BKV Corp) FY 2023: ours 1.30bn, 10-K 739.3M"
+EdgarTools,Revenue differs from the annual report,warning,TBBK,"TBBK (Bancorp, Inc.) FY 2025: ours 703.8M, 10-K 141.1M"
+EdgarTools,Revenue differs from the annual report,warning,FRME,"FRME (First Merchants Corp) FY 2024: ours 646.7M, 10-K 90.8M"
+EdgarTools,Revenue differs from the annual report,warning,BANF,"BANF (Bancfirst Corp /Ok/) FY 2024: ours 631.4M, 10-K 91.4M"
+EdgarTools,Revenue differs from the annual report,warning,CASH,"CASH (Pathward Financial, Inc.) FY 2024: ours 797.4M, 10-K 263.8M"
+EdgarTools,Revenue differs from the annual report,warning,BBT,"BBT (Beacon Financial Corp) FY 2025: ours 553.0M, 10-K 33.5M"
+EdgarTools,Revenue differs from the annual report,warning,BANF,"BANF (Bancfirst Corp /Ok/) FY 2023: ours 609.9M, 10-K 96.2M"
+EdgarTools,Revenue differs from the annual report,warning,CVBF,"CVBF (Cvb Financial Corp) FY 2023: ours 547.3M, 10-K 34.4M"
+EdgarTools,Revenue differs from the annual report,warning,MLGO,"MLGO (MicroAlgo Inc.) FY 2023: ours 81.9M, 20-F 580.0M"
+EdgarTools,Revenue differs from the annual report,warning,WWW,"WWW (Wolverine World Wide Inc /De/) FY 2023: ours 2.24bn, 10-K 1.76bn"
+EdgarTools,Revenue differs from the annual report,warning,TIPT,"TIPT (Tiptree Inc.) FY 2025: ours 488.0M, 10-K 488,000"
+EdgarTools,Revenue differs from the annual report,warning,PRK,"PRK (Park National Corp /Oh/) FY 2025: ours 557.2M, 10-K 70.3M"
+EdgarTools,Revenue differs from the annual report,warning,LEGN,"LEGN (Legend Biotech Corp) FY 2024: ours 627.3M, 20-F 144.7M"
+EdgarTools,Revenue differs from the annual report,warning,CVBF,"CVBF (Cvb Financial Corp) FY 2025: ours 515.5M, 10-K 37.2M"
+EdgarTools,Revenue differs from the annual report,warning,MLGO,"MLGO (MicroAlgo Inc.) FY 2024: ours 75.3M, 20-F 541.5M"
+EdgarTools,Revenue differs from the annual report,warning,CVBF,"CVBF (Cvb Financial Corp) FY 2024: ours 501.8M, 10-K 35.8M"
+EdgarTools,Revenue differs from the annual report,warning,FBK,"FBK (FB Financial Corp) FY 2025: ours 560.0M, 10-K 96.0M"
+EdgarTools,Revenue differs from the annual report,warning,PRK,"PRK (Park National Corp /Oh/) FY 2024: ours 520.6M, 10-K 63.2M"
+EdgarTools,Revenue differs from the annual report,warning,CASH,"CASH (Pathward Financial, Inc.) FY 2023: ours 727.7M, 10-K 281.8M"
+EdgarTools,Revenue differs from the annual report,warning,BKV,"BKV (BKV Corp) FY 2024: ours 1.04bn, 10-K 604.5M"
+EdgarTools,Revenue differs from the annual report,warning,DCOM,"DCOM (Dime Commercial Bancshares, Inc. /NY/) FY 2025: ours 452.9M, 10-K 19.9M"
+EdgarTools,Revenue differs from the annual report,warning,GEF,"GEF (Greif, Inc) FY 2024: ours 4.35bn, 10-K 3.93bn"
+EdgarTools,Revenue differs from the annual report,warning,TBBK,"TBBK (Bancorp, Inc.) FY 2024: ours 533.8M, 10-K 116.8M"
+EdgarTools,Revenue differs from the annual report,warning,PRK,"PRK (Park National Corp /Oh/) FY 2023: ours 465.7M, 10-K 54.2M"
+EdgarTools,Revenue differs from the annual report,warning,FBK,"FBK (FB Financial Corp) FY 2023: ours 477.8M, 10-K 78.4M"
+EdgarTools,Revenue differs from the annual report,warning,PEBO,"PEBO (Peoples Bancorp Inc) FY 2025: ours 459.3M, 10-K 63.4M"
+EdgarTools,Revenue differs from the annual report,warning,PEBO,"PEBO (Peoples Bancorp Inc) FY 2024: ours 448.1M, 10-K 62.2M"
+EdgarTools,Revenue differs from the annual report,warning,OCFC,"OCFC (Oceanfirst Financial Corp) FY 2025: ours 404.9M, 10-K 19.4M"
+EdgarTools,Revenue differs from the annual report,warning,OCFC,"OCFC (Oceanfirst Financial Corp) FY 2023: ours 403.4M, 10-K 23.8M"
+EdgarTools,Revenue differs from the annual report,warning,NBHC,"NBHC (National Bank Holdings Corp) FY 2023: ours 425.9M, 10-K 46.9M"
+EdgarTools,Revenue differs from the annual report,warning,NHC,"NHC (National Healthcare Corp) FY 2025: ours 1.52bn, 10-K 1.14bn"
+EdgarTools,Revenue differs from the annual report,warning,TFIN,"TFIN (Triumph Financial, Inc.) FY 2025: ours 439.0M, 10-K 63.9M"
+EdgarTools,Revenue differs from the annual report,warning,SRCE,"SRCE (1St Source Corp) FY 2025: ours 433.8M, 10-K 58.8M"
+EdgarTools,Revenue differs from the annual report,warning,TFIN,"TFIN (Triumph Financial, Inc.) FY 2023: ours 418.3M, 10-K 45.4M"
+EdgarTools,Revenue differs from the annual report,warning,FBNC,"FBNC (First Bancorp /Nc/) FY 2023: ours 404.1M, 10-K 32.8M"
+EdgarTools,Revenue differs from the annual report,warning,FBK,"FBK (FB Financial Corp) FY 2024: ours 455.6M, 10-K 85.5M"
+EdgarTools,Revenue differs from the annual report,warning,NBHC,"NBHC (National Bank Holdings Corp) FY 2025: ours 416.1M, 10-K 47.2M"
+EdgarTools,Revenue differs from the annual report,warning,WWW,"WWW (Wolverine World Wide Inc /De/) FY 2025: ours 1.87bn, 10-K 2.24bn"
+EdgarTools,Revenue differs from the annual report,warning,PBHC,"PBHC (Pathfinder Bancorp, Inc.) FY 2025: ours 372.0M, 10-K 3.4M"
+EdgarTools,Revenue differs from the annual report,warning,TCBK,"TCBK (Trico Bancshares /) FY 2023: ours 418.1M, 10-K 50.1M"
+EdgarTools,Revenue differs from the annual report,warning,PEBO,"PEBO (Peoples Bancorp Inc) FY 2023: ours 426.8M, 10-K 59.1M"
+EdgarTools,Revenue differs from the annual report,warning,RBCAA,"RBCAA (Republic Bancorp Inc /Ky/) FY 2025: ours 417.5M, 10-K 50.1M"
+EdgarTools,Revenue differs from the annual report,warning,TBBK,"TBBK (Bancorp, Inc.) FY 2023: ours 466.1M, 10-K 99.2M"
+EdgarTools,Revenue differs from the annual report,warning,TCBK,"TCBK (Trico Bancshares /) FY 2025: ours 419.2M, 10-K 53.4M"
+EdgarTools,Revenue differs from the annual report,warning,TFIN,"TFIN (Triumph Financial, Inc.) FY 2024: ours 415.9M, 10-K 50.5M"
+EdgarTools,Revenue differs from the annual report,warning,MLGO,"MLGO (MicroAlgo Inc.) FY 2025: ours 60.0M, 20-F 422.0M"
+EdgarTools,Revenue differs from the annual report,warning,OCFC,"OCFC (Oceanfirst Financial Corp) FY 2024: ours 384.2M, 10-K 23.5M"
+EdgarTools,Revenue differs from the annual report,warning,NBHC,"NBHC (National Bank Holdings Corp) FY 2024: ours 406.6M, 10-K 46.2M"
+EdgarTools,Revenue differs from the annual report,warning,STBA,"STBA (S&T Bancorp Inc) FY 2023: ours 407.0M, 10-K 46.6M"
+EdgarTools,Revenue differs from the annual report,warning,STBA,"STBA (S&T Bancorp Inc) FY 2025: ours 402.1M, 10-K 47.2M"
+EdgarTools,Revenue differs from the annual report,warning,BBT,"BBT (Beacon Financial Corp) FY 2023: ours 371.6M, 10-K 18.3M"
+EdgarTools,Revenue differs from the annual report,warning,HOLO,"HOLO (MicroCloud Hologram Inc.) FY 2025: ours 56.5M, 20-F 403.7M"
+EdgarTools,Revenue differs from the annual report,warning,BUSE,"BUSE (First Busey Corp /NV/) FY 2024: ours 462.3M, 10-K 116.9M"
+EdgarTools,Revenue differs from the annual report,warning,TCBK,"TCBK (Trico Bancshares /) FY 2024: ours 395.8M, 10-K 51.3M"
+EdgarTools,Revenue differs from the annual report,warning,OBK,"OBK (Origin Bancorp, Inc.) FY 2025: ours 390.8M, 10-K 46.8M"
+EdgarTools,Revenue differs from the annual report,warning,TIPT,"TIPT (Tiptree Inc.) FY 2024: ours 341.5M, 10-K 1.5M"
+EdgarTools,Revenue differs from the annual report,warning,NIC,"NIC (Nicolet Bankshares Inc) FY 2025: ours 392.0M, 10-K 52.2M"
+EdgarTools,Revenue differs from the annual report,warning,TIPT,"TIPT (Tiptree Inc.) FY 2023: ours 341.4M, 10-K 2.1M"
+EdgarTools,Revenue differs from the annual report,warning,RBCAA,"RBCAA (Republic Bancorp Inc /Ky/) FY 2024: ours 384.8M, 10-K 46.2M"
+EdgarTools,Revenue differs from the annual report,warning,STBA,"STBA (S&T Bancorp Inc) FY 2024: ours 383.9M, 10-K 46.8M"
+EdgarTools,Revenue differs from the annual report,warning,DCOM,"DCOM (Dime Commercial Bancshares, Inc. /NY/) FY 2023: ours 352.8M, 10-K 16.4M"
+EdgarTools,Revenue differs from the annual report,warning,BBT,"BBT (Beacon Financial Corp) FY 2024: ours 355.2M, 10-K 18.9M"
+EdgarTools,Revenue differs from the annual report,warning,BUSE,"BUSE (First Busey Corp /NV/) FY 2023: ours 441.8M, 10-K 108.4M"
+EdgarTools,Revenue differs from the annual report,warning,MCHB,"MCHB (Mechanics Bancorp) FY 2024: ours 380.0M, 10-K 48.1M"
+EdgarTools,Revenue differs from the annual report,warning,QCRH,"QCRH (Qcr Holdings Inc) FY 2025: ours 369.5M, 10-K 37.7M"
+EdgarTools,Revenue differs from the annual report,warning,SRCE,"SRCE (1St Source Corp) FY 2024: ours 387.1M, 10-K 57.4M"
+EdgarTools,Revenue differs from the annual report,warning,FBNC,"FBNC (First Bancorp /Nc/) FY 2025: ours 390.3M, 10-K 67.6M"
+EdgarTools,Revenue differs from the annual report,warning,QCRH,"QCRH (Qcr Holdings Inc) FY 2023: ours 353.7M, 10-K 31.6M"
+EdgarTools,Revenue differs from the annual report,warning,CCB,"CCB (Coastal Financial Corp) FY 2025: ours 541.7M, 10-K 225.2M"
+EdgarTools,Revenue differs from the annual report,warning,SRCE,"SRCE (1St Source Corp) FY 2023: ours 369.3M, 10-K 54.4M"
+EdgarTools,Revenue differs from the annual report,warning,OBK,"OBK (Origin Bancorp, Inc.) FY 2023: ours 357.9M, 10-K 43.9M"
+EdgarTools,Revenue differs from the annual report,warning,BFST,"BFST (Business First Bancshares, Inc.) FY 2025: ours 324.7M, 10-K 10.7M"
+EdgarTools,Revenue differs from the annual report,warning,QCRH,"QCRH (Qcr Holdings Inc) FY 2024: ours 347.3M, 10-K 34.7M"
+EdgarTools,Revenue differs from the annual report,warning,OSBC,"OSBC (Old Second Bancorp Inc) FY 2025: ours 339.3M, 10-K 26.8M"
+EdgarTools,Revenue differs from the annual report,warning,RBCAA,"RBCAA (Republic Bancorp Inc /Ky/) FY 2023: ours 360.2M, 10-K 47.9M"
+EdgarTools,Revenue differs from the annual report,warning,OBK,"OBK (Origin Bancorp, Inc.) FY 2024: ours 355.7M, 10-K 45.8M"
+EdgarTools,Revenue differs from the annual report,warning,GABC,"GABC (German American Bancorp, Inc.) FY 2025: ours 361.4M, 10-K 51.5M"
+EdgarTools,Revenue differs from the annual report,warning,MCB,"MCB (Metropolitan Bank Holding Corp.) FY 2025: ours 315.1M, 10-K 11.1M"
+EdgarTools,Revenue differs from the annual report,warning,SYBT,"SYBT (Stock Yards Bancorp, Inc.) FY 2025: ours 397.3M, 10-K 94.5M"
+EdgarTools,Revenue differs from the annual report,warning,NIC,"NIC (Nicolet Bankshares Inc) FY 2024: ours 350.3M, 10-K 48.3M"
+EdgarTools,Revenue differs from the annual report,warning,ATLC,"ATLC (Atlanticus Holdings Corp) FY 2025: ours 1.67bn, 10-K 1.97bn"
+EdgarTools,Revenue differs from the annual report,warning,DCOM,"DCOM (Dime Commercial Bancshares, Inc. /NY/) FY 2024: ours 314.1M, 10-K 16.7M"
+EdgarTools,Revenue differs from the annual report,warning,WABC,"WABC (Westamerica Bancorporation) FY 2023: ours 323.6M, 10-K 40.1M"
+EdgarTools,Revenue differs from the annual report,warning,FBNC,"FBNC (First Bancorp /Nc/) FY 2024: ours 350.2M, 10-K 70.1M"
+EdgarTools,Revenue differs from the annual report,warning,CCB,"CCB (Coastal Financial Corp) FY 2024: ours 581.2M, 10-K 302.7M"
+EdgarTools,Revenue differs from the annual report,warning,UVSP,"UVSP (UNIVEST FINANCIAL Corp) FY 2025: ours 328.1M, 10-K 51.6M"
+EdgarTools,Revenue differs from the annual report,warning,OSBC,"OSBC (Old Second Bancorp Inc) FY 2023: ours 286.1M, 10-K 21.9M"
+EdgarTools,Revenue differs from the annual report,warning,OSBC,"OSBC (Old Second Bancorp Inc) FY 2024: ours 285.5M, 10-K 23.9M"
+EdgarTools,Revenue differs from the annual report,warning,BFST,"BFST (Business First Bancshares, Inc.) FY 2024: ours 271.6M, 10-K 10.6M"
+EdgarTools,Revenue differs from the annual report,warning,SYBT,"SYBT (Stock Yards Bancorp, Inc.) FY 2024: ours 352.3M, 10-K 92.6M"
+EdgarTools,Revenue differs from the annual report,warning,WABC,"WABC (Westamerica Bancorporation) FY 2024: ours 293.8M, 10-K 38.6M"
+EdgarTools,Revenue differs from the annual report,warning,MCB,"MCB (Metropolitan Bank Holding Corp.) FY 2024: ours 276.9M, 10-K 23.9M"
+EdgarTools,Revenue differs from the annual report,warning,UVSP,"UVSP (UNIVEST FINANCIAL Corp) FY 2023: ours 296.8M, 10-K 46.0M"
+EdgarTools,Revenue differs from the annual report,warning,SYBT,"SYBT (Stock Yards Bancorp, Inc.) FY 2023: ours 339.6M, 10-K 89.5M"
+EdgarTools,Revenue differs from the annual report,warning,LEGN,"LEGN (Legend Biotech Corp) FY 2023: ours 285.1M, 20-F 35.3M"
+EdgarTools,Revenue differs from the annual report,warning,HOLO,"HOLO (MicroCloud Hologram Inc.) FY 2024: ours 40.8M, 20-F 290.3M"
+EdgarTools,Revenue differs from the annual report,warning,UVSP,"UVSP (UNIVEST FINANCIAL Corp) FY 2024: ours 299.2M, 10-K 52.5M"
+EdgarTools,Revenue differs from the annual report,warning,BFST,"BFST (Business First Bancshares, Inc.) FY 2023: ours 251.8M, 10-K 9.7M"
+EdgarTools,Revenue differs from the annual report,warning,CPF,"CPF (Central Pacific Financial Corp) FY 2025: ours 292.7M, 10-K 51.8M"
+EdgarTools,Revenue differs from the annual report,warning,CHCO,"CHCO (City Holding Co) FY 2025: ours 314.2M, 10-K 74.3M"
+EdgarTools,Revenue differs from the annual report,warning,RILY,"RILY (BRC Group Holdings, Inc.) FY 2024: ours 986.0M, 10-K 746.4M"
+EdgarTools,Revenue differs from the annual report,warning,CCB,"CCB (Coastal Financial Corp) FY 2023: ours 435.7M, 10-K 198.2M"
+EdgarTools,Revenue differs from the annual report,warning,DDC,"DDC (DDC Enterprise Ltd) FY 2024: ours 37.4M, 20-F 273.3M"
+EdgarTools,Revenue differs from the annual report,warning,BKV,"BKV (BKV Corp) FY 2025: ours 1.14bn, 10-K 905.5M"
+EdgarTools,Revenue differs from the annual report,warning,DDC,"DDC (DDC Enterprise Ltd) FY 2025: ours 39.2M, 20-F 274.0M"
+EdgarTools,Revenue differs from the annual report,warning,NIC,"NIC (Nicolet Bankshares Inc) FY 2023: ours 277.5M, 10-K 42.7M"
+EdgarTools,Revenue differs from the annual report,warning,HFWA,"HFWA (Heritage Financial Corp /Wa/) FY 2025: ours 246.1M, 10-K 19.7M"
+EdgarTools,Revenue differs from the annual report,warning,HFWA,"HFWA (Heritage Financial Corp /Wa/) FY 2023: ours 243.8M, 10-K 19.3M"
+EdgarTools,Revenue differs from the annual report,warning,CAC,"CAC (Camden National Corp) FY 2025: ours 255.8M, 10-K 32.8M"
+EdgarTools,Revenue differs from the annual report,warning,MCB,"MCB (Metropolitan Bank Holding Corp.) FY 2023: ours 250.7M, 10-K 27.9M"
+EdgarTools,Revenue differs from the annual report,warning,CHCO,"CHCO (City Holding Co) FY 2024: ours 293.6M, 10-K 72.0M"
+EdgarTools,Revenue differs from the annual report,warning,CHCO,"CHCO (City Holding Co) FY 2023: ours 289.9M, 10-K 69.1M"
+EdgarTools,Revenue differs from the annual report,warning,WABC,"WABC (Westamerica Bancorporation) FY 2025: ours 258.1M, 10-K 37.9M"
+EdgarTools,Revenue differs from the annual report,warning,MBWM,"MBWM (Mercantile Bank Corp) FY 2025: ours 242.7M, 10-K 23.6M"
+EdgarTools,Revenue differs from the annual report,warning,CPF,"CPF (Central Pacific Financial Corp) FY 2024: ours 250.5M, 10-K 38.7M"
+EdgarTools,Revenue differs from the annual report,warning,MPB,"MPB (Mid Penn Bancorp Inc) FY 2025: ours 225.9M, 10-K 14.6M"
+EdgarTools,Revenue differs from the annual report,warning,CPF,"CPF (Central Pacific Financial Corp) FY 2023: ours 256.7M, 10-K 46.7M"
+EdgarTools,Revenue differs from the annual report,warning,MBWM,"MBWM (Mercantile Bank Corp) FY 2024: ours 231.5M, 10-K 22.7M"
+EdgarTools,Revenue differs from the annual report,warning,HBT,"HBT (HBT Financial, Inc.) FY 2025: ours 237.1M, 10-K 31.0M"
+EdgarTools,Revenue differs from the annual report,warning,NRIM,"NRIM (Northrim Bancorp Inc) FY 2025: ours 212.8M, 10-K 7.7M"
+EdgarTools,Revenue differs from the annual report,warning,GABC,"GABC (German American Bancorp, Inc.) FY 2024: ours 253.3M, 10-K 48.6M"
+EdgarTools,Revenue differs from the annual report,warning,MBWM,"MBWM (Mercantile Bank Corp) FY 2023: ours 225.7M, 10-K 21.1M"
+EdgarTools,Revenue differs from the annual report,warning,EQBK,"EQBK (Equity Bancshares Inc) FY 2024: ours 225.0M, 10-K 20.9M"
+EdgarTools,Revenue differs from the annual report,warning,GABC,"GABC (German American Bancorp, Inc.) FY 2023: ours 250.7M, 10-K 50.3M"
+EdgarTools,Revenue differs from the annual report,warning,CBNK,"CBNK (Capital Bancorp Inc) FY 2025: ours 245.2M, 10-K 45.9M"
+EdgarTools,Revenue differs from the annual report,warning,HBT,"HBT (HBT Financial, Inc.) FY 2023: ours 227.1M, 10-K 28.8M"
+EdgarTools,Revenue differs from the annual report,warning,AHR,"AHR (American Healthcare REIT, Inc.) FY 2023: ours 1.87bn, 10-K 1.67bn"
+EdgarTools,Revenue differs from the annual report,warning,HFWA,"HFWA (Heritage Financial Corp /Wa/) FY 2024: ours 216.8M, 10-K 19.0M"
+EdgarTools,Revenue differs from the annual report,warning,HBT,"HBT (HBT Financial, Inc.) FY 2024: ours 224.4M, 10-K 30.0M"
+EdgarTools,Revenue differs from the annual report,warning,EQBK,"EQBK (Equity Bancshares Inc) FY 2025: ours 210.1M, 10-K 21.3M"
+EdgarTools,Revenue differs from the annual report,warning,CFFN,"CFFN (Capitol Federal Financial, Inc.) FY 2025: ours 201.0M, 10-K 16.3M"
+EdgarTools,Revenue differs from the annual report,warning,CCBG,"CCBG (Capital City Bank Group Inc) FY 2025: ours 254.0M, 10-K 74.4M"
+EdgarTools,Revenue differs from the annual report,warning,DDC,"DDC (DDC Enterprise Ltd) FY 2023: ours 28.9M, 20-F 205.5M"
+EdgarTools,Revenue differs from the annual report,warning,BCAL,"BCAL (California BanCorp \ CA) FY 2025: ours 180.2M, 10-K 4.6M"
+EdgarTools,Revenue differs from the annual report,warning,HOLO,"HOLO (MicroCloud Hologram Inc.) FY 2023: ours 28.9M, 20-F 203.5M"
+EdgarTools,Revenue differs from the annual report,warning,CCBG,"CCBG (Capital City Bank Group Inc) FY 2023: ours 230.6M, 10-K 63.0M"
+EdgarTools,Revenue differs from the annual report,warning,PFIS,"PFIS (Peoples Financial Services Corp.) FY 2025: ours 187.7M, 10-K 20.1M"
+EdgarTools,Revenue differs from the annual report,warning,MPB,"MPB (Mid Penn Bancorp Inc) FY 2024: ours 179.2M, 10-K 13.2M"
+EdgarTools,Revenue differs from the annual report,warning,NHC,"NHC (National Healthcare Corp) FY 2023: ours 1.14bn, 10-K 1.31bn"
+EdgarTools,Revenue differs from the annual report,warning,CCBG,"CCBG (Capital City Bank Group Inc) FY 2024: ours 234.9M, 10-K 69.5M"
+EdgarTools,Revenue differs from the annual report,warning,ATLC,"ATLC (Atlanticus Holdings Corp) FY 2024: ours 1.15bn, 10-K 1.31bn"
+EdgarTools,Revenue differs from the annual report,warning,CBNK,"CBNK (Capital Bancorp Inc) FY 2024: ours 186.2M, 10-K 30.3M"
+EdgarTools,Revenue differs from the annual report,warning,MPB,"MPB (Mid Penn Bancorp Inc) FY 2023: ours 167.0M, 10-K 12.7M"
+EdgarTools,Revenue differs from the annual report,warning,CFFN,"CFFN (Capitol Federal Financial, Inc.) FY 2024: ours 167.3M, 10-K 15.3M"
+EdgarTools,Revenue differs from the annual report,warning,CAC,"CAC (Camden National Corp) FY 2024: ours 177.0M, 10-K 28.4M"
+EdgarTools,Revenue differs from the annual report,warning,NRIM,"NRIM (Northrim Bancorp Inc) FY 2024: ours 155.2M, 10-K 6.7M"
+EdgarTools,Revenue differs from the annual report,warning,FMNB,"FMNB (Farmers National Banc Corp /Oh/) FY 2025: ours 188.6M, 10-K 46.9M"
+EdgarTools,Revenue differs from the annual report,warning,FMNB,"FMNB (Farmers National Banc Corp /Oh/) FY 2023: ours 179.6M, 10-K 39.4M"
+EdgarTools,Revenue differs from the annual report,warning,HBCP,"HBCP (Home Bancorp, Inc.) FY 2025: ours 148.7M, 10-K 12.1M"
+EdgarTools,Revenue differs from the annual report,warning,CAC,"CAC (Camden National Corp) FY 2023: ours 163.3M, 10-K 27.1M"
+EdgarTools,Revenue differs from the annual report,warning,ACNB,"ACNB (Acnb Corp) FY 2025: ours 151.7M, 10-K 18.1M"
+EdgarTools,Revenue differs from the annual report,warning,FCBC,"FCBC (First Community Bankshares Inc /Va/) FY 2023: ours 165.1M, 10-K 31.8M"
+EdgarTools,Revenue differs from the annual report,warning,FCBC,"FCBC (First Community Bankshares Inc /Va/) FY 2024: ours 165.9M, 10-K 32.9M"
+EdgarTools,Revenue differs from the annual report,warning,FCBC,"FCBC (First Community Bankshares Inc /Va/) FY 2025: ours 167.5M, 10-K 36.7M"
+EdgarTools,Revenue differs from the annual report,warning,WBHC,"WBHC (Wilson Bank Holding Co) FY 2025: ours 226.8M, 10-K 357.5M"
+EdgarTools,Revenue differs from the annual report,warning,INBK,"INBK (First Internet Bancorp) FY 2024: ours 134.7M, 10-K 4.6M"
+EdgarTools,Revenue differs from the annual report,warning,SEAT,"SEAT (Vivid Seats Inc.) FY 2024: ours 647.9M, 10-K 775.6M"
+EdgarTools,Revenue differs from the annual report,warning,FMNB,"FMNB (Farmers National Banc Corp /Oh/) FY 2024: ours 170.1M, 10-K 42.5M"
+EdgarTools,Revenue differs from the annual report,warning,UNTY,"UNTY (Unity Bancorp Inc /Nj/) FY 2025: ours 131.8M, 10-K 4.5M"
+EdgarTools,Revenue differs from the annual report,warning,WBHC,"WBHC (Wilson Bank Holding Co) FY 2024: ours 186.3M, 10-K 313.1M"
+EdgarTools,Revenue differs from the annual report,warning,BCAL,"BCAL (California BanCorp \ CA) FY 2024: ours 127.7M, 10-K 3.1M"
+EdgarTools,Revenue differs from the annual report,warning,NRIM,"NRIM (Northrim Bancorp Inc) FY 2023: ours 129.6M, 10-K 5.9M"
+EdgarTools,Revenue differs from the annual report,warning,HBCP,"HBCP (Home Bancorp, Inc.) FY 2023: ours 135.3M, 10-K 12.0M"
+EdgarTools,Revenue differs from the annual report,warning,HBCP,"HBCP (Home Bancorp, Inc.) FY 2024: ours 134.9M, 10-K 11.6M"
+EdgarTools,Revenue differs from the annual report,warning,MRBK,"MRBK (Meridian Corp) FY 2025: ours 126.9M, 10-K 6.3M"
+EdgarTools,Revenue differs from the annual report,warning,SEAT,"SEAT (Vivid Seats Inc.) FY 2025: ours 450.5M, 10-K 570.8M"
+EdgarTools,Revenue differs from the annual report,warning,ALRS,"ALRS (Alerus Financial Corp) FY 2024: ours 222.0M, 10-K 102.6M"
+EdgarTools,Revenue differs from the annual report,warning,EQBK,"EQBK (Equity Bancshares Inc) FY 2023: ours 139.9M, 10-K 21.2M"
+EdgarTools,Revenue differs from the annual report,warning,PFIS,"PFIS (Peoples Financial Services Corp.) FY 2024: ours 134.3M, 10-K 16.1M"
+EdgarTools,Revenue differs from the annual report,warning,ALRS,"ALRS (Alerus Financial Corp) FY 2025: ours 224.4M, 10-K 108.8M"
+EdgarTools,Revenue differs from the annual report,warning,SEAT,"SEAT (Vivid Seats Inc.) FY 2023: ours 597.4M, 10-K 712.9M"
+EdgarTools,Revenue differs from the annual report,warning,FMAO,"FMAO (Farmers & Merchants Bancorp Inc) FY 2025: ours 121.4M, 10-K 6.4M"
+EdgarTools,Revenue differs from the annual report,warning,INBK,"INBK (First Internet Bancorp) FY 2025: ours 116.5M, 10-K 4.6M"
+EdgarTools,Revenue differs from the annual report,warning,SFST,"SFST (Southern First Bancshares Inc) FY 2025: ours 118.1M, 10-K 6.3M"
+EdgarTools,Revenue differs from the annual report,warning,CZNC,"CZNC (Citizens & Northern Corp) FY 2025: ours 122.7M, 10-K 11.2M"
+EdgarTools,Revenue differs from the annual report,warning,MRBK,"MRBK (Meridian Corp) FY 2024: ours 112.3M, 10-K 5.7M"
+EdgarTools,Revenue differs from the annual report,warning,CBAN,"CBAN (Colony Bankcorp Inc) FY 2025: ours 132.2M, 10-K 25.7M"
+EdgarTools,Revenue differs from the annual report,warning,BWFG,"BWFG (Bankwell Financial Group, Inc.) FY 2025: ours 108.3M, 10-K 2.8M"
+EdgarTools,Revenue differs from the annual report,warning,UNTY,"UNTY (Unity Bancorp Inc /Nj/) FY 2024: ours 107.1M, 10-K 3.6M"
+EdgarTools,Revenue differs from the annual report,warning,BMRC,"BMRC (Bank of Marin Bancorp) FY 2023: ours 105.3M, 10-K 6.6M"
+EdgarTools,Revenue differs from the annual report,warning,INBK,"INBK (First Internet Bancorp) FY 2023: ours 101.0M, 10-K 3.3M"
+EdgarTools,Revenue differs from the annual report,warning,CZNC,"CZNC (Citizens & Northern Corp) FY 2024: ours 108.3M, 10-K 10.8M"
+EdgarTools,Revenue differs from the annual report,warning,NRP,"NRP (Natural Resource Partners LP) FY 2023: ours 278.7M, 10-K 181.5M"
+EdgarTools,Revenue differs from the annual report,warning,ACNB,"ACNB (Acnb Corp) FY 2024: ours 108.3M, 10-K 12.0M"
+EdgarTools,Revenue differs from the annual report,warning,NRP,"NRP (Natural Resource Partners LP) FY 2024: ours 232.4M, 10-K 136.4M"
+EdgarTools,Revenue differs from the annual report,warning,ACNB,"ACNB (Acnb Corp) FY 2023: ours 106.8M, 10-K 11.0M"
+EdgarTools,Revenue differs from the annual report,warning,FMAO,"FMAO (Farmers & Merchants Bancorp Inc) FY 2024: ours 101.5M, 10-K 5.8M"
+EdgarTools,Revenue differs from the annual report,warning,PLBC,"PLBC (Plumas Bancorp) FY 2025: ours 98.3M, 10-K 3.8M"
+EdgarTools,Revenue differs from the annual report,warning,CZNC,"CZNC (Citizens & Northern Corp) FY 2023: ours 104.8M, 10-K 10.3M"
+EdgarTools,Revenue differs from the annual report,warning,CBAN,"CBAN (Colony Bankcorp Inc) FY 2024: ours 115.5M, 10-K 23.7M"
+EdgarTools,Revenue differs from the annual report,warning,FMAO,"FMAO (Farmers & Merchants Bancorp Inc) FY 2023: ours 97.3M, 10-K 5.7M"
+EdgarTools,Revenue differs from the annual report,warning,OPBK,"OPBK (OP Bancorp) FY 2025: ours 94.7M, 10-K 3.2M"
+EdgarTools,Revenue differs from the annual report,warning,PFIS,"PFIS (Peoples Financial Services Corp.) FY 2023: ours 100.9M, 10-K 12.2M"
+EdgarTools,Revenue differs from the annual report,warning,WTBA,"WTBA (West Bancorporation Inc) FY 2025: ours 95.2M, 10-K 7.3M"
+EdgarTools,Revenue differs from the annual report,warning,SFST,"SFST (Southern First Bancshares Inc) FY 2024: ours 93.4M, 10-K 5.6M"
+EdgarTools,Revenue differs from the annual report,warning,BWFG,"BWFG (Bankwell Financial Group, Inc.) FY 2024: ours 87.0M, 10-K 2.0M"
+EdgarTools,Revenue differs from the annual report,warning,WBHC,"WBHC (Wilson Bank Holding Co) FY 2023: ours 167.2M, 10-K 250.9M"
+EdgarTools,Revenue differs from the annual report,warning,SFST,"SFST (Southern First Bancshares Inc) FY 2023: ours 87.5M, 10-K 4.0M"
+EdgarTools,Revenue differs from the annual report,warning,FNLC,"FNLC (First Bancorp, Inc /ME/) FY 2025: ours 94.7M, 10-K 13.9M"
+EdgarTools,Revenue differs from the annual report,warning,OPBK,"OPBK (OP Bancorp) FY 2023: ours 82.9M, 10-K 2.1M"
+EdgarTools,Revenue differs from the annual report,warning,COSO,"COSO (CoastalSouth Bancshares, Inc.) FY 2025: ours 82.0M, 10-K 2.0M"
+EdgarTools,Revenue differs from the annual report,warning,NWFL,"NWFL (Norwood Financial Corp) FY 2025: ours 87.9M, 10-K 8.0M"
+EdgarTools,Revenue differs from the annual report,warning,OPBK,"OPBK (OP Bancorp) FY 2024: ours 82.0M, 10-K 3.3M"
+EdgarTools,Revenue differs from the annual report,warning,PLBC,"PLBC (Plumas Bancorp) FY 2024: ours 82.5M, 10-K 3.7M"
+EdgarTools,Revenue differs from the annual report,warning,OVLY,"OVLY (Oak Valley Bancorp) FY 2025: ours 81.7M, 10-K 3.5M"
+EdgarTools,Revenue differs from the annual report,warning,FCCO,"FCCO (First Community Corp /Sc/) FY 2025: ours 79.0M, 10-K 922,000"
+EdgarTools,Revenue differs from the annual report,warning,MNSB,"MNSB (MainStreet Bancshares, Inc.) FY 2023: ours 80.1M, 10-K 2.1M"
+EdgarTools,Revenue differs from the annual report,warning,CHMG,"CHMG (Chemung Financial Corp) FY 2024: ours 97.3M, 10-K 20.0M"
+EdgarTools,Revenue differs from the annual report,warning,PLBC,"PLBC (Plumas Bancorp) FY 2023: ours 80.5M, 10-K 3.7M"
+EdgarTools,Revenue differs from the annual report,warning,FXNC,"FXNC (First National Corp /Va/) FY 2025: ours 90.3M, 10-K 14.3M"
+EdgarTools,Revenue differs from the annual report,warning,LCNB,"LCNB (Lcnb Corp) FY 2025: ours 92.0M, 10-K 16.9M"
+EdgarTools,Revenue differs from the annual report,warning,FDBC,"FDBC (Fidelity D & D Bancorp Inc) FY 2025: ours 93.2M, 10-K 18.4M"
+EdgarTools,Revenue differs from the annual report,warning,CHMG,"CHMG (Chemung Financial Corp) FY 2025: ours 95.1M, 10-K 20.7M"
+EdgarTools,Revenue differs from the annual report,warning,TSBK,"TSBK (Timberland Bancorp Inc) FY 2025: ours 82.6M, 10-K 9.1M"
+EdgarTools,Revenue differs from the annual report,warning,OVLY,"OVLY (Oak Valley Bancorp) FY 2024: ours 76.6M, 10-K 3.5M"
+EdgarTools,Revenue differs from the annual report,warning,WTBA,"WTBA (West Bancorporation Inc) FY 2024: ours 79.8M, 10-K 7.2M"
+EdgarTools,Revenue differs from the annual report,warning,HNVR,"HNVR (Hanover Bancorp, Inc. /MD) FY 2025: ours 73.3M, 10-K 750,000"
+EdgarTools,Revenue differs from the annual report,warning,WTBA,"WTBA (West Bancorporation Inc) FY 2023: ours 79.1M, 10-K 6.9M"
+EdgarTools,Revenue differs from the annual report,warning,MNSB,"MNSB (MainStreet Bancshares, Inc.) FY 2025: ours 73.6M, 10-K 2.2M"
+EdgarTools,Revenue differs from the annual report,warning,ALRS,"ALRS (Alerus Financial Corp) FY 2023: ours 168.1M, 10-K 96.8M"
+EdgarTools,Revenue differs from the annual report,warning,HWBK,"HWBK (Hawthorn Bancshares, Inc.) FY 2025: ours 80.2M, 10-K 9.8M"
+EdgarTools,Revenue differs from the annual report,warning,TSBK,"TSBK (Timberland Bancorp Inc) FY 2023: ours 79.5M, 10-K 9.1M"
+EdgarTools,Revenue differs from the annual report,warning,FNRN,"FNRN (First Northern Community Bancorp) FY 2025: ours 73.6M, 10-K 4.4M"
+EdgarTools,Revenue differs from the annual report,warning,COSO,"COSO (CoastalSouth Bancshares, Inc.) FY 2024: ours 69.8M, 10-K 1.9M"
+EdgarTools,Revenue differs from the annual report,warning,HNVR,"HNVR (Hanover Bancorp, Inc. /MD) FY 2024: ours 68.4M, 10-K 469,000"
+EdgarTools,Revenue differs from the annual report,warning,FNLC,"FNLC (First Bancorp, Inc /ME/) FY 2023: ours 80.6M, 10-K 12.7M"
+EdgarTools,Revenue differs from the annual report,warning,FNLC,"FNLC (First Bancorp, Inc /ME/) FY 2024: ours 80.3M, 10-K 13.3M"
+EdgarTools,Revenue differs from the annual report,warning,TSBK,"TSBK (Timberland Bancorp Inc) FY 2024: ours 75.3M, 10-K 9.3M"
+EdgarTools,Revenue differs from the annual report,warning,LCNB,"LCNB (Lcnb Corp) FY 2024: ours 81.2M, 10-K 15.2M"
+EdgarTools,Revenue differs from the annual report,warning,FNRN,"FNRN (First Northern Community Bancorp) FY 2024: ours 70.4M, 10-K 4.5M"
+EdgarTools,Revenue differs from the annual report,warning,COFS,"COFS (Choiceone Financial Services Inc) FY 2025: ours 161.7M, 10-K 227.6M"
+EdgarTools,Revenue differs from the annual report,warning,FCCO,"FCCO (First Community Corp /Sc/) FY 2024: ours 66.0M, 10-K 952,000"
+EdgarTools,Revenue differs from the annual report,warning,FDBC,"FDBC (Fidelity D & D Bancorp Inc) FY 2024: ours 80.9M, 10-K 16.6M"
+EdgarTools,Revenue differs from the annual report,warning,MNSB,"MNSB (MainStreet Bancshares, Inc.) FY 2024: ours 65.8M, 10-K 2.0M"
+EdgarTools,Revenue differs from the annual report,warning,HWBK,"HWBK (Hawthorn Bancshares, Inc.) FY 2024: ours 72.9M, 10-K 9.1M"
+EdgarTools,Revenue differs from the annual report,warning,BMRC,"BMRC (Bank of Marin Bancorp) FY 2024: ours 70.2M, 10-K 6.6M"
+EdgarTools,Revenue differs from the annual report,warning,EBMT,"EBMT (Eagle Bancorp Montana, Inc.) FY 2025: ours 91.6M, 10-K 31.0M"
+EdgarTools,Revenue differs from the annual report,warning,LCNB,"LCNB (Lcnb Corp) FY 2023: ours 71.8M, 10-K 12.9M"
+EdgarTools,Revenue differs from the annual report,warning,FCCO,"FCCO (First Community Corp /Sc/) FY 2023: ours 59.3M, 10-K 963,000"
+EdgarTools,Revenue differs from the annual report,warning,HWBK,"HWBK (Hawthorn Bancshares, Inc.) FY 2023: ours 66.7M, 10-K 8.4M"
+EdgarTools,Revenue differs from the annual report,warning,ATLO,"ATLO (Ames National Corp) FY 2025: ours 66.8M, 10-K 9.3M"
+EdgarTools,Revenue differs from the annual report,warning,NWPP,"NWPP (New Peoples Bankshares Inc) FY 2025: ours 58.5M, 10-K 3.6M"
+EdgarTools,Revenue differs from the annual report,warning,FXNC,"FXNC (First National Corp /Va/) FY 2024: ours 68.8M, 10-K 14.2M"
+EdgarTools,Revenue differs from the annual report,warning,SFDL,"SFDL (Security Federal Corp) FY 2025: ours 58.7M, 10-K 4.5M"
+EdgarTools,Revenue differs from the annual report,warning,EBMT,"EBMT (Eagle Bancorp Montana, Inc.) FY 2024: ours 81.2M, 10-K 27.2M"
+EdgarTools,Revenue differs from the annual report,warning,CBNA,"CBNA (Chain Bridge Bancorp Inc) FY 2025: ours 55.0M, 10-K 2.4M"
+EdgarTools,Revenue differs from the annual report,warning,NWPP,"NWPP (New Peoples Bankshares Inc) FY 2024: ours 55.9M, 10-K 3.8M"
+EdgarTools,Revenue differs from the annual report,warning,STLE,"STLE (Steele Bancorp Inc) FY 2025: ours 54.5M, 10-K 3.3M"
+EdgarTools,Revenue differs from the annual report,warning,CBNA,"CBNA (Chain Bridge Bancorp Inc) FY 2024: ours 53.0M, 10-K 2.3M"
+EdgarTools,Revenue differs from the annual report,warning,RBKB,"RBKB (Rhinebeck Bancorp, Inc.) FY 2025: ours 53.4M, 10-K 3.0M"
+EdgarTools,Revenue differs from the annual report,warning,TYFG,"TYFG (Tri-County Financial Group, Inc.) FY 2025: ours 67.3M, 10-K 17.2M"
+EdgarTools,Revenue differs from the annual report,warning,CBFV,"CBFV (CB Financial Services, Inc.) FY 2024: ours 51.6M, 10-K 1.9M"
+EdgarTools,Revenue differs from the annual report,warning,SLBK,"SLBK (Skyline Bankshares, Inc.) FY 2025: ours 58.2M, 10-K 9.4M"
+EdgarTools,Revenue differs from the annual report,warning,SFDL,"SFDL (Security Federal Corp) FY 2024: ours 52.1M, 10-K 4.4M"
+EdgarTools,Revenue differs from the annual report,warning,NKSH,"NKSH (National Bankshares Inc) FY 2025: ours 55.6M, 10-K 8.2M"
+EdgarTools,Revenue differs from the annual report,warning,COFS,"COFS (Choiceone Financial Services Inc) FY 2024: ours 92.4M, 10-K 139.1M"
+EdgarTools,Revenue differs from the annual report,warning,ATLO,"ATLO (Ames National Corp) FY 2024: ours 54.8M, 10-K 8.4M"
+EdgarTools,Revenue differs from the annual report,warning,PBHC,"PBHC (Pathfinder Bancorp, Inc.) FY 2024: ours 50.6M, 10-K 4.2M"
+EdgarTools,Revenue differs from the annual report,warning,ASRV,"ASRV (Ameriserv Financial Inc /Pa/) FY 2025: ours 59.3M, 10-K 14.6M"
+EdgarTools,Revenue differs from the annual report,warning,CSBB,"CSBB (CSB Bancorp, Inc.) FY 2025: ours 49.7M, 10-K 5.2M"
+EdgarTools,Revenue differs from the annual report,warning,BOTJ,"BOTJ (Bank Of The James Financial Group Inc) FY 2025: ours 48.7M, 10-K 4.3M"
+EdgarTools,Revenue differs from the annual report,warning,NWFL,"NWFL (Norwood Financial Corp) FY 2024: ours 51.0M, 10-K 7.4M"
+EdgarTools,Revenue differs from the annual report,warning,FCAP,"FCAP (First Capital Inc) FY 2025: ours 50.6M, 10-K 7.2M"
+EdgarTools,Revenue differs from the annual report,warning,TYFG,"TYFG (Tri-County Financial Group, Inc.) FY 2024: ours 58.5M, 10-K 15.6M"
+EdgarTools,Revenue differs from the annual report,warning,FKYS,"FKYS (First Keystone Corp) FY 2025: ours 45.0M, 10-K 3.4M"
+EdgarTools,Revenue differs from the annual report,warning,CBFV,"CBFV (CB Financial Services, Inc.) FY 2025: ours 43.5M, 10-K 2.4M"
+EdgarTools,Revenue differs from the annual report,warning,CBKM,"CBKM (Consumers Bancorp Inc /Oh/) FY 2026: ours 45.8M, 10-K 4.9M"
+EdgarTools,Revenue differs from the annual report,warning,BOTJ,"BOTJ (Bank Of The James Financial Group Inc) FY 2024: ours 44.4M, 10-K 4.0M"
+EdgarTools,Revenue differs from the annual report,warning,FUSB,"FUSB (First US Bancshares, Inc.) FY 2025: ours 41.0M, 10-K 1.1M"
+EdgarTools,Revenue differs from the annual report,warning,CSBB,"CSBB (CSB Bancorp, Inc.) FY 2024: ours 44.0M, 10-K 5.1M"
+EdgarTools,Revenue differs from the annual report,warning,RVSB,"RVSB (Riverview Bancorp Inc) FY 2025: ours 50.6M, 10-K 11.9M"
+EdgarTools,Revenue differs from the annual report,warning,FUSB,"FUSB (First US Bancshares, Inc.) FY 2024: ours 39.7M, 10-K 1.2M"
+EdgarTools,Revenue differs from the annual report,warning,ASRV,"ASRV (Ameriserv Financial Inc /Pa/) FY 2024: ours 54.0M, 10-K 15.6M"
+EdgarTools,Revenue differs from the annual report,warning,SLBK,"SLBK (Skyline Bankshares, Inc.) FY 2024: ours 46.8M, 10-K 8.7M"
+EdgarTools,Revenue differs from the annual report,warning,NKSH,"NKSH (National Bankshares Inc) FY 2024: ours 45.4M, 10-K 7.4M"
+EdgarTools,Revenue differs from the annual report,warning,PROV,"PROV (Provident Financial Holdings Inc) FY 2026: ours 40.1M, 10-K 2.3M"
+EdgarTools,Revenue differs from the annual report,warning,RVSB,"RVSB (Riverview Bancorp Inc) FY 2024: ours 48.3M, 10-K 11.6M"
+EdgarTools,Revenue differs from the annual report,warning,PROV,"PROV (Provident Financial Holdings Inc) FY 2025: ours 39.0M, 10-K 2.4M"
+EdgarTools,Revenue differs from the annual report,warning,FCAP,"FCAP (First Capital Inc) FY 2024: ours 43.4M, 10-K 7.1M"
+EdgarTools,Revenue differs from the annual report,warning,CFFN,"CFFN (Capitol Federal Financial, Inc.) FY 2023: ours -18.2M, 10-K 17.6M"
+EdgarTools,Revenue differs from the annual report,warning,FKYS,"FKYS (First Keystone Corp) FY 2024: ours 39.0M, 10-K 3.3M"
+EdgarTools,Revenue differs from the annual report,warning,ELMES,"ELMES (Elme Communities) FY 2024: ours 241.9M, 10-K 206.4M"
+EdgarTools,Revenue differs from the annual report,warning,FCAP,"FCAP (First Capital Inc) FY 2023: ours 42.2M, 10-K 7.0M"
+EdgarTools,Revenue differs from the annual report,warning,SFNC,"SFNC (Simmons First National Corp) FY 2025: ours 103.2M, 10-K 138.3M"
+EdgarTools,Revenue differs from the annual report,warning,CBKM,"CBKM (Consumers Bancorp Inc /Oh/) FY 2025: ours 39.6M, 10-K 4.6M"
+EdgarTools,Revenue differs from the annual report,warning,BYFC,"BYFC (Broadway Financial Corp \De\) FY 2025: ours 34.9M, 10-K 184,000"
+EdgarTools,Revenue differs from the annual report,warning,BYFC,"BYFC (Broadway Financial Corp \De\) FY 2024: ours 33.3M, 10-K 155,000"
+EdgarTools,Revenue differs from the annual report,warning,COFS,"COFS (Choiceone Financial Services Inc) FY 2023: ours 80.8M, 10-K 113.9M"
+EdgarTools,Revenue differs from the annual report,warning,ECBK,"ECBK (ECB Bancorp, Inc. /MD/) FY 2025: ours 33.2M, 10-K 598,000"
+EdgarTools,Revenue differs from the annual report,warning,SRBK,"SRBK (SR Bancorp, Inc.) FY 2026: ours 33.4M, 10-K 1.0M"
+EdgarTools,Revenue differs from the annual report,warning,SRBK,"SRBK (SR Bancorp, Inc.) FY 2025: ours 33.3M, 10-K 1.0M"
+EdgarTools,Revenue differs from the annual report,warning,AUBN,"AUBN (Auburn National Bancorporation, Inc) FY 2025: ours 32.8M, 10-K 619,000"
+EdgarTools,Revenue differs from the annual report,warning,WETO,"WETO (Wetour Robotics Ltd) FY 2025: ours 5.0M, 20-F 35.6M"
+EdgarTools,Revenue differs from the annual report,warning,RVSB,"RVSB (Riverview Bancorp Inc) FY 2026: ours 43.1M, 10-K 12.5M"
+EdgarTools,Revenue differs from the annual report,warning,AUBN,"AUBN (Auburn National Bancorporation, Inc) FY 2024: ours 30.6M, 10-K 614,000"
+EdgarTools,Revenue differs from the annual report,warning,JUVF,"JUVF (Juniata Valley Financial Corp) FY 2025: ours 31.1M, 10-K 5.0M"
+EdgarTools,Revenue differs from the annual report,warning,RBKB,"RBKB (Rhinebeck Bancorp, Inc.) FY 2024: ours 28.7M, 10-K 3.0M"
+EdgarTools,Revenue differs from the annual report,warning,ECBK,"ECBK (ECB Bancorp, Inc. /MD/) FY 2024: ours 26.2M, 10-K 577,000"
+EdgarTools,Revenue differs from the annual report,warning,FMFG,"FMFG (Farmers & Merchants Bancshares, Inc.) FY 2025: ours 26.4M, 10-K 1.1M"
+EdgarTools,Revenue differs from the annual report,warning,QNTO,"QNTO (Quaint Oak Bancorp, Inc.) FY 2024: ours 26.0M, 10-K 1.7M"
+EdgarTools,Revenue differs from the annual report,warning,QNTO,"QNTO (Quaint Oak Bancorp, Inc.) FY 2025: ours 25.1M, 10-K 1.0M"
+EdgarTools,Revenue differs from the annual report,warning,JUVF,"JUVF (Juniata Valley Financial Corp) FY 2024: ours 28.8M, 10-K 5.1M"
+EdgarTools,Revenue differs from the annual report,warning,BMRC,"BMRC (Bank of Marin Bancorp) FY 2025: ours 29.4M, 10-K 6.5M"
+EdgarTools,Revenue differs from the annual report,warning,FMFG,"FMFG (Farmers & Merchants Bancshares, Inc.) FY 2024: ours 22.6M, 10-K 1.1M"
+EdgarTools,Revenue differs from the annual report,warning,USAS,"USAS (Americas Gold & Silver Corp) FY 2024: ours 120.9M, 40-F 100.2M"
+EdgarTools,Revenue differs from the annual report,warning,RYM,"RYM (RYTHM, Inc.) FY 2024: ours 18.0M, 10-K 18,000"
+EdgarTools,Revenue differs from the annual report,warning,STLE,"STLE (Steele Bancorp Inc) FY 2024: ours 18.6M, 10-K 1.5M"
+EdgarTools,Revenue differs from the annual report,warning,FDSB,"FDSB (Fifth District Bancorp, Inc.) FY 2025: ours 17.3M, 10-K 605,000"
+EdgarTools,Revenue differs from the annual report,warning,WETO,"WETO (Wetour Robotics Ltd) FY 2026: ours 2.0M, 20-F 13.3M"
+EdgarTools,Revenue differs from the annual report,warning,FDSB,"FDSB (Fifth District Bancorp, Inc.) FY 2024: ours 10.1M, 10-K 619,000"
+EdgarTools,Revenue differs from the annual report,warning,SNNF,"SNNF (Seneca Bancorp, Inc.) FY 2025: ours 11.1M, 10-K 2.0M"
+EdgarTools,Revenue differs from the annual report,warning,ESGH,"ESGH (ESG Inc.) FY 2024: ours 21.4M, 10-K 12.7M"
+EdgarTools,Revenue differs from the annual report,warning,SNNF,"SNNF (Seneca Bancorp, Inc.) FY 2024: ours 10.0M, 10-K 1.7M"
+EdgarTools,Revenue differs from the annual report,warning,NWGL,"NWGL (CL Workshop Group Ltd) FY 2023: ours 25.5M, 20-F 17.7M"
+EdgarTools,Revenue differs from the annual report,warning,NTWK,"NTWK (Netsol Technologies Inc) FY 2025: ours 73.1M, 10-K 66.1M"
+EdgarTools,Revenue differs from the annual report,warning,NWGL,"NWGL (CL Workshop Group Ltd) FY 2024: ours 21.5M, 20-F 16.3M"
+EdgarTools,Revenue differs from the annual report,warning,NCRA,"NCRA (Nocera, Inc.) FY 2025: ours 11.0M, 10-K 13.6M"
+EdgarTools,Net income differs from the annual report,warning,SRE,"SRE (Sempra) FY 2024: ours 2.86bn, 10-K 3.50bn"
+EdgarTools,Net income differs from the annual report,warning,GEF,"GEF (Greif, Inc) FY 2024: ours 268.8M, 10-K 840.0M"
+EdgarTools,Net income differs from the annual report,warning,SRE,"SRE (Sempra) FY 2023: ours 3.08bn, 10-K 3.62bn"
+EdgarTools,Net income differs from the annual report,warning,ETR,"ETR (Entergy Corp /De/) FY 2023: ours 2.36bn, 10-K 1.86bn"
+EdgarTools,Net income differs from the annual report,warning,OPTU,"OPTU (Optimum Communications, Inc.) FY 2025: ours -1.44bn, 10-K -1.87bn"
+EdgarTools,Net income differs from the annual report,warning,ETR,"ETR (Entergy Corp /De/) FY 2024: ours 1.06bn, 10-K 1.47bn"
+EdgarTools,Net income differs from the annual report,warning,DDC,"DDC (DDC Enterprise Ltd) FY 2025: ours -48.3M, 20-F -338.0M"
+EdgarTools,Net income differs from the annual report,warning,SRE,"SRE (Sempra) FY 2025: ours 1.84bn, 10-K 2.07bn"
+EdgarTools,Net income differs from the annual report,warning,MLGO,"MLGO (MicroAlgo Inc.) FY 2023: ours -37.6M, 20-F -266.2M"
+EdgarTools,Net income differs from the annual report,warning,IVZ,"IVZ (Invesco Ltd.) FY 2024: ours 538.0M, 10-K 752.4M"
+EdgarTools,Net income differs from the annual report,warning,CMP,"CMP (Compass Minerals International Inc) FY 2024: ours -206.1M, 10-K 0"
+EdgarTools,Net income differs from the annual report,warning,IVZ,"IVZ (Invesco Ltd.) FY 2023: ours -333.7M, 10-K -168.2M"
+EdgarTools,Net income differs from the annual report,warning,PNFP,"PNFP (Pinnacle Financial Partners, Inc.) FY 2025: ours 792.0M, 10-K 641.9M"
+EdgarTools,Net income differs from the annual report,warning,ELMES,"ELMES (Elme Communities) FY 2024: ours -13.1M, 10-K -154.2M"
+EdgarTools,Net income differs from the annual report,warning,DDC,"DDC (DDC Enterprise Ltd) FY 2023: ours -22.8M, 20-F -162.0M"
+EdgarTools,Net income differs from the annual report,warning,DDC,"DDC (DDC Enterprise Ltd) FY 2024: ours -21.5M, 20-F -157.0M"
+EdgarTools,Net income differs from the annual report,warning,WWW,"WWW (Wolverine World Wide Inc /De/) FY 2025: ours 95.8M, 10-K -38.5M"
+EdgarTools,Net income differs from the annual report,warning,EE,"EE (Excelerate Energy, Inc.) FY 2025: ours 39.2M, 10-K 167.0M"
+EdgarTools,Net income differs from the annual report,warning,EE,"EE (Excelerate Energy, Inc.) FY 2024: ours 32.9M, 10-K 153.0M"
+EdgarTools,Net income differs from the annual report,warning,MAGN,"MAGN (Magnera Corp) FY 2023: ours -79.1M, 10-K 38.0M"
+EdgarTools,Net income differs from the annual report,warning,MLGO,"MLGO (MicroAlgo Inc.) FY 2025: ours 18.1M, 20-F 127.6M"
+EdgarTools,Net income differs from the annual report,warning,EE,"EE (Excelerate Energy, Inc.) FY 2023: ours 30.4M, 10-K 126.8M"
+EdgarTools,Net income differs from the annual report,warning,WWW,"WWW (Wolverine World Wide Inc /De/) FY 2023: ours -38.5M, 10-K 45.2M"
+EdgarTools,Net income differs from the annual report,warning,BALY,"BALY (Bally's Corp) FY 2024: ours -567.8M, 10-K -650.1M"
+EdgarTools,Net income differs from the annual report,warning,CMP,"CMP (Compass Minerals International Inc) FY 2025: ours -79.8M, 10-K 0"
+EdgarTools,Net income differs from the annual report,warning,EVC,"EVC (Entravision Communications Corp) FY 2024: ours -148.9M, 10-K -70.3M"
+EdgarTools,Net income differs from the annual report,warning,HOLO,"HOLO (MicroCloud Hologram Inc.) FY 2023: ours -11.6M, 20-F -81.6M"
+EdgarTools,Net income differs from the annual report,warning,POWW,"POWW (Outdoor Holding Co) FY 2025: ours -130.8M, 10-K -65.2M"
+EdgarTools,Net income differs from the annual report,warning,CHRN,"CHRN (ChronoScale Holdings Corp) FY 2025: ours -11.7M, 10-K -72.7M"
+EdgarTools,Net income differs from the annual report,warning,INFQ,"INFQ (Infleqtion, Inc.) FY 2024: ours -55.7M, 10-K -51,910"
+EdgarTools,Net income differs from the annual report,warning,HOLO,"HOLO (MicroCloud Hologram Inc.) FY 2024: ours -9.0M, 20-F -64.2M"
+EdgarTools,Net income differs from the annual report,warning,NHC,"NHC (National Healthcare Corp) FY 2025: ours 120.0M, 10-K 66.8M"
+EdgarTools,Net income differs from the annual report,warning,CLF,"CLF (Cleveland-Cliffs Inc.) FY 2023: ours 385.0M, 10-K 436.0M"
+EdgarTools,Net income differs from the annual report,warning,WWW,"WWW (Wolverine World Wide Inc /De/) FY 2024: ours 45.2M, 10-K 95.8M"
+EdgarTools,Net income differs from the annual report,warning,MLGO,"MLGO (MicroAlgo Inc.) FY 2024: ours 7.3M, 20-F 52.4M"
+EdgarTools,Net income differs from the annual report,warning,HOLO,"HOLO (MicroCloud Hologram Inc.) FY 2025: ours -7.0M, 20-F -50.2M"
+EdgarTools,Net income differs from the annual report,warning,SRXH,"SRXH (SRX Global Inc.) FY 2024: ours -168,000, 10-K -43.1M"
+EdgarTools,Net income differs from the annual report,warning,ELMES,"ELMES (Elme Communities) FY 2023: ours -53.0M, 10-K -13.1M"
+EdgarTools,Net income differs from the annual report,warning,LEVI,"LEVI (Levi Strauss & Co) FY 2023: ours 249.6M, 10-K 210.6M"
+EdgarTools,Net income differs from the annual report,warning,LEVI,"LEVI (Levi Strauss & Co) FY 2024: ours 210.6M, 10-K 249.6M"
+EdgarTools,Net income differs from the annual report,warning,NHC,"NHC (National Healthcare Corp) FY 2023: ours 66.8M, 10-K 101.9M"
+EdgarTools,Net income differs from the annual report,warning,RR,"RR (Richtech Robotics Inc.) FY 2025: ours -49.1M, 10-K -15.8M"
+EdgarTools,Net income differs from the annual report,warning,APOG,"APOG (Apogee Enterprises, Inc.) FY 2025: ours 54.1M, 10-K 85.1M"
+EdgarTools,Net income differs from the annual report,warning,WETO,"WETO (Wetour Robotics Ltd) FY 2026: ours -4.6M, 20-F -31.1M"
+EdgarTools,Net income differs from the annual report,warning,NMRK,"NMRK (Newmark Group, Inc.) FY 2024: ours 85.5M, 10-K 61.2M"
+EdgarTools,Net income differs from the annual report,warning,NMRK,"NMRK (Newmark Group, Inc.) FY 2023: ours 62.4M, 10-K 42.6M"
+EdgarTools,Net income differs from the annual report,warning,EVC,"EVC (Entravision Communications Corp) FY 2023: ours -15.4M, 10-K -33.1M"
+EdgarTools,Net income differs from the annual report,warning,REX,"REX (REX AMERICAN RESOURCES Corp) FY 2023: ours 60.9M, 10-K 75.9M"
+EdgarTools,Net income differs from the annual report,warning,SMA,"SMA (SmartStop Self Storage REIT, Inc.) FY 2023: ours -2.7M, 10-K 11.6M"
+EdgarTools,Net income differs from the annual report,warning,CMP,"CMP (Compass Minerals International Inc) FY 2023: ours 10.5M, 10-K -3.1M"
+EdgarTools,Net income differs from the annual report,warning,SMC,"SMC (Summit Midstream Corp) FY 2023: ours -51.5M, 10-K -38.9M"
+EdgarTools,Net income differs from the annual report,warning,SMA,"SMA (SmartStop Self Storage REIT, Inc.) FY 2024: ours -18.4M, 10-K -5.9M"
+EdgarTools,Net income differs from the annual report,warning,AMCX,"AMCX (AMC Global Media Inc.) FY 2025: ours 89.4M, 10-K 101.8M"
+EdgarTools,Net income differs from the annual report,warning,WETO,"WETO (Wetour Robotics Ltd) FY 2025: ours -1.7M, 20-F -12.5M"
+EdgarTools,Net income differs from the annual report,warning,TTEC,"TTEC (TTEC Holdings, Inc.) FY 2023: ours 8.4M, 10-K 18.3M"
+EdgarTools,Net income differs from the annual report,warning,DCO,"DCO (Ducommun Inc /De/) FY 2024: ours 21.7M, 10-K 31.5M"
+EdgarTools,Net income differs from the annual report,warning,NXPL,"NXPL (NextPlat Corp) FY 2024: ours -14.0M, 10-K -22.5M"
+EdgarTools,Net income differs from the annual report,warning,GLTK,"GLTK (GlobalTech Corp) FY 2025: ours -11.6M, 10-K -3.1M"
+EdgarTools,Net income differs from the annual report,warning,GPUS,"GPUS (Hyperscale Data, Inc.) FY 2024: ours -56.2M, 10-K -62.5M"
+EdgarTools,Net income differs from the annual report,warning,DCO,"DCO (Ducommun Inc /De/) FY 2025: ours -37.4M, 10-K -33.9M"
+EdgarTools,Net income differs from the annual report,warning,GEG,"GEG (Great Elm Group, Inc.) FY 2025: ours 12.9M, 10-K 15.6M"
+EdgarTools,Net income differs from the annual report,warning,EONR,"EONR (EON Resources Inc.) FY 2025: ours -7.5M, 10-K -10.1M"
+EdgarTools,Net income differs from the annual report,warning,NABL,"NABL (N-able, Inc.) FY 2025: ours -18.8M, 10-K -17.0M"
+EdgarTools,Net income differs from the annual report,warning,STSR,"STSR (Strategic Student & Senior Housing Trust, Inc.) FY 2023: ours -11.1M, 10-K -9.8M"

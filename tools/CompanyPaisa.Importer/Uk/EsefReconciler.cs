@@ -48,6 +48,7 @@ internal static class EsefReconciler
             warnings.Add($"{label}: report {r.PeriodEnd}: revenue tag contradicted by another report of the same year; report left out");
         kept.RemoveAll(misTagged.Contains);
         if (kept.Count < 2) return kept;
+        kept = FixRevenueScale(kept, label, warnings);
         kept = FixSingleFigures(kept, label, warnings);
 
         var anchor = Anchor(kept);
@@ -158,6 +159,46 @@ internal static class EsefReconciler
                 };
             }).ToList()
         }).ToList();
+    }
+
+    private static readonly decimal[] TenFold = [10m, 100m, 1_000m, 10_000m, 100_000m, 1_000_000m];
+
+    /// <summary>
+    /// A report whose revenue lines carry the wrong scale while its profit is right (New Wave's 2022 report: 2021 revenue
+    /// SEK 67,186M where the 2021 report says 6,718.6M, the same profit in both): two reports state the same year and
+    /// profit with revenues exactly a power of ten apart. The one out of line with the company's other years is the slip,
+    /// and only its revenue is rescaled.
+    /// </summary>
+    private static List<EsefReport> FixRevenueScale(List<EsefReport> reports, string label, List<string> warnings)
+    {
+        var result = reports.ToList();
+        for (var i = 0; i < result.Count; i++)
+        {
+            var report = result[i];
+            var factor = result.Where(o => !ReferenceEquals(o, report)).SelectMany(o => Overlaps(report, o))
+                .Where(p => Same(p.Other.NetIncome, p.Mine.NetIncome) && p.Mine.Revenue > 0 && p.Other.Revenue > 0)
+                .Select(p => TenFold.Concat(TenFold.Select(f => 1 / f)).FirstOrDefault(f => Same(p.Other.Revenue, p.Mine.Revenue * f)))
+                .FirstOrDefault(f => f != 0);
+            if (factor == 0) continue;
+            var others = result.Where(o => !ReferenceEquals(o, report)).SelectMany(o => o.Years)
+                .Where(y => y.Currency == report.Years[0].Currency && y.Revenue > 0 && !report.Years.Any(m => SamePeriod(m, y)))
+                .Select(y => y.Revenue).Order().ToList();
+            if (others.Count == 0) continue;
+            var usual = others[others.Count / 2];
+            static double Distance(decimal a, decimal b) => Math.Abs(Math.Log10((double)(a / b)));
+            var mine = report.Years[0].Revenue;
+            if (mine <= 0 || Distance(mine * factor, usual) >= Distance(mine, usual)) continue;
+            warnings.Add($"{label}: report {report.PeriodEnd}: revenue tagged at the wrong scale (another report states the same year and profit); revenue ×{factor:0.######}");
+            result[i] = report with
+            {
+                Years = report.Years.Select(y => y with
+                {
+                    Revenue = y.Revenue * factor,
+                    RevenueCandidates = y.RevenueCandidates.ToDictionary(c => c.Key, c => c.Value * factor)
+                }).ToList()
+            };
+        }
+        return result;
     }
 
     /// <summary>The middle revenue of the company's other years.</summary>

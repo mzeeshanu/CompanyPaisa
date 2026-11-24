@@ -48,6 +48,28 @@ public class EsefTaggingSlipTests
         Assert.Equal(5_000_000m, years.Single().Revenue);
     }
 
+    [Fact]
+    public void Revenue_tagged_only_by_kind_is_the_sum_of_the_kinds()   // Altarea 2024
+    {
+        var years = Extract(new DateOnly(2024, 12, 31),
+            ("RevenueFromConstructionContracts", "2024-01-01T00:00:00/2025-01-01T00:00:00", 2_466_300_000m),
+            ("RevenueFromRenderingOfServices", "2024-01-01T00:00:00/2025-01-01T00:00:00", 58_700_000m),
+            ("RentalIncomeFromInvestmentProperty", "2024-01-01T00:00:00/2025-01-01T00:00:00", 243_500_000m),
+            ("ProfitLossAttributableToOwnersOfParent", "2024-01-01T00:00:00/2025-01-01T00:00:00", 6_100_000m));
+        Assert.Equal(2_768_500_000m, years.Single().Revenue);
+    }
+
+    [Fact]
+    public void A_tagged_total_wins_over_its_parts()
+    {
+        var years = Extract(new DateOnly(2024, 12, 31),
+            ("Revenue", "2024-01-01T00:00:00/2025-01-01T00:00:00", 1_000m),
+            ("RevenueFromSaleOfGoods", "2024-01-01T00:00:00/2025-01-01T00:00:00", 700m),
+            ("RevenueFromRenderingOfServices", "2024-01-01T00:00:00/2025-01-01T00:00:00", 300m),
+            ("ProfitLoss", "2024-01-01T00:00:00/2025-01-01T00:00:00", 10m));
+        Assert.Equal(1_000m, years.Single().Revenue);
+    }
+
     [Theory]
     [InlineData("/2138008L93GYU5GN6179/2022-09-30/ESEF/GB/0/213800G4OJM9F7G9LG39-2022-09-30-T02.json", "213800G4OJM9F7G9LG39")]   // Hemogenyx
     [InlineData("/2138008L93GYU5GN6179/2024-12-31/ESEF/GB/0/2138008L93GYU5GN6179-2024-12-31-en.json", null)]

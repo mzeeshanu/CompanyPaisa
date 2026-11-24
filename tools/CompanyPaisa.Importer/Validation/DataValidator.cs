@@ -8,8 +8,9 @@ namespace CompanyPaisa.Importer.Validation;
 /// <summary>How bad a finding is. Errors are values that can't be right; warnings are worth a look.</summary>
 public enum Severity { Error, Warning }
 
-/// <summary>One data-quality check: how many rows failed it, and a few of them to look at.</summary>
-public sealed record CheckResult(string Area, string Name, Severity Severity, string Explanation, int Count, IReadOnlyList<string> Examples);
+/// <summary>One data-quality check: how many rows failed it, a few of them to look at, and all of them (for the audit).</summary>
+public sealed record CheckResult(string Area, string Name, Severity Severity, string Explanation, int Count, IReadOnlyList<string> Examples,
+    IReadOnlyList<string>? All = null);
 
 /// <summary>Counts for the report's overview tables.</summary>
 public sealed record Tally(string Title, IReadOnlyList<(string Key, int Count)> Rows);
@@ -45,7 +46,7 @@ public static class DataValidator
         void Check(string area, string name, Severity severity, string why, IEnumerable<string> failures)
         {
             var list = failures.ToList();
-            checks.Add(new CheckResult(area, name, severity, why, list.Count, list.Take(MaxExamples).ToList()));
+            checks.Add(new CheckResult(area, name, severity, why, list.Count, list.Take(MaxExamples).ToList(), list));
         }
 
         // ---------------- Companies & locations ----------------
@@ -67,6 +68,15 @@ public static class DataValidator
             "Usually two share classes or a parent and its subsidiary listed separately — one company shown twice.",
             data.Companies.GroupBy(c => NormaliseName(c.Name)).Where(g => g.Count() > 1 && g.Key.Length > 0)
                 .Select(g => string.Join(", ", g.Select(c => c.CompanyId)) + $" — {g.First().Name}"));
+
+        Check("Companies", "No industry classification", Severity.Warning,
+            "Neither its exchange nor the SEC gave a category (--enrich categories), so it is filed under a guessed or blank sector.",
+            data.Companies.Where(c => c.Classification is null).Select(c => $"{Name(c.CompanyId)}: {c.Exchange}"));
+
+        Check("Companies", "Classification not checked recently", Severity.Warning,
+            "The category was last read from the exchange more than 120 days ago: the exchange no longer lists it, or the source stopped answering.",
+            data.Companies.Where(c => c.Classification?.CheckedOn is { } on && on < today.AddDays(-120))
+                .Select(c => $"{Name(c.CompanyId)}: {c.Classification!.Name}, {c.Classification.Source}, checked {c.Classification.CheckedOn:yyyy-MM-dd}"));
 
         Check("Locations", "Outside its country", Severity.Error,
             "The map point is outside the company's country — a wrong postcode or a geocoding mix-up.",

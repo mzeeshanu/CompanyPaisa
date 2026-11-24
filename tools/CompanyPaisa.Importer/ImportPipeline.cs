@@ -86,6 +86,7 @@ public sealed partial class ImportPipeline(
             // Thousands of filers fall out here, so they're counted rather than listed one by one in the report.
             if (sec.PrimaryTicker is null && !o.Listing.IncludeUnlisted) { outcome.NoTicker++; continue; }
             if (sec.PrimaryTicker is { } t && o.Listing.SkipTickers.TryGetValue(t, out var why)) { outcome.Excluded.Add($"{Label(sec)}: {why}"); continue; }
+            if (IsExchangeTradedFund(sec.Sic, sec.Name)) { outcome.Excluded.Add($"{Label(sec)}: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company"); continue; }
             // Still reporting? The ticker file also lists companies that stopped filing years ago.
             if (!sec.Filings.Any(f => StillReportingForms.Contains(f.Form) && f.FilingDate >= o.Discovery.Since)) { outcome.NotReporting++; continue; }
             if (geo.Place(addr) is not { } placed)
@@ -196,8 +197,15 @@ public sealed partial class ImportPipeline(
             {
                 CompanyId = ticker, Ticker = ticker, Name = Text.TitleCase(c.Sec.Name), Exchange = ListingExchanges.Refine(ticker, exchange, listings),
                 Sector = SectorClassifier.FromSic(c.Sec.Sic), Industry = Text.TitleCase(c.Sec.SicDescription),
+                Classification = c.Sec.Sic is { } sic && !string.IsNullOrWhiteSpace(c.Sec.SicDescription)
+                    ? new IndustryClassification
+                    {
+                        Scheme = "SIC", Code = sic.ToString(System.Globalization.CultureInfo.InvariantCulture), Industry = SectorClassifier.SicDivision(sic),
+                        Name = Text.TitleCase(c.Sec.SicDescription), Source = "SEC EDGAR", CheckedOn = DateOnly.FromDateTime(DateTime.UtcNow)
+                    }
+                    : null,
                 Website = string.IsNullOrWhiteSpace(c.Sec.Website) ? null : c.Sec.Website,
-                FiscalYearEnd = c.Sec.FiscalYearEnd is { Length: 4 } fye ? $"{fye[..2]}-{fye[2..]}" : null,
+                FiscalYearEnd = FiscalYears.YearEnd(c.Sec.FiscalYearEnd, fin.LatestYearEnd),
                 Description = c.Note, AsOfDate = fin.LatestPeriodEnd,
                 // Canadian companies often report in Canadian dollars; US proxy statements show pay in US dollars.
                 Currency = fin.Currency, PayCurrency = pay.Count > 0 && fin.Currency != "USD" ? "USD" : null
@@ -481,6 +489,13 @@ public sealed partial class ImportPipeline(
         foreach (var line in o.Warnings) sb.AppendLine($"- {line}");
         await File.WriteAllTextAsync(paths.Resolve(options.Value.Output.ReportPath), sb.ToString(), ct);
     }
+
+    /// <summary>
+    /// Commodity pools and currency, commodity and bitcoin trusts (SIC 6221 with Fund, Trust or ETF in the name: USO, UNG, GSG, FXE, BTCO…)
+    /// file 10-Ks like companies but have no staff, executives or business. Real firms under 6221 (AI Financial, AIB Data Centers) stay.
+    /// </summary>
+    internal static bool IsExchangeTradedFund(int? sic, string? name) =>
+        sic == 6221 && name is not null && Regex.IsMatch(name, @"\b(Fund|Trust|ETF)\b", RegexOptions.IgnoreCase);
 
     private static string Label(SecCompany s) => $"{s.PrimaryTicker ?? $"CIK {s.Cik}"} {Text.TitleCase(s.Name)}";
 

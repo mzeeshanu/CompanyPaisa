@@ -17,9 +17,10 @@ public static class SqliteDataStore
     /// <summary>Bumped whenever the table layout changes; an older file is refused rather than misread.</summary>
     /// <remarks>
     /// 2: companies.careers_url. 3: worker_pay (median employee and CEO pay ratio), job_salaries and extras. 4:
-    /// job_salaries.source (visa filings or job ads) and .url. An older file is upgraded in place when an importer writes to it.
+    /// job_salaries.source (visa filings or job ads) and .url. 5: companies.class_* (the industry classification the
+    /// company's exchange or the SEC publishes). An older file is upgraded in place when an importer writes to it.
     /// </remarks>
-    public const int SchemaVersion = 4;
+    public const int SchemaVersion = 5;
 
     // Amounts are NUMERIC: whole numbers (nearly all of them) are stored as compact integers, fractions (EPS) as REAL.
     // No per-market indexes: replacing a market scans each table once, which takes well under a second.
@@ -30,7 +31,8 @@ public static class SqliteDataStore
             company_id TEXT NOT NULL PRIMARY KEY COLLATE NOCASE, market TEXT NOT NULL,
             name TEXT NOT NULL, ticker TEXT NOT NULL, exchange TEXT NOT NULL, sector TEXT NOT NULL, industry TEXT, website TEXT,
             careers_url TEXT, employees INTEGER, market_cap NUMERIC, description TEXT, currency TEXT NOT NULL, pay_currency TEXT,
-            fiscal_year_end TEXT, logo_url TEXT, as_of_date TEXT);
+            fiscal_year_end TEXT, logo_url TEXT, as_of_date TEXT, class_scheme TEXT, class_code TEXT, class_industry TEXT,
+            class_name TEXT, class_source TEXT, class_checked_on TEXT);
         CREATE TABLE IF NOT EXISTS locations (
             location_id TEXT NOT NULL PRIMARY KEY COLLATE NOCASE, company_id TEXT NOT NULL, market TEXT NOT NULL,
             type TEXT NOT NULL, label TEXT NOT NULL, street TEXT NOT NULL, city TEXT NOT NULL, state TEXT NOT NULL,
@@ -261,7 +263,7 @@ public static class SqliteDataStore
     private static void Prepare(SqliteConnection db, string path)
     {
         var version = Convert.ToInt32(Scalar(db, "PRAGMA user_version"), CultureInfo.InvariantCulture);
-        if (version is not (0 or 1 or 2 or 3) && version != SchemaVersion)
+        if (version is not (0 or 1 or 2 or 3 or 4) && version != SchemaVersion)
             throw new InvalidOperationException($"'{path}' uses database layout {version}, this code writes {SchemaVersion}. " +
                                                 "Rebuild it: delete the file and run every importer (or --migrate-xlsx).");
         Execute(db, Schema);
@@ -271,8 +273,12 @@ public static class SqliteDataStore
             Execute(db, "ALTER TABLE job_salaries ADD COLUMN source TEXT NOT NULL DEFAULT 'h1b'");
             Execute(db, "ALTER TABLE job_salaries ADD COLUMN url TEXT");
         }
+        if (version is >= 1 and <= 4)
+            foreach (var column in ClassColumns) Execute(db, $"ALTER TABLE companies ADD COLUMN {column} TEXT");
         Execute(db, $"PRAGMA user_version = {SchemaVersion}");
     }
+
+    private static readonly string[] ClassColumns = ["class_scheme", "class_code", "class_industry", "class_name", "class_source", "class_checked_on"];
 
     /// <summary>Brings an existing file to the current layout in place (adds the columns a newer layout has; data untouched).</summary>
     public static void Upgrade(string path)
@@ -282,12 +288,13 @@ public static class SqliteDataStore
     }
 
     /// <summary>
-    /// Fills in company websites and careers pages, and moves locations to their geocoded street address, across every
-    /// market (from the enrichment tables in data/reference). Same safety net as publishing: a checked copy replaces the file.
+    /// Fills in company websites and careers pages, industry classifications, and moves locations to their geocoded street
+    /// address, across every market (from the enrichment tables in data/reference). Same safety net as publishing: a checked copy replaces the file.
     /// </summary>
     public static void ApplyCompanyDetails(string path, IReadOnlyList<(string CompanyId, string? Website, string? CareersUrl)> sites,
         IReadOnlyList<(string LocationId, double Latitude, double Longitude)> points,
-        IReadOnlyList<(string CompanyId, string Exchange)>? exchanges = null)
+        IReadOnlyList<(string CompanyId, string Exchange)>? exchanges = null,
+        IReadOnlyList<(string CompanyId, string Sector, IndustryClassification Classification)>? classifications = null)
     {
         var staging = path + ".new";
         if (File.Exists(staging)) File.Delete(staging);
@@ -305,6 +312,13 @@ public static class SqliteDataStore
                         foreach (var p in points) Run(cmd, p.Latitude, p.Longitude, p.LocationId);
                     using (var cmd = Command(db, "UPDATE companies SET exchange = $0 WHERE company_id = $1", null, 2))
                         foreach (var e in exchanges ?? []) Run(cmd, e.Exchange, e.CompanyId);
+                    using (var cmd = Command(db, """
+                        UPDATE companies SET sector = $0, industry = $1, class_scheme = $2, class_code = $3, class_industry = $4, class_name = $5,
+                                             class_source = $6, class_checked_on = $7 WHERE company_id = $8
+                        """, null, 9))
+                        foreach (var (id, sector, k) in classifications ?? [])
+                            Run(cmd, sector, k.Name, k.Scheme, k.Code, k.Industry, k.Name, k.Source,
+                                k.CheckedOn?.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture), id);
                     tx.Commit();
                 }
                 Execute(db, "VACUUM");
@@ -332,14 +346,22 @@ public static class SqliteDataStore
 
         var companies = Query(db, """
             SELECT company_id, name, ticker, exchange, sector, industry, website, employees, market_cap, description,
-                   currency, pay_currency, fiscal_year_end, logo_url, as_of_date, careers_url, market FROM companies ORDER BY rowid
+                   currency, pay_currency, fiscal_year_end, logo_url, as_of_date, careers_url, market,
+                   class_scheme, class_code, class_industry, class_name, class_source, class_checked_on FROM companies ORDER BY rowid
             """, r => new Company
         {
             CompanyId = r.GetString(0), Name = r.GetString(1), Ticker = r.GetString(2), Exchange = pool.Of(r.GetString(3)), Sector = pool.Of(r.GetString(4)),
             Industry = pool.OrNull(Text(r, 5)), Website = Text(r, 6), Employees = r.IsDBNull(7) ? null : r.GetInt32(7), MarketCap = Money(r, 8),
             Description = Text(r, 9), Currency = pool.Of(r.GetString(10)), PayCurrency = pool.OrNull(Text(r, 11)), FiscalYearEnd = pool.OrNull(Text(r, 12)), LogoUrl = Text(r, 13),
             AsOfDate = Text(r, 14) is { } d ? DateOnly.Parse(d, CultureInfo.InvariantCulture) : null, CareersUrl = Text(r, 15),
-            Market = pool.Of(r.GetString(16))
+            Market = pool.Of(r.GetString(16)),
+            Classification = Text(r, 17) is { } scheme && Text(r, 20) is { } className && Text(r, 21) is { } classSource
+                ? new IndustryClassification
+                {
+                    Scheme = pool.Of(scheme), Code = pool.OrNull(Text(r, 18)), Industry = pool.OrNull(Text(r, 19)), Name = pool.Of(className),
+                    Source = pool.Of(classSource), CheckedOn = Text(r, 22) is { } on ? DateOnly.Parse(on, CultureInfo.InvariantCulture) : null
+                }
+                : null
         });
         var locations = Query(db, """
             SELECT location_id, company_id, type, label, street, city, state, postal_code, latitude, longitude FROM locations ORDER BY rowid
@@ -463,12 +485,15 @@ public static class SqliteDataStore
 
         using (var cmd = Command(db, """
             INSERT INTO companies (company_id, market, name, ticker, exchange, sector, industry, website, employees, market_cap, description,
-                                   currency, pay_currency, fiscal_year_end, logo_url, as_of_date, careers_url)
-            VALUES ($0, $market, $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)
-            """, market, 16))
+                                   currency, pay_currency, fiscal_year_end, logo_url, as_of_date, careers_url,
+                                   class_scheme, class_code, class_industry, class_name, class_source, class_checked_on)
+            VALUES ($0, $market, $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21)
+            """, market, 22))
             foreach (var c in data.Companies)
                 Run(cmd, c.CompanyId, c.Name, c.Ticker, c.Exchange, c.Sector, c.Industry, c.Website, c.Employees, c.MarketCap, c.Description,
-                    c.Currency, c.PayCurrency, c.FiscalYearEnd, c.LogoUrl, c.AsOfDate?.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture), c.CareersUrl);
+                    c.Currency, c.PayCurrency, c.FiscalYearEnd, c.LogoUrl, c.AsOfDate?.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture), c.CareersUrl,
+                    c.Classification?.Scheme, c.Classification?.Code, c.Classification?.Industry, c.Classification?.Name, c.Classification?.Source,
+                    c.Classification?.CheckedOn?.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture));
 
         using (var cmd = Command(db, """
             INSERT INTO locations (location_id, company_id, market, type, label, street, city, state, postal_code, latitude, longitude)

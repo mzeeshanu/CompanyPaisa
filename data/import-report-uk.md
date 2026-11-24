@@ -1,4 +1,4 @@
-# UK import report — 2026-11-23 06:29 UTC
+# UK import report — 2026-11-24 07:26 UTC
 
 Scope: UK companies on the London Stock Exchange Main Market that file ESEF annual reports (FTSE 350 plus the rest; tickers via GLEIF ISINs and OpenFIGI), minus investment trusts and funds. Sources: ESEF annual reports (filings.xbrl.org), GLEIF headquarters addresses, GeoNames postcode districts.
 

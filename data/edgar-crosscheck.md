@@ -1,16 +1,16 @@
-# EdgarTools cross-check — 2026-11-23 06:32 UTC
+# EdgarTools cross-check — 2026-11-24 14:27 UTC
 
 What the SEC import published (docs/edgartools-plan.md): revenue and net income against the headline lines of each company's latest annual report (10-K, 20-F or 40-F), read by [EdgarTools](https://github.com/dgunning/edgartools) (`tools/edgar/extract.py`). The import uses a report's top line only where it passes the checks; the rest are listed here. A report covers its latest three years.
 
 - Companies read: **3,986** (ok 3,881, no report 82, no figures 23)
-- Years in a report but not in our data: **216**
+- Years in a report but not in our data: **205**
 
 | Measure | Compared | Within 1% | 1–10% | Over 10% |
 |---|---|---|---|---|
-| Revenue | 9,477 | 9,038 | 27 | 412 |
-| Net income | 10,010 | 9,875 | 53 | 82 |
+| Revenue | 9,439 | 9,008 | 27 | 404 |
+| Net income | 9,971 | 9,837 | 53 | 81 |
 
-## Revenue: more than 10% apart (412)
+## Revenue: more than 10% apart (404)
 
 | Company | FY | Ours | Annual report | Gap | Currency |
 |---|---|---|---|---|---|
@@ -199,7 +199,6 @@ What the SEC import published (docs/edgartools-plan.md): revenue and net income 
 | BKV (BKV Corp) | 2025 | 1.14bn | 905.5M (10-K) | 26% | USD |
 | DDC (DDC Enterprise Ltd) | 2025 | 39.2M | 274.0M (20-F) | 86% | USD |
 | NIC (Nicolet Bankshares Inc) | 2023 | 277.5M | 42.7M (10-K) | 550% | USD |
-| USO (United States Oil Fund, LP) | 2024 | 231,916 | 231.9M (10-K) | 100% | USD |
 | HFWA (Heritage Financial Corp /Wa/) | 2025 | 246.1M | 19.7M (10-K) | 1146% | USD |
 | HFWA (Heritage Financial Corp /Wa/) | 2023 | 243.8M | 19.3M (10-K) | 1163% | USD |
 | CAC (Camden National Corp) | 2025 | 255.8M | 32.8M (10-K) | 681% | USD |
@@ -321,7 +320,6 @@ What the SEC import published (docs/edgartools-plan.md): revenue and net income 
 | HNVR (Hanover Bancorp, Inc. /MD) | 2024 | 68.4M | 469,000 (10-K) | 14491% | USD |
 | FNLC (First Bancorp, Inc /ME/) | 2023 | 80.6M | 12.7M (10-K) | 533% | USD |
 | FNLC (First Bancorp, Inc /ME/) | 2024 | 80.3M | 13.3M (10-K) | 505% | USD |
-| BTCK (Teucrium Commodity Trust) | 2023 | -63.8M | -130.4M (10-K) | 51% | USD |
 | TSBK (Timberland Bancorp Inc) | 2024 | 75.3M | 9.3M (10-K) | 713% | USD |
 | LCNB (Lcnb Corp) | 2024 | 81.2M | 15.2M (10-K) | 434% | USD |
 | FNRN (First Northern Community Bancorp) | 2024 | 70.4M | 4.5M (10-K) | 1471% | USD |
@@ -336,7 +334,6 @@ What the SEC import published (docs/edgartools-plan.md): revenue and net income 
 | FCCO (First Community Corp /Sc/) | 2023 | 59.3M | 963,000 (10-K) | 6059% | USD |
 | HWBK (Hawthorn Bancshares, Inc.) | 2023 | 66.7M | 8.4M (10-K) | 698% | USD |
 | ATLO (Ames National Corp) | 2025 | 66.8M | 9.3M (10-K) | 622% | USD |
-| USO (United States Oil Fund, LP) | 2025 | 320,800 | -56.2M (10-K) | 101% | USD |
 | NWPP (New Peoples Bankshares Inc) | 2025 | 58.5M | 3.6M (10-K) | 1515% | USD |
 | FXNC (First National Corp /Va/) | 2024 | 68.8M | 14.2M (10-K) | 385% | USD |
 | SFDL (Security Federal Corp) | 2025 | 58.7M | 4.5M (10-K) | 1201% | USD |
@@ -360,7 +357,6 @@ What the SEC import published (docs/edgartools-plan.md): revenue and net income 
 | NWFL (Norwood Financial Corp) | 2024 | 51.0M | 7.4M (10-K) | 590% | USD |
 | FCAP (First Capital Inc) | 2025 | 50.6M | 7.2M (10-K) | 606% | USD |
 | TYFG (Tri-County Financial Group, Inc.) | 2024 | 58.5M | 15.6M (10-K) | 274% | USD |
-| BTCK (Teucrium Commodity Trust) | 2024 | -39.4M | -81.2M (10-K) | 51% | USD |
 | FKYS (First Keystone Corp) | 2025 | 45.0M | 3.4M (10-K) | 1210% | USD |
 | CBFV (CB Financial Services, Inc.) | 2025 | 43.5M | 2.4M (10-K) | 1688% | USD |
 | CBKM (Consumers Bancorp Inc /Oh/) | 2026 | 45.8M | 4.9M (10-K) | 833% | USD |
@@ -379,7 +375,6 @@ What the SEC import published (docs/edgartools-plan.md): revenue and net income 
 | CFFN (Capitol Federal Financial, Inc.) | 2023 | -18.2M | 17.6M (10-K) | 203% | USD |
 | FKYS (First Keystone Corp) | 2024 | 39.0M | 3.3M (10-K) | 1082% | USD |
 | ELMES (Elme Communities) | 2024 | 241.9M | 206.4M (10-K) | 17% | USD |
-| USO (United States Oil Fund, LP) | 2023 | 374,000 | -34.9M (10-K) | 101% | USD |
 | FCAP (First Capital Inc) | 2023 | 42.2M | 7.0M (10-K) | 502% | USD |
 | SFNC (Simmons First National Corp) | 2025 | 103.2M | 138.3M (10-K) | 25% | USD |
 | CBKM (Consumers Bancorp Inc /Oh/) | 2025 | 39.6M | 4.6M (10-K) | 757% | USD |
@@ -406,7 +401,6 @@ What the SEC import published (docs/edgartools-plan.md): revenue and net income 
 | RYM (RYTHM, Inc.) | 2024 | 18.0M | 18,000 (10-K) | 99900% | USD |
 | STLE (Steele Bancorp Inc) | 2024 | 18.6M | 1.5M (10-K) | 1106% | USD |
 | FDSB (Fifth District Bancorp, Inc.) | 2025 | 17.3M | 605,000 (10-K) | 2756% | USD |
-| UNL (United States 12 Month Natural Gas Fund, LP) | 2023 | 6,650 | -13.1M (10-K) | 100% | USD |
 | WETO (Wetour Robotics Ltd) | 2026 | 2.0M | 13.3M (20-F) | 85% | USD |
 | FDSB (Fifth District Bancorp, Inc.) | 2024 | 10.1M | 619,000 (10-K) | 1526% | USD |
 | SNNF (Seneca Bancorp, Inc.) | 2025 | 11.1M | 2.0M (10-K) | 467% | USD |
@@ -420,14 +414,12 @@ What the SEC import published (docs/edgartools-plan.md): revenue and net income 
 | NCRA (Nocera, Inc.) | 2025 | 11.0M | 13.6M (10-K) | 19% | USD |
 | BENF (Beneficient) | 2025 | -6.5M | -7.9M (10-K) | 18% | USD |
 | ESGH (ESG Inc.) | 2025 | 7.5M | 6.1M (10-K) | 23% | USD |
-| UNL (United States 12 Month Natural Gas Fund, LP) | 2024 | 11,200 | -925,374 (10-K) | 101% | USD |
-| UNL (United States 12 Month Natural Gas Fund, LP) | 2025 | 8,050 | -735,860 (10-K) | 101% | USD |
 | ABVC (Abvc Biopharma, Inc.) | 2025 | 296,000 | 31,779 (10-K) | 831% | USD |
 | NRXP (NRX Pharmaceuticals, Inc.) | 2025 | 1.4M | 1.2M (10-K) | 18% | USD |
 | ATLX (Atlas Lithium Corp) | 2024 | 748,654 | 667,131 (10-K) | 12% | USD |
 | ATLX (Atlas Lithium Corp) | 2025 | 121,388 | 92,491 (10-K) | 31% | USD |
 
-## Net income: more than 10% apart (82)
+## Net income: more than 10% apart (81)
 
 | Company | FY | Ours | Annual report | Gap | Currency |
 |---|---|---|---|---|---|
@@ -458,7 +450,6 @@ What the SEC import published (docs/edgartools-plan.md): revenue and net income 
 | CMP (Compass Minerals International Inc) | 2025 | -79.8M | 0 (10-K) | 100% | USD |
 | EVC (Entravision Communications Corp) | 2024 | -148.9M | -70.3M (10-K) | 112% | USD |
 | HOLO (MicroCloud Hologram Inc.) | 2023 | -11.6M | -81.6M (20-F) | 86% | USD |
-| ITXP (Independence Power Holdings, Inc.) | 2025 | -25,323 | 68.9M (10-K) | 100% | USD |
 | POWW (Outdoor Holding Co) | 2025 | -130.8M | -65.2M (10-K) | 101% | USD |
 | CHRN (ChronoScale Holdings Corp) | 2025 | -11.7M | -72.7M (10-K) | 84% | USD |
 | INFQ (Infleqtion, Inc.) | 2024 | -55.7M | -51,910 (10-K) | 107282% | USD |
@@ -514,7 +505,7 @@ What the SEC import published (docs/edgartools-plan.md): revenue and net income 
 | KIQSF (Kelso Technologies Inc) | 2025 | 447,397 | 547,157 (20-F) | 18% | USD |
 | TRT (Trio-Tech International) | 2025 | -41,000 | 0 (10-K) | 100% | USD |
 
-## Years only the report has (143 companies)
+## Years only the report has (138 companies)
 
 A year missing from our data: a report newer than our last import, or a year our consistency rules dropped.
 
@@ -524,7 +515,6 @@ A year missing from our data: a report newer than our last import, or a year our
 - ACOG (Alpha Cognition Inc.): FY 2024
 - ADVB (Advanced Biomed Inc.): FY 2025
 - AEMD (Aethlon Medical Inc): FY 2025, 2026
-- AGQ (ProShares Trust II): FY 2023, 2024, 2025
 - AIB (AIB Data Centers Inc.): FY 2025
 - AKTX (Akari Therapeutics Plc): FY 2024, 2025
 - ALMS (Alumis Inc.): FY 2024
@@ -542,10 +532,7 @@ A year missing from our data: a report newer than our last import, or a year our
 - AVBP (ArriVent BioPharma, Inc.): FY 2024, 2025
 - BESS (Bimergen Energy Corp): FY 2024, 2025
 - BFRG (BullFrog AI Holdings, Inc.): FY 2024
-- BNO (United States Brent Oil Fund, LP): FY 2023, 2024, 2025
 - BNTC (Benitec Biopharma Inc.): FY 2025, 2026
-- BTCK (Teucrium Commodity Trust): FY 2025
-- BTCO (Invesco Galaxy Bitcoin ETF): FY 2025
 - BXBL (BOXABL Inc.): FY 2025
 - BXMT (Blackstone Mortgage Trust, Inc.): FY 2024, 2025
 - CHGA (Change Agents Corporation.): FY 2025
@@ -650,7 +637,6 @@ A year missing from our data: a report newer than our last import, or a year our
 - TOVX (Theriva Biologics, Inc.): FY 2024, 2025
 - TVRD (Tvardi Therapeutics, Inc.): FY 2025
 - UBCP (United Bancorp Inc /Oh/): FY 2024, 2025
-- UNG (United States Natural Gas Fund, LP): FY 2023, 2024, 2025
 - VBIO (Valion Bio, Inc.): FY 2025
 - VERA (Vera Therapeutics, Inc.): FY 2023, 2024, 2025
 - VERU (Veru Inc.): FY 2025

@@ -1,9 +1,9 @@
-# European import report — 2026-11-23 06:31 UTC
+# European import report — 2026-11-24 07:28 UTC
 
 Scope: France, Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belgium, Austria, Luxembourg, Lithuania, Slovenia — companies with shares on the home exchange that file ESEF annual reports. Financials only (no executives). Sources: filings.xbrl.org, GLEIF, OpenFIGI, GeoNames.
 
-- Companies included: **1279**
-- Years of figures: 6768
+- Companies included: **1280**
+- Years of figures: 6774
 - Postcodes written: 79695
 - Network requests this run: 0
 
@@ -41,7 +41,7 @@ Scope: France, Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belg
 | Spain | Madrid | 56 |
 | Spain | Rest of Spain | 35 |
 | Spain | Barcelona | 15 |
-| Sweden | Stockholm | 177 |
+| Sweden | Stockholm | 178 |
 | Sweden | Rest of Sweden | 63 |
 | Sweden | Malmö | 32 |
 | Sweden | Gothenburg | 25 |
@@ -67,12 +67,12 @@ Scope: France, Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belg
 | ALHYF.PA | Lhyfe | Nantes | €5.1M | 2021–2024 |
 | ALO.PA | Alstom | Saint-Ouen-Sur-Seine | €19.17B | 2022–2026 |
 | ALPWG.PA | Prodways Group | Montigny-Le-Bretonneux | €58.7M | 2021–2024 |
-| ALTA.PA | Altarea | Paris | €243.5M | 2019–2024 |
+| ALTA.PA | Altarea | Paris | €2.77B | 2019–2024 |
 | ALTOU.PA | Touax SCA - Sgtr - Cite - Sgt - Cmte - Taf - Slm Touage Investissements Reunies | Puteaux | €198.5M | 2019–2024 |
 | AMUN.PA | Amundi | Paris | €3.20B | 2020–2025 |
 | ANTIN.PA | Antin Infrastructure Partners | Paris | €292.5M | 2020–2025 |
 | ARAMI.PA | Aramis Group | Arcueil | €2.38B | 2021–2025 |
-| AREIT.PA | Altareit | Paris | €32.9M | 2019–2024 |
+| AREIT.PA | Altareit | Paris | €2.44B | 2019–2024 |
 | ARG.PA | Argan | Neuilly-sur-Seine | €212.0M | 2022–2025 |
 | ASY.PA | Assystem | Courbevoie | €656.6M | 2020–2025 |
 | ATE.PA | Alten | Boulogne-Billancourt | €4.10B | 2020–2025 |
@@ -346,7 +346,7 @@ Scope: France, Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belg
 | BFG.MI | B.F. S.p.A. | Jolanda Di Savoia | €1.63B | 2020–2025 |
 | BMED.MI | Banca Mediolanum S.p.A. | Basiglio | €1.15B | 2020–2025 |
 | BMPS.MI | Banca Monte Dei Paschi Di Siena S.p.A. | Siena | €4.01B | 2020–2025 |
-| BO.MI | Borgosesia S.p.A. | Milano | €3.9M | 2020–2024 |
+| BO.MI | Borgosesia S.p.A. | Milano | €4.5M | 2020–2024 |
 | BPE.MI | Bper Banca S.p.A. | Modena | €4.73B | 2020–2024 |
 | BRE.MI | Brembo N.V. | Bergamo | €3.70B | 2020–2025 |
 | BRI.MI | Brioschi Sviluppo Immobiliare S.p.A. | Milano | €16.2M | 2020–2025 |
@@ -584,7 +584,7 @@ Scope: France, Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belg
 | VIS.MC | Viscofan SA | Aranguren | €1.25B | 2019–2025 |
 | VOC.MC | Vocento SA | Bilbao | €337.4M | 2019–2025 |
 
-## Included — Sweden (297)
+## Included — Sweden (298)
 
 | Ticker | Company | City | Latest revenue | Years |
 |---|---|---|---|---|
@@ -771,6 +771,7 @@ Scope: France, Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belg
 | MVIR.ST | Medivir Aktiebolag | Huddinge | SEK 8.9M | 2020–2025 |
 | MYCR.ST | Mycronic AB (publ) | Täby | SEK 7.94B | 2020–2025 |
 | NCAB.ST | NCAB Group AB (publ) | Sundbyberg | SEK 3.74B | 2023–2025 |
+| NCCA.ST | Ncc Aktiebolag | Solna | SEK 55.72B | 2020–2025 |
 | NELLY.ST | Nelly Group AB (publ) | Borås | SEK 1.26B | 2020–2025 |
 | NEOBO.ST | Neobo Fastigheter AB (publ) | Stockholm | SEK 934.0M | 2023–2025 |
 | NETEL.ST | Netel Holding AB (publ) | Stockholm | SEK 2.93B | 2020–2025 |
@@ -1390,7 +1391,7 @@ Scope: France, Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belg
 | UKIG.LJ | UNIOR Kovaška industrija d.d. | Zreče | €249.7M | 2019–2024 |
 | ZVTG.LJ | ZAVAROVALNICA TRIGLAV, d.d. | Ljubljana | €1.61B | 2022–2025 |
 
-## Excluded (77)
+## Excluded (76)
 
 - 5PG.OL 5Th Planet Games A/S: headquartered outside Norway (KØBENHAVN K, DK)
 - AAB.CO Aalborg Boldspilklub A/S: no revenue in its tagged reports
@@ -1444,7 +1445,6 @@ Scope: France, Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belg
 - MTRK.AS Motork plc: headquartered outside Netherlands (London, GB)
 - NAPA.OL Napatech A/S: headquartered outside Norway (SØBORG, DK)
 - NAXS.ST NAXS AB (publ): no revenue in its tagged reports
-- NCCA.ST Ncc Aktiebolag: no revenue in its tagged reports
 - NEXTA.BR Nextensa: no revenue in its tagged reports
 - NSE.AS New Sources Energy N.V.: no revenue in its tagged reports
 - ODL.OL Odfjell Drilling Ltd: headquartered outside Norway (Aberdeen, GB)
@@ -1511,6 +1511,7 @@ Scope: France, Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belg
 - MCOVB.ST: 4 figure(s) in the 12/31/2024 report read from its HTML (the JSON conversion failed on them)
 - MCOVB.ST: 8 figure(s) in the 12/31/2023 report read from its HTML (the JSON conversion failed on them)
 - MSABB.ST: report data for 12/31/2024 is not valid JSON
+- NEWAB.ST: report 12/31/2022: revenue tagged at the wrong scale (another report states the same year and profit); revenue ×0.1
 - TRANS.ST: report data for 12/31/2021 is not valid JSON
 - BAVA.CO: report data for 12/31/2021 is not valid JSON
 - BETCODKK.CO: report data for 12/31/2021 is not valid JSON
@@ -1519,7 +1520,7 @@ Scope: France, Netherlands, Italy, Spain, Sweden, Denmark, Finland, Norway, Belg
 - CPHCAPST.CO: report data for 12/31/2021 is not valid JSON
 - ESG.CO: report data for 12/31/2021 is not valid JSON
 - FFARMS.CO: report data for 12/31/2021 is not valid JSON
-- HH.CO: report 3/31/2024: one mistyped revenue for 2023, outvoted by the company's other reports; corrected
+- HH.CO: report 3/31/2024: revenue tagged at the wrong scale (another report states the same year and profit); revenue ×1000
 - NETC.CO: report 12/31/2024: unit slip proved by another report of the same year; revenue ×1000, profit ×1000
 - NETC.CO: report 12/31/2023: unit slip proved by another report of the same year; revenue ×1000, profit ×1000
 - NEWCAP.CO: report data for 12/31/2021 is not valid JSON

@@ -50,6 +50,8 @@ public sealed class PageRenderer(
         h.Open("p").Text(string.Join(" · ", new[] { c.Sector, c.Industry, c.Exchange }.Where(s => !string.IsNullOrWhiteSpace(s))));
         if (hq is not null) h.Text($" · Headquarters: {Address(hq)}");
         h.Close("p");
+        if (c.Classification is { } k)
+            h.Open("p").Text($"Industry classification: {ClassificationLabel(k)}").Close("p");
         if (c.Website is not null || c.CareersUrl is not null)
         {
             h.Open("p");
@@ -354,6 +356,14 @@ public sealed class PageRenderer(
     // ---- Formatting ----------------------------------------------------------------------------------------------
 
     private static string CompanyPath(Company c) => $"/company/{Uri.EscapeDataString(c.Ticker.ToUpperInvariant())}";
+
+    /// <summary>"Food, Beverage and Tobacco (ICB 4510, Consumer Staples), from Nasdaq Stockholm".</summary>
+    internal static string ClassificationLabel(IndustryClassification k)
+    {
+        var scheme = string.Join(' ', new[] { k.Scheme, k.Code }.Where(x => !string.IsNullOrWhiteSpace(x)));
+        var detail = string.Join(", ", new[] { scheme, k.Industry != k.Name ? k.Industry : null }.Where(x => !string.IsNullOrWhiteSpace(x)));
+        return $"{k.Name} ({detail}), from {k.Source}";
+    }
 
     private static string Address(CompanyLocation l) =>
         string.Join(", ", new[] { l.Street, l.City, $"{l.State} {l.PostalCode}".Trim() }.Where(s => !string.IsNullOrWhiteSpace(s)));

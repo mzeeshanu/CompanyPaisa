@@ -47,7 +47,8 @@ $dataFiles = @(
     'data/reference/employer-aliases.csv', 'data/import-report-salaries.md', 'data/reference/job-boards.csv', 'data/import-report-postings.md',
     'data/reference/us-zip-centroids.csv', 'data/reference/ca-postal-areas.csv', 'data/reference/uk-postcode-districts.csv',
     'data/curated/uk-ftse350.csv', 'data/curated/uk-main-market.csv', 'data/validation-report.md', 'data/edgar-crosscheck.md',
-    'data/curated/anz-companies.csv', 'data/import-report-anz.md'
+    'data/curated/anz-companies.csv', 'data/import-report-anz.md',
+    'data/reference/company-categories.csv', 'data/audit-worklist.csv'
 )
 
 try {
@@ -74,10 +75,12 @@ try {
     Invoke-Step 'EdgarTools: annual reports' 'powershell' @('-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', 'tools\edgar\run.ps1')
     Invoke-Step 'SEC again, with the annual reports' 'dotnet' @('run', '--project', 'tools/CompanyPaisa.Importer', '-c', 'Release', '--',
         '--market', 'sec')
-    # Named markets don't validate on their own (only --all does): any error-level finding stops the run here.
-    Invoke-Step 'Validate the data' 'dotnet' @('run', '--project', 'tools/CompanyPaisa.Importer', '-c', 'Release', '--', '--validate', '--strict')
-    # Websites, careers pages and street positions for companies that are new or due a recheck (the rest are kept).
+    # Websites, careers pages, street positions (for companies that are new or due a recheck) and every listing's category from its exchange.
     Invoke-Step 'Websites, careers pages, street positions' 'dotnet' @('run', '--project', 'tools/CompanyPaisa.Importer', '-c', 'Release', '--', '--enrich')
+    # Named markets don't validate on their own (only --all does): any error-level finding stops the run here. After
+    # --enrich, so the categories it reads from the exchanges are checked too; reviewed findings (data/curated/audit-decisions.csv)
+    # don't count, the open ones go to data/audit-worklist.csv.
+    Invoke-Step 'Validate the data' 'dotnet' @('run', '--project', 'tools/CompanyPaisa.Importer', '-c', 'Release', '--', '--validate', '--strict')
     # Salaries by job title from the Department of Labor's H-1B wage filings (a new quarter's file is downloaded once).
     Invoke-Step 'Salaries by job title' 'dotnet' @('run', '--project', 'tools/CompanyPaisa.Importer', '-c', 'Release', '--', '--salaries')
     # Pay ranges from the companies' own job ads; each run adds the ads open that day to the history kept in data/cache.

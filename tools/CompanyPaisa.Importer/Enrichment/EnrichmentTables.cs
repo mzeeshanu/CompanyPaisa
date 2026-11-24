@@ -12,7 +12,7 @@ public sealed record GeocodedLocation(string LocationId, string Address, double 
 
 /// <summary>
 /// The enrichment tables in data/reference: reviewable CSVs that outlive every market import. Importers apply them when they
-/// publish (so a monthly refresh keeps websites, careers pages and street positions), and --enrich adds to them.
+/// publish (so a monthly refresh keeps websites, careers pages, street positions and categories), and --enrich adds to them.
 /// </summary>
 public static class EnrichmentTables
 {
@@ -52,16 +52,65 @@ public static class EnrichmentTables
                 .Select(p => new[] { p.LocationId, p.Address, p.Latitude.ToString("F6", CultureInfo.InvariantCulture),
                     p.Longitude.ToString("F6", CultureInfo.InvariantCulture), p.Source }));
 
+    private static readonly string[] CategoryHeader = ["company_id", "scheme", "code", "industry", "name", "source", "checked_on"];
+
+    /// <summary>data/reference/company-categories.csv: the category each company's exchange publishes (written by --enrich categories).</summary>
+    public static Dictionary<string, IndustryClassification> ReadCategories(string path)
+    {
+        var categories = new Dictionary<string, IndustryClassification>(StringComparer.OrdinalIgnoreCase);
+        foreach (var f in Csv.Read(path).Skip(1))
+        {
+            if (f.Count < 7 || f[1] == "" || f[4] == "") continue;
+            categories[f[0]] = new IndustryClassification
+            {
+                Scheme = f[1], Code = Blank(f[2]), Industry = Blank(f[3]), Name = f[4], Source = f[5],
+                CheckedOn = DateOnly.TryParse(f[6], CultureInfo.InvariantCulture, out var d) ? d : null
+            };
+        }
+        return categories;
+    }
+
+    public static void WriteCategories(string path, IReadOnlyDictionary<string, IndustryClassification> categories) =>
+        Csv.Write(path, CategoryHeader, categories.OrderBy(p => p.Key, StringComparer.OrdinalIgnoreCase)
+            .Select(p => new[] { p.Key, p.Value.Scheme, p.Value.Code ?? "", p.Value.Industry ?? "", p.Value.Name, p.Value.Source,
+                p.Value.CheckedOn?.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture) ?? "" }));
+
+    /// <summary>
+    /// data/curated/category-overrides.csv: categories set by hand after review, with the reason (company_id, scheme, code,
+    /// industry, name, reason, reviewed_on). They win over the exchange's and the SEC's.
+    /// </summary>
+    public static Dictionary<string, IndustryClassification> ReadCategoryOverrides(string path)
+    {
+        var overrides = new Dictionary<string, IndustryClassification>(StringComparer.OrdinalIgnoreCase);
+        foreach (var f in Csv.Read(path).Skip(1))
+        {
+            if (f.Count < 7 || f[1] == "" || f[4] == "") continue;
+            overrides[f[0]] = new IndustryClassification
+            {
+                Scheme = f[1], Code = Blank(f[2]), Industry = Blank(f[3]), Name = f[4], Source = "CompanyPaisa review",
+                CheckedOn = DateOnly.TryParse(f[6], CultureInfo.InvariantCulture, out var d) ? d : null
+            };
+        }
+        return overrides;
+    }
+
+    /// <summary>A company with its category applied: the classification, its name as the industry, and the broad sector from it.</summary>
+    public static Company WithCategory(Company c, IndustryClassification k) =>
+        c with { Classification = k, Industry = k.Name, Sector = SectorClassifier.FromClassification(k, c.Sector) };
+
     /// <summary>The address a location was geocoded from: street, city, state, postcode.</summary>
     public static string AddressOf(CompanyLocation l) => $"{l.Street}, {l.City}, {l.State} {l.PostalCode}".Trim();
 
     /// <summary>A market's rows with the tables applied: websites filled in, careers pages added, locations at their street.</summary>
     public static (IReadOnlyList<Company> Companies, IReadOnlyList<CompanyLocation> Locations) Apply(
         IReadOnlyList<Company> companies, IReadOnlyList<CompanyLocation> locations,
-        IReadOnlyDictionary<string, CompanySite> sites, IReadOnlyDictionary<string, GeocodedLocation> points)
+        IReadOnlyDictionary<string, CompanySite> sites, IReadOnlyDictionary<string, GeocodedLocation> points,
+        IReadOnlyDictionary<string, IndustryClassification>? categories = null, IReadOnlyDictionary<string, IndustryClassification>? overrides = null)
     {
         var c = companies.Select(x => sites.TryGetValue(x.CompanyId, out var s)
-            ? x with { Website = x.Website ?? s.Website, CareersUrl = s.CareersUrl ?? x.CareersUrl } : x).ToList();
+            ? x with { Website = x.Website ?? s.Website, CareersUrl = s.CareersUrl ?? x.CareersUrl } : x)
+            .Select(x => (overrides?.GetValueOrDefault(x.CompanyId) ?? categories?.GetValueOrDefault(x.CompanyId)) is { } k ? WithCategory(x, k) : x)
+            .ToList();
         var l = locations.Select(x => points.TryGetValue(x.LocationId, out var p) && p.Address == AddressOf(x)
             ? x with { Point = new GeoPoint(p.Latitude, p.Longitude) } : x).ToList();
         return (c, l);

@@ -91,6 +91,22 @@ export interface CompanyDetail {
   salaryTitles?: number;
   /** TradingView symbol for the share-price widgets ("NASDAQ:AAPL"); null when its exchange doesn't allow them. */
   priceSymbol?: string | null;
+  /** The category the company goes by, as its exchange or the SEC publishes it. */
+  classification?: IndustryClassification | null;
+}
+
+/** ICB (London, Euronext, Nasdaq Nordic/Baltic), GICS (ASX), SIC (SEC) or the PSX sector. */
+export interface IndustryClassification {
+  scheme: 'ICB' | 'GICS' | 'SIC' | 'PSX' | string;
+  /** The scheme's code, when known ("4510", "7372"). */
+  code: string | null;
+  /** The scheme's top level ("Consumer Staples"). */
+  industry: string | null;
+  /** The most detailed level published ("Food, Beverage and Tobacco"). */
+  name: string;
+  /** Who publishes it ("Nasdaq Stockholm", "SEC EDGAR"). */
+  source: string;
+  checkedOn: string | null;
 }
 
 /** The CEO was paid `ratio` times what the median employee was. */

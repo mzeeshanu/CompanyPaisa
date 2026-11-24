@@ -33,11 +33,13 @@ public sealed class DataPublisher(IOptions<ImporterOptions> options, RepoPaths p
             ["source"] = source,
             ["region"] = region
         };
-        // Websites, careers pages and street positions found by --enrich outlive each import.
+        // Websites, careers pages, street positions and exchange categories found by --enrich outlive each import.
         var enrichment = options.Value.Enrichment;
         (companies, locations) = Enrichment.EnrichmentTables.Apply(companies, locations,
             Enrichment.EnrichmentTables.ReadSites(paths.Resolve(enrichment.SitesPath)),
-            Enrichment.EnrichmentTables.ReadPoints(paths.Resolve(enrichment.PointsPath)));
+            Enrichment.EnrichmentTables.ReadPoints(paths.Resolve(enrichment.PointsPath)),
+            Enrichment.EnrichmentTables.ReadCategories(paths.Resolve(enrichment.CategoriesPath)),
+            Enrichment.EnrichmentTables.ReadCategoryOverrides(paths.Resolve(enrichment.CategoryOverridesPath)));
         var data = new CompanyData(companies, locations, financials, pay, people,
             new DataSetMetadata(meta["data_version"], DateOnly.FromDateTime(now), false, now), newExecutives, workerPay);
 

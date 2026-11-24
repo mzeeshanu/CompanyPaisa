@@ -130,6 +130,10 @@ public sealed partial class PkImportPipeline(IOptions<ImporterOptions> options, 
             {
                 CompanyId = companyId, Ticker = companyId, Name = TidyName(f.Symbol.Name), Exchange = _o.Exchange,
                 Sector = SectorOf(f.Symbol.Sector), Industry = TitleCase(f.Symbol.Sector), Website = WebsiteOf(f.Profile.Website),
+                Classification = string.IsNullOrWhiteSpace(f.Symbol.Sector) ? null : new IndustryClassification
+                {
+                    Scheme = "PSX", Name = TitleCase(f.Symbol.Sector), Source = "Pakistan Stock Exchange", CheckedOn = DateOnly.FromDateTime(DateTime.UtcNow)
+                },
                 Description = f.Profile.Description, Currency = "PKR",
                 FiscalYearEnd = yearEnd.Value.ToString("MM-dd", CultureInfo.InvariantCulture), AsOfDate = yearEnd
             });

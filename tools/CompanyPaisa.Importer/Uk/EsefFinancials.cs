@@ -26,8 +26,22 @@ public static partial class EsefFinancials
         "ifrs-full:Revenue", "ifrs-full:RevenueFromContractsWithCustomers", "ifrs-full:RevenueAndOperatingIncome",
         "ifrs-full:InsuranceRevenue", "ifrs-full:RevenueFromInsuranceContractsIssuedWithoutReductionForReinsuranceHeld",
         "ifrs-full:RevenueFromSaleOfGoods", "ifrs-full:RevenueFromRenderingOfServices", "ifrs-full:RentalIncomeFromInvestmentProperty",
-        "ifrs-full:InterestRevenueCalculatedUsingEffectiveInterestMethod", "ifrs-full:RevenueFromInterest"
+        "ifrs-full:InterestRevenueCalculatedUsingEffectiveInterestMethod", "ifrs-full:RevenueFromInterest",
+        "ifrs-full:RevenueFromConstructionContracts"
     ];
+
+    /// <summary>Lines that are a whole top line.</summary>
+    private static readonly string[] Totals = ["ifrs-full:Revenue", "ifrs-full:RevenueFromContractsWithCustomers", "ifrs-full:RevenueAndOperatingIncome"];
+
+    /// <summary>An operating company's revenue by kind; when only these are tagged, together they are the revenue.</summary>
+    private static readonly string[] Parts =
+    [
+        "ifrs-full:RevenueFromSaleOfGoods", "ifrs-full:RevenueFromRenderingOfServices", "ifrs-full:RevenueFromConstructionContracts",
+        "ifrs-full:RentalIncomeFromInvestmentProperty"
+    ];
+
+    /// <summary>The concept recorded for a revenue added up from <see cref="Parts"/>.</summary>
+    internal const string PartsConcept = "sum:RevenueByKind";
 
     private static readonly string[] NetIncomeConcepts = ["ifrs-full:ProfitLossAttributableToOwnersOfParent", "ifrs-full:ProfitLoss"];
     private const string OperatingConcept = "ifrs-full:ProfitLossFromOperatingActivities";
@@ -121,6 +135,19 @@ public static partial class EsefFinancials
             var end = revenue.End;
             var candidates = money.Where(f => RevenueConcepts.Contains(f.Concept) && f.Unit == revenue.Unit)
                 .GroupBy(f => f.Concept).ToDictionary(g => g.Key, g => g.First().Value);
+            // No total tagged, only its parts (Altarea: construction €2,466M, services €59M and rents €244M; the largest
+            // part alone, or the rents, understated the business): the parts add up to the revenue. IFRS defines them so
+            // that none contains another. When one part is 90% or more of them it stays the top line, as the company
+            // presents it (CA Immo's rent beside a small service income; Repsol's sales).
+            if (!Totals.Contains(revenue.Concept))
+            {
+                var parts = money.Where(f => Parts.Contains(f.Concept) && f.Unit == revenue.Unit).GroupBy(f => f.Concept).Select(g => g.First().Value).ToList();
+                // Kept as a candidate either way, so a year where one part dominates can still be shown on the same
+                // measure as the company's newer years (Altarea 2019–2022).
+                if (parts.Count >= 2) candidates[PartsConcept] = parts.Sum();
+                if (parts.Count >= 2 && parts.Max() < 0.9m * parts.Sum())
+                    revenue = revenue with { Concept = PartsConcept, Value = parts.Sum() };
+            }
             // A top line can't be smaller than its own gross profit. Medicover's reports since 2023 don't tag revenue, so
             // €4.3M of interest income passed for it; cost of sales + gross profit is the revenue by definition.
             decimal? Line(string concept) => grossLines.FirstOrDefault(f => f.Concept == concept && f.Start == revenue.Start

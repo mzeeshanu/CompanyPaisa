@@ -30,6 +30,20 @@ public class EsefReconcilerTests
     }
 
     [Fact]
+    public void Revenue_tagged_ten_times_too_big_in_one_report_is_rescaled()
+    {
+        // New Wave Group: the 2022 report's revenue is ten times its 2021 report's for 2021, with the same profit.
+        var result = Reconcile(Report(2024, Year(2024, 9_528_700_000m, 880_400_000m), Year(2023, 9_512_900_000m, 1_119_000_000m)),
+            Report(2022, Year(2022, 88_436_000_000m, 1_168_800_000m), Year(2021, 67_186_000_000m, 760_300_000m)),
+            Report(2021, Year(2021, 6_718_600_000m, 760_300_000m), Year(2020, 6_098_800_000m, 365_500_000m)));
+
+        Assert.Equal(8_843_600_000m, Stated(result, "r2022", 2022).Revenue);
+        Assert.Equal(6_718_600_000m, Stated(result, "r2022", 2021).Revenue);
+        Assert.Equal(6_718_600_000m, Stated(result, "r2021", 2021).Revenue);
+        Assert.Equal(1_168_800_000m, Stated(result, "r2022", 2022).NetIncome);
+    }
+
+    [Fact]
     public void A_slip_is_followed_back_through_a_chain_of_reports()
     {
         // Moury Construct: only the newest report has the units right.

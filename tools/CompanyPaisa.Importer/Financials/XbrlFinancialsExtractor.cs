@@ -17,6 +17,9 @@ public sealed record FinancialsResult(IReadOnlyList<FinancialPeriod> Periods, st
 {
     public decimal? LatestAnnualRevenue => Periods.Where(p => p.PeriodType == PeriodType.Annual).OrderBy(p => p.FiscalYear).LastOrDefault()?.Revenue;
     public DateOnly? LatestPeriodEnd { get; init; }
+    /// <summary>The end of the newest year the annual reports state: the company's real year end (EDGAR's own record has
+    /// 31 December for many June, May or April year ends, e.g. CACI and Aehr).</summary>
+    public DateOnly? LatestYearEnd { get; init; }
     /// <summary>Currency the figures are in (ISO code) — Canadian companies often report in CAD.</summary>
     public string Currency { get; init; } = "USD";
 }
@@ -202,7 +205,8 @@ public sealed partial class XbrlFinancialsExtractor : IFinancialsExtractor
 
         var periods = annual.Where(p => p.FiscalYear >= fromYear).Concat(WithoutImpossibleQuarters(quarterly, annual.Where(p => p.FiscalYear >= fromYear).ToList())).ToList();
         var latestEnd = revenue.Values.Max(f => f.End);
-        return new FinancialsResult(periods, revenueConcept, notes) { LatestPeriodEnd = latestEnd, Currency = currency };
+        var yearEnd = revenue.Values.Where(f => f.Start is { } s && f.End.DayNumber - s.DayNumber > 300).Select(f => (DateOnly?)f.End).Max();
+        return new FinancialsResult(periods, revenueConcept, notes) { LatestPeriodEnd = latestEnd, LatestYearEnd = yearEnd, Currency = currency };
     }
 
     /// <summary>Retail-style years ending in January/February belong to the previous fiscal year.</summary>

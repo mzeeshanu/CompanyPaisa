@@ -97,7 +97,7 @@ public static class EdgarCrossCheck
         CheckResult Check(string name, string why, IEnumerable<string> failures)
         {
             var list = failures.ToList();
-            return new CheckResult("EdgarTools", name, Severity.Warning, why, list.Count, list.Take(12).ToList());
+            return new CheckResult("EdgarTools", name, Severity.Warning, why, list.Count, list.Take(12).ToList(), list);
         }
 
         var checks = new List<CheckResult>

@@ -15,6 +15,12 @@ public sealed class EnrichmentOptions
 {
     public string SitesPath { get; set; } = "data/reference/company-sites.csv";
     public string PointsPath { get; set; } = "data/reference/geocoded-locations.csv";
+    /// <summary>The category each company's exchange publishes (--enrich categories).</summary>
+    public string CategoriesPath { get; set; } = "data/reference/company-categories.csv";
+    /// <summary>Categories set by hand after review, with the reason; they win over the exchange's and the SEC's.</summary>
+    public string CategoryOverridesPath { get; set; } = "data/curated/category-overrides.csv";
+    /// <summary>European import's OpenFIGI lists (ticker to ISIN), used to look shares up on Euronext and Nasdaq.</summary>
+    public string EuCacheDirectory { get; set; } = "data/cache/eu";
     public string ReportPath { get; set; } = "data/import-report-enrichment.md";
     public string CacheDirectory { get; set; } = "data/cache/enrich";
     public string WikidataSparql { get; set; } = "https://query.wikidata.org/sparql";
@@ -28,7 +34,7 @@ public sealed class EnrichmentOptions
 /// --enrich: fills in what the markets' own sources don't give — each company's website and careers page, and the exact
 /// position of its street address — for every company in the database, whatever its market. Results go into two
 /// reviewable tables in data/reference (so a monthly refresh keeps them) and are applied to the database straight away.
-/// Steps: websites, careers, geocode, exchanges (all by default).
+/// Steps: websites, careers, geocode, exchanges, categories (all by default).
 /// </summary>
 public sealed class EnrichmentRun(IOptions<ImporterOptions> options, RepoPaths paths, IEdgarService edgar, ILoggerFactory loggers)
 {
@@ -58,6 +64,12 @@ public sealed class EnrichmentRun(IOptions<ImporterOptions> options, RepoPaths p
         if (Step("geocode")) await GeocodeAsync(http, data.Companies, data.Locations, points, ct);
         EnrichmentTables.WritePoints(paths.Resolve(_o.PointsPath), points.Values);
         var exchanges = Step("exchanges") ? await ExchangesAsync(data.Companies, notes, ct) : [];
+        var categories = EnrichmentTables.ReadCategories(paths.Resolve(_o.CategoriesPath));
+        if (Step("categories")) await CategoriesAsync(data.Companies, categories, notes, ct);
+        var overrides = EnrichmentTables.ReadCategoryOverrides(paths.Resolve(_o.CategoryOverridesPath));
+        var classified = data.Companies
+            .Select(c => (overrides.GetValueOrDefault(c.CompanyId) ?? categories.GetValueOrDefault(c.CompanyId)) is { } k ? EnrichmentTables.WithCategory(c, k) : null)
+            .OfType<Company>().Select(c => (c.CompanyId, c.Sector, c.Classification!)).ToList();
 
         // Straight into the database, for every market (imports apply the same tables when they publish).
         var byLocation = data.Locations.ToDictionary(l => l.LocationId, StringComparer.OrdinalIgnoreCase);
@@ -65,11 +77,67 @@ public sealed class EnrichmentRun(IOptions<ImporterOptions> options, RepoPaths p
             sites.Values.Where(s => s.Website is not null || s.CareersUrl is not null).Select(s => (s.CompanyId, s.Website, s.CareersUrl)).ToList(),
             points.Values.Where(p => byLocation.TryGetValue(p.LocationId, out var l) && EnrichmentTables.AddressOf(l) == p.Address)
                 .Select(p => (p.LocationId, p.Latitude, p.Longitude)).ToList(),
-            exchanges);
+            exchanges, classified);
         await WriteReportAsync(data.Companies, data.Locations, sites, points, notes, ct);
         _log.LogInformation("Done: {Websites} websites, {Careers} careers pages, {Points} street positions → {Path}",
             sites.Values.Count(s => s.Website is not null), sites.Values.Count(s => s.CareersUrl is not null), points.Count, dbPath);
         return 0;
+    }
+
+    // ---- Categories ------------------------------------------------------------------------------------------------
+
+    /// <summary>
+    /// Reads each listing's category from its exchange into data/reference/company-categories.csv. A company its exchange
+    /// doesn't list this time keeps last month's row (the audit flags rows that grow old); changes are noted for review.
+    /// </summary>
+    private async Task CategoriesAsync(IReadOnlyList<Company> companies, Dictionary<string, IndustryClassification> categories,
+        List<string> notes, CancellationToken ct)
+    {
+        using var exchangeClient = new SecClient(new SecOptions
+        {
+            UserAgent = "Mozilla/5.0 (compatible; CompanyPaisa)", MaxRequestsPerSecond = 2, CacheDirectory = Path.Combine(_o.CacheDirectory, "categories"),
+            IndexCacheHours = 24 * 20, CompressCache = true
+        }, paths, loggers.CreateLogger<SecClient>());
+        var finder = new CategoryFinder(exchangeClient, paths.Resolve(_o.EuCacheDirectory), _log);
+        var pakistanAsOf = SqliteDataStore.Markets(paths.Resolve(options.Value.Output.DatabasePath)).GetValueOrDefault("pk")?.GetValueOrDefault("as_of_date") is { } pk
+            && DateOnly.TryParse(pk, System.Globalization.CultureInfo.InvariantCulture, out var pkDate) ? pkDate : (DateOnly?)null;
+        var found = await finder.FindAsync(companies, DateOnly.FromDateTime(DateTime.UtcNow), notes, ct, pakistanAsOf);
+        foreach (var (id, k) in await SecIndustriesAsync(companies.Where(c => c.Market == "sec").ToList(), ct)) found[id] = k;
+        var changed = new List<string>();
+        foreach (var (id, k) in found)
+        {
+            if (categories.GetValueOrDefault(id) is { } old && (old.Code != k.Code || old.Name != k.Name))
+                changed.Add($"{id}: {old.Name} ({old.Scheme} {old.Code}) to {k.Name} ({k.Scheme} {k.Code})");
+            categories[id] = k;
+        }
+        EnrichmentTables.WriteCategories(paths.Resolve(_o.CategoriesPath), categories);
+        notes.Add($"Categories: {found.Count} read from the exchanges this run ({exchangeClient.NetworkRequests} requests); {categories.Count} in the table.");
+        if (changed.Count > 0) notes.Add($"Categories changed since the last run ({changed.Count}), to review: {string.Join("; ", changed)}.");
+        _log.LogInformation("Categories: {Found} from the exchanges, {Changed} changed", found.Count, changed.Count);
+    }
+
+    /// <summary>
+    /// US filers: the SEC's industry code (SIC) from each company's EDGAR record — the one the SEC import reads, normally
+    /// still in the cache from that run, so this costs few or no requests.
+    /// </summary>
+    private async Task<Dictionary<string, IndustryClassification>> SecIndustriesAsync(IReadOnlyList<Company> companies, CancellationToken ct)
+    {
+        var found = new Dictionary<string, IndustryClassification>(StringComparer.OrdinalIgnoreCase);
+        var today = DateOnly.FromDateTime(DateTime.UtcNow);
+        var done = 0;
+        foreach (var c in companies)
+        {
+            ct.ThrowIfCancellationRequested();
+            if (++done % 1000 == 0) _log.LogInformation("SEC industry codes: {Done}/{Total}", done, companies.Count);
+            if (await edgar.FindCikByTickerAsync(c.Ticker, ct) is not { } cik) continue;
+            if (await edgar.GetCompanyAsync(cik, today.AddYears(-1), ct) is not { Sic: { } sic } sec || string.IsNullOrWhiteSpace(sec.SicDescription)) continue;
+            found[c.CompanyId] = new IndustryClassification
+            {
+                Scheme = "SIC", Code = sic.ToString(System.Globalization.CultureInfo.InvariantCulture), Industry = SectorClassifier.SicDivision(sic),
+                Name = global::CompanyPaisa.Importer.Geo.Text.TitleCase(sec.SicDescription), Source = "SEC EDGAR", CheckedOn = today
+            };
+        }
+        return found;
     }
 
     // ---- Websites --------------------------------------------------------------------------------------------------

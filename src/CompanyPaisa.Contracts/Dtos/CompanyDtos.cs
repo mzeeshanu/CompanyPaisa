@@ -94,7 +94,19 @@ public sealed record CompanyDetailDto(
     string? CareersUrl = null,
     IReadOnlyList<WorkerPayDto>? WorkerPay = null,
     int SalaryTitles = 0,
-    string? PriceSymbol = null);
+    string? PriceSymbol = null,
+    IndustryClassificationDto? Classification = null);
+
+/// <summary>
+/// The category the company goes by, as its exchange (ICB, GICS, PSX sector) or the SEC (SIC code) publishes it.
+/// </summary>
+/// <param name="Scheme">"ICB", "GICS", "SIC" or "PSX".</param>
+/// <param name="Code">The scheme's code, when known ("4510", "7372").</param>
+/// <param name="Industry">The scheme's top level ("Consumer Staples").</param>
+/// <param name="Name">The most detailed level published ("Food, Beverage and Tobacco").</param>
+/// <param name="Source">Who publishes it ("Nasdaq Stockholm", "SEC EDGAR").</param>
+/// <param name="CheckedOn">When it was last read from the source.</param>
+public sealed record IndustryClassificationDto(string Scheme, string? Code, string? Industry, string Name, string Source, DateOnly? CheckedOn);
 
 /// <summary>A company referred to from somewhere else (an executive's history, a search hit).</summary>
 public sealed record CompanyRefDto(string Ticker, string Name, string Sector, string Currency = "USD");

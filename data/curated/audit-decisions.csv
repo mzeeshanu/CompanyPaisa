@@ -1,0 +1,194 @@
+check,company_id,match,decision,note,reviewed_on
+"Only a local office, no headquarters",NICE,,real,"Israeli company (Ra'anana); only its former inContact office in Utah is on the site, by design.",2026-11-24
+Same name under two ids,ARG.PA,,real,"Two companies: Argan Inc (US electrical contractor, NYSE AGX) and Argan SA (French logistics property, Euronext ARG).",2026-11-24
+Same name under two ids,DOM.L,,real,"Two companies: Domino's Pizza Inc (US, Nasdaq DPZ) and Domino's Pizza Group plc (UK and Ireland master franchisee, LSE DOM).",2026-11-24
+Same name under two ids,FMAO,,real,"Two banks: Farmers & Merchants Bank of Long Beach (OTC FMCB) and Farmers & Merchants Bancorp Inc of Archbold, Ohio (Nasdaq FMAO).",2026-11-24
+Same name under two ids,ITP.PA,,real,Interparfums SA is the Paris-listed subsidiary of Interparfums Inc (Nasdaq IPAR); both are listed and report their own accounts.,2026-11-24
+Same name under two ids,IRE.MI,,real,"Two companies: IREN Ltd (Australian data centres, Nasdaq IREN) and Iren SpA (Italian utility, Borsa Italiana IRE).",2026-11-24
+Negative revenue,ABUS,,real,"Small reversal of previously recognised revenue (collaboration, licence or returns) in that period; as filed or derived from the filed year-to-date and annual totals.",2026-11-24
+Negative revenue,AERA,,real,"Small reversal of previously recognised revenue (collaboration, licence or returns) in that period; as filed or derived from the filed year-to-date and annual totals.",2026-11-24
+Negative revenue,ALT,,real,"Small reversal of previously recognised revenue (collaboration, licence or returns) in that period; as filed or derived from the filed year-to-date and annual totals.",2026-11-24
+Negative revenue,AMLX,,real,"Small reversal of previously recognised revenue (collaboration, licence or returns) in that period; as filed or derived from the filed year-to-date and annual totals.",2026-11-24
+Negative revenue,ANG-PD,,real,"Insurer / guarantor: revenue includes investment and hedging losses (e.g. Q1 2020); as filed, or the quarter derived from filed year-to-date totals.",2026-11-24
+Negative revenue,ATH-PA,,real,"Insurer / guarantor: revenue includes investment and hedging losses (e.g. Q1 2020); as filed, or the quarter derived from filed year-to-date totals.",2026-11-24
+Negative revenue,BANC,,real,"Bank: revenue is net interest income plus noninterest income, negative in the quarter it sold securities at a large loss (balance-sheet repositioning); matches the filed lines.",2026-11-24
+Negative revenue,BENF,,real,Asset manager / holding company: revenue includes investment losses and carried-interest reversals; as filed or derived from filed totals.,2026-11-24
+Negative revenue,BGDE,,real,"Small reversal of previously recognised revenue (collaboration, licence or returns) in that period; as filed or derived from the filed year-to-date and annual totals.",2026-11-24
+Negative revenue,BHF,,real,"Insurer / guarantor: revenue includes investment and hedging losses (e.g. Q1 2020); as filed, or the quarter derived from filed year-to-date totals.",2026-11-24
+Negative revenue,BMRC,,real,"Bank: revenue is net interest income plus noninterest income, negative in the quarter it sold securities at a large loss (balance-sheet repositioning); matches the filed lines.",2026-11-24
+Negative revenue,BX,,real,Asset manager / holding company: revenue includes investment losses and carried-interest reversals; as filed or derived from filed totals.,2026-11-24
+Negative revenue,CAPS,,real,"Small reversal of previously recognised revenue (collaboration, licence or returns) in that period; as filed or derived from the filed year-to-date and annual totals.",2026-11-24
+Negative revenue,CFFN,,real,"Bank: revenue is net interest income plus noninterest income, negative in the quarter it sold securities at a large loss (balance-sheet repositioning); matches the filed lines.",2026-11-24
+Negative revenue,CG,,real,Asset manager / holding company: revenue includes investment losses and carried-interest reversals; as filed or derived from filed totals.,2026-11-24
+Negative revenue,CHMI,,real,"Mortgage REIT / lender: revenue includes fair-value losses on loans and securities; as filed, or net interest income plus other income for the quarter.",2026-11-24
+Negative revenue,CINF,,real,"Insurer / guarantor: revenue includes investment and hedging losses (e.g. Q1 2020); as filed, or the quarter derived from filed year-to-date totals.",2026-11-24
+Negative revenue,CLST,,real,"Bank: revenue is net interest income plus noninterest income, negative in the quarter it sold securities at a large loss (balance-sheet repositioning); matches the filed lines.",2026-11-24
+Negative revenue,CNX,,real,Energy producer / royalty trust: revenue includes derivative (hedging) losses or negative royalty adjustments; as filed.,2026-11-24
+Negative revenue,COHN,,real,Asset manager / holding company: revenue includes investment losses and carried-interest reversals; as filed or derived from filed totals.,2026-11-24
+Negative revenue,CSCIF,,real,"Small reversal of previously recognised revenue (collaboration, licence or returns) in that period; as filed or derived from the filed year-to-date and annual totals.",2026-11-24
+Negative revenue,CYTK,,real,"Small reversal of previously recognised revenue (collaboration, licence or returns) in that period; as filed or derived from the filed year-to-date and annual totals.",2026-11-24
+Negative revenue,DYNR,,real,"Small reversal of previously recognised revenue (collaboration, licence or returns) in that period; as filed or derived from the filed year-to-date and annual totals.",2026-11-24
+Negative revenue,EFC,,real,"Mortgage REIT / lender: revenue includes fair-value losses on loans and securities; as filed, or net interest income plus other income for the quarter.",2026-11-24
+Negative revenue,EQH,,real,"Insurer / guarantor: revenue includes investment and hedging losses (e.g. Q1 2020); as filed, or the quarter derived from filed year-to-date totals.",2026-11-24
+Negative revenue,ETON,,real,"Small reversal of previously recognised revenue (collaboration, licence or returns) in that period; as filed or derived from the filed year-to-date and annual totals.",2026-11-24
+Negative revenue,FGC,,real,Asset manager / holding company: revenue includes investment losses and carried-interest reversals; as filed or derived from filed totals.,2026-11-24
+Negative revenue,FMCC,,real,"Insurer / guarantor: revenue includes investment and hedging losses (e.g. Q1 2020); as filed, or the quarter derived from filed year-to-date totals.",2026-11-24
+Negative revenue,FOA,,real,"Mortgage REIT / lender: revenue includes fair-value losses on loans and securities; as filed, or net interest income plus other income for the quarter.",2026-11-24
+Negative revenue,FRHC,,real,Asset manager / holding company: revenue includes investment losses and carried-interest reversals; as filed or derived from filed totals.,2026-11-24
+Negative revenue,GPOR,,real,Energy producer / royalty trust: revenue includes derivative (hedging) losses or negative royalty adjustments; as filed.,2026-11-24
+Negative revenue,GPUS,,real,Asset manager / holding company: revenue includes investment losses and carried-interest reversals; as filed or derived from filed totals.,2026-11-24
+Negative revenue,HBNC,,real,"Bank: revenue is net interest income plus noninterest income, negative in the quarter it sold securities at a large loss (balance-sheet repositioning); matches the filed lines.",2026-11-24
+Negative revenue,IEP,,real,Asset manager / holding company: revenue includes investment losses and carried-interest reversals; as filed or derived from filed totals.,2026-11-24
+Negative revenue,INBS,,real,"Small reversal of previously recognised revenue (collaboration, licence or returns) in that period; as filed or derived from the filed year-to-date and annual totals.",2026-11-24
+Negative revenue,JMSB,,real,"Bank: revenue is net interest income plus noninterest income, negative in the quarter it sold securities at a large loss (balance-sheet repositioning); matches the filed lines.",2026-11-24
+Negative revenue,JXN,,real,"Insurer / guarantor: revenue includes investment and hedging losses (e.g. Q1 2020); as filed, or the quarter derived from filed year-to-date totals.",2026-11-24
+Negative revenue,KKR,,real,Asset manager / holding company: revenue includes investment losses and carried-interest reversals; as filed or derived from filed totals.,2026-11-24
+Negative revenue,KYNB,,real,"Small reversal of previously recognised revenue (collaboration, licence or returns) in that period; as filed or derived from the filed year-to-date and annual totals.",2026-11-24
+Negative revenue,MBI,,real,"Insurer / guarantor: revenue includes investment and hedging losses (e.g. Q1 2020); as filed, or the quarter derived from filed year-to-date totals.",2026-11-24
+Negative revenue,MCRB,,real,"Small reversal of previously recognised revenue (collaboration, licence or returns) in that period; as filed or derived from the filed year-to-date and annual totals.",2026-11-24
+Negative revenue,MSB,,real,Energy producer / royalty trust: revenue includes derivative (hedging) losses or negative royalty adjustments; as filed.,2026-11-24
+Negative revenue,MSGK,,real,"Q2 2020: games cancelled (COVID-19), ticket and sponsorship refunds exceeded revenue; as filed.",2026-11-24
+Negative revenue,NGTF,,real,"Small reversal of previously recognised revenue (collaboration, licence or returns) in that period; as filed or derived from the filed year-to-date and annual totals.",2026-11-24
+Negative revenue,NOG,,real,Energy producer / royalty trust: revenue includes derivative (hedging) losses or negative royalty adjustments; as filed.,2026-11-24
+Negative revenue,ORMP,,real,"Small reversal of previously recognised revenue (collaboration, licence or returns) in that period; as filed or derived from the filed year-to-date and annual totals.",2026-11-24
+Negative revenue,OSG,,real,"Insurer / guarantor: revenue includes investment and hedging losses (e.g. Q1 2020); as filed, or the quarter derived from filed year-to-date totals.",2026-11-24
+Negative revenue,PAYS,,real,Q3 2020: the 10-Q's nine-month revenue ($16.87M) is below the half-year's ($17.02M) after a revenue reversal; as filed.,2026-11-24
+Negative revenue,PLUG,,real,2020: $399.7M of warrant charges to Amazon and Walmart were recorded against revenue (restated 10-K/A); as filed.,2026-11-24
+Negative revenue,PMT,,real,"Mortgage REIT / lender: revenue includes fair-value losses on loans and securities; as filed, or net interest income plus other income for the quarter.",2026-11-24
+Negative revenue,PTN,,real,"Small reversal of previously recognised revenue (collaboration, licence or returns) in that period; as filed or derived from the filed year-to-date and annual totals.",2026-11-24
+Negative revenue,QNBC,,real,"Bank: revenue is net interest income plus noninterest income, negative in the quarter it sold securities at a large loss (balance-sheet repositioning); matches the filed lines.",2026-11-24
+Negative revenue,RBKB,,real,"Bank: revenue is net interest income plus noninterest income, negative in the quarter it sold securities at a large loss (balance-sheet repositioning); matches the filed lines.",2026-11-24
+Negative revenue,RC,,real,"Mortgage REIT / lender: revenue includes fair-value losses on loans and securities; as filed, or net interest income plus other income for the quarter.",2026-11-24
+Negative revenue,RCL,,real,"Q3 2020: cruises suspended; the 10-Q's nine-month revenue ($2,174.7M) is below the half-year's ($2,208.4M), so the quarter is -$33.7M as filed.",2026-11-24
+Negative revenue,RPT,,real,"Mortgage REIT / lender: revenue includes fair-value losses on loans and securities; as filed, or net interest income plus other income for the quarter.",2026-11-24
+Negative revenue,RWT,,real,"Mortgage REIT / lender: revenue includes fair-value losses on loans and securities; as filed, or net interest income plus other income for the quarter.",2026-11-24
+Negative revenue,SFNC,,real,"Bank: revenue is net interest income plus noninterest income, negative in the quarter it sold securities at a large loss (balance-sheet repositioning); matches the filed lines.",2026-11-24
+Negative revenue,SLDP,,real,"Small reversal of previously recognised revenue (collaboration, licence or returns) in that period; as filed or derived from the filed year-to-date and annual totals.",2026-11-24
+Negative revenue,STCB,,real,"Small reversal of previously recognised revenue (collaboration, licence or returns) in that period; as filed or derived from the filed year-to-date and annual totals.",2026-11-24
+Negative revenue,STEP,,real,Asset manager / holding company: revenue includes investment losses and carried-interest reversals; as filed or derived from filed totals.,2026-11-24
+Negative revenue,STKE,,real,Asset manager / holding company: revenue includes investment losses and carried-interest reversals; as filed or derived from filed totals.,2026-11-24
+Negative revenue,STOK,,real,"Small reversal of previously recognised revenue (collaboration, licence or returns) in that period; as filed or derived from the filed year-to-date and annual totals.",2026-11-24
+Negative revenue,STTK,,real,"Small reversal of previously recognised revenue (collaboration, licence or returns) in that period; as filed or derived from the filed year-to-date and annual totals.",2026-11-24
+Negative revenue,TCBS,,real,"Bank: revenue is net interest income plus noninterest income, negative in the quarter it sold securities at a large loss (balance-sheet repositioning); matches the filed lines.",2026-11-24
+Negative revenue,TFC,,real,"Bank: revenue is net interest income plus noninterest income, negative in the quarter it sold securities at a large loss (balance-sheet repositioning); matches the filed lines.",2026-11-24
+Negative revenue,TNGX,,real,"Small reversal of previously recognised revenue (collaboration, licence or returns) in that period; as filed or derived from the filed year-to-date and annual totals.",2026-11-24
+Negative revenue,TRMK,,real,"Bank: revenue is net interest income plus noninterest income, negative in the quarter it sold securities at a large loss (balance-sheet repositioning); matches the filed lines.",2026-11-24
+Negative revenue,TXMD,,real,"Small reversal of previously recognised revenue (collaboration, licence or returns) in that period; as filed or derived from the filed year-to-date and annual totals.",2026-11-24
+Negative revenue,UCB,,real,"Bank: revenue is net interest income plus noninterest income, negative in the quarter it sold securities at a large loss (balance-sheet repositioning); matches the filed lines.",2026-11-24
+Negative revenue,UTGN,,real,"Insurer / guarantor: revenue includes investment and hedging losses (e.g. Q1 2020); as filed, or the quarter derived from filed year-to-date totals.",2026-11-24
+Negative revenue,VIR,,real,"Small reversal of previously recognised revenue (collaboration, licence or returns) in that period; as filed or derived from the filed year-to-date and annual totals.",2026-11-24
+Negative revenue,VRCA,,real,"Small reversal of previously recognised revenue (collaboration, licence or returns) in that period; as filed or derived from the filed year-to-date and annual totals.",2026-11-24
+Negative revenue,VTGN,,real,"Small reversal of previously recognised revenue (collaboration, licence or returns) in that period; as filed or derived from the filed year-to-date and annual totals.",2026-11-24
+Negative revenue,WKHS,,real,"Small reversal of previously recognised revenue (collaboration, licence or returns) in that period; as filed or derived from the filed year-to-date and annual totals.",2026-11-24
+Negative revenue,WTM,,real,"Insurer / guarantor: revenue includes investment and hedging losses (e.g. Q1 2020); as filed, or the quarter derived from filed year-to-date totals.",2026-11-24
+Negative revenue,XCUR,,real,"Small reversal of previously recognised revenue (collaboration, licence or returns) in that period; as filed or derived from the filed year-to-date and annual totals.",2026-11-24
+Profit far bigger than revenue,ACTG,,real,"2020: gains on its equity stakes (Arix Bioscience, Veritone) and investment income. Revenue is the reported top line.",2026-11-24
+Profit far bigger than revenue,AGIO,,real,"2024: $905M from selling its vorasidenib royalty to Royalty Pharma, booked as a gain. Revenue is the reported top line.",2026-11-24
+Profit far bigger than revenue,ABTC,,real,2024: profit includes fair-value gains on digital assets; as filed. Revenue is the reported top line.,2026-11-24
+Profit far bigger than revenue,ARL,,real,2022: gain on selling its share of the VAA apartment joint venture. Revenue is the reported top line.,2026-11-24
+Profit far bigger than revenue,TCI,,real,2022: gain on selling its share of the VAA apartment joint venture. Revenue is the reported top line.,2026-11-24
+Profit far bigger than revenue,AIV,,real,2025: gains on property sales. Revenue is the reported top line.,2026-11-24
+Profit far bigger than revenue,APYX,,real,2018: sale of its core surgical business to Symmetry Surgical (discontinued operations). Revenue is the reported top line.,2026-11-24
+Profit far bigger than revenue,AZTA,,real,2022: $3bn sale of its semiconductor automation business (discontinued operations). Revenue is the reported top line.,2026-11-24
+Profit far bigger than revenue,CHRS,,real,2025: gains on selling Udenyca and other products (discontinued operations). Revenue is the reported top line.,2026-11-24
+Profit far bigger than revenue,CRON,,real,2019: fair-value gain on the Altria derivative liabilities. Revenue is the reported top line.,2026-11-24
+Profit far bigger than revenue,ELUT,,real,2025: gain on selling its BioEnvelope business. Revenue is the reported top line.,2026-11-24
+Profit far bigger than revenue,FRPH,,real,2018: gain on selling its warehouse portfolio to Blackstone. Revenue is the reported top line.,2026-11-24
+Profit far bigger than revenue,GAIA,,real,2016: gain on selling its Gaiam brand business (discontinued operations). Revenue is the reported top line.,2026-11-24
+Profit far bigger than revenue,LGND,,real,2019: gain on selling its Promacta royalty to Novartis. Revenue is the reported top line.,2026-11-24
+Profit far bigger than revenue,NCMI,,real,2023: gain on deconsolidating National CineMedia LLC in its bankruptcy. Revenue is the reported top line.,2026-11-24
+Profit far bigger than revenue,OSG,,real,2022 (as Ambac): profit includes its Bank of America litigation settlement; as filed. Revenue is the reported top line.,2026-11-24
+Profit far bigger than revenue,SENS,,real,2022: fair-value gains on convertible notes and derivative liabilities. Revenue is the reported top line.,2026-11-24
+Profit far bigger than revenue,SHEN,,real,2021: gain on selling its wireless business to T-Mobile. Revenue is the reported top line.,2026-11-24
+Profit far bigger than revenue,ILLR,,real,2021: profit includes large non-operating fair-value gains; as filed (not yet checked against the 10-K text). Revenue is the reported top line.,2026-11-24
+Profit far bigger than revenue,SAFX,,real,2025: profit includes non-operating gains around its business combination; as filed (not yet checked against the 10-K text). Revenue is the reported top line.,2026-11-24
+Profit far bigger than revenue,CNE.L,,real,2021: refund of Indian tax (about $1.06bn) under the retrospective-tax settlement. Revenue is the reported top line.,2026-11-24
+Profit far bigger than revenue,CREI.L,,real,2022: property revaluation gains (financial year to March 2022). Revenue is the reported top line.,2026-11-24
+Profit far bigger than revenue,LMP.L,,real,2022: property revaluation gains. Revenue is the reported top line.,2026-11-24
+Profit far bigger than revenue,SGRO.L,,real,2020–21: property revaluation gains. Revenue is the reported top line.,2026-11-24
+Profit far bigger than revenue,NOG.L,,real,2023: gain on restructuring its bonds. Revenue is the reported top line.,2026-11-24
+Profit far bigger than revenue,BLEE.PA,,real,2021: property revaluation gains; revenue is rents. Revenue is the reported top line.,2026-11-24
+Profit far bigger than revenue,RF.PA,,real,"2023: investment company, profit includes portfolio gains; as filed. Revenue is the reported top line.",2026-11-24
+Profit far bigger than revenue,ALB.MC,,real,Investment company: profit is mainly gains and income from its holdings. Revenue is the reported top line.,2026-11-24
+Profit far bigger than revenue,EZE.MC,,real,2023: gain on restructuring its debt. Revenue is the reported top line.,2026-11-24
+Profit far bigger than revenue,SAGAB.ST,,real,2021: property revaluation gains. Revenue is the reported top line.,2026-11-24
+Profit far bigger than revenue,CNCJOB.ST,,real,2020: profit includes gains on holdings; as filed (not yet checked against the annual report text). Revenue is the reported top line.,2026-11-24
+Profit far bigger than revenue,EAST.ST,,real,2021–22: property revaluation gains. Revenue is the reported top line.,2026-11-24
+Profit far bigger than revenue,HEBAB.ST,,real,2021: property revaluation gains. Revenue is the reported top line.,2026-11-24
+Profit far bigger than revenue,INVEB.ST,,real,2021: investment company: gains on its listed holdings. Revenue is the reported top line.,2026-11-24
+Profit far bigger than revenue,JOMA.ST,,real,2021: property revaluation gains. Revenue is the reported top line.,2026-11-24
+Profit far bigger than revenue,TOBII.ST,,real,2021: gain on distributing Tobii Dynavox to shareholders. Revenue is the reported top line.,2026-11-24
+Profit far bigger than revenue,WITH.HE,,real,2022: gain on demerging F-Secure's consumer business. Revenue is the reported top line.,2026-11-24
+Profit far bigger than revenue,PRS.OL,,real,2021: gain on its debt restructuring. Revenue is the reported top line.,2026-11-24
+Profit far bigger than revenue,GIMB.BR,,real,Investment company: profit is mainly gains on its portfolio. Revenue is the reported top line.,2026-11-24
+Profit far bigger than revenue,MONT.BR,,real,2021: property revaluation gains. Revenue is the reported top line.,2026-11-24
+Profit far bigger than revenue,SOF.BR,,real,Investment company: profit is mainly gains on its portfolio. Revenue is the reported top line.,2026-11-24
+Profit far bigger than revenue,WDP.BR,,real,2021: property revaluation gains. Revenue is the reported top line.,2026-11-24
+Profit far bigger than revenue,ORCL.LU,,real,"2021–22: property company, profit includes revaluation and disposal gains; as filed. Revenue is the reported top line.",2026-11-24
+Profit far bigger than revenue,IVL1L.VS,,real,2024: investment company: gains on its holdings. Revenue is the reported top line.,2026-11-24
+Revenue jumps 10× in a year,ABCL,,real,Covid-19 product or testing revenue rose and fell; as filed.,2026-11-24
+Revenue jumps 10× in a year,AMLX,,real,Product launch or first full year of sales; as filed.,2026-11-24
+Revenue jumps 10× in a year,ARCT,,real,"Collaboration, licence or milestone revenue is lumpy: a large one-off payment in one year; as filed.",2026-11-24
+Revenue jumps 10× in a year,ARWR,,real,"Collaboration, licence or milestone revenue is lumpy: a large one-off payment in one year; as filed.",2026-11-24
+Revenue jumps 10× in a year,DNLI,,real,"Collaboration, licence or milestone revenue is lumpy: a large one-off payment in one year; as filed.",2026-11-24
+Revenue jumps 10× in a year,LXRX,,real,"Collaboration, licence or milestone revenue is lumpy: a large one-off payment in one year; as filed.",2026-11-24
+Revenue jumps 10× in a year,MNKD,,real,"Collaboration, licence or milestone revenue is lumpy: a large one-off payment in one year; as filed.",2026-11-24
+Revenue jumps 10× in a year,NKTR,,real,2018: $1.0bn upfront from Bristol-Myers Squibb recognised as revenue; as filed.,2026-11-24
+Revenue jumps 10× in a year,NBIX,,real,2017: Ingrezza launched; as filed.,2026-11-24
+Revenue jumps 10× in a year,NVAX,,real,Covid-19 product or testing revenue rose and fell; as filed.,2026-11-24
+Revenue jumps 10× in a year,OVID,,real,2021: $196M from Takeda for soticlestat rights; as filed.,2026-11-24
+Revenue jumps 10× in a year,RGNX,,real,"Collaboration, licence or milestone revenue is lumpy: a large one-off payment in one year; as filed.",2026-11-24
+Revenue jumps 10× in a year,SIGA,,real,BARDA deliveries of TPOXX are lumpy (2018 large delivery); as filed.,2026-11-24
+Revenue jumps 10× in a year,TARS,,real,Product launch or first full year of sales; as filed.,2026-11-24
+Revenue jumps 10× in a year,LQDA,,real,Product launch or first full year of sales; as filed.,2026-11-24
+Revenue jumps 10× in a year,LCID,,real,Product launch or first full year of sales; as filed.,2026-11-24
+Revenue jumps 10× in a year,RIVN,,real,Product launch or first full year of sales; as filed.,2026-11-24
+Revenue jumps 10× in a year,MRNA,,real,Covid-19 product or testing revenue rose and fell; as filed.,2026-11-24
+Revenue jumps 10× in a year,VIR,,real,Covid-19 product or testing revenue rose and fell; as filed.,2026-11-24
+Revenue jumps 10× in a year,FLGT,,real,Covid-19 product or testing revenue rose and fell; as filed.,2026-11-24
+Revenue jumps 10× in a year,SEAT,,real,2020: live events cancelled (Covid-19); as filed.,2026-11-24
+Revenue jumps 10× in a year,ZYME,,real,"Collaboration, licence or milestone revenue is lumpy: a large one-off payment in one year; as filed.",2026-11-24
+Revenue jumps 10× in a year,FBIO,,real,"2017: consolidation of acquired subsidiaries (Checkpoint, Journey); as filed.",2026-11-24
+Revenue jumps 10× in a year,QXO,,real,2025: acquisition of Beacon Roofing Supply; as filed.,2026-11-24
+Revenue jumps 10× in a year,RIOT,,real,2021: bitcoin mining scaled up; as filed.,2026-11-24
+Revenue jumps 10× in a year,AAWH,,real,Revenue rose with acquisitions and expansion; as filed (not yet checked against the filing text).,2026-11-24
+Revenue jumps 10× in a year,MYND,,real,Revenue rose with a business combination; as filed (not yet checked against the filing text).,2026-11-24
+Revenue jumps 10× in a year,SDOT,,real,2022: entered commodity trading; as filed.,2026-11-24
+Revenue jumps 10× in a year,UROY,,real,FY2026: uranium sales; royalty company revenue is lumpy; as filed.,2026-11-24
+Revenue jumps 10× in a year,ACTG,,real,Patent licensing revenue is lumpy (large 2018 settlements); as filed.,2026-11-24
+Revenue jumps 10× in a year,AHR,,real,Predecessor figures: the 2018 year is a smaller predecessor's before the mergers that formed the company; as filed (not yet checked against the 10-K text).,2026-11-24
+Revenue jumps 10× in a year,AD,,real,"The revenue measure changed between the years (restatement, discontinued operations or a new accounting standard); each year is as its latest report states it.",2026-11-24
+Revenue jumps 10× in a year,ECHO,,real,"The revenue measure changed between the years (restatement, discontinued operations or a new accounting standard); each year is as its latest report states it. (DISH included from 2021 after the 2023 combination)",2026-11-24
+Revenue jumps 10× in a year,CANG,,real,"The revenue measure changed between the years (restatement, discontinued operations or a new accounting standard); each year is as its latest report states it. (car business sold; bitcoin mining from late 2024)",2026-11-24
+Revenue jumps 10× in a year,DBRHP,,real,The revenue measure changed between the years (discontinued operations restated); as filed (not yet checked against the 10-K text).,2026-11-24
+Revenue jumps 10× in a year,CSN.L,,real,"The revenue measure changed between the years (restatement, discontinued operations or a new accounting standard); each year is as its latest report states it. (IFRS 17 from 2022)",2026-11-24
+Revenue jumps 10× in a year,LGEN.L,,real,"The revenue measure changed between the years (restatement, discontinued operations or a new accounting standard); each year is as its latest report states it. (IFRS 17 from 2022)",2026-11-24
+Revenue jumps 10× in a year,STB.OL,,real,"The revenue measure changed between the years (restatement, discontinued operations or a new accounting standard); each year is as its latest report states it. (IFRS 17 from 2022)",2026-11-24
+Revenue jumps 10× in a year,RF.PA,,real,"The revenue measure changed between the years (restatement, discontinued operations or a new accounting standard); each year is as its latest report states it. (investment entity from 2023: holdings no longer consolidated)",2026-11-24
+Revenue jumps 10× in a year,EZE.MC,,real,2022: businesses sold in its restructuring; as filed.,2026-11-24
+Revenue jumps 10× in a year,ENOG.L,,real,2021: first full year after buying Edison's oil and gas business (completed December 2020); as filed.,2026-11-24
+Quarters don't add up to the year,RIME,,real,"Its stored year end is 31 December (from its latest annual report), but earlier years ended in another month (a change of year end, or a predecessor's years), so their calendar-labelled quarters can't add up to them. Figures as filed; the year of the change not yet checked.",2026-11-24
+Quarters don't add up to the year,ABTC,,real,"Its stored year end is 31 December (from its latest annual report), but earlier years ended in another month (a change of year end, or a predecessor's years), so their calendar-labelled quarters can't add up to them. Figures as filed; the year of the change not yet checked.",2026-11-24
+Quarters don't add up to the year,RCEL,,real,"Its stored year end is 31 December (from its latest annual report), but earlier years ended in another month (a change of year end, or a predecessor's years), so their calendar-labelled quarters can't add up to them. Figures as filed; the year of the change not yet checked.",2026-11-24
+Quarters don't add up to the year,BRT,,real,"Its stored year end is 31 December (from its latest annual report), but earlier years ended in another month (a change of year end, or a predecessor's years), so their calendar-labelled quarters can't add up to them. Figures as filed; the year of the change not yet checked.",2026-11-24
+Quarters don't add up to the year,CSR,,real,"Its stored year end is 31 December (from its latest annual report), but earlier years ended in another month (a change of year end, or a predecessor's years), so their calendar-labelled quarters can't add up to them. Figures as filed; the year of the change not yet checked.",2026-11-24
+Quarters don't add up to the year,CZWI,,real,"Its stored year end is 31 December (from its latest annual report), but earlier years ended in another month (a change of year end, or a predecessor's years), so their calendar-labelled quarters can't add up to them. Figures as filed; the year of the change not yet checked.",2026-11-24
+Quarters don't add up to the year,FABC,,real,"Its stored year end is 31 December (from its latest annual report), but earlier years ended in another month (a change of year end, or a predecessor's years), so their calendar-labelled quarters can't add up to them. Figures as filed; the year of the change not yet checked.",2026-11-24
+Quarters don't add up to the year,FNWB,,real,"Its stored year end is 31 December (from its latest annual report), but earlier years ended in another month (a change of year end, or a predecessor's years), so their calendar-labelled quarters can't add up to them. Figures as filed; the year of the change not yet checked.",2026-11-24
+Quarters don't add up to the year,HNVR,,real,"Its stored year end is 31 December (from its latest annual report), but earlier years ended in another month (a change of year end, or a predecessor's years), so their calendar-labelled quarters can't add up to them. Figures as filed; the year of the change not yet checked.",2026-11-24
+Quarters don't add up to the year,HTB,,real,"Its stored year end is 31 December (from its latest annual report), but earlier years ended in another month (a change of year end, or a predecessor's years), so their calendar-labelled quarters can't add up to them. Figures as filed; the year of the change not yet checked.",2026-11-24
+Quarters don't add up to the year,INSE,,real,"Its stored year end is 31 December (from its latest annual report), but earlier years ended in another month (a change of year end, or a predecessor's years), so their calendar-labelled quarters can't add up to them. Figures as filed; the year of the change not yet checked.",2026-11-24
+Quarters don't add up to the year,INVU,,real,"Its stored year end is 31 December (from its latest annual report), but earlier years ended in another month (a change of year end, or a predecessor's years), so their calendar-labelled quarters can't add up to them. Figures as filed; the year of the change not yet checked.",2026-11-24
+Quarters don't add up to the year,MRDN,,real,"Its stored year end is 31 December (from its latest annual report), but earlier years ended in another month (a change of year end, or a predecessor's years), so their calendar-labelled quarters can't add up to them. Figures as filed; the year of the change not yet checked.",2026-11-24
+Quarters don't add up to the year,MIR,,real,"Its stored year end is 31 December (from its latest annual report), but earlier years ended in another month (a change of year end, or a predecessor's years), so their calendar-labelled quarters can't add up to them. Figures as filed; the year of the change not yet checked.",2026-11-24
+Quarters don't add up to the year,MYGN,,real,"Its stored year end is 31 December (from its latest annual report), but earlier years ended in another month (a change of year end, or a predecessor's years), so their calendar-labelled quarters can't add up to them. Figures as filed; the year of the change not yet checked.",2026-11-24
+Quarters don't add up to the year,OSK,,real,"Its stored year end is 31 December (from its latest annual report), but earlier years ended in another month (a change of year end, or a predecessor's years), so their calendar-labelled quarters can't add up to them. Figures as filed; the year of the change not yet checked.",2026-11-24
+Quarters don't add up to the year,PBFS,,real,"Its stored year end is 31 December (from its latest annual report), but earlier years ended in another month (a change of year end, or a predecessor's years), so their calendar-labelled quarters can't add up to them. Figures as filed; the year of the change not yet checked.",2026-11-24
+Quarters don't add up to the year,RJET,,real,"Its stored year end is 31 December (from its latest annual report), but earlier years ended in another month (a change of year end, or a predecessor's years), so their calendar-labelled quarters can't add up to them. Figures as filed; the year of the change not yet checked.",2026-11-24
+Quarters don't add up to the year,REPX,,real,"Its stored year end is 31 December (from its latest annual report), but earlier years ended in another month (a change of year end, or a predecessor's years), so their calendar-labelled quarters can't add up to them. Figures as filed; the year of the change not yet checked.",2026-11-24
+Quarters don't add up to the year,RGLD,,real,"Its stored year end is 31 December (from its latest annual report), but earlier years ended in another month (a change of year end, or a predecessor's years), so their calendar-labelled quarters can't add up to them. Figures as filed; the year of the change not yet checked.",2026-11-24
+Quarters don't add up to the year,SCND,,real,"Its stored year end is 31 December (from its latest annual report), but earlier years ended in another month (a change of year end, or a predecessor's years), so their calendar-labelled quarters can't add up to them. Figures as filed; the year of the change not yet checked.",2026-11-24
+Quarters don't add up to the year,SPHR,,real,"Its stored year end is 31 December (from its latest annual report), but earlier years ended in another month (a change of year end, or a predecessor's years), so their calendar-labelled quarters can't add up to them. Figures as filed; the year of the change not yet checked.",2026-11-24
+Quarters don't add up to the year,SRTA,,real,"Its stored year end is 31 December (from its latest annual report), but earlier years ended in another month (a change of year end, or a predecessor's years), so their calendar-labelled quarters can't add up to them. Figures as filed; the year of the change not yet checked.",2026-11-24
+Quarters don't add up to the year,TDW,,real,"Its stored year end is 31 December (from its latest annual report), but earlier years ended in another month (a change of year end, or a predecessor's years), so their calendar-labelled quarters can't add up to them. Figures as filed; the year of the change not yet checked.",2026-11-24
+Quarters don't add up to the year,ZWS,,real,"Its stored year end is 31 December (from its latest annual report), but earlier years ended in another month (a change of year end, or a predecessor's years), so their calendar-labelled quarters can't add up to them. Figures as filed; the year of the change not yet checked.",2026-11-24

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import * as d3 from '../lib/d3';
 import { api, ApiError } from '../api/client';
-import type { CompanyDetail, CompanyInsights, Executive, FinancialPeriod, GeoPoint, Location, PeriodType } from '../api/types';
+import type { CompanyDetail, CompanyInsights, Executive, FinancialPeriod, GeoPoint, IndustryClassification, Location, PeriodType } from '../api/types';
 import { money, pct, tone, trendClass } from '../lib/format';
 import { companyPath, Link, navigate, personPath, placeToken, salariesPath } from '../lib/router';
 import { AtAGlance, NewLeadership, PayVsPeersCard, SimilarCompanies } from './CompanyInsights';
@@ -119,6 +119,7 @@ export function CompanyPage({ ticker, from, showExecutives, onExplore, onLoaded 
           {hq && <>Headquarters: {hq.city}, {hq.state}</>}
           {nearest && near && <> · nearest location <b className="num">{distance(nearest)!.toFixed(1)} mi</b> from {near.label}</>}
         </p>
+        {d.detail.classification && <ClassificationLine k={d.detail.classification} />}
         {(website || d.detail.employees || d.detail.careersUrl) && (
           <p className="page-facts">
             {d.detail.employees ? <span><b className="num">{d.detail.employees.toLocaleString()}</b> employees</span> : null}
@@ -246,6 +247,26 @@ export function CompanyPage({ ticker, from, showExecutives, onExplore, onLoaded 
 function countryOf(l: Location, currency: string): string | null {
   if (l.state === 'NL') return currency === 'EUR' ? 'NL' : null;
   return ['FR', 'IT', 'ES', 'SE', 'DK', 'FI', 'NO', 'PL', 'BE', 'AT', 'LU', 'HU', 'LT', 'HR', 'SI', 'AU', 'NZ', 'PK'].includes(l.state) ? l.state : null;
+}
+
+const SCHEME_NAMES: Record<string, string> = {
+  ICB: 'Industry Classification Benchmark',
+  GICS: 'Global Industry Classification Standard',
+  SIC: 'Standard Industrial Classification',
+  PSX: 'Pakistan Stock Exchange sector',
+};
+
+/** The category the company goes by, with the scheme, code and who publishes it. */
+function ClassificationLine({ k }: { k: IndustryClassification }) {
+  const scheme = [k.scheme, k.code].filter(Boolean).join(' ');
+  const checked = k.checkedOn ? ` · checked ${new Date(k.checkedOn).toLocaleDateString(undefined, { month: 'short', year: 'numeric' })}` : '';
+  return (
+    <p className="p-class" title={`${SCHEME_NAMES[k.scheme] ?? k.scheme}, as published by ${k.source}${checked}`}>
+      Industry: <b>{k.name}</b>
+      {k.industry && k.industry !== k.name && <> · {k.industry}</>}
+      <span className="p-class-src"> · {scheme}, {k.source}</span>
+    </p>
+  );
 }
 
 function Kpi({ k, s, v, cls = '' }: { k: string; s: string; v: string; cls?: string }) {

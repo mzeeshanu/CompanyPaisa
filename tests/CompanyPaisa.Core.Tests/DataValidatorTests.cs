@@ -11,7 +11,11 @@ public class DataValidatorTests
     private static readonly DateOnly Today = new(2026, 9, 14);
 
     private static Company Co(string id, string currency = "USD") =>
-        new() { CompanyId = id, Name = $"{id} Corp", Ticker = id.Split('.')[0], Exchange = "NYSE", Sector = "Other", Currency = currency };
+        new()
+        {
+            CompanyId = id, Name = $"{id} Corp", Ticker = id.Split('.')[0], Exchange = "NYSE", Sector = "Other", Currency = currency,
+            Classification = new IndustryClassification { Scheme = "SIC", Code = "7372", Name = "Services-Prepackaged Software", Source = "SEC EDGAR", CheckedOn = Today }
+        };
 
     private static CompanyLocation Hq(string id, string state, double lat, double lng) =>
         new() { LocationId = $"{id}-HQ", CompanyId = id, Type = LocationType.Headquarters, Label = "Headquarters", City = "Somewhere", State = state, Point = new GeoPoint(lat, lng) };
@@ -29,6 +33,15 @@ public class DataValidatorTests
 
     private static int Failures(CompanyData data, string check) =>
         DataValidator.Validate(data, Rates, Today).Checks.Single(c => c.Name == check).Count;
+
+    [Fact]
+    public void A_company_without_a_category_or_with_an_old_one_is_flagged()
+    {
+        var old = Co("OLD") with { Classification = Co("OLD").Classification! with { CheckedOn = Today.AddDays(-200) } };
+        var data = Data([Co("AAA") with { Classification = null }, old], [Hq("AAA", "UT", 40.4, -111.9), Hq("OLD", "UT", 40.4, -111.9)]);
+        Assert.Equal(1, Failures(data, "No industry classification"));
+        Assert.Equal(1, Failures(data, "Classification not checked recently"));
+    }
 
     [Fact]
     public void Clean_data_passes_every_check()
