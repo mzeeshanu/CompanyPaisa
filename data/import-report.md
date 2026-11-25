@@ -1,30 +1,30 @@
-# Import report — 2026-11-24 07:16 UTC
+# Import report — 2026-11-25 18:37 UTC
 
 Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, insider owner lists). ZIP centroids: US Census Gazetteer; ZIP names: GeoNames.
 
-- Companies included: **4006**
-- Financial periods: 170534
+- Companies included: **3990**
+- Financial periods: 169791
 - Executive pay rows: 89121 for 23316 people, from 16885 proxy statements
 - People linked by SEC insider id: 22481; matched by name within one company only: 1575
 - CEO pay checked against the pay-versus-performance totals companies tag in their proxies: 18896 match, 278 misread totals corrected to the tagged figure, 41 rows left out, 1895 tagged CEO-years with no table row
 - ZIP table rows written: 41637
-- Network requests this run: 80 (the rest came from the local cache)
+- Network requests this run: 28 (the rest came from the local cache)
 
 | Metro | Companies |
 |---|---|
 | Wasatch Front | 50 |
-| New York | 463 |
+| New York | 462 |
 | Los Angeles | 209 |
-| Chicago | 126 |
+| Chicago | 120 |
 | Dallas–Fort Worth | 160 |
 | Houston | 162 |
-| Washington–Baltimore | 134 |
+| Washington–Baltimore | 133 |
 | Philadelphia | 100 |
 | Atlanta | 72 |
 | Miami–South Florida | 129 |
 | Phoenix | 62 |
 | Boston | 196 |
-| San Francisco Bay Area | 341 |
+| San Francisco Bay Area | 334 |
 | Detroit | 35 |
 | Seattle | 42 |
 | Minneapolis–St. Paul | 59 |
@@ -138,7 +138,7 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 | Rest of South Dakota | 3 |
 | Rest of Tennessee | 15 |
 | Rest of Texas | 23 |
-| Vermont | 5 |
+| Vermont | 4 |
 | Rest of Virginia | 22 |
 | Rest of Washington | 6 |
 | West Virginia | 7 |
@@ -215,7 +215,7 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 | WAY | Waystar Holding Corp. | Lehi, UT | Nasdaq | Software & IT | $1.10B | 5 | 2023–2025 |
 | ZION | Zions Bancorporation, National Association /UT/ | Salt Lake City, UT | Nasdaq | Finance | $3.39B | 9 | 2019–2025 |
 
-## Included — New York (463)
+## Included — New York (462)
 
 | Ticker | Company | City | Exchange | Sector | Latest annual revenue | Executives | Pay years |
 |---|---|---|---|---|---|---|---|
@@ -286,7 +286,6 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 | BSBK | Bogota Financial Corp. | Teaneck, NJ | Nasdaq | Finance | $17.2M | 4 | 2020–2025 |
 | BSTT | Blackstone Real Estate Income Trust, Inc. | New York, NY | OTC | Real estate | $7.96B | 0 | — |
 | BTBT | Bit Digital, Inc | New York, NY | Nasdaq | Finance | $113.6M | 5 | 2022–2025 |
-| BTCO | Invesco Galaxy Bitcoin ETF | New York, NY | CBOE | Finance | $0K | 0 | — |
 | BWFG | Bankwell Financial Group, Inc. | New Canaan, CT | Nasdaq | Finance | $108.3M | 8 | 2020–2025 |
 | BX | Blackstone Inc. | New York, NY | NYSE | Finance | $14.45B | 0 | — |
 | BXDC | Blackstone Digital Infrastructure Trust Inc. | New York, NY | NYSE | Real estate | — | 0 | — |
@@ -897,7 +896,7 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 | ZIP | Ziprecruiter, Inc. | Santa Monica, CA | NYSE | Software & IT | $449.0M | 6 | 2020–2025 |
 | ZVIA | Zevia PBC | Encino, CA | NYSE | Consumer & retail | $161.3M | 10 | 2020–2025 |
 
-## Included — Chicago (126)
+## Included — Chicago (120)
 
 | Ticker | Company | City | Exchange | Sector | Latest annual revenue | Executives | Pay years |
 |---|---|---|---|---|---|---|---|
@@ -943,12 +942,6 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 | FNWD | Finward Bancorp | Munster, IN | Nasdaq | Finance | $66.0M | 6 | 2020–2025 |
 | FR | First Industrial Realty Trust Inc | Chicago, IL | NYSE | Real estate | $727.1M | 5 | 2020–2025 |
 | FSS | Federal Signal Corp /De/ | Downers Grove, IL | NYSE | Industrials | $2.18B | 7 | 2019–2025 |
-| FXA | Invesco CurrencyShares Australian Dollar Trust | Downers Grove, IL | NYSE | Finance | $1.2M | 0 | — |
-| FXB | Invesco CurrencyShares British Pound Sterling Trust | Downers Grove, IL | NYSE | Finance | $2.2M | 0 | — |
-| FXC | Invesco CurrencyShares Canadian Dollar Trust | Downers Grove, IL | NYSE | Finance | $714K | 0 | — |
-| FXE | Invesco CurrencyShares Euro Trust | Downers Grove, IL | NYSE | Finance | $5.1M | 0 | — |
-| FXF | Invesco CurrencyShares Swiss Franc Trust | Downers Grove, IL | NYSE | Finance | $0K | 0 | — |
-| FXY | Invesco CurrencyShares Japanese Yen Trust | Downers Grove, IL | NYSE | Finance | $0K | 0 | — |
 | GATX | Gatx Corp | Chicago, IL | NYSE | Transportation | $1.74B | 11 | 2019–2025 |
 | GCMG | GCM Grosvenor Inc. | Chicago, IL | Nasdaq | Finance | $557.6M | 6 | 2020–2025 |
 | GEHC | GE HealthCare Technologies Inc. | Chicago, IL | Nasdaq | Healthcare | $20.63B | 10 | 2021–2025 |
@@ -1360,14 +1353,13 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 | XLAB | Exascale Labs Holdings Inc. | Houston, TX | Nasdaq | Software & IT | $14.8M | 0 | — |
 | XOM | ExxonMobil Holdings Corp | Spring, TX | NYSE | Energy & utilities | $332.24B | 8 | 2019–2025 |
 
-## Included — Washington–Baltimore (134)
+## Included — Washington–Baltimore (133)
 
 | Ticker | Company | City | Exchange | Sector | Latest annual revenue | Executives | Pay years |
 |---|---|---|---|---|---|---|---|
 | AEI | Alset Inc. | Bethesda, MD | Nasdaq | Real estate | $4.5M | 0 | — |
 | AES | Aes Corp | Arlington, VA | NYSE | Energy & utilities | $12.23B | 0 | — |
 | AGM | Federal Agricultural Mortgage Corp | Washington, DC | NYSE | Finance | $408.4M | 9 | 2020–2025 |
-| AGQ | ProShares Trust II | Bethesda, MD | NYSE | Finance | — | 0 | — |
 | AGX | Argan Inc | Arlington, VA | NYSE | Industrials | $944.6M | 6 | 2020–2026 |
 | AIDX | 20/20 Biolabs, Inc. | Rockville, MD | Nasdaq | Business services | $2.0M | 3 | 2024–2025 |
 | AIRO | AIRO Group Holdings, Inc. | Mclean, VA | Nasdaq | Industrials | $90.9M | 3 | 2024–2025 |
@@ -1695,7 +1687,7 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 | AMTB | Amerant Bancorp Inc. | Coral Gables, FL | NYSE | Finance | $439.3M | 12 | 2020–2025 |
 | AN | Autonation, Inc. | Fort Lauderdale, FL | NYSE | Consumer & retail | $27.63B | 10 | 2019–2025 |
 | ASLE | AerSale Corp | Doral, FL | Nasdaq | Consumer & retail | $335.3M | 9 | 2020–2025 |
-| ATLX | Atlas Lithium Corp | Boca Raton, FL | Nasdaq | Materials | $121K | 7 | 2022–2025 |
+| ATLX | Atlas Lithium Corp | Boca Raton, FL | Nasdaq | Materials | $92K | 7 | 2022–2025 |
 | AVX | Avax One Technology Ltd. | West Palm Beach, FL | Nasdaq | Finance | $2.3M | 9 | 2022–2025 |
 | BDL | Flanigans Enterprises Inc | Fort Lauderdale, FL | NYSE | Consumer & retail | $205.2M | 4 | 2020–2025 |
 | BKU | BankUnited, Inc. | Miami Lakes, FL | NYSE | Finance | $1.09B | 6 | 2019–2025 |
@@ -2083,7 +2075,7 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 | ZBIO | Zenas BioPharma, Inc. | Waltham, MA | Nasdaq | Healthcare | $10.0M | 5 | 2023–2025 |
 | ZVRA | Zevra Therapeutics, Inc. | Boston, MA | Nasdaq | Healthcare | $106.5M | 9 | 2019–2025 |
 
-## Included — San Francisco Bay Area (341)
+## Included — San Francisco Bay Area (334)
 
 | Ticker | Company | City | Exchange | Sector | Latest annual revenue | Executives | Pay years |
 |---|---|---|---|---|---|---|---|
@@ -2144,7 +2136,6 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 | BLZE | Backblaze, Inc. | San Francisco, CA | Nasdaq | Software & IT | $145.8M | 5 | 2020–2025 |
 | BMRC | Bank of Marin Bancorp | Novato, CA | Nasdaq | Finance | $29.4M | 10 | 2019–2025 |
 | BMRN | Biomarin Pharmaceutical Inc | Novato, CA | Nasdaq | Healthcare | $3.22B | 9 | 2019–2025 |
-| BNO | United States Brent Oil Fund, LP | Walnut Creek, CA | NYSE | Finance | $-26099K | 0 | — |
 | BNTC | Benitec Biopharma Inc. | Hayward, CA | Nasdaq | Healthcare | $0K | 4 | 2022–2026 |
 | BOLT | Bolt Biotherapeutics, Inc. | Redwood City, CA | Nasdaq | Healthcare | $7.7M | 5 | 2021–2025 |
 | BOX | Box Inc | Redwood City, CA | NYSE | Software & IT | $1.18B | 4 | 2020–2026 |
@@ -2224,7 +2215,6 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 | GPRO | GoPro, Inc. | San Mateo, CA | Nasdaq | Industrials | $651.5M | 8 | 2019–2025 |
 | GRAL | GRAIL, Inc. | Sunnyvale, CA | Nasdaq | Healthcare | $147.2M | 4 | 2023–2025 |
 | GROV | Grove Collaborative Holdings, Inc. | San Francisco, CA | NYSE | Consumer & retail | $173.7M | 6 | 2021–2025 |
-| GSG | iShares S&P GSCI Commodity-Indexed Trust | San Francisco, CA | NYSE | Finance | $42.5M | 0 | — |
 | GSIT | Gsi Technology Inc | Sunnyvale, CA | Nasdaq | Semiconductors | $25.1M | 6 | 2020–2026 |
 | GTLB | Gitlab Inc. | San Francisco, CA | Nasdaq | Software & IT | $955.2M | 7 | 2021–2026 |
 | GWRE | Guidewire Software, Inc. | San Mateo, CA | NYSE | Software & IT | $1.48B | 7 | 2020–2026 |
@@ -2399,13 +2389,8 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 | U | Unity Software Inc. | San Francisco, CA | NYSE | Software & IT | $1.85B | 16 | 2019–2025 |
 | UBER | Uber Technologies, Inc | San Francisco, CA | NYSE | Business services | $52.02B | 8 | 2019–2025 |
 | UCTT | Ultra Clean Holdings, Inc. | Hayward, CA | Nasdaq | Semiconductors | $2.05B | 10 | 2019–2025 |
-| UGA | United States Gasoline Fund, LP | Walnut Creek, CA | NYSE | Finance | $-3092K | 0 | — |
-| UNG | United States Natural Gas Fund, LP | Walnut Creek, CA | NYSE | Finance | $80.0M | 0 | — |
-| UNL | United States 12 Month Natural Gas Fund, LP | Walnut Creek, CA | NYSE | Finance | $8K | 0 | — |
 | UPST | Upstart Holdings, Inc. | Burlingame, CA | Nasdaq | Finance | $1.04B | 6 | 2019–2025 |
 | UPWK | Upwork, Inc | Palo Alto, CA | Nasdaq | Software & IT | $787.8M | 5 | 2019–2025 |
-| USL | United States 12 Month Oil Fund, LP | Walnut Creek, CA | NYSE | Finance | $-5333K | 0 | — |
-| USO | United States Oil Fund, LP | Walnut Creek, CA | NYSE | Finance | $321K | 0 | — |
 | V | Visa Inc. | San Francisco, CA | NYSE | Business services | $45.90B | 8 | 2019–2025 |
 | VANI | Vivani Medical, Inc. | Alameda, CA | Nasdaq | Healthcare | $0K | 9 | 2020–2025 |
 | VCYT | Veracyte, Inc. | South San Francisco, CA | Nasdaq | Healthcare | $517.1M | 12 | 2019–2025 |
@@ -4002,7 +3987,7 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 | BMNM | Bimini Capital Management, Inc. | Vero Beach, FL | OTC | Real estate | $23.7M | 2 | 2021–2025 |
 | BRO | Brown & Brown, Inc. | Daytona Beach, FL | NYSE | Finance | $5.90B | 6 | 2019–2025 |
 | CABR | Caring Brands, Inc. | Fort Pierce, FL | Nasdaq | Consumer & retail | $4K | 0 | — |
-| ESGH | ESG Inc. | Vero Beach, FL | OTC | Consumer & retail | $7.5M | 0 | — |
+| ESGH | ESG Inc. | Vero Beach, FL | OTC | Consumer & retail | $6.1M | 0 | — |
 | FJET | Starfighters Space, Inc. | Kennedy Space Center, FL | NYSE | Transportation | $0K | 0 | — |
 | HIT | Health In Tech, Inc. | Stuart, FL | Nasdaq | Finance | $33.3M | 4 | 2023–2025 |
 | HRI | Herc Holdings Inc | Bonita Springs, FL | NYSE | Business services | $4.38B | 6 | 2019–2025 |
@@ -4346,7 +4331,7 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 | NBTB | Nbt Bancorp Inc | Norwich, NY | Nasdaq | Finance | $697.0M | 10 | 2019–2025 |
 | OBT | Orange County Bancorp, Inc. /DE/ | Middletown, NY | Nasdaq | Finance | $127.2M | 5 | 2020–2025 |
 | PAR | Par Technology Corp | New Hartford, NY | NYSE | Technology hardware | $455.5M | 6 | 2019–2025 |
-| PBHC | Pathfinder Bancorp, Inc. | Oswego, NY | Nasdaq | Finance | $372.0M | 8 | 2020–2025 |
+| PBHC | Pathfinder Bancorp, Inc. | Oswego, NY | Nasdaq | Finance | $46.8M | 8 | 2020–2025 |
 | RBKB | Rhinebeck Bancorp, Inc. | Poughkeepsie, NY | Nasdaq | Finance | $53.4M | 5 | 2020–2025 |
 | SELF | Global Self Storage, Inc. | Millbrook, NY | Nasdaq | Real estate | $12.7M | 0 | — |
 | SENEA | Seneca Foods Corp | Marion, NY | Nasdaq | Consumer & retail | $1.66B | 5 | 2021–2026 |
@@ -4572,12 +4557,11 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 | TCBS | Texas Community Bancshares, Inc. | Mineola, TX | Nasdaq | Finance | $16.4M | 6 | 2020–2025 |
 | WTTR | Select Water Solutions, Inc. | Gainesville, TX | NYSE | Energy & utilities | $1.41B | 8 | 2019–2025 |
 
-## Included — Vermont (5)
+## Included — Vermont (4)
 
 | Ticker | Company | City | Exchange | Sector | Latest annual revenue | Executives | Pay years |
 |---|---|---|---|---|---|---|---|
 | BETA | BETA Technologies, Inc. | South Burlington, VT | NYSE | Industrials | $35.6M | 3 | 2024–2025 |
-| BTCK | Teucrium Commodity Trust | Burlington, VT | NYSE | Finance | $-39411K | 0 | — |
 | CMTV | Community Bancorp /Vt | Derby, VT | Nasdaq | Finance | $48.8M | 5 | 2020–2025 |
 | CWST | Casella Waste Systems Inc | Rutland, VT | Nasdaq | Energy & utilities | $1.84B | 8 | 2019–2025 |
 | UNB | Union Bankshares Inc | Morrisville, VT | Nasdaq | Finance | $54.5M | 4 | 2020–2025 |
@@ -4599,7 +4583,7 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 | FXNC | First National Corp /Va/ | Strasburg, VA | Nasdaq | Finance | $90.3M | 4 | 2020–2025 |
 | HOFT | HOOKER FURNISHINGS Corp | Martinsville, VA | Nasdaq | Consumer & retail | $278.1M | 5 | 2020–2026 |
 | NKSH | National Bankshares Inc | Blacksburg, VA | Nasdaq | Finance | $55.6M | 0 | — |
-| NWPP | New Peoples Bankshares Inc | Honaker, VA | OTC | Finance | $58.5M | 5 | 2020–2025 |
+| NWPP | New Peoples Bankshares Inc | Honaker, VA | OTC | Finance | $43.1M | 5 | 2020–2025 |
 | OCC | Optical Cable Corp | Roanoke, VA | Nasdaq | Materials | $73.0M | 0 | — |
 | RGCO | Rgc Resources Inc | Roanoke, VA | Nasdaq | Energy & utilities | $95.3M | 7 | 2019–2025 |
 | SFD | Smithfield Foods Inc | Smithfield, VA | Nasdaq | Consumer & retail | $15.53B | 5 | 2024–2025 |
@@ -4884,10 +4868,10 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 ## Excluded
 
 - 0 filers with no ticker (funds, trusts, shells, private companies with public debt)
-- 1544 listed companies that haven't filed an annual or quarterly report since 2025-08-24
-- 1221 US-listed companies headquartered outside the US and Canada
+- 1539 listed companies that haven't filed an annual or quarterly report since 2025-08-25
+- 1220 US-listed companies headquartered outside the US and Canada
 - 0 listed companies in the searched states but outside the covered metros
-- AAAU Goldman Sachs Physical Gold ETF: no revenue data in XBRL filings
+- AAAU Goldman Sachs Physical Gold ETF: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - AAC Ares Acquisition Corp III: no revenue data in XBRL filings
 - AACO Abony Acquisition Corp. I: no revenue data in XBRL filings
 - AACP Apogee Acquisition Corp: no revenue data in XBRL filings
@@ -4926,6 +4910,7 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 - AGI Alamos Gold Inc: unknown postal code  (Toronto, A6)
 - AGLT Agility Robotics, Inc.: no revenue data in XBRL filings
 - AGNC AGNC Investment Corp.: no revenue data in XBRL filings
+- AGQ ProShares Trust II: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - AGTX Agentix Corp.: newest figures are for 2023
 - AHNRF Athena Gold Corp: no revenue data in XBRL filings
 - AHRO Authentic Holdings, Inc.: OTC, annual revenue $399K below $5.0M
@@ -4972,7 +4957,7 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 - ARCC Ares Capital Corp: no revenue data in XBRL filings
 - ARCI Archimedes Tech SPAC Partners III Co.: no revenue data in XBRL filings
 - ARCL ARC Group Acquisition I Corp.: no revenue data in XBRL filings
-- ARKB Ark 21Shares Bitcoin ETF: no revenue data in XBRL filings
+- ARKB Ark 21Shares Bitcoin ETF: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - ARMP Armata Pharmaceuticals, Inc.: newest figures are for 2020
 - AROW Arrow Financial Corp: no revenue data in XBRL filings
 - ARR Armour Residential REIT, Inc.: no revenue data in XBRL filings
@@ -5003,10 +4988,11 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 - AZR Azora Therapeutics, Inc. (DE): no revenue data in XBRL filings
 - BABB Bab, Inc.: OTC, annual revenue $3.4M below $5.0M
 - BACC Blue Acquisition Corp/Cayman: no revenue data in XBRL filings
+- BAGZ Cryptex Digital Market Cap ETF: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - BANR Banner Corp: newest figures are for 2022
-- BAR GraniteShares Gold Trust: no revenue data in XBRL filings
+- BAR GraniteShares Gold Trust: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - BASA Basanite, Inc.: OTC, annual revenue $88K below $5.0M
-- BAVA Bitwise Avalanche ETF: no revenue data in XBRL filings
+- BAVA Bitwise Avalanche ETF: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - BBDC Barings BDC, Inc.: no revenue data in XBRL filings
 - BBLG Bone Biologics Corp: no revenue data in XBRL filings
 - BBLR Bubblr Inc.: OTC, annual revenue $3K below $5.0M
@@ -5016,7 +5002,7 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 - BCCG Blue Chip Capital Group Inc.: no revenue data in XBRL filings
 - BCCQ Bleichroeder Acquisition Corp. III: no revenue data in XBRL filings
 - BCE Bce Inc: unknown postal code  (Verdun, A8)
-- BCHG Grayscale Bitcoin Cash Trust (BCH): no revenue data in XBRL filings
+- BCHG Grayscale Bitcoin Cash Trust (BCH): an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - BCIC BCP Investment Corp: no revenue data in XBRL filings
 - BCLI Brainstorm Cell Therapeutics Inc.: no revenue data in XBRL filings
 - BCRD BlueOne Technologies, Inc.: OTC, annual revenue $260K below $5.0M
@@ -5024,7 +5010,7 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 - BCTX BriaCell Therapeutics Corp.: no revenue data in XBRL filings
 - BDCI BTC Development Corp.: no revenue data in XBRL filings
 - BDPT Bioadaptives, Inc.: OTC, annual revenue $18K below $5.0M
-- BDRY Amplify Commodity Trust: no revenue data in XBRL filings
+- BDRY Amplify Commodity Trust: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - BDTB Bodhi Tree Biotechnology Inc: OTC, annual revenue $17K below $5.0M
 - BEAG Bold Eagle Acquisition Corp.: no revenue data in XBRL filings
 - BEAT HeartBeam, Inc.: no revenue data in XBRL filings
@@ -5033,15 +5019,15 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 - BGSI Boyd Group Services Inc.: unknown postal code 00000 (Winnipeg, A2)
 - BHLL Bunker Hill Silver Corp.: OTC, annual revenue $0K below $5.0M
 - BHVN Biohaven Ltd.: no revenue data in XBRL filings
-- BHYP Bitwise Hyperliquid ETF: no revenue data in XBRL filings
+- BHYP Bitwise Hyperliquid ETF: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - BICX BioCorRx Inc.: OTC, annual revenue $797K below $5.0M
 - BID Tribeca Strategic Acquisition Corp.: no revenue data in XBRL filings
 - BIOE Bio Essence Corp: OTC, annual revenue $1.9M below $5.0M
 - BIOF Blue Biofuels, Inc.: newest figures are for 2019
 - BISA Baltic International USA Inc: no revenue data in XBRL filings
-- BITA iShares Bitcoin Premium Income ETF: no revenue data in XBRL filings
-- BITB Bitwise Bitcoin ETF: no revenue data in XBRL filings
-- BITW Bitwise 10 Crypto Index ETF: no revenue data in XBRL filings
+- BITA iShares Bitcoin Premium Income ETF: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
+- BITB Bitwise Bitcoin ETF: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
+- BITW Bitwise 10 Crypto Index ETF: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - BIVI Biovie Inc.: newest figures are for 2016
 - BIXI Bitcoin Infrastructure Acquisition Corp Ltd: no revenue data in XBRL filings
 - BIXT Bioxytran, Inc: newest figures are for 2018
@@ -5060,6 +5046,7 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 - BMM Blue Moon Metals Inc.: no revenue data in XBRL filings
 - BNBX Bnb Plus Corp.: OTC, annual revenue $2.1M below $5.0M
 - BNET Bion Environmental Technologies Inc: OTC, annual revenue $0K below $5.0M
+- BNO United States Brent Oil Fund, LP: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - BOLD Boundless Bio, Inc.: no revenue data in XBRL filings
 - BOTY Lingerie Fighting Championships, Inc.: OTC, annual revenue $208K below $5.0M
 - BPAC Blueport Acquisition Ltd: no revenue data in XBRL filings
@@ -5069,17 +5056,19 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 - BRLL Barrel Energy Inc.: OTC, annual revenue — below $5.0M
 - BRQL DYNAMIC AEROSPACE SYSTEMS Corp: OTC, annual revenue $0K below $5.0M
 - BRRK Bluerock Acquisition Corp. II: no revenue data in XBRL filings
-- BRRR CoinShares Bitcoin ETF: no revenue data in XBRL filings
+- BRRR CoinShares Bitcoin ETF: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - BRTM B&R Technology Merger Corp.: no revenue data in XBRL filings
 - BRVE Braveheart Bio, Inc.: no revenue data in XBRL filings
 - BRVO Bravo Multinational Inc.: newest figures are for 2017
 - BSAI Blusky AI Inc.: newest figures are for 2022
 - BSCL BILI Social International, Inc.: OTC, annual revenue $1.9M below $5.0M
 - BSFC Blue Star Foods Corp.: OTC, annual revenue $2.9M below $5.0M
-- BSOL Bitwise Solana Staking ETF: no revenue data in XBRL filings
+- BSOL Bitwise Solana Staking ETF: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - BTAIQ BioXcel Therapeutics, Inc.: OTC, annual revenue $642K below $5.0M
-- BTC Grayscale Bitcoin Mini Trust ETF: no revenue data in XBRL filings
-- BTCW WisdomTree Bitcoin Fund: no revenue data in XBRL filings
+- BTC Grayscale Bitcoin Mini Trust ETF: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
+- BTCK Teucrium Commodity Trust: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
+- BTCO Invesco Galaxy Bitcoin ETF: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
+- BTCW WisdomTree Bitcoin Fund: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - BTG B2gold Corp: no revenue data in XBRL filings
 - BTQ BTQ Technologies Corp.: no revenue data in XBRL filings
 - BUDZ Weed, Inc.: OTC, annual revenue $0K below $5.0M
@@ -5108,7 +5097,7 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 - CCJ Cameco Corp: unknown postal code  (Saskatoon, Z4)
 - CCTSF Cactus Acquisition Corp. 1 Ltd: no revenue data in XBRL filings
 - CDT CDT Equity Inc.: no revenue data in XBRL filings
-- CEF Sprott Physical Gold & Silver Trust: no revenue data in XBRL filings
+- CEF Sprott Physical Gold & Silver Trust: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - CELC Celcuity Inc.: no revenue data in XBRL filings
 - CEPF Cantor Equity Partners IV, Inc.: no revenue data in XBRL filings
 - CEPO Cantor Equity Partners I, Inc.: no revenue data in XBRL filings
@@ -5134,7 +5123,7 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 - CLCS Cell Source, Inc.: newest figures are for 2015
 - CLDI Calidi Biotherapeutics, Inc.: newest figures are for 2022
 - CLEV Concrete Leveling Systems Inc: OTC, annual revenue $1K below $5.0M
-- CLNK Bitwise Chainlink ETF: no revenue data in XBRL filings
+- CLNK Bitwise Chainlink ETF: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - CLNV Clean Vision Corp: OTC, annual revenue $231K below $5.0M
 - CLOQ Cyberloq Technologies, Inc.: OTC, annual revenue $15K below $5.0M
 - CLRB Cellectar Biosciences, Inc.: no revenue data in XBRL filings
@@ -5194,14 +5183,14 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 - CZZLF Cizzle Brands Corp: no revenue data in XBRL filings
 - DAAQ Digital Asset Acquisition Corp.: no revenue data in XBRL filings
 - DB Deutsche Bank Aktiengesellschaft: newest figures are for 2023
-- DBA Invesco Db Agriculture Fund: no revenue data in XBRL filings
-- DBB Invesco Db Base Metals Fund: no revenue data in XBRL filings
-- DBC Invesco DB Commodity Index Tracking Fund: no revenue data in XBRL filings
+- DBA Invesco Db Agriculture Fund: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
+- DBB Invesco Db Base Metals Fund: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
+- DBC Invesco DB Commodity Index Tracking Fund: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - DBCA D. Boral Acquisition I Corp.: no revenue data in XBRL filings
-- DBE Invesco DB Energy Fund: no revenue data in XBRL filings
+- DBE Invesco DB Energy Fund: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - DBMM Digital Brand Media & Marketing Group, Inc.: OTC, annual revenue $138K below $5.0M
-- DBO Invesco DB Oil Fund: no revenue data in XBRL filings
-- DBP Invesco DB Precious Metals Fund: no revenue data in XBRL filings
+- DBO Invesco DB Oil Fund: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
+- DBP Invesco DB Precious Metals Fund: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - DC Dakota Gold Corp.: no revenue data in XBRL filings
 - DFTX Definium Therapeutics, Inc.: no revenue data in XBRL filings
 - DGAC DISCIPLINED GROWTH ACQUISITION Corp: no revenue data in XBRL filings
@@ -5253,12 +5242,12 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 - ERAS Erasca, Inc.: no revenue data in XBRL filings
 - ESLA Estrella Immunopharma, Inc.: no revenue data in XBRL filings
 - ESSI Eco Science Solutions, Inc.: OTC, annual revenue $0K below $5.0M
-- ETCG Grayscale Ethereum Classic Trust (ETC): no revenue data in XBRL filings
-- ETH Grayscale Ethereum Staking Mini ETF: no revenue data in XBRL filings
-- ETHA iShares Ethereum Trust ETF: no revenue data in XBRL filings
-- ETHB iShares Staked Ethereum Trust ETF: no revenue data in XBRL filings
-- ETHE Grayscale Ethereum Staking ETF: no revenue data in XBRL filings
-- ETHV VanEck Ethereum ETF: no revenue data in XBRL filings
+- ETCG Grayscale Ethereum Classic Trust (ETC): an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
+- ETH Grayscale Ethereum Staking Mini ETF: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
+- ETHA iShares Ethereum Trust ETF: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
+- ETHB iShares Staked Ethereum Trust ETF: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
+- ETHE Grayscale Ethereum Staking ETF: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
+- ETHV VanEck Ethereum ETF: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - ETHW Bitwise Ethereum ETF: no revenue data in XBRL filings
 - ETI-P Entergy Texas, Inc.: no revenue data in XBRL filings
 - ETRA Electra Therapeutics, Inc.: no revenue data in XBRL filings
@@ -5269,13 +5258,13 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 - EWTX Edgewise Therapeutics, Inc.: no revenue data in XBRL filings
 - EXK Endeavour Silver Corp: unknown postal code  (Vancouver, A1)
 - EXOZ Exozymes Inc.: newest figures are for 2023
-- EZBC Franklin Templeton Digital Holdings Trust: no revenue data in XBRL filings
-- EZET Franklin Ethereum Trust: no revenue data in XBRL filings
-- EZPZ Franklin Crypto Trust: no revenue data in XBRL filings
+- EZBC Franklin Templeton Digital Holdings Trust: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
+- EZET Franklin Ethereum Trust: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
+- EZPZ Franklin Crypto Trust: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - FACT FACT II Acquisition Corp.: no revenue data in XBRL filings
 - FBLG FibroBiologics, Inc.: no revenue data in XBRL filings
 - FBP First Bancorp /Pr/: unknown postal code 00908-0146 (San Juan, PR)
-- FBTC Fidelity Wise Origin Bitcoin Fund: no revenue data in XBRL filings
+- FBTC Fidelity Wise Origin Bitcoin Fund: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - FCHS First Choice Healthcare Solutions, Inc.: newest figures are for 2014
 - FCRS FutureCrest Acquisition Corp.: no revenue data in XBRL filings
 - FDMM Freedom Metals Acquisition Corp.: no revenue data in XBRL filings
@@ -5287,7 +5276,7 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 - FETH Fidelity Ethereum Fund: no revenue data in XBRL filings
 - FFLO Free Flow USA, Inc.: OTC, annual revenue $30K below $5.0M
 - FFMGF First Mining Gold Corp.: no revenue data in XBRL filings
-- FGDL Franklin Templeton Holdings Trust: no revenue data in XBRL filings
+- FGDL Franklin Templeton Holdings Trust: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - FGII FG Imperii Acquisition Corp.: no revenue data in XBRL filings
 - FIGX FIGX Capital Acquisition Corp.: no revenue data in XBRL filings
 - FISN Deep Fission, Inc.: no revenue data in XBRL filings
@@ -5306,7 +5295,7 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 - FRQN Frequency Holdings, Inc: OTC, annual revenue $4.8M below $5.0M
 - FSHP Flag Ship Acquisition Corp: no revenue data in XBRL filings
 - FSK FS KKR Capital Corp: no revenue data in XBRL filings
-- FSOL Fidelity Solana Fund: no revenue data in XBRL filings
+- FSOL Fidelity Solana Fund: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - FTH Faeth Therapeutics, Inc.: no revenue data in XBRL filings
 - FTRA FutureCorp Space Acquisition 1: no revenue data in XBRL filings
 - FTW PRESIDIO PRODUCTION Co: no revenue data in XBRL filings
@@ -5316,22 +5305,28 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 - FVAV Fortress Value Acquisition Corp. V: no revenue data in XBRL filings
 - FWAC Futurewave Acquisition Corp: no revenue data in XBRL filings
 - FWFW Flywheel Advanced Technology, Inc.: OTC, annual revenue $1.4M below $5.0M
+- FXA Invesco CurrencyShares Australian Dollar Trust: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - FXAC FortuneX Acquisition Corp: no revenue data in XBRL filings
+- FXB Invesco CurrencyShares British Pound Sterling Trust: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
+- FXC Invesco CurrencyShares Canadian Dollar Trust: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
+- FXE Invesco CurrencyShares Euro Trust: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
+- FXF Invesco CurrencyShares Swiss Franc Trust: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
+- FXY Invesco CurrencyShares Japanese Yen Trust: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - GAIN Gladstone Investment Corporation\De: no revenue data in XBRL filings
 - GALT Galectin Therapeutics Inc: no revenue data in XBRL filings
 - GAMG Global Asset Management Group, Inc.: OTC, annual revenue $95K below $5.0M
 - GANX Gain Therapeutics, Inc.: newest figures are for 2023
-- GAVA Grayscale Avalanche Staking ETF: no revenue data in XBRL filings
+- GAVA Grayscale Avalanche Staking ETF: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - GBDC GOLUB CAPITAL BDC, Inc.: no revenue data in XBRL filings
-- GBTC Grayscale Bitcoin Trust ETF: no revenue data in XBRL filings
+- GBTC Grayscale Bitcoin Trust ETF: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - GBUX Givbux, Inc.: OTC, annual revenue $289K below $5.0M
 - GCGJ Guochun International Inc.: newest figures are for 2021
 - GCGR General Catalyst Global Resilience Merger Corp.: no revenue data in XBRL filings
 - GCTK Glucotrack, Inc.: newest figures are for 2020
 - GDC GD Culture Group Ltd: newest figures are for 2023
-- GDLC Grayscale CoinDesk Crypto 5 ETF: no revenue data in XBRL filings
+- GDLC Grayscale CoinDesk Crypto 5 ETF: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - GDLG Glidelogic Corp.: OTC, annual revenue $0K below $5.0M
-- GDOG Grayscale Dogecoin Trust ETF: no revenue data in XBRL filings
+- GDOG Grayscale Dogecoin Trust ETF: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - GEBRF Greenbriar Sustainable Living Inc.: no revenue data in XBRL filings
 - GECC Great Elm Capital Corp.: no revenue data in XBRL filings
 - GEDC TerraVolt Holdings, Inc.: OTC, annual revenue $0K below $5.0M
@@ -5349,16 +5344,16 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 - GJT STRATS(SM) Trust for Allstate Corp Securities, Series 2006-3: no revenue data in XBRL filings
 - GLAD Gladstone Capital Corp: no revenue data in XBRL filings
 - GLAI Global AI, Inc.: OTC, annual revenue $144K below $5.0M
-- GLD Spdr Gold Trust: no revenue data in XBRL filings
+- GLD Spdr Gold Trust: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - GLDG GoldMining Inc.: no revenue data in XBRL filings
-- GLDM World Gold Trust: no revenue data in XBRL filings
+- GLDM World Gold Trust: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - GLED GalaxyEdge Acquisition Corp: no revenue data in XBRL filings
 - GLEI Galaxy Enterprises Inc. /WY/: no revenue data in XBRL filings
 - GLND Greenland Energy Co: no revenue data in XBRL filings
-- GLNK Grayscale Chainlink Trust ETF: no revenue data in XBRL filings
+- GLNK Grayscale Chainlink Trust ETF: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - GLNS Golden Star Resource Corp.: newest figures are for 2014
 - GLSI Greenwich LifeSciences, Inc.: no revenue data in XBRL filings
-- GLTR abrdn Precious Metals Basket ETF Trust: no revenue data in XBRL filings
+- GLTR abrdn Precious Metals Basket ETF Trust: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - GMER Good Gaming, Inc.: OTC, annual revenue $0K below $5.0M
 - GNOLF Genoil Inc: OTC, annual revenue $0K below $5.0M
 - GNTOF Gentor Resources Inc.: no revenue data in XBRL filings
@@ -5379,13 +5374,15 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 - GRO Brazil Potash Corp.: no revenue data in XBRL filings
 - GRVE Groove Botanicals Inc.: no revenue data in XBRL filings
 - GSBD Goldman Sachs BDC, Inc.: no revenue data in XBRL filings
+- GSG iShares S&P GSCI Commodity-Indexed Trust: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - GSHR Gesher Acquisition Corp. II: no revenue data in XBRL filings
-- GSOL Grayscale Solana Staking ETF: no revenue data in XBRL filings
+- GSNR Grayscale Near Trust (NEAR): an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
+- GSOL Grayscale Solana Staking ETF: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - GSRF GSR IV Acquisition Corp.: no revenue data in XBRL filings
 - GSRV GSR V Acquisition Corp.: no revenue data in XBRL filings
 - GSTX Graphene & Solar Technologies Ltd: newest figures are for 2021
-- GSUI Grayscale Sui Staking ETF: no revenue data in XBRL filings
-- GTAO Grayscale Bittensor Trust (TAO): no revenue data in XBRL filings
+- GSUI Grayscale Sui Staking ETF: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
+- GTAO Grayscale Bittensor Trust (TAO): an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - GTBP GT Biopharma, Inc.: newest figures are for 2021
 - GTCH GBT Technologies Inc.: newest figures are for 2023
 - GTEN Gores Holdings X, Inc. / CI: no revenue data in XBRL filings
@@ -5397,8 +5394,8 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 - GWHTQ ESS Tech, Inc.: OTC, annual revenue $1.6M below $5.0M
 - GWLL Goldenwell Biotech, Inc.: OTC, annual revenue $0K below $5.0M
 - GWTI Greenway Technologies, Inc. & Subsidiaries: newest figures are for 2022
-- GXLM Grayscale Stellar Lumens Trust (XLM): no revenue data in XBRL filings
-- GXRP Grayscale XRP Trust ETF: no revenue data in XBRL filings
+- GXLM Grayscale Stellar Lumens Trust (XLM): an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
+- GXRP Grayscale XRP Trust ETF: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - GYRO Gyrodyne, LLC: newest figures are for 2015
 - HACQ HCM IV Acquisition Corp.: no revenue data in XBRL filings
 - HBR Canary HBAR ETF: no revenue data in XBRL filings
@@ -5417,7 +5414,7 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 - HLYK HealthLynked Corp: OTC, annual revenue $2.1M below $5.0M
 - HMMR Hammer Technology Holdings Corp.: OTC, annual revenue $0K below $5.0M
 - HNOI HNO International, Inc.: OTC, annual revenue $66K below $5.0M
-- HODL VanEck Bitcoin ETF: no revenue data in XBRL filings
+- HODL VanEck Bitcoin ETF: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - HODO House of Doge Inc.: OTC, annual revenue $0K below $5.0M
 - HOVR New Horizon Aircraft Ltd.: no revenue data in XBRL filings
 - HOWL Werewolf Therapeutics, Inc.: no revenue data in XBRL filings
@@ -5436,16 +5433,16 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 - HYFT MindWalk Holdings Corp.: unknown postal code  (Victoria, A1)
 - HYMC Hycroft Mining Holding Corp: newest figures are for 2023
 - HYOR HyOrc Corp: OTC, annual revenue $59K below $5.0M
-- HYPG Grayscale Hyperliquid Staking ETF: no revenue data in XBRL filings
+- HYPG Grayscale Hyperliquid Staking ETF: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - HYSR Sunhydrogen, Inc.: OTC, annual revenue $1K below $5.0M
-- HZEN Grayscale Horizen Trust (ZEN): no revenue data in XBRL filings
+- HZEN Grayscale Horizen Trust (ZEN): an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - IACO Idea Acquisition Corp.: no revenue data in XBRL filings
 - IACQ Irenic Acquisition Corp.: no revenue data in XBRL filings
-- IAU Ishares Gold Trust: newest figures are for 2013
-- IAUM iShares Gold Trust Micro: no revenue data in XBRL filings
+- IAU Ishares Gold Trust: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
+- IAUM iShares Gold Trust Micro: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - IBAC IB Acquisition Corp.: no revenue data in XBRL filings
 - IBATF International Battery Metals Ltd.: OTC, annual revenue — below $5.0M
-- IBIT iShares Bitcoin Trust ETF: no revenue data in XBRL filings
+- IBIT iShares Bitcoin Trust ETF: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - ICMB Investcorp Credit Management BDC, Inc.: no revenue data in XBRL filings
 - IDAC Iron Dome Acquisition I Corp.: no revenue data in XBRL filings
 - IEAG Infinite Eagle Acquisition Corp.: no revenue data in XBRL filings
@@ -5554,8 +5551,8 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 - LRDC Laredo Oil, Inc.: OTC, annual revenue $3K below $5.0M
 - LRMR Larimar Therapeutics, Inc.: newest figures are for 2020
 - LSEB LSEB Creative Corp.: OTC, annual revenue $18K below $5.0M
-- LTCC Canary Litecoin ETF: no revenue data in XBRL filings
-- LTCN Grayscale Litecoin Trust (LTC): no revenue data in XBRL filings
+- LTCC Canary Litecoin ETF: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
+- LTCN Grayscale Litecoin Trust (LTC): an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - LTGO Latigo Biotherapeutics, Inc.: no revenue data in XBRL filings
 - LTGR Long Table Growth Corp.: no revenue data in XBRL filings
 - LTRN Lantern Pharma Inc.: no revenue data in XBRL filings
@@ -5613,12 +5610,12 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 - MOJO EQUATOR Beverage Co: OTC, annual revenue $4.2M below $5.0M
 - MPLT MapLight Therapeutics, Inc.: no revenue data in XBRL filings
 - MRCO Mercator Acquisition Corp.: no revenue data in XBRL filings
-- MSBT Morgan Stanley Bitcoin Trust: no revenue data in XBRL filings
+- MSBT Morgan Stanley Bitcoin Trust: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - MSDL Morgan Stanley Direct Lending Fund: no revenue data in XBRL filings
 - MSIF Msc Income Fund, Inc.: no revenue data in XBRL filings
 - MSLE Satellos Bioscience Inc.: no revenue data in XBRL filings
-- MSOL Morgan Stanley Solana Trust: no revenue data in XBRL filings
-- MSSE Morgan Stanley Ethereum Trust: no revenue data in XBRL filings
+- MSOL Morgan Stanley Solana Trust: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
+- MSSE Morgan Stanley Ethereum Trust: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - MTAK Market Technology Acquisition Corp: no revenue data in XBRL filings
 - MTH Meritage Homes CORP: newest figures are for 2022
 - MTNB Matinas BioPharma Holdings, Inc.: newest figures are for 2023
@@ -5640,6 +5637,7 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 - NBND NetBrands Corp.: OTC, annual revenue $18K below $5.0M
 - NBP NovaBridge Biosciences: newest figures are for 2023
 - NCDL Nuveen Churchill Direct Lending Corp.: no revenue data in XBRL filings
+- NCIQ Hashdex Nasdaq CME Crypto Index ETF: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - NCO Southern Cross Acquisition I Corp.: no revenue data in XBRL filings
 - NDRA ENDRA Life Sciences Inc.: newest figures are for 2020
 - NEWH NewHydrogen, Inc.: no revenue data in XBRL filings
@@ -5667,7 +5665,7 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 - NREF NexPoint Real Estate Finance, Inc.: no revenue data in XBRL filings
 - NRHI Natural Resource Holdings, Inc.: newest figures are for 2019
 - NRIS Norris Industries, Inc.: OTC, annual revenue $286K below $5.0M
-- NRR Bitwise NEAR ETF: no revenue data in XBRL filings
+- NRR Bitwise NEAR ETF: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - NRUC National Rural Utilities Cooperative Finance Corp /Dc/: newest figures are for 2021
 - NSFDF NXT Energy Solutions Inc.: unknown postal code 90035 (Calgary, T3e 0B4, A0)
 - NSLR Neostellar Capital Corp.: no revenue data in XBRL filings
@@ -5688,7 +5686,7 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 - NYMXF Nymox Pharmaceutical Corp: newest figures are for 2023
 - OACC Oaktree Acquisition Corp. III Life Sciences: no revenue data in XBRL filings
 - OBDC Blue Owl Capital Corp: no revenue data in XBRL filings
-- OBTC Osprey Bitcoin Trust: no revenue data in XBRL filings
+- OBTC Osprey Bitcoin Trust: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - OCLT OceanLight Acquisition Corp: no revenue data in XBRL filings
 - OCSL Oaktree Specialty Lending Corp: no revenue data in XBRL filings
 - ODRS Outdoor Specialty Products, Inc.: OTC, annual revenue $0K below $5.0M
@@ -5710,6 +5708,7 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 - OR OR Royalties Inc.: unknown postal code  (Montreal, A8)
 - ORC Orchid Island Capital, Inc.: no revenue data in XBRL filings
 - ORIC Oric Pharmaceuticals, Inc.: no revenue data in XBRL filings
+- OSOL Osprey Solana Trust: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - OSPR Osprey Acquisition Corp. III: no revenue data in XBRL filings
 - OSRH OSR Health, Inc.: OTC, annual revenue $2.9M below $5.0M
 - OSTX OS Therapies Inc: no revenue data in XBRL filings
@@ -5717,7 +5716,7 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 - OTF Blue Owl Technology Finance Corp.: no revenue data in XBRL filings
 - OTGA OTG Acquisition Corp. I: no revenue data in XBRL filings
 - OTLC Oncotelic Therapeutics, Inc.: OTC, annual revenue $70K below $5.0M
-- OUNZ VanEck Merk Gold ETF: no revenue data in XBRL filings
+- OUNZ VanEck Merk Gold ETF: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - OVTZ Oculus Inc.: newest figures are for 2023
 - OXSQ Oxford Square Capital Corp.: no revenue data in XBRL filings
 - OYSE Oyster Enterprises II Acquisition Corp: no revenue data in XBRL filings
@@ -5726,7 +5725,7 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 - PAAC Proem Acquisition Corp. I: no revenue data in XBRL filings
 - PACH Pioneer Acquisition I Corp: no revenue data in XBRL filings
 - PAII Pyrophyte Acquisition Corp. II: no revenue data in XBRL filings
-- PALL abrdn Palladium ETF Trust: no revenue data in XBRL filings
+- PALL abrdn Palladium ETF Trust: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - PALO Paloma Acquisition Corp I: no revenue data in XBRL filings
 - PALX Palomino Laboratories Inc.: no revenue data in XBRL filings
 - PASG Passage BIO, Inc.: no revenue data in XBRL filings
@@ -5751,12 +5750,12 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 - PGOL Patriot Gold Corp: OTC, annual revenue $0K below $5.0M
 - PHCI Panamera Holdings Corp: OTC, annual revenue $241K below $5.0M
 - PHIO Phio Pharmaceuticals Corp.: newest figures are for 2020
-- PHYS Sprott Physical Gold Trust: no revenue data in XBRL filings
+- PHYS Sprott Physical Gold Trust: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - PIAC Princeton Capital Corp: newest figures are for 2022
 - PLCI Pelican Acquisition II Corp: no revenue data in XBRL filings
 - PLG Platinum Group Metals Ltd: unknown postal code  (Vancouver, A1)
 - PLMK Plum Acquisition Corp. IV: no revenue data in XBRL filings
-- PLTM GraniteShares Platinum Trust: no revenue data in XBRL filings
+- PLTM GraniteShares Platinum Trust: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - PLUN Plutonian Acquisition Corp. II: no revenue data in XBRL filings
 - PLYX Polaryx Therapeutics, Inc.: no revenue data in XBRL filings
 - PMHS Polomar Health Services, Inc.: OTC, annual revenue $648K below $5.0M
@@ -5774,7 +5773,7 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 - PORT Southport Acquisition Corp. II: no revenue data in XBRL filings
 - POSC Positron Corp: OTC, annual revenue $461K below $5.0M
 - PPCB Propanc Biopharma, Inc.: no revenue data in XBRL filings
-- PPLT abrdn Platinum ETF Trust: no revenue data in XBRL filings
+- PPLT abrdn Platinum ETF Trust: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - PPTA Perpetua Resources Corp.: no revenue data in XBRL filings
 - PRKR Parkervision Inc: OTC, annual revenue $0K below $5.0M
 - PRLEQ Pillarstone Capital REIT: OTC, annual revenue $0K below $5.0M
@@ -5782,7 +5781,7 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 - PRT PermRock Royalty Trust: no revenue data in XBRL filings
 - PSBD Palmer Square Capital BDC Inc.: no revenue data in XBRL filings
 - PSEC Prospect Capital Corp: no revenue data in XBRL filings
-- PSLV Sprott Physical Silver Trust: no revenue data in XBRL filings
+- PSLV Sprott Physical Silver Trust: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - PTAC Patriot Acquisition Corp./CI: no revenue data in XBRL filings
 - PTCHF PureTech Health plc: OTC, annual revenue $4.8M below $5.0M
 - PTIX Protagenic Therapeutics, Inc.\new: OTC, annual revenue $0K below $5.0M
@@ -5796,7 +5795,7 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 - PZG Paramount Gold Nevada Corp.: newest figures are for 2022
 - QADR QDRO Acquisition Corp.: no revenue data in XBRL filings
 - QCLS Q/C Technologies, Inc.: newest figures are for 2020
-- QETH Invesco Galaxy Ethereum ETF: no revenue data in XBRL filings
+- QETH Invesco Galaxy Ethereum ETF: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - QGAI Quantum Genesis AI Corp.: OTC, annual revenue $0K below $5.0M
 - QNC Quantum eMotion Corp: no revenue data in XBRL filings
 - QNRX Quoin Pharmaceuticals Ltd.: newest figures are for 2021
@@ -5806,7 +5805,7 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 - QS QuantumScape Corp: no revenue data in XBRL filings
 - QSEA Quartzsea Acquisition Corp: no revenue data in XBRL filings
 - QSEP QS Energy, Inc.: OTC, annual revenue $0K below $5.0M
-- QSOL Invesco Galaxy Solana ETF: no revenue data in XBRL filings
+- QSOL Invesco Galaxy Solana ETF: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - QUIT Achieve Life Sciences, Inc.: newest figures are for 2019
 - QUMS Quantumsphere Acquisition Corp: no revenue data in XBRL filings
 - QURT Quarta-Rad, Inc.: OTC, annual revenue $245K below $5.0M
@@ -5871,6 +5870,7 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 - SCDA B-Scada, Inc.: newest figures are for 2016
 - SCII SC II Acquisition Corp.: no revenue data in XBRL filings
 - SCM Stellus Capital Investment Corp: no revenue data in XBRL filings
+- SCOP Sprott Physical Copper Trust: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - SCVE Sound Cave Technology Inc.: OTC, annual revenue $0K below $5.0M
 - SDCO SDR Drone, Inc.: OTC, annual revenue $610K below $5.0M
 - SDHI Siddhi Acquisition Corp (Cayman Islands): no revenue data in XBRL filings
@@ -5881,7 +5881,7 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 - SFCX SUPA Consolidated Inc.: newest figures are for 2021
 - SFRX Seafarer Exploration Corp: OTC, annual revenue $16K below $5.0M
 - SGMT Sagimet Biosciences Inc.: newest figures are for 2023
-- SGOL abrdn Gold ETF Trust: no revenue data in XBRL filings
+- SGOL abrdn Gold ETF Trust: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - SGP SpyGlass Pharma, Inc.: no revenue data in XBRL filings
 - SHMP NaturalShrimp Inc: OTC, annual revenue $203K below $5.0M
 - SHOT RMG ML Sports Holdings: no revenue data in XBRL filings
@@ -5889,7 +5889,7 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 - SIGY Sigyn Therapeutics, Inc.: newest figures are for 2020
 - SIMA SIM Acquisition Corp. I: no revenue data in XBRL filings
 - SION Sionna Therapeutics, Inc.: no revenue data in XBRL filings
-- SIVR abrdn Silver ETF Trust: no revenue data in XBRL filings
+- SIVR abrdn Silver ETF Trust: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - SJT San Juan Basin Royalty Trust: no revenue data in XBRL filings
 - SKAS Saker Aviation Services, Inc.: OTC, annual revenue $1.3M below $5.0M
 - SKE Skeena Resources Ltd: no revenue data in XBRL filings
@@ -5901,7 +5901,7 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 - SLI Standard Lithium Ltd.: no revenue data in XBRL filings
 - SLRC SLR Investment Corp.: no revenue data in XBRL filings
 - SLS SELLAS Life Sciences Group, Inc.: newest figures are for 2023
-- SLV iShares Silver Trust: newest figures are for 2013
+- SLV iShares Silver Trust: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - SMNR Semnur Pharmaceuticals, Inc.: no revenue data in XBRL filings
 - SNBH Sentient Brands Holdings Inc.: OTC, annual revenue $701K below $5.0M
 - SNDL SNDL Inc.: unknown postal code  (Edmonton, Z4)
@@ -5911,15 +5911,15 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 - SNTL Sentinel Holdings Ltd.: OTC, annual revenue $1.9M below $5.0M
 - SNTW Summit Networks Inc.: OTC, annual revenue $12K below $5.0M
 - SOBR SOBR Safe, Inc.: OTC, annual revenue $437K below $5.0M
-- SOEZ Franklin Solana Trust: no revenue data in XBRL filings
-- SOLC Canary Marinade Solana ETF: no revenue data in XBRL filings
+- SOEZ Franklin Solana Trust: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
+- SOLC Canary Marinade Solana ETF: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - SORN Soren Acquisition Corp.: no revenue data in XBRL filings
 - SOUL Soulpower Acquisition Corp.: no revenue data in XBRL filings
 - SPEG Silver Pegasus Acquisition Corp.: no revenue data in XBRL filings
 - SPKLF Spark I Acquisition Corp: no revenue data in XBRL filings
 - SPND Spindletop Oil & Gas Co: OTC, annual revenue $4.4M below $5.0M
 - SPOWF Strata Power Corp: OTC, annual revenue $76K below $5.0M
-- SPPP Sprott Physical Platinum & Palladium Trust: no revenue data in XBRL filings
+- SPPP Sprott Physical Platinum & Palladium Trust: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - SPST Superstar Platforms Inc.: unknown postal code 00000 (Santo Domingo, NY)
 - SPTX Seaport Therapeutics, Inc.: no revenue data in XBRL filings
 - SPTY Specificity, Inc.: OTC, annual revenue $1.1M below $5.0M
@@ -5933,7 +5933,7 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 - STN Stantec Inc: unknown postal code 00000 (Edmonton, A0)
 - STQN Strategic Acquisitions Inc /NV/: OTC, annual revenue $44K below $5.0M
 - SUIC SUIC Worldwide Holdings Ltd.: OTC, annual revenue $18K below $5.0M
-- SUIS Canary Staked SUI ETF: no revenue data in XBRL filings
+- SUIS Canary Staked SUI ETF: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - SUMA SUMA Acquisition Corp: no revenue data in XBRL filings
 - SUND Sundance Strategies, Inc.: no revenue data in XBRL filings
 - SUNI Sun: OTC, annual revenue $58K below $5.0M
@@ -5957,20 +5957,20 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 - TCPC BlackRock TCP Capital Corp.: no revenue data in XBRL filings
 - TCRG Cannaisseur Group Inc.: OTC, annual revenue $0K below $5.0M
 - TDAC Translational Development Acquisition Corp.: no revenue data in XBRL filings
-- TDOG 21Shares Dogecoin ETF: no revenue data in XBRL filings
+- TDOG 21Shares Dogecoin ETF: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - TDWD Tailwind 2.0 Acquisition Corp.: no revenue data in XBRL filings
 - TECX Tectonic Therapeutic, Inc.: no revenue data in XBRL filings
 - TELO Telomir Pharmaceuticals, Inc.: no revenue data in XBRL filings
-- TETH 21Shares Ethereum Staking ETF: no revenue data in XBRL filings
+- TETH 21Shares Ethereum Staking ETF: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - TG Tredegar Corp: newest figures are for 2018
 - TGLO Theglobe Com Inc: OTC, annual revenue $0K below $5.0M
 - TGNT Totaligent, Inc.: OTC, annual revenue $2K below $5.0M
 - THEO BOA Acquisition Corp. II: no revenue data in XBRL filings
 - THMG Thunder Mountain Gold Inc: newest figures are for 2023
-- THYP 21Shares Hyperliquid Staking ETF: no revenue data in XBRL filings
+- THYP 21Shares Hyperliquid Staking ETF: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - TIL Instil Bio, Inc.: newest figures are for 2021
 - TKLS Trutankless, Inc.: OTC, annual revenue $1.1M below $5.0M
-- TKNZ T. Rowe Price Active Crypto ETF: no revenue data in XBRL filings
+- TKNZ T. Rowe Price Active Crypto ETF: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - TLAC Three Lions Acquisition Corp.: no revenue data in XBRL filings
 - TLNC Talon Capital Corp.: no revenue data in XBRL filings
 - TLSS Transportation & Logistics Systems, Inc.: newest figures are for 2023
@@ -5979,7 +5979,7 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 - TMQ Trilogy Metals Inc.: no revenue data in XBRL filings
 - TMTS Spartacus Acquisition Corp. II: no revenue data in XBRL filings
 - TONT Graf Global Corp.: no revenue data in XBRL filings
-- TOXR 21Shares XRP ETF: no revenue data in XBRL filings
+- TOXR 21Shares XRP ETF: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - TPST Tempest Therapeutics, Inc.: newest figures are for 2018
 - TPTI Transit Pro Tech Inc.: OTC, annual revenue $364K below $5.0M
 - TRAD APEX Tech Acquisition Inc.: no revenue data in XBRL filings
@@ -5994,10 +5994,10 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 - TRWD Tradewinds Universal: OTC, annual revenue $133K below $5.0M
 - TRXA T-REX Acquisition Corp.: OTC, annual revenue $32K below $5.0M
 - TRXB TRex Bio, Inc.: no revenue data in XBRL filings
-- TRXS Canary Staked TRX ETF: no revenue data in XBRL filings
+- TRXS Canary Staked TRX ETF: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - TSLX Sixth Street Specialty Lending, Inc.: no revenue data in XBRL filings
-- TSOL 21Shares Solana Staking ETF: no revenue data in XBRL filings
-- TSUI 21Shares Sui Staking ETF: no revenue data in XBRL filings
+- TSOL 21Shares Solana Staking ETF: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
+- TSUI 21Shares Sui Staking ETF: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - TTRX Turn Therapeutics Inc.: no revenue data in XBRL filings
 - TVA Texas Ventures Acquisition III Corp: no revenue data in XBRL filings
 - TVAI Thayer Ventures Acquisition Corp II: no revenue data in XBRL filings
@@ -6008,24 +6008,29 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 - TWOD Two Harbors Investment Corp.: no revenue data in XBRL filings
 - TYRA Tyra Biosciences, Inc.: no revenue data in XBRL filings
 - UAC United Acquisition Corp. I: no revenue data in XBRL filings
-- UDN Invesco Db US Dollar Index Bearish Fund: no revenue data in XBRL filings
+- UDN Invesco Db US Dollar Index Bearish Fund: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - UEEC United Health Products, Inc.: OTC, annual revenue $0K below $5.0M
 - UELMO Union Electric Co: OTC, annual revenue — below $5.0M
+- UGA United States Gasoline Fund, LP: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - UNCY Unicycive Therapeutics, Inc.: newest figures are for 2023
+- UNG United States Natural Gas Fund, LP: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
+- UNL United States 12 Month Natural Gas Fund, LP: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - UPYY Upay: OTC, annual revenue $746K below $5.0M
 - URSB URSB Bancorp, Inc.: OTC, annual revenue — below $5.0M
 - USAQ QHSLab, Inc.: OTC, annual revenue $2.7M below $5.0M
 - USAU U.S. Gold Corp.: newest figures are for 2017
 - USBC USBC, Inc.: newest figures are for 2023
-- USCI United States Commodity Index Funds Trust: newest figures are for 2020
+- USCI United States Commodity Index Funds Trust: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - USDW Made In USA Inc.: OTC, annual revenue $37K below $5.0M
 - USGO U.S. GoldMining Inc.: no revenue data in XBRL filings
+- USL United States 12 Month Oil Fund, LP: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
+- USO United States Oil Fund, LP: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - UTKN Universal Token: OTC, annual revenue $0K below $5.0M
-- UUP Invesco DB US Dollar Index Bullish Fund: no revenue data in XBRL filings
-- UVIX VS Trust: no revenue data in XBRL filings
+- UUP Invesco DB US Dollar Index Bullish Fund: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
+- UVIX VS Trust: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - UYSC UY Scuti Acquisition Corp.: no revenue data in XBRL filings
-- VAVX VanEck Avalanche ETF: no revenue data in XBRL filings
-- VBNB VanEck BNB ETF: no revenue data in XBRL filings
+- VAVX VanEck Avalanche ETF: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
+- VBNB VanEck BNB ETF: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - VDTA Vertical Data Inc.: OTC, annual revenue $3.7M below $5.0M
 - VEL Velocity Financial, Inc.: no revenue data in XBRL filings
 - VGAS Verde Clean Fuels, Inc.: no revenue data in XBRL filings
@@ -6050,7 +6055,7 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 - VRDR Verde Resources, Inc.: unknown postal code  (St. Louis, MO)
 - VS Versus Systems Inc.: unknown postal code  (Vancouver, A1)
 - VSBC Vitaspring Biomedical Co. Ltd.: OTC, annual revenue $0K below $5.0M
-- VSOL VanEck Solana ETF: no revenue data in XBRL filings
+- VSOL VanEck Solana ETF: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - VYCO Vycor Medical Inc: OTC, annual revenue $1.9M below $5.0M
 - VYND Vynleads, Inc.: OTC, annual revenue $0K below $5.0M
 - VYST Vystar Corp: OTC, annual revenue $55K below $5.0M
@@ -6084,21 +6089,22 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 - XFLH XFLH Capital Corp: no revenue data in XBRL filings
 - XIII Churchill Capital Corp XIII: no revenue data in XBRL filings
 - XPL Solitario Resources Corp.: newest figures are for 2020
-- XRP Bitwise XRP ETF: no revenue data in XBRL filings
-- XRPC Canary XRP ETF: no revenue data in XBRL filings
+- XRP Bitwise XRP ETF: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
+- XRPC Canary XRP ETF: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - XRPN Evernorth Holdings Inc.: no revenue data in XBRL filings
-- XRPZ Franklin XRP Trust: no revenue data in XBRL filings
+- XRPZ Franklin XRP Trust: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - XRTX XORTX Therapeutics Inc.: no revenue data in XBRL filings
 - XSLL Xsolla SPAC 1: no revenue data in XBRL filings
 - XTER Xterax Corp II: no revenue data in XBRL filings
 - XXI Twenty One Capital, Inc.: no revenue data in XBRL filings
 - YCY AA Mission Acquisition Corp. II: no revenue data in XBRL filings
 - YICC Yorkville International Capital Corp.: no revenue data in XBRL filings
-- YSAG Texas Precious Metals Trust: no revenue data in XBRL filings
+- YSAG Texas Precious Metals Trust: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - YSGL Yellowstone Group Ltd.: OTC, annual revenue $41K below $5.0M
 - YTFD Yale Transaction Finders, Inc.: no revenue data in XBRL filings
-- ZCSH Zcash ETF: no revenue data in XBRL filings
+- ZCSH Zcash ETF: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - ZDPY Zoned Properties, Inc.: OTC, annual revenue $4.1M below $5.0M
+- ZEC Bitwise Zcash ETF: an exchange-traded fund holding commodities, currencies or bitcoin, not an operating company
 - ZIVO Zivo Bioscience, Inc.: OTC, annual revenue $157K below $5.0M
 - ZKP Lafayette Digital Acquisition Corp. I: no revenue data in XBRL filings
 - ZLME Zhanling International Ltd: no revenue data in XBRL filings
@@ -6106,7 +6112,7 @@ Metros: **147**. Source: SEC EDGAR (submissions, XBRL company facts, DEF 14A, in
 - ZTEKF Zentek Ltd.: OTC, annual revenue $872K below $5.0M
 - ZURA Zura Bio Ltd: no revenue data in XBRL filings
 
-## Revenue taken from the annual report (78 company-years)
+## Revenue taken from the annual report (85 company-years)
 
 Read by EdgarTools, and used because net income, label and the SEC's own copy of the figure all agreed.
 
@@ -6116,9 +6122,12 @@ Read by EdgarTools, and used because net income, label and the SEC's own copy of
 - RIME: Revenue taken from the annual report's income statement: 2024-12-31 23,494,000 -> 297,000.
 - AEP: Revenue taken from the annual report's income statement: 2024-12-31 19,970,000,000 -> 19,721,000,000.
 - AEP: Revenue taken from the annual report's income statement: 2023-12-31 19,456,000,000 -> 18,982,000,000.
+- USAS: Revenue taken from the annual report's income statement: 2024-12-31 120,851,000 -> 100,188,000.
 - AD: Revenue taken from the annual report's income statement: 2024-12-31 3,667,000,000 -> 102,933,000.
 - AD: Revenue taken from the annual report's income statement: 2023-12-31 3,805,000,000 -> 100,469,000.
 - ASTS: Revenue taken from the annual report's income statement: 2024-12-31 13,825,000 -> 4,418,000.
+- ATLX: Revenue taken from the annual report's income statement: 2025-12-31 121,388 -> 92,491.
+- ATLX: Revenue taken from the annual report's income statement: 2024-12-31 748,654 -> 667,131.
 - AUID: Revenue taken from the annual report's income statement: 2025-12-31 2,924,842 -> 2,040,660.
 - BTE: Revenue taken from the annual report's income statement: 2025-12-31 1,684,648,000 -> 1,480,815,000.
 - BTE: Revenue taken from the annual report's income statement: 2024-12-31 1,874,046,000 -> 1,612,841,000.
@@ -6130,6 +6139,7 @@ Read by EdgarTools, and used because net income, label and the SEC's own copy of
 - SAM: Revenue taken from the annual report's income statement: 2025-12-27 2,087,251,000 -> 1,964,994,000.
 - SAM: Revenue taken from the annual report's income statement: 2024-12-28 2,137,802,000 -> 2,012,926,000.
 - SAM: Revenue taken from the annual report's income statement: 2023-12-30 2,133,292,000 -> 2,008,625,000.
+- RILY: Revenue taken from the annual report's income statement: 2024-12-31 985,980,000 -> 746,421,000.
 - BF-B: Revenue taken from the annual report's income statement: 2026-04-30 5,082,000,000 -> 3,928,000,000.
 - BF-B: Revenue taken from the annual report's income statement: 2025-04-30 5,056,000,000 -> 3,975,000,000.
 - BF-B: Revenue taken from the annual report's income statement: 2024-04-30 5,328,000,000 -> 4,178,000,000.
@@ -6139,6 +6149,7 @@ Read by EdgarTools, and used because net income, label and the SEC's own copy of
 - CGC: Revenue taken from the annual report's income statement: 2026-03-31 346,827,000 -> 284,603,000.
 - CGC: Revenue taken from the annual report's income statement: 2025-03-31 313,969,000 -> 268,995,000.
 - CGC: Revenue taken from the annual report's income statement: 2024-03-31 343,934,000 -> 297,146,000.
+- CAPS: Revenue taken from the annual report's income statement: 2024-12-31 45,808,000 -> 44,876,000.
 - YCBD: Revenue taken from the annual report's income statement: 2024-09-30 19,922,319 -> 19,482,167.
 - ED: Revenue taken from the annual report's income statement: 2024-12-31 15,469,000,000 -> 15,256,000,000.
 - STZ: Revenue taken from the annual report's income statement: 2026-02-28 9,755,500,000 -> 9,139,000,000.
@@ -6150,6 +6161,8 @@ Read by EdgarTools, and used because net income, label and the SEC's own copy of
 - CRON: Revenue taken from the annual report's income statement: 2024-12-31 161,821,000 -> 117,615,000.
 - CRON: Revenue taken from the annual report's income statement: 2023-12-31 120,270,000 -> 87,241,000.
 - DBRHP: Revenue taken from the annual report's income statement: 2025-12-31 374,447,000 -> 93,959,000.
+- ESGH: Revenue taken from the annual report's income statement: 2025-12-31 7,510,103 -> 6,122,633.
+- ESGH: Revenue taken from the annual report's income statement: 2024-12-31 21,422,990 -> 12,682,330.
 - FGC: Revenue taken from the annual report's income statement: 2024-12-31 32,023,000 -> 779,000.
 - FLZH: Revenue taken from the annual report's income statement: 2024-12-31 40,008,850 -> 31,203,300.
 - FWDI: Revenue taken from the annual report's income statement: 2024-09-30 29,613,438 -> 19,990,833.

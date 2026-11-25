@@ -49,7 +49,8 @@ public static partial class AuditLog
     /// <summary>Whether a decision covers a finding: same check, the company named in it, and the extra text if any.</summary>
     public static bool Covers(AuditDecision d, string check, string finding) =>
         d.Check.Equals(check, StringComparison.OrdinalIgnoreCase) &&
-        Regex.IsMatch(finding, $@"(^|[\s,(]){Regex.Escape(d.CompanyId)}($|[\s,)])", RegexOptions.IgnoreCase) &&
+        // Ids, not names: "FMNB (Farmers National Banc Corp)" is no finding about BANC.
+        Regex.IsMatch(Regex.Replace(finding, @"\([^)]*\)", " "), $@"(^|[\s,]){Regex.Escape(d.CompanyId)}($|[\s,])", RegexOptions.IgnoreCase) &&
         (d.Match == "" || finding.Contains(d.Match, StringComparison.OrdinalIgnoreCase));
 
     /// <summary>Applies the decisions: each check keeps only its open findings; the reviewed ones come back with their decision.</summary>

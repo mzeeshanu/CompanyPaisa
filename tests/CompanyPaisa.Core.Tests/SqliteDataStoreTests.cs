@@ -81,6 +81,20 @@ public sealed class SqliteDataStoreTests : IDisposable
     }
 
     [Fact]
+    public void Hand_corrections_apply_as_the_data_loads_and_outlive_a_reimport()
+    {
+        const string report = "https://www.sec.gov/Archives/edgar/data/1856031/000119312526103023/";
+        SqliteDataStore.ReplaceMarket(_db, "sec", Market("SEAT", 647_891_000m, "https://www.sec.gov/Archives/edgar/data/1856031/a/"), Meta("sec-1"));
+        SqliteDataStore.ReplaceCorrections(_db, [new Core.Services.FinancialCorrection("seat", 2025, 775_586_000m, null, report, "Total revenues")]);
+        SqliteDataStore.ReplaceMarket(_db, "sec", Market("SEAT", 647_891_000m, "https://www.sec.gov/Archives/edgar/data/1856031/a/"), Meta("sec-2"));
+
+        var annual = SqliteDataStore.Read(_db, DateTimeOffset.UtcNow).Financials.Single(f => f.PeriodType == PeriodType.Annual);
+
+        Assert.Equal((775_586_000m, -1_234_567m, report), (annual.Revenue, annual.NetIncome, annual.SourceFiling));
+        Assert.Single(SqliteDataStore.ReadCorrections(_db));
+    }
+
+    [Fact]
     public void Replacing_one_market_leaves_the_others_alone()
     {
         SqliteDataStore.ReplaceMarket(_db, "sec", Market("AAPL", 100m, "https://www.sec.gov/Archives/edgar/data/1/a/"), Meta("sec-1"));

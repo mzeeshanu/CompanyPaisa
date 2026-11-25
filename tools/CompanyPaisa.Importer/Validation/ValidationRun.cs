@@ -43,12 +43,20 @@ public sealed class ValidationRun(IOptions<ImporterOptions> options, RepoPaths p
         var (audited, unused) = AuditLog.Apply(result.Checks, AuditLog.Read(paths.Resolve(AuditLog.DecisionsPath)));
         result = result with { Checks = audited.Select(a => a.Check).ToList() };
         AuditLog.WriteWorklist(paths.Resolve(AuditLog.WorklistPath), result.Checks);
-        await File.WriteAllTextAsync(paths.Resolve(ReportPath), Render(result, audited, unused, Path.GetFileName(database), markets), ct);
+        // Figures set by hand: listed in full, with any that no longer match a stored year or that the file has but the
+        // database doesn't yet (--corrections copies them in).
+        var corrections = SqliteDataStore.ReadCorrections(database);
+        var stale = corrections.Where(c => !all.Financials.Any(f => f.PeriodType == CompanyPaisa.Contracts.PeriodType.Annual && f.FiscalYear == c.FiscalYear &&
+                                                                   f.CompanyId.Equals(c.CompanyId, StringComparison.OrdinalIgnoreCase))).ToList();
+        if (!Publishing.CorrectionsFile.Read(paths.Resolve(Publishing.CorrectionsFile.Path)).SequenceEqual(corrections))
+            logger.LogWarning("{File} differs from the database's corrections: run --corrections", Publishing.CorrectionsFile.Path);
+        await File.WriteAllTextAsync(paths.Resolve(ReportPath), Render(result, audited, unused, corrections, stale, Path.GetFileName(database), markets), ct);
 
         foreach (var c in result.Checks.Where(c => c.Count > 0))
             logger.Log(c.Severity == Severity.Error ? LogLevel.Error : LogLevel.Warning, "{Area} · {Name}: {Count}", c.Area, c.Name, c.Count);
         logger.LogInformation("Validated {Companies} companies in {Markets} markets: {Errors} errors, {Warnings} open warnings, {Reviewed} reviewed → {Report}",
             all.Companies.Count, markets.Count, result.Errors, result.Warnings, audited.Sum(a => a.Reviewed.Count), ReportPath);
+        if (stale.Count > 0) logger.LogWarning("{Stale} hand corrections match no stored year (listed in the report)", stale.Count);
         if (unused.Count > 0) logger.LogWarning("{Unused} audit decisions no longer match a finding (listed in the report)", unused.Count);
         return strict && result.Errors > 0 ? 1 : 0;
     }
@@ -61,7 +69,8 @@ public sealed class ValidationRun(IOptions<ImporterOptions> options, RepoPaths p
             .ToDictionary(p => p.Name, p => p.Value.GetDecimal(), StringComparer.OrdinalIgnoreCase);
     }
 
-    private static string Render(ValidationResult r, IReadOnlyList<AuditedCheck> audited, IReadOnlyList<AuditDecision> unused, string database, IReadOnlyList<string> markets)
+    private static string Render(ValidationResult r, IReadOnlyList<AuditedCheck> audited, IReadOnlyList<AuditDecision> unused,
+        IReadOnlyList<Core.Services.FinancialCorrection> corrections, IReadOnlyList<Core.Services.FinancialCorrection> stale, string database, IReadOnlyList<string> markets)
     {
         var sb = new StringBuilder();
         sb.AppendLine(CultureInfo.InvariantCulture, $"# Data validation report — {DateTime.UtcNow:yyyy-MM-dd HH:mm} UTC").AppendLine();
@@ -113,6 +122,15 @@ public sealed class ValidationRun(IOptions<ImporterOptions> options, RepoPaths p
             sb.AppendLine("## Decisions that no longer match anything").AppendLine()
                 .AppendLine("The finding has gone (the data changed). Remove the line from the decisions file, or mark it `fixed`.").AppendLine();
             foreach (var d in unused) sb.AppendLine(CultureInfo.InvariantCulture, $"- {d.Check} · {d.CompanyId}{(d.Match != "" ? $" · {d.Match}" : "")} — {d.Decision}: {d.Note}");
+            sb.AppendLine();
+        }
+        if (corrections.Count > 0)
+        {
+            sb.AppendLine(CultureInfo.InvariantCulture, $"## Figures set by hand ({corrections.Count})").AppendLine()
+                .AppendLine("From `data/curated/financial-corrections.csv`; the site shows these instead of the imported figures.").AppendLine();
+            foreach (var c in corrections)
+                sb.AppendLine(CultureInfo.InvariantCulture,
+                    $"- {c.CompanyId} FY {c.FiscalYear}:{(c.Revenue is { } rv ? $" revenue {rv:N0}" : "")}{(c.NetIncome is { } ni ? $" net income {ni:N0}" : "")} — {c.Note}{(stale.Contains(c) ? " **(matches no stored year)**" : "")}");
             sb.AppendLine();
         }
         return sb.ToString();

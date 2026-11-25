@@ -1,0 +1,8 @@
+company_id,fiscal_year,revenue,net_income,source,note,reviewed_on
+RYM,2024,18000,,https://www.sec.gov/Archives/edgar/data/1800637/000121390026023069/,"2025 10-K: 2024 revenue from continuing operations as restated, $18 thousand (Revenues); kept as filed so the 1,000x cleanup leaves it.",2026-11-25
+SEAT,2023,712879000,,https://www.sec.gov/Archives/edgar/data/1856031/000119312526103023/,"2025 10-K income statement: total revenues. The SEC's figures carry only contract revenue ($597.4M).",2026-11-25
+SEAT,2024,775586000,,https://www.sec.gov/Archives/edgar/data/1856031/000119312526103023/,"2025 10-K income statement: total revenues. The SEC's figures carry only contract revenue ($647.9M).",2026-11-25
+SEAT,2025,570776000,,https://www.sec.gov/Archives/edgar/data/1856031/000119312526103023/,"2025 10-K income statement: total revenues. The SEC's figures carry only contract revenue ($450.5M).",2026-11-25
+TIPT,2023,2118000,,https://www.sec.gov/Archives/edgar/data/1393726/000139372626000009/,"2025 10-K, restated with Fortegra (insurance) as discontinued: revenues from continuing operations. The import had a sub-line ($341.4M).",2026-11-25
+TIPT,2024,1520000,,https://www.sec.gov/Archives/edgar/data/1393726/000139372626000009/,"2025 10-K, restated with Fortegra (insurance) as discontinued: revenues from continuing operations. The import had a sub-line ($341.5M).",2026-11-25
+TIPT,2025,488000,,https://www.sec.gov/Archives/edgar/data/1393726/000139372626000009/,"2025 10-K: revenues from continuing operations $488 thousand (operating expenses $47.2M, operating loss $46.7M); kept so the 1,000x cleanup leaves it.",2026-11-25

@@ -17,6 +17,32 @@ public class FinancialsCleanupTests
         r.Financials.Single(f => f.FiscalYear == year && f.FiscalQuarter == quarter);
 
     [Fact]
+    public void A_year_set_by_hand_is_never_rescaled()
+    {
+        // Tiptree 2025: $488 thousand of continuing revenue after selling its insurer, beside quarters first reported with it.
+        FinancialPeriod[] rows =
+        [
+            Year("TIPT", 2024, 1_520_000, 53_367_000), Year("TIPT", 2025, 488_000, 34_927_000),
+            Quarter("TIPT", 2025, 1, 82_383_000, 5_635_000), Quarter("TIPT", 2025, 2, 81_750_000, 18_960_000), Quarter("TIPT", 2025, 3, 79_258_000, 6_421_000)
+        ];
+        var corrected = FinancialCorrections.Apply(rows, [new FinancialCorrection("TIPT", 2025, 488_000, null, "10-K", "continuing revenue")]);
+
+        Assert.Equal(488_000_000, Get(FinancialsCleanup.Apply(rows), 2025).Revenue);
+        Assert.Equal(488_000, Get(FinancialsCleanup.Apply(corrected.Financials, corrected.Covered), 2025).Revenue);
+        Assert.Empty(corrected.Unmatched);
+    }
+
+    [Fact]
+    public void A_correction_for_a_year_not_stored_is_reported()
+    {
+        var corrected = FinancialCorrections.Apply([Year("SEAT", 2024, 647_891_000, 13_427_000)],
+            [new FinancialCorrection("SEAT", 2019, 35_000_000, null, "10-K", "a year the import no longer has")]);
+
+        Assert.Equal(2019, Assert.Single(corrected.Unmatched).FiscalYear);
+        Assert.Equal(647_891_000, Get(new FinancialsCleanup.Result(corrected.Financials, 0, 0, 0), 2024).Revenue);
+    }
+
+    [Fact]
     public void Scales_a_profit_filed_in_thousands_up_from_its_quarters()
     {
         // Con Edison 2023: profit stored as $2,519,000 beside quarters of hundreds of millions; Q4 worked out from it.

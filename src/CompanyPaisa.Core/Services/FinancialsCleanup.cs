@@ -18,7 +18,8 @@ public static class FinancialsCleanup
     /// <summary>How close to 1,000× a figure must be to count as a unit slip (both ways).</summary>
     private const decimal Low = 600, High = 1700;
 
-    public static Result Apply(IReadOnlyList<FinancialPeriod> financials)
+    /// <param name="reviewed">Years set by hand (<see cref="FinancialCorrections"/>): checked against the filing, never rescaled.</param>
+    public static Result Apply(IReadOnlyList<FinancialPeriod> financials, IReadOnlySet<(string CompanyId, int FiscalYear)>? reviewed = null)
     {
         var rescaled = 0;
         var redone = 0;
@@ -30,12 +31,14 @@ public static class FinancialsCleanup
             var quarters = company.Where(f => f.PeriodType == PeriodType.Quarterly).GroupBy(f => f.FiscalYear)
                 .ToDictionary(g => g.Key, g => g.OrderBy(q => q.FiscalQuarter).ToList());
             var original = annual.ToDictionary(a => a.FiscalYear);
+            bool Reviewed(FinancialPeriod a) => reviewed is not null && reviewed.Contains((a.CompanyId, a.FiscalYear));
 
             // 1. Annual figures: first against the year's own quarters, then against both neighbouring years, then (profit
             //    only) against the year's revenue.
             for (var i = 0; i < annual.Count; i++)
             {
                 var a = annual[i];
+                if (Reviewed(a)) continue;
                 var q = quarters.GetValueOrDefault(a.FiscalYear) ?? [];
                 // The quarters judge one measure only when they agree with the year on the other: when the quarters are
                 // the ones in the wrong unit (Palatin 2016) nothing confirms them, and the year is left as filed.
@@ -63,7 +66,7 @@ public static class FinancialsCleanup
             for (var i = 1; i < annual.Count - 1; i++)
             {
                 var (prev, a, next) = (annual[i - 1], annual[i], annual[i + 1]);
-                if (next.FiscalYear - prev.FiscalYear != 2 || a.NetIncome != original[a.FiscalYear].NetIncome) continue;
+                if (next.FiscalYear - prev.FiscalYear != 2 || a.NetIncome != original[a.FiscalYear].NetIncome || Reviewed(a)) continue;
                 if (prev.NetIncome * 1000 != original[prev.FiscalYear].NetIncome || next.NetIncome * 1000 != original[next.FiscalYear].NetIncome) continue;
                 if (Math.Abs(a.NetIncome) <= Math.Abs(a.Revenue) * 10 || !Near(a.NetIncome / 1000, prev.NetIncome, 10) || !Near(a.NetIncome / 1000, next.NetIncome, 10)) continue;
                 annual[i] = a with { NetIncome = a.NetIncome / 1000 };
@@ -76,9 +79,9 @@ public static class FinancialsCleanup
             // Scandinavian Tobacco's 2025 (DKK 2.9 million after 2.9 billion), Lenzing's 2019 in millions (€2,105).
             var fixedHere = new HashSet<int>();
             for (var i = annual.Count - 2; i >= 0; i--)
-                if (EdgeSlip(annual, i, i + 1, i - 1, fixedHere) is { } k) { annual[i] = Scale(annual[i], k); fixedHere.Add(i); rescaled++; }
+                if (!Reviewed(annual[i]) && EdgeSlip(annual, i, i + 1, i - 1, fixedHere) is { } k) { annual[i] = Scale(annual[i], k); fixedHere.Add(i); rescaled++; }
             for (var i = 1; i < annual.Count; i++)
-                if (EdgeSlip(annual, i, i - 1, i + 1, fixedHere) is { } k) { annual[i] = Scale(annual[i], k); fixedHere.Add(i); rescaled++; }
+                if (!Reviewed(annual[i]) && EdgeSlip(annual, i, i - 1, i + 1, fixedHere) is { } k) { annual[i] = Scale(annual[i], k); fixedHere.Add(i); rescaled++; }
 
             // 2. Fourth quarters: one worked out as "year minus the first three" follows its corrected year; one far out of
             //    line with the year's other quarters is replaced by that difference when the difference fits, else left out.

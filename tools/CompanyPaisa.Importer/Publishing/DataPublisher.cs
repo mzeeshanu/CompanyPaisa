@@ -47,5 +47,15 @@ public sealed class DataPublisher(IOptions<ImporterOptions> options, RepoPaths p
         SqliteDataStore.ReplaceMarket(DatabasePath, market, data, meta);
         logger.LogInformation("Published market '{Market}' ({Companies} companies, {Periods} periods, {Pay} pay rows) to {Path}, checked with the API's rules, in {Seconds:0.0}s",
             market, companies.Count, financials.Count, pay.Count, DatabasePath, watch.Elapsed.TotalSeconds);
+        PublishCorrections();
+    }
+
+    /// <summary>Copies data/curated/financial-corrections.csv into the database (also run on its own: --corrections).</summary>
+    public int PublishCorrections()
+    {
+        var (applied, unmatched) = CorrectionsFile.Publish(paths.Resolve(CorrectionsFile.Path), DatabasePath);
+        logger.LogInformation("Hand corrections: {Applied} figures applied from {File}", applied, CorrectionsFile.Path);
+        foreach (var c in unmatched) logger.LogWarning("Hand correction {Company} FY {Year} matches no stored year", c.CompanyId, c.FiscalYear);
+        return unmatched.Count;
     }
 }

@@ -1,14 +1,14 @@
-# Data validation report — 2026-11-24 14:27 UTC
+# Data validation report — 2026-11-25 20:35 UTC
 
-Checks everything in `companypaisa.db` together, as the website sees it — markets: pk (pk-2026.09.19), anz (anz-2026.11.22), sec (sec-2026.11.24), uk (uk-2026.11.24), eu (eu-2026.11.24).
+Checks everything in `companypaisa.db` together, as the website sees it — markets: pk (pk-2026.09.19), anz (anz-2026.11.22), uk (uk-2026.11.24), eu (eu-2026.11.24), sec (sec-2026.11.25).
 
 **Errors** are values that can't be right. **Warnings** are unusual values worth a look — many are real (big acquisitions, holding-company gains, mega stock grants). Nothing here changes the data.
 
 Findings a person has already reviewed (`data/curated/audit-decisions.csv`) are not counted again; they are listed with their decision at the end. Every open finding is in `data/audit-worklist.csv`.
 
 - Errors: **0**
-- Warnings (open): **790**
-- Reviewed: **318**
+- Warnings (open): **590**
+- Reviewed: **716**
 
 ## Checks
 
@@ -30,8 +30,8 @@ Findings a person has already reviewed (`data/curated/audit-decisions.csv`) are 
 | Financials | Impossible size | Error | ✓ 0 |  |
 | Financials | Another company's figures | Error | ✓ 0 |  |
 | Financials | Profit far bigger than revenue | Warning | ✓ 0 | 52 |
-| Financials | Revenue jumps 10× in a year | Warning | ✓ 0 | 46 |
-| Financials | Quarters don't add up to the year | Warning | ✓ 0 | 62 |
+| Financials | Revenue jumps 10× in a year | Warning | 196 | 57 |
+| Financials | Quarters don't add up to the year | Warning | ✓ 0 | 63 |
 | Financials | Out of date | Warning | 39 |  |
 | Financials | Annual figures missing, quarters only | Warning | 121 |  |
 | Pay | Negative amount | Error | ✓ 0 |  |
@@ -45,7 +45,7 @@ Findings a person has already reviewed (`data/curated/audit-decisions.csv`) are 
 | Pay | Tiny total | Warning | ✓ 0 |  |
 | Pay | Name doesn't look like a person | Warning | 3 |  |
 | Pay | Pieces don't add up to the total | Warning | ✓ 0 |  |
-| EdgarTools | Revenue differs from the annual report | Warning | 396 |  |
+| EdgarTools | Revenue differs from the annual report | Warning | ✓ 0 | 386 |
 | EdgarTools | Net income differs from the annual report | Warning | 64 |  |
 
 ## Overview
@@ -181,7 +181,7 @@ Findings a person has already reviewed (`data/curated/audit-decisions.csv`) are 
 | Companies | 5,921 |
 | Locations | 5,931 |
 | Annual periods | 42,033 |
-| Quarterly periods | 137,185 |
+| Quarterly periods | 137,183 |
 | Pay rows | 88,799 |
 | People | 23,230 |
 
@@ -205,22 +205,40 @@ Neither its exchange nor the SEC gave a category (--enrich categories), so it is
 - PEB.NZ (Pacific Edge Limited): NZX
 - … and 89 more (all in the worklist)
 
+### Financials · Revenue jumps 10× in a year (196)
+
+Year-on-year revenue up or down more than tenfold (the larger year ≥ $10M; a year with no sales is not judged) — a real acquisition or sale, or a switch of revenue definition or units.
+
+- AICL.KA (Adamjee Insurance Company Limited): FY 2022 16.98bn → FY 2023 1.63bn
+- ENGROH.KA (Engro Holdings Limited): FY 2024 14.47bn → FY 2025 549.0M
+- PKGP.KA (Pakgen Power Limited): FY 2024 11.32bn → FY 2025 925.4M
+- SBM.AX (St Barbara): FY 2024 197.7M → FY 2025 15.0M
+- OSE.PA (Ose Immunotherapeutics): FY 2023 2.2M → FY 2024 69.9M
+- OSE.PA (Ose Immunotherapeutics): FY 2024 69.9M → FY 2025 2.6M
+- POXEL.PA (Poxel): FY 2021 13.4M → FY 2022 674,000
+- GNFT.PA (SA Genfit): FY 2020 7.8M → FY 2021 85.6M
+- BEVER.AS (N.V. Bever Holding): FY 2020 3.3M → FY 2021 55.2M
+- BINV.ST (BioInvent International Aktiebolag): FY 2021 19.4M → FY 2022 326.1M
+- SAFETYB.ST (mySafety Group AB): FY 2022 889,000 → FY 2023 311.9M
+- ONCO.ST (Oncopeptides AB): FY 2021 118.3M → FY 2022 8.4M
+- … and 184 more (all in the worklist)
+
 ### Financials · Out of date (39)
 
 Newest annual figures are more than two years old — the company may have stopped reporting, been taken over, or changed filer.
 
-- AKTX (Akari Therapeutics Plc): latest FY 2023
-- AQB (Aquabounty Technologies Inc): latest FY 2023
-- ASUR (Asure Software Inc): latest FY 2023
-- BESS (Bimergen Energy Corp): latest FY 2023
-- BXMT (Blackstone Mortgage Trust, Inc.): latest FY 2023
-- CTXR (Citius Pharmaceuticals, Inc.): latest FY 2022
-- COCP (Cocrystal Pharma, Inc.): latest FY 2020
-- CYPH (Cypherpunk Technologies Inc.): latest FY 2021
-- DCOY (Decoy Therapeutics Inc.): latest FY 2022
-- ESOA (Energy Services of America CORP): latest FY 2022
-- VRMK (Erp Operating Ltd Partnership): latest FY 2009
-- FFR (FF EAI Robotics Ecosystem Inc.): latest FY 2022
+- IPO.L (IP Group): latest FY 2021
+- GROW.L (Molten Ventures): latest FY 2022
+- POLN.L (Pollen Street Group): latest FY 2023
+- ERC.AS (ER Capital N.V.): latest FY 2022
+- EXO.AS (Exor N.V.): latest FY 2023
+- BEVER.AS (N.V. Bever Holding): latest FY 2023
+- FCT.MI (Fincantieri S.p.A.): latest FY 2023
+- GAB.MI (Gabetti Property Solutions S.p.A.): latest FY 2023
+- REC.MI (Recordati Industria Chimica E Farmaceutica S.P.A. In Breve Recordati S.p.A.): latest FY 2021
+- VISC.ST (Gruvaktiebolaget Viscaria): latest FY 2023
+- TRUEB.ST (Truecaller AB): latest FY 2023
+- BINT.OL (Kmc Properties Asa): latest FY 2023
 - … and 27 more (all in the worklist)
 
 ### Financials · Annual figures missing, quarters only (121)
@@ -273,24 +291,6 @@ Digits, company words or table labels where a person's name should be.
 - JACK (Jack In The Box Inc): "Martin"
 - JACK (Jack In The Box Inc): "Tuckerr"
 
-### EdgarTools · Revenue differs from the annual report (396)
-
-Our revenue is more than 10% away from the headline revenue line of the company's own 10-K/20-F/40-F income statement, as EdgarTools reads it. Either our concept choice or its mapping is wrong; data/edgar-crosscheck.md lists them all.
-
-- FCNCA (First Citizens Bancshares Inc /De/) FY 2023: ours 18.79bn, 10-K 1.18bn
-- SLF (Sun Life Financial Inc) FY 2025: ours 41.90bn, 40-F 23.98bn
-- SLF (Sun Life Financial Inc) FY 2024: ours 38.80bn, 40-F 22.64bn
-- FCNCA (First Citizens Bancshares Inc /De/) FY 2024: ours 9.76bn, 10-K 1.37bn
-- FCNCA (First Citizens Bancshares Inc /De/) FY 2025: ours 9.54bn, 10-K 1.43bn
-- NTRS (Northern Trust Corp) FY 2024: ours 8.29bn, 10-K 4.73bn
-- NTRS (Northern Trust Corp) FY 2025: ours 8.09bn, 10-K 5.02bn
-- ZION (Zions Bancorporation, National Association /UT/) FY 2025: ours 3.39bn, 10-K 662.0M
-- BPOP (Popular, Inc.) FY 2025: ours 3.20bn, 10-K 558.8M
-- FUBO (FuboTV Inc.) FY 2024: ours 1.62bn, 10-K 4.22bn
-- ZION (Zions Bancorporation, National Association /UT/) FY 2023: ours 3.12bn, 10-K 616.0M
-- ZION (Zions Bancorporation, National Association /UT/) FY 2024: ours 3.13bn, 10-K 639.0M
-- … and 384 more (all in the worklist)
-
 ### EdgarTools · Net income differs from the annual report (64)
 
 Our net income is more than 10% away from the report's net income line. Often attributable-to-parent against consolidated (including minority interests); data/edgar-crosscheck.md lists them all.
@@ -319,11 +319,11 @@ What a person decided about each finding, and why.
 
 ### Companies · Same name under two ids (5)
 
-- AGX, ARG.PA — Argan Inc — **real**: Two companies: Argan Inc (US electrical contractor, NYSE AGX) and Argan SA (French logistics property, Euronext ARG). (2026-11-24)
-- DPZ, DOM.L — Dominos Pizza Inc — **real**: Two companies: Domino's Pizza Inc (US, Nasdaq DPZ) and Domino's Pizza Group plc (UK and Ireland master franchisee, LSE DOM). (2026-11-24)
+- DOM.L, DPZ — Domino's Pizza — **real**: Two companies: Domino's Pizza Inc (US, Nasdaq DPZ) and Domino's Pizza Group plc (UK and Ireland master franchisee, LSE DOM). (2026-11-24)
+- ARG.PA, AGX — Argan — **real**: Two companies: Argan Inc (US electrical contractor, NYSE AGX) and Argan SA (French logistics property, Euronext ARG). (2026-11-24)
+- ITP.PA, IPAR — Interparfums — **real**: Interparfums SA is the Paris-listed subsidiary of Interparfums Inc (Nasdaq IPAR); both are listed and report their own accounts. (2026-11-24)
+- IRE.MI, IREN — Iren S.p.A. — **real**: Two companies: IREN Ltd (Australian data centres, Nasdaq IREN) and Iren SpA (Italian utility, Borsa Italiana IRE). (2026-11-24)
 - FMCB, FMAO — Farmers & Merchants Bancorp — **real**: Two banks: Farmers & Merchants Bank of Long Beach (OTC FMCB) and Farmers & Merchants Bancorp Inc of Archbold, Ohio (Nasdaq FMAO). (2026-11-24)
-- IPAR, ITP.PA — Interparfums Inc — **real**: Interparfums SA is the Paris-listed subsidiary of Interparfums Inc (Nasdaq IPAR); both are listed and report their own accounts. (2026-11-24)
-- IREN, IRE.MI — IREN Ltd — **real**: Two companies: IREN Ltd (Australian data centres, Nasdaq IREN) and Iren SpA (Italian utility, Borsa Italiana IRE). (2026-11-24)
 
 ### Financials · Negative revenue (152)
 
@@ -482,26 +482,6 @@ What a person decided about each finding, and why.
 
 ### Financials · Profit far bigger than revenue (52)
 
-- ACTG (Acacia Research Corp) FY 2020: revenue 29.8M, net income 109.2M — **real**: 2020: gains on its equity stakes (Arix Bioscience, Veritone) and investment income. Revenue is the reported top line. (2026-11-24)
-- AGIO (Agios Pharmaceuticals, Inc.) FY 2024: revenue 36.5M, net income 673.7M — **real**: 2024: $905M from selling its vorasidenib royalty to Royalty Pharma, booked as a gain. Revenue is the reported top line. (2026-11-24)
-- ABTC (American Bitcoin Corp.) FY 2024: revenue 71.5M, net income 428.9M — **real**: 2024: profit includes fair-value gains on digital assets; as filed. Revenue is the reported top line. (2026-11-24)
-- ARL (American Realty Investors Inc) FY 2022: revenue 37.5M, net income 373.3M — **real**: 2022: gain on selling its share of the VAA apartment joint venture. Revenue is the reported top line. (2026-11-24)
-- AIV (Apartment Investment & Management Co) FY 2025: revenue 138.5M, net income 547.2M — **real**: 2025: gains on property sales. Revenue is the reported top line. (2026-11-24)
-- APYX (Apyx Medical Corp) FY 2018: revenue 16.7M, net income 62.7M — **real**: 2018: sale of its core surgical business to Symmetry Surgical (discontinued operations). Revenue is the reported top line. (2026-11-24)
-- AZTA (Azenta, Inc.) FY 2022: revenue 555.5M, net income 2.13bn — **real**: 2022: $3bn sale of its semiconductor automation business (discontinued operations). Revenue is the reported top line. (2026-11-24)
-- CHRS (Coherus Oncology, Inc.) FY 2025: revenue 42.2M, net income 168.0M — **real**: 2025: gains on selling Udenyca and other products (discontinued operations). Revenue is the reported top line. (2026-11-24)
-- CRON (Cronos Group Inc.) FY 2019: revenue 23.8M, net income 1.17bn — **real**: 2019: fair-value gain on the Altria derivative liabilities. Revenue is the reported top line. (2026-11-24)
-- ELUT (Elutia Inc.) FY 2025: revenue 12.3M, net income 53.4M — **real**: 2025: gain on selling its BioEnvelope business. Revenue is the reported top line. (2026-11-24)
-- FRPH (Frp Holdings, Inc.) FY 2018: revenue 22.0M, net income 124.5M — **real**: 2018: gain on selling its warehouse portfolio to Blackstone. Revenue is the reported top line. (2026-11-24)
-- GAIA (Gaia, Inc) FY 2016: revenue 17.2M, net income 87.1M — **real**: 2016: gain on selling its Gaiam brand business (discontinued operations). Revenue is the reported top line. (2026-11-24)
-- LGND (Ligand Pharmaceuticals Inc) FY 2019: revenue 120.3M, net income 629.3M — **real**: 2019: gain on selling its Promacta royalty to Novartis. Revenue is the reported top line. (2026-11-24)
-- NCMI (National CineMedia, Inc.) FY 2023: revenue 165.2M, net income 705.2M — **real**: 2023: gain on deconsolidating National CineMedia LLC in its bankruptcy. Revenue is the reported top line. (2026-11-24)
-- OSG (Octave Specialty Group Inc) FY 2022: revenue 53.6M, net income 522.1M — **real**: 2022 (as Ambac): profit includes its Bank of America litigation settlement; as filed. Revenue is the reported top line. (2026-11-24)
-- SENS (Senseonics Holdings, Inc.) FY 2022: revenue 16.4M, net income 142.1M — **real**: 2022: fair-value gains on convertible notes and derivative liabilities. Revenue is the reported top line. (2026-11-24)
-- SHEN (Shenandoah Telecommunications Co/Va/) FY 2021: revenue 245.2M, net income 998.8M — **real**: 2021: gain on selling its wireless business to T-Mobile. Revenue is the reported top line. (2026-11-24)
-- TCI (Transcontinental Realty Investors Inc) FY 2022: revenue 36.7M, net income 468.3M — **real**: 2022: gain on selling its share of the VAA apartment joint venture. Revenue is the reported top line. (2026-11-24)
-- ILLR (Triller Group Inc.) FY 2021: revenue 11.5M, net income 96.5M — **real**: 2021: profit includes large non-operating fair-value gains; as filed (not yet checked against the 10-K text). Revenue is the reported top line. (2026-11-24)
-- SAFX (XCF Global, Inc.) FY 2025: revenue 20.8M, net income 74.0M — **real**: 2025: profit includes non-operating gains around its business combination; as filed (not yet checked against the 10-K text). Revenue is the reported top line. (2026-11-24)
 - CNE.L (Capricorn Energy plc) FY 2021: revenue 57.1M, net income 894.5M — **real**: 2021: refund of Indian tax (about $1.06bn) under the retrospective-tax settlement. Revenue is the reported top line. (2026-11-24)
 - CREI.L (Custodian Property Income REIT plc) FY 2022: revenue 39.9M, net income 122.3M — **real**: 2022: property revaluation gains (financial year to March 2022). Revenue is the reported top line. (2026-11-24)
 - LMP.L (LondonMetric Property) FY 2022: revenue 133.2M, net income 734.5M — **real**: 2022: property revaluation gains. Revenue is the reported top line. (2026-11-24)
@@ -534,17 +514,47 @@ What a person decided about each finding, and why.
 - ORCL.LU (Cpi Fim SA) FY 2021: revenue 67.6M, net income 294.1M — **real**: 2021–22: property company, profit includes revaluation and disposal gains; as filed. Revenue is the reported top line. (2026-11-24)
 - ORCL.LU (Cpi Fim SA) FY 2022: revenue 46.4M, net income 147.2M — **real**: 2021–22: property company, profit includes revaluation and disposal gains; as filed. Revenue is the reported top line. (2026-11-24)
 - IVL1L.VS (Akcinė bendrovė "Invalda INVL") FY 2024: revenue 14.1M, net income 44.4M — **real**: 2024: investment company: gains on its holdings. Revenue is the reported top line. (2026-11-24)
+- ACTG (Acacia Research Corp) FY 2020: revenue 29.8M, net income 109.2M — **real**: 2020: gains on its equity stakes (Arix Bioscience, Veritone) and investment income. Revenue is the reported top line. (2026-11-24)
+- AGIO (Agios Pharmaceuticals, Inc.) FY 2024: revenue 36.5M, net income 673.7M — **real**: 2024: $905M from selling its vorasidenib royalty to Royalty Pharma, booked as a gain. Revenue is the reported top line. (2026-11-24)
+- ABTC (American Bitcoin Corp.) FY 2024: revenue 71.5M, net income 428.9M — **real**: 2024: profit includes fair-value gains on digital assets; as filed. Revenue is the reported top line. (2026-11-24)
+- ARL (American Realty Investors Inc) FY 2022: revenue 37.5M, net income 373.3M — **real**: 2022: gain on selling its share of the VAA apartment joint venture. Revenue is the reported top line. (2026-11-24)
+- AIV (Apartment Investment & Management Co) FY 2025: revenue 138.5M, net income 547.2M — **real**: 2025: gains on property sales. Revenue is the reported top line. (2026-11-24)
+- APYX (Apyx Medical Corp) FY 2018: revenue 16.7M, net income 62.7M — **real**: 2018: sale of its core surgical business to Symmetry Surgical (discontinued operations). Revenue is the reported top line. (2026-11-24)
+- AZTA (Azenta, Inc.) FY 2022: revenue 555.5M, net income 2.13bn — **real**: 2022: $3bn sale of its semiconductor automation business (discontinued operations). Revenue is the reported top line. (2026-11-24)
+- CHRS (Coherus Oncology, Inc.) FY 2025: revenue 42.2M, net income 168.0M — **real**: 2025: gains on selling Udenyca and other products (discontinued operations). Revenue is the reported top line. (2026-11-24)
+- CRON (Cronos Group Inc.) FY 2019: revenue 23.8M, net income 1.17bn — **real**: 2019: fair-value gain on the Altria derivative liabilities. Revenue is the reported top line. (2026-11-24)
+- ELUT (Elutia Inc.) FY 2025: revenue 12.3M, net income 53.4M — **real**: 2025: gain on selling its BioEnvelope business. Revenue is the reported top line. (2026-11-24)
+- FRPH (Frp Holdings, Inc.) FY 2018: revenue 22.0M, net income 124.5M — **real**: 2018: gain on selling its warehouse portfolio to Blackstone. Revenue is the reported top line. (2026-11-24)
+- GAIA (Gaia, Inc) FY 2016: revenue 17.2M, net income 87.1M — **real**: 2016: gain on selling its Gaiam brand business (discontinued operations). Revenue is the reported top line. (2026-11-24)
+- LGND (Ligand Pharmaceuticals Inc) FY 2019: revenue 120.3M, net income 629.3M — **real**: 2019: gain on selling its Promacta royalty to Novartis. Revenue is the reported top line. (2026-11-24)
+- NCMI (National CineMedia, Inc.) FY 2023: revenue 165.2M, net income 705.2M — **real**: 2023: gain on deconsolidating National CineMedia LLC in its bankruptcy. Revenue is the reported top line. (2026-11-24)
+- OSG (Octave Specialty Group Inc) FY 2022: revenue 53.6M, net income 522.1M — **real**: 2022 (as Ambac): profit includes its Bank of America litigation settlement; as filed. Revenue is the reported top line. (2026-11-24)
+- SENS (Senseonics Holdings, Inc.) FY 2022: revenue 16.4M, net income 142.1M — **real**: 2022: fair-value gains on convertible notes and derivative liabilities. Revenue is the reported top line. (2026-11-24)
+- SHEN (Shenandoah Telecommunications Co/Va/) FY 2021: revenue 245.2M, net income 998.8M — **real**: 2021: gain on selling its wireless business to T-Mobile. Revenue is the reported top line. (2026-11-24)
+- TCI (Transcontinental Realty Investors Inc) FY 2022: revenue 36.7M, net income 468.3M — **real**: 2022: gain on selling its share of the VAA apartment joint venture. Revenue is the reported top line. (2026-11-24)
+- ILLR (Triller Group Inc.) FY 2021: revenue 11.5M, net income 96.5M — **real**: 2021: profit includes large non-operating fair-value gains; as filed (not yet checked against the 10-K text). Revenue is the reported top line. (2026-11-24)
+- SAFX (XCF Global, Inc.) FY 2025: revenue 20.8M, net income 74.0M — **real**: 2025: profit includes non-operating gains around its business combination; as filed (not yet checked against the 10-K text). Revenue is the reported top line. (2026-11-24)
 
-### Financials · Revenue jumps 10× in a year (46)
+### Financials · Revenue jumps 10× in a year (57)
 
+- CSN.L (Chesnara): FY 2021 1.51bn → FY 2022 33.9M — **real**: The revenue measure changed between the years (restatement, discontinued operations or a new accounting standard); each year is as its latest report states it. (IFRS 17 from 2022) (2026-11-24)
+- ENOG.L (Energean): FY 2020 28.0M → FY 2021 497.0M — **real**: 2021: first full year after buying Edison's oil and gas business (completed December 2020); as filed. (2026-11-24)
+- LGEN.L (Legal & General): FY 2021 45.45bn → FY 2022 1.70bn — **real**: The revenue measure changed between the years (restatement, discontinued operations or a new accounting standard); each year is as its latest report states it. (IFRS 17 from 2022) (2026-11-24)
+- RF.PA (Eurazeo): FY 2022 4.64bn → FY 2023 343.7M — **real**: The revenue measure changed between the years (restatement, discontinued operations or a new accounting standard); each year is as its latest report states it. (investment entity from 2023: holdings no longer consolidated) (2026-11-24)
+- EZE.MC (Grupo Ezentis SA): FY 2021 216.3M → FY 2022 21.6M — **real**: 2022: businesses sold in its restructuring; as filed. (2026-11-24)
+- STB.OL (Storebrand Asa): FY 2021 119.78bn → FY 2022 8.68bn — **real**: The revenue measure changed between the years (restatement, discontinued operations or a new accounting standard); each year is as its latest report states it. (IFRS 17 from 2022) (2026-11-24)
 - ABCL (AbCellera Biologics Inc.): FY 2019 11.6M → FY 2020 233.2M — **real**: Covid-19 product or testing revenue rose and fell; as filed. (2026-11-24)
 - ABCL (AbCellera Biologics Inc.): FY 2022 485.4M → FY 2023 38.0M — **real**: Covid-19 product or testing revenue rose and fell; as filed. (2026-11-24)
 - ACTG (Acacia Research Corp): FY 2018 131.5M → FY 2019 11.2M — **real**: Patent licensing revenue is lumpy (large 2018 settlements); as filed. (2026-11-24)
+- AHR (American Healthcare REIT, Inc.): FY 2016 3.2M → FY 2017 33.3M — **real**: Predecessor figures: the 2018 year is a smaller predecessor's before the mergers that formed the company; as filed (not yet checked against the 10-K text). (2026-11-24)
 - AHR (American Healthcare REIT, Inc.): FY 2018 84.5M → FY 2019 1.10bn — **real**: Predecessor figures: the 2018 year is a smaller predecessor's before the mergers that formed the company; as filed (not yet checked against the 10-K text). (2026-11-24)
+- AMLX (Amylyx Pharmaceuticals, Inc.): FY 2021 285,000 → FY 2022 22.2M — **real**: Product launch or first full year of sales; as filed. (2026-11-24)
 - AMLX (Amylyx Pharmaceuticals, Inc.): FY 2022 22.2M → FY 2023 380.8M — **real**: Product launch or first full year of sales; as filed. (2026-11-24)
 - ARCT (Arcturus Therapeutics Holdings Inc.): FY 2021 12.4M → FY 2022 206.0M — **real**: Collaboration, licence or milestone revenue is lumpy: a large one-off payment in one year; as filed. (2026-11-24)
 - AD (Array Digital Infrastructure, Inc.): FY 2022 4.17bn → FY 2023 100.5M — **real**: The revenue measure changed between the years (restatement, discontinued operations or a new accounting standard); each year is as its latest report states it. (2026-11-24)
 - ARWR (Arrowhead Pharmaceuticals, Inc.): FY 2018 16.1M → FY 2019 168.8M — **real**: Collaboration, licence or milestone revenue is lumpy: a large one-off payment in one year; as filed. (2026-11-24)
+- ARWR (Arrowhead Pharmaceuticals, Inc.): FY 2023 240.7M → FY 2024 3.6M — **real**: Collaboration, licence or milestone revenue is lumpy: a large one-off payment in one year; as filed. (2026-11-24)
+- ARWR (Arrowhead Pharmaceuticals, Inc.): FY 2024 3.6M → FY 2025 829.4M — **real**: Collaboration, licence or milestone revenue is lumpy: a large one-off payment in one year; as filed. (2026-11-24)
 - AAWH (Ascend Wellness Holdings, Inc.): FY 2019 12.0M → FY 2020 143.7M — **real**: Revenue rose with acquisitions and expansion; as filed (not yet checked against the filing text). (2026-11-24)
 - CANG (Cango Inc.): FY 2023 1.70bn → FY 2024 89.9M — **real**: The revenue measure changed between the years (restatement, discontinued operations or a new accounting standard); each year is as its latest report states it. (car business sold; bitcoin mining from late 2024) (2026-11-24)
 - DNLI (Denali Therapeutics Inc.): FY 2019 26.7M → FY 2020 335.7M — **real**: Collaboration, licence or milestone revenue is lumpy: a large one-off payment in one year; as filed. (2026-11-24)
@@ -553,6 +563,9 @@ What a person decided about each finding, and why.
 - FBIO (Fortress Biotech, Inc.): FY 2016 16.5M → FY 2017 187.6M — **real**: 2017: consolidation of acquired subsidiaries (Checkpoint, Journey); as filed. (2026-11-24)
 - FLGT (Fulgent Genetics, Inc.): FY 2019 32.5M → FY 2020 421.7M — **real**: Covid-19 product or testing revenue rose and fell; as filed. (2026-11-24)
 - LXRX (Lexicon Pharmaceuticals, Inc.): FY 2019 322.1M → FY 2020 24.0M — **real**: Collaboration, licence or milestone revenue is lumpy: a large one-off payment in one year; as filed. (2026-11-24)
+- LXRX (Lexicon Pharmaceuticals, Inc.): FY 2020 24.0M → FY 2021 298,000 — **real**: Collaboration, licence or milestone revenue is lumpy: a large one-off payment in one year; as filed. (2026-11-24)
+- LXRX (Lexicon Pharmaceuticals, Inc.): FY 2023 1.2M → FY 2024 31.1M — **real**: Collaboration, licence or milestone revenue is lumpy: a large one-off payment in one year; as filed. (2026-11-24)
+- LQDA (Liquidia Corp): FY 2020 739,628 → FY 2021 12.9M — **real**: Product launch or first full year of sales; as filed. (2026-11-24)
 - LQDA (Liquidia Corp): FY 2024 14.0M → FY 2025 158.3M — **real**: Product launch or first full year of sales; as filed. (2026-11-24)
 - LCID (Lucid Group, Inc.): FY 2021 27.1M → FY 2022 608.2M — **real**: Product launch or first full year of sales; as filed. (2026-11-24)
 - MNKD (Mannkind Corp): FY 2016 174.8M → FY 2017 11.7M — **real**: Collaboration, licence or milestone revenue is lumpy: a large one-off payment in one year; as filed. (2026-11-24)
@@ -563,33 +576,29 @@ What a person decided about each finding, and why.
 - NBIX (Neurocrine Biosciences Inc): FY 2016 15.0M → FY 2017 161.6M — **real**: 2017: Ingrezza launched; as filed. (2026-11-24)
 - NVAX (Novavax Inc): FY 2019 18.7M → FY 2020 475.6M — **real**: Covid-19 product or testing revenue rose and fell; as filed. (2026-11-24)
 - OVID (Ovid Therapeutics Inc.): FY 2020 12.6M → FY 2021 208.4M — **real**: 2021: $196M from Takeda for soticlestat rights; as filed. (2026-11-24)
+- OVID (Ovid Therapeutics Inc.): FY 2021 208.4M → FY 2022 1.5M — **real**: 2021: $196M from Takeda for soticlestat rights; as filed. (2026-11-24)
 - QXO (QXO, Inc.): FY 2024 56.9M → FY 2025 6.84bn — **real**: 2025: acquisition of Beacon Roofing Supply; as filed. (2026-11-24)
 - RGNX (REGENXBIO Inc.): FY 2017 10.4M → FY 2018 218.5M — **real**: Collaboration, licence or milestone revenue is lumpy: a large one-off payment in one year; as filed. (2026-11-24)
 - RIOT (Riot Platforms, Inc.): FY 2020 12.1M → FY 2021 213.2M — **real**: 2021: bitcoin mining scaled up; as filed. (2026-11-24)
 - RIVN (Rivian Automotive, Inc. / DE): FY 2021 55.0M → FY 2022 1.66bn — **real**: Product launch or first full year of sales; as filed. (2026-11-24)
+- RYM (RYTHM, Inc.): FY 2023 15.1M → FY 2024 18,000 — **real**: 2024 is revenue from continuing operations as restated in the 2025 10-K ($18 thousand); set by hand in financial-corrections.csv. (2026-11-25)
+- RYM (RYTHM, Inc.): FY 2024 18,000 → FY 2025 17.3M — **real**: 2024 is revenue from continuing operations as restated in the 2025 10-K ($18 thousand); set by hand in financial-corrections.csv. (2026-11-25)
 - SDOT (Sadot Group Inc.): FY 2021 10.3M → FY 2022 161.7M — **real**: 2022: entered commodity trading; as filed. (2026-11-24)
 - SIGA (Siga Technologies Inc): FY 2017 12.3M → FY 2018 477.1M — **real**: BARDA deliveries of TPOXX are lumpy (2018 large delivery); as filed. (2026-11-24)
 - SIGA (Siga Technologies Inc): FY 2018 477.1M → FY 2019 26.7M — **real**: BARDA deliveries of TPOXX are lumpy (2018 large delivery); as filed. (2026-11-24)
 - TARS (Tarsus Pharmaceuticals, Inc.): FY 2023 17.4M → FY 2024 183.0M — **real**: Product launch or first full year of sales; as filed. (2026-11-24)
+- TIPT (Tiptree Inc.): FY 2022 1.40bn → FY 2023 2.1M — **real**: 2023 on are restated with Fortegra (insurance) as discontinued (2025 10-K); 2022 is as first reported, with Fortegra. Set by hand in financial-corrections.csv. (2026-11-25)
 - UROY (Uranium Royalty Corp.): FY 2025 11.2M → FY 2026 186.8M — **real**: FY2026: uranium sales; royalty company revenue is lumpy; as filed. (2026-11-24)
 - VIR (Vir Biotechnology, Inc.): FY 2020 76.4M → FY 2021 1.10bn — **real**: Covid-19 product or testing revenue rose and fell; as filed. (2026-11-24)
 - VIR (Vir Biotechnology, Inc.): FY 2022 1.62bn → FY 2023 86.2M — **real**: Covid-19 product or testing revenue rose and fell; as filed. (2026-11-24)
 - SEAT (Vivid Seats Inc.): FY 2019 403.6M → FY 2020 23.3M — **real**: 2020: live events cancelled (Covid-19); as filed. (2026-11-24)
 - SEAT (Vivid Seats Inc.): FY 2020 23.3M → FY 2021 389.7M — **real**: 2020: live events cancelled (Covid-19); as filed. (2026-11-24)
 - ZYME (Zymeworks Inc.): FY 2021 26.7M → FY 2022 412.5M — **real**: Collaboration, licence or milestone revenue is lumpy: a large one-off payment in one year; as filed. (2026-11-24)
-- CSN.L (Chesnara): FY 2021 1.51bn → FY 2022 33.9M — **real**: The revenue measure changed between the years (restatement, discontinued operations or a new accounting standard); each year is as its latest report states it. (IFRS 17 from 2022) (2026-11-24)
-- ENOG.L (Energean): FY 2020 28.0M → FY 2021 497.0M — **real**: 2021: first full year after buying Edison's oil and gas business (completed December 2020); as filed. (2026-11-24)
-- LGEN.L (Legal & General): FY 2021 45.45bn → FY 2022 1.70bn — **real**: The revenue measure changed between the years (restatement, discontinued operations or a new accounting standard); each year is as its latest report states it. (IFRS 17 from 2022) (2026-11-24)
-- RF.PA (Eurazeo): FY 2022 4.64bn → FY 2023 343.7M — **real**: The revenue measure changed between the years (restatement, discontinued operations or a new accounting standard); each year is as its latest report states it. (investment entity from 2023: holdings no longer consolidated) (2026-11-24)
-- EZE.MC (Grupo Ezentis SA): FY 2021 216.3M → FY 2022 21.6M — **real**: 2022: businesses sold in its restructuring; as filed. (2026-11-24)
-- STB.OL (Storebrand Asa): FY 2021 119.78bn → FY 2022 8.68bn — **real**: The revenue measure changed between the years (restatement, discontinued operations or a new accounting standard); each year is as its latest report states it. (IFRS 17 from 2022) (2026-11-24)
 
-### Financials · Quarters don't add up to the year (62)
+### Financials · Quarters don't add up to the year (63)
 
 - RIME (Algorhythm Holdings, Inc.) FY 2016: quarters 53.0M vs year 48.9M — **real**: Its stored year end is 31 December (from its latest annual report), but earlier years ended in another month (a change of year end, or a predecessor's years), so their calendar-labelled quarters can't add up to them. Figures as filed; the year of the change not yet checked. (2026-11-24)
 - RIME (Algorhythm Holdings, Inc.) FY 2017: quarters 61.8M vs year 52.9M — **real**: Its stored year end is 31 December (from its latest annual report), but earlier years ended in another month (a change of year end, or a predecessor's years), so their calendar-labelled quarters can't add up to them. Figures as filed; the year of the change not yet checked. (2026-11-24)
-- RIME (Algorhythm Holdings, Inc.) FY 2018: quarters 48.2M vs year 60.8M — **real**: Its stored year end is 31 December (from its latest annual report), but earlier years ended in another month (a change of year end, or a predecessor's years), so their calendar-labelled quarters can't add up to them. Figures as filed; the year of the change not yet checked. (2026-11-24)
-- RIME (Algorhythm Holdings, Inc.) FY 2019: quarters 38.4M vs year 46.5M — **real**: Its stored year end is 31 December (from its latest annual report), but earlier years ended in another month (a change of year end, or a predecessor's years), so their calendar-labelled quarters can't add up to them. Figures as filed; the year of the change not yet checked. (2026-11-24)
 - RIME (Algorhythm Holdings, Inc.) FY 2020: quarters 43.3M vs year 38.5M — **real**: Its stored year end is 31 December (from its latest annual report), but earlier years ended in another month (a change of year end, or a predecessor's years), so their calendar-labelled quarters can't add up to them. Figures as filed; the year of the change not yet checked. (2026-11-24)
 - RIME (Algorhythm Holdings, Inc.) FY 2021: quarters 48.2M vs year 45.8M — **real**: Its stored year end is 31 December (from its latest annual report), but earlier years ended in another month (a change of year end, or a predecessor's years), so their calendar-labelled quarters can't add up to them. Figures as filed; the year of the change not yet checked. (2026-11-24)
 - RIME (Algorhythm Holdings, Inc.) FY 2022: quarters 38.7M vs year 47.5M — **real**: Its stored year end is 31 December (from its latest annual report), but earlier years ended in another month (a change of year end, or a predecessor's years), so their calendar-labelled quarters can't add up to them. Figures as filed; the year of the change not yet checked. (2026-11-24)
@@ -647,5 +656,409 @@ What a person decided about each finding, and why.
 - SRTA (Strata Critical Medical, Inc.) FY 2021: quarters 67.2M vs year 50.5M — **real**: Its stored year end is 31 December (from its latest annual report), but earlier years ended in another month (a change of year end, or a predecessor's years), so their calendar-labelled quarters can't add up to them. Figures as filed; the year of the change not yet checked. (2026-11-24)
 - TDW (Tidewater Inc) FY 2016: quarters 625.0M vs year 979.1M — **real**: Its stored year end is 31 December (from its latest annual report), but earlier years ended in another month (a change of year end, or a predecessor's years), so their calendar-labelled quarters can't add up to them. Figures as filed; the year of the change not yet checked. (2026-11-24)
 - TDW (Tidewater Inc) FY 2017: quarters 490.9M vs year 601.6M — **real**: Its stored year end is 31 December (from its latest annual report), but earlier years ended in another month (a change of year end, or a predecessor's years), so their calendar-labelled quarters can't add up to them. Figures as filed; the year of the change not yet checked. (2026-11-24)
+- SEAT (Vivid Seats Inc.) FY 2023: quarters 597.4M vs year 712.9M — **source**: The SEC's quarterly figures carry only contract revenue; the years are total revenues set by hand from the 2025 10-K. (2026-11-25)
+- SEAT (Vivid Seats Inc.) FY 2024: quarters 647.9M vs year 775.6M — **source**: The SEC's quarterly figures carry only contract revenue; the years are total revenues set by hand from the 2025 10-K. (2026-11-25)
+- SEAT (Vivid Seats Inc.) FY 2025: quarters 450.5M vs year 570.8M — **source**: The SEC's quarterly figures carry only contract revenue; the years are total revenues set by hand from the 2025 10-K. (2026-11-25)
 - ZWS (Zurn Elkay Water Solutions Corp) FY 2017: quarters 1.99bn vs year 1.92bn — **real**: Its stored year end is 31 December (from its latest annual report), but earlier years ended in another month (a change of year end, or a predecessor's years), so their calendar-labelled quarters can't add up to them. Figures as filed; the year of the change not yet checked. (2026-11-24)
+
+### EdgarTools · Revenue differs from the annual report (386)
+
+- FCNCA (First Citizens Bancshares Inc /De/) FY 2023: ours 18.79bn, 10-K 1.18bn — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- SLF (Sun Life Financial Inc) FY 2025: ours 41.90bn, 40-F 23.98bn — **real**: IFRS 17 total revenue (ifrs-full:Revenue); EdgarTools read insurance revenue, one line of it. (2026-11-25)
+- SLF (Sun Life Financial Inc) FY 2024: ours 38.80bn, 40-F 22.64bn — **real**: IFRS 17 total revenue (ifrs-full:Revenue); EdgarTools read insurance revenue, one line of it. (2026-11-25)
+- FCNCA (First Citizens Bancshares Inc /De/) FY 2024: ours 9.76bn, 10-K 1.37bn — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- FCNCA (First Citizens Bancshares Inc /De/) FY 2025: ours 9.54bn, 10-K 1.43bn — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- NTRS (Northern Trust Corp) FY 2024: ours 8.29bn, 10-K 4.73bn — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- NTRS (Northern Trust Corp) FY 2025: ours 8.09bn, 10-K 5.02bn — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- ZION (Zions Bancorporation, National Association /UT/) FY 2025: ours 3.39bn, 10-K 662.0M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- BPOP (Popular, Inc.) FY 2025: ours 3.20bn, 10-K 558.8M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- FUBO (FuboTV Inc.) FY 2024: ours 1.62bn, 10-K 4.22bn — **real**: Reverse acquisition: after combining with Hulu + Live TV the latest 10-K presents that business's history as the company's; our earlier years are fuboTV as it reported them. (2026-11-25)
+- ZION (Zions Bancorporation, National Association /UT/) FY 2023: ours 3.12bn, 10-K 616.0M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- ZION (Zions Bancorporation, National Association /UT/) FY 2024: ours 3.13bn, 10-K 639.0M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- NTRS (Northern Trust Corp) FY 2023: ours 6.77bn, 10-K 4.36bn — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- BPOP (Popular, Inc.) FY 2024: ours 2.94bn, 10-K 540.6M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- SSB (SouthState Bank Corp) FY 2025: ours 2.68bn, 10-K 322.0M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- BPOP (Popular, Inc.) FY 2023: ours 2.78bn, 10-K 521.9M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- COLB (Columbia Banking System, Inc.) FY 2025: ours 2.30bn, 10-K 177.0M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- CFR (Cullen/Frost Bankers, Inc.) FY 2025: ours 2.24bn, 10-K 121.6M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- RJF (Raymond James Financial Inc) FY 2024: ours 12.82bn, 10-K 14.92bn — **real**: Broker-dealer: revenue is net revenues (net of interest expense), as the company reports its headline; EdgarTools took total revenues before interest expense. (2026-11-25)
+- CFR (Cullen/Frost Bankers, Inc.) FY 2024: ours 2.06bn, 10-K 106.2M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- VLY (Valley National Bancorp) FY 2025: ours 2.03bn, 10-K 124.7M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- CFR (Cullen/Frost Bankers, Inc.) FY 2023: ours 1.99bn, 10-K 93.5M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- COLB (Columbia Banking System, Inc.) FY 2023: ours 2.00bn, 10-K 134.0M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- RJF (Raymond James Financial Inc) FY 2025: ours 14.07bn, 10-K 15.91bn — **real**: Broker-dealer: revenue is net revenues (net of interest expense), as the company reports its headline; EdgarTools took total revenues before interest expense. (2026-11-25)
+- VLY (Valley National Bancorp) FY 2023: ours 1.89bn, 10-K 85.5M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- COLB (Columbia Banking System, Inc.) FY 2024: ours 1.93bn, 10-K 149.0M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- VLY (Valley National Bancorp) FY 2024: ours 1.85bn, 10-K 110.9M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- CPT (Camden Property Trust) FY 2025: ours 1.57bn, 10-K 13.0M — **real**: Landlord: revenue is property (rental) revenue; EdgarTools read the fee and asset management sub-line. (2026-11-25)
+- CPT (Camden Property Trust) FY 2023: ours 1.54bn, 10-K 3.5M — **real**: Landlord: revenue is property (rental) revenue; EdgarTools read the fee and asset management sub-line. (2026-11-25)
+- CPT (Camden Property Trust) FY 2024: ours 1.54bn, 10-K 7.1M — **real**: Landlord: revenue is property (rental) revenue; EdgarTools read the fee and asset management sub-line. (2026-11-25)
+- SSB (SouthState Bank Corp) FY 2023: ours 1.74bn, 10-K 244.8M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- SSB (SouthState Bank Corp) FY 2024: ours 1.72bn, 10-K 250.5M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- ASB (Associated Banc-Corp) FY 2025: ours 1.49bn, 10-K 67.8M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- RJF (Raymond James Financial Inc) FY 2023: ours 11.62bn, 10-K 12.99bn — **real**: Broker-dealer: revenue is net revenues (net of interest expense), as the company reports its headline; EdgarTools took total revenues before interest expense. (2026-11-25)
+- BANC (Banc Of California, Inc.) FY 2023: ours 298.8M, 10-K 1.52bn — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- HWC (Hancock Whitney Corp) FY 2025: ours 1.52bn, 10-K 338.9M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- GBFH (GBank Financial Holdings Inc.) FY 2025: ours 76.0M, 10-K 1.24bn — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- HWC (Hancock Whitney Corp) FY 2024: ours 1.45bn, 10-K 304.1M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- UBSI (United Bankshares Inc/Wv) FY 2025: ours 1.24bn, 10-K 103.6M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- HWC (Hancock Whitney Corp) FY 2023: ours 1.39bn, 10-K 282.4M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- BKU (BankUnited, Inc.) FY 2025: ours 1.09bn, 10-K 21.7M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- ASB (Associated Banc-Corp) FY 2023: ours 1.10bn, 10-K 62.3M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- FULT (Fulton Financial Corp) FY 2025: ours 1.31bn, 10-K 276.8M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- HOMB (Home Bancshares Inc) FY 2025: ours 1.09bn, 10-K 86.8M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- BKU (BankUnited, Inc.) FY 2024: ours 1.01bn, 10-K 20.2M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- ASB (Associated Banc-Corp) FY 2024: ours 1.04bn, 10-K 66.4M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- UBSI (United Bankshares Inc/Wv) FY 2023: ours 1.06bn, 10-K 109.8M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- LEGN (Legend Biotech Corp) FY 2025: ours 1.03bn, 20-F 84.1M — **real**: Total revenue; EdgarTools read the licence and other revenue sub-line. (2026-11-25)
+- FULT (Fulton Financial Corp) FY 2024: ours 1.24bn, 10-K 296.0M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- BKU (BankUnited, Inc.) FY 2023: ours 960.6M, 10-K 20.9M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- HOMB (Home Bancshares Inc) FY 2024: ours 1.02bn, 10-K 82.2M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- UBSI (United Bankshares Inc/Wv) FY 2024: ours 1.03bn, 10-K 103.5M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- HOMB (Home Bancshares Inc) FY 2023: ours 996.9M, 10-K 83.4M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- BANC (Banc Of California, Inc.) FY 2024: ours 1.00bn, 10-K 1.89bn — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- FULT (Fulton Financial Corp) FY 2023: ours 1.08bn, 10-K 228.4M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- CBC (Central Bancompany, Inc.) FY 2025: ours 1.02bn, 10-K 205.9M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- CATY (Cathay General Bancorp) FY 2025: ours 817.9M, 10-K 31.3M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- CATY (Cathay General Bancorp) FY 2023: ours 810.0M, 10-K 23.9M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- WAFD (Wafd Inc) FY 2026: ours 814.7M, 10-K 31.9M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- MCHB (Mechanics Bancorp) FY 2025: ours 808.6M, 10-K 49.7M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- WSFS (Wsfs Financial Corp) FY 2023: ours 1.01bn, 10-K 274.3M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- LSPD (Lightspeed Commerce Inc.) FY 2025: ours 1.08bn, 40-F 344.8M — **real**: Revenue from contracts with customers is the reported total; EdgarTools read a sub-line. (2026-11-25)
+- WSFS (Wsfs Financial Corp) FY 2025: ours 1.07bn, 10-K 335.9M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- WSFS (Wsfs Financial Corp) FY 2024: ours 1.05bn, 10-K 331.9M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- CBC (Central Bancompany, Inc.) FY 2024: ours 897.7M, 10-K 195.3M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- BANC (Banc Of California, Inc.) FY 2025: ours 1.12bn, 10-K 1.82bn — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- CATY (Cathay General Bancorp) FY 2024: ours 729.7M, 10-K 30.6M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- IBOC (International Bancshares Corp) FY 2025: ours 842.2M, 10-K 143.8M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- WAFD (Wafd Inc) FY 2025: ours 725.5M, 10-K 29.7M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- WAFD (Wafd Inc) FY 2024: ours 721.5M, 10-K 27.5M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- IBOC (International Bancshares Corp) FY 2023: ours 833.4M, 10-K 141.4M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- IBOC (International Bancshares Corp) FY 2024: ours 833.6M, 10-K 142.7M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- SFNC (Simmons First National Corp) FY 2023: ours 805.7M, 10-K 129.1M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- SFNC (Simmons First National Corp) FY 2024: ours 775.6M, 10-K 132.8M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- BANF (Bancfirst Corp /Ok/) FY 2025: ours 690.6M, 10-K 94.2M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- BUSE (First Busey Corp /NV/) FY 2025: ours 719.6M, 10-K 131.1M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- CASH (Pathward Financial, Inc.) FY 2025: ours 839.9M, 10-K 269.3M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- FRME (First Merchants Corp) FY 2025: ours 662.9M, 10-K 94.5M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- FRME (First Merchants Corp) FY 2023: ours 651.0M, 10-K 85.8M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- BKV (BKV Corp) FY 2023: ours 1.30bn, 10-K 739.3M — **gap**: Latest 10-K restates revenue (derivative results moved); our years mix the old and new measures. Not yet checked line by line. (2026-11-25)
+- TBBK (Bancorp, Inc.) FY 2025: ours 703.8M, 10-K 141.1M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- FRME (First Merchants Corp) FY 2024: ours 646.7M, 10-K 90.8M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- BANF (Bancfirst Corp /Ok/) FY 2024: ours 631.4M, 10-K 91.4M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- CASH (Pathward Financial, Inc.) FY 2024: ours 797.4M, 10-K 263.8M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- BBT (Beacon Financial Corp) FY 2025: ours 553.0M, 10-K 33.5M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- BANF (Bancfirst Corp /Ok/) FY 2023: ours 609.9M, 10-K 96.2M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- CVBF (Cvb Financial Corp) FY 2023: ours 547.3M, 10-K 34.4M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- MLGO (MicroAlgo Inc.) FY 2023: ours 81.9M, 20-F 580.0M — **real**: Reports in yuan with a US-dollar translation; we show the dollar figures, EdgarTools compared the yuan. (2026-11-25)
+- WWW (Wolverine World Wide Inc /De/) FY 2023: ours 2.24bn, 10-K 1.76bn — **real**: EdgarTools put the figures under the wrong years (2023 revenue $2.24bn, 2024 $1.76bn, 2025 $1.87bn as tagged). (2026-11-25)
+- PRK (Park National Corp /Oh/) FY 2025: ours 557.2M, 10-K 70.3M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- LEGN (Legend Biotech Corp) FY 2024: ours 627.3M, 20-F 144.7M — **real**: Total revenue; EdgarTools read the licence and other revenue sub-line. (2026-11-25)
+- CVBF (Cvb Financial Corp) FY 2025: ours 515.5M, 10-K 37.2M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- MLGO (MicroAlgo Inc.) FY 2024: ours 75.3M, 20-F 541.5M — **real**: Reports in yuan with a US-dollar translation; we show the dollar figures, EdgarTools compared the yuan. (2026-11-25)
+- CVBF (Cvb Financial Corp) FY 2024: ours 501.8M, 10-K 35.8M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- FBK (FB Financial Corp) FY 2025: ours 560.0M, 10-K 96.0M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- PRK (Park National Corp /Oh/) FY 2024: ours 520.6M, 10-K 63.2M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- CASH (Pathward Financial, Inc.) FY 2023: ours 727.7M, 10-K 281.8M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- BKV (BKV Corp) FY 2024: ours 1.04bn, 10-K 604.5M — **gap**: Latest 10-K restates revenue (derivative results moved); our years mix the old and new measures. Not yet checked line by line. (2026-11-25)
+- DCOM (Dime Commercial Bancshares, Inc. /NY/) FY 2025: ours 452.9M, 10-K 19.9M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- GEF (Greif, Inc) FY 2024: ours 4.35bn, 10-K 3.93bn — **real**: Fiscal-year change: EdgarTools paired a column with the wrong year end; ours is the tagged net sales for each year. (2026-11-25)
+- TBBK (Bancorp, Inc.) FY 2024: ours 533.8M, 10-K 116.8M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- PRK (Park National Corp /Oh/) FY 2023: ours 465.7M, 10-K 54.2M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- FBK (FB Financial Corp) FY 2023: ours 477.8M, 10-K 78.4M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- PEBO (Peoples Bancorp Inc) FY 2025: ours 459.3M, 10-K 63.4M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- PEBO (Peoples Bancorp Inc) FY 2024: ours 448.1M, 10-K 62.2M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- OCFC (Oceanfirst Financial Corp) FY 2025: ours 404.9M, 10-K 19.4M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- OCFC (Oceanfirst Financial Corp) FY 2023: ours 403.4M, 10-K 23.8M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- NBHC (National Bank Holdings Corp) FY 2023: ours 425.9M, 10-K 46.9M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- NHC (National Healthcare Corp) FY 2025: ours 1.52bn, 10-K 1.14bn — **real**: EdgarTools put the figures under the wrong years; ours is the tagged total for each year. (2026-11-25)
+- TFIN (Triumph Financial, Inc.) FY 2025: ours 439.0M, 10-K 63.9M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- SRCE (1St Source Corp) FY 2025: ours 433.8M, 10-K 58.8M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- TFIN (Triumph Financial, Inc.) FY 2023: ours 418.3M, 10-K 45.4M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- FBNC (First Bancorp /Nc/) FY 2023: ours 404.1M, 10-K 32.8M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- FBK (FB Financial Corp) FY 2024: ours 455.6M, 10-K 85.5M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- NBHC (National Bank Holdings Corp) FY 2025: ours 416.1M, 10-K 47.2M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- WWW (Wolverine World Wide Inc /De/) FY 2025: ours 1.87bn, 10-K 2.24bn — **real**: EdgarTools put the figures under the wrong years (2023 revenue $2.24bn, 2024 $1.76bn, 2025 $1.87bn as tagged). (2026-11-25)
+- TCBK (Trico Bancshares /) FY 2023: ours 418.1M, 10-K 50.1M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- PEBO (Peoples Bancorp Inc) FY 2023: ours 426.8M, 10-K 59.1M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- RBCAA (Republic Bancorp Inc /Ky/) FY 2025: ours 417.5M, 10-K 50.1M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- TBBK (Bancorp, Inc.) FY 2023: ours 466.1M, 10-K 99.2M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- TCBK (Trico Bancshares /) FY 2025: ours 419.2M, 10-K 53.4M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- TFIN (Triumph Financial, Inc.) FY 2024: ours 415.9M, 10-K 50.5M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- MLGO (MicroAlgo Inc.) FY 2025: ours 60.0M, 20-F 422.0M — **real**: Reports in yuan with a US-dollar translation; we show the dollar figures, EdgarTools compared the yuan. (2026-11-25)
+- OCFC (Oceanfirst Financial Corp) FY 2024: ours 384.2M, 10-K 23.5M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- NBHC (National Bank Holdings Corp) FY 2024: ours 406.6M, 10-K 46.2M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- STBA (S&T Bancorp Inc) FY 2023: ours 407.0M, 10-K 46.6M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- STBA (S&T Bancorp Inc) FY 2025: ours 402.1M, 10-K 47.2M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- BBT (Beacon Financial Corp) FY 2023: ours 371.6M, 10-K 18.3M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- HOLO (MicroCloud Hologram Inc.) FY 2025: ours 56.5M, 20-F 403.7M — **real**: Reports in yuan with a US-dollar translation; we show the dollar figures, EdgarTools compared the yuan. (2026-11-25)
+- BUSE (First Busey Corp /NV/) FY 2024: ours 462.3M, 10-K 116.9M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- TCBK (Trico Bancshares /) FY 2024: ours 395.8M, 10-K 51.3M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- OBK (Origin Bancorp, Inc.) FY 2025: ours 390.8M, 10-K 46.8M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- NIC (Nicolet Bankshares Inc) FY 2025: ours 392.0M, 10-K 52.2M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- RBCAA (Republic Bancorp Inc /Ky/) FY 2024: ours 384.8M, 10-K 46.2M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- STBA (S&T Bancorp Inc) FY 2024: ours 383.9M, 10-K 46.8M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- DCOM (Dime Commercial Bancshares, Inc. /NY/) FY 2023: ours 352.8M, 10-K 16.4M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- BBT (Beacon Financial Corp) FY 2024: ours 355.2M, 10-K 18.9M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- BUSE (First Busey Corp /NV/) FY 2023: ours 441.8M, 10-K 108.4M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- MCHB (Mechanics Bancorp) FY 2024: ours 380.0M, 10-K 48.1M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- QCRH (Qcr Holdings Inc) FY 2025: ours 369.5M, 10-K 37.7M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- SRCE (1St Source Corp) FY 2024: ours 387.1M, 10-K 57.4M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- FBNC (First Bancorp /Nc/) FY 2025: ours 390.3M, 10-K 67.6M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- QCRH (Qcr Holdings Inc) FY 2023: ours 353.7M, 10-K 31.6M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- CCB (Coastal Financial Corp) FY 2025: ours 541.7M, 10-K 225.2M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- SRCE (1St Source Corp) FY 2023: ours 369.3M, 10-K 54.4M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- OBK (Origin Bancorp, Inc.) FY 2023: ours 357.9M, 10-K 43.9M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- BFST (Business First Bancshares, Inc.) FY 2025: ours 324.7M, 10-K 10.7M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- QCRH (Qcr Holdings Inc) FY 2024: ours 347.3M, 10-K 34.7M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- OSBC (Old Second Bancorp Inc) FY 2025: ours 339.3M, 10-K 26.8M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- RBCAA (Republic Bancorp Inc /Ky/) FY 2023: ours 360.2M, 10-K 47.9M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- OBK (Origin Bancorp, Inc.) FY 2024: ours 355.7M, 10-K 45.8M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- GABC (German American Bancorp, Inc.) FY 2025: ours 361.4M, 10-K 51.5M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- MCB (Metropolitan Bank Holding Corp.) FY 2025: ours 315.1M, 10-K 11.1M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- SYBT (Stock Yards Bancorp, Inc.) FY 2025: ours 397.3M, 10-K 94.5M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- NIC (Nicolet Bankshares Inc) FY 2024: ours 350.3M, 10-K 48.3M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- ATLC (Atlanticus Holdings Corp) FY 2025: ours 1.67bn, 10-K 1.97bn — **real**: Consumer lender: revenue shown net of interest expense, as for banks; the company's 'total operating revenue' (EdgarTools) is before interest expense. (2026-11-25)
+- DCOM (Dime Commercial Bancshares, Inc. /NY/) FY 2024: ours 314.1M, 10-K 16.7M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- WABC (Westamerica Bancorporation) FY 2023: ours 323.6M, 10-K 40.1M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- FBNC (First Bancorp /Nc/) FY 2024: ours 350.2M, 10-K 70.1M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- CCB (Coastal Financial Corp) FY 2024: ours 581.2M, 10-K 302.7M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- UVSP (UNIVEST FINANCIAL Corp) FY 2025: ours 328.1M, 10-K 51.6M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- OSBC (Old Second Bancorp Inc) FY 2023: ours 286.1M, 10-K 21.9M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- OSBC (Old Second Bancorp Inc) FY 2024: ours 285.5M, 10-K 23.9M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- BFST (Business First Bancshares, Inc.) FY 2024: ours 271.6M, 10-K 10.6M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- SYBT (Stock Yards Bancorp, Inc.) FY 2024: ours 352.3M, 10-K 92.6M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- WABC (Westamerica Bancorporation) FY 2024: ours 293.8M, 10-K 38.6M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- MCB (Metropolitan Bank Holding Corp.) FY 2024: ours 276.9M, 10-K 23.9M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- UVSP (UNIVEST FINANCIAL Corp) FY 2023: ours 296.8M, 10-K 46.0M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- SYBT (Stock Yards Bancorp, Inc.) FY 2023: ours 339.6M, 10-K 89.5M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- LEGN (Legend Biotech Corp) FY 2023: ours 285.1M, 20-F 35.3M — **real**: Total revenue; EdgarTools read the licence and other revenue sub-line. (2026-11-25)
+- HOLO (MicroCloud Hologram Inc.) FY 2024: ours 40.8M, 20-F 290.3M — **real**: Reports in yuan with a US-dollar translation; we show the dollar figures, EdgarTools compared the yuan. (2026-11-25)
+- UVSP (UNIVEST FINANCIAL Corp) FY 2024: ours 299.2M, 10-K 52.5M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- BFST (Business First Bancshares, Inc.) FY 2023: ours 251.8M, 10-K 9.7M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- CPF (Central Pacific Financial Corp) FY 2025: ours 292.7M, 10-K 51.8M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- CHCO (City Holding Co) FY 2025: ours 314.2M, 10-K 74.3M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- CCB (Coastal Financial Corp) FY 2023: ours 435.7M, 10-K 198.2M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- DDC (DDC Enterprise Ltd) FY 2024: ours 37.4M, 20-F 273.3M — **real**: Reports in yuan with a US-dollar translation; we show the dollar figures, EdgarTools compared the yuan. (2026-11-25)
+- BKV (BKV Corp) FY 2025: ours 1.14bn, 10-K 905.5M — **gap**: Latest 10-K restates revenue (derivative results moved); our years mix the old and new measures. Not yet checked line by line. (2026-11-25)
+- DDC (DDC Enterprise Ltd) FY 2025: ours 39.2M, 20-F 274.0M — **real**: Reports in yuan with a US-dollar translation; we show the dollar figures, EdgarTools compared the yuan. (2026-11-25)
+- NIC (Nicolet Bankshares Inc) FY 2023: ours 277.5M, 10-K 42.7M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- HFWA (Heritage Financial Corp /Wa/) FY 2025: ours 246.1M, 10-K 19.7M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- HFWA (Heritage Financial Corp /Wa/) FY 2023: ours 243.8M, 10-K 19.3M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- CAC (Camden National Corp) FY 2025: ours 255.8M, 10-K 32.8M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- MCB (Metropolitan Bank Holding Corp.) FY 2023: ours 250.7M, 10-K 27.9M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- CHCO (City Holding Co) FY 2024: ours 293.6M, 10-K 72.0M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- CHCO (City Holding Co) FY 2023: ours 289.9M, 10-K 69.1M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- WABC (Westamerica Bancorporation) FY 2025: ours 258.1M, 10-K 37.9M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- MBWM (Mercantile Bank Corp) FY 2025: ours 242.7M, 10-K 23.6M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- CPF (Central Pacific Financial Corp) FY 2024: ours 250.5M, 10-K 38.7M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- MPB (Mid Penn Bancorp Inc) FY 2025: ours 225.9M, 10-K 14.6M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- CPF (Central Pacific Financial Corp) FY 2023: ours 256.7M, 10-K 46.7M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- MBWM (Mercantile Bank Corp) FY 2024: ours 231.5M, 10-K 22.7M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- HBT (HBT Financial, Inc.) FY 2025: ours 237.1M, 10-K 31.0M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- NRIM (Northrim Bancorp Inc) FY 2025: ours 212.8M, 10-K 7.7M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- GABC (German American Bancorp, Inc.) FY 2024: ours 253.3M, 10-K 48.6M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- MBWM (Mercantile Bank Corp) FY 2023: ours 225.7M, 10-K 21.1M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- EQBK (Equity Bancshares Inc) FY 2024: ours 225.0M, 10-K 20.9M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- GABC (German American Bancorp, Inc.) FY 2023: ours 250.7M, 10-K 50.3M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- CBNK (Capital Bancorp Inc) FY 2025: ours 245.2M, 10-K 45.9M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- HBT (HBT Financial, Inc.) FY 2023: ours 227.1M, 10-K 28.8M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- AHR (American Healthcare REIT, Inc.) FY 2023: ours 1.87bn, 10-K 1.67bn — **real**: Total revenues; EdgarTools read resident fees and services, one segment. (2026-11-25)
+- HFWA (Heritage Financial Corp /Wa/) FY 2024: ours 216.8M, 10-K 19.0M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- HBT (HBT Financial, Inc.) FY 2024: ours 224.4M, 10-K 30.0M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- EQBK (Equity Bancshares Inc) FY 2025: ours 210.1M, 10-K 21.3M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- CFFN (Capitol Federal Financial, Inc.) FY 2025: ours 201.0M, 10-K 16.3M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- CCBG (Capital City Bank Group Inc) FY 2025: ours 254.0M, 10-K 74.4M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- DDC (DDC Enterprise Ltd) FY 2023: ours 28.9M, 20-F 205.5M — **real**: Reports in yuan with a US-dollar translation; we show the dollar figures, EdgarTools compared the yuan. (2026-11-25)
+- BCAL (California BanCorp \ CA) FY 2025: ours 180.2M, 10-K 4.6M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- HOLO (MicroCloud Hologram Inc.) FY 2023: ours 28.9M, 20-F 203.5M — **real**: Reports in yuan with a US-dollar translation; we show the dollar figures, EdgarTools compared the yuan. (2026-11-25)
+- CCBG (Capital City Bank Group Inc) FY 2023: ours 230.6M, 10-K 63.0M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- PFIS (Peoples Financial Services Corp.) FY 2025: ours 187.7M, 10-K 20.1M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- MPB (Mid Penn Bancorp Inc) FY 2024: ours 179.2M, 10-K 13.2M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- NHC (National Healthcare Corp) FY 2023: ours 1.14bn, 10-K 1.31bn — **real**: EdgarTools put the figures under the wrong years; ours is the tagged total for each year. (2026-11-25)
+- CCBG (Capital City Bank Group Inc) FY 2024: ours 234.9M, 10-K 69.5M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- ATLC (Atlanticus Holdings Corp) FY 2024: ours 1.15bn, 10-K 1.31bn — **real**: Consumer lender: revenue shown net of interest expense, as for banks; the company's 'total operating revenue' (EdgarTools) is before interest expense. (2026-11-25)
+- CBNK (Capital Bancorp Inc) FY 2024: ours 186.2M, 10-K 30.3M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- MPB (Mid Penn Bancorp Inc) FY 2023: ours 167.0M, 10-K 12.7M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- CFFN (Capitol Federal Financial, Inc.) FY 2024: ours 167.3M, 10-K 15.3M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- CAC (Camden National Corp) FY 2024: ours 177.0M, 10-K 28.4M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- NRIM (Northrim Bancorp Inc) FY 2024: ours 155.2M, 10-K 6.7M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- FMNB (Farmers National Banc Corp /Oh/) FY 2025: ours 188.6M, 10-K 46.9M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- FMNB (Farmers National Banc Corp /Oh/) FY 2023: ours 179.6M, 10-K 39.4M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- HBCP (Home Bancorp, Inc.) FY 2025: ours 148.7M, 10-K 12.1M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- CAC (Camden National Corp) FY 2023: ours 163.3M, 10-K 27.1M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- ACNB (Acnb Corp) FY 2025: ours 151.7M, 10-K 18.1M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- FCBC (First Community Bankshares Inc /Va/) FY 2023: ours 165.1M, 10-K 31.8M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- FCBC (First Community Bankshares Inc /Va/) FY 2024: ours 165.9M, 10-K 32.9M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- FCBC (First Community Bankshares Inc /Va/) FY 2025: ours 167.5M, 10-K 36.7M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- WBHC (Wilson Bank Holding Co) FY 2025: ours 226.8M, 10-K 357.5M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- INBK (First Internet Bancorp) FY 2024: ours 134.7M, 10-K 4.6M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- FMNB (Farmers National Banc Corp /Oh/) FY 2024: ours 170.1M, 10-K 42.5M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- UNTY (Unity Bancorp Inc /Nj/) FY 2025: ours 131.8M, 10-K 4.5M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- WBHC (Wilson Bank Holding Co) FY 2024: ours 186.3M, 10-K 313.1M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- BCAL (California BanCorp \ CA) FY 2024: ours 127.7M, 10-K 3.1M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- NRIM (Northrim Bancorp Inc) FY 2023: ours 129.6M, 10-K 5.9M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- HBCP (Home Bancorp, Inc.) FY 2023: ours 135.3M, 10-K 12.0M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- HBCP (Home Bancorp, Inc.) FY 2024: ours 134.9M, 10-K 11.6M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- MRBK (Meridian Corp) FY 2025: ours 126.9M, 10-K 6.3M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- ALRS (Alerus Financial Corp) FY 2024: ours 222.0M, 10-K 102.6M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- EQBK (Equity Bancshares Inc) FY 2023: ours 139.9M, 10-K 21.2M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- PFIS (Peoples Financial Services Corp.) FY 2024: ours 134.3M, 10-K 16.1M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- ALRS (Alerus Financial Corp) FY 2025: ours 224.4M, 10-K 108.8M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- FMAO (Farmers & Merchants Bancorp Inc) FY 2025: ours 121.4M, 10-K 6.4M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- INBK (First Internet Bancorp) FY 2025: ours 116.5M, 10-K 4.6M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- SFST (Southern First Bancshares Inc) FY 2025: ours 118.1M, 10-K 6.3M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- CZNC (Citizens & Northern Corp) FY 2025: ours 122.7M, 10-K 11.2M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- MRBK (Meridian Corp) FY 2024: ours 112.3M, 10-K 5.7M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- CBAN (Colony Bankcorp Inc) FY 2025: ours 132.2M, 10-K 25.7M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- BWFG (Bankwell Financial Group, Inc.) FY 2025: ours 108.3M, 10-K 2.8M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- UNTY (Unity Bancorp Inc /Nj/) FY 2024: ours 107.1M, 10-K 3.6M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- BMRC (Bank of Marin Bancorp) FY 2023: ours 105.3M, 10-K 6.6M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- INBK (First Internet Bancorp) FY 2023: ours 101.0M, 10-K 3.3M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- CZNC (Citizens & Northern Corp) FY 2024: ours 108.3M, 10-K 10.8M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- NRP (Natural Resource Partners LP) FY 2023: ours 278.7M, 10-K 181.5M — **real**: Revenue from contracts (coal royalties etc.); EdgarTools read a sub-line. The company's "total revenues and other income" also includes equity earnings from its soda ash investment. (2026-11-25)
+- ACNB (Acnb Corp) FY 2024: ours 108.3M, 10-K 12.0M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- NRP (Natural Resource Partners LP) FY 2024: ours 232.4M, 10-K 136.4M — **real**: Revenue from contracts (coal royalties etc.); EdgarTools read a sub-line. The company's "total revenues and other income" also includes equity earnings from its soda ash investment. (2026-11-25)
+- ACNB (Acnb Corp) FY 2023: ours 106.8M, 10-K 11.0M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- FMAO (Farmers & Merchants Bancorp Inc) FY 2024: ours 101.5M, 10-K 5.8M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- PLBC (Plumas Bancorp) FY 2025: ours 98.3M, 10-K 3.8M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- CZNC (Citizens & Northern Corp) FY 2023: ours 104.8M, 10-K 10.3M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- CBAN (Colony Bankcorp Inc) FY 2024: ours 115.5M, 10-K 23.7M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- FMAO (Farmers & Merchants Bancorp Inc) FY 2023: ours 97.3M, 10-K 5.7M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- OPBK (OP Bancorp) FY 2025: ours 94.7M, 10-K 3.2M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- PFIS (Peoples Financial Services Corp.) FY 2023: ours 100.9M, 10-K 12.2M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- WTBA (West Bancorporation Inc) FY 2025: ours 95.2M, 10-K 7.3M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- SFST (Southern First Bancshares Inc) FY 2024: ours 93.4M, 10-K 5.6M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- BWFG (Bankwell Financial Group, Inc.) FY 2024: ours 87.0M, 10-K 2.0M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- WBHC (Wilson Bank Holding Co) FY 2023: ours 167.2M, 10-K 250.9M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- SFST (Southern First Bancshares Inc) FY 2023: ours 87.5M, 10-K 4.0M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- FNLC (First Bancorp, Inc /ME/) FY 2025: ours 94.7M, 10-K 13.9M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- OPBK (OP Bancorp) FY 2023: ours 82.9M, 10-K 2.1M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- COSO (CoastalSouth Bancshares, Inc.) FY 2025: ours 82.0M, 10-K 2.0M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- NWFL (Norwood Financial Corp) FY 2025: ours 87.9M, 10-K 8.0M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- OPBK (OP Bancorp) FY 2024: ours 82.0M, 10-K 3.3M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- PLBC (Plumas Bancorp) FY 2024: ours 82.5M, 10-K 3.7M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- OVLY (Oak Valley Bancorp) FY 2025: ours 81.7M, 10-K 3.5M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- FCCO (First Community Corp /Sc/) FY 2025: ours 79.0M, 10-K 922,000 — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- MNSB (MainStreet Bancshares, Inc.) FY 2023: ours 80.1M, 10-K 2.1M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- CHMG (Chemung Financial Corp) FY 2024: ours 97.3M, 10-K 20.0M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- PLBC (Plumas Bancorp) FY 2023: ours 80.5M, 10-K 3.7M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- FXNC (First National Corp /Va/) FY 2025: ours 90.3M, 10-K 14.3M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- LCNB (Lcnb Corp) FY 2025: ours 92.0M, 10-K 16.9M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- FDBC (Fidelity D & D Bancorp Inc) FY 2025: ours 93.2M, 10-K 18.4M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- CHMG (Chemung Financial Corp) FY 2025: ours 95.1M, 10-K 20.7M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- TSBK (Timberland Bancorp Inc) FY 2025: ours 82.6M, 10-K 9.1M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- OVLY (Oak Valley Bancorp) FY 2024: ours 76.6M, 10-K 3.5M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- WTBA (West Bancorporation Inc) FY 2024: ours 79.8M, 10-K 7.2M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- HNVR (Hanover Bancorp, Inc. /MD) FY 2025: ours 73.3M, 10-K 750,000 — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- WTBA (West Bancorporation Inc) FY 2023: ours 79.1M, 10-K 6.9M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- MNSB (MainStreet Bancshares, Inc.) FY 2025: ours 73.6M, 10-K 2.2M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- ALRS (Alerus Financial Corp) FY 2023: ours 168.1M, 10-K 96.8M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- HWBK (Hawthorn Bancshares, Inc.) FY 2025: ours 80.2M, 10-K 9.8M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- TSBK (Timberland Bancorp Inc) FY 2023: ours 79.5M, 10-K 9.1M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- FNRN (First Northern Community Bancorp) FY 2025: ours 73.6M, 10-K 4.4M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- COSO (CoastalSouth Bancshares, Inc.) FY 2024: ours 69.8M, 10-K 1.9M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- HNVR (Hanover Bancorp, Inc. /MD) FY 2024: ours 68.4M, 10-K 469,000 — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- FNLC (First Bancorp, Inc /ME/) FY 2023: ours 80.6M, 10-K 12.7M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- FNLC (First Bancorp, Inc /ME/) FY 2024: ours 80.3M, 10-K 13.3M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- TSBK (Timberland Bancorp Inc) FY 2024: ours 75.3M, 10-K 9.3M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- LCNB (Lcnb Corp) FY 2024: ours 81.2M, 10-K 15.2M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- FNRN (First Northern Community Bancorp) FY 2024: ours 70.4M, 10-K 4.5M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- COFS (Choiceone Financial Services Inc) FY 2025: ours 161.7M, 10-K 227.6M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- FCCO (First Community Corp /Sc/) FY 2024: ours 66.0M, 10-K 952,000 — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- FDBC (Fidelity D & D Bancorp Inc) FY 2024: ours 80.9M, 10-K 16.6M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- MNSB (MainStreet Bancshares, Inc.) FY 2024: ours 65.8M, 10-K 2.0M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- HWBK (Hawthorn Bancshares, Inc.) FY 2024: ours 72.9M, 10-K 9.1M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- BMRC (Bank of Marin Bancorp) FY 2024: ours 70.2M, 10-K 6.6M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- EBMT (Eagle Bancorp Montana, Inc.) FY 2025: ours 91.6M, 10-K 31.0M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- LCNB (Lcnb Corp) FY 2023: ours 71.8M, 10-K 12.9M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- FCCO (First Community Corp /Sc/) FY 2023: ours 59.3M, 10-K 963,000 — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- HWBK (Hawthorn Bancshares, Inc.) FY 2023: ours 66.7M, 10-K 8.4M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- ATLO (Ames National Corp) FY 2025: ours 66.8M, 10-K 9.3M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- FXNC (First National Corp /Va/) FY 2024: ours 68.8M, 10-K 14.2M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- SFDL (Security Federal Corp) FY 2025: ours 58.7M, 10-K 4.5M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- EBMT (Eagle Bancorp Montana, Inc.) FY 2024: ours 81.2M, 10-K 27.2M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- CBNA (Chain Bridge Bancorp Inc) FY 2025: ours 55.0M, 10-K 2.4M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- STLE (Steele Bancorp Inc) FY 2025: ours 54.5M, 10-K 3.3M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- CBNA (Chain Bridge Bancorp Inc) FY 2024: ours 53.0M, 10-K 2.3M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- RBKB (Rhinebeck Bancorp, Inc.) FY 2025: ours 53.4M, 10-K 3.0M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- TYFG (Tri-County Financial Group, Inc.) FY 2025: ours 67.3M, 10-K 17.2M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- CBFV (CB Financial Services, Inc.) FY 2024: ours 51.6M, 10-K 1.9M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- SLBK (Skyline Bankshares, Inc.) FY 2025: ours 58.2M, 10-K 9.4M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- SFDL (Security Federal Corp) FY 2024: ours 52.1M, 10-K 4.4M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- NKSH (National Bankshares Inc) FY 2025: ours 55.6M, 10-K 8.2M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- COFS (Choiceone Financial Services Inc) FY 2024: ours 92.4M, 10-K 139.1M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- ATLO (Ames National Corp) FY 2024: ours 54.8M, 10-K 8.4M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- PBHC (Pathfinder Bancorp, Inc.) FY 2024: ours 50.6M, 10-K 4.2M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- ASRV (Ameriserv Financial Inc /Pa/) FY 2025: ours 59.3M, 10-K 14.6M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- CSBB (CSB Bancorp, Inc.) FY 2025: ours 49.7M, 10-K 5.2M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- BOTJ (Bank Of The James Financial Group Inc) FY 2025: ours 48.7M, 10-K 4.3M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- NWFL (Norwood Financial Corp) FY 2024: ours 51.0M, 10-K 7.4M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- FCAP (First Capital Inc) FY 2025: ours 50.6M, 10-K 7.2M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- PBHC (Pathfinder Bancorp, Inc.) FY 2025: ours 46.8M, 10-K 3.4M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- TYFG (Tri-County Financial Group, Inc.) FY 2024: ours 58.5M, 10-K 15.6M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- FKYS (First Keystone Corp) FY 2025: ours 45.0M, 10-K 3.4M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- CBFV (CB Financial Services, Inc.) FY 2025: ours 43.5M, 10-K 2.4M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- CBKM (Consumers Bancorp Inc /Oh/) FY 2026: ours 45.8M, 10-K 4.9M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- BOTJ (Bank Of The James Financial Group Inc) FY 2024: ours 44.4M, 10-K 4.0M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- FUSB (First US Bancshares, Inc.) FY 2025: ours 41.0M, 10-K 1.1M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- NWPP (New Peoples Bankshares Inc) FY 2025: ours 43.1M, 10-K 3.6M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (Interest expense taken from the non-operating interest tag.) (2026-11-25)
+- CSBB (CSB Bancorp, Inc.) FY 2024: ours 44.0M, 10-K 5.1M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- RVSB (Riverview Bancorp Inc) FY 2025: ours 50.6M, 10-K 11.9M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- FUSB (First US Bancshares, Inc.) FY 2024: ours 39.7M, 10-K 1.2M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- ASRV (Ameriserv Financial Inc /Pa/) FY 2024: ours 54.0M, 10-K 15.6M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- SLBK (Skyline Bankshares, Inc.) FY 2024: ours 46.8M, 10-K 8.7M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- NKSH (National Bankshares Inc) FY 2024: ours 45.4M, 10-K 7.4M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- PROV (Provident Financial Holdings Inc) FY 2026: ours 40.1M, 10-K 2.3M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- RVSB (Riverview Bancorp Inc) FY 2024: ours 48.3M, 10-K 11.6M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- PROV (Provident Financial Holdings Inc) FY 2025: ours 39.0M, 10-K 2.4M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- FCAP (First Capital Inc) FY 2024: ours 43.4M, 10-K 7.1M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- NWPP (New Peoples Bankshares Inc) FY 2024: ours 39.8M, 10-K 3.8M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (Interest expense taken from the non-operating interest tag.) (2026-11-25)
+- CFFN (Capitol Federal Financial, Inc.) FY 2023: ours -18.2M, 10-K 17.6M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- FKYS (First Keystone Corp) FY 2024: ours 39.0M, 10-K 3.3M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- ELMES (Elme Communities) FY 2024: ours 241.9M, 10-K 206.4M — **real**: Total revenues as tagged; EdgarTools read a sub-line. (2026-11-25)
+- FCAP (First Capital Inc) FY 2023: ours 42.2M, 10-K 7.0M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- SFNC (Simmons First National Corp) FY 2025: ours 103.2M, 10-K 138.3M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- CBKM (Consumers Bancorp Inc /Oh/) FY 2025: ours 39.6M, 10-K 4.6M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- BYFC (Broadway Financial Corp \De\) FY 2025: ours 34.9M, 10-K 184,000 — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- BYFC (Broadway Financial Corp \De\) FY 2024: ours 33.3M, 10-K 155,000 — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- COFS (Choiceone Financial Services Inc) FY 2023: ours 80.8M, 10-K 113.9M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- ECBK (ECB Bancorp, Inc. /MD/) FY 2025: ours 33.2M, 10-K 598,000 — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- SRBK (SR Bancorp, Inc.) FY 2026: ours 33.4M, 10-K 1.0M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- SRBK (SR Bancorp, Inc.) FY 2025: ours 33.3M, 10-K 1.0M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- AUBN (Auburn National Bancorporation, Inc) FY 2025: ours 32.8M, 10-K 619,000 — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- WETO (Wetour Robotics Ltd) FY 2025: ours 5.0M, 20-F 35.6M — **real**: Reports in yuan with a US-dollar translation; we show the dollar figures, EdgarTools compared the yuan. (2026-11-25)
+- RVSB (Riverview Bancorp Inc) FY 2026: ours 43.1M, 10-K 12.5M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- AUBN (Auburn National Bancorporation, Inc) FY 2024: ours 30.6M, 10-K 614,000 — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- JUVF (Juniata Valley Financial Corp) FY 2025: ours 31.1M, 10-K 5.0M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- RBKB (Rhinebeck Bancorp, Inc.) FY 2024: ours 28.7M, 10-K 3.0M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- ECBK (ECB Bancorp, Inc. /MD/) FY 2024: ours 26.2M, 10-K 577,000 — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- FMFG (Farmers & Merchants Bancshares, Inc.) FY 2025: ours 26.4M, 10-K 1.1M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- QNTO (Quaint Oak Bancorp, Inc.) FY 2024: ours 26.0M, 10-K 1.7M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- QNTO (Quaint Oak Bancorp, Inc.) FY 2025: ours 25.1M, 10-K 1.0M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- JUVF (Juniata Valley Financial Corp) FY 2024: ours 28.8M, 10-K 5.1M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- BMRC (Bank of Marin Bancorp) FY 2025: ours 29.4M, 10-K 6.5M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- FMFG (Farmers & Merchants Bancshares, Inc.) FY 2024: ours 22.6M, 10-K 1.1M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- STLE (Steele Bancorp Inc) FY 2024: ours 18.6M, 10-K 1.5M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- FDSB (Fifth District Bancorp, Inc.) FY 2025: ours 17.3M, 10-K 605,000 — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- WETO (Wetour Robotics Ltd) FY 2026: ours 2.0M, 20-F 13.3M — **real**: Reports in yuan with a US-dollar translation; we show the dollar figures, EdgarTools compared the yuan. (2026-11-25)
+- FDSB (Fifth District Bancorp, Inc.) FY 2024: ours 10.1M, 10-K 619,000 — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- SNNF (Seneca Bancorp, Inc.) FY 2025: ours 11.1M, 10-K 2.0M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- SNNF (Seneca Bancorp, Inc.) FY 2024: ours 10.0M, 10-K 1.7M — **real**: Bank: revenue is net interest income + non-interest income, equal to the filed figures for that year; EdgarTools read only the non-interest income or fee line. (2026-11-25)
+- NWGL (CL Workshop Group Ltd) FY 2023: ours 25.5M, 20-F 17.7M — **real**: Total revenue; EdgarTools read the at-a-point-in-time sub-line. (2026-11-25)
+- NTWK (Netsol Technologies Inc) FY 2025: ours 73.1M, 10-K 66.1M — **real**: Total consolidated revenues as tagged for the year; EdgarTools paired another year's column. (2026-11-25)
+- NWGL (CL Workshop Group Ltd) FY 2024: ours 21.5M, 20-F 16.3M — **real**: Total revenue; EdgarTools read the at-a-point-in-time sub-line. (2026-11-25)
+- NCRA (Nocera, Inc.) FY 2025: ours 11.0M, 10-K 13.6M — **gap**: Small company; 2024 is on contract revenue ($17.0M), the latest report says $12.1M. Not yet checked. (2026-11-25)
+
+## Figures set by hand (7)
+
+From `data/curated/financial-corrections.csv`; the site shows these instead of the imported figures.
+
+- RYM FY 2024: revenue 18,000 — 2025 10-K: 2024 revenue from continuing operations as restated, $18 thousand (Revenues); kept as filed so the 1,000x cleanup leaves it.
+- SEAT FY 2023: revenue 712,879,000 — 2025 10-K income statement: total revenues. The SEC's figures carry only contract revenue ($597.4M).
+- SEAT FY 2024: revenue 775,586,000 — 2025 10-K income statement: total revenues. The SEC's figures carry only contract revenue ($647.9M).
+- SEAT FY 2025: revenue 570,776,000 — 2025 10-K income statement: total revenues. The SEC's figures carry only contract revenue ($450.5M).
+- TIPT FY 2023: revenue 2,118,000 — 2025 10-K, restated with Fortegra (insurance) as discontinued: revenues from continuing operations. The import had a sub-line ($341.4M).
+- TIPT FY 2024: revenue 1,520,000 — 2025 10-K, restated with Fortegra (insurance) as discontinued: revenues from continuing operations. The import had a sub-line ($341.5M).
+- TIPT FY 2025: revenue 488,000 — 2025 10-K: revenues from continuing operations $488 thousand (operating expenses $47.2M, operating loss $46.7M); kept so the 1,000x cleanup leaves it.
 

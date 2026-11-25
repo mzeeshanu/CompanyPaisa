@@ -97,4 +97,38 @@ public class StatementRevenueTests
 
         Assert.Equal(4_354m, Revenue2025(json, Statement(5_448m, 300m)));
     }
+
+    [Fact]
+    public void An_amendment_that_repeats_the_reports_figures_does_not_block_its_top_line()
+    {
+        // B. Riley 2024: the 10-K's total revenues $746.4M, repeated in the 10-K/A filed the next day, which also tags the
+        // $986.0M of contract revenue that is larger only because of investment losses.
+        var json = UsGaap(
+            ("Revenues", Fact("", 746_421_000m) + "," + Fact("CY2025", 746_421_000m, "10-K/A", "A-26-2", "2026-02-21")),
+            ("RevenueFromContractWithCustomerExcludingAssessedTax", Fact("", 985_980_000m) + "," + Fact("CY2025", 985_980_000m, "10-K/A", "A-26-2", "2026-02-21")),
+            ("NetIncomeLoss", Fact("CY2025", -764_274_000m)));
+
+        Assert.Equal(746_421_000m, Revenue2025(json, Statement(746_421_000m, -764_274_000m, "Total revenues", 746_421_000m)));
+    }
+
+    [Fact]
+    public void A_banks_lease_income_is_never_its_revenue()
+    {
+        // Pathfinder Bancorp 2025: lease income tagged as $372M ($372 thousand); its revenue is $44.3M + $2.5M.
+        var json = UsGaap(("InterestAndDividendIncomeOperating", Fact("CY2025", 76_700_000m)), ("NoninterestIncome", Fact("CY2025", 2_530_000m)),
+            ("InterestIncomeExpenseNet", Fact("CY2025", 44_300_000m)), ("OperatingLeaseLeaseIncome", Fact("CY2025", 372_000_000m)),
+            ("NetIncomeLoss", Fact("CY2025", -1_933_000m)));
+
+        Assert.Equal(46_830_000m, Revenue2025(json));
+    }
+
+    [Fact]
+    public void A_bank_that_tags_deposit_interest_as_non_operating_still_gets_net_interest_income()
+    {
+        // NWPP 2025: interest income $48.6M, interest paid $15.4M, non-interest income $9.9M.
+        var json = UsGaap(("InterestAndDividendIncomeOperating", Fact("CY2025", 48_597_000m)), ("NoninterestIncome", Fact("CY2025", 9_900_000m)),
+            ("InterestExpenseNonoperating", Fact("CY2025", 15_431_000m)), ("NetIncomeLoss", Fact("CY2025", 10_098_000m)));
+
+        Assert.Equal(43_066_000m, Revenue2025(json));
+    }
 }

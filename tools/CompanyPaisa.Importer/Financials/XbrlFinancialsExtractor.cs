@@ -416,6 +416,8 @@ public sealed partial class XbrlFinancialsExtractor : IFinancialsExtractor
         var net = ByFrame("InterestIncomeExpenseNet");
         var expense = ByFrame("InterestExpenseOperating");
         foreach (var (frame, f) in ByFrame("InterestExpense")) expense.TryAdd(frame, f);
+        // Some banks tag what they pay on deposits as non-operating interest (NWPP's 2025 10-K: $15.4M).
+        foreach (var (frame, f) in ByFrame("InterestExpenseNonoperating")) expense.TryAdd(frame, f);
 
         var lender = other.Keys.Where(f => net.ContainsKey(f) || interest.ContainsKey(f)).ToHashSet();
         var changed = 0;
@@ -478,7 +480,10 @@ public sealed partial class XbrlFinancialsExtractor : IFinancialsExtractor
             var (ours, oldConcept) = chosen[frame];
             if (Math.Abs(ours.Value - revenue) <= 0.01m * revenue) continue;
             if (!netIncome.TryGetValue(frame, out var ourProfit) || Math.Abs(ourProfit.Value - profit) > 0.01m * Math.Abs(profit)) continue;
-            if (ours.Accession != statement.Accession && string.CompareOrdinal(ours.Filed, statement.Filed) > 0) continue;
+            // A later filing may have restated the year; one that repeats the report's figure (B. Riley's 10-K/A a day
+            // after its 10-K) hasn't.
+            if (ours.Accession != statement.Accession && string.CompareOrdinal(ours.Filed, statement.Filed) > 0
+                && FindInReport(gaap, currency, ours.Accession, year.End, revenue, year.Concept) is null) continue;
             if (FindInReport(gaap, currency, statement.Accession, year.End, revenue, year.Concept) is not { } found) continue;
 
             chosen[frame] = (found.Fact with { Frame = frame }, found.Concept);
@@ -495,7 +500,10 @@ public sealed partial class XbrlFinancialsExtractor : IFinancialsExtractor
             var tagged = Facts(gaap, headline, currency).Where(f => f.Frame is not null).GroupBy(f => f.Frame!).ToDictionary(g => g.Key, g => g.First());
             foreach (var (frame, pick) in chosen.ToList())
             {
-                if (pick.Concept != rejected || corrected.Contains(frame)) continue;
+                // Any other line too, where the report's line is tagged (Americas Gold & Silver's 2022–23 gross sales
+                // beside the reported revenue it moved to).
+                if (pick.Concept == headline || corrected.Contains(frame)) continue;
+                if (pick.Concept != rejected && !tagged.ContainsKey(frame)) continue;
                 if (tagged.TryGetValue(frame, out var fact) && fact.Value > 0) chosen[frame] = (fact, headline);
                 else if (QuarterFrame().IsMatch(frame) && pick.Fact.End >= from) chosen.Remove(frame);
             }
@@ -641,11 +649,15 @@ public sealed partial class XbrlFinancialsExtractor : IFinancialsExtractor
 
     /// <summary>
     /// A landlord that tags only its fee income as revenue: rent is the top line (Camden 2025: $1.57bn beside $13M of fees).
+    /// Not for a bank.
     /// </summary>
     private static void UseLeaseIncome(JsonElement gaap, string currency, Dictionary<string, (Fact Fact, string Concept)> chosen)
     {
         const string Lease = "OperatingLeaseLeaseIncome";
-        foreach (var rent in Facts(gaap, Lease, currency).Where(f => f.Frame is not null && f.Value >= 10_000_000m))
+        // Never a lender's: a bank's rent is a side line (Pathfinder's 2025 $372 thousand, tagged as $372M).
+        var lender = new[] { "NoninterestIncome", "InterestIncomeExpenseNet" }
+            .SelectMany(c => Facts(gaap, c, currency)).Select(f => f.Frame).OfType<string>().ToHashSet();
+        foreach (var rent in Facts(gaap, Lease, currency).Where(f => f.Frame is not null && f.Value >= 10_000_000m && !lender.Contains(f.Frame!)))
             if (chosen.TryGetValue(rent.Frame!, out var pick) && rent.Value > 4 * pick.Fact.Value
                 && rent.Value != 1_000m * pick.Fact.Value && rent.Value != 1_000_000m * pick.Fact.Value)   // the same line in the wrong units
                 chosen[rent.Frame!] = (rent, Lease);

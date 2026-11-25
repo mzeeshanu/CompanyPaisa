@@ -94,6 +94,7 @@ public class IndustryClassificationTests
     [InlineData("AGX, ARG.PA — Argan Inc", "ARG.PA", true)]
     [InlineData("AGXX (Other) FY2022", "AGX", false)]
     [InlineData("HON (Honeywell) Q3 2026", "HON", true)]
+    [InlineData("FMNB (Farmers National Banc Corp /Oh/) FY 2025: ours 188.6M", "BANC", false)]
     public void A_decision_covers_findings_that_name_its_company(string finding, string id, bool covered) =>
         Assert.Equal(covered, AuditLog.Covers(new AuditDecision("C", id, "", "real", "", null), "C", finding));
 

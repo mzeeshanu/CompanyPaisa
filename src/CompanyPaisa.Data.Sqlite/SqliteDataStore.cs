@@ -59,6 +59,9 @@ public static class SqliteDataStore
             filings INTEGER NOT NULL, low NUMERIC NOT NULL, median NUMERIC NOT NULL, high NUMERIC NOT NULL, min NUMERIC NOT NULL, max NUMERIC NOT NULL,
             source TEXT NOT NULL DEFAULT 'h1b', url TEXT);
         CREATE TABLE IF NOT EXISTS extras (key TEXT NOT NULL PRIMARY KEY, value TEXT NOT NULL);
+        CREATE TABLE IF NOT EXISTS financial_corrections (
+            company_id TEXT NOT NULL COLLATE NOCASE, fiscal_year INTEGER NOT NULL, revenue NUMERIC, net_income NUMERIC,
+            source TEXT NOT NULL, note TEXT NOT NULL, PRIMARY KEY (company_id, fiscal_year));
         """;
 
     private static readonly JsonSerializerOptions PackageJson = new(JsonSerializerDefaults.Web)
@@ -332,6 +335,51 @@ public static class SqliteDataStore
         }
     }
 
+    /// <summary>
+    /// Replaces the hand-set figures (<see cref="FinancialCorrection"/>) with <paramref name="corrections"/>. They live in
+    /// their own table, beside every market's rows, and apply as the data loads; the file is checked with the API's rules
+    /// before it replaces the old one.
+    /// </summary>
+    public static void ReplaceCorrections(string path, IReadOnlyList<FinancialCorrection> corrections)
+    {
+        var staging = path + ".new";
+        if (File.Exists(staging)) File.Delete(staging);
+        File.Copy(path, staging);
+        try
+        {
+            using (var db = Open(staging, readOnly: false))
+            {
+                Prepare(db, path);
+                using (var tx = db.BeginTransaction())
+                {
+                    Execute(db, "DELETE FROM financial_corrections");
+                    using (var cmd = Command(db, "INSERT OR REPLACE INTO financial_corrections (company_id, fiscal_year, revenue, net_income, source, note) VALUES ($0, $1, $2, $3, $4, $5)", null, 6))
+                        foreach (var c in corrections) Run(cmd, c.CompanyId, c.FiscalYear, c.Revenue, c.NetIncome, c.Source, c.Note);
+                    tx.Commit();
+                }
+            }
+            DataRules.Check(Read(staging, DateTimeOffset.UtcNow), staging);
+            File.Move(staging, path, overwrite: true);
+        }
+        finally
+        {
+            if (File.Exists(staging)) File.Delete(staging);
+        }
+    }
+
+    /// <summary>The hand-set figures (files written before they existed have no such table).</summary>
+    public static List<FinancialCorrection> ReadCorrections(string path)
+    {
+        using var db = Open(path, readOnly: true);
+        return ReadCorrections(db);
+    }
+
+    private static List<FinancialCorrection> ReadCorrections(SqliteConnection db) =>
+        Convert.ToInt64(Scalar(db, "SELECT count(*) FROM sqlite_master WHERE type = 'table' AND name = 'financial_corrections'"), CultureInfo.InvariantCulture) == 0
+            ? []
+            : Query(db, "SELECT company_id, fiscal_year, revenue, net_income, source, note FROM financial_corrections ORDER BY company_id, fiscal_year",
+                r => new FinancialCorrection(r.GetString(0), r.GetInt32(1), Money(r, 2), Money(r, 3), r.GetString(4), r.GetString(5)));
+
     /// <summary>Every market's rows as one data set; metadata combined across markets.</summary>
     public static CompanyData Read(string path, DateTimeOffset loadedAt)
     {
@@ -426,9 +474,11 @@ public static class SqliteDataStore
             .DistinctBy(p => p.PersonId, StringComparer.OrdinalIgnoreCase).ToList();
         // Names tidied, table labels dropped and one executive under two spellings merged as they load, so what a past
         // import let in doesn't reach the site. Announced appointments follow a merged person.
-        // Figures a filing tagged in the wrong unit (1,000× off what the company's own quarters or neighbouring years say),
-        // and fourth quarters worked out from them, corrected as they load.
-        financials = FinancialsCleanup.Apply(financials).Financials.ToList();
+        // Figures set by hand after review first (kept apart from the imported rows, so a re-import never loses them); then
+        // figures a filing tagged in the wrong unit (1,000× off what the company's own quarters or neighbouring years say),
+        // and fourth quarters worked out from them, corrected as they load — the reviewed years left alone.
+        var corrected = FinancialCorrections.Apply(financials, ReadCorrections(db));
+        financials = FinancialsCleanup.Apply(corrected.Financials, corrected.Covered).Financials.ToList();
         var cleaned = ExecutivePayCleanup.Apply(pay, people);
         pay = cleaned.Pay.ToList();
         people = cleaned.People.ToList();

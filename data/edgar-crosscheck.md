@@ -1,4 +1,4 @@
-# EdgarTools cross-check — 2026-11-24 14:27 UTC
+# EdgarTools cross-check — 2026-11-25 20:35 UTC
 
 What the SEC import published (docs/edgartools-plan.md): revenue and net income against the headline lines of each company's latest annual report (10-K, 20-F or 40-F), read by [EdgarTools](https://github.com/dgunning/edgartools) (`tools/edgar/extract.py`). The import uses a report's top line only where it passes the checks; the rest are listed here. A report covers its latest three years.
 
@@ -7,10 +7,10 @@ What the SEC import published (docs/edgartools-plan.md): revenue and net income 
 
 | Measure | Compared | Within 1% | 1–10% | Over 10% |
 |---|---|---|---|---|
-| Revenue | 9,439 | 9,008 | 27 | 404 |
+| Revenue | 9,439 | 9,022 | 26 | 391 |
 | Net income | 9,971 | 9,837 | 53 | 81 |
 
-## Revenue: more than 10% apart (404)
+## Revenue: more than 10% apart (391)
 
 | Company | FY | Ours | Annual report | Gap | Currency |
 |---|---|---|---|---|---|
@@ -103,7 +103,6 @@ What the SEC import published (docs/edgartools-plan.md): revenue and net income 
 | CVBF (Cvb Financial Corp) | 2023 | 547.3M | 34.4M (10-K) | 1491% | USD |
 | MLGO (MicroAlgo Inc.) | 2023 | 81.9M | 580.0M (20-F) | 86% | USD |
 | WWW (Wolverine World Wide Inc /De/) | 2023 | 2.24bn | 1.76bn (10-K) | 28% | USD |
-| TIPT (Tiptree Inc.) | 2025 | 488.0M | 488,000 (10-K) | 99900% | USD |
 | PRK (Park National Corp /Oh/) | 2025 | 557.2M | 70.3M (10-K) | 693% | USD |
 | LEGN (Legend Biotech Corp) | 2024 | 627.3M | 144.7M (20-F) | 334% | USD |
 | CVBF (Cvb Financial Corp) | 2025 | 515.5M | 37.2M (10-K) | 1286% | USD |
@@ -131,7 +130,6 @@ What the SEC import published (docs/edgartools-plan.md): revenue and net income 
 | FBK (FB Financial Corp) | 2024 | 455.6M | 85.5M (10-K) | 433% | USD |
 | NBHC (National Bank Holdings Corp) | 2025 | 416.1M | 47.2M (10-K) | 782% | USD |
 | WWW (Wolverine World Wide Inc /De/) | 2025 | 1.87bn | 2.24bn (10-K) | 16% | USD |
-| PBHC (Pathfinder Bancorp, Inc.) | 2025 | 372.0M | 3.4M (10-K) | 10695% | USD |
 | TCBK (Trico Bancshares /) | 2023 | 418.1M | 50.1M (10-K) | 735% | USD |
 | PEBO (Peoples Bancorp Inc) | 2023 | 426.8M | 59.1M (10-K) | 623% | USD |
 | RBCAA (Republic Bancorp Inc /Ky/) | 2025 | 417.5M | 50.1M (10-K) | 733% | USD |
@@ -148,9 +146,7 @@ What the SEC import published (docs/edgartools-plan.md): revenue and net income 
 | BUSE (First Busey Corp /NV/) | 2024 | 462.3M | 116.9M (10-K) | 296% | USD |
 | TCBK (Trico Bancshares /) | 2024 | 395.8M | 51.3M (10-K) | 671% | USD |
 | OBK (Origin Bancorp, Inc.) | 2025 | 390.8M | 46.8M (10-K) | 736% | USD |
-| TIPT (Tiptree Inc.) | 2024 | 341.5M | 1.5M (10-K) | 22365% | USD |
 | NIC (Nicolet Bankshares Inc) | 2025 | 392.0M | 52.2M (10-K) | 651% | USD |
-| TIPT (Tiptree Inc.) | 2023 | 341.4M | 2.1M (10-K) | 16017% | USD |
 | RBCAA (Republic Bancorp Inc /Ky/) | 2024 | 384.8M | 46.2M (10-K) | 733% | USD |
 | STBA (S&T Bancorp Inc) | 2024 | 383.9M | 46.8M (10-K) | 720% | USD |
 | DCOM (Dime Commercial Bancshares, Inc. /NY/) | 2023 | 352.8M | 16.4M (10-K) | 2046% | USD |
@@ -193,7 +189,6 @@ What the SEC import published (docs/edgartools-plan.md): revenue and net income 
 | BFST (Business First Bancshares, Inc.) | 2023 | 251.8M | 9.7M (10-K) | 2495% | USD |
 | CPF (Central Pacific Financial Corp) | 2025 | 292.7M | 51.8M (10-K) | 465% | USD |
 | CHCO (City Holding Co) | 2025 | 314.2M | 74.3M (10-K) | 323% | USD |
-| RILY (BRC Group Holdings, Inc.) | 2024 | 986.0M | 746.4M (10-K) | 32% | USD |
 | CCB (Coastal Financial Corp) | 2023 | 435.7M | 198.2M (10-K) | 120% | USD |
 | DDC (DDC Enterprise Ltd) | 2024 | 37.4M | 273.3M (20-F) | 86% | USD |
 | BKV (BKV Corp) | 2025 | 1.14bn | 905.5M (10-K) | 26% | USD |
@@ -249,7 +244,6 @@ What the SEC import published (docs/edgartools-plan.md): revenue and net income 
 | FCBC (First Community Bankshares Inc /Va/) | 2025 | 167.5M | 36.7M (10-K) | 356% | USD |
 | WBHC (Wilson Bank Holding Co) | 2025 | 226.8M | 357.5M (10-K) | 37% | USD |
 | INBK (First Internet Bancorp) | 2024 | 134.7M | 4.6M (10-K) | 2822% | USD |
-| SEAT (Vivid Seats Inc.) | 2024 | 647.9M | 775.6M (10-K) | 16% | USD |
 | FMNB (Farmers National Banc Corp /Oh/) | 2024 | 170.1M | 42.5M (10-K) | 300% | USD |
 | UNTY (Unity Bancorp Inc /Nj/) | 2025 | 131.8M | 4.5M (10-K) | 2798% | USD |
 | WBHC (Wilson Bank Holding Co) | 2024 | 186.3M | 313.1M (10-K) | 41% | USD |
@@ -258,12 +252,10 @@ What the SEC import published (docs/edgartools-plan.md): revenue and net income 
 | HBCP (Home Bancorp, Inc.) | 2023 | 135.3M | 12.0M (10-K) | 1024% | USD |
 | HBCP (Home Bancorp, Inc.) | 2024 | 134.9M | 11.6M (10-K) | 1059% | USD |
 | MRBK (Meridian Corp) | 2025 | 126.9M | 6.3M (10-K) | 1909% | USD |
-| SEAT (Vivid Seats Inc.) | 2025 | 450.5M | 570.8M (10-K) | 21% | USD |
 | ALRS (Alerus Financial Corp) | 2024 | 222.0M | 102.6M (10-K) | 116% | USD |
 | EQBK (Equity Bancshares Inc) | 2023 | 139.9M | 21.2M (10-K) | 561% | USD |
 | PFIS (Peoples Financial Services Corp.) | 2024 | 134.3M | 16.1M (10-K) | 733% | USD |
 | ALRS (Alerus Financial Corp) | 2025 | 224.4M | 108.8M (10-K) | 106% | USD |
-| SEAT (Vivid Seats Inc.) | 2023 | 597.4M | 712.9M (10-K) | 16% | USD |
 | FMAO (Farmers & Merchants Bancorp Inc) | 2025 | 121.4M | 6.4M (10-K) | 1795% | USD |
 | INBK (First Internet Bancorp) | 2025 | 116.5M | 4.6M (10-K) | 2416% | USD |
 | SFST (Southern First Bancshares Inc) | 2025 | 118.1M | 6.3M (10-K) | 1780% | USD |
@@ -334,12 +326,10 @@ What the SEC import published (docs/edgartools-plan.md): revenue and net income 
 | FCCO (First Community Corp /Sc/) | 2023 | 59.3M | 963,000 (10-K) | 6059% | USD |
 | HWBK (Hawthorn Bancshares, Inc.) | 2023 | 66.7M | 8.4M (10-K) | 698% | USD |
 | ATLO (Ames National Corp) | 2025 | 66.8M | 9.3M (10-K) | 622% | USD |
-| NWPP (New Peoples Bankshares Inc) | 2025 | 58.5M | 3.6M (10-K) | 1515% | USD |
 | FXNC (First National Corp /Va/) | 2024 | 68.8M | 14.2M (10-K) | 385% | USD |
 | SFDL (Security Federal Corp) | 2025 | 58.7M | 4.5M (10-K) | 1201% | USD |
 | EBMT (Eagle Bancorp Montana, Inc.) | 2024 | 81.2M | 27.2M (10-K) | 198% | USD |
 | CBNA (Chain Bridge Bancorp Inc) | 2025 | 55.0M | 2.4M (10-K) | 2213% | USD |
-| NWPP (New Peoples Bankshares Inc) | 2024 | 55.9M | 3.8M (10-K) | 1356% | USD |
 | STLE (Steele Bancorp Inc) | 2025 | 54.5M | 3.3M (10-K) | 1562% | USD |
 | CBNA (Chain Bridge Bancorp Inc) | 2024 | 53.0M | 2.3M (10-K) | 2190% | USD |
 | RBKB (Rhinebeck Bancorp, Inc.) | 2025 | 53.4M | 3.0M (10-K) | 1688% | USD |
@@ -356,12 +346,14 @@ What the SEC import published (docs/edgartools-plan.md): revenue and net income 
 | BOTJ (Bank Of The James Financial Group Inc) | 2025 | 48.7M | 4.3M (10-K) | 1039% | USD |
 | NWFL (Norwood Financial Corp) | 2024 | 51.0M | 7.4M (10-K) | 590% | USD |
 | FCAP (First Capital Inc) | 2025 | 50.6M | 7.2M (10-K) | 606% | USD |
+| PBHC (Pathfinder Bancorp, Inc.) | 2025 | 46.8M | 3.4M (10-K) | 1259% | USD |
 | TYFG (Tri-County Financial Group, Inc.) | 2024 | 58.5M | 15.6M (10-K) | 274% | USD |
 | FKYS (First Keystone Corp) | 2025 | 45.0M | 3.4M (10-K) | 1210% | USD |
 | CBFV (CB Financial Services, Inc.) | 2025 | 43.5M | 2.4M (10-K) | 1688% | USD |
 | CBKM (Consumers Bancorp Inc /Oh/) | 2026 | 45.8M | 4.9M (10-K) | 833% | USD |
 | BOTJ (Bank Of The James Financial Group Inc) | 2024 | 44.4M | 4.0M (10-K) | 1008% | USD |
 | FUSB (First US Bancshares, Inc.) | 2025 | 41.0M | 1.1M (10-K) | 3500% | USD |
+| NWPP (New Peoples Bankshares Inc) | 2025 | 43.1M | 3.6M (10-K) | 1089% | USD |
 | CSBB (CSB Bancorp, Inc.) | 2024 | 44.0M | 5.1M (10-K) | 756% | USD |
 | RVSB (Riverview Bancorp Inc) | 2025 | 50.6M | 11.9M (10-K) | 325% | USD |
 | FUSB (First US Bancshares, Inc.) | 2024 | 39.7M | 1.2M (10-K) | 3125% | USD |
@@ -372,6 +364,7 @@ What the SEC import published (docs/edgartools-plan.md): revenue and net income 
 | RVSB (Riverview Bancorp Inc) | 2024 | 48.3M | 11.6M (10-K) | 317% | USD |
 | PROV (Provident Financial Holdings Inc) | 2025 | 39.0M | 2.4M (10-K) | 1541% | USD |
 | FCAP (First Capital Inc) | 2024 | 43.4M | 7.1M (10-K) | 515% | USD |
+| NWPP (New Peoples Bankshares Inc) | 2024 | 39.8M | 3.8M (10-K) | 936% | USD |
 | CFFN (Capitol Federal Financial, Inc.) | 2023 | -18.2M | 17.6M (10-K) | 203% | USD |
 | FKYS (First Keystone Corp) | 2024 | 39.0M | 3.3M (10-K) | 1082% | USD |
 | ELMES (Elme Communities) | 2024 | 241.9M | 206.4M (10-K) | 17% | USD |
@@ -397,14 +390,11 @@ What the SEC import published (docs/edgartools-plan.md): revenue and net income 
 | JUVF (Juniata Valley Financial Corp) | 2024 | 28.8M | 5.1M (10-K) | 468% | USD |
 | BMRC (Bank of Marin Bancorp) | 2025 | 29.4M | 6.5M (10-K) | 353% | USD |
 | FMFG (Farmers & Merchants Bancshares, Inc.) | 2024 | 22.6M | 1.1M (10-K) | 1899% | USD |
-| USAS (Americas Gold & Silver Corp) | 2024 | 120.9M | 100.2M (40-F) | 21% | USD |
-| RYM (RYTHM, Inc.) | 2024 | 18.0M | 18,000 (10-K) | 99900% | USD |
 | STLE (Steele Bancorp Inc) | 2024 | 18.6M | 1.5M (10-K) | 1106% | USD |
 | FDSB (Fifth District Bancorp, Inc.) | 2025 | 17.3M | 605,000 (10-K) | 2756% | USD |
 | WETO (Wetour Robotics Ltd) | 2026 | 2.0M | 13.3M (20-F) | 85% | USD |
 | FDSB (Fifth District Bancorp, Inc.) | 2024 | 10.1M | 619,000 (10-K) | 1526% | USD |
 | SNNF (Seneca Bancorp, Inc.) | 2025 | 11.1M | 2.0M (10-K) | 467% | USD |
-| ESGH (ESG Inc.) | 2024 | 21.4M | 12.7M (10-K) | 69% | USD |
 | SNNF (Seneca Bancorp, Inc.) | 2024 | 10.0M | 1.7M (10-K) | 472% | USD |
 | NWGL (CL Workshop Group Ltd) | 2023 | 25.5M | 17.7M (20-F) | 44% | USD |
 | NTWK (Netsol Technologies Inc) | 2025 | 73.1M | 66.1M (10-K) | 11% | USD |
@@ -413,11 +403,8 @@ What the SEC import published (docs/edgartools-plan.md): revenue and net income 
 | NWGL (CL Workshop Group Ltd) | 2024 | 21.5M | 16.3M (20-F) | 32% | USD |
 | NCRA (Nocera, Inc.) | 2025 | 11.0M | 13.6M (10-K) | 19% | USD |
 | BENF (Beneficient) | 2025 | -6.5M | -7.9M (10-K) | 18% | USD |
-| ESGH (ESG Inc.) | 2025 | 7.5M | 6.1M (10-K) | 23% | USD |
 | ABVC (Abvc Biopharma, Inc.) | 2025 | 296,000 | 31,779 (10-K) | 831% | USD |
 | NRXP (NRX Pharmaceuticals, Inc.) | 2025 | 1.4M | 1.2M (10-K) | 18% | USD |
-| ATLX (Atlas Lithium Corp) | 2024 | 748,654 | 667,131 (10-K) | 12% | USD |
-| ATLX (Atlas Lithium Corp) | 2025 | 121,388 | 92,491 (10-K) | 31% | USD |
 
 ## Net income: more than 10% apart (81)
 

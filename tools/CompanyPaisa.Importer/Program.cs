@@ -214,6 +214,12 @@ if (args.Contains("--salaries"))
 // One-off: copy the pre-SQLite workbooks into the database: -- --migrate-xlsx
 if (args.Contains("--migrate-xlsx"))
     return host.Services.GetRequiredService<CompanyPaisa.Importer.Publishing.LegacyWorkbookMigration>().Run();
+// Figures set by hand after review, copied into the database: -- --corrections  (data/curated/financial-corrections.csv)
+if (args.Contains("--corrections"))
+{
+    host.Services.GetRequiredService<CompanyPaisa.Importer.Publishing.DataPublisher>().PublishCorrections();
+    return 0;
+}
 // Data-quality checks over the published database: -- --validate [--strict]  (report: data/validation-report.md)
 if (args.Contains("--validate"))
     return await host.Services.GetRequiredService<CompanyPaisa.Importer.Validation.ValidationRun>().RunAsync(args.Contains("--strict"), CancellationToken.None);

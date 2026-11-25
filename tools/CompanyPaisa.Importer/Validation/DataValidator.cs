@@ -132,10 +132,11 @@ public static class DataValidator
                 .Select(f => $"{Name(f.CompanyId)} {f.Label}: revenue {Money(f.Revenue)}, net income {Money(f.NetIncome)}"));
 
         Check("Financials", "Revenue jumps 10× in a year", Severity.Warning,
-            "Year-on-year revenue up or down more than tenfold (both years ≥ $10M) — a real acquisition, or a switch of revenue definition or units.",
+            "Year-on-year revenue up or down more than tenfold (the larger year ≥ $10M; a year with no sales is not judged) — a real acquisition or sale, or a switch of revenue definition or units.",
             finByCompany.SelectMany(kv => kv.Value.Where(f => f.PeriodType == PeriodType.Annual).OrderBy(f => f.FiscalYear)
                     .Zip(kv.Value.Where(f => f.PeriodType == PeriodType.Annual).OrderBy(f => f.FiscalYear).Skip(1))
-                    .Where(p => p.Second.FiscalYear == p.First.FiscalYear + 1 && Usd(kv.Key, Math.Min(p.First.Revenue, p.Second.Revenue)) >= 10_000_000m
+                    .Where(p => p.Second.FiscalYear == p.First.FiscalYear + 1 && p.First.Revenue > 0 && p.Second.Revenue > 0
+                                && Usd(kv.Key, Math.Max(p.First.Revenue, p.Second.Revenue)) >= 10_000_000m
                                 && (p.Second.Revenue > 10 * p.First.Revenue || p.First.Revenue > 10 * p.Second.Revenue))
                     .Select(p => $"{Name(kv.Key)}: FY {p.First.FiscalYear} {Money(p.First.Revenue)} → FY {p.Second.FiscalYear} {Money(p.Second.Revenue)}")));
 

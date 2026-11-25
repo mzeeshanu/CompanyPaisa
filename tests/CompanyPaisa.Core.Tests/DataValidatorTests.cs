@@ -66,6 +66,16 @@ public class DataValidatorTests
         Assert.Equal(0, Failures(Data([Co("ASML.AS", "EUR")], [Hq("ASML.AS", "NL", 51.4, 5.4)]), "Outside its country"));
 
     [Fact]
+    public void A_tenfold_fall_to_a_small_figure_is_flagged_but_a_year_without_sales_is_not()
+    {
+        // Tiptree: $341 million to $0.5 million (the import's measure changed). A drug developer's first sales are not judged.
+        var data = Data([Co("TIPT"), Co("BIO")], [Hq("TIPT", "NY", 40.7, -74.0), Hq("BIO", "MA", 42.4, -71.1)],
+            [Year("TIPT", 2024, 341_469_000), Year("TIPT", 2025, 488_000), Year("BIO", 2024, 0), Year("BIO", 2025, 45_000_000)]);
+
+        Assert.Equal(1, Failures(data, "Revenue jumps 10× in a year"));
+    }
+
+    [Fact]
     public void Flags_impossible_financials()
     {
         var data = Data([Co("CCC")], [Hq("CCC", "TX", 32.8, -96.8)], [Year("CCC", 2025, -5m), Year("CCC", 2027, 10m)]);
