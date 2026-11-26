@@ -22,7 +22,8 @@ public sealed class AnalyticsQueue(IOptions<AnalyticsOptions> options) : IAnalyt
 /// Writes queued events in batches. Replaces each event's fingerprint (IP + browser, never stored) with a hash salted by
 /// that day's random salt. The store keeps salts for two days at most, so older hashes can't be linked back to anyone.
 /// </summary>
-public sealed class AnalyticsWriter(AnalyticsQueue queue, IAnalyticsStore store, IOptions<AnalyticsOptions> options, ILogger<AnalyticsWriter> logger)
+public sealed class AnalyticsWriter(AnalyticsQueue queue, IAnalyticsStore store, AnalyticsImport import, IOptions<AnalyticsOptions> options,
+    ILogger<AnalyticsWriter> logger)
     : BackgroundService
 {
     private readonly Dictionary<string, string> _salts = new(StringComparer.Ordinal);
@@ -31,6 +32,7 @@ public sealed class AnalyticsWriter(AnalyticsQueue queue, IAnalyticsStore store,
     {
         if (!await InitializeAsync(stoppingToken)) return;
         logger.LogInformation("Analytics recording to {Provider}", store.Provider);
+        await import.RunAsync(store, stoppingToken);   // a move from another provider: the history first, then new events
 
         while (!stoppingToken.IsCancellationRequested)
         {

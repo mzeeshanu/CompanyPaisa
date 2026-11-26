@@ -58,6 +58,13 @@ public abstract class DbAnalyticsStore : IAnalyticsDatabase
         await tx.CommitAsync(ct);
     }
 
+    public async Task<bool> HasEventsAsync(CancellationToken ct)
+    {
+        await using var connection = await OpenAsync(ct);
+        await using var cmd = Command(connection, "SELECT COUNT(*) FROM (SELECT 1 FROM analytics_events LIMIT 1) AS e");
+        return Convert.ToInt64(await cmd.ExecuteScalarAsync(ct), CultureInfo.InvariantCulture) > 0;
+    }
+
     public async Task<string> GetDailySaltAsync(string day, CancellationToken ct)
     {
         var keepFrom = DateOnly.ParseExact(day, "yyyy-MM-dd", CultureInfo.InvariantCulture).AddDays(-1).ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
