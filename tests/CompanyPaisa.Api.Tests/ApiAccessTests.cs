@@ -14,7 +14,13 @@ public sealed class LockedApiFactory : WebApplicationFactory<Program>
     public const string Key = "test-key-0123456789abcdef";
     private readonly string _webRoot = Directory.CreateTempSubdirectory("companypaisa-web-").FullName;
 
-    public LockedApiFactory() => File.WriteAllText(Path.Combine(_webRoot, "index.html"), SitePagesFactory.IndexHtml);
+    public LockedApiFactory()
+    {
+        File.WriteAllText(Path.Combine(_webRoot, "index.html"), SitePagesFactory.IndexHtml);
+        File.WriteAllText(Path.Combine(_webRoot, "og-image.png"), "png");
+        Directory.CreateDirectory(Path.Combine(_webRoot, "assets"));
+        File.WriteAllText(Path.Combine(_webRoot, "assets", "index-DaqpULkU.js"), "console.log(1);");
+    }
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
@@ -93,6 +99,26 @@ public class ApiAccessTests(LockedApiFactory factory) : IClassFixture<LockedApiF
 
         // Without the pass the API still says no: a cached page doesn't open it.
         Assert.Equal(HttpStatusCode.Unauthorized, (await http.SendAsync(Get("/api/v1/companies/LFVN"))).StatusCode);
+    }
+
+    /// <summary>The website's built files in /assets are named after their content, so they never change: kept a year.</summary>
+    [Fact]
+    public async Task Hashed_assets_are_cached_for_a_year_other_files_are_not()
+    {
+        var http = factory.CreateClient();
+
+        var asset = await http.GetAsync("/assets/index-DaqpULkU.js");
+        Assert.Equal(HttpStatusCode.OK, asset.StatusCode);
+        Assert.Equal("public, max-age=31536000, immutable", asset.Headers.CacheControl?.ToString());
+
+        var image = await http.GetAsync("/og-image.png");
+        Assert.Equal(HttpStatusCode.OK, image.StatusCode);
+        Assert.Null(image.Headers.CacheControl);
+
+        // An old file name after a deploy is a 404, and that mustn't be kept for a year.
+        var gone = await http.GetAsync("/assets/index-OLDHASH0.js");
+        Assert.Equal(HttpStatusCode.NotFound, gone.StatusCode);
+        Assert.DoesNotContain("immutable", gone.Headers.CacheControl?.ToString() ?? "");
     }
 
     [Fact]
