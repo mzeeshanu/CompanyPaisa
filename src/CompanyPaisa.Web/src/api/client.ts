@@ -22,6 +22,7 @@ async function get<T>(path: string, params?: Record<string, string | number | bo
   for (const [k, v] of Object.entries(params ?? {})) if (v !== undefined && v !== null && v !== '') qs.set(k, String(v));
   const url = `${BASE}${path}${qs.size ? `?${qs}` : ''}`;
   const init: RequestInit = { signal, headers: { Accept: 'application/json' } };
+  await sitePass();
   let res = await fetch(url, init);
   // The page's pass to the API ran out (it was left open for hours, or the server restarted): get a new one, try again once.
   if (res.status === 401 && (await renewSession())) res = await fetch(url, init);
@@ -31,6 +32,16 @@ async function get<T>(path: string, params?: Record<string, string | number | bo
     throw new ApiError(res.status, problem);
   }
   return res.json() as Promise<T>;
+}
+
+/**
+ * The website's pass to the API is a cookie from /api/session (pages don't carry one, so Cloudflare can cache them). The
+ * site asks for it once when it starts; every API call waits for that. (Nothing is stored for it beyond the cookie itself.)
+ */
+let pass: Promise<boolean> | null = null;
+export function sitePass(): Promise<boolean> {
+  pass ??= renewSession();
+  return pass;
 }
 
 /** One renewal at a time, however many calls failed together. */

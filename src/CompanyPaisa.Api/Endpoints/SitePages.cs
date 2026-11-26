@@ -369,10 +369,23 @@ public static partial class SitePages
     {
         var html = index.Read();
         if (html is null) return Results.NotFound();   // no built website (development runs it on the Vite dev server)
-        http.Response.Headers.CacheControl = "no-cache";
+        http.Response.Headers.CacheControl = PageCacheControl(http, found: meta is not null);
         html = meta is null ? InHead(html, NoIndex) : WithMeta(html, meta, Origin(http));
         if (content is not null) html = WithContent(html, content);
         return Results.Content(html, "text/html; charset=utf-8", statusCode: meta is null ? StatusCodes.Status404NotFound : StatusCodes.Status200OK);
+    }
+
+    /// <summary>
+    /// Pages are the same for every visitor and set no cookie (the site's API pass comes from /api/session), so Cloudflare
+    /// may keep them (Hosting:PageEdgeCacheSeconds) and browsers briefly. A missing page is kept at most an hour, in case
+    /// it appears with the next data refresh.
+    /// </summary>
+    private static string PageCacheControl(HttpContext http, bool found)
+    {
+        var hosting = http.RequestServices.GetRequiredService<IOptionsMonitor<HostingOptions>>().CurrentValue;
+        var edge = found ? hosting.PageEdgeCacheSeconds : Math.Min(hosting.PageEdgeCacheSeconds, 3600);
+        var browser = Math.Min(hosting.PageBrowserCacheSeconds, found ? edge : Math.Min(edge, 60));
+        return edge == 0 ? "no-cache" : $"public, max-age={browser}, s-maxage={edge}";
     }
 
     /// <summary>

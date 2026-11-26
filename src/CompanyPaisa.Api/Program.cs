@@ -47,8 +47,6 @@ if (!app.Environment.IsDevelopment())
     if (hosting.UseHttpsRedirection) app.UseHttpsRedirection();
 }
 
-// Every page the site serves hands out the website's pass to the API (see SiteSessions).
-app.UseSiteSessions();
 // The React build is copied into wwwroot at publish time; serve it when present. The home page isn't a static file:
 // MapCompanyPaisaPages serves it with its content.
 app.UseStaticFiles();
@@ -72,7 +70,7 @@ if (api.EnableOpenApi)
 app.MapCompanyPaisaApiV1();
 app.MapCompanyPaisaAnalytics();
 app.MapCompanyPaisaPages();         // /, /company/{ticker}, /executive/{personId}, /near/…: the app's HTML with the page's title and content
-app.MapSiteSession();               // /api/session: a fresh pass for a page left open
+app.MapSiteSession();               // /api/session: the website's pass to the API (pages carry no cookie, so they can be cached)
 app.MapHealthChecks("/health");
 app.MapMemoryReport();              // /health/memory: what the process is holding, behind the dashboard key
 

@@ -18,6 +18,8 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Options;
 
+using CompanyPaisa.Api.Caching;
+
 namespace CompanyPaisa.Api.Composition;
 
 public static class ApiServiceCollectionExtensions
@@ -32,6 +34,7 @@ public static class ApiServiceCollectionExtensions
         services.AddCompanyPaisaDataSource(configuration);
         services.AddCompanyPaisaApi(configuration);
         services.AddCompanyPaisaWebAnalytics(configuration);
+        services.AddEdgeCache(configuration);   // EdgeCache: empty Cloudflare's copy of the pages after each deploy
         services.AddSingleton<IndexHtml>();
         services.AddScoped<PageRenderer>();
         return services;
