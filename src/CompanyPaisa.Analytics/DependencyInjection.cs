@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace CompanyPaisa.Analytics;
 
@@ -30,6 +31,12 @@ public static class DependencyInjection
         services.AddSingleton<IAnalyticsDatabase>(sp => adapter.Create(sp, section));
         services.AddSingleton<IAnalyticsStore>(sp => sp.GetRequiredService<IAnalyticsDatabase>());
         services.AddSingleton<IAnalyticsReader>(sp => sp.GetRequiredService<IAnalyticsDatabase>());
+
+        // Analytics:ImportFrom — copy the history from another provider once (an unknown name stops startup, like Provider).
+        var importSection = section.GetSection(AnalyticsImport.SectionName);
+        var importFrom = registry.Get(importSection[nameof(AnalyticsOptions.Provider)]);
+        var importSource = importFrom is null ? null : new AnalyticsImportSource(importFrom, importSection);
+        services.AddSingleton(sp => new AnalyticsImport(sp, sp.GetRequiredService<ILogger<AnalyticsImport>>(), importSource));
 
         services.AddSingleton<AnalyticsQueue>();
         services.AddSingleton<IAnalyticsSink>(sp => sp.GetRequiredService<AnalyticsQueue>());

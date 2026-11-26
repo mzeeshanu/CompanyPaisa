@@ -95,6 +95,38 @@ then change `Analytics__ConnectionString`. Nothing in the code changes; `Analyti
 `IAnalyticsAdapter`. Add a project, reference it from the API, add it in `AddAnalyticsAdapters` (`ApiServiceCollectionExtensions`), and set
 `Analytics__Provider` to its name. A name the build doesn't have stops the app at startup with the list it does have.
 
+## Moving analytics from Postgres to SQLite (one service fewer)
+
+At a few visits a day, a whole Postgres service for analytics costs more than it earns. The SQLite adapter keeps the same
+tables in one file on a Railway volume, and `Analytics:ImportFrom` copies the history across on the first start.
+
+1. **Back up Postgres first** (on your PC): `pg_dump "<DATABASE_PUBLIC_URL>" --format=custom --file=companypaisa-analytics.dump`
+   (Postgres service → Variables → `DATABASE_PUBLIC_URL`).
+2. **Add a volume:** website service → **Volumes → New Volume**, mount path `/data-volume` (1 GB is plenty; about $0.25 a month).
+3. **Variables** on the website service:
+
+   | Variable | Value | Notes |
+   |---|---|---|
+   | `Analytics__Provider` | `Sqlite` | Was `Postgres` (from `appsettings.Production.json`) |
+   | `Analytics__SqlitePath` | `/data-volume/analytics.db` | On the volume, so it survives deploys |
+   | `Analytics__ImportFrom__Provider` | `Postgres` | One-off: where the history is |
+   | `Analytics__ImportFrom__ConnectionString` | `${{Postgres.DATABASE_URL}}` | One-off: Railway fills in the private address |
+
+   Leave `Analytics__ConnectionString` for now; nothing reads it once the provider is Sqlite.
+4. **Deploy and check the log** for `Analytics recording to Sqlite` and then `Copied N analytics events from Postgres into Sqlite`.
+   Open `/admin` and compare the 90-day totals with what Postgres showed. If the log says
+   `unable to open database file` / permission denied, the volume is owned by root while the app runs as a normal user:
+   add `RAILWAY_RUN_UID=0` to the variables and deploy again.
+5. **Clean up:** delete `Analytics__ImportFrom__Provider`, `Analytics__ImportFrom__ConnectionString` and `Analytics__ConnectionString`,
+   then delete the Postgres service (keep the dump).
+
+If the copy fails (Postgres asleep or unreachable for about a minute), the log says so, nothing is copied, and the site records
+new events without the history. To try again: fix the variables, delete `/data-volume/analytics.db` and redeploy — the copy only
+runs while the file has no events, so it never doubles up. With a volume attached, each deploy has a few seconds of downtime
+(Railway can't attach one volume to two containers at once).
+
+**Backups:** `/admin` → **Download events (CSV)** for any range, or copy the file off the volume.
+
 ## Who can use the API
 
 The API isn't open to the public. A call gets in when it carries either:

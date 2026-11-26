@@ -57,11 +57,11 @@ public class AnalyticsApiTests(AnalyticsFactory factory) : IClassFixture<Analyti
         return http;
     }
 
-    /// <summary>Events are written in the background; wait until the report shows what the test expects.</summary>
+    /// <summary>Events are written in the background; wait (up to ~15 s: the whole suite runs in parallel) until the report shows what the test expects.</summary>
     private async Task<AnalyticsDashboardResponse> ReportWhen(Func<AnalyticsDashboardResponse, bool> ready)
     {
         AnalyticsDashboardResponse? last = null;
-        for (var i = 0; i < 100; i++)
+        for (var i = 0; i < 300; i++)
         {
             last = await Admin().GetFromJsonAsync<AnalyticsDashboardResponse>("/api/admin/analytics/report?days=7");
             if (last is not null && ready(last)) return last;
