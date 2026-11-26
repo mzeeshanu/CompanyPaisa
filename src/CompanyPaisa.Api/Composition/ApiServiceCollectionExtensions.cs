@@ -1,6 +1,8 @@
 using System.Text.Json.Serialization;
 using System.Threading.RateLimiting;
 using CompanyPaisa.Analytics;
+using CompanyPaisa.Analytics.Postgres;
+using CompanyPaisa.Analytics.Sqlite;
 using CompanyPaisa.Api.Analytics;
 using CompanyPaisa.Api.Endpoints;
 using CompanyPaisa.Api.Errors;
@@ -64,12 +66,18 @@ public static class ApiServiceCollectionExtensions
     }
 
     /// <summary>
+    /// The analytics adapters this host ships. Adding a provider means adding its project reference and one call here;
+    /// Analytics:Provider then picks it by name.
+    /// </summary>
+    public static void AddAnalyticsAdapters(AnalyticsAdapters adapters) => adapters.AddSqlite().AddPostgres();
+
+    /// <summary>
     /// The site's own visitor analytics (Analytics:Provider). When a store is configured, the tracker that reads visitor details
     /// from each request replaces Core's do-nothing one; otherwise nothing is recorded.
     /// </summary>
     public static IServiceCollection AddCompanyPaisaWebAnalytics(this IServiceCollection services, IConfiguration configuration)
     {
-        if (services.AddCompanyPaisaAnalytics(configuration).Enabled)
+        if (services.AddCompanyPaisaAnalytics(configuration, AddAnalyticsAdapters).Enabled)
         {
             services.AddHttpContextAccessor();
             services.AddSingleton<HttpAnalyticsTracker>();

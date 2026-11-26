@@ -7,9 +7,9 @@ namespace CompanyPaisa.Analytics;
 
 /// <summary>
 /// The SQL shared by every database store. Only portable SQL (it runs unchanged on Postgres and SQLite), so moving the data
-/// to another database is a dump and a restore. Subclasses supply the connection and the table definitions.
+/// to another database is a dump and a restore. Subclasses (in the adapter projects) supply the connection and the table definitions.
 /// </summary>
-public abstract class DbAnalyticsStore : IAnalyticsStore, IAnalyticsReader
+public abstract class DbAnalyticsStore : IAnalyticsDatabase
 {
     public abstract string Provider { get; }
     protected abstract ValueTask<DbConnection> OpenAsync(CancellationToken ct);

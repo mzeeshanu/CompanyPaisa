@@ -1,9 +1,9 @@
 using System.Data.Common;
 using Npgsql;
 
-namespace CompanyPaisa.Analytics;
+namespace CompanyPaisa.Analytics.Postgres;
 
-/// <summary>Production store: a Postgres database (Railway today; Azure Database for PostgreSQL moves with pg_dump / pg_restore).</summary>
+/// <summary>A Postgres database (Railway today; Azure Database for PostgreSQL moves with pg_dump / pg_restore).</summary>
 public sealed class PostgresAnalyticsStore(string connectionString) : DbAnalyticsStore, IAsyncDisposable
 {
     private readonly NpgsqlDataSource _dataSource = NpgsqlDataSource.Create(PostgresConnectionString.From(connectionString));

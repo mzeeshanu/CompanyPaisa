@@ -1,4 +1,6 @@
 using CompanyPaisa.Analytics;
+using CompanyPaisa.Analytics.Postgres;
+using CompanyPaisa.Analytics.Sqlite;
 using CompanyPaisa.Contracts;
 using CompanyPaisa.Core.Abstractions;
 using CompanyPaisa.Core.Features.Companies;
