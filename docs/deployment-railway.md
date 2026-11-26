@@ -135,8 +135,9 @@ The API isn't open to the public. A call gets in when it carries either:
 - **An API key** (`X-Api-Key` header), for other apps. Keys live in Railway variables, one pair per app:
   `Api__Keys__0__Name` = `partner-name`, `Api__Keys__0__Key` = a long random string (the PowerShell line above makes one).
   Set `Api__Keys__0__Enabled` = `false` to switch a key off without deleting it.
-- **The website's pass**, a cookie every page of the site hands out (HttpOnly, sent only to `/api`, signed by the server,
-  holding nothing but its expiry — no visitor id). Calls from another website's pages, and from scripts and scrapers
+- **The website's pass**, a cookie the site gets from `/api/session` when it starts (HttpOnly, sent only to `/api`,
+  signed by the server, holding nothing but its expiry — no visitor id). Pages themselves set no cookie, so Cloudflare
+  can cache them (below). Calls from another website's pages, and from scripts and scrapers
   (curl, python-requests, headless Chrome… — `Api:BlockedUserAgents`), are refused.
 
 One Railway variable to set, so passes survive a redeploy (otherwise open pages quietly fetch a new one):
@@ -170,6 +171,40 @@ ignores the header unless the connection comes from one of Cloudflare's networks
 
 Lines that appear later, with the setting on, are someone going around Cloudflare; the setting already ignores them.
 
+## Page caching (Cloudflare)
+
+Rendered pages (`/`, `/company/…`, `/executive/…`, `/near/…`) are the same for every visitor and set no cookie, so the
+app marks them `Cache-Control: public, max-age=300, s-maxage=86400`: Cloudflare may keep a page for a day, a browser for
+five minutes (`Hosting:PageEdgeCacheSeconds`, `Hosting:PageBrowserCacheSeconds`; 0 turns caching off). Repeat visits and
+Google's crawls are then answered by Cloudflare without waking the app. After every start (a deploy is how new data
+arrives) the app waits a minute, for Railway to switch visitors to the new copy, then empties Cloudflare's cache.
+
+Cloudflare doesn't cache HTML until told to. Two things to set up, once:
+
+1. **Cache rule.** Cloudflare dashboard → companypaisa.com → **Caching → Cache Rules → Create rule**, name *Pages*:
+   *Custom filter*: `URI Path` *does not start with* `/api/` **and** `URI Path` *does not start with* `/admin`
+   **and** `URI Path` *does not start with* `/health` → **Eligible for cache**; *Edge TTL*: **Use cache-control header
+   if present, bypass cache if not**; *Browser TTL*: **Respect origin**. Deploy.
+2. **Purge token.** **My Profile → API Tokens → Create Token → Custom token**: permission *Zone → Cache Purge → Purge*,
+   zone resources *Include → Specific zone → companypaisa.com*. Copy the token. The zone ID is on the domain's
+   **Overview** page (right-hand column, *API*). Then in Railway → **Variables**:
+
+| Variable | Value |
+|---|---|
+| `EdgeCache__Provider` | `Cloudflare` |
+| `EdgeCache__Cloudflare__ZoneId` | the zone ID |
+| `EdgeCache__Cloudflare__ApiToken` | the token. **Secret.** |
+
+After the next deploy the log says `Purged the Cloudflare cache…` about a minute after start. If it says it couldn't,
+the message names Cloudflare's reason; meanwhile **Caching → Configuration → Purge Everything** does the same by hand.
+`EdgeCache__PurgeDelaySeconds` changes the one-minute wait.
+
+**Check it:** run the line below twice. The second answer should include `cf-cache-status: HIT`.
+
+```powershell
+curl.exe -sI https://companypaisa.com/company/AAPL | Select-String cf-cache-status
+```
+
 ## Checks before and after deploying
 
 Every push to `main` and every pull request runs the tests and the website build on GitHub
@@ -178,7 +213,8 @@ Every push to `main` and every pull request runs the tests and the website build
 
 - `https://<domain>/health` → `Healthy`
 - `https://<domain>/` → the website; enter 84043
-- `https://<domain>/company/AAPL` → view the page source: the figures are in the HTML (what search engines read)
+- `https://<domain>/company/AAPL` → view the page source: the figures are in the HTML (what search engines read);
+  opened twice, its `cf-cache-status` header says `HIT` (after the cache rule above)
 - `https://<domain>/api/v1/companies/near?near=84043` in a new private window → `401 API key required` (the API is closed)
 - `https://<domain>/swagger` → API docs (if enabled)
 

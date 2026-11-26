@@ -1,6 +1,8 @@
+import { sitePass } from '../api/client';
+
 /**
  * The site's own analytics: tells our API about page views and a few clicks. Searches and the company / executive pages are
- * recorded by the API itself. No cookies, no third parties, and nothing is ever shown as an error to the visitor.
+ * recorded by the API itself. No tracking cookies, no third parties, and nothing is ever shown as an error to the visitor.
  */
 export type ClientEvent =
   | 'page_view'
@@ -26,6 +28,11 @@ export function track(name: ClientEvent, subject?: string): void {
     path: name === 'page_view' ? location.pathname : undefined,
     referrer: name === 'page_view' && document.referrer ? document.referrer : undefined,
   });
+  // The API needs the site's pass; the first event (the page view) is usually sent before it has arrived.
+  void sitePass().then(() => send(body));
+}
+
+function send(body: string): void {
   try {
     // sendBeacon survives the visitor leaving the page and never holds anything up.
     if (navigator.sendBeacon?.(ENDPOINT, new Blob([body], { type: 'application/json' }))) return;

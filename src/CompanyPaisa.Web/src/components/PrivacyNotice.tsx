@@ -64,8 +64,8 @@ export function PrivacyNotice({ open, contact, onClose }: Props) {
         <h3>Visitors</h3>
         <p>
           No ads, no tracking cookies, and nothing is shared with other companies. With your consent we keep one small cookie that
-          remembers your view and theme; "Just this visit" stores nothing. Every page also sets a short-lived security cookie that
-          lets it load data from our servers (so other sites and bots can't); it holds only its expiry time, nothing about you.
+          remembers your view and theme; "Just this visit" stores nothing. When the site opens it also gets a short-lived security cookie
+          that lets it load data from our servers (so other sites and bots can't); it holds only its expiry time, nothing about you.
         </p>
         <p>
           The one exception is share prices: when a company page shows one, your browser loads it straight from TradingView, which

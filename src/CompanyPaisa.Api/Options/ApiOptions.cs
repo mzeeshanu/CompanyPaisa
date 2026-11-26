@@ -108,6 +108,16 @@ public sealed class HostingOptions
     /// </summary>
     [RegularExpression(@"^(https?://[^/\s]+)?$")] public string? PublicOrigin { get; set; }
 
+    /// <summary>
+    /// How long Cloudflare (or any shared cache in front of the site) may keep a rendered page (s-maxage). Pages carry no
+    /// cookie and are the same for everyone, so the edge can answer repeat visits and crawls without the app. A deploy purges
+    /// the edge (<see cref="CompanyPaisa.Api.Caching.EdgeCacheOptions"/>), so new data shows at once. 0 = no caching (the old behaviour).
+    /// </summary>
+    [Range(0, 31_536_000)] public int PageEdgeCacheSeconds { get; set; } = 86_400;
+
+    /// <summary>How long a visitor's own browser may reuse a page before asking again (max-age). Kept short: browsers aren't purged.</summary>
+    [Range(0, 86_400)] public int PageBrowserCacheSeconds { get; set; } = 300;
+
     /// <summary><see cref="PublicOrigin"/>'s host, or null when it isn't set.</summary>
     public string? PublicHost => string.IsNullOrEmpty(PublicOrigin) ? null : new Uri(PublicOrigin).Authority;
 }

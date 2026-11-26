@@ -41,13 +41,15 @@ public class ApiAccessTests(LockedApiFactory factory) : IClassFixture<LockedApiF
 {
     private const string Browser = "Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.0 Mobile/15E148 Safari/604.1";
 
-    /// <summary>A browser that has opened one of the site's pages (so it holds the site pass).</summary>
+    /// <summary>A browser that has opened one of the site's pages and, as the website does when it starts, asked for its pass.</summary>
     private async Task<HttpClient> VisitorAsync()
     {
         var http = factory.CreateClient();
         http.DefaultRequestHeaders.UserAgent.ParseAdd(Browser);
-        var page = await http.GetAsync("/company/LFVN");
-        Assert.Contains(page.Headers.GetValues("Set-Cookie"), c => c.StartsWith("cp_site=") && c.Contains("httponly") && c.Contains("path=/api"));
+        (await http.GetAsync("/company/LFVN")).EnsureSuccessStatusCode();
+        var session = await http.SendAsync(Get("/api/session"));
+        Assert.Contains(session.Headers.GetValues("Set-Cookie"), c => c.StartsWith("cp_site=") && c.Contains("httponly") && c.Contains("path=/api"));
+        Assert.Equal("no-store", session.Headers.CacheControl?.ToString());
         return http;
     }
 
@@ -67,6 +69,30 @@ public class ApiAccessTests(LockedApiFactory factory) : IClassFixture<LockedApiF
 
         Assert.Equal(HttpStatusCode.Unauthorized, res.StatusCode);
         Assert.Equal(ApiKeyEndpointFilter.SessionRequired, JsonNode.Parse(await res.Content.ReadAsStringAsync())!["code"]!.GetValue<string>());
+    }
+
+    /// <summary>Pages are the same for everyone and set no cookie, so Cloudflare may keep them; a missing page only briefly.</summary>
+    [Fact]
+    public async Task Pages_carry_no_cookie_and_may_be_cached()
+    {
+        var http = factory.CreateClient();
+        http.DefaultRequestHeaders.UserAgent.ParseAdd(Browser);
+
+        foreach (var path in new[] { "/", "/company/LFVN" })
+        {
+            var page = await http.GetAsync(path);
+            Assert.Equal(HttpStatusCode.OK, page.StatusCode);
+            Assert.False(page.Headers.Contains("Set-Cookie"), $"{path} sets a cookie, so Cloudflare won't cache it");
+            Assert.Equal("public, max-age=300, s-maxage=86400", page.Headers.CacheControl?.ToString());
+        }
+
+        var missing = await http.GetAsync("/company/NOSUCHCO");
+        Assert.Equal(HttpStatusCode.NotFound, missing.StatusCode);
+        Assert.False(missing.Headers.Contains("Set-Cookie"));
+        Assert.Equal("public, max-age=60, s-maxage=3600", missing.Headers.CacheControl?.ToString());
+
+        // Without the pass the API still says no: a cached page doesn't open it.
+        Assert.Equal(HttpStatusCode.Unauthorized, (await http.SendAsync(Get("/api/v1/companies/LFVN"))).StatusCode);
     }
 
     [Fact]
@@ -119,7 +145,7 @@ public class ApiAccessTests(LockedApiFactory factory) : IClassFixture<LockedApiF
     }
 
     [Fact]
-    public async Task A_page_left_open_can_renew_its_pass()
+    public async Task A_fresh_browser_gets_its_pass_from_the_session_endpoint()
     {
         var http = factory.CreateClient();
         http.DefaultRequestHeaders.UserAgent.ParseAdd(Browser);

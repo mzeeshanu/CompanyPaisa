@@ -7,8 +7,9 @@ using Microsoft.Extensions.Options;
 namespace CompanyPaisa.Api.Security;
 
 /// <summary>
-/// The website's own pass to the API. Every page the site serves sets a short-lived cookie that only this server can sign;
-/// the API accepts calls that carry it (from the site's own pages) or an API key. Other apps and scripts need a key.
+/// The website's own pass to the API: a short-lived cookie that only this server can sign, which the website gets from
+/// /api/session when it starts (pages carry no cookie, so Cloudflare can cache them). The API accepts calls that carry it
+/// (from the site's own pages) or an API key. Other apps and scripts need a key.
 /// The cookie holds only its expiry time and a signature: nothing that identifies the visitor, so it isn't tracking.
 /// It isn't a wall — anyone can load a page and reuse its cookie — but it keeps the API from being an open public
 /// endpoint, and the rate limits and bot rules make copying the data set slow.
@@ -72,18 +73,6 @@ public sealed class SiteSessions
     /// </summary>
     public static bool FromOwnPage(HttpContext context) =>
         context.Request.Headers["Sec-Fetch-Site"].ToString() is "" or "same-origin" or "none";
-
-    /// <summary>A page view (not an API call, a script, a stylesheet or an image): the moment to hand out a pass.</summary>
-    public static bool IsPageRequest(HttpRequest request)
-    {
-        if (!HttpMethods.IsGet(request.Method) && !HttpMethods.IsHead(request.Method)) return false;
-        var path = request.Path.Value ?? "/";
-        if (path.StartsWith("/api/", StringComparison.OrdinalIgnoreCase) || path.StartsWith("/assets/", StringComparison.OrdinalIgnoreCase) ||
-            path.StartsWith("/openapi", StringComparison.OrdinalIgnoreCase) || path.StartsWith("/health", StringComparison.OrdinalIgnoreCase) ||
-            path.StartsWith("/swagger", StringComparison.OrdinalIgnoreCase)) return false;
-        var extension = Path.GetExtension(path);
-        return extension.Length == 0 || extension.Equals(".html", StringComparison.OrdinalIgnoreCase);
-    }
 }
 
 /// <summary>Automated clients (scripts, scrapers, headless browsers) by their User-Agent; they need an API key.</summary>
@@ -99,20 +88,10 @@ public static class BotRules
 
 public static class SiteSessionExtensions
 {
-    /// <summary>Hands the website's pages their API pass. Runs before static files, so the home page gets one too.</summary>
-    public static IApplicationBuilder UseSiteSessions(this IApplicationBuilder app) => app.Use(async (context, next) =>
-    {
-        if (SiteSessions.IsPageRequest(context.Request))
-        {
-            var sessions = context.RequestServices.GetRequiredService<SiteSessions>();
-            if (sessions.Check(context) is not (true, false)) sessions.Issue(context);
-        }
-        await next(context);
-    });
-
     /// <summary>
-    /// GET /api/session: a new pass for a page that has been open longer than its pass lasts (the website calls it when the
-    /// API says the pass has run out). Only for the site's own pages and ordinary browsers.
+    /// GET /api/session: the website's pass, asked for when the site starts without one and again when the API says it has
+    /// run out (a page left open for hours, a restart without Api:SiteSession:Secret). Only for the site's own pages and
+    /// ordinary browsers; the rate limit applies.
     /// </summary>
     public static IEndpointRouteBuilder MapSiteSession(this IEndpointRouteBuilder app)
     {
