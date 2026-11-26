@@ -27,8 +27,9 @@ public sealed class AnalyticsAdapters
     /// <summary>The adapter called <paramref name="name"/>; null for "None" (or empty). Unknown names throw, listing the known ones.</summary>
     public IAnalyticsAdapter? Get(string? name)
     {
-        if (string.IsNullOrWhiteSpace(name) || name.Equals(None, StringComparison.OrdinalIgnoreCase)) return null;
-        return _adapters.TryGetValue(name.Trim(), out var adapter)
+        name = name?.Trim();
+        if (string.IsNullOrEmpty(name) || name.Equals(None, StringComparison.OrdinalIgnoreCase)) return null;
+        return _adapters.TryGetValue(name, out var adapter)
             ? adapter
             : throw new InvalidOperationException(
                 $"Analytics:Provider '{name}' isn't supported by this build. Supported: {string.Join(", ", Names)}.");

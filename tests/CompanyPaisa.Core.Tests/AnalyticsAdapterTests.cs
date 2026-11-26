@@ -31,10 +31,14 @@ public class AnalyticsAdapterTests
         Assert.Contains("None, Postgres, Sqlite", ex.Message);
     }
 
-    [Fact]
-    public void None_records_nothing_and_registers_no_store()
+    [Theory]
+    [InlineData("None")]
+    [InlineData(" none ")]
+    [InlineData("")]
+    [InlineData(null)]
+    public void None_records_nothing_and_registers_no_store(string? provider)
     {
-        var (services, status) = Register(("Provider", "None"));
+        var (services, status) = Register(("Provider", provider));
         Assert.Equal(new AnalyticsStatus("None", false, "Analytics:Provider is None."), status);
         Assert.DoesNotContain(services, d => d.ServiceType == typeof(IAnalyticsStore));
         Assert.DoesNotContain(services, d => d.ServiceType == typeof(IHostedService));
@@ -56,7 +60,7 @@ public class AnalyticsAdapterTests
         var path = Path.Combine(Path.GetTempPath(), $"analytics-adapter-{Guid.NewGuid():N}.db");
         try
         {
-            var (services, status) = Register(("Provider", "sqlite"), ("SqlitePath", path));
+            var (services, status) = Register(("Provider", " sqlite "), ("SqlitePath", path));
             Assert.Equal(new AnalyticsStatus("Sqlite", true, "Recording to Sqlite."), status);
 
             await using var provider = services.BuildServiceProvider();

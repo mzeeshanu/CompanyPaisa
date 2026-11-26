@@ -10,9 +10,9 @@ public sealed class AnalyticsOptions
     /// <summary>
     /// Which registered adapter keeps the events ("None", or an adapter's name such as "Sqlite" or "Postgres"; see
     /// <see cref="AnalyticsAdapters"/>). Each adapter reads its own settings from this section (Sqlite: SqlitePath;
-    /// Postgres: ConnectionString).
+    /// Postgres: ConnectionString). Empty means "None".
     /// </summary>
-    [Required] public string Provider { get; set; } = AnalyticsAdapters.None;
+    public string? Provider { get; set; } = AnalyticsAdapters.None;
 
     /// <summary>Secret for the private dashboard (/admin). Empty = dashboard off. Keep it in environment variables.</summary>
     [MinLength(16)] public string? DashboardKey { get; set; }
