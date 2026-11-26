@@ -91,6 +91,10 @@ pg_dump "<DATABASE_PUBLIC_URL>" --format=custom --file=companypaisa-analytics.du
 **Moving to another host (e.g. Azure Database for PostgreSQL):** `pg_restore --no-owner --dbname "<new url>" companypaisa-analytics.dump`,
 then change `Analytics__ConnectionString`. Nothing in the code changes; `Analytics:Provider` also accepts `Sqlite` (a file) or `None`.
 
+**Adding another provider:** each store is an adapter project (`CompanyPaisa.Analytics.Sqlite`, `CompanyPaisa.Analytics.Postgres`) implementing
+`IAnalyticsAdapter`. Add a project, reference it from the API, add it in `AddAnalyticsAdapters` (`ApiServiceCollectionExtensions`), and set
+`Analytics__Provider` to its name. A name the build doesn't have stops the app at startup with the list it does have.
+
 ## Who can use the API
 
 The API isn't open to the public. A call gets in when it carries either:

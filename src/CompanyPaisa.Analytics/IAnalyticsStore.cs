@@ -1,6 +1,6 @@
 namespace CompanyPaisa.Analytics;
 
-/// <summary>Where events are kept. Implementations: <see cref="PostgresAnalyticsStore"/>, <see cref="SqliteAnalyticsStore"/>.</summary>
+/// <summary>Where events are kept. Implementations come from adapters (<see cref="IAnalyticsAdapter"/>).</summary>
 public interface IAnalyticsStore
 {
     string Provider { get; }

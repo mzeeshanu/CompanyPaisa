@@ -29,7 +29,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CompanyPaisa.Infrastructure\CompanyPaisa.Infrastructure.csproj" />
-    <ProjectReference Include="..\CompanyPaisa.Analytics\CompanyPaisa.Analytics.csproj" />
+    <!-- Analytics adapters this build ships; Analytics:Provider picks one (see ApiServiceCollectionExtensions). -->
+    <ProjectReference Include="..\CompanyPaisa.Analytics.Sqlite\CompanyPaisa.Analytics.Sqlite.csproj" />
+    <ProjectReference Include="..\CompanyPaisa.Analytics.Postgres\CompanyPaisa.Analytics.Postgres.csproj" />
     <ProjectReference Include="..\CompanyPaisa.Data.Excel\CompanyPaisa.Data.Excel.csproj" />
     <ProjectReference Include="..\CompanyPaisa.Data.Sqlite\CompanyPaisa.Data.Sqlite.csproj" />
   </ItemGroup>

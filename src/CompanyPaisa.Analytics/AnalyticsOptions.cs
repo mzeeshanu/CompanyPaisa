@@ -7,14 +7,12 @@ public sealed class AnalyticsOptions
 {
     public const string SectionName = "Analytics";
 
-    /// <summary>"None", "Sqlite" (a local file — development) or "Postgres" (production).</summary>
-    [RegularExpression("^(?i)(None|Sqlite|Postgres)$")] public string Provider { get; set; } = "None";
-
-    /// <summary>Postgres: a connection string or a postgresql:// URL (Railway's DATABASE_URL). Keep it in environment variables.</summary>
-    public string? ConnectionString { get; set; }
-
-    /// <summary>Sqlite: the file, relative to the app's content root. Keep it out of data/*.db, which ships with the app.</summary>
-    public string SqlitePath { get; set; } = "../../data/analytics/analytics.db";
+    /// <summary>
+    /// Which registered adapter keeps the events ("None", or an adapter's name such as "Sqlite" or "Postgres"; see
+    /// <see cref="AnalyticsAdapters"/>). Each adapter reads its own settings from this section (Sqlite: SqlitePath;
+    /// Postgres: ConnectionString). Empty means "None".
+    /// </summary>
+    public string? Provider { get; set; } = AnalyticsAdapters.None;
 
     /// <summary>Secret for the private dashboard (/admin). Empty = dashboard off. Keep it in environment variables.</summary>
     [MinLength(16)] public string? DashboardKey { get; set; }

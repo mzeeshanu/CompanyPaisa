@@ -1,9 +1,9 @@
 using System.Data.Common;
 using Microsoft.Data.Sqlite;
 
-namespace CompanyPaisa.Analytics;
+namespace CompanyPaisa.Analytics.Sqlite;
 
-/// <summary>Development store: one SQLite file on this PC, same tables and queries as Postgres.</summary>
+/// <summary>One SQLite file (a volume in production, a local file in development); same tables and queries as Postgres.</summary>
 public sealed class SqliteAnalyticsStore : DbAnalyticsStore
 {
     private readonly string _connectionString;

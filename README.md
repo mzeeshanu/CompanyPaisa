@@ -111,7 +111,9 @@ src/
   CompanyPaisa.Data/            the in-memory data set, its integrity rules, the reloading repository base
   CompanyPaisa.Data.Sqlite/     ICompanyRepository over the published SQLite database (the live data)
   CompanyPaisa.Data.Excel/      ICompanyRepository over Excel workbooks (sample data, hand-made sets)
-  CompanyPaisa.Analytics/       the site's own visitor analytics: queue, background writer, Postgres / SQLite stores
+  CompanyPaisa.Analytics/       the site's own visitor analytics: queue, background writer, the adapter contract
+  CompanyPaisa.Analytics.Sqlite/   analytics adapter: one SQLite file
+  CompanyPaisa.Analytics.Postgres/ analytics adapter: a Postgres database
   CompanyPaisa.Api/             minimal-API endpoints, API keys, rate limits, OpenAPI, health, serves the SPA
   CompanyPaisa.Client/          typed C# client for other apps
   CompanyPaisa.Web/             React + TypeScript website (Vite, D3) — calls only the public /api/v1
