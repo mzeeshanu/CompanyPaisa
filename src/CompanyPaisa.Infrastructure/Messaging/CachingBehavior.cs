@@ -12,7 +12,7 @@ namespace CompanyPaisa.Infrastructure.Messaging;
 /// so reloading data invalidates the cache.
 /// </summary>
 public sealed class CachingBehavior<TRequest, TResponse>(
-    IMemoryCache cache,
+    QueryResultCache cache,
     IDataChangeSignal dataChange,
     IOptionsMonitor<CachingOptions> options) : IPipelineBehavior<TRequest, TResponse>
     where TRequest : IRequest<TResponse>

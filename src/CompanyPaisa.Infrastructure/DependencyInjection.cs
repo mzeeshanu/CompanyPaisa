@@ -8,7 +8,6 @@ using CompanyPaisa.Infrastructure.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.Extensions.Options;
 
 namespace CompanyPaisa.Infrastructure;
 
@@ -24,10 +23,8 @@ public static class DependencyInjection
         services.AddValidatedOptions<CachingOptions>(configuration, CachingOptions.SectionName);
         services.AddValidatedOptions<PipelineOptions>(configuration, PipelineOptions.SectionName);
 
-        services.AddMemoryCache();
-        services.AddSingleton<IConfigureOptions<Microsoft.Extensions.Caching.Memory.MemoryCacheOptions>>(sp =>
-            new ConfigureOptions<Microsoft.Extensions.Caching.Memory.MemoryCacheOptions>(o =>
-                o.SizeLimit = sp.GetRequiredService<IOptions<CachingOptions>>().Value.MaxEntries));
+        // Query results get their own cache, limited in rows; the general IMemoryCache stays separate and unlimited.
+        services.TryAddSingleton<QueryResultCache>();
 
         services.TryAddSingleton<IClock, SystemClock>();
         services.TryAddSingleton<IFilePathResolver, ContentRootPathResolver>();

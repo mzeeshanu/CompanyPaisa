@@ -11,9 +11,18 @@ namespace CompanyPaisa.Api.Security;
 /// the search engines ask: its reverse DNS name is in their domain, and that name resolves back to the same address.
 /// Each address is checked once a day.
 /// </summary>
-public sealed class SearchCrawlers(IMemoryCache cache, IOptionsMonitor<ApiOptions> options, ILogger<SearchCrawlers> log)
+public sealed class SearchCrawlers(IOptionsMonitor<ApiOptions> options, ILogger<SearchCrawlers> log) : IDisposable
 {
     private const string VerifiedItem = "cp.search-crawler";
+
+    /// <summary>The most addresses remembered at once. Anyone can claim to be Googlebot, so the list has to stop somewhere.</summary>
+    public const int MaxAddresses = 10_000;
+
+    /// <summary>
+    /// Checked addresses, in a cache of their own: in the shared one, a few large searches could push them out and cost
+    /// each crawler another DNS check.
+    /// </summary>
+    private readonly MemoryCache _cache = new(Microsoft.Extensions.Options.Options.Create(new MemoryCacheOptions { SizeLimit = MaxAddresses }));
 
     /// <summary>User-Agent token → the domains its addresses' names end in.</summary>
     private static readonly (string Agent, string[] Domains)[] Known =
@@ -35,10 +44,10 @@ public sealed class SearchCrawlers(IMemoryCache cache, IOptionsMonitor<ApiOption
         if (domains is null) return;
         if (!IPAddress.TryParse(ApiKeyValidator.ClientIp(context, options.CurrentValue), out var ip)) return;
 
-        var verified = await cache.GetOrCreateAsync($"crawler:{ip}", async entry =>
+        var verified = await _cache.GetOrCreateAsync(ip.ToString(), async entry =>
         {
             entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(24);
-            entry.Size = 1;   // the shared cache has a size limit
+            entry.Size = 1;
             var ok = await VerifyAsync(ip, domains);
             if (!ok) log.LogInformation("{Address} says it is a search crawler ({Agent}) but its DNS doesn't agree", ip, agent);
             return ok;
@@ -63,6 +72,8 @@ public sealed class SearchCrawlers(IMemoryCache cache, IOptionsMonitor<ApiOption
     }
 
     private static IPAddress Plain(IPAddress a) => a.IsIPv4MappedToIPv6 ? a.MapToIPv4() : a;
+
+    public void Dispose() => _cache.Dispose();
 }
 
 public static class SearchCrawlerExtensions
