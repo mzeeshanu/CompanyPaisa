@@ -12,6 +12,7 @@ React website in `wwwroot`. Railway builds it from the repo's `Dockerfile` (sele
 | `railway.json` | Dockerfile builder, health check on `/health`, restart on failure |
 | `appsettings.Production.json` | Data paths inside the container, trusts Railway's proxy headers |
 | `Program.cs` | Listens on Railway's `PORT` (IPv4 + IPv6); forwarded headers so rate limits see real visitor IPs and https is detected |
+| `CompanyPaisa.Api.csproj` | Workstation GC with conserve mode 9: the heap hands memory back (≈325 MB instead of ≈425 MB). Override with the `DOTNET_GCConserveMemory` variable (0–9) |
 
 ## First deployment
 

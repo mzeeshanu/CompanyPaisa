@@ -81,7 +81,10 @@ public class AnalyticsApiTests(AnalyticsFactory factory) : IClassFixture<Analyti
         (await visitor.GetAsync("/api/v1/companies/near?latitude=40.3916&longitude=-111.8508&radiusMiles=60&pageSize=1")).EnsureSuccessStatusCode();
         (await visitor.GetAsync("/api/v1/companies/lfvn")).EnsureSuccessStatusCode();
 
-        var data = await ReportWhen(d => d.Report?.Companies.Any(c => c.Key == "LFVN") == true && d.Report.Referrers.Count > 0);
+        // Wait for this test's own events, not just any LFVN view: other tests in this class share the database and open LFVN too.
+        var data = await ReportWhen(d => d.Report is { } r
+            && r.Companies.Any(c => c.Key == "LFVN") && r.Referrers.Any(x => x.Key == "google.com")
+            && d.Areas.Any(a => a.Key.EndsWith(", UT")));
         var report = data.Report!;
 
         Assert.True(data.Status.Enabled);
