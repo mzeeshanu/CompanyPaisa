@@ -179,6 +179,10 @@ five minutes (`Hosting:PageEdgeCacheSeconds`, `Hosting:PageBrowserCacheSeconds`;
 Google's crawls are then answered by Cloudflare without waking the app. After every start (a deploy is how new data
 arrives) the app waits a minute, for Railway to switch visitors to the new copy, then empties Cloudflare's cache.
 
+The website's built files under `/assets/` are named after their content (`index-DaqpULkU.js`), so they never change:
+they're sent `public, max-age=31536000, immutable` and browsers and Cloudflare keep them a year without asking again.
+A deploy brings new names. `index.html` and `og-image.png` keep Cloudflare's default.
+
 Cloudflare doesn't cache HTML until told to. Two things to set up, once:
 
 1. **Cache rule.** Cloudflare dashboard → companypaisa.com → **Caching → Cache Rules → Create rule**, name *Pages*:

@@ -49,7 +49,16 @@ if (!app.Environment.IsDevelopment())
 
 // The React build is copied into wwwroot at publish time; serve it when present. The home page isn't a static file:
 // MapCompanyPaisaPages serves it with its content.
-app.UseStaticFiles();
+app.UseStaticFiles(new StaticFileOptions
+{
+    // Vite names everything in /assets after its content, so a file there never changes: browsers and Cloudflare keep it a
+    // year. index.html, og-image.png and other unhashed files keep the default (they can change under the same name).
+    OnPrepareResponse = context =>
+    {
+        if (context.Context.Request.Path.StartsWithSegments("/assets"))
+            context.Context.Response.Headers.CacheControl = "public, max-age=31536000, immutable";
+    }
+});
 
 app.UseCors(ApiServiceCollectionExtensions.CorsPolicy);
 app.UseNoIndexForNonPages();
