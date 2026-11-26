@@ -27,7 +27,7 @@ React website in `wwwroot`. Railway builds it from the repo's `Dockerfile` (sele
    | `Api__Keys__0__Name` | `my-other-app` | One entry per external app |
    | `Api__Keys__0__Key` | a long random string (≥ 16 chars) | **Secret** — never commit keys |
    | `Api__CorsAllowedOrigins__0` | `https://myotherapp.com` | Only if another *website* calls the API from the browser |
-   | `Api__EnableSwaggerUi` | `true` / `false` | Public API docs at `/swagger` |
+   | `Api__EnableSwaggerUi` | `true` / `false` | API docs page at `/swagger`; **off** in production (`appsettings.Production.json`). `/openapi/v1.json` stays |
 
    Any other appsettings value can be overridden the same way (e.g. `Search__DefaultRadiusMiles=25`).
 4. **Networking → Generate Domain** (gets `*.up.railway.app`), then **Custom Domain → companypaisa.com**
@@ -220,7 +220,7 @@ Every push to `main` and every pull request runs the tests and the website build
 - `https://<domain>/company/AAPL` → view the page source: the figures are in the HTML (what search engines read);
   opened twice, its `cf-cache-status` header says `HIT` (after the cache rule above)
 - `https://<domain>/api/v1/companies/near?near=84043` in a new private window → `401 API key required` (the API is closed)
-- `https://<domain>/swagger` → API docs (if enabled)
+- `https://<domain>/swagger` → 404 (off in production; `Api__EnableSwaggerUi=true` turns it on). `/openapi/v1.json` → the API description
 
 ## Local rehearsal (without Docker)
 
