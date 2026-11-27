@@ -204,11 +204,9 @@ public static partial class SitePages
         return (await cache.GetOrCreateAsync($"sitemap:{meta.DataVersion}:{meta.LoadedAt.UtcTicks}:{executives}", async entry =>
         {
             entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(1);
-            var paths = await SitemapPathsAsync(repository, ui, executives, ct);
-            // One row per address, as the shared cache counts them: this is one entry holding tens of thousands of
-            // strings, so charging it 1 let it sit outside the size limit entirely.
-            entry.Size = paths.Count;
-            return paths;
+            // The general cache, which has no size limit: one entry per loaded data set. (In the row-limited query cache
+            // its tens of thousands of addresses were larger than the whole limit, so it was never kept.)
+            return await SitemapPathsAsync(repository, ui, executives, ct);
         }))!;
     }
 
