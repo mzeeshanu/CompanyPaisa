@@ -114,6 +114,8 @@ src/
   CompanyPaisa.Analytics/       the site's own visitor analytics: queue, background writer, the adapter contract
   CompanyPaisa.Analytics.Sqlite/   analytics adapter: one SQLite file
   CompanyPaisa.Analytics.Postgres/ analytics adapter: a Postgres database
+  CompanyPaisa.EdgeCache/       empties the CDN's copy of the pages after each deploy: the adapter contract, registry, purge
+  CompanyPaisa.EdgeCache.Cloudflare/ edge cache adapter: Cloudflare's purge-everything
   CompanyPaisa.Api/             minimal-API endpoints, API keys, rate limits, OpenAPI, health, serves the SPA
   CompanyPaisa.Client/          typed C# client for other apps
   CompanyPaisa.Web/             React + TypeScript website (Vite, D3) — calls only the public /api/v1

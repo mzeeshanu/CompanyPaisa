@@ -111,7 +111,7 @@ public sealed class HostingOptions
     /// <summary>
     /// How long Cloudflare (or any shared cache in front of the site) may keep a rendered page (s-maxage). Pages carry no
     /// cookie and are the same for everyone, so the edge can answer repeat visits and crawls without the app. A deploy purges
-    /// the edge (<see cref="CompanyPaisa.Api.Caching.EdgeCacheOptions"/>), so new data shows at once. 0 = no caching (the old behaviour).
+    /// the edge (<see cref="CompanyPaisa.EdgeCache.EdgeCacheOptions"/>), so new data shows at once. 0 = no caching (the old behaviour).
     /// </summary>
     [Range(0, 31_536_000)] public int PageEdgeCacheSeconds { get; set; } = 86_400;
 

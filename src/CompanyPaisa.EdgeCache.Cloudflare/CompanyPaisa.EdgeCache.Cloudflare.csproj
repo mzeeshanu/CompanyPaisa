@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Edge cache adapter: Cloudflare's "purge everything" on the site's zone. -->
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CompanyPaisa.EdgeCache\CompanyPaisa.EdgeCache.csproj" />
+  </ItemGroup>
+
+</Project>

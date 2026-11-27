@@ -10,6 +10,8 @@
     <Project Path="src/CompanyPaisa.Data/CompanyPaisa.Data.csproj" />
     <Project Path="src/CompanyPaisa.Data.Excel/CompanyPaisa.Data.Excel.csproj" />
     <Project Path="src/CompanyPaisa.Data.Sqlite/CompanyPaisa.Data.Sqlite.csproj" />
+    <Project Path="src/CompanyPaisa.EdgeCache.Cloudflare/CompanyPaisa.EdgeCache.Cloudflare.csproj" />
+    <Project Path="src/CompanyPaisa.EdgeCache/CompanyPaisa.EdgeCache.csproj" />
     <Project Path="src/CompanyPaisa.Infrastructure/CompanyPaisa.Infrastructure.csproj" />
   </Folder>
   <Folder Name="/tests/">
