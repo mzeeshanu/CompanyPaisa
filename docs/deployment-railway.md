@@ -203,6 +203,8 @@ After the next deploy the log says `Purged the Cloudflare cache…` about a minu
 the message names Cloudflare's reason; meanwhile **Caching → Configuration → Purge Everything** does the same by hand.
 `EdgeCache__PurgeDelaySeconds` changes the one-minute wait.
 
+**Another CDN:** each provider is an adapter project (`CompanyPaisa.EdgeCache.Cloudflare`) implementing `IEdgeCacheAdapter`, the same way analytics stores work. Add a project, reference it from the API, add it in `AddEdgeCacheAdapters` (`ApiServiceCollectionExtensions`), and set `EdgeCache__Provider` to its name. A name the build doesn't have stops the app at startup with the list it does have; a known one with missing settings only logs a warning.
+
 **Check it:** run the line below twice. The second answer should include `cf-cache-status: HIT`.
 
 ```powershell

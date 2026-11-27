@@ -13,12 +13,13 @@ using CompanyPaisa.Core.Abstractions;
 using CompanyPaisa.Core.Options;
 using CompanyPaisa.Data.Excel;
 using CompanyPaisa.Data.Sqlite;
+using CompanyPaisa.EdgeCache;
+using CompanyPaisa.EdgeCache.Cloudflare;
 using CompanyPaisa.Infrastructure;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Options;
 
-using CompanyPaisa.Api.Caching;
 
 namespace CompanyPaisa.Api.Composition;
 
@@ -34,7 +35,7 @@ public static class ApiServiceCollectionExtensions
         services.AddCompanyPaisaDataSource(configuration);
         services.AddCompanyPaisaApi(configuration);
         services.AddCompanyPaisaWebAnalytics(configuration);
-        services.AddEdgeCache(configuration);   // EdgeCache: empty Cloudflare's copy of the pages after each deploy
+        services.AddCompanyPaisaEdgeCache(configuration, AddEdgeCacheAdapters);   // EdgeCache: empty the CDN's copy of the pages after each deploy
         services.AddSingleton<IndexHtml>();
         services.AddScoped<PageRenderer>();
         return services;
@@ -73,6 +74,9 @@ public static class ApiServiceCollectionExtensions
     /// Analytics:Provider then picks it by name.
     /// </summary>
     public static void AddAnalyticsAdapters(AnalyticsAdapters adapters) => adapters.AddSqlite().AddPostgres();
+
+    /// <summary>The edge cache adapters this build ships (each its own project); EdgeCache:Provider then picks one by name.</summary>
+    public static void AddEdgeCacheAdapters(EdgeCacheAdapters adapters) => adapters.AddCloudflare();
 
     /// <summary>
     /// The site's own visitor analytics (Analytics:Provider). When a store is configured, the tracker that reads visitor details

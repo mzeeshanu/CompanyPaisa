@@ -1,15 +1,16 @@
 using System.Net;
 using System.Text;
-using CompanyPaisa.Api.Caching;
+using CompanyPaisa.Api.Composition;
+using CompanyPaisa.EdgeCache;
+using CompanyPaisa.EdgeCache.Cloudflare;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging.Abstractions;
-using Microsoft.Extensions.Options;
 
 namespace CompanyPaisa.Api.Tests;
 
-/// <summary>After a deploy the app empties Cloudflare's copy of the pages, so new data shows at once.</summary>
+/// <summary>After a deploy the app empties the CDN's copy of the pages, so new data shows at once.</summary>
 public class EdgeCacheTests
 {
     private sealed class Recorder(HttpStatusCode status, string body) : HttpMessageHandler
@@ -60,8 +61,8 @@ public class EdgeCacheTests
             ++Attempts <= failures ? Task.FromException(new HttpRequestException("down")) : Task.CompletedTask;
     }
 
-    private static EdgeCachePurgeOnStart Purger(IEdgeCache cache) => new(cache, Microsoft.Extensions.Options.Options.Create(new EdgeCacheOptions()),
-        new Lifetime(), NullLogger<EdgeCachePurgeOnStart>.Instance,
+    private static EdgeCachePurgeOnStart Purger(IEdgeCache cache) => new(cache, new EdgeCacheStatus("Test", true, ""),
+        Microsoft.Extensions.Options.Options.Create(new EdgeCacheOptions()), new Lifetime(), NullLogger<EdgeCachePurgeOnStart>.Instance,
         retries: [TimeSpan.Zero, TimeSpan.Zero]);
 
     private sealed class Lifetime : IHostApplicationLifetime
@@ -96,23 +97,63 @@ public class EdgeCacheTests
         Assert.Equal(3, cache.Attempts);
     }
 
-    private static ServiceProvider Build(params (string Key, string Value)[] settings)
+    /// <summary>The services the site registers for these EdgeCache settings, with the adapters it ships.</summary>
+    private static (ServiceProvider Services, EdgeCacheStatus Status) Build(params (string Key, string Value)[] settings)
     {
         var configuration = new ConfigurationBuilder()
             .AddInMemoryCollection(settings.Select(s => new KeyValuePair<string, string?>($"EdgeCache:{s.Key}", s.Value))).Build();
-        return new ServiceCollection().AddLogging().AddSingleton<IHostApplicationLifetime, Lifetime>().AddEdgeCache(configuration).BuildServiceProvider();
+        var services = new ServiceCollection().AddLogging().AddSingleton<IHostApplicationLifetime, Lifetime>();
+        var status = services.AddCompanyPaisaEdgeCache(configuration, ApiServiceCollectionExtensions.AddEdgeCacheAdapters);
+        return (services.BuildServiceProvider(), status);
     }
 
     [Fact]
     public void Cloudflare_is_used_only_with_a_zone_and_a_token()
     {
-        using var none = Build();
-        using var incomplete = Build(("Provider", "Cloudflare"), ("Cloudflare:ZoneId", "zone123"));
-        using var complete = Build(("Provider", "cloudflare"), ("Cloudflare:ZoneId", "zone123"), ("Cloudflare:ApiToken", "token-abc"));
+        var (none, noneStatus) = Build();
+        var (incomplete, incompleteStatus) = Build(("Provider", "Cloudflare"), ("Cloudflare:ZoneId", "zone123"));
+        var (complete, completeStatus) = Build(("Provider", " cloudflare "), ("Cloudflare:ZoneId", "zone123"), ("Cloudflare:ApiToken", "token-abc"));
+        using var _ = none; using var __ = incomplete; using var ___ = complete;
 
+        Assert.Equal((EdgeCacheAdapters.None, false), (noneStatus.Provider, noneStatus.Enabled));
         Assert.Null(none.GetService<IEdgeCache>());
+        Assert.Empty(none.GetServices<IHostedService>());
+
+        // Named but incomplete: the site runs, and the purge service is there only to say why it won't purge.
+        Assert.Equal(("Cloudflare", false), (incompleteStatus.Provider, incompleteStatus.Enabled));
+        Assert.Contains("ApiToken", incompleteStatus.Reason);
         Assert.Null(incomplete.GetService<IEdgeCache>());
+        Assert.Single(incomplete.GetServices<IHostedService>(), s => s is EdgeCachePurgeOnStart);
+
+        Assert.True(completeStatus.Enabled);
         Assert.IsType<CloudflareEdgeCache>(complete.GetService<IEdgeCache>());
         Assert.Single(complete.GetServices<IHostedService>(), s => s is EdgeCachePurgeOnStart);
+    }
+
+    [Fact]
+    public void An_unknown_provider_stops_startup_and_lists_the_known_ones()
+    {
+        var ex = Assert.Throws<InvalidOperationException>(() => Build(("Provider", "Fastly")));
+
+        Assert.Contains("'Fastly'", ex.Message);
+        Assert.Contains("None, Cloudflare", ex.Message);
+    }
+
+    private sealed class TestAdapter(string name) : IEdgeCacheAdapter
+    {
+        public string Name => name;
+        public string? Problem(IConfigurationSection settings) => null;
+        public IEdgeCache Create(IServiceProvider services, IConfigurationSection settings) => new FlakyCache(0);
+    }
+
+    [Fact]
+    public void A_new_provider_is_one_registration_and_None_is_reserved()
+    {
+        var adapters = new EdgeCacheAdapters().AddCloudflare().Add(new TestAdapter("Bunny"));
+
+        Assert.Equal(["None", "Bunny", "Cloudflare"], adapters.Names);
+        Assert.Equal("Bunny", adapters.Get("bunny")!.Name);
+        Assert.Null(adapters.Get(""));
+        Assert.Throws<ArgumentException>(() => adapters.Add(new TestAdapter("none")));
     }
 }
