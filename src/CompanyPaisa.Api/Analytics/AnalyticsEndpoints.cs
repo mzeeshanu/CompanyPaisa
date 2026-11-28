@@ -5,6 +5,7 @@ using CompanyPaisa.Analytics;
 using CompanyPaisa.Api.Endpoints;
 using CompanyPaisa.Core.Abstractions;
 using CompanyPaisa.Core.Domain;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
 namespace CompanyPaisa.Api.Analytics;
@@ -30,14 +31,13 @@ public static class AnalyticsEndpoints
     public static IEndpointRouteBuilder MapCompanyPaisaAnalytics(this IEndpointRouteBuilder app)
     {
         // ----- From the website -----
-        app.MapPost("/api/v1/events", (ClientEventRequest body, HttpContext context, IServiceProvider services) =>
+        app.MapPost("/api/v1/events", (ClientEventRequest body, HttpContext context, [FromServices] HttpAnalyticsTracker? tracker) =>
             {
                 if (string.IsNullOrWhiteSpace(body.Name) || !ClientEvents.Contains(body.Name))
                     return Results.Problem(statusCode: StatusCodes.Status400BadRequest, title: "Unknown event",
                         detail: $"Use one of: {string.Join(", ", ClientEvents.Order())}.");
                 // Off (no store configured): accept and forget, so the website never shows an error.
-                if (services.GetService<IAnalyticsTracker>() is HttpAnalyticsTracker tracker)
-                    tracker.Track(new AnalyticsAction(body.Name, body.Subject), ExternalReferrer(body.Referrer, context), PathOnly(body.Path));
+                tracker?.Track(new AnalyticsAction(body.Name, body.Subject), ExternalReferrer(body.Referrer, context), PathOnly(body.Path));
                 return Results.NoContent();
             })
             .AddEndpointFilter<Security.ApiKeyEndpointFilter>()
@@ -46,29 +46,29 @@ public static class AnalyticsEndpoints
 
         // ----- Private dashboard (/admin) -----
         var admin = app.MapGroup("/api/admin/analytics")
-            .AddEndpointFilter(RequireDashboardKey)
+            .AddEndpointFilter<DashboardKeyFilter>()
             .RequireRateLimiting(V1Endpoints.RateLimitPolicy)
             .ExcludeFromDescription();
 
-        admin.MapGet("/report", async (int? days, AnalyticsStatus status, IServiceProvider services, IReverseGeoLocator places, CancellationToken ct) =>
+        admin.MapGet("/report", async (int? days, AnalyticsStatus status, [FromServices] IAnalyticsReader? reader, IReverseGeoLocator places, CancellationToken ct) =>
         {
             var (from, to) = Range(days);
-            if (!status.Enabled || services.GetService<IAnalyticsReader>() is not { } reader)
+            if (!status.Enabled || reader is null)
                 return Results.Ok(new AnalyticsDashboardResponse(status, null, []));
             var report = await reader.GetReportAsync(from, to, top: 25, ct);
             return Results.Ok(new AnalyticsDashboardResponse(status, report, await AreasAsync(report.SearchPoints, places, ct)));
         });
 
-        admin.MapGet("/visits", async (int? days, AnalyticsStatus status, IServiceProvider services, CancellationToken ct) =>
+        admin.MapGet("/visits", async (int? days, AnalyticsStatus status, [FromServices] IAnalyticsReader? reader, CancellationToken ct) =>
         {
-            if (!status.Enabled || services.GetService<IAnalyticsReader>() is not { } reader) return Results.Ok(new VisitsResponse(0, []));
+            if (!status.Enabled || reader is null) return Results.Ok(new VisitsResponse(0, []));
             var (from, to) = Range(days);
             return Results.Ok(await AnalyticsVisits.BuildAsync(reader.GetEventsAsync(from, to, ct), limit: 200, ct));
         });
 
-        admin.MapGet("/events.csv", async (int? days, AnalyticsStatus status, IServiceProvider services, HttpContext context, CancellationToken ct) =>
+        admin.MapGet("/events.csv", async (int? days, AnalyticsStatus status, [FromServices] IAnalyticsReader? reader, HttpContext context, CancellationToken ct) =>
         {
-            if (!status.Enabled || services.GetService<IAnalyticsReader>() is not { } reader) return Results.NotFound();
+            if (!status.Enabled || reader is null) return Results.NotFound();
             var (from, to) = Range(days);
             context.Response.ContentType = "text/csv; charset=utf-8";
             context.Response.Headers.ContentDisposition = $"attachment; filename=\"companypaisa-events-{from:yyyyMMdd}-{to:yyyyMMdd}.csv\"";
@@ -103,17 +103,6 @@ public static class AnalyticsEndpoints
             Results.Ok(new { excluded = context.Request.Cookies.ContainsKey(o.CurrentValue.OwnerCookie) }));
 
         return app;
-    }
-
-    /// <summary>404 while no dashboard key is configured (the dashboard doesn't exist), 401 for a wrong key.</summary>
-    public static async ValueTask<object?> RequireDashboardKey(EndpointFilterInvocationContext context, EndpointFilterDelegate next)
-    {
-        var key = context.HttpContext.RequestServices.GetRequiredService<IOptionsMonitor<AnalyticsOptions>>().CurrentValue.DashboardKey;
-        if (string.IsNullOrWhiteSpace(key)) return Results.NotFound();
-        var presented = context.HttpContext.Request.Headers[AdminKeyHeader].ToString();
-        if (!CryptographicOperations.FixedTimeEquals(Encoding.UTF8.GetBytes(presented), Encoding.UTF8.GetBytes(key)))
-            return Results.Problem(statusCode: StatusCodes.Status401Unauthorized, title: "Wrong dashboard key");
-        return await next(context);
     }
 
     /// <summary>The last <paramref name="days"/> UTC days including today (default 30, at most a year and a bit).</summary>
@@ -152,4 +141,18 @@ public static class AnalyticsEndpoints
 
     private static string Csv(string? value) =>
         value is null ? "" : value.IndexOfAny([',', '"', '\n', '\r']) >= 0 ? $"\"{value.Replace("\"", "\"\"")}\"" : value;
+}
+
+/// <summary>Guards the private dashboard: 404 while no dashboard key is configured (the dashboard doesn't exist), 401 for a wrong key.</summary>
+public sealed class DashboardKeyFilter(IOptionsMonitor<AnalyticsOptions> options) : IEndpointFilter
+{
+    public async ValueTask<object?> InvokeAsync(EndpointFilterInvocationContext context, EndpointFilterDelegate next)
+    {
+        var key = options.CurrentValue.DashboardKey;
+        if (string.IsNullOrWhiteSpace(key)) return Results.NotFound();
+        var presented = context.HttpContext.Request.Headers[AnalyticsEndpoints.AdminKeyHeader].ToString();
+        if (!CryptographicOperations.FixedTimeEquals(Encoding.UTF8.GetBytes(presented), Encoding.UTF8.GetBytes(key)))
+            return Results.Problem(statusCode: StatusCodes.Status401Unauthorized, title: "Wrong dashboard key");
+        return await next(context);
+    }
 }

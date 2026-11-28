@@ -1,7 +1,5 @@
 using System.Net;
-using CompanyPaisa.Api.Options;
 using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.Options;
 
 namespace CompanyPaisa.Api.Security;
 
@@ -11,7 +9,7 @@ namespace CompanyPaisa.Api.Security;
 /// the search engines ask: its reverse DNS name is in their domain, and that name resolves back to the same address.
 /// Each address is checked once a day.
 /// </summary>
-public sealed class SearchCrawlers(IOptionsMonitor<ApiOptions> options, ILogger<SearchCrawlers> log) : IDisposable
+public sealed class SearchCrawlers(ClientIpReader ips, ILogger<SearchCrawlers> log) : IDisposable
 {
     private const string VerifiedItem = "cp.search-crawler";
 
@@ -42,7 +40,7 @@ public sealed class SearchCrawlers(IOptionsMonitor<ApiOptions> options, ILogger<
         var agent = context.Request.Headers.UserAgent.ToString();
         var domains = Known.FirstOrDefault(k => agent.Contains(k.Agent, StringComparison.OrdinalIgnoreCase)).Domains;
         if (domains is null) return;
-        if (!IPAddress.TryParse(ApiKeyValidator.ClientIp(context, options.CurrentValue), out var ip)) return;
+        if (!IPAddress.TryParse(ips.Read(context), out var ip)) return;
 
         var verified = await _cache.GetOrCreateAsync(ip.ToString(), async entry =>
         {
@@ -79,11 +77,16 @@ public sealed class SearchCrawlers(IOptionsMonitor<ApiOptions> options, ILogger<
 public static class SearchCrawlerExtensions
 {
     /// <summary>Marks requests from verified search crawlers. Runs before the rate limiter.</summary>
-    public static IApplicationBuilder UseSearchCrawlers(this IApplicationBuilder app) => app.Use(async (context, next) =>
+    public static IApplicationBuilder UseSearchCrawlers(this IApplicationBuilder app) => app.UseMiddleware<SearchCrawlerMiddleware>();
+
+    private sealed class SearchCrawlerMiddleware(RequestDelegate next, SearchCrawlers crawlers)
     {
-        await context.RequestServices.GetRequiredService<SearchCrawlers>().CheckAsync(context);
-        await next(context);
-    });
+        public async Task InvokeAsync(HttpContext context)
+        {
+            await crawlers.CheckAsync(context);
+            await next(context);
+        }
+    }
 
     /// <summary>
     /// Keeps the API, the admin page and the API docs out of search results. They aren't blocked in robots.txt: search

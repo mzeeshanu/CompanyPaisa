@@ -43,7 +43,7 @@ public static class MemoryReport
                     // Only a repository that keeps the data set in memory has rows to report.
                     repository is IDataRowCounts counts ? counts.RowCounts() : []));
             })
-            .AddEndpointFilter(AnalyticsEndpoints.RequireDashboardKey)
+            .AddEndpointFilter<DashboardKeyFilter>()
             .ExcludeFromDescription();
         return app;
     }

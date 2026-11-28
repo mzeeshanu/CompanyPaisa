@@ -30,13 +30,13 @@ public static partial class SitePages
     public static IEndpointRouteBuilder MapCompanyPaisaPages(this IEndpointRouteBuilder app)
     {
         // The home page (served here rather than as a static file, so it carries its content too).
-        app.MapGet("/", async (PageRenderer pages, IndexHtml index, HttpContext http, CancellationToken ct) =>
-                Page(index, new PageMeta(HomeTitle,
+        app.MapGet("/", async (PageRenderer pages, IndexHtml index, IOptionsMonitor<HostingOptions> hosting, HttpContext http, CancellationToken ct) =>
+                Page(index, hosting.CurrentValue, new PageMeta(HomeTitle,
                     "See the public companies near you, how big they are, where they're heading, what their executives are paid and what their jobs pay.", "/"),
-                    http, await pages.HomeAsync(Origin(http), ct)))
+                    http, await pages.HomeAsync(Origin(hosting.CurrentValue, http), ct)))
             .ExcludeFromDescription();
 
-        app.MapGet("/company/{ticker}", async (string ticker, ICompanyRepository repository, PageRenderer pages, IndexHtml index, HttpContext http, CancellationToken ct) =>
+        app.MapGet("/company/{ticker}", async (string ticker, ICompanyRepository repository, PageRenderer pages, IndexHtml index, IOptionsMonitor<HostingOptions> hosting, HttpContext http, CancellationToken ct) =>
             {
                 var company = await repository.GetCompanyAsync(ticker, ct);
                 if (company is not null && !company.Ticker.Equals(ticker, StringComparison.OrdinalIgnoreCase))
@@ -53,13 +53,13 @@ public static partial class SitePages
                         $"{company.Name} ({company.Ticker}), {company.Sector}{where}: revenue, net income and executive pay over the years, from the company's filings.",
                         CompanyPath(company.Ticker), [(company.Name, CompanyPath(company.Ticker))]);
                 }
-                return Page(index, meta, http, content);
+                return Page(index, hosting.CurrentValue, meta, http, content);
             })
             .ExcludeFromDescription();
 
         // What a company pays, on its own page: what people search for ("Apple software engineer salary").
         app.MapGet("/company/{ticker}/salaries", async (string ticker, ICompanyRepository repository, PageRenderer pages, IndexHtml index,
-                HttpContext http, CancellationToken ct) =>
+                IOptionsMonitor<HostingOptions> hosting, HttpContext http, CancellationToken ct) =>
             {
                 var company = await repository.GetCompanyAsync(ticker, ct);
                 if (company is not null && !company.Ticker.Equals(ticker, StringComparison.OrdinalIgnoreCase))
@@ -69,19 +69,19 @@ public static partial class SitePages
                 PageContent? content = null;
                 if (company is not null && salaries.Count > 0)
                 {
-                    content = await pages.SalariesAsync(company, Origin(http), ct);
+                    content = await pages.SalariesAsync(company, Origin(hosting.CurrentValue, http), ct);
                     var titles = salaries.Count(j => j.City is null);
                     meta = new PageMeta(
                         Titled($"{company.Name} ({company.Ticker}) salaries by job title"),
                         $"What {company.Name} pays: {titles:N0} job titles with their typical yearly salary and range, by city, from the company's US job ads and work-visa wage filings.",
                         CompanyPath(company.Ticker) + "/salaries", [(company.Name, CompanyPath(company.Ticker)), ("Salaries", CompanyPath(company.Ticker) + "/salaries")]);
                 }
-                return Page(index, meta, http, content);
+                return Page(index, hosting.CurrentValue, meta, http, content);
             })
             .ExcludeFromDescription();
 
         app.MapGet("/executive/{personId}", async (string personId, ICompanyRepository repository, IOptionsMonitor<FeatureOptions> features,
-                PageRenderer pages, IndexHtml index, HttpContext http, CancellationToken ct) =>
+                PageRenderer pages, IndexHtml index, IOptionsMonitor<HostingOptions> hosting, HttpContext http, CancellationToken ct) =>
             {
                 var person = features.CurrentValue.IsEnabled("Executives") ? await repository.GetPersonAsync(personId, ct) : null;
                 PageMeta? meta = null;
@@ -99,13 +99,13 @@ public static partial class SitePages
                         $"{person.Name}{role}: salary, bonus, stock awards and total pay by year, from company filings.",
                         path, company is null ? [(person.Name, path)] : [(company.Name, CompanyPath(company.Ticker)), (person.Name, path)]);
                 }
-                return Page(index, meta, http, content);
+                return Page(index, hosting.CurrentValue, meta, http, content);
             })
             .ExcludeFromDescription();
 
         // A search: /near/84043, /near/SW1A1AA, /near/FR-75008, /near/me (the visitor's own location), + /executives.
         app.MapGet("/near/{place}/{mode:regex(^executives$)?}", async (string place, string? mode, IGeoLocator geo, PageRenderer pages, IndexHtml index,
-                HttpContext http, CancellationToken ct) =>
+                IOptionsMonitor<HostingOptions> hosting, HttpContext http, CancellationToken ct) =>
             {
                 var executives = mode is not null;
                 var what = executives ? "Executives and their pay" : "Public companies";
@@ -148,38 +148,39 @@ public static partial class SitePages
                             : [($"Near {where}", path)]);
                     if (hit is not null && where is not null) content = await pages.NearAsync(hit.Point, where, executives, ct);
                 }
-                return Page(index, meta, http, content);
+                return Page(index, hosting.CurrentValue, meta, http, content);
             })
             .ExcludeFromDescription();
 
         // The API stays open to crawlers: search engines index a page as the app draws it, and the app draws it from the API.
         // Its answers carry X-Robots-Tag: noindex instead, so they don't show up in search results themselves.
-        app.MapGet("/robots.txt", (HttpContext http) =>
-                Results.Text($"User-agent: *\nAllow: /\nDisallow: /admin\n\nSitemap: {Origin(http)}/sitemap.xml\n", "text/plain; charset=utf-8"))
+        app.MapGet("/robots.txt", (IOptionsMonitor<HostingOptions> hosting, HttpContext http) =>
+                Results.Text($"User-agent: *\nAllow: /\nDisallow: /admin\n\nSitemap: {Origin(hosting.CurrentValue, http)}/sitemap.xml\n", "text/plain; charset=utf-8"))
             .ExcludeFromDescription();
 
         // The sitemap is an index of numbered files (/sitemap-1.xml, /sitemap-2.xml…), so it never outgrows the 50,000
         // addresses search engines read from one file.
         app.MapGet("/sitemap.xml", async (ICompanyRepository repository, IOptionsMonitor<UiOptions> ui, IOptionsMonitor<FeatureOptions> features,
-                HttpContext http, CancellationToken ct) =>
+                IOptionsMonitor<HostingOptions> hosting, IMemoryCache cache, HttpContext http, CancellationToken ct) =>
             {
-                var paths = await CachedSitemapPathsAsync(http, repository, ui.CurrentValue, features.CurrentValue.IsEnabled("Executives"), ct);
+                var paths = await CachedSitemapPathsAsync(cache, repository, ui.CurrentValue, features.CurrentValue.IsEnabled("Executives"), ct);
                 var lastModified = (await repository.GetMetadataAsync(ct)).AsOfDate;
                 var files = (paths.Count + SitemapFileSize - 1) / SitemapFileSize;
                 http.Response.Headers.CacheControl = "public, max-age=86400";
-                return Results.Text(SitemapIndexXml(Origin(http), files, lastModified), "application/xml; charset=utf-8");
+                return Results.Text(SitemapIndexXml(Origin(hosting.CurrentValue, http), files, lastModified), "application/xml; charset=utf-8");
             })
             .ExcludeFromDescription();
 
         app.MapGet("/sitemap-{file:int:min(1)}.xml", async (int file, ICompanyRepository repository, IOptionsMonitor<UiOptions> ui,
-                IOptionsMonitor<FeatureOptions> features, HttpContext http, CancellationToken ct) =>
+                IOptionsMonitor<FeatureOptions> features, IOptionsMonitor<HostingOptions> hosting, IMemoryCache cache, HttpContext http,
+                CancellationToken ct) =>
             {
-                var paths = await CachedSitemapPathsAsync(http, repository, ui.CurrentValue, features.CurrentValue.IsEnabled("Executives"), ct);
+                var paths = await CachedSitemapPathsAsync(cache, repository, ui.CurrentValue, features.CurrentValue.IsEnabled("Executives"), ct);
                 var page = paths.Skip((file - 1) * SitemapFileSize).Take(SitemapFileSize).ToList();
                 if (page.Count == 0) return Results.NotFound();
                 var dated = await SitemapDatesAsync(repository, page, ct);
                 http.Response.Headers.CacheControl = "public, max-age=86400";
-                return Results.Text(SitemapXml(Origin(http), dated), "application/xml; charset=utf-8");
+                return Results.Text(SitemapXml(Origin(hosting.CurrentValue, http), dated), "application/xml; charset=utf-8");
             })
             .ExcludeFromDescription();
 
@@ -196,11 +197,10 @@ public static partial class SitePages
     /// The sitemap's addresses, built once per loaded data set (and at most an hour old) rather than for the index and again
     /// for every numbered file: building them looks up every company's salaries.
     /// </summary>
-    private static async Task<IReadOnlyList<string>> CachedSitemapPathsAsync(HttpContext http, ICompanyRepository repository, UiOptions ui,
+    private static async Task<IReadOnlyList<string>> CachedSitemapPathsAsync(IMemoryCache cache, ICompanyRepository repository, UiOptions ui,
         bool executives, CancellationToken ct)
     {
         var meta = await repository.GetMetadataAsync(ct);
-        var cache = http.RequestServices.GetRequiredService<IMemoryCache>();
         return (await cache.GetOrCreateAsync($"sitemap:{meta.DataVersion}:{meta.LoadedAt.UtcTicks}:{executives}", async entry =>
         {
             entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(1);
@@ -331,8 +331,8 @@ public static partial class SitePages
     }
 
     /// <summary>The site's address in canonical links and the sitemap: Hosting:PublicOrigin, or the host the request came in on.</summary>
-    private static string Origin(HttpContext http) =>
-        http.RequestServices.GetRequiredService<IOptionsMonitor<HostingOptions>>().CurrentValue.PublicOrigin is { Length: > 0 } origin
+    private static string Origin(HostingOptions hosting, HttpContext http) =>
+        hosting.PublicOrigin is { Length: > 0 } origin
             ? origin
             : $"{http.Request.Scheme}://{http.Request.Host}";
 
@@ -340,19 +340,24 @@ public static partial class SitePages
     /// Sends a request on any host but Hosting:PublicOrigin's (the platform's *.up.railway.app address, www.) to the same
     /// path there with a 301, so search engines see one copy of the site. The health check stays reachable on any host.
     /// </summary>
-    public static IApplicationBuilder UsePublicHost(this IApplicationBuilder app) => app.Use(async (context, next) =>
+    public static IApplicationBuilder UsePublicHost(this IApplicationBuilder app) => app.UseMiddleware<PublicHostMiddleware>();
+
+    private sealed class PublicHostMiddleware(RequestDelegate next, IOptionsMonitor<HostingOptions> options)
     {
-        var hosting = context.RequestServices.GetRequiredService<IOptionsMonitor<HostingOptions>>().CurrentValue;
-        var request = context.Request;
-        if (hosting.PublicHost is { } host && !string.Equals(request.Host.Value, host, StringComparison.OrdinalIgnoreCase) &&
-            !request.Path.StartsWithSegments("/health") && (HttpMethods.IsGet(request.Method) || HttpMethods.IsHead(request.Method)))
+        public async Task InvokeAsync(HttpContext context)
         {
-            context.Response.StatusCode = StatusCodes.Status301MovedPermanently;
-            context.Response.Headers.Location = hosting.PublicOrigin + request.PathBase + request.Path + request.QueryString;
-            return;
+            var hosting = options.CurrentValue;
+            var request = context.Request;
+            if (hosting.PublicHost is { } host && !string.Equals(request.Host.Value, host, StringComparison.OrdinalIgnoreCase) &&
+                !request.Path.StartsWithSegments("/health") && (HttpMethods.IsGet(request.Method) || HttpMethods.IsHead(request.Method)))
+            {
+                context.Response.StatusCode = StatusCodes.Status301MovedPermanently;
+                context.Response.Headers.Location = hosting.PublicOrigin + request.PathBase + request.Path + request.QueryString;
+                return;
+            }
+            await next(context);
         }
-        await next(context);
-    });
+    }
 
     /// <summary>The pages this class renders on the server (for the hourly page limit).</summary>
     public static bool IsRenderedPage(string path) =>
@@ -363,12 +368,12 @@ public static partial class SitePages
     /// The app's HTML with this page's details and content; an unknown company or person still gets the app (it says so)
     /// with a 404.
     /// </summary>
-    private static IResult Page(IndexHtml index, PageMeta? meta, HttpContext http, PageContent? content = null)
+    private static IResult Page(IndexHtml index, HostingOptions hosting, PageMeta? meta, HttpContext http, PageContent? content = null)
     {
         var html = index.Read();
         if (html is null) return Results.NotFound();   // no built website (development runs it on the Vite dev server)
-        http.Response.Headers.CacheControl = PageCacheControl(http, found: meta is not null);
-        html = meta is null ? InHead(html, NoIndex) : WithMeta(html, meta, Origin(http));
+        http.Response.Headers.CacheControl = PageCacheControl(hosting, found: meta is not null);
+        html = meta is null ? InHead(html, NoIndex) : WithMeta(html, meta, Origin(hosting, http));
         if (content is not null) html = WithContent(html, content);
         return Results.Content(html, "text/html; charset=utf-8", statusCode: meta is null ? StatusCodes.Status404NotFound : StatusCodes.Status200OK);
     }
@@ -378,9 +383,8 @@ public static partial class SitePages
     /// may keep them (Hosting:PageEdgeCacheSeconds) and browsers briefly. A missing page is kept at most an hour, in case
     /// it appears with the next data refresh.
     /// </summary>
-    private static string PageCacheControl(HttpContext http, bool found)
+    private static string PageCacheControl(HostingOptions hosting, bool found)
     {
-        var hosting = http.RequestServices.GetRequiredService<IOptionsMonitor<HostingOptions>>().CurrentValue;
         var edge = found ? hosting.PageEdgeCacheSeconds : Math.Min(hosting.PageEdgeCacheSeconds, 3600);
         var browser = Math.Min(hosting.PageBrowserCacheSeconds, found ? edge : Math.Min(edge, 60));
         return edge == 0 ? "no-cache" : $"public, max-age={browser}, s-maxage={edge}";
