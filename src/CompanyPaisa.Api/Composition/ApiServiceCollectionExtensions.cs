@@ -18,6 +18,7 @@ using CompanyPaisa.EdgeCache.Cloudflare;
 using CompanyPaisa.Infrastructure;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.Extensions.Options;
 
 
@@ -100,6 +101,7 @@ public static class ApiServiceCollectionExtensions
         services.AddValidatedOptions<HostingOptions>(configuration, HostingOptions.SectionName);
         services.AddOptions<FeatureOptions>().Bind(configuration.GetSection(FeatureOptions.SectionName));
 
+        services.AddSingleton<ClientIpReader>();
         services.AddSingleton<IApiKeyValidator, ApiKeyValidator>();
         services.AddScoped<ApiKeyEndpointFilter>();
         services.TryAddSingleton(TimeProvider.System);
@@ -117,7 +119,9 @@ public static class ApiServiceCollectionExtensions
         services.AddExceptionHandler<ProblemDetailsExceptionHandler>();
         services.AddOpenApi();
 
-        services.AddRateLimiter(o =>
+        // The limits read the settings and the caller's key through injected services, not the request's service provider.
+        services.AddRateLimiter(_ => { });
+        services.AddOptions<RateLimiterOptions>().Configure<IOptionsMonitor<ApiOptions>, IApiKeyValidator, ClientIpReader>((o, apiOptions, keys, ips) =>
         {
             o.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
             // Hourly caps per visitor IP on top of the per-minute one: API calls without a key, and server-rendered pages.
@@ -126,18 +130,17 @@ public static class ApiServiceCollectionExtensions
             {
                 if (SearchCrawlers.IsVerified(context)) return RateLimitPartition.GetNoLimiter("unlimited");
                 var path = context.Request.Path.Value ?? "";
-                var limits = context.RequestServices.GetRequiredService<IOptionsMonitor<ApiOptions>>().CurrentValue.RateLimits;
+                var limits = apiOptions.CurrentValue.RateLimits;
                 int? perHour = null;
                 string? partition = null;
                 if (path.StartsWith("/api/", StringComparison.OrdinalIgnoreCase))
                 {
-                    var caller = context.RequestServices.GetRequiredService<IApiKeyValidator>().Identify(context);
+                    var caller = keys.Identify(context);
                     if (!caller.IsKeyed) (perHour, partition) = (limits.AnonymousPerHour, "api-hour:" + caller.PartitionKey);
                 }
                 else if (SitePages.IsRenderedPage(path))
                 {
-                    var api = context.RequestServices.GetRequiredService<IOptionsMonitor<ApiOptions>>().CurrentValue;
-                    (perHour, partition) = (limits.PagesPerHour, "pages-hour:" + ApiKeyValidator.ClientIp(context, api));
+                    (perHour, partition) = (limits.PagesPerHour, "pages-hour:" + ips.Read(context));
                 }
                 return perHour is { } permits
                     ? RateLimitPartition.GetFixedWindowLimiter(partition!, _ => new FixedWindowRateLimiterOptions
@@ -148,8 +151,8 @@ public static class ApiServiceCollectionExtensions
             });
             o.AddPolicy(V1Endpoints.RateLimitPolicy, context =>
             {
-                var caller = context.RequestServices.GetRequiredService<IApiKeyValidator>().Identify(context);
-                var limits = context.RequestServices.GetRequiredService<IOptionsMonitor<ApiOptions>>().CurrentValue.RateLimits;
+                var caller = keys.Identify(context);
+                var limits = apiOptions.CurrentValue.RateLimits;
                 // A crawler rendering pages makes a page's worth of API calls for each one: give it an app's allowance.
                 var crawler = !caller.IsKeyed && SearchCrawlers.IsVerified(context);
                 return RateLimitPartition.GetFixedWindowLimiter(crawler ? "crawler:" + caller.PartitionKey : caller.PartitionKey, _ => new FixedWindowRateLimiterOptions

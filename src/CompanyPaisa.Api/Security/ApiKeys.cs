@@ -16,7 +16,7 @@ public interface IApiKeyValidator
     ApiCaller Identify(HttpContext context);
 }
 
-public sealed class ApiKeyValidator(IOptionsMonitor<ApiOptions> options) : IApiKeyValidator
+public sealed class ApiKeyValidator(IOptionsMonitor<ApiOptions> options, ClientIpReader ips) : IApiKeyValidator
 {
     public ApiCaller Identify(HttpContext context)
     {
@@ -24,7 +24,7 @@ public sealed class ApiKeyValidator(IOptionsMonitor<ApiOptions> options) : IApiK
         if (context.Items.TryGetValue(typeof(ApiCaller), out var cached) && cached is ApiCaller known) return known;
 
         ApiCaller caller;
-        var ip = ClientIp(context, o);
+        var ip = ips.Read(context);
         var presented = context.Request.Headers[o.ApiKeyHeader].ToString();
         if (string.IsNullOrEmpty(presented))
         {
@@ -42,42 +42,52 @@ public sealed class ApiKeyValidator(IOptionsMonitor<ApiOptions> options) : IApiK
         return caller;
     }
 
-    /// <summary>The visitor's IP as the API's options say to read it (see <see cref="ApiOptions.ClientIpHeaderOnlyFromCloudflare"/>).</summary>
-    public static string ClientIp(HttpContext context, ApiOptions o) => ClientIp(context, o.ClientIpHeader, o.ClientIpHeaderOnlyFromCloudflare);
-
     /// <summary>
     /// The visitor's IP: from the CDN's header when configured and valid, else the connection's address. Anyone reaching
     /// the server without going through the CDN can send that header too — with a search engine's address to skip the
     /// hourly caps — so a header on a connection from outside Cloudflare's networks is logged, and with
     /// <paramref name="onlyFromCloudflare"/> ignored.
     /// </summary>
-    public static string ClientIp(HttpContext context, string? header, bool onlyFromCloudflare = false)
+    public static string ClientIp(HttpContext context, string? header, bool onlyFromCloudflare = false, ILogger? log = null)
     {
         var remote = context.Connection.RemoteIpAddress;
         if (!string.IsNullOrWhiteSpace(header) && context.Request.Headers[header].ToString() is { Length: > 0 } value &&
             System.Net.IPAddress.TryParse(value.Split(',')[0].Trim(), out var fromCdn))
         {
             if (remote is not null && Cloudflare.Contains(remote)) return fromCdn.ToString();
-            ReportOutsideCloudflare(context, header, remote);
+            ReportOutsideCloudflare(log, header, remote);
             if (!onlyFromCloudflare) return fromCdn.ToString();
         }
         return remote?.ToString() ?? "unknown";
     }
 
     /// <summary>At most one warning every ten minutes: enough to see whether real traffic would be affected.</summary>
-    private static void ReportOutsideCloudflare(HttpContext context, string header, System.Net.IPAddress? remote)
+    private static void ReportOutsideCloudflare(ILogger? log, string header, System.Net.IPAddress? remote)
     {
+        if (log is null) return;
         var now = Environment.TickCount64;
         var last = Interlocked.Read(ref _lastReport);
         if (last != 0 && now - last < 600_000 || Interlocked.CompareExchange(ref _lastReport, now, last) != last) return;
-        (context.RequestServices?.GetService<ILoggerFactory>())?.CreateLogger(typeof(ApiKeyValidator))
-            .LogWarning("{Header} sent from {Remote}, which is not a Cloudflare address", header, remote?.ToString() ?? "unknown");
+        log.LogWarning("{Header} sent from {Remote}, which is not a Cloudflare address", header, remote?.ToString() ?? "unknown");
     }
 
     private static long _lastReport;
 
     private static bool FixedTimeEquals(string a, string b) =>
         CryptographicOperations.FixedTimeEquals(Encoding.UTF8.GetBytes(a), Encoding.UTF8.GetBytes(b));
+}
+
+/// <summary>
+/// The visitor's IP as Api:ClientIpHeader and Api:ClientIpHeaderOnlyFromCloudflare say to read it (see
+/// <see cref="ApiKeyValidator.ClientIp(HttpContext, string?, bool, ILogger?)"/>); a header sent from outside Cloudflare is logged.
+/// </summary>
+public sealed class ClientIpReader(IOptionsMonitor<ApiOptions> options, ILogger<ClientIpReader> log)
+{
+    public string Read(HttpContext context)
+    {
+        var o = options.CurrentValue;
+        return ApiKeyValidator.ClientIp(context, o.ClientIpHeader, o.ClientIpHeaderOnlyFromCloudflare, log);
+    }
 }
 
 /// <summary>Cloudflare's published networks (cloudflare.com/ips, October 2026).</summary>

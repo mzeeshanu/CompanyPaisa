@@ -1,6 +1,5 @@
 using System.Text.Json;
 using CompanyPaisa.Analytics;
-using CompanyPaisa.Api.Options;
 using CompanyPaisa.Api.Security;
 using CompanyPaisa.Core.Abstractions;
 using Microsoft.Extensions.Options;
@@ -16,7 +15,7 @@ public sealed class HttpAnalyticsTracker(
     IAnalyticsSink sink,
     IApiKeyValidator keys,
     IOptionsMonitor<AnalyticsOptions> analytics,
-    IOptionsMonitor<ApiOptions> api,
+    ClientIpReader ips,
     IClock clock) : IAnalyticsTracker
 {
     public void Track(AnalyticsAction action) => Track(action, referrer: null, path: null);
@@ -45,7 +44,7 @@ public sealed class HttpAnalyticsTracker(
             Country(Header(request, o.CountryHeader)), Header(request, o.RegionHeader), Header(request, o.CityHeader),
             ua.Device, ua.Browser, ua.Os, Clip(referrer, 200), Clip(path, 200), source);
 
-        var ip = ApiKeyValidator.ClientIp(context, api.CurrentValue);
+        var ip = ips.Read(context);
         sink.TryWrite(new PendingAnalyticsEvent(e, $"{ip}|{userAgent}"));
     }
 
